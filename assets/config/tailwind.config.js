@@ -225,17 +225,26 @@ tailwind.config = {
       // ANIMATIONS
       // ===========================================
       animation: {
-        "fade-in": "fadeIn 0.5s ease-out",
-        "fade-in-up": "fadeInUp 0.6s ease-out",
-        "fade-in-down": "fadeInDown 0.6s ease-out",
-        "slide-in-left": "slideInLeft 0.5s ease-out",
-        "slide-in-right": "slideInRight 0.5s ease-out",
-        "scale-in": "scaleIn 0.3s ease-out",
+        // Entrance animations
+        "fade-in": "fadeIn 0.5s ease-out forwards",
+        "fade-in-up": "fadeInUp 0.6s ease-out forwards",
+        "fade-in-down": "fadeInDown 0.6s ease-out forwards",
+        "slide-in-left": "slideInLeft 0.5s ease-out forwards",
+        "slide-in-right": "slideInRight 0.5s ease-out forwards",
+        "scale-in": "scaleIn 0.3s ease-out forwards",
+        "slide-up": "slideUp 0.3s ease-out forwards",
+        "celebrate-pop": "celebratePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+
+        // Continuous animations
         "float": "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 4s ease-in-out infinite",
+        "pulse-dot": "pulseDot 1.5s ease-in-out infinite",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite",
+        "spin": "spin 1s linear infinite",
       },
 
       keyframes: {
+        // Entrance keyframes
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -260,9 +269,32 @@ tailwind.config = {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
+        slideUp: {
+          "0%": { opacity: "0", transform: "translateY(100%)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        celebratePop: {
+          "0%": { opacity: "0", transform: "scale(0.8)" },
+          "70%": { opacity: "1", transform: "scale(1.05)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+
+        // Continuous keyframes
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        pulseDot: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.4" },
+        },
+        pulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.4)" },
+          "50%": { boxShadow: "0 0 20px 10px rgba(16, 185, 129, 0.2)" },
+        },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
       },
 
@@ -270,11 +302,15 @@ tailwind.config = {
       // TIMING / EASING
       // ===========================================
       transitionDuration: {
-        micro: "75ms",
-        fast: "150ms",
-        normal: "200ms",
-        slow: "300ms",
-        emphasis: "500ms",
+        75: "75ms",
+        100: "100ms",
+        150: "150ms",
+        200: "200ms",
+        300: "300ms",
+        400: "400ms",
+        500: "500ms",
+        700: "700ms",
+        1000: "1000ms",
       },
 
       transitionTimingFunction: {
