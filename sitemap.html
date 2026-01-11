@@ -176,9 +176,11 @@
                 `;
 
                 for (const page of section.pages) {
+                    // Support both url (full) and path (relative) for backwards compatibility
+                    const href = page.url || page.path;
                     html += `
                         <li>
-                            <a href="${page.path}" class="block px-5 py-3 hover:bg-warm-50 transition-colors group">
+                            <a href="${href}" class="block px-5 py-3 hover:bg-warm-50 transition-colors group">
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <span class="font-medium group-hover:text-${color}-600 transition-colors">${page.title}</span>
