@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltwyk Core — Buttons</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
+
+        /* Button base styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: all 150ms ease;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+        }
+        .btn:focus-visible {
+            outline: 2px solid hsl(var(--emerald-500));
+            outline-offset: 2px;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Sizes */
+        .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.875rem; }
+        .btn-md { padding: 0.625rem 1.25rem; font-size: 1rem; }
+        .btn-lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+
+        /* Spinner animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .btn-spinner {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink p-8">
+    <div class="max-w-6xl mx-auto">
+
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <span class="text-ink">Core</span>
+            <span>→</span>
+            <span class="text-ink font-medium">Buttons</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Core Foundation</p>
+            <h1 class="font-display text-4xl mb-2">Buttons</h1>
+            <p class="text-warm-600">Interactive elements for actions and navigation. Used across Product and Marketing contexts.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- COMMON VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Common Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Universal button variants used across all Saltwyk surfaces.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <!-- Primary -->
+                    <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white">
+                        Primary
+                    </button>
+
+                    <!-- Secondary -->
+                    <button class="btn btn-md bg-warm-200 hover:bg-warm-300 active:bg-warm-400 text-ink border-warm-300">
+                        Secondary
+                    </button>
+
+                    <!-- Ghost -->
+                    <button class="btn btn-md bg-transparent hover:bg-warm-100 active:bg-warm-200 text-ink">
+                        Ghost
+                    </button>
+
+                    <!-- Outline -->
+                    <button class="btn btn-md bg-transparent hover:bg-warm-50 active:bg-warm-100 text-ink border-warm-300">
+                        Outline
+                    </button>
+
+                    <!-- Outline Primary -->
+                    <button class="btn btn-md bg-transparent hover:bg-emerald-50 active:bg-emerald-100 text-emerald-600 border-emerald-500">
+                        Outline Primary
+                    </button>
+
+                    <!-- Destructive -->
+                    <button class="btn btn-md bg-magenta-500 hover:bg-magenta-600 active:bg-magenta-700 text-white">
+                        Destructive
+                    </button>
+                </div>
+
+                <!-- Variant Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-warm-200">
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Variant</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Background</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Text</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Border</th>
+                                <th class="text-left py-3 font-medium text-warm-600">Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Primary</td>
+                                <td class="py-3 pr-4"><code>bg-emerald-500</code></td>
+                                <td class="py-3 pr-4"><code>text-white</code></td>
+                                <td class="py-3 pr-4">none</td>
+                                <td class="py-3 text-warm-600">Main CTAs, form submissions</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Secondary</td>
+                                <td class="py-3 pr-4"><code>bg-warm-200</code></td>
+                                <td class="py-3 pr-4"><code>text-ink</code></td>
+                                <td class="py-3 pr-4"><code>border-warm-300</code></td>
+                                <td class="py-3 text-warm-600">Secondary actions, cancel</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Ghost</td>
+                                <td class="py-3 pr-4"><code>transparent</code></td>
+                                <td class="py-3 pr-4"><code>text-ink</code></td>
+                                <td class="py-3 pr-4">none</td>
+                                <td class="py-3 text-warm-600">Subtle actions, toolbars</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Outline</td>
+                                <td class="py-3 pr-4"><code>transparent</code></td>
+                                <td class="py-3 pr-4"><code>text-ink</code></td>
+                                <td class="py-3 pr-4"><code>border-warm-300</code></td>
+                                <td class="py-3 text-warm-600">Tertiary actions</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Outline Primary</td>
+                                <td class="py-3 pr-4"><code>transparent</code></td>
+                                <td class="py-3 pr-4"><code>text-emerald-600</code></td>
+                                <td class="py-3 pr-4"><code>border-emerald-500</code></td>
+                                <td class="py-3 text-warm-600">Alternative primary, less emphasis</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 font-medium">Destructive</td>
+                                <td class="py-3 pr-4"><code>bg-magenta-500</code></td>
+                                <td class="py-3 pr-4"><code>text-white</code></td>
+                                <td class="py-3 pr-4">none</td>
+                                <td class="py-3 text-warm-600">Delete, remove, danger actions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PRODUCT-SPECIFIC VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Product-Specific Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Additional variants for Shopper Passport and Merchant Dashboard contexts.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <!-- Solid (Product) -->
+                    <button class="btn btn-md bg-intaglio-900 hover:bg-intaglio-700 active:bg-intaglio-800 text-ledger">
+                        Solid
+                    </button>
+
+                    <!-- Dashed (Product) -->
+                    <button class="btn btn-md bg-transparent hover:bg-intaglio-50 text-intaglio-500 border-dashed border-intaglio-300">
+                        Dashed
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-warm-200">
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Variant</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Background</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Text</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Border</th>
+                                <th class="text-left py-3 font-medium text-warm-600">Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Solid</td>
+                                <td class="py-3 pr-4"><code>bg-intaglio-900</code></td>
+                                <td class="py-3 pr-4"><code>text-ledger</code></td>
+                                <td class="py-3 pr-4">none</td>
+                                <td class="py-3 text-warm-600">Primary product actions (dark theme)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 font-medium">Dashed</td>
+                                <td class="py-3 pr-4"><code>transparent</code></td>
+                                <td class="py-3 pr-4"><code>text-intaglio/60</code></td>
+                                <td class="py-3 pr-4"><code>border-dashed border-intaglio/30</code></td>
+                                <td class="py-3 text-warm-600">Add items, optional actions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- When to use which -->
+            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
+                <p class="text-sm font-medium text-cyan-800 mb-2">Choosing Between Primary and Solid</p>
+                <ul class="text-xs text-cyan-700 space-y-1">
+                    <li><strong>Primary (emerald):</strong> Use for marketing pages, checkout widget, and cross-platform contexts</li>
+                    <li><strong>Solid (intaglio):</strong> Use within Shopper Passport and Merchant Dashboard for a cohesive product feel</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SIZES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Sizes</p>
+            <p class="text-sm text-warm-600 mb-6">Three sizes to accommodate different contexts and touch targets.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-end gap-4 mb-8">
+                    <div class="text-center">
+                        <button class="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
+                            Small
+                        </button>
+                        <p class="text-xs text-warm-500">sm</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
+                            Medium
+                        </button>
+                        <p class="text-xs text-warm-500">md (default)</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-lg bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
+                            Large
+                        </button>
+                        <p class="text-xs text-warm-500">lg</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-warm-200">
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Size</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Padding</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Font Size</th>
+                                <th class="text-left py-3 font-medium text-warm-600">Min Height</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">sm</td>
+                                <td class="py-3 pr-4"><code>px-3 py-1.5</code></td>
+                                <td class="py-3 pr-4"><code>text-sm</code> (14px)</td>
+                                <td class="py-3">32px</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">md</td>
+                                <td class="py-3 pr-4"><code>px-5 py-2.5</code></td>
+                                <td class="py-3 pr-4"><code>text-base</code> (16px)</td>
+                                <td class="py-3">44px</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 font-medium">lg</td>
+                                <td class="py-3 pr-4"><code>px-6 py-3</code></td>
+                                <td class="py-3 pr-4"><code>text-lg</code> (18px)</td>
+                                <td class="py-3">52px</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- STATES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">States</p>
+            <p class="text-sm text-warm-600 mb-6">Interactive states for user feedback.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+
+                <!-- Primary States -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Primary Button States</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-500 text-white mb-2">Default</button>
+                            <p class="text-xs text-warm-500">default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-600 text-white mb-2">Hover</button>
+                            <p class="text-xs text-warm-500">hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-700 text-white mb-2">Active</button>
+                            <p class="text-xs text-warm-500">active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-500 text-white ring-2 ring-emerald-500 ring-offset-2 mb-2">Focused</button>
+                            <p class="text-xs text-warm-500">focus</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-500 text-white opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500">disabled</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-500 text-white opacity-90 cursor-wait mb-2">
+                                <svg class="btn-spinner w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                                    <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+                                </svg>
+                                Loading
+                            </button>
+                            <p class="text-xs text-warm-500">loading</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary States -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Secondary Button States</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-md bg-warm-200 text-ink border-warm-300 mb-2">Default</button>
+                            <p class="text-xs text-warm-500">default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-warm-300 text-ink border-warm-400 mb-2">Hover</button>
+                            <p class="text-xs text-warm-500">hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-warm-400 text-ink border-warm-500 mb-2">Active</button>
+                            <p class="text-xs text-warm-500">active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-warm-200 text-ink border-warm-300 opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500">disabled</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destructive States -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Destructive Button States</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-md bg-magenta-500 text-white mb-2">Default</button>
+                            <p class="text-xs text-warm-500">default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-magenta-600 text-white mb-2">Hover</button>
+                            <p class="text-xs text-warm-500">hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-magenta-700 text-white mb-2">Active</button>
+                            <p class="text-xs text-warm-500">active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-magenta-500 text-white opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500">disabled</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outline Primary States -->
+                <div>
+                    <p class="text-sm font-medium text-ink mb-4">Outline Primary States</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-md bg-transparent text-emerald-600 border-emerald-500 mb-2">Default</button>
+                            <p class="text-xs text-warm-500">default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-50 text-emerald-600 border-emerald-500 mb-2">Hover</button>
+                            <p class="text-xs text-warm-500">hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-100 text-emerald-700 border-emerald-600 mb-2">Active</button>
+                            <p class="text-xs text-warm-500">active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-transparent text-emerald-600 border-emerald-500 opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500">disabled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Classes Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="border-b border-warm-200 bg-warm-50">
+                            <th class="text-left py-3 px-4 font-medium text-warm-600">State</th>
+                            <th class="text-left py-3 px-4 font-medium text-warm-600">Tailwind Classes</th>
+                            <th class="text-left py-3 px-4 font-medium text-warm-600">CSS Properties</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs">
+                        <tr class="border-b border-warm-100">
+                            <td class="py-3 px-4 font-medium">hover</td>
+                            <td class="py-3 px-4"><code>hover:bg-{color}-600</code></td>
+                            <td class="py-3 px-4">One step darker on background</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="py-3 px-4 font-medium">active</td>
+                            <td class="py-3 px-4"><code>active:bg-{color}-700</code></td>
+                            <td class="py-3 px-4">Two steps darker on background</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="py-3 px-4 font-medium">focus</td>
+                            <td class="py-3 px-4"><code>focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</code></td>
+                            <td class="py-3 px-4">2px emerald ring with offset</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="py-3 px-4 font-medium">disabled</td>
+                            <td class="py-3 px-4"><code>disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none</code></td>
+                            <td class="py-3 px-4">50% opacity, non-interactive</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">loading</td>
+                            <td class="py-3 px-4"><code>opacity-90 cursor-wait</code> + spinner icon</td>
+                            <td class="py-3 px-4">Spinner replaces/precedes label</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- WITH ICONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">With Icons</p>
+            <p class="text-sm text-warm-600 mb-6">Buttons with leading, trailing, or icon-only configurations.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+
+                <!-- Icon Positions -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Icon Positions</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            Icon Left
+                        </button>
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
+                            Icon Right
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white !px-2.5" title="Add item">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Icon-Only Sizes -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Icon-Only Buttons</p>
+                    <div class="flex items-end gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white !p-1.5 mb-2">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                            <p class="text-xs text-warm-500">sm (32px)</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white !p-2.5 mb-2">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                            <p class="text-xs text-warm-500">md (44px)</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-lg bg-emerald-500 hover:bg-emerald-600 text-white !p-3 mb-2">
+                                <i data-lucide="plus" class="w-6 h-6"></i>
+                            </button>
+                            <p class="text-xs text-warm-500">lg (52px)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Variants with Icons -->
+                <div>
+                    <p class="text-sm font-medium text-ink mb-4">All Variants with Icons</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                            Primary
+                        </button>
+                        <button class="btn btn-md bg-warm-200 hover:bg-warm-300 text-ink border-warm-300">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            Secondary
+                        </button>
+                        <button class="btn btn-md bg-transparent hover:bg-warm-100 text-ink">
+                            <i data-lucide="menu" class="w-4 h-4"></i>
+                            Ghost
+                        </button>
+                        <button class="btn btn-md bg-transparent hover:bg-warm-50 text-ink border-warm-300">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Outline
+                        </button>
+                        <button class="btn btn-md bg-transparent hover:bg-emerald-50 text-emerald-600 border-emerald-500">
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                            Outline Primary
+                        </button>
+                        <button class="btn btn-md bg-magenta-500 hover:bg-magenta-600 text-white">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            Destructive
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon Guidelines -->
+            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
+                <p class="text-sm font-medium text-cyan-800 mb-2">Icon Guidelines</p>
+                <ul class="text-xs text-cyan-700 space-y-1">
+                    <li>• Use 16px (w-4 h-4) icons for sm and md buttons</li>
+                    <li>• Use 20px (w-5 h-5) icons for icon-only md buttons</li>
+                    <li>• Use 24px (w-6 h-6) icons for lg buttons</li>
+                    <li>• Gap between icon and text: <code>gap-2</code> (8px)</li>
+                    <li>• Icon-only buttons should have <code>aria-label</code> or <code>title</code> for accessibility</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- FULL WIDTH -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Full Width</p>
+            <p class="text-sm text-warm-600 mb-6">Full-width buttons for forms and mobile contexts.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="max-w-sm space-y-3">
+                    <button class="btn btn-md w-full bg-emerald-500 hover:bg-emerald-600 text-white">
+                        Continue
+                    </button>
+                    <button class="btn btn-md w-full bg-transparent hover:bg-warm-50 text-ink border-warm-300">
+                        Cancel
+                    </button>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-warm-100">
+                    <p class="text-xs text-warm-600">Use <code>w-full</code> class for full-width buttons. Common in mobile views and form submissions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- BUTTON GROUPS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Button Groups</p>
+            <p class="text-sm text-warm-600 mb-6">Related actions grouped together.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                <!-- Inline Group -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Inline Group</p>
+                    <div class="flex gap-3">
+                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
+                            Save
+                        </button>
+                        <button class="btn btn-md bg-transparent hover:bg-warm-50 text-ink border-warm-300">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stacked Group (Mobile) -->
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-ink mb-4">Stacked Group (Mobile)</p>
+                    <div class="max-w-xs space-y-2">
+                        <button class="btn btn-md w-full bg-emerald-500 hover:bg-emerald-600 text-white">
+                            Setup Now
+                        </button>
+                        <button class="btn btn-md w-full bg-transparent hover:bg-warm-50 text-ink border-warm-300">
+                            Text Me the Link
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Segmented Group -->
+                <div>
+                    <p class="text-sm font-medium text-ink mb-4">Segmented Group</p>
+                    <div class="inline-flex rounded-lg overflow-hidden border border-warm-300">
+                        <button class="px-4 py-2 text-sm font-medium bg-intaglio-900 text-ledger">Day</button>
+                        <button class="px-4 py-2 text-sm font-medium bg-white text-ink hover:bg-warm-50 border-l border-warm-300">Week</button>
+                        <button class="px-4 py-2 text-sm font-medium bg-white text-ink hover:bg-warm-50 border-l border-warm-300">Month</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- ON DARK BACKGROUNDS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">On Dark Backgrounds</p>
+            <p class="text-sm text-warm-600 mb-6">Button treatments for dark hero sections and modals.</p>
+
+            <div class="bg-intaglio-900 rounded-lg p-8">
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <button class="btn btn-md bg-white hover:bg-warm-50 text-ink">
+                        Primary (Inverted)
+                    </button>
+                    <button class="btn btn-md bg-transparent hover:bg-white/10 text-white border-white/30">
+                        Outline Light
+                    </button>
+                    <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
+                        Primary (Standard)
+                    </button>
+                    <button class="btn btn-md bg-transparent hover:bg-white/10 text-ledger">
+                        Ghost Light
+                    </button>
+                </div>
+
+                <div class="text-xs text-intaglio-300">
+                    <p class="mb-2">On dark backgrounds:</p>
+                    <ul class="space-y-1">
+                        <li>• Use white/inverted primary for maximum contrast</li>
+                        <li>• Outline buttons use <code>border-white/30</code></li>
+                        <li>• Ghost buttons hover to <code>bg-white/10</code></li>
+                        <li>• Emerald primary still works when CTAs need brand color</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Specifications</p>
+            <p class="text-sm text-warm-600 mb-6">Technical implementation details.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-sm font-medium text-ink mb-4">Base Styles</p>
+                <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto mb-6">
+                    <pre class="text-sm font-mono text-emerald-300">.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;           /* 8px */
+  font-weight: 500;      /* medium */
+  border-radius: 0.375rem; /* rounded-md */
+  border: 1.5px solid transparent;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--emerald-500);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}</pre>
+                </div>
+
+                <p class="text-sm font-medium text-ink mb-4">Tailwind Utility Classes</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-warm-200">
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Property</th>
+                                <th class="text-left py-3 font-medium text-warm-600">Classes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Layout</td>
+                                <td class="py-3"><code>inline-flex items-center justify-center gap-2</code></td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Typography</td>
+                                <td class="py-3"><code>font-medium</code></td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Border</td>
+                                <td class="py-3"><code>rounded-md border-[1.5px]</code> or <code>border</code></td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-medium">Transition</td>
+                                <td class="py-3"><code>transition-colors duration-150</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 font-medium">Focus</td>
+                                <td class="py-3"><code>focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Props Table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-sm font-medium text-ink mb-4">Component Props</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-warm-200">
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Prop</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Type</th>
+                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Default</th>
+                                <th class="text-left py-3 font-medium text-warm-600">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">variant</td>
+                                <td class="py-3 pr-4 font-mono">'primary' | 'secondary' | 'ghost' | 'outline' | 'outline-primary' | 'destructive' | 'solid' | 'dashed'</td>
+                                <td class="py-3 pr-4 font-mono">'primary'</td>
+                                <td class="py-3">Visual style variant</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">size</td>
+                                <td class="py-3 pr-4 font-mono">'sm' | 'md' | 'lg'</td>
+                                <td class="py-3 pr-4 font-mono">'md'</td>
+                                <td class="py-3">Button size</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">disabled</td>
+                                <td class="py-3 pr-4 font-mono">boolean</td>
+                                <td class="py-3 pr-4 font-mono">false</td>
+                                <td class="py-3">Disable interaction</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">loading</td>
+                                <td class="py-3 pr-4 font-mono">boolean</td>
+                                <td class="py-3 pr-4 font-mono">false</td>
+                                <td class="py-3">Show loading spinner</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">icon</td>
+                                <td class="py-3 pr-4 font-mono">ReactNode</td>
+                                <td class="py-3 pr-4 font-mono">undefined</td>
+                                <td class="py-3">Leading icon element</td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="py-3 pr-4 font-mono">iconPosition</td>
+                                <td class="py-3 pr-4 font-mono">'left' | 'right'</td>
+                                <td class="py-3 pr-4 font-mono">'left'</td>
+                                <td class="py-3">Icon placement</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 font-mono">fullWidth</td>
+                                <td class="py-3 pr-4 font-mono">boolean</td>
+                                <td class="py-3 pr-4 font-mono">false</td>
+                                <td class="py-3">Expand to container width</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <section class="mb-12 pt-8 border-t-2 border-warm-200">
+            <p class="serial text-warm-500 mb-4">Core Foundation</p>
+            <div class="flex flex-wrap gap-3">
+                <a href="core-colors.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Colors</a>
+                <a href="core-typography.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Typography</a>
+                <span class="px-3 py-1.5 bg-emerald-100 border border-emerald-200 rounded text-sm text-emerald-700">Buttons</span>
+                <a href="core-logos.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Logos</a>
+                <a href="core-threads.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Threads</a>
+                <a href="core-gradients.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Gradients</a>
+                <a href="core-spacing.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-emerald-500 transition-colors">Spacing</a>
+            </div>
+        </section>
+
+        <footer class="pt-8 border-t-2 border-warm-200">
+            <p class="text-sm text-warm-500">Core Design System — Buttons</p>
+        </footer>
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
