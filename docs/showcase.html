@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Showcase | Saltwyk Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwindcss.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        intaglio: {
+                            800: 'hsl(24 29% 12%)',
+                            900: 'hsl(24 29% 8%)'
+                        },
+                        warm: {
+                            50: 'hsl(30 25% 97%)',
+                            100: 'hsl(30 20% 94%)',
+                            200: 'hsl(30 15% 88%)',
+                            300: 'hsl(30 12% 78%)',
+                            400: 'hsl(30 12% 55%)',
+                            500: 'hsl(30 10% 45%)',
+                            600: 'hsl(30 8% 35%)'
+                        },
+                        emerald: {
+                            400: 'hsl(150 100% 35%)',
+                            500: 'hsl(150 100% 27%)',
+                            600: 'hsl(150 100% 22%)'
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['DM Serif Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                        'brand': ['Outfit', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .serial { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; }
+        .font-display { font-family: 'DM Serif Display', serif; }
+
+        /* Minimal Thread Accents */
+        .thread-divider {
+            height: 2px;
+            background: linear-gradient(90deg, hsl(150 40% 70%) 0%, hsl(170 40% 75%) 50%, transparent 100%);
+        }
+        .thread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, hsl(150 60% 50%) 0%, hsl(170 60% 55%) 100%);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: hsl(24 29% 8%);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .keyword { color: hsl(170 50% 60%); }
+        .code-block .string { color: hsl(35 60% 65%); }
+        .code-block .function { color: hsl(150 50% 60%); }
+        .code-block .property { color: hsl(200 50% 65%); }
+        .code-block .number { color: hsl(25 60% 65%); }
+
+        /* Callouts */
+        .callout-info {
+            background: linear-gradient(135deg, hsl(210 20% 96%) 0%, hsl(210 15% 94%) 100%);
+            border-left: 3px solid hsl(210 50% 50%);
+        }
+        .callout-tip {
+            background: linear-gradient(135deg, hsl(150 20% 96%) 0%, hsl(150 15% 94%) 100%);
+            border-left: 3px solid hsl(150 50% 40%);
+        }
+
+        /* Method Badge */
+        .method-get { background: hsl(150 50% 92%); color: hsl(150 60% 30%); }
+        .method-post { background: hsl(210 50% 92%); color: hsl(210 60% 35%); }
+        .method-put { background: hsl(35 50% 92%); color: hsl(35 60% 35%); }
+        .method-delete { background: hsl(0 50% 93%); color: hsl(0 50% 40%); }
+
+        /* Composition Frame */
+        .composition-frame {
+            background: hsl(30 5% 96%);
+            border: 1px solid hsl(30 10% 90%);
+        }
+
+        /* TOC Active */
+        .toc-active {
+            border-left: 2px solid hsl(150 60% 45%);
+            background: linear-gradient(90deg, hsl(150 20% 96%) 0%, transparent 100%);
+        }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
+        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
+        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
+        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-warm-50 text-warm-600">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <svg width="32" height="32" viewBox="0 0 95 95" fill="none"><mask id="nav-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75"><circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/></mask><g mask="url(#nav-mask)"><circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/><circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/><circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/><circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/></g></svg>
+                <span class="font-brand font-semibold text-lg text-intaglio-900">Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Foundation <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../foundation/">Overview</a><div class="divider"></div><a href="../core-colors.html">Colors</a><a href="../core-typography.html">Typography</a><a href="../core-buttons.html">Buttons</a><a href="../core-logos.html">Logos</a><a href="../core-threads.html">Threads</a><a href="../core-gradients.html">Gradients</a><a href="../core-spacing.html">Spacing</a><a href="../core-animation.html">Animation</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Shopper <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../shopper/">Overview</a><a href="../shopper/showcase.html">Showcase</a><div class="divider"></div><a href="../product-shopper-passport.html">Passport</a><a href="../product-checkout-widget.html">Checkout Widget</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Merchant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../merchant/">Overview</a><a href="../merchant/showcase.html">Showcase</a><div class="divider"></div><a href="../product-components.html">Components</a><a href="../product-forms.html">Forms</a><a href="../product-surfaces.html">Surfaces</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Marketing <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../marketing/">Overview</a><a href="../marketing/showcase.html">Showcase</a><div class="divider"></div><a href="../marketing-heroes.html">Heroes</a><a href="../marketing-illustrations.html">Illustrations</a><a href="../marketing-components.html">Components</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-intaglio-900 font-medium">Docs <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../docs/">Overview</a><a href="../docs/showcase.html">Showcase</a></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="px-8 py-4 border-b border-warm-200">
+        <ol class="flex items-center gap-2 text-sm">
+            <li><a href="../index.html" class="text-warm-500 hover:text-emerald-500">Design System</a></li>
+            <li class="text-warm-400">/</li>
+            <li><a href="index.html" class="text-warm-500 hover:text-emerald-500">Docs</a></li>
+            <li class="text-warm-400">/</li>
+            <li class="text-warm-600">Showcase</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header class="px-8 py-12 border-b border-warm-200">
+        <p class="serial text-emerald-500 mb-2">Composition Gallery</p>
+        <h1 class="font-display text-4xl text-intaglio-900 mb-4">Documentation Showcase</h1>
+        <p class="text-lg text-warm-500 max-w-2xl">
+            Real-world compositions demonstrating the Minimal Opal approach. Clean layouts
+            where function drives every design decision.
+        </p>
+    </header>
+
+    <main class="px-8 py-12 space-y-16">
+
+        <!-- Composition 1: API Reference -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 01</p>
+                <h2 class="font-display text-2xl text-intaglio-900">API Reference</h2>
+                <p class="text-warm-500 mt-1">Endpoint documentation with method badges and parameters</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="bg-white p-8">
+                    <!-- Endpoint Header -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-post px-2 py-1 rounded text-xs font-mono font-medium">POST</span>
+                        <code class="font-mono text-intaglio-900">/v1/payments</code>
+                    </div>
+                    <p class="text-warm-500 mb-6">Create a new payment to a merchant on the Saltwyk network.</p>
+
+                    <!-- Parameters -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-intaglio-900 mb-3">Request Body</h3>
+                        <div class="border border-warm-200 rounded-lg overflow-hidden">
+                            <table class="w-full text-sm">
+                                <tbody>
+                                    <tr class="border-b border-warm-200">
+                                        <td class="px-4 py-3 bg-warm-50 w-40">
+                                            <code class="font-mono text-emerald-600">amount</code>
+                                            <span class="text-xs text-red-500 ml-1">required</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="text-warm-400 text-xs">integer</span>
+                                            <p class="text-warm-600 mt-1">Amount in the smallest currency unit (e.g., cents for USD).</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-warm-200">
+                                        <td class="px-4 py-3 bg-warm-50">
+                                            <code class="font-mono text-emerald-600">currency</code>
+                                            <span class="text-xs text-red-500 ml-1">required</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="text-warm-400 text-xs">string</span>
+                                            <p class="text-warm-600 mt-1">Three-letter ISO 4217 currency code.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 bg-warm-50">
+                                            <code class="font-mono text-emerald-600">merchant_id</code>
+                                            <span class="text-xs text-red-500 ml-1">required</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="text-warm-400 text-xs">string</span>
+                                            <p class="text-warm-600 mt-1">The ID of the merchant receiving the payment.</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Response -->
+                    <div>
+                        <h3 class="font-medium text-intaglio-900 mb-3">Response</h3>
+                        <div class="code-block rounded-lg p-4 text-sm">
+                            <pre><code><span class="property">{</span>
+  <span class="string">"id"</span>: <span class="string">"pay_1234567890"</span>,
+  <span class="string">"object"</span>: <span class="string">"payment"</span>,
+  <span class="string">"amount"</span>: <span class="number">2500</span>,
+  <span class="string">"currency"</span>: <span class="string">"usd"</span>,
+  <span class="string">"status"</span>: <span class="string">"succeeded"</span>,
+  <span class="string">"merchant_id"</span>: <span class="string">"merch_abc123"</span>,
+  <span class="string">"created"</span>: <span class="number">1704067200</span>
+<span class="property">}</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 2: Code Sample -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 02</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Code Sample</h2>
+                <p class="text-warm-500 mt-1">Multi-language code example with tab navigation</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="bg-white p-8">
+                    <h3 class="font-medium text-intaglio-900 mb-4">Create a Payment</h3>
+
+                    <!-- Language Tabs -->
+                    <div class="flex gap-1 mb-0 border-b border-warm-200">
+                        <button class="px-4 py-2 text-sm font-medium text-emerald-600 border-b-2 border-emerald-500 -mb-px bg-warm-50 rounded-t">Node.js</button>
+                        <button class="px-4 py-2 text-sm text-warm-500 hover:text-warm-600">Python</button>
+                        <button class="px-4 py-2 text-sm text-warm-500 hover:text-warm-600">Ruby</button>
+                        <button class="px-4 py-2 text-sm text-warm-500 hover:text-warm-600">cURL</button>
+                    </div>
+
+                    <!-- Code Block -->
+                    <div class="code-block rounded-b-lg p-5 text-sm">
+                        <pre><code><span class="keyword">const</span> saltwyk = <span class="function">require</span>(<span class="string">'saltwyk'</span>)(<span class="string">'sk_live_...'</span>);
+
+<span class="keyword">const</span> payment = <span class="keyword">await</span> saltwyk.payments.<span class="function">create</span>({
+  <span class="property">amount</span>: <span class="number">2500</span>,
+  <span class="property">currency</span>: <span class="string">'usd'</span>,
+  <span class="property">merchant_id</span>: <span class="string">'merch_abc123'</span>,
+  <span class="property">metadata</span>: {
+    <span class="property">order_id</span>: <span class="string">'order_12345'</span>
+  }
+});
+
+<span class="keyword">console</span>.<span class="function">log</span>(payment.id);</code></pre>
+                    </div>
+
+                    <!-- Callout -->
+                    <div class="callout-tip rounded-r-lg p-4 mt-4">
+                        <p class="text-sm text-warm-600">
+                            <strong>Tip:</strong> Use <code class="font-mono text-emerald-600 text-xs bg-warm-100 px-1 rounded">idempotency_key</code> to safely retry requests without creating duplicate payments.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 3: Table of Contents -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 03</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Table of Contents</h2>
+                <p class="text-warm-500 mt-1">Sidebar navigation with active state indication</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="flex">
+                    <!-- Sidebar -->
+                    <nav class="w-64 bg-warm-50 border-r border-warm-200 p-6 min-h-[400px]">
+                        <p class="serial text-warm-400 mb-4">Getting Started</p>
+                        <ul class="space-y-1 mb-6">
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Introduction</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Installation</a></li>
+                            <li><a href="#" class="toc-active block px-3 py-2 text-sm text-intaglio-900 font-medium rounded-r">Quick Start</a></li>
+                        </ul>
+
+                        <p class="serial text-warm-400 mb-4">Core Concepts</p>
+                        <ul class="space-y-1 mb-6">
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Payments</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Merchants</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Clearing</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Webhooks</a></li>
+                        </ul>
+
+                        <p class="serial text-warm-400 mb-4">API Reference</p>
+                        <ul class="space-y-1">
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Authentication</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Errors</a></li>
+                            <li><a href="#" class="block px-3 py-2 text-sm text-warm-500 hover:text-intaglio-900 rounded">Rate Limits</a></li>
+                        </ul>
+                    </nav>
+
+                    <!-- Content -->
+                    <div class="flex-1 p-8 bg-white">
+                        <div class="thread-divider w-24 mb-6"></div>
+                        <h1 class="font-display text-3xl text-intaglio-900 mb-4">Quick Start</h1>
+                        <p class="text-warm-500 mb-6">Get up and running with Saltwyk in under 5 minutes.</p>
+
+                        <h2 class="font-medium text-xl text-intaglio-900 mb-3">Prerequisites</h2>
+                        <ul class="list-disc list-inside text-warm-500 mb-6 space-y-1">
+                            <li>Node.js 16 or higher</li>
+                            <li>A Saltwyk account</li>
+                            <li>Your API keys from the dashboard</li>
+                        </ul>
+
+                        <h2 class="font-medium text-xl text-intaglio-900 mb-3">Install the SDK</h2>
+                        <div class="code-block rounded-lg p-4 text-sm mb-6">
+                            <code class="text-warm-300">npm install saltwyk</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 4: Info Banner -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 04</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Info Banner</h2>
+                <p class="text-warm-500 mt-1">Page-level announcements and version notices</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="bg-white">
+                    <!-- Version Banner -->
+                    <div class="bg-intaglio-900 text-white px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="thread-dot"></div>
+                            <span class="text-sm">You're viewing docs for <strong>v2.0</strong>. Looking for <a href="#" class="underline">v1.x docs</a>?</span>
+                        </div>
+                        <button class="text-warm-400 hover:text-white">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-8">
+                        <h1 class="font-display text-3xl text-intaglio-900 mb-4">Migration Guide</h1>
+
+                        <!-- Deprecation Notice -->
+                        <div class="callout-info rounded-r-lg p-4 mb-6">
+                            <p class="font-medium text-intaglio-900 mb-1">ℹ️ API v1 Deprecation</p>
+                            <p class="text-warm-500 text-sm">API v1 will be sunset on March 1, 2026. Please migrate to v2 before this date. See the <a href="#" class="text-emerald-500">breaking changes</a> section below.</p>
+                        </div>
+
+                        <p class="text-warm-500 mb-4">This guide walks you through migrating from Saltwyk API v1 to v2. Most changes are straightforward, but pay attention to the breaking changes in authentication and webhook signatures.</p>
+
+                        <!-- Status badges -->
+                        <div class="flex gap-2 mt-6">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-warm-100 text-warm-600 text-xs">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Updated Jan 2025
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-warm-100 text-warm-600 text-xs">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                </svg>
+                                10 min read
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 5: Getting Started Steps -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 05</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Getting Started Steps</h2>
+                <p class="text-warm-500 mt-1">Numbered walkthrough with expandable sections</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="bg-white p-8">
+                    <h1 class="font-display text-3xl text-intaglio-900 mb-2">Getting Started</h1>
+                    <p class="text-warm-500 mb-8">Follow these steps to integrate Saltwyk payments into your application.</p>
+
+                    <!-- Steps -->
+                    <div class="space-y-6">
+                        <!-- Step 1 - Complete -->
+                        <div class="border border-warm-200 rounded-lg overflow-hidden">
+                            <div class="flex items-center gap-4 p-4 bg-warm-50">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-intaglio-900">Create your account</h3>
+                                    <p class="text-sm text-warm-400">Sign up at saltwyk.com/dashboard</p>
+                                </div>
+                                <span class="text-xs text-emerald-600 font-medium">Complete</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 - Current -->
+                        <div class="border-2 border-emerald-400 rounded-lg overflow-hidden">
+                            <div class="flex items-center gap-4 p-4 bg-emerald-50/50">
+                                <div class="w-8 h-8 rounded-full border-2 border-emerald-500 text-emerald-600 flex items-center justify-center text-sm font-medium">2</div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-intaglio-900">Install the SDK</h3>
+                                    <p class="text-sm text-warm-500">Add Saltwyk to your project</p>
+                                </div>
+                                <svg class="w-5 h-5 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                            <div class="p-4 border-t border-emerald-200">
+                                <p class="text-warm-500 text-sm mb-4">Choose your preferred package manager:</p>
+                                <div class="code-block rounded-lg p-4 text-sm">
+                                    <code class="text-warm-300">npm install saltwyk</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 - Upcoming -->
+                        <div class="border border-warm-200 rounded-lg overflow-hidden opacity-75">
+                            <div class="flex items-center gap-4 p-4">
+                                <div class="w-8 h-8 rounded-full border-2 border-warm-300 text-warm-400 flex items-center justify-center text-sm font-medium">3</div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-warm-500">Configure your API keys</h3>
+                                    <p class="text-sm text-warm-400">Set up authentication</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 - Upcoming -->
+                        <div class="border border-warm-200 rounded-lg overflow-hidden opacity-75">
+                            <div class="flex items-center gap-4 p-4">
+                                <div class="w-8 h-8 rounded-full border-2 border-warm-300 text-warm-400 flex items-center justify-center text-sm font-medium">4</div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-warm-500">Make your first payment</h3>
+                                    <p class="text-sm text-warm-400">Test the integration</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 6: Search Results -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 06</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Search Results</h2>
+                <p class="text-warm-500 mt-1">Documentation search with highlighted matches</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="bg-white p-8">
+                    <!-- Search Box -->
+                    <div class="relative mb-6">
+                        <input type="text" value="payment webhook" class="w-full px-4 py-3 pl-10 border border-warm-200 rounded-lg focus:outline-none focus:border-emerald-400" />
+                        <svg class="w-5 h-5 text-warm-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    <p class="text-sm text-warm-500 mb-4">12 results for "payment webhook"</p>
+
+                    <!-- Results -->
+                    <div class="space-y-4">
+                        <a href="#" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="serial text-warm-400">Webhooks</span>
+                            </div>
+                            <h3 class="font-medium text-intaglio-900 mb-1">Payment Webhook Events</h3>
+                            <p class="text-sm text-warm-500">Listen for <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">payment</mark> events using <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">webhooks</mark>. Saltwyk sends notifications when payments are created, updated, or...</p>
+                        </a>
+
+                        <a href="#" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="serial text-warm-400">API Reference</span>
+                            </div>
+                            <h3 class="font-medium text-intaglio-900 mb-1">Webhook Signatures</h3>
+                            <p class="text-sm text-warm-500">Verify <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">webhook</mark> authenticity by checking signatures. Each <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">payment</mark> event includes a signature header...</p>
+                        </a>
+
+                        <a href="#" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="serial text-warm-400">Guides</span>
+                            </div>
+                            <h3 class="font-medium text-intaglio-900 mb-1">Testing Webhooks Locally</h3>
+                            <p class="text-sm text-warm-500">Use the Saltwyk CLI to forward <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">webhook</mark> events to your local server. Test <mark class="bg-yellow-100 text-intaglio-900 px-0.5 rounded">payment</mark> flows without deploying...</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-8 py-6 border-t border-warm-200">
+        <div class="flex justify-between items-center text-sm text-warm-500">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="hover:text-emerald-500 transition-colors">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../sitemap.html" class="hover:text-emerald-500 transition-colors">Sitemap</a>
+            </div>
+            <span>v0.6 · January 2026</span>
+        </div>
+    </footer>
+</body>
+</html>

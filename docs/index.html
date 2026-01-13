@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Surface | Saltwyk Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwindcss.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        intaglio: {
+                            800: 'hsl(24 29% 12%)',
+                            900: 'hsl(24 29% 8%)'
+                        },
+                        warm: {
+                            50: 'hsl(30 25% 97%)',
+                            100: 'hsl(30 20% 94%)',
+                            200: 'hsl(30 15% 88%)',
+                            300: 'hsl(30 12% 78%)',
+                            400: 'hsl(30 12% 55%)',
+                            500: 'hsl(30 10% 45%)',
+                            600: 'hsl(30 8% 35%)'
+                        },
+                        emerald: {
+                            400: 'hsl(150 100% 35%)',
+                            500: 'hsl(150 100% 27%)',
+                            600: 'hsl(150 100% 22%)'
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['DM Serif Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                        'brand': ['Outfit', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .serial { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; }
+        .font-display { font-family: 'DM Serif Display', serif; }
+
+        /* Minimal Thread Accents - Used Sparingly */
+        .thread-divider {
+            height: 2px;
+            background: linear-gradient(90deg, hsl(150 40% 70%) 0%, hsl(170 40% 75%) 50%, transparent 100%);
+        }
+        .thread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, hsl(150 60% 50%) 0%, hsl(170 60% 55%) 100%);
+        }
+
+        /* Status Colors - Minimal saturation */
+        .status-success { color: hsl(150 50% 35%); }
+        .status-warning { color: hsl(35 60% 45%); }
+        .status-error { color: hsl(0 50% 45%); }
+        .status-info { color: hsl(210 50% 45%); }
+
+        /* Code Block */
+        .code-block {
+            background: hsl(24 29% 8%);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .code-block code {
+            color: hsl(30 20% 85%);
+        }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .keyword { color: hsl(170 50% 60%); }
+        .code-block .string { color: hsl(35 60% 65%); }
+        .code-block .function { color: hsl(150 50% 60%); }
+
+        /* Callout - Minimal gradient hint */
+        .callout-info {
+            background: linear-gradient(135deg, hsl(210 20% 96%) 0%, hsl(210 15% 94%) 100%);
+            border-left: 3px solid hsl(210 50% 50%);
+        }
+        .callout-tip {
+            background: linear-gradient(135deg, hsl(150 20% 96%) 0%, hsl(150 15% 94%) 100%);
+            border-left: 3px solid hsl(150 50% 40%);
+        }
+        .callout-warning {
+            background: linear-gradient(135deg, hsl(35 25% 96%) 0%, hsl(35 20% 94%) 100%);
+            border-left: 3px solid hsl(35 60% 50%);
+        }
+        .callout-danger {
+            background: linear-gradient(135deg, hsl(0 20% 97%) 0%, hsl(0 15% 95%) 100%);
+            border-left: 3px solid hsl(0 50% 50%);
+        }
+
+        /* Table */
+        .docs-table th {
+            background: hsl(30 15% 94%);
+            font-weight: 500;
+        }
+        .docs-table td {
+            border-bottom: 1px solid hsl(30 15% 90%);
+        }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
+        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
+        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
+        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-warm-50 text-warm-600">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <svg width="32" height="32" viewBox="0 0 95 95" fill="none"><mask id="nav-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75"><circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/></mask><g mask="url(#nav-mask)"><circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/><circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/><circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/><circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/></g></svg>
+                <span class="font-brand font-semibold text-lg text-intaglio-900">Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Foundation <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../foundation/">Overview</a><div class="divider"></div><a href="../core-colors.html">Colors</a><a href="../core-typography.html">Typography</a><a href="../core-buttons.html">Buttons</a><a href="../core-logos.html">Logos</a><a href="../core-threads.html">Threads</a><a href="../core-gradients.html">Gradients</a><a href="../core-spacing.html">Spacing</a><a href="../core-animation.html">Animation</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Shopper <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../shopper/">Overview</a><a href="../shopper/showcase.html">Showcase</a><div class="divider"></div><a href="../product-shopper-passport.html">Passport</a><a href="../product-checkout-widget.html">Checkout Widget</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Merchant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../merchant/">Overview</a><a href="../merchant/showcase.html">Showcase</a><div class="divider"></div><a href="../product-components.html">Components</a><a href="../product-forms.html">Forms</a><a href="../product-surfaces.html">Surfaces</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-warm-500 hover:text-intaglio-900">Marketing <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../marketing/">Overview</a><a href="../marketing/showcase.html">Showcase</a><div class="divider"></div><a href="../marketing-heroes.html">Heroes</a><a href="../marketing-illustrations.html">Illustrations</a><a href="../marketing-components.html">Components</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-intaglio-900 font-medium">Docs <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../docs/">Overview</a><a href="../docs/showcase.html">Showcase</a></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="px-8 py-4 border-b border-warm-200">
+        <ol class="flex items-center gap-2 text-sm">
+            <li><a href="../index.html" class="text-warm-500 hover:text-emerald-500">Design System</a></li>
+            <li class="text-warm-400">/</li>
+            <li class="text-warm-600">Documentation</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header class="px-8 py-12 border-b border-warm-200">
+        <p class="serial text-emerald-500 mb-2">Product Surface</p>
+        <h1 class="font-display text-4xl text-intaglio-900 mb-4">Documentation</h1>
+        <p class="text-lg text-warm-500 max-w-2xl">
+            Minimal, functional design for developer documentation and technical content. Thread gradients
+            appear only where they serve a clear purpose—never for decoration.
+        </p>
+        <div class="mt-6">
+            <a href="showcase.html" class="inline-flex items-center gap-2 text-emerald-500 font-medium">
+                View Showcase
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="px-8 py-12">
+
+        <!-- Philosophy Section -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl text-intaglio-900 mb-4">The Minimal Opal</h2>
+            <p class="text-warm-500 mb-6 max-w-2xl">
+                Documentation demands clarity above all. The Minimal Opal approach strips thread gradients
+                to their essential forms—a subtle divider here, a status indicator there. Color serves
+                function: green for success, amber for warnings, red for errors. Nothing competes with
+                the content.
+            </p>
+
+            <div class="thread-divider w-48 mb-8"></div>
+
+            <div class="grid grid-cols-3 gap-8 text-sm">
+                <div>
+                    <h3 class="font-medium text-intaglio-900 mb-2">Restrained Palette</h3>
+                    <p class="text-warm-500">Thread gradients at 20-40% saturation maximum. Color only where it communicates meaning.</p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-intaglio-900 mb-2">High Legibility</h3>
+                    <p class="text-warm-500">Generous spacing, clear hierarchy, monospace for code. Reading comfort is paramount.</p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-intaglio-900 mb-2">Functional Accents</h3>
+                    <p class="text-warm-500">Every gradient, every color has a job. No decorative flourishes that distract from learning.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Treatment: Code Blocks -->
+        <section class="mb-16">
+            <p class="serial text-emerald-500 mb-2">Treatment</p>
+            <h2 class="font-display text-2xl text-intaglio-900 mb-4">Code Blocks</h2>
+            <p class="text-warm-500 mb-6 max-w-2xl">
+                Dark intaglio background provides optimal contrast for syntax-highlighted code.
+                Colors are muted but distinct—green for functions, cyan for keywords, amber for strings.
+            </p>
+
+            <div class="code-block p-6 max-w-2xl">
+                <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/10">
+                    <span class="text-sm text-warm-400">JavaScript</span>
+                    <button class="text-xs text-warm-400 hover:text-warm-300">Copy</button>
+                </div>
+                <pre class="text-sm leading-relaxed"><code><span class="comment">// Initialize the Saltwyk client</span>
+<span class="keyword">const</span> saltwyk = <span class="keyword">new</span> <span class="function">SaltwykClient</span>({
+  apiKey: <span class="string">'sk_live_...'</span>,
+  environment: <span class="string">'production'</span>
+});
+
+<span class="comment">// Process a payment</span>
+<span class="keyword">const</span> payment = <span class="keyword">await</span> saltwyk.<span class="function">payments.create</span>({
+  amount: <span class="string">2500</span>,
+  currency: <span class="string">'usd'</span>,
+  merchant_id: <span class="string">'merch_abc123'</span>
+});</code></pre>
+            </div>
+        </section>
+
+        <!-- Treatment: Callouts -->
+        <section class="mb-16">
+            <p class="serial text-emerald-500 mb-2">Treatment</p>
+            <h2 class="font-display text-2xl text-intaglio-900 mb-4">Information Callouts</h2>
+            <p class="text-warm-500 mb-6 max-w-2xl">
+                Callouts use a minimal gradient hint—just enough to distinguish the background
+                while the left border carries semantic color. Four variants for different purposes.
+            </p>
+
+            <div class="space-y-4 max-w-2xl">
+                <div class="callout-info rounded-r-lg p-4">
+                    <p class="font-medium text-intaglio-900 mb-1">ℹ️ Note</p>
+                    <p class="text-warm-500 text-sm">This endpoint requires authentication. See the <a href="#" class="text-emerald-500">Authentication guide</a> for details.</p>
+                </div>
+
+                <div class="callout-tip rounded-r-lg p-4">
+                    <p class="font-medium text-intaglio-900 mb-1">💡 Tip</p>
+                    <p class="text-warm-500 text-sm">Use test mode API keys during development to avoid affecting live data.</p>
+                </div>
+
+                <div class="callout-warning rounded-r-lg p-4">
+                    <p class="font-medium text-intaglio-900 mb-1">⚠️ Warning</p>
+                    <p class="text-warm-500 text-sm">Rate limits apply to this endpoint. See <a href="#" class="text-emerald-500">Rate Limiting</a> for current thresholds.</p>
+                </div>
+
+                <div class="callout-danger rounded-r-lg p-4">
+                    <p class="font-medium text-intaglio-900 mb-1">🚨 Important</p>
+                    <p class="text-warm-500 text-sm">Never expose your API secret key in client-side code. Use server-side requests only.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Treatment: Tables -->
+        <section class="mb-16">
+            <p class="serial text-emerald-500 mb-2">Treatment</p>
+            <h2 class="font-display text-2xl text-intaglio-900 mb-4">Data Tables</h2>
+            <p class="text-warm-500 mb-6 max-w-2xl">
+                Clean, scannable tables with subtle row separation. No zebra stripes or heavy borders—
+                just enough structure to guide the eye across columns.
+            </p>
+
+            <div class="max-w-2xl overflow-hidden rounded-lg border border-warm-200">
+                <table class="docs-table w-full text-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-left px-4 py-3 text-intaglio-900">Parameter</th>
+                            <th class="text-left px-4 py-3 text-intaglio-900">Type</th>
+                            <th class="text-left px-4 py-3 text-intaglio-900">Required</th>
+                            <th class="text-left px-4 py-3 text-intaglio-900">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-3 font-mono text-emerald-600">amount</td>
+                            <td class="px-4 py-3 text-warm-500">integer</td>
+                            <td class="px-4 py-3"><span class="status-success">Yes</span></td>
+                            <td class="px-4 py-3 text-warm-500">Amount in cents</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-mono text-emerald-600">currency</td>
+                            <td class="px-4 py-3 text-warm-500">string</td>
+                            <td class="px-4 py-3"><span class="status-success">Yes</span></td>
+                            <td class="px-4 py-3 text-warm-500">Three-letter ISO code</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-mono text-emerald-600">merchant_id</td>
+                            <td class="px-4 py-3 text-warm-500">string</td>
+                            <td class="px-4 py-3"><span class="status-success">Yes</span></td>
+                            <td class="px-4 py-3 text-warm-500">Target merchant identifier</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-mono text-emerald-600">metadata</td>
+                            <td class="px-4 py-3 text-warm-500">object</td>
+                            <td class="px-4 py-3 text-warm-400">No</td>
+                            <td class="px-4 py-3 text-warm-500">Custom key-value pairs</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-mono text-emerald-600">idempotency_key</td>
+                            <td class="px-4 py-3 text-warm-500">string</td>
+                            <td class="px-4 py-3 text-warm-400">No</td>
+                            <td class="px-4 py-3 text-warm-500">Prevents duplicate requests</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Treatment: Status Indicators -->
+        <section class="mb-16">
+            <p class="serial text-emerald-500 mb-2">Treatment</p>
+            <h2 class="font-display text-2xl text-intaglio-900 mb-4">Status Indicators</h2>
+            <p class="text-warm-500 mb-6 max-w-2xl">
+                Thread dots provide subtle status indication. The gradient adds just enough
+                visual interest to catch the eye without overwhelming the surrounding content.
+            </p>
+
+            <div class="flex gap-8 max-w-2xl">
+                <div class="flex items-center gap-3">
+                    <div class="thread-dot"></div>
+                    <span class="text-sm text-warm-600">Active</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-warm-300"></div>
+                    <span class="text-sm text-warm-500">Inactive</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full" style="background: hsl(35 60% 50%);"></div>
+                    <span class="text-sm text-warm-600">Pending</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full" style="background: hsl(0 50% 50%);"></div>
+                    <span class="text-sm text-warm-600">Error</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Pages -->
+        <section>
+            <h2 class="font-display text-2xl text-intaglio-900 mb-6">Documentation Resources</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <a href="../product-api-reference.html" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                    <h3 class="font-medium text-intaglio-900 mb-1">API Reference</h3>
+                    <p class="text-sm text-warm-500">Complete endpoint documentation</p>
+                </a>
+                <a href="../product-getting-started.html" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                    <h3 class="font-medium text-intaglio-900 mb-1">Getting Started</h3>
+                    <p class="text-sm text-warm-500">Quick start guides and tutorials</p>
+                </a>
+                <a href="../product-sdks.html" class="block p-4 rounded-lg border border-warm-200 hover:border-emerald-400 transition-colors">
+                    <h3 class="font-medium text-intaglio-900 mb-1">SDKs</h3>
+                    <p class="text-sm text-warm-500">Client libraries and tools</p>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-8 py-6 border-t border-warm-200">
+        <div class="flex justify-between items-center text-sm text-warm-500">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="hover:text-emerald-500 transition-colors">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../sitemap.html" class="hover:text-emerald-500 transition-colors">Sitemap</a>
+            </div>
+            <span>v0.6 · January 2026</span>
+        </div>
+    </footer>
+</body>
+</html>
