@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saltwyk Core — Buttons</title>
+    <title>Button Specification - Saltwyk Design System</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,45 +15,16 @@
     <link rel="stylesheet" href="assets/config/design-tokens.css">
 
     <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
         .font-display { font-family: 'DM Serif Display', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
-
-        /* Button base styles */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            border-radius: 0.375rem;
-            transition: all 150ms ease;
-            cursor: pointer;
-            border: 1.5px solid transparent;
-        }
-        .btn:focus-visible {
-            outline: 2px solid hsl(var(--emerald-500));
-            outline-offset: 2px;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        /* Sizes */
-        .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.875rem; }
-        .btn-md { padding: 0.625rem 1.25rem; font-size: 1rem; }
-        .btn-lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
-
-        /* Spinner animation */
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .btn-spinner {
-            animation: spin 1s linear infinite;
-        }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
@@ -69,6 +40,365 @@
         .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
         .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
         .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* ========================================= */
+        /* BUTTON BASE STYLES */
+        /* ========================================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1.5px solid transparent;
+            transition: all 150ms ease-out;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);
+        }
+        .btn:disabled, .btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Size: Small (32px height) */
+        .btn-sm {
+            height: 32px;
+            padding: 0 12px;
+            font-size: 13px;
+        }
+        .btn-sm.btn-icon-only { width: 32px; padding: 0; }
+
+        /* Size: Default (40px height) */
+        .btn-md {
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+        }
+        .btn-md.btn-icon-only { width: 40px; padding: 0; }
+
+        /* Size: Large (48px height) */
+        .btn-lg {
+            height: 48px;
+            padding: 0 28px;
+            font-size: 16px;
+        }
+        .btn-lg.btn-icon-only { width: 48px; padding: 0; }
+
+        /* ========================================= */
+        /* LIGHT MODE VARIANTS (Bright Opal) */
+        /* ========================================= */
+
+        /* Primary */
+        .btn-primary {
+            background: hsl(150 100% 27%);
+            border-color: transparent;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: hsl(150 100% 22%);
+            box-shadow: 0 2px 8px rgba(0, 140, 69, 0.25);
+        }
+        .btn-primary:active {
+            background: hsl(150 100% 18%);
+            box-shadow: none;
+        }
+        .btn-primary.focus-demo {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);
+        }
+
+        /* Secondary */
+        .btn-secondary {
+            background: hsl(30 5% 95%);
+            border-color: hsl(30 5% 78%);
+            color: hsl(24 29% 8%);
+        }
+        .btn-secondary:hover {
+            background: hsl(30 5% 88%);
+            border-color: hsl(30 6% 62%);
+        }
+        .btn-secondary:active {
+            background: hsl(30 5% 78%);
+            border-color: hsl(30 6% 62%);
+        }
+
+        /* Outline */
+        .btn-outline {
+            background: transparent;
+            border-color: hsl(30 5% 78%);
+            color: hsl(24 29% 8%);
+        }
+        .btn-outline:hover {
+            background: hsl(30 5% 98%);
+            border-color: hsl(30 6% 62%);
+        }
+        .btn-outline:active {
+            background: hsl(30 5% 95%);
+            border-color: hsl(30 6% 62%);
+        }
+
+        /* Outline Primary */
+        .btn-outline-primary {
+            background: transparent;
+            border-color: hsl(150 100% 27%);
+            color: hsl(150 100% 22%);
+        }
+        .btn-outline-primary:hover {
+            background: hsl(150 40% 96%);
+            border-color: hsl(150 100% 22%);
+            color: hsl(150 100% 18%);
+        }
+        .btn-outline-primary:active {
+            background: hsl(150 45% 90%);
+            border-color: hsl(150 100% 22%);
+            color: hsl(150 100% 18%);
+        }
+
+        /* Ghost */
+        .btn-ghost {
+            background: transparent;
+            border-color: transparent;
+            color: hsl(24 29% 8%);
+        }
+        .btn-ghost:hover {
+            background: hsl(30 5% 95%);
+        }
+        .btn-ghost:active {
+            background: hsl(30 5% 88%);
+        }
+
+        /* Destructive */
+        .btn-destructive {
+            background: hsl(330 85% 50%);
+            border-color: transparent;
+            color: white;
+        }
+        .btn-destructive:hover {
+            background: hsl(330 90% 45%);
+            box-shadow: 0 2px 8px rgba(235, 21, 119, 0.25);
+        }
+        .btn-destructive:active {
+            background: hsl(330 95% 40%);
+            box-shadow: none;
+        }
+        .btn-destructive.focus-demo {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);
+        }
+
+        /* ========================================= */
+        /* DARK MODE VARIANTS (Fire Opal) */
+        /* ========================================= */
+
+        /* Primary on Dark */
+        .dark .btn-primary, .btn-primary-dark {
+            background: hsl(150 100% 27%);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 12px rgba(0, 140, 69, 0.4);
+        }
+        .dark .btn-primary:hover, .btn-primary-dark:hover {
+            background: hsl(150 80% 45%);
+            box-shadow: 0 0 16px rgba(0, 140, 69, 0.5);
+        }
+        .dark .btn-primary:active, .btn-primary-dark:active {
+            background: hsl(150 100% 22%);
+            box-shadow: none;
+        }
+        .btn-primary-dark.focus-demo {
+            box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%), 0 0 12px rgba(0, 140, 69, 0.4);
+        }
+
+        /* Secondary on Dark (Emerald Ghost) */
+        .btn-secondary-dark {
+            background: hsl(150 100% 27% / 10%);
+            border-color: hsl(150 100% 27% / 30%);
+            color: hsl(150 80% 55%);
+        }
+        .btn-secondary-dark:hover {
+            background: hsl(150 100% 27% / 20%);
+            border-color: hsl(150 100% 27% / 40%);
+            color: hsl(150 80% 70%);
+        }
+        .btn-secondary-dark:active {
+            background: hsl(150 100% 27% / 25%);
+            border-color: hsl(150 100% 27% / 50%);
+            color: hsl(150 80% 70%);
+        }
+        .btn-secondary-dark:disabled, .btn-secondary-dark.disabled {
+            background: hsl(150 100% 27% / 5%);
+            border-color: hsl(150 100% 27% / 15%);
+            color: hsl(150 80% 55% / 50%);
+        }
+
+        /* Tertiary on Dark (Inverted) */
+        .btn-tertiary-dark {
+            background: hsl(30 5% 95%);
+            border-color: transparent;
+            color: hsl(24 29% 8%);
+        }
+        .btn-tertiary-dark:hover {
+            background: white;
+        }
+        .btn-tertiary-dark:active {
+            background: hsl(30 5% 88%);
+        }
+        .btn-tertiary-dark:disabled, .btn-tertiary-dark.disabled {
+            background: hsl(30 5% 95% / 50%);
+            color: hsl(24 29% 8% / 50%);
+        }
+
+        /* Outline on Dark */
+        .btn-outline-dark {
+            background: transparent;
+            border-color: hsl(24 26% 35%);
+            color: hsl(30 5% 88%);
+        }
+        .btn-outline-dark:hover {
+            background: hsl(24 29% 12%);
+            border-color: hsl(24 24% 50%);
+            color: hsl(30 5% 95%);
+        }
+        .btn-outline-dark:active {
+            background: hsl(24 28% 18%);
+            border-color: hsl(24 24% 50%);
+            color: hsl(30 5% 95%);
+        }
+
+        /* Ghost on Dark */
+        .btn-ghost-dark {
+            background: transparent;
+            border-color: transparent;
+            color: hsl(30 5% 88%);
+        }
+        .btn-ghost-dark:hover {
+            background: hsl(24 29% 12%);
+            color: hsl(30 5% 95%);
+        }
+        .btn-ghost-dark:active {
+            background: hsl(24 28% 18%);
+            color: hsl(30 5% 95%);
+        }
+
+        /* ========================================= */
+        /* THREAD ACCENT VARIANTS */
+        /* ========================================= */
+        .btn-thread-outline {
+            position: relative;
+            border: none;
+            padding: 2px;
+            background: linear-gradient(135deg, hsl(170 100% 50%) 0%, hsl(330 100% 50%) 100%);
+            color: hsl(24 29% 8%);
+        }
+        .btn-thread-outline > span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            padding: 0 18px;
+        }
+        .btn-thread-outline:hover > span {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%);
+        }
+
+        /* ========================================= */
+        /* LOADING SPINNER */
+        /* ========================================= */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .btn-spinner {
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+        .btn-loading > * { visibility: hidden; }
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-loading.btn-primary::after,
+        .btn-loading.btn-destructive::after { border-color: rgba(255,255,255,0.3); border-top-color: white; }
+        .btn-loading.btn-secondary::after,
+        .btn-loading.btn-outline::after,
+        .btn-loading.btn-ghost::after { border-color: rgba(0,0,0,0.2); border-top-color: hsl(24 29% 8%); }
+        .btn-loading.btn-outline-primary::after { border-color: rgba(0,140,69,0.3); border-top-color: hsl(150 100% 22%); }
+        .btn-sm.btn-loading::after { width: 14px; height: 14px; }
+        .btn-lg.btn-loading::after { width: 20px; height: 20px; }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* State demo cards */
+        .state-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border: 1px solid hsl(30 5% 92%);
+            border-radius: 8px;
+        }
+        .state-row + .state-row { margin-top: 8px; }
+        .state-label {
+            width: 80px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .state-preview { flex: 1; }
+        .state-specs {
+            font-size: 11px;
+            color: hsl(30 6% 46%);
+            text-align: right;
+        }
     </style>
 </head>
 <body class="bg-ledger text-ink">
@@ -81,7 +411,7 @@
             </a>
             <nav class="flex items-center gap-6 text-sm">
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <span class="cursor-pointer text-ink font-medium">Foundation &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="foundation/" class="font-medium">Foundation</a>
                         <div class="divider"></div>
@@ -109,7 +439,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="shopper/" class="font-medium">Shopper</a>
                         <a href="shopper/showcase.html">Showcase</a>
@@ -123,7 +453,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="merchant/" class="font-medium">Merchant</a>
                         <a href="merchant/showcase.html">Showcase</a>
@@ -136,7 +466,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="marketing/" class="font-medium">Marketing</a>
                         <a href="marketing/showcase.html">Showcase</a>
@@ -149,7 +479,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="docs/" class="font-medium">Docs</a>
                         <a href="docs/showcase.html">Showcase</a>
@@ -162,395 +492,201 @@
     <div class="max-w-6xl mx-auto p-8">
         <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
             <a href="index.html" class="hover:text-emerald-600">Design System</a>
-            <span>→</span>
+            <span>&#8594;</span>
             <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
-            <span>→</span>
+            <span>&#8594;</span>
             <span class="text-ink font-medium">Buttons</span>
         </nav>
 
         <header class="mb-12">
-            <p class="serial text-emerald-600 mb-2">Core Foundation</p>
-            <h1 class="font-display text-4xl mb-2">Buttons</h1>
-            <p class="text-warm-600">Interactive elements for actions and navigation. Used across Product and Marketing contexts.</p>
+            <p class="serial text-emerald-600 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-3">Buttons</h1>
+            <p class="text-warm-600 text-lg">Implementation specification for Saltwyk button components. Every state, variant, and pixel value defined.</p>
         </header>
 
         <!-- =========================================== -->
-        <!-- COMMON VARIANTS -->
+        <!-- SECTION 1: PHILOSOPHY -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Common Variants</p>
-            <p class="text-sm text-warm-600 mb-6">Universal button variants used across all Saltwyk surfaces.</p>
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
 
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-                <div class="flex flex-wrap gap-4 mb-8">
-                    <!-- Primary -->
-                    <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white">
-                        Primary
-                    </button>
-
-                    <!-- Secondary -->
-                    <button class="btn btn-md bg-warm-200 hover:bg-warm-300 active:bg-warm-400 text-ink border-warm-300">
-                        Secondary
-                    </button>
-
-                    <!-- Ghost -->
-                    <button class="btn btn-md bg-transparent hover:bg-warm-100 active:bg-warm-200 text-ink">
-                        Ghost
-                    </button>
-
-                    <!-- Outline -->
-                    <button class="btn btn-md bg-transparent hover:bg-warm-50 active:bg-warm-100 text-ink border-warm-300">
-                        Outline
-                    </button>
-
-                    <!-- Outline Primary -->
-                    <button class="btn btn-md bg-transparent hover:bg-emerald-50 active:bg-emerald-100 text-emerald-600 border-emerald-500">
-                        Outline Primary
-                    </button>
-
-                    <!-- Destructive -->
-                    <button class="btn btn-md bg-magenta-500 hover:bg-magenta-thread active:bg-magenta-600 text-white">
-                        Destructive
-                    </button>
-                </div>
-
-                <!-- Variant Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-warm-200">
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Variant</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Background</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Text</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Border</th>
-                                <th class="text-left py-3 font-medium text-warm-600">Usage</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs">
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Primary</td>
-                                <td class="py-3 pr-4"><code>bg-emerald-500</code></td>
-                                <td class="py-3 pr-4"><code>text-white</code></td>
-                                <td class="py-3 pr-4">none</td>
-                                <td class="py-3 text-warm-600">Main CTAs, form submissions</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Secondary</td>
-                                <td class="py-3 pr-4"><code>bg-warm-200</code></td>
-                                <td class="py-3 pr-4"><code>text-ink</code></td>
-                                <td class="py-3 pr-4"><code>border-warm-300</code></td>
-                                <td class="py-3 text-warm-600">Secondary actions, cancel</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Ghost</td>
-                                <td class="py-3 pr-4"><code>transparent</code></td>
-                                <td class="py-3 pr-4"><code>text-ink</code></td>
-                                <td class="py-3 pr-4">none</td>
-                                <td class="py-3 text-warm-600">Subtle actions, toolbars</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Outline</td>
-                                <td class="py-3 pr-4"><code>transparent</code></td>
-                                <td class="py-3 pr-4"><code>text-ink</code></td>
-                                <td class="py-3 pr-4"><code>border-warm-300</code></td>
-                                <td class="py-3 text-warm-600">Tertiary actions</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Outline Primary</td>
-                                <td class="py-3 pr-4"><code>transparent</code></td>
-                                <td class="py-3 pr-4"><code>text-emerald-600</code></td>
-                                <td class="py-3 pr-4"><code>border-emerald-500</code></td>
-                                <td class="py-3 text-warm-600">Alternative primary, less emphasis</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 pr-4 font-medium">Destructive</td>
-                                <td class="py-3 pr-4"><code>bg-magenta-500</code></td>
-                                <td class="py-3 pr-4"><code>text-white</code></td>
-                                <td class="py-3 pr-4">none</td>
-                                <td class="py-3 text-warm-600">Delete, remove, danger actions</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">Buttons are the primary call-to-action element in the Saltwyk design system.</strong>
+                    They should feel substantial and trustworthy, reflecting the currency aesthetic that defines our visual language.
+                </p>
+                <p class="text-warm-600 text-sm">
+                    Primary buttons use emerald to draw attention and signal action. Secondary buttons recede to support hierarchy.
+                    On dark surfaces (Fire Opal treatment), buttons gain subtle glow effects that reinforce the premium, authoritative feel.
+                </p>
             </div>
         </section>
 
         <!-- =========================================== -->
-        <!-- PRODUCT-SPECIFIC VARIANTS -->
+        <!-- SECTION 2: ANATOMY -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Product-Specific Variants</p>
-            <p class="text-sm text-warm-600 mb-6">Additional variants for Shopper Passport and Merchant Dashboard contexts.</p>
+            <p class="serial text-emerald-600 mb-4">2. Anatomy</p>
 
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-                <div class="flex flex-wrap gap-4 mb-8">
-                    <!-- Solid (Product) -->
-                    <button class="btn btn-md bg-intaglio-900 hover:bg-intaglio-700 active:bg-intaglio-800 text-ledger">
-                        Solid
-                    </button>
-
-                    <!-- Dashed (Product) -->
-                    <button class="btn btn-md bg-transparent hover:bg-intaglio-50 text-intaglio-500 border-dashed border-intaglio-300">
-                        Dashed
-                    </button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-warm-200">
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Variant</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Background</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Text</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Border</th>
-                                <th class="text-left py-3 font-medium text-warm-600">Usage</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs">
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Solid</td>
-                                <td class="py-3 pr-4"><code>bg-intaglio-900</code></td>
-                                <td class="py-3 pr-4"><code>text-ledger</code></td>
-                                <td class="py-3 pr-4">none</td>
-                                <td class="py-3 text-warm-600">Primary product actions (dark theme)</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 pr-4 font-medium">Dashed</td>
-                                <td class="py-3 pr-4"><code>transparent</code></td>
-                                <td class="py-3 pr-4"><code>text-intaglio/60</code></td>
-                                <td class="py-3 pr-4"><code>border-dashed border-intaglio/30</code></td>
-                                <td class="py-3 text-warm-600">Add items, optional actions</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- When to use which -->
-            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
-                <p class="text-sm font-medium text-cyan-800 mb-2">Choosing Between Primary and Solid</p>
-                <ul class="text-xs text-cyan-700 space-y-1">
-                    <li><strong>Primary (emerald):</strong> Use for marketing pages, checkout widget, and cross-platform contexts</li>
-                    <li><strong>Solid (intaglio):</strong> Use within Shopper Passport and Merchant Dashboard for a cohesive product feel</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- =========================================== -->
-        <!-- SIZES -->
-        <!-- =========================================== -->
-        <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Sizes</p>
-            <p class="text-sm text-warm-600 mb-6">Three sizes to accommodate different contexts and touch targets.</p>
-
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-                <div class="flex items-end gap-4 mb-8">
-                    <div class="text-center">
-                        <button class="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
-                            Small
-                        </button>
-                        <p class="text-xs text-warm-500">sm</p>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
-                            Medium
-                        </button>
-                        <p class="text-xs text-warm-500">md (default)</p>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-lg bg-emerald-500 hover:bg-emerald-600 text-white mb-2">
-                            Large
-                        </button>
-                        <p class="text-xs text-warm-500">lg</p>
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-warm-200">
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Size</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Padding</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Font Size</th>
-                                <th class="text-left py-3 font-medium text-warm-600">Min Height</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs">
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">sm</td>
-                                <td class="py-3 pr-4"><code>px-3 py-1.5</code></td>
-                                <td class="py-3 pr-4"><code>text-sm</code> (14px)</td>
-                                <td class="py-3">32px</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">md</td>
-                                <td class="py-3 pr-4"><code>px-5 py-2.5</code></td>
-                                <td class="py-3 pr-4"><code>text-base</code> (16px)</td>
-                                <td class="py-3">44px</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 pr-4 font-medium">lg</td>
-                                <td class="py-3 pr-4"><code>px-6 py-3</code></td>
-                                <td class="py-3 pr-4"><code>text-lg</code> (18px)</td>
-                                <td class="py-3">52px</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- =========================================== -->
-        <!-- STATES -->
-        <!-- =========================================== -->
-        <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">States</p>
-            <p class="text-sm text-warm-600 mb-6">Interactive states for user feedback.</p>
-
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-
-                <!-- Primary States -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Primary Button States</p>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-500 text-white mb-2">Default</button>
-                            <p class="text-xs text-warm-500">default</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <!-- Visual Diagram -->
+                <div class="flex justify-center py-12 mb-8">
+                    <div class="relative inline-flex items-center">
+                        <!-- Left annotation: Icon -->
+                        <div class="flex items-center mr-3">
+                            <span class="text-xs text-magenta-600 font-medium whitespace-nowrap">Icon (optional)</span>
+                            <div class="w-4 h-px bg-magenta-400 ml-2"></div>
                         </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-600 text-white mb-2">Hover</button>
-                            <p class="text-xs text-warm-500">hover</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-700 text-white mb-2">Active</button>
-                            <p class="text-xs text-warm-500">active</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-500 text-white ring-2 ring-emerald-500 ring-offset-2 mb-2">Focused</button>
-                            <p class="text-xs text-warm-500">focus</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-500 text-white opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
-                            <p class="text-xs text-warm-500">disabled</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-500 text-white opacity-90 cursor-wait mb-2">
-                                <svg class="btn-spinner w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
-                                    <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
-                                </svg>
-                                Loading
+
+                        <!-- The button with top/bottom annotations -->
+                        <div class="relative">
+                            <!-- Top annotation: Container -->
+                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-center">
+                                <span class="text-xs text-cyan-600 font-medium whitespace-nowrap">Container (bg, border, radius)</span>
+                                <div class="w-px h-4 bg-cyan-400 mx-auto mt-1"></div>
+                            </div>
+
+                            <button class="btn btn-md btn-primary px-8">
+                                <i data-lucide="plus" class="w-[18px] h-[18px]"></i>
+                                Button Label
                             </button>
-                            <p class="text-xs text-warm-500">loading</p>
+
+                            <!-- Bottom annotation: Focus ring -->
+                            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 text-center">
+                                <div class="w-px h-4 bg-orange-400 mx-auto mb-1"></div>
+                                <span class="text-xs text-orange-600 font-medium whitespace-nowrap">Focus ring (on focus state)</span>
+                            </div>
+                        </div>
+
+                        <!-- Right annotation: Label -->
+                        <div class="flex items-center ml-3">
+                            <div class="w-4 h-px bg-lime-500 mr-2"></div>
+                            <span class="text-xs text-lime-700 font-medium whitespace-nowrap">Label (text)</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Secondary States -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Secondary Button States</p>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="text-center">
-                            <button class="btn btn-md bg-warm-200 text-ink border-warm-300 mb-2">Default</button>
-                            <p class="text-xs text-warm-500">default</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-warm-300 text-ink border-warm-400 mb-2">Hover</button>
-                            <p class="text-xs text-warm-500">hover</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-warm-400 text-ink border-warm-500 mb-2">Active</button>
-                            <p class="text-xs text-warm-500">active</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-warm-200 text-ink border-warm-300 opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
-                            <p class="text-xs text-warm-500">disabled</p>
-                        </div>
+                <!-- Parts list -->
+                <div class="grid grid-cols-4 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Container</p>
+                        <p class="text-warm-500 text-xs">Background, border, border-radius. Defines the button's shape and fill.</p>
                     </div>
-                </div>
-
-                <!-- Destructive States -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Destructive Button States</p>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="text-center">
-                            <button class="btn btn-md bg-magenta-500 text-white mb-2">Default</button>
-                            <p class="text-xs text-warm-500">default</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-magenta-thread text-white mb-2">Hover</button>
-                            <p class="text-xs text-warm-500">hover</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-magenta-600 text-white mb-2">Active</button>
-                            <p class="text-xs text-warm-500">active</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-magenta-500 text-white opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
-                            <p class="text-xs text-warm-500">disabled</p>
-                        </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Label</p>
+                        <p class="text-warm-500 text-xs">Button text. Always Inter medium weight, centered.</p>
                     </div>
-                </div>
-
-                <!-- Outline Primary States -->
-                <div>
-                    <p class="text-sm font-medium text-ink mb-4">Outline Primary States</p>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="text-center">
-                            <button class="btn btn-md bg-transparent text-emerald-600 border-emerald-500 mb-2">Default</button>
-                            <p class="text-xs text-warm-500">default</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-50 text-emerald-600 border-emerald-500 mb-2">Hover</button>
-                            <p class="text-xs text-warm-500">hover</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-100 text-emerald-700 border-emerald-600 mb-2">Active</button>
-                            <p class="text-xs text-warm-500">active</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-transparent text-emerald-600 border-emerald-500 opacity-50 cursor-not-allowed mb-2" disabled>Disabled</button>
-                            <p class="text-xs text-warm-500">disabled</p>
-                        </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Icon</p>
+                        <p class="text-warm-500 text-xs">Optional. Can be leading (left) or trailing (right). Lucide icons.</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Focus Ring</p>
+                        <p class="text-warm-500 text-xs">2px emerald ring with 2px offset. Visible on keyboard focus.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- State Classes Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+        <!-- =========================================== -->
+        <!-- SECTION 3: BASE SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Base Specifications</p>
+            <p class="text-warm-600 text-sm mb-6">All buttons share these foundational properties regardless of variant.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
                     <thead>
-                        <tr class="border-b border-warm-200 bg-warm-50">
-                            <th class="text-left py-3 px-4 font-medium text-warm-600">State</th>
-                            <th class="text-left py-3 px-4 font-medium text-warm-600">Tailwind Classes</th>
-                            <th class="text-left py-3 px-4 font-medium text-warm-600">CSS Properties</th>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Token / Class</th>
                         </tr>
                     </thead>
-                    <tbody class="text-xs">
-                        <tr class="border-b border-warm-100">
-                            <td class="py-3 px-4 font-medium">hover</td>
-                            <td class="py-3 px-4"><code>hover:bg-{color}-600</code></td>
-                            <td class="py-3 px-4">One step darker (Destructive: <code>magenta-thread</code>)</td>
-                        </tr>
-                        <tr class="border-b border-warm-100">
-                            <td class="py-3 px-4 font-medium">active</td>
-                            <td class="py-3 px-4"><code>active:bg-{color}-700</code></td>
-                            <td class="py-3 px-4">Two steps darker (Destructive: <code>magenta-600</code>)</td>
-                        </tr>
-                        <tr class="border-b border-warm-100">
-                            <td class="py-3 px-4 font-medium">focus</td>
-                            <td class="py-3 px-4"><code>focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</code></td>
-                            <td class="py-3 px-4">2px emerald ring with offset</td>
-                        </tr>
-                        <tr class="border-b border-warm-100">
-                            <td class="py-3 px-4 font-medium">disabled</td>
-                            <td class="py-3 px-4"><code>disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none</code></td>
-                            <td class="py-3 px-4">50% opacity, non-interactive</td>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Font Family</td>
+                            <td>Inter</td>
+                            <td><code>font-sans</code></td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-medium">loading</td>
-                            <td class="py-3 px-4"><code>opacity-90 cursor-wait</code> + spinner icon</td>
-                            <td class="py-3 px-4">Spinner replaces/precedes label</td>
+                            <td class="font-medium">Font Weight</td>
+                            <td>500 (medium)</td>
+                            <td><code>font-medium</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Border Radius</td>
+                            <td>6px</td>
+                            <td><code>rounded-md</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Border Width</td>
+                            <td>1.5px</td>
+                            <td><code>border-[1.5px]</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Transition</td>
+                            <td>all 150ms ease-out</td>
+                            <td><code>transition-all duration-150 ease-out</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Cursor</td>
+                            <td>pointer</td>
+                            <td><code>cursor-pointer</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Focus Ring</td>
+                            <td>2px emerald-500, 2px offset</td>
+                            <td><code>focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Icon Gap</td>
+                            <td>8px</td>
+                            <td><code>gap-2</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Size Scale -->
+            <p class="font-medium text-ink mb-4">Size Scale</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Height</th>
+                            <th>Padding (x)</th>
+                            <th>Font Size</th>
+                            <th>Icon Size</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Small</td>
+                            <td>32px</td>
+                            <td>12px</td>
+                            <td>13px</td>
+                            <td>16px</td>
+                            <td><button class="btn btn-sm btn-primary">Small</button></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td>40px</td>
+                            <td>20px</td>
+                            <td>14px</td>
+                            <td>18px</td>
+                            <td><button class="btn btn-md btn-primary">Default</button></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Large</td>
+                            <td>48px</td>
+                            <td>28px</td>
+                            <td>16px</td>
+                            <td>20px</td>
+                            <td><button class="btn btn-lg btn-primary">Large</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -558,334 +694,1542 @@
         </section>
 
         <!-- =========================================== -->
-        <!-- WITH ICONS -->
+        <!-- SECTION 4: BUTTON HIERARCHY & USAGE -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">With Icons</p>
-            <p class="text-sm text-warm-600 mb-6">Buttons with leading, trailing, or icon-only configurations.</p>
+            <p class="serial text-emerald-600 mb-4">4. Button Hierarchy &amp; Usage</p>
+            <p class="text-warm-600 text-sm mb-6">When to use each variant. Understanding hierarchy helps create clear, usable interfaces.</p>
 
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-
-                <!-- Icon Positions -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Icon Positions</p>
-                    <div class="flex flex-wrap gap-4">
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                            Icon Left
-                        </button>
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
-                            Icon Right
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </button>
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white !px-2.5" title="Add item">
-                            <i data-lucide="plus" class="w-5 h-5"></i>
-                        </button>
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <!-- Primary -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-primary">Primary</button>
+                        <span class="text-xs font-medium text-emerald-600">Maximum: ONE per view</span>
                     </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> The single most important action on the page.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> "Complete Purchase", "Save Changes", "Get Started"</p>
+                    <p class="text-xs text-magenta-600"><strong>Never:</strong> Secondary actions, cancel buttons, navigation</p>
                 </div>
 
-                <!-- Icon-Only Sizes -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Icon-Only Buttons</p>
-                    <div class="flex items-end gap-4">
-                        <div class="text-center">
-                            <button class="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white !p-1.5 mb-2">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                            <p class="text-xs text-warm-500">sm (32px)</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white !p-2.5 mb-2">
-                                <i data-lucide="plus" class="w-5 h-5"></i>
-                            </button>
-                            <p class="text-xs text-warm-500">md (44px)</p>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-lg bg-emerald-500 hover:bg-emerald-600 text-white !p-3 mb-2">
-                                <i data-lucide="plus" class="w-6 h-6"></i>
-                            </button>
-                            <p class="text-xs text-warm-500">lg (52px)</p>
-                        </div>
+                <!-- Secondary -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-secondary">Secondary</button>
                     </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> Supporting actions alongside Primary.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> "Save Draft" next to "Publish", "Back" next to "Continue"</p>
+                    <p class="text-xs text-warm-500"><strong>Common pairing:</strong> Primary + Secondary in forms and modals</p>
                 </div>
 
-                <!-- All Variants with Icons -->
-                <div>
-                    <p class="text-sm font-medium text-ink mb-4">All Variants with Icons</p>
-                    <div class="flex flex-wrap gap-3">
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                            Primary
-                        </button>
-                        <button class="btn btn-md bg-warm-200 hover:bg-warm-300 text-ink border-warm-300">
-                            <i data-lucide="settings" class="w-4 h-4"></i>
-                            Secondary
-                        </button>
-                        <button class="btn btn-md bg-transparent hover:bg-warm-100 text-ink">
-                            <i data-lucide="menu" class="w-4 h-4"></i>
-                            Ghost
-                        </button>
-                        <button class="btn btn-md bg-transparent hover:bg-warm-50 text-ink border-warm-300">
-                            <i data-lucide="download" class="w-4 h-4"></i>
-                            Outline
-                        </button>
-                        <button class="btn btn-md bg-transparent hover:bg-emerald-50 text-emerald-600 border-emerald-500">
-                            <i data-lucide="external-link" class="w-4 h-4"></i>
-                            Outline Primary
-                        </button>
-                        <button class="btn btn-md bg-magenta-500 hover:bg-magenta-thread text-white">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            Destructive
-                        </button>
+                <!-- Tertiary (Dark Mode Only) -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-tertiary-dark">Tertiary</button>
+                        <span class="text-xs font-medium text-amber-400">Dark mode only</span>
                     </div>
+                    <p class="text-sm text-warm-300 mb-3"><strong>Use for:</strong> Alternative to Secondary on dark surfaces when emerald isn't appropriate.</p>
+                    <p class="text-xs text-warm-400 mb-2"><strong>Examples:</strong> "Learn More" on a dark hero, neutral actions on dark cards</p>
+                    <p class="text-xs text-warm-400"><strong>Character:</strong> Visible but doesn't carry brand color weight</p>
+                    <p class="text-xs text-amber-500 mt-2"><strong>Note:</strong> Only available on dark surfaces&mdash;use Secondary or Outline on light</p>
+                </div>
+
+                <!-- Outline -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-outline">Outline</button>
+                    </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> Alternative to Secondary with lighter visual weight.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> Filter toggles, optional actions, less emphasis than Secondary</p>
+                    <p class="text-xs text-warm-500"><strong>Choose over Secondary:</strong> When you want the action to recede more</p>
+                </div>
+
+                <!-- Outline with Thread Border -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-thread-outline"><span>Thread</span></button>
+                        <span class="text-xs font-medium text-cyan-600">Use sparingly</span>
+                    </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> Celebratory or highlighted moments.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> "Claim Reward", "Connect Program", special promotions</p>
+                    <p class="text-xs text-amber-600"><strong>Caution:</strong> Thread gradient draws significant attention</p>
+                </div>
+
+                <!-- Ghost -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-ghost">Ghost</button>
+                    </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> Tertiary actions, navigation, actions within content.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> "Cancel", "Close", table row actions, icon-only actions</p>
+                    <p class="text-xs text-warm-500"><strong>Character:</strong> Should almost disappear until needed</p>
+                </div>
+
+                <!-- Destructive -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <button class="btn btn-sm btn-destructive">Destructive</button>
+                        <span class="text-xs font-medium text-magenta-600">Dangerous actions ONLY</span>
+                    </div>
+                    <p class="text-sm text-warm-700 mb-3"><strong>Use for:</strong> Irreversible or dangerous actions.</p>
+                    <p class="text-xs text-warm-500 mb-2"><strong>Examples:</strong> "Delete Account", "Remove Program", "Cancel Subscription"</p>
+                    <p class="text-xs text-magenta-600"><strong>Never:</strong> Regular cancel buttons (use Ghost instead)</p>
+                    <p class="text-xs text-amber-600 mt-1"><strong>Always:</strong> Require confirmation for destructive actions</p>
                 </div>
             </div>
 
-            <!-- Icon Guidelines -->
-            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
-                <p class="text-sm font-medium text-cyan-800 mb-2">Icon Guidelines</p>
-                <ul class="text-xs text-cyan-700 space-y-1">
-                    <li>• Use 16px (w-4 h-4) icons for sm and md buttons</li>
-                    <li>• Use 20px (w-5 h-5) icons for icon-only md buttons</li>
-                    <li>• Use 24px (w-6 h-6) icons for lg buttons</li>
-                    <li>• Gap between icon and text: <code>gap-2</code> (8px)</li>
-                    <li>• Icon-only buttons should have <code>aria-label</code> or <code>title</code> for accessibility</li>
-                </ul>
+            <!-- Visual Hierarchy Examples -->
+            <p class="font-medium text-ink mb-4">Visual Hierarchy Examples</p>
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Form Actions Example -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Form Actions</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="bg-warm-100 rounded-lg h-20 mb-4 flex items-center justify-center">
+                            <span class="text-xs text-warm-400">[Form content]</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="btn btn-sm btn-ghost">Cancel</button>
+                            <div class="flex gap-2">
+                                <button class="btn btn-sm btn-secondary">Save Draft</button>
+                                <button class="btn btn-sm btn-primary">Publish</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destructive Confirmation Example -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Destructive Confirmation</p>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-warm-700 mb-4">Are you sure you want to delete your account? This action cannot be undone.</p>
+                        <div class="flex justify-end gap-2">
+                            <button class="btn btn-sm btn-ghost">Cancel</button>
+                            <button class="btn btn-sm btn-destructive">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- =========================================== -->
-        <!-- FULL WIDTH -->
+        <!-- SECTION 5: LIGHT MODE VARIANTS (Bright Opal) -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Full Width</p>
-            <p class="text-sm text-warm-600 mb-6">Full-width buttons for forms and mobile contexts.</p>
+            <p class="serial text-emerald-600 mb-4">5. Variant Specifications &#8212; Light Mode (Bright Opal)</p>
+            <p class="text-warm-600 text-sm mb-6">Button variants for light backgrounds. Used in Shopper products, Marketing pages, and general UI.</p>
+
+            <!-- PRIMARY -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Primary</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> emerald-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-600</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>0 2px 8px rgba(0,140,69,0.25)</td>
+                                <td><button class="btn btn-sm btn-primary" style="background: hsl(150 100% 22%); box-shadow: 0 2px 8px rgba(0,140,69,0.25)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 18%)"></span> emerald-700</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary" style="background: hsl(150 100% 18%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Focus</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> emerald-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>focus ring</td>
+                                <td><button class="btn btn-sm btn-primary focus-demo">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%); opacity: 0.5"></span> emerald-500 @ 50%</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary disabled">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Loading</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> emerald-500</td>
+                                <td>transparent</td>
+                                <td>white (hidden)</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary btn-loading">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-warm-500 mt-3 italic">Hover shadow provides tactile feedback, suggesting the button is lifting toward the user. Applied only to filled variants (Primary, Destructive) where background color change alone may not be sufficient feedback.</p>
+            </div>
+
+            <!-- SECONDARY -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Secondary</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span> warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-secondary">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 88%)"></span> warm-200</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 62%)"></span> warm-400</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-secondary" style="background: hsl(30 5% 88%); border-color: hsl(30 6% 62%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 62%)"></span> warm-400</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-secondary" style="background: hsl(30 5% 78%); border-color: hsl(30 6% 62%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Focus</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span> warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td>ink</td>
+                                <td>focus ring</td>
+                                <td><button class="btn btn-sm btn-secondary focus-demo">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td>warm-100 @ 50%</td>
+                                <td>warm-300 @ 50%</td>
+                                <td>ink @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-secondary disabled">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Loading</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span> warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td>ink (hidden)</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-secondary btn-loading">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- OUTLINE -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Outline</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 98%)"></span> warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 62%)"></span> warm-400</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline" style="background: hsl(30 5% 98%); border-color: hsl(30 6% 62%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span> warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 62%)"></span> warm-400</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline" style="background: hsl(30 5% 95%); border-color: hsl(30 6% 62%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td>transparent</td>
+                                <td>warm-300 @ 50%</td>
+                                <td>ink @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline disabled">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- OUTLINE PRIMARY -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Outline Primary</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> emerald-500</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-600</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-primary">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 40% 96%)"></span> emerald-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-600</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 18%)"></span> emerald-700</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-primary" style="background: hsl(150 40% 96%); border-color: hsl(150 100% 22%); color: hsl(150 100% 18%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 45% 90%)"></span> emerald-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-600</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 18%)"></span> emerald-700</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-primary" style="background: hsl(150 45% 90%); border-color: hsl(150 100% 22%); color: hsl(150 100% 18%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td>transparent</td>
+                                <td>emerald-500 @ 50%</td>
+                                <td>emerald-600 @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-primary disabled">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GHOST -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Ghost</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td>transparent</td>
+                                <td>transparent</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span> warm-100</td>
+                                <td>transparent</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost" style="background: hsl(30 5% 95%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 88%)"></span> warm-200</td>
+                                <td>transparent</td>
+                                <td>ink</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost" style="background: hsl(30 5% 88%)">Button</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td>transparent</td>
+                                <td>transparent</td>
+                                <td>ink @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost disabled">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DESTRUCTIVE -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Destructive</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px">State</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Shadow</th>
+                                <th style="width: 140px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 85% 50%)"></span> magenta-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-destructive">Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 90% 45%)"></span> magenta-600</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>0 2px 8px rgba(235,21,119,0.25)</td>
+                                <td><button class="btn btn-sm btn-destructive" style="background: hsl(330 90% 45%); box-shadow: 0 2px 8px rgba(235,21,119,0.25)">Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 95% 40%)"></span> magenta-700</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-destructive" style="background: hsl(330 95% 40%)">Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Focus</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 85% 50%)"></span> magenta-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>ring (emerald-500)</td>
+                                <td><button class="btn btn-sm btn-destructive focus-demo">Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td>magenta-500 @ 50%</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-destructive disabled">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: DARK MODE VARIANTS (Fire Opal) -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Variant Specifications &#8212; Dark Mode (Fire Opal)</p>
+            <p class="text-warm-600 text-sm mb-6">Button variants for dark backgrounds. Used in Merchant Dashboard and dark hero sections.</p>
+
+            <!-- Primary on Dark -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Primary (on dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">On dark backgrounds, primary buttons get a subtle glow to enhance the Fire Opal effect.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 100px; color: hsl(30 5% 70%)">State</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Shadow</th>
+                                <th style="width: 140px; color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Default</td>
+                                <td>emerald-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>0 0 12px rgba(0,140,69,0.4)</td>
+                                <td><button class="btn btn-sm btn-primary-dark">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Hover</td>
+                                <td>emerald-400</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>0 0 16px rgba(0,140,69,0.5)</td>
+                                <td><button class="btn btn-sm btn-primary-dark" style="background: hsl(150 80% 45%); box-shadow: 0 0 16px rgba(0,140,69,0.5)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Active</td>
+                                <td>emerald-600</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary-dark" style="background: hsl(150 100% 22%); box-shadow: none">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Focus</td>
+                                <td>emerald-500</td>
+                                <td>transparent</td>
+                                <td>white</td>
+                                <td>focus ring + glow</td>
+                                <td><button class="btn btn-sm btn-primary-dark focus-demo">Button</button></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Disabled</td>
+                                <td>emerald-500 @ 40%</td>
+                                <td>transparent</td>
+                                <td>white @ 60%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-primary-dark" style="opacity: 0.4; box-shadow: none">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Secondary on Dark (Emerald Ghost) -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Secondary (on dark) &mdash; Emerald Ghost</h3>
+                <p class="text-sm text-warm-500 mb-4">Secondary action in the Saltwyk emerald family. Quieter sibling to Primary with subtle Fire Opal glow.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 100px; color: hsl(30 5% 70%)">State</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="width: 140px; color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Default</td>
+                                <td>emerald-500 @ 10%</td>
+                                <td>emerald-500 @ 30%</td>
+                                <td>emerald-400</td>
+                                <td><button class="btn btn-sm btn-secondary-dark">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Hover</td>
+                                <td>emerald-500 @ 20%</td>
+                                <td>emerald-500 @ 40%</td>
+                                <td>emerald-300</td>
+                                <td><button class="btn btn-sm btn-secondary-dark" style="background: hsl(150 100% 27% / 20%); border-color: hsl(150 100% 27% / 40%); color: hsl(150 80% 70%)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Active</td>
+                                <td>emerald-500 @ 25%</td>
+                                <td>emerald-500 @ 50%</td>
+                                <td>emerald-300</td>
+                                <td><button class="btn btn-sm btn-secondary-dark" style="background: hsl(150 100% 27% / 25%); border-color: hsl(150 100% 27% / 50%); color: hsl(150 80% 70%)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Focus</td>
+                                <td>emerald-500 @ 10%</td>
+                                <td>emerald-500 @ 30%</td>
+                                <td>emerald-400 + ring</td>
+                                <td><button class="btn btn-sm btn-secondary-dark" style="box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%)">Button</button></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Disabled</td>
+                                <td>emerald-500 @ 5%</td>
+                                <td>emerald-500 @ 15%</td>
+                                <td>emerald-400 @ 50%</td>
+                                <td><button class="btn btn-sm btn-secondary-dark" style="background: hsl(150 100% 27% / 5%); border-color: hsl(150 100% 27% / 15%); color: hsl(150 80% 55% / 50%); cursor: not-allowed">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tertiary on Dark (Inverted) -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Tertiary (on dark) &mdash; Inverted</h3>
+                <p class="text-sm text-warm-500 mb-4">High contrast light button on dark surface. Use when emerald isn't appropriate or when you need visual variety. <strong class="text-amber-600">Dark mode only.</strong></p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 100px; color: hsl(30 5% 70%)">State</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="width: 140px; color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Default</td>
+                                <td>warm-100</td>
+                                <td>transparent</td>
+                                <td>intaglio-900</td>
+                                <td><button class="btn btn-sm btn-tertiary-dark">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Hover</td>
+                                <td>white</td>
+                                <td>transparent</td>
+                                <td>intaglio-900</td>
+                                <td><button class="btn btn-sm btn-tertiary-dark" style="background: white">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Active</td>
+                                <td>warm-200</td>
+                                <td>transparent</td>
+                                <td>intaglio-900</td>
+                                <td><button class="btn btn-sm btn-tertiary-dark" style="background: hsl(30 5% 88%)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Focus</td>
+                                <td>warm-100</td>
+                                <td>transparent</td>
+                                <td>intaglio-900 + ring</td>
+                                <td><button class="btn btn-sm btn-tertiary-dark" style="box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%)">Button</button></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Disabled</td>
+                                <td>warm-100 @ 50%</td>
+                                <td>transparent</td>
+                                <td>intaglio-900 @ 50%</td>
+                                <td><button class="btn btn-sm btn-tertiary-dark" style="background: hsl(30 5% 95% / 50%); color: hsl(24 29% 8% / 50%); cursor: not-allowed">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Outline on Dark -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Outline (on dark)</h3>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 100px; color: hsl(30 5% 70%)">State</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Shadow</th>
+                                <th style="width: 140px; color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Default</td>
+                                <td>transparent</td>
+                                <td>intaglio-500</td>
+                                <td>warm-200</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-dark">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Hover</td>
+                                <td>intaglio-800</td>
+                                <td>intaglio-400</td>
+                                <td>warm-100</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-dark" style="background: hsl(24 29% 12%); border-color: hsl(24 24% 50%); color: hsl(30 5% 95%)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Active</td>
+                                <td>intaglio-700</td>
+                                <td>intaglio-400</td>
+                                <td>warm-100</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-dark" style="background: hsl(24 28% 18%); border-color: hsl(24 24% 50%); color: hsl(30 5% 95%)">Button</button></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Disabled</td>
+                                <td>transparent</td>
+                                <td>intaglio-500 @ 50%</td>
+                                <td>warm-200 @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-outline-dark disabled">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Ghost on Dark -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Ghost (on dark)</h3>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 100px; color: hsl(30 5% 70%)">State</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Shadow</th>
+                                <th style="width: 140px; color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Default</td>
+                                <td>transparent</td>
+                                <td>transparent</td>
+                                <td>warm-200</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost-dark">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Hover</td>
+                                <td>intaglio-800</td>
+                                <td>transparent</td>
+                                <td>warm-100</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost-dark" style="background: hsl(24 29% 12%); color: hsl(30 5% 95%)">Button</button></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Active</td>
+                                <td>intaglio-700</td>
+                                <td>transparent</td>
+                                <td>warm-100</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost-dark" style="background: hsl(24 28% 18%); color: hsl(30 5% 95%)">Button</button></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Disabled</td>
+                                <td>transparent</td>
+                                <td>transparent</td>
+                                <td>warm-200 @ 50%</td>
+                                <td>none</td>
+                                <td><button class="btn btn-sm btn-ghost-dark disabled">Button</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Destructive on Dark (same as light) -->
+            <div class="mb-6">
+                <h3 class="font-display text-xl mb-4">Destructive (on dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">Same as light mode &#8212; magenta has enough contrast on dark backgrounds.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg p-6">
+                    <div class="flex gap-4">
+                        <button class="btn btn-sm btn-destructive">Delete</button>
+                        <button class="btn btn-sm btn-destructive" style="background: hsl(330 90% 45%); box-shadow: 0 2px 8px rgba(235,21,119,0.25)">Hover</button>
+                        <button class="btn btn-sm btn-destructive" style="background: hsl(330 95% 40%)">Active</button>
+                        <button class="btn btn-sm btn-destructive disabled">Disabled</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: THREAD ACCENT VARIANT -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Thread Accent Variant (Special)</p>
+            <p class="text-warm-600 text-sm mb-6">For moments of celebration or emphasis, buttons can include a thread gradient border.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-3">Outline with Thread Border</p>
+                <p class="text-sm text-warm-600 mb-4">Thread gradient borders are only appropriate on Outline variants. On filled buttons, the light thread colors create contrast collision with the background.</p>
+                <div class="flex gap-4 mb-4">
+                    <button class="btn btn-md btn-thread-outline"><span>Claim Reward</span></button>
+                    <button class="btn btn-md btn-thread-outline"><span style="background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%)">Hover</span></button>
+                    <button class="btn btn-md btn-thread-outline" style="opacity: 0.5"><span>Disabled</span></button>
+                </div>
+                <p class="text-xs text-warm-500">On hover, fill transitions to gradient-cool-bg (8% saturation).</p>
+            </div>
+
+            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
+                <p class="text-sm font-medium text-cyan-800 mb-2">Implementation Note</p>
+                <p class="text-xs text-cyan-700">Thread borders require a wrapper approach: outer element has the gradient background with padding matching border width, inner span has the button styling. Border-radius on both must account for the padding offset (outer: 6px, inner: 4px).</p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: WITH ICONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. With Icons</p>
+            <p class="text-warm-600 text-sm mb-6">Icon positioning and sizing specifications.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <!-- Icon Positioning -->
+                <p class="font-medium text-ink mb-4">Icon Positioning</p>
+                <div class="flex gap-4 mb-8">
+                    <div class="text-center">
+                        <button class="btn btn-md btn-primary mb-2">
+                            <i data-lucide="plus" class="w-[18px] h-[18px]"></i>
+                            Left Icon
+                        </button>
+                        <p class="text-xs text-warm-500">8px gap</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-md btn-primary mb-2">
+                            Right Icon
+                            <i data-lucide="arrow-right" class="w-[18px] h-[18px]"></i>
+                        </button>
+                        <p class="text-xs text-warm-500">8px gap</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-md btn-primary btn-icon-only mb-2" title="Add item">
+                            <i data-lucide="plus" class="w-[18px] h-[18px]"></i>
+                        </button>
+                        <p class="text-xs text-warm-500">Icon only (square)</p>
+                    </div>
+                </div>
+
+                <!-- Icon Sizing by Button Size -->
+                <p class="font-medium text-ink mb-4">Icon Sizing by Button Size</p>
+                <div class="bg-warm-50 rounded-lg overflow-hidden mb-6">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Button Size</th>
+                                <th>Icon Size</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Small</td>
+                                <td>16px (w-4 h-4)</td>
+                                <td><button class="btn btn-sm btn-primary"><i data-lucide="plus" class="w-4 h-4"></i>Add</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td>18px (w-[18px] h-[18px])</td>
+                                <td><button class="btn btn-md btn-primary"><i data-lucide="plus" class="w-[18px] h-[18px]"></i>Add</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Large</td>
+                                <td>20px (w-5 h-5)</td>
+                                <td><button class="btn btn-lg btn-primary"><i data-lucide="plus" class="w-5 h-5"></i>Add</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- All Variants with Icons -->
+                <p class="font-medium text-ink mb-4">All Variants with Icons</p>
+                <div class="flex flex-wrap gap-3">
+                    <button class="btn btn-md btn-primary"><i data-lucide="check" class="w-[18px] h-[18px]"></i>Primary</button>
+                    <button class="btn btn-md btn-secondary"><i data-lucide="settings" class="w-[18px] h-[18px]"></i>Secondary</button>
+                    <button class="btn btn-md btn-outline"><i data-lucide="download" class="w-[18px] h-[18px]"></i>Outline</button>
+                    <button class="btn btn-md btn-outline-primary"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i>Outline Primary</button>
+                    <button class="btn btn-md btn-ghost"><i data-lucide="menu" class="w-[18px] h-[18px]"></i>Ghost</button>
+                    <button class="btn btn-md btn-destructive"><i data-lucide="trash-2" class="w-[18px] h-[18px]"></i>Destructive</button>
+                </div>
+            </div>
+
+            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
+                <p class="text-sm font-medium text-cyan-800 mb-2">Accessibility Requirement</p>
+                <p class="text-xs text-cyan-700">Icon-only buttons must have <code>aria-label</code> or <code>title</code> attribute describing the action.</p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: LOADING STATE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Loading State</p>
+            <p class="text-warm-600 text-sm mb-6">Spinner specifications for async actions.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="bg-warm-50 rounded-lg overflow-hidden mb-6">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Spinner Size (sm)</td>
+                                <td>14px</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Spinner Size (md)</td>
+                                <td>18px</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Spinner Size (lg)</td>
+                                <td>20px</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Spinner Color</td>
+                                <td>Match text color (white for primary/destructive, ink for others)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Position</td>
+                                <td>Centered, replaces content</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Label</td>
+                                <td>Hidden visually but preserved for screen readers</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Animation</td>
+                                <td>rotate 0.8s linear infinite</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="font-medium text-ink mb-4">Loading Examples</p>
+                <div class="flex gap-4">
+                    <button class="btn btn-md btn-primary btn-loading" aria-busy="true" aria-label="Loading">Submit</button>
+                    <button class="btn btn-md btn-secondary btn-loading" aria-busy="true" aria-label="Loading">Cancel</button>
+                    <button class="btn btn-md btn-outline btn-loading" aria-busy="true" aria-label="Loading">Export</button>
+                    <button class="btn btn-md btn-destructive btn-loading" aria-busy="true" aria-label="Loading">Delete</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: FULL WIDTH -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Full Width</p>
+            <p class="text-warm-600 text-sm mb-6">Full-width buttons for forms, modals, and mobile contexts.</p>
 
             <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
-                <div class="max-w-sm space-y-3">
-                    <button class="btn btn-md w-full bg-emerald-500 hover:bg-emerald-600 text-white">
-                        Continue
+                <div class="max-w-sm space-y-3 mb-6">
+                    <button class="btn btn-md btn-primary w-full">
+                        Continue to Checkout
                     </button>
-                    <button class="btn btn-md w-full bg-transparent hover:bg-warm-50 text-ink border-warm-300">
+                    <button class="btn btn-md btn-outline w-full">
                         Cancel
                     </button>
                 </div>
 
-                <div class="mt-6 pt-6 border-t border-warm-100">
-                    <p class="text-xs text-warm-600">Use <code>w-full</code> class for full-width buttons. Common in mobile views and form submissions.</p>
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="text-xs text-warm-600"><strong>Usage:</strong> Add <code>w-full</code> class. Common in mobile views, modal footers, and form submissions. All other specs unchanged.</p>
                 </div>
             </div>
         </section>
 
         <!-- =========================================== -->
-        <!-- BUTTON GROUPS -->
+        <!-- SECTION 11: BUTTONS IN CONTEXT -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Button Groups</p>
-            <p class="text-sm text-warm-600 mb-6">Related actions grouped together.</p>
+            <p class="serial text-emerald-600 mb-4">11. Buttons in Context</p>
+            <p class="text-warm-600 text-sm mb-6">Realistic usage patterns showing buttons working together, not in isolation.</p>
 
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
-
-                <!-- Inline Group -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Inline Group</p>
-                    <div class="flex gap-3">
-                        <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
-                            Save
-                        </button>
-                        <button class="btn btn-md bg-transparent hover:bg-warm-50 text-ink border-warm-300">
-                            Cancel
-                        </button>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Example 1: Form Actions -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Example 1: Form Actions</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3 mb-6">
+                            <div class="h-10 bg-warm-100 rounded border border-warm-200"></div>
+                            <div class="h-10 bg-warm-100 rounded border border-warm-200"></div>
+                            <div class="h-20 bg-warm-100 rounded border border-warm-200"></div>
+                        </div>
+                        <div class="flex justify-between pt-4 border-t border-warm-200">
+                            <button class="btn btn-sm btn-ghost">Cancel</button>
+                            <button class="btn btn-sm btn-primary">Save</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Stacked Group (Mobile) -->
-                <div class="mb-8">
-                    <p class="text-sm font-medium text-ink mb-4">Stacked Group (Mobile)</p>
-                    <div class="max-w-xs space-y-2">
-                        <button class="btn btn-md w-full bg-emerald-500 hover:bg-emerald-600 text-white">
-                            Setup Now
-                        </button>
-                        <button class="btn btn-md w-full bg-transparent hover:bg-warm-50 text-ink border-warm-300">
-                            Text Me the Link
-                        </button>
+                <!-- Example 2: Modal Footer -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Example 2: Modal Footer</p>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm font-medium text-ink mb-2">Publish Changes?</p>
+                        <p class="text-sm text-warm-600 mb-6">Your changes will be visible to all users immediately.</p>
+                        <div class="flex justify-between pt-4 border-t border-warm-200">
+                            <button class="btn btn-sm btn-ghost">Cancel</button>
+                            <div class="flex gap-2">
+                                <button class="btn btn-sm btn-secondary">Save Draft</button>
+                                <button class="btn btn-sm btn-primary">Confirm</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Segmented Group -->
-                <div>
-                    <p class="text-sm font-medium text-ink mb-4">Segmented Group</p>
-                    <div class="inline-flex rounded-lg overflow-hidden border border-warm-300">
-                        <button class="px-4 py-2 text-sm font-medium bg-intaglio-900 text-ledger">Day</button>
-                        <button class="px-4 py-2 text-sm font-medium bg-white text-ink hover:bg-warm-50 border-l border-warm-300">Week</button>
-                        <button class="px-4 py-2 text-sm font-medium bg-white text-ink hover:bg-warm-50 border-l border-warm-300">Month</button>
+                <!-- Example 3: Card Actions -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Example 3: Card Actions</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="font-medium text-ink">Connected Program</p>
+                                <p class="text-xs text-warm-500">Active since Jan 2024</p>
+                            </div>
+                            <button class="btn btn-sm btn-ghost btn-icon-only" title="More options">
+                                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn btn-sm btn-secondary">View Details</button>
+                            <button class="btn btn-sm btn-primary">Manage</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 4: Destructive Confirmation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Example 4: Destructive Confirmation</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-magenta-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-magenta-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-ink">Delete Account</p>
+                                <p class="text-xs text-warm-500">This cannot be undone</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-2">
+                            <button class="btn btn-sm btn-ghost">Cancel</button>
+                            <button class="btn btn-sm btn-destructive">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 5: Dark Context (Fire Opal) -->
+            <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                <div class="bg-intaglio-800 px-4 py-2 border-b border-intaglio-700">
+                    <p class="text-xs font-medium text-warm-400">Example 5: Dark Context (Fire Opal) &mdash; Settings Panel</p>
+                </div>
+                <div class="p-6">
+                    <div class="max-w-lg">
+                        <!-- Panel Header -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-medium text-warm-100 mb-1">Notification Settings</h4>
+                            <p class="text-sm text-warm-400">Configure how you receive alerts and updates.</p>
+                        </div>
+
+                        <!-- Form Fields -->
+                        <div class="space-y-4 mb-6">
+                            <!-- Email Field -->
+                            <div>
+                                <label class="block text-sm font-medium text-warm-200 mb-2">Email Address</label>
+                                <input type="email"
+                                       value="merchant@example.com"
+                                       class="w-full h-10 px-3 rounded-md text-sm"
+                                       style="background: hsl(24 28% 12%); border: 1.5px solid hsl(24 26% 25%); color: hsl(30 5% 95%); outline: none;"
+                                       readonly>
+                            </div>
+
+                            <!-- Frequency Select -->
+                            <div>
+                                <label class="block text-sm font-medium text-warm-200 mb-2">Notification Frequency</label>
+                                <select class="w-full h-10 px-3 rounded-md text-sm appearance-none cursor-pointer"
+                                        style="background: hsl(24 28% 12%); border: 1.5px solid hsl(24 26% 25%); color: hsl(30 5% 95%); outline: none;">
+                                    <option>Immediate</option>
+                                    <option>Daily digest</option>
+                                    <option>Weekly summary</option>
+                                </select>
+                            </div>
+
+                            <!-- Textarea -->
+                            <div>
+                                <label class="block text-sm font-medium text-warm-200 mb-2">Custom Message (Optional)</label>
+                                <textarea rows="3"
+                                          placeholder="Add a note for your team..."
+                                          class="w-full px-3 py-2 rounded-md text-sm resize-none"
+                                          style="background: hsl(24 28% 12%); border: 1.5px solid hsl(24 26% 25%); color: hsl(30 5% 95%); outline: none;"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="border-t border-intaglio-700 my-6"></div>
+
+                        <!-- Button Row -->
+                        <div class="flex justify-between items-center">
+                            <button class="btn btn-sm btn-ghost-dark">Cancel</button>
+                            <div class="flex gap-3">
+                                <button class="btn btn-sm btn-secondary-dark">Reset to Default</button>
+                                <button class="btn btn-sm btn-primary-dark">Save Changes</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- =========================================== -->
-        <!-- ON DARK BACKGROUNDS -->
+        <!-- SECTION 12: IMPLEMENTATION CHECKLIST -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">On Dark Backgrounds</p>
-            <p class="text-sm text-warm-600 mb-6">Button treatments for dark hero sections and modals.</p>
+            <p class="serial text-emerald-600 mb-4">12. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-6">Verification checklist for developers refactoring the component.</p>
 
-            <div class="bg-intaglio-900 rounded-lg p-8">
-                <div class="flex flex-wrap gap-4 mb-6">
-                    <button class="btn btn-md bg-white hover:bg-warm-50 text-ink">
-                        Primary (Inverted)
-                    </button>
-                    <button class="btn btn-md bg-transparent hover:bg-white/10 text-white border-white/30">
-                        Outline Light
-                    </button>
-                    <button class="btn btn-md bg-emerald-500 hover:bg-emerald-600 text-white">
-                        Primary (Standard)
-                    </button>
-                    <button class="btn btn-md bg-transparent hover:bg-white/10 text-ledger">
-                        Ghost Light
-                    </button>
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Base Structure -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Base Structure</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Border radius is exactly 6px (<code>rounded-md</code>)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Border width is 1.5px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Font weight is 500 (medium)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Transition is 150ms ease-out on all properties</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Focus ring is 2px emerald-500 with 2px offset (ALL variants including Destructive)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Icon gap is 8px</span>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="text-xs text-intaglio-300">
-                    <p class="mb-2">On dark backgrounds:</p>
-                    <ul class="space-y-1">
-                        <li>• Use white/inverted primary for maximum contrast</li>
-                        <li>• Outline buttons use <code>border-white/30</code></li>
-                        <li>• Ghost buttons hover to <code>bg-white/10</code></li>
-                        <li>• Emerald primary still works when CTAs need brand color</li>
+                <!-- Sizes -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Sizes</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Small: 32px height, 12px horizontal padding, 13px font</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Default: 40px height, 20px horizontal padding, 14px font</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Large: 48px height, 28px horizontal padding, 16px font</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Icon-only buttons are square (width = height)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Primary Variant -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Primary Variant</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Default: emerald-500 background, white text</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Hover: emerald-600 background, subtle shadow</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Active: emerald-700 background, no shadow</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Disabled: 50% opacity</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Secondary Variant -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Secondary Variant</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Default: warm-100 background, warm-300 border, ink text</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Hover: warm-200 background, warm-400 border</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Disabled: 50% opacity on all</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dark Mode -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Dark Mode (Fire Opal)</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Primary gets subtle glow on dark backgrounds</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Secondary (Emerald Ghost): 10% bg, 30% border, emerald-400 text</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Secondary hover: 20% bg, 40% border, emerald-300 text</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Tertiary (Inverted): warm-100 bg, intaglio-900 text</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Tertiary hover: white bg (dark surfaces only)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Ghost and Outline adapt to dark surface</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Destructive unchanged (magenta works on dark)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Accessibility -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Accessibility</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Focus ring visible on all variants</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Disabled buttons have <code>aria-disabled="true"</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Loading buttons have <code>aria-busy="true"</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#9744;</span>
+                            <span>Icon-only buttons have <code>aria-label</code></span>
+                        </li>
                     </ul>
                 </div>
             </div>
         </section>
 
         <!-- =========================================== -->
-        <!-- SPECIFICATIONS -->
+        <!-- SECTION 13: CODE REFERENCE -->
         <!-- =========================================== -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">Specifications</p>
-            <p class="text-sm text-warm-600 mb-6">Technical implementation details.</p>
+            <p class="serial text-emerald-600 mb-4">13. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-6">Copy-pasteable CSS/Tailwind classes for each variant.</p>
 
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-                <p class="text-sm font-medium text-ink mb-4">Base Styles</p>
-                <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto mb-6">
-                    <pre class="text-sm font-mono text-emerald-300">.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;           /* 8px */
-  font-weight: 500;      /* medium */
-  border-radius: 0.375rem; /* rounded-md */
-  border: 1.5px solid transparent;
-  transition: all 150ms ease;
-  cursor: pointer;
+            <!-- Primary -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Primary</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-primary {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500 text-white font-medium rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-transparent</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+  <span class="property">@apply</span> <span class="value">focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</span>;
 }
 
-.btn:focus-visible {
-  outline: 2px solid var(--emerald-500);
-  outline-offset: 2px;
+<span class="comment">/* Hover */</span>
+.btn-primary:hover {
+  <span class="property">@apply</span> <span class="value">bg-emerald-600</span>;
+  <span class="property">box-shadow:</span> <span class="value">0 2px 8px rgba(0, 140, 69, 0.25)</span>;
 }
 
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}</pre>
-                </div>
+<span class="comment">/* Active */</span>
+.btn-primary:active {
+  <span class="property">@apply</span> <span class="value">bg-emerald-700</span>;
+  <span class="property">box-shadow:</span> <span class="value">none</span>;
+}
 
-                <p class="text-sm font-medium text-ink mb-4">Tailwind Utility Classes</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-warm-200">
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Property</th>
-                                <th class="text-left py-3 font-medium text-warm-600">Classes</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs">
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Layout</td>
-                                <td class="py-3"><code>inline-flex items-center justify-center gap-2</code></td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Typography</td>
-                                <td class="py-3"><code>font-medium</code></td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Border</td>
-                                <td class="py-3"><code>rounded-md border-[1.5px]</code> or <code>border</code></td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-medium">Transition</td>
-                                <td class="py-3"><code>transition-colors duration-150</code></td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 pr-4 font-medium">Focus</td>
-                                <td class="py-3"><code>focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
+<span class="comment">/* Disabled */</span>
+.btn-primary:disabled {
+  <span class="property">@apply</span> <span class="value">opacity-50 cursor-not-allowed pointer-events-none</span>;
+}</code></pre>
                 </div>
             </div>
 
-            <!-- Props Table -->
-            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
-                <p class="text-sm font-medium text-ink mb-4">Component Props</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-warm-200">
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Prop</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Type</th>
-                                <th class="text-left py-3 pr-4 font-medium text-warm-600">Default</th>
-                                <th class="text-left py-3 font-medium text-warm-600">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs">
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">variant</td>
-                                <td class="py-3 pr-4 font-mono">'primary' | 'secondary' | 'ghost' | 'outline' | 'outline-primary' | 'destructive' | 'solid' | 'dashed'</td>
-                                <td class="py-3 pr-4 font-mono">'primary'</td>
-                                <td class="py-3">Visual style variant</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">size</td>
-                                <td class="py-3 pr-4 font-mono">'sm' | 'md' | 'lg'</td>
-                                <td class="py-3 pr-4 font-mono">'md'</td>
-                                <td class="py-3">Button size</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">disabled</td>
-                                <td class="py-3 pr-4 font-mono">boolean</td>
-                                <td class="py-3 pr-4 font-mono">false</td>
-                                <td class="py-3">Disable interaction</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">loading</td>
-                                <td class="py-3 pr-4 font-mono">boolean</td>
-                                <td class="py-3 pr-4 font-mono">false</td>
-                                <td class="py-3">Show loading spinner</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">icon</td>
-                                <td class="py-3 pr-4 font-mono">ReactNode</td>
-                                <td class="py-3 pr-4 font-mono">undefined</td>
-                                <td class="py-3">Leading icon element</td>
-                            </tr>
-                            <tr class="border-b border-warm-100">
-                                <td class="py-3 pr-4 font-mono">iconPosition</td>
-                                <td class="py-3 pr-4 font-mono">'left' | 'right'</td>
-                                <td class="py-3 pr-4 font-mono">'left'</td>
-                                <td class="py-3">Icon placement</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 pr-4 font-mono">fullWidth</td>
-                                <td class="py-3 pr-4 font-mono">boolean</td>
-                                <td class="py-3 pr-4 font-mono">false</td>
-                                <td class="py-3">Expand to container width</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Secondary -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Secondary</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-secondary {
+  <span class="property">@apply</span> <span class="value">bg-warm-100 text-ink font-medium rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-warm-300</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+  <span class="property">@apply</span> <span class="value">focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-secondary:hover {
+  <span class="property">@apply</span> <span class="value">bg-warm-200 border-warm-400</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-secondary:active {
+  <span class="property">@apply</span> <span class="value">bg-warm-300 border-warm-400</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Outline Primary -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Outline Primary</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-outline-primary {
+  <span class="property">@apply</span> <span class="value">bg-transparent text-emerald-600 font-medium rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-emerald-500</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+  <span class="property">@apply</span> <span class="value">focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-outline-primary:hover {
+  <span class="property">@apply</span> <span class="value">bg-emerald-50 border-emerald-600 text-emerald-700</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-outline-primary:active {
+  <span class="property">@apply</span> <span class="value">bg-emerald-100 border-emerald-600 text-emerald-700</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Ghost -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Ghost</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-ghost {
+  <span class="property">@apply</span> <span class="value">bg-transparent text-ink font-medium rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-transparent</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+  <span class="property">@apply</span> <span class="value">focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-ghost:hover {
+  <span class="property">@apply</span> <span class="value">bg-warm-100</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-ghost:active {
+  <span class="property">@apply</span> <span class="value">bg-warm-200</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Destructive -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Destructive</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-destructive {
+  <span class="property">@apply</span> <span class="value">bg-magenta-500 text-white font-medium rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-transparent</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+  <span class="property">@apply</span> <span class="value">focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-destructive:hover {
+  <span class="property">@apply</span> <span class="value">bg-magenta-600</span>;
+  <span class="property">box-shadow:</span> <span class="value">0 2px 8px rgba(235, 21, 119, 0.25)</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-destructive:active {
+  <span class="property">@apply</span> <span class="value">bg-magenta-700</span>;
+  <span class="property">box-shadow:</span> <span class="value">none</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Primary on Dark -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Primary (on Dark / Fire Opal)</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base - adds glow effect */</span>
+.dark .btn-primary {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500 text-white</span>;
+  <span class="property">box-shadow:</span> <span class="value">0 0 12px rgba(0, 140, 69, 0.4)</span>;
+}
+
+<span class="comment">/* Hover - intensify glow */</span>
+.dark .btn-primary:hover {
+  <span class="property">@apply</span> <span class="value">bg-emerald-400</span>;
+  <span class="property">box-shadow:</span> <span class="value">0 0 16px rgba(0, 140, 69, 0.5)</span>;
+}
+
+<span class="comment">/* Active - remove glow */</span>
+.dark .btn-primary:active {
+  <span class="property">@apply</span> <span class="value">bg-emerald-600</span>;
+  <span class="property">box-shadow:</span> <span class="value">none</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Secondary on Dark (Emerald Ghost) -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Secondary (on Dark) &mdash; Emerald Ghost</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-secondary-dark {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500/10 border-emerald-500/30 text-emerald-400</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] rounded-md font-medium</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-secondary-dark:hover {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500/20 border-emerald-500/40 text-emerald-300</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-secondary-dark:active {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500/25 border-emerald-500/50</span>;
+}
+
+<span class="comment">/* Disabled */</span>
+.btn-secondary-dark:disabled {
+  <span class="property">@apply</span> <span class="value">bg-emerald-500/5 border-emerald-500/15 text-emerald-400/50</span>;
+  <span class="property">@apply</span> <span class="value">cursor-not-allowed</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Tertiary on Dark (Inverted) -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Tertiary (on Dark) &mdash; Inverted</p>
+                <p class="text-xs text-amber-600 mb-3">Dark mode only. Do not use on light surfaces.</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base */</span>
+.btn-tertiary-dark {
+  <span class="property">@apply</span> <span class="value">bg-warm-100 text-intaglio-900</span>;
+  <span class="property">@apply</span> <span class="value">rounded-md font-medium border-transparent</span>;
+  <span class="property">@apply</span> <span class="value">transition-all duration-150 ease-out</span>;
+}
+
+<span class="comment">/* Hover */</span>
+.btn-tertiary-dark:hover {
+  <span class="property">@apply</span> <span class="value">bg-white</span>;
+}
+
+<span class="comment">/* Active */</span>
+.btn-tertiary-dark:active {
+  <span class="property">@apply</span> <span class="value">bg-warm-200</span>;
+}
+
+<span class="comment">/* Disabled */</span>
+.btn-tertiary-dark:disabled {
+  <span class="property">@apply</span> <span class="value">bg-warm-100/50 text-intaglio-900/50</span>;
+  <span class="property">@apply</span> <span class="value">cursor-not-allowed</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Size Classes -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Size Classes</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Small (32px) */</span>
+.btn-sm {
+  <span class="property">@apply</span> <span class="value">h-8 px-3 text-[13px]</span>;
+}
+
+<span class="comment">/* Default (40px) */</span>
+.btn-md {
+  <span class="property">@apply</span> <span class="value">h-10 px-5 text-sm</span>;
+}
+
+<span class="comment">/* Large (48px) */</span>
+.btn-lg {
+  <span class="property">@apply</span> <span class="value">h-12 px-7 text-base</span>;
+}
+
+<span class="comment">/* Icon-only (square) */</span>
+.btn-sm.btn-icon-only { <span class="property">@apply</span> <span class="value">w-8 px-0</span>; }
+.btn-md.btn-icon-only { <span class="property">@apply</span> <span class="value">w-10 px-0</span>; }
+.btn-lg.btn-icon-only { <span class="property">@apply</span> <span class="value">w-12 px-0</span>; }</code></pre>
                 </div>
             </div>
         </section>
@@ -897,7 +2241,7 @@
         <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
             <div class="flex items-center gap-3">
                 <a href="index.html" class="hover:text-emerald-600">Home</a>
-                <span class="text-warm-300">·</span>
+                <span class="text-warm-300">&middot;</span>
                 <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
             </div>
             <p>Saltwyk Design System v0.5.0</p>
