@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Badges - Saltwyk Design System</title>
+    <title>Badge Specification - Saltwyk Design System</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="assets/config/tailwind.config.js"></script>
@@ -18,7 +19,12 @@
         .font-display { font-family: 'DM Serif Display', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
@@ -35,19 +41,70 @@
         .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
         .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
 
-        /* Status Badge Base */
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* ========================================= */
+        /* BADGE BASE STYLES */
+        /* ========================================= */
         .badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 12px;
+            font-family: 'Inter', system-ui, sans-serif;
             font-weight: 500;
+            border-radius: 9999px;
             line-height: 1;
         }
 
-        /* Status Badge Colors */
+        /* Badge Sizes */
+        .badge-sm {
+            height: 20px;
+            padding: 0 6px;
+            font-size: 11px;
+        }
+        .badge-md {
+            height: 24px;
+            padding: 0 8px;
+            font-size: 12px;
+        }
+        .badge-lg {
+            height: 28px;
+            padding: 0 10px;
+            font-size: 13px;
+        }
+
+        /* ========================================= */
+        /* LIGHT MODE - FILLED BADGES (Bright Opal) */
+        /* ========================================= */
         .badge-success {
             background: hsl(150 45% 93%);
             color: hsl(150 100% 22%);
@@ -69,74 +126,12 @@
             color: hsl(30 8% 35%);
         }
 
-        /* Dot indicator */
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-        .badge-dot-success { background: hsl(150 100% 35%); }
-        .badge-dot-warning { background: hsl(20 90% 50%); }
-        .badge-dot-error { background: hsl(330 85% 50%); }
-        .badge-dot-info { background: hsl(170 100% 40%); }
-        .badge-dot-neutral { background: hsl(30 6% 50%); }
-
-        /* Count Badge */
-        .count-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 20px;
-            height: 20px;
-            padding: 0 6px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 600;
-            background: hsl(330 85% 50%);
-            color: white;
-        }
-        .count-badge-sm {
-            min-width: 16px;
-            height: 16px;
-            padding: 0 4px;
-            font-size: 10px;
-            border-radius: 8px;
-        }
-        .count-badge-lg {
-            min-width: 24px;
-            height: 24px;
-            padding: 0 8px;
-            font-size: 12px;
-            border-radius: 12px;
-        }
-
-        /* Tag */
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            background: hsl(30 5% 95%);
-            color: hsl(30 8% 30%);
-        }
-        .tag-remove {
-            width: 14px;
-            height: 14px;
-            color: hsl(30 6% 50%);
-            cursor: pointer;
-            transition: color 0.1s ease;
-        }
-        .tag-remove:hover {
-            color: hsl(24 29% 8%);
-        }
-
-        /* Outline Badges */
+        /* ========================================= */
+        /* LIGHT MODE - OUTLINE BADGES */
+        /* ========================================= */
         .badge-outline {
             background: transparent;
-            border: 1.5px solid currentColor;
+            border: 1px solid currentColor;
         }
         .badge-outline-success {
             color: hsl(150 100% 27%);
@@ -159,26 +154,282 @@
             border-color: hsl(30 5% 78%);
         }
 
-        /* Dark mode badges */
+        /* ========================================= */
+        /* LIGHT MODE - SUBTLE BADGES */
+        /* ========================================= */
+        .badge-subtle-success {
+            background: hsl(150 40% 96%);
+            color: hsl(150 100% 22%);
+        }
+        .badge-subtle-warning {
+            background: hsl(20 45% 96%);
+            color: hsl(20 80% 35%);
+        }
+        .badge-subtle-error {
+            background: hsl(330 45% 96%);
+            color: hsl(330 85% 40%);
+        }
+        .badge-subtle-info {
+            background: hsl(170 40% 95%);
+            color: hsl(170 100% 25%);
+        }
+        .badge-subtle-neutral {
+            background: hsl(30 5% 98%);
+            color: hsl(30 7% 35%);
+        }
+
+        /* ========================================= */
+        /* DARK MODE - FILLED BADGES (Fire Opal) */
+        /* ========================================= */
         .badge-success-dark {
-            background: hsla(150 100% 40% / 15%);
+            background: hsla(150 100% 40% / 20%);
             color: hsl(150 80% 55%);
         }
         .badge-warning-dark {
-            background: hsla(20 100% 50% / 15%);
+            background: hsla(20 100% 50% / 20%);
             color: hsl(20 90% 60%);
         }
         .badge-error-dark {
-            background: hsla(330 100% 55% / 15%);
+            background: hsla(330 100% 55% / 20%);
             color: hsl(330 90% 65%);
         }
         .badge-info-dark {
-            background: hsla(170 100% 50% / 15%);
+            background: hsla(170 100% 50% / 20%);
             color: hsl(170 100% 55%);
         }
         .badge-neutral-dark {
-            background: hsla(30 10% 50% / 15%);
-            color: hsl(30 5% 65%);
+            background: hsla(30 10% 50% / 20%);
+            color: hsl(30 5% 70%);
+        }
+
+        /* ========================================= */
+        /* DARK MODE - OUTLINE BADGES */
+        /* ========================================= */
+        .badge-outline-success-dark {
+            background: transparent;
+            border: 1px solid hsla(150 100% 40% / 50%);
+            color: hsl(150 80% 55%);
+        }
+        .badge-outline-warning-dark {
+            background: transparent;
+            border: 1px solid hsla(20 100% 50% / 50%);
+            color: hsl(20 90% 60%);
+        }
+        .badge-outline-error-dark {
+            background: transparent;
+            border: 1px solid hsla(330 100% 55% / 50%);
+            color: hsl(330 90% 65%);
+        }
+        .badge-outline-info-dark {
+            background: transparent;
+            border: 1px solid hsla(170 100% 50% / 50%);
+            color: hsl(170 100% 55%);
+        }
+        .badge-outline-neutral-dark {
+            background: transparent;
+            border: 1px solid hsla(30 10% 50% / 50%);
+            color: hsl(30 5% 60%);
+        }
+
+        /* ========================================= */
+        /* DARK MODE - BRIGHT BADGES (Fire Opal Special) */
+        /* ========================================= */
+        .badge-bright-success {
+            background: hsl(150 100% 40%);
+            color: white;
+        }
+        .badge-bright-warning {
+            background: hsl(20 100% 50%);
+            color: white;
+        }
+        .badge-bright-error {
+            background: hsl(330 85% 50%);
+            color: white;
+        }
+        .badge-bright-info {
+            background: hsl(170 100% 40%);
+            color: hsl(24 29% 8%);
+        }
+        .badge-bright-neutral {
+            background: hsl(30 6% 62%);
+            color: hsl(24 29% 8%);
+        }
+
+        /* ========================================= */
+        /* DOT INDICATOR */
+        /* ========================================= */
+        .dot {
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .dot-sm { width: 6px; height: 6px; }
+        .dot-md { width: 8px; height: 8px; }
+        .dot-lg { width: 10px; height: 10px; }
+
+        .dot-success { background: hsl(150 100% 35%); }
+        .dot-warning { background: hsl(20 90% 50%); }
+        .dot-error { background: hsl(330 85% 50%); }
+        .dot-info { background: hsl(170 100% 40%); }
+        .dot-neutral { background: hsl(30 6% 50%); }
+
+        .dot-success-dark { background: hsl(150 100% 50%); }
+        .dot-warning-dark { background: hsl(20 100% 55%); }
+        .dot-error-dark { background: hsl(330 100% 60%); }
+        .dot-info-dark { background: hsl(170 100% 50%); }
+        .dot-neutral-dark { background: hsl(30 5% 50%); }
+
+        /* Pulse animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .dot-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* ========================================= */
+        /* COUNT BADGE */
+        /* ========================================= */
+        .count-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            border-radius: 9999px;
+            background: hsl(330 85% 50%);
+            color: white;
+        }
+        .count-badge-sm {
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            font-size: 10px;
+        }
+        .count-badge-md {
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            font-size: 11px;
+        }
+        .count-badge-lg {
+            min-width: 24px;
+            height: 24px;
+            padding: 0 8px;
+            font-size: 12px;
+        }
+        .count-badge-positioned {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            border: 2px solid white;
+        }
+        .count-badge-positioned-dark {
+            border-color: hsl(24 29% 8%);
+        }
+
+        /* ========================================= */
+        /* TAG (REMOVABLE BADGE) */
+        /* ========================================= */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background 150ms ease;
+        }
+        .tag-sm {
+            height: 24px;
+            padding: 0 8px 0 6px;
+            font-size: 12px;
+        }
+        .tag-md {
+            height: 28px;
+            padding: 0 10px 0 6px;
+            font-size: 13px;
+        }
+        .tag-lg {
+            height: 32px;
+            padding: 0 12px 0 8px;
+            font-size: 14px;
+        }
+
+        .tag-neutral {
+            background: hsl(30 5% 93%);
+            color: hsl(30 8% 30%);
+        }
+        .tag-neutral:hover {
+            background: hsl(30 5% 88%);
+        }
+
+        .tag-neutral-dark {
+            background: hsl(24 27% 18%);
+            color: hsl(30 5% 88%);
+        }
+        .tag-neutral-dark:hover {
+            background: hsl(24 27% 22%);
+        }
+
+        .tag-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            color: hsl(30 6% 50%);
+            cursor: pointer;
+            transition: all 100ms ease;
+        }
+        .tag-close:hover {
+            background: hsl(30 5% 78%);
+            color: hsl(24 29% 8%);
+        }
+
+        .tag-close-dark {
+            color: hsl(30 5% 50%);
+        }
+        .tag-close-dark:hover {
+            background: hsl(24 27% 25%);
+            color: hsl(30 5% 88%);
+        }
+
+        /* Tag disabled */
+        .tag-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* ========================================= */
+        /* IMPLEMENTATION CHECKLIST */
+        /* ========================================= */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+        .checklist-check {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1.5px solid hsl(150 100% 27%);
+            background: hsl(150 45% 93%);
+            color: hsl(150 100% 27%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -192,7 +443,7 @@
             </a>
             <nav class="flex items-center gap-6 text-sm">
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <span class="cursor-pointer text-ink font-medium">Foundation &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="foundation/" class="font-medium">Foundation</a>
                         <div class="divider"></div>
@@ -221,7 +472,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="shopper/" class="font-medium">Shopper</a>
                         <a href="shopper/showcase.html">Showcase</a>
@@ -232,7 +483,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="merchant/" class="font-medium">Merchant</a>
                         <a href="merchant/showcase.html">Showcase</a>
@@ -245,7 +496,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="marketing/" class="font-medium">Marketing</a>
                         <a href="marketing/showcase.html">Showcase</a>
@@ -258,7 +509,7 @@
                     </div>
                 </div>
                 <div class="nav-dropdown">
-                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs &#9662;</span>
                     <div class="nav-dropdown-menu">
                         <a href="docs/" class="font-medium">Docs</a>
                         <a href="docs/showcase.html">Showcase</a>
@@ -271,403 +522,1688 @@
     <div class="max-w-6xl mx-auto p-8">
         <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
             <a href="index.html" class="hover:text-emerald-600">Design System</a>
-            <span>→</span>
+            <span>&#8594;</span>
             <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
-            <span>→</span>
+            <span>&#8594;</span>
             <span class="text-ink font-medium">Badges</span>
         </nav>
 
         <header class="mb-12">
-            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
-            <h1 class="font-display text-4xl mb-2">Badges & Tags</h1>
-            <p class="text-warm-600">Status indicators, counts, and categorization labels.</p>
+            <p class="serial text-emerald-600 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-3">Badges &amp; Status Indicators</h1>
+            <p class="text-warm-600 text-lg">Implementation specification for badges, status indicators, count badges, and tags. Every variant, semantic color, and pixel value defined.</p>
         </header>
 
-        <!-- Status Badges -->
+        <!-- =========================================== -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- =========================================== -->
         <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Status Badges</h2>
-            <p class="text-warm-600 mb-8">Semantic status indicators with dot or label variants.</p>
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
 
-            <div class="bg-white border border-warm-200 rounded-xl p-8">
-                <div class="space-y-8">
-                    <!-- Label badges -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Label Badges</p>
-                        <div class="flex flex-wrap gap-3">
-                            <span class="badge badge-success">
-                                <span class="badge-dot badge-dot-success"></span>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">Badges communicate status, category, or count at a glance.</strong>
+                    They should be immediately scannable without reading&#8212;color carries meaning.
+                </p>
+                <p class="text-warm-600 text-sm">
+                    Use consistent semantic colors across the product. Success is always emerald, errors always magenta.
+                    This consistency builds user confidence and speeds comprehension.
+                </p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: ANATOMY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Anatomy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <!-- Visual Diagram -->
+                <div class="flex justify-center py-12 mb-8">
+                    <div class="relative inline-flex items-center">
+                        <!-- Left annotation: Dot -->
+                        <div class="flex items-center mr-3">
+                            <span class="text-xs text-magenta-600 font-medium whitespace-nowrap">Dot (optional)</span>
+                            <div class="w-4 h-px bg-magenta-400 ml-2"></div>
+                        </div>
+
+                        <!-- The badge with top/bottom annotations -->
+                        <div class="relative">
+                            <!-- Top annotation: Container -->
+                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-center">
+                                <span class="text-xs text-cyan-600 font-medium whitespace-nowrap">Container (bg, border, radius)</span>
+                                <div class="w-px h-4 bg-cyan-400 mx-auto mt-1"></div>
+                            </div>
+
+                            <span class="badge badge-md badge-success">
+                                <span class="dot dot-md dot-success"></span>
                                 Completed
                             </span>
-                            <span class="badge badge-warning">
-                                <span class="badge-dot badge-dot-warning"></span>
-                                Pending
-                            </span>
-                            <span class="badge badge-error">
-                                <span class="badge-dot badge-dot-error"></span>
-                                Failed
-                            </span>
-                            <span class="badge badge-info">
-                                <span class="badge-dot badge-dot-info"></span>
-                                Processing
-                            </span>
-                            <span class="badge badge-neutral">
-                                <span class="badge-dot badge-dot-neutral"></span>
-                                Draft
-                            </span>
+
+                            <!-- Bottom annotation: Border radius -->
+                            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 text-center">
+                                <div class="w-px h-4 bg-orange-400 mx-auto mb-1"></div>
+                                <span class="text-xs text-orange-600 font-medium whitespace-nowrap">Border radius: 9999px (pill)</span>
+                            </div>
+                        </div>
+
+                        <!-- Right annotation: Label -->
+                        <div class="flex items-center ml-3">
+                            <div class="w-4 h-px bg-lime-500 mr-2"></div>
+                            <span class="text-xs text-lime-700 font-medium whitespace-nowrap">Label (text)</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Without dots -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Without Dot Indicator</p>
-                        <div class="flex flex-wrap gap-3">
-                            <span class="badge badge-success">Active</span>
-                            <span class="badge badge-warning">Review</span>
-                            <span class="badge badge-error">Declined</span>
-                            <span class="badge badge-info">New</span>
-                            <span class="badge badge-neutral">Archived</span>
-                        </div>
+                <!-- Parts list -->
+                <div class="grid grid-cols-5 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Container</p>
+                        <p class="text-warm-500 text-xs">Background, optional border. Defines the badge's shape.</p>
                     </div>
-
-                    <!-- Dot only -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Dot Only (Inline)</p>
-                        <div class="flex items-center gap-6">
-                            <span class="flex items-center gap-2">
-                                <span class="badge-dot badge-dot-success"></span>
-                                <span class="text-sm">Online</span>
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <span class="badge-dot badge-dot-warning"></span>
-                                <span class="text-sm">Away</span>
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <span class="badge-dot badge-dot-neutral"></span>
-                                <span class="text-sm">Offline</span>
-                            </span>
-                        </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Label</p>
+                        <p class="text-warm-500 text-xs">Badge text. Inter medium weight, uppercase not required.</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Icon</p>
+                        <p class="text-warm-500 text-xs">Optional leading icon. Matches font size or slightly larger.</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Dot</p>
+                        <p class="text-warm-500 text-xs">Status indicator dot. 6-10px diameter, semantic colors.</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Close Button</p>
+                        <p class="text-warm-500 text-xs">For removable tags only. 14px square with hover state.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Color Mapping -->
+        <!-- =========================================== -->
+        <!-- SECTION 3: BASE SPECIFICATIONS -->
+        <!-- =========================================== -->
         <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Color Mapping</h2>
-            <p class="text-warm-600 mb-8">Semantic color assignments for badge states.</p>
+            <p class="serial text-emerald-600 mb-4">3. Base Specifications</p>
+            <p class="text-warm-600 text-sm mb-6">All badges share these foundational properties regardless of variant.</p>
 
-            <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
-                <table class="w-full text-sm">
-                    <thead class="bg-warm-50 border-b border-warm-200">
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
                         <tr>
-                            <th class="text-left p-4 font-medium">Purpose</th>
-                            <th class="text-left p-4 font-medium">Background</th>
-                            <th class="text-left p-4 font-medium">Text</th>
-                            <th class="text-left p-4 font-medium">Example</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Token / Class</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-warm-100">
+                    <tbody>
                         <tr>
-                            <td class="p-4">Success / Complete</td>
-                            <td class="p-4"><code>emerald-100</code></td>
-                            <td class="p-4"><code>emerald-700</code></td>
-                            <td class="p-4"><span class="badge badge-success">Cleared</span></td>
+                            <td class="font-medium">Font Family</td>
+                            <td>Inter</td>
+                            <td><code>font-sans</code></td>
                         </tr>
                         <tr>
-                            <td class="p-4">Warning / Pending</td>
-                            <td class="p-4"><code>orange-100</code></td>
-                            <td class="p-4"><code>orange-700</code></td>
-                            <td class="p-4"><span class="badge badge-warning">Pending</span></td>
+                            <td class="font-medium">Font Weight</td>
+                            <td>500 (medium)</td>
+                            <td><code>font-medium</code></td>
                         </tr>
                         <tr>
-                            <td class="p-4">Error / Failed</td>
-                            <td class="p-4"><code>magenta-100</code></td>
-                            <td class="p-4"><code>magenta-700</code></td>
-                            <td class="p-4"><span class="badge badge-error">Failed</span></td>
+                            <td class="font-medium">Border Radius</td>
+                            <td>9999px (pill)</td>
+                            <td><code>rounded-full</code></td>
                         </tr>
                         <tr>
-                            <td class="p-4">Info / Processing</td>
-                            <td class="p-4"><code>cyan-100</code></td>
-                            <td class="p-4"><code>cyan-700</code></td>
-                            <td class="p-4"><span class="badge badge-info">Processing</span></td>
+                            <td class="font-medium">Border Width</td>
+                            <td>1px (outline variant)</td>
+                            <td><code>border</code></td>
                         </tr>
                         <tr>
-                            <td class="p-4">Neutral / Default</td>
-                            <td class="p-4"><code>warm-100</code></td>
-                            <td class="p-4"><code>warm-700</code></td>
-                            <td class="p-4"><span class="badge badge-neutral">Draft</span></td>
+                            <td class="font-medium">Line Height</td>
+                            <td>1</td>
+                            <td><code>leading-none</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Icon Gap</td>
+                            <td>4px</td>
+                            <td><code>gap-1</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Dot Gap</td>
+                            <td>6px</td>
+                            <td><code>gap-1.5</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Size Scale -->
+            <p class="font-medium text-ink mb-4">Size Scale</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Height</th>
+                            <th>Padding (x)</th>
+                            <th>Font Size</th>
+                            <th>Icon Size</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Small</td>
+                            <td>20px</td>
+                            <td>6px</td>
+                            <td>11px</td>
+                            <td>12px</td>
+                            <td><span class="badge badge-sm badge-success">Small</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td>24px</td>
+                            <td>8px</td>
+                            <td>12px</td>
+                            <td>14px</td>
+                            <td><span class="badge badge-md badge-success">Default</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Large</td>
+                            <td>28px</td>
+                            <td>10px</td>
+                            <td>13px</td>
+                            <td>16px</td>
+                            <td><span class="badge badge-lg badge-success">Large</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Count Badges -->
+        <!-- =========================================== -->
+        <!-- SECTION 4: SEMANTIC COLOR MAPPING -->
+        <!-- =========================================== -->
         <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Count Badges</h2>
-            <p class="text-warm-600 mb-8">Numeric indicators for notifications and unread counts.</p>
+            <p class="serial text-emerald-600 mb-4">4. Semantic Color Mapping</p>
+            <p class="text-warm-600 text-sm mb-6">Colors must be used consistently across the product. This mapping is non-negotiable.</p>
 
-            <div class="bg-white border border-warm-200 rounded-xl p-8">
-                <div class="space-y-8">
-                    <!-- Sizes -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Sizes</p>
-                        <div class="flex items-center gap-6">
-                            <span class="flex items-center gap-2">
-                                <span class="count-badge count-badge-sm">3</span>
-                                <span class="text-sm text-warm-600">Small (16px)</span>
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <span class="count-badge">12</span>
-                                <span class="text-sm text-warm-600">Default (20px)</span>
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <span class="count-badge count-badge-lg">99+</span>
-                                <span class="text-sm text-warm-600">Large (24px)</span>
-                            </span>
-                        </div>
-                    </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Semantic</th>
+                            <th>Color Family</th>
+                            <th>Use Cases</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Success</td>
+                            <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> Emerald</td>
+                            <td class="text-sm text-warm-600">Completed, active, connected, approved, paid, cleared</td>
+                            <td><span class="badge badge-md badge-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Warning</td>
+                            <td><span class="spec-swatch" style="background: hsl(20 90% 50%)"></span> Orange</td>
+                            <td class="text-sm text-warm-600">Pending, expiring soon, needs attention, processing</td>
+                            <td><span class="badge badge-md badge-warning">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Error</td>
+                            <td><span class="spec-swatch" style="background: hsl(330 85% 50%)"></span> Magenta</td>
+                            <td class="text-sm text-warm-600">Failed, declined, error, disconnected, overdue</td>
+                            <td><span class="badge badge-md badge-error">Failed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Info</td>
+                            <td><span class="spec-swatch" style="background: hsl(170 100% 40%)"></span> Cyan</td>
+                            <td class="text-sm text-warm-600">New, updated, information, in progress</td>
+                            <td><span class="badge badge-md badge-info">New</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Neutral</td>
+                            <td><span class="spec-swatch" style="background: hsl(30 6% 50%)"></span> Warm Gray</td>
+                            <td class="text-sm text-warm-600">Default, inactive, archived, draft</td>
+                            <td><span class="badge badge-md badge-neutral">Draft</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                    <!-- Truncation -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Truncation</p>
-                        <div class="flex items-center gap-6">
-                            <span class="count-badge">5</span>
-                            <span class="count-badge">42</span>
-                            <span class="count-badge">99</span>
-                            <span class="count-badge">99+</span>
-                            <span class="text-sm text-warm-500">Use 99+ for counts over 99</span>
-                        </div>
-                    </div>
-
-                    <!-- In context -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">In Context</p>
-                        <div class="flex items-center gap-8">
-                            <span class="relative">
-                                <svg class="w-6 h-6 text-warm-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                                </svg>
-                                <span class="count-badge count-badge-sm absolute -top-1 -right-1">3</span>
-                            </span>
-                            <span class="text-sm text-warm-600">Notification icon with badge</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Never use -->
+            <div class="bg-magenta-50 border-2 border-magenta-200 rounded-lg p-5">
+                <p class="font-medium text-magenta-700 mb-2">Never use:</p>
+                <ul class="text-sm text-magenta-600 space-y-1">
+                    <li>&#8226; Success (emerald) for pending states</li>
+                    <li>&#8226; Error (magenta) for warnings</li>
+                    <li>&#8226; Random colors for visual variety</li>
+                    <li>&#8226; Info (cyan) where success (emerald) is appropriate</li>
+                </ul>
             </div>
         </section>
 
-        <!-- Tags -->
+        <!-- =========================================== -->
+        <!-- SECTION 5: LIGHT MODE VARIANTS (Bright Opal) -->
+        <!-- =========================================== -->
         <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Tags</h2>
-            <p class="text-warm-600 mb-8">Removable labels for filters, selections, and categories.</p>
+            <p class="serial text-emerald-600 mb-4">5. Badge Variants &#8212; Light Mode (Bright Opal)</p>
+            <p class="text-warm-600 text-sm mb-6">Badge variants for light backgrounds. Used in Shopper products and general UI.</p>
 
-            <div class="bg-white border border-warm-200 rounded-xl p-8">
-                <div class="space-y-8">
-                    <!-- Basic tags -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Basic Tags</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="tag">Loyalty</span>
-                            <span class="tag">Travel</span>
-                            <span class="tag">Retail</span>
-                            <span class="tag">Dining</span>
-                        </div>
-                    </div>
-
-                    <!-- Removable tags -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Removable Tags</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="tag">
-                                Target Circle
-                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </span>
-                            <span class="tag">
-                                AAdvantage
-                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </span>
-                            <span class="tag">
-                                Hilton Honors
-                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Colored tags -->
-                    <div>
-                        <p class="text-sm font-medium mb-4">Colored Tags</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="tag" style="background: hsl(150 45% 93%); color: hsl(150 100% 22%);">Active</span>
-                            <span class="tag" style="background: hsl(170 45% 92%); color: hsl(170 100% 25%);">Travel</span>
-                            <span class="tag" style="background: hsl(20 50% 93%); color: hsl(20 80% 35%);">Retail</span>
-                            <span class="tag" style="background: hsl(330 50% 94%); color: hsl(330 85% 40%);">Expiring</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Outline Variants -->
-        <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Outline Variants</h2>
-            <p class="text-warm-600 mb-8">Transparent background with colored border for subtle categorization.</p>
-
-            <div class="bg-white border border-warm-200 rounded-xl p-8">
-                <div class="flex flex-wrap gap-3">
-                    <span class="badge badge-outline badge-outline-success">Success</span>
-                    <span class="badge badge-outline badge-outline-warning">Warning</span>
-                    <span class="badge badge-outline badge-outline-error">Error</span>
-                    <span class="badge badge-outline badge-outline-info">Info</span>
-                    <span class="badge badge-outline badge-outline-neutral">Neutral</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Fire Opal (Dark) -->
-        <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
-            <p class="text-warm-600 mb-8">Badges on dark backgrounds use higher saturation thread colors.</p>
-
-            <div class="bg-intaglio-900 rounded-xl p-8">
-                <div class="space-y-6">
-                    <div class="flex flex-wrap gap-3">
-                        <span class="badge badge-success-dark">
-                            <span class="badge-dot" style="background: hsl(150 100% 45%);"></span>
-                            Cleared
-                        </span>
-                        <span class="badge badge-warning-dark">
-                            <span class="badge-dot" style="background: hsl(20 100% 55%);"></span>
-                            Pending
-                        </span>
-                        <span class="badge badge-error-dark">
-                            <span class="badge-dot" style="background: hsl(330 100% 60%);"></span>
-                            Failed
-                        </span>
-                        <span class="badge badge-info-dark">
-                            <span class="badge-dot" style="background: hsl(170 100% 50%);"></span>
-                            Processing
-                        </span>
-                        <span class="badge badge-neutral-dark">
-                            <span class="badge-dot" style="background: hsl(30 5% 50%);"></span>
-                            Draft
-                        </span>
-                    </div>
-                    <div class="text-sm text-warm-400">
-                        <p>Thread colors at higher saturation for contrast on dark surfaces.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Badges in Context -->
-        <section class="mb-16">
-            <h2 class="font-display text-2xl mb-2">Badges in Context</h2>
-            <p class="text-warm-600 mb-8">Common usage patterns across the interface.</p>
-
-            <div class="grid grid-cols-2 gap-6">
-                <!-- In table -->
-                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
-                    <div class="p-4 border-b border-warm-200">
-                        <h3 class="font-semibold">In Table Cells</h3>
-                    </div>
-                    <table class="w-full text-sm">
-                        <thead class="bg-warm-50">
+            <!-- Filled Badge -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Filled Badge</h3>
+                <p class="text-sm text-warm-500 mb-4">Standard badge with tinted background. Default variant for most use cases.</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table">
+                        <thead>
                             <tr>
-                                <th class="text-left p-3">Transaction</th>
-                                <th class="text-left p-3">Status</th>
+                                <th>Semantic</th>
+                                <th>Background</th>
+                                <th>Text</th>
+                                <th>Preview</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-t border-warm-100">
-                                <td class="p-3">#TXN-4521</td>
-                                <td class="p-3"><span class="badge badge-success">Cleared</span></td>
+                            <tr>
+                                <td class="font-medium">Success</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 45% 93%)"></span> emerald-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-700</td>
+                                <td><span class="badge badge-md badge-success">Completed</span></td>
                             </tr>
-                            <tr class="border-t border-warm-100">
-                                <td class="p-3">#TXN-4520</td>
-                                <td class="p-3"><span class="badge badge-info">Processing</span></td>
+                            <tr>
+                                <td class="font-medium">Warning</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 50% 93%)"></span> orange-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 80% 35%)"></span> orange-700</td>
+                                <td><span class="badge badge-md badge-warning">Pending</span></td>
                             </tr>
-                            <tr class="border-t border-warm-100">
-                                <td class="p-3">#TXN-4519</td>
-                                <td class="p-3"><span class="badge badge-error">Failed</span></td>
+                            <tr>
+                                <td class="font-medium">Error</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 50% 94%)"></span> magenta-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 85% 40%)"></span> magenta-700</td>
+                                <td><span class="badge badge-md badge-error">Failed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Info</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 45% 92%)"></span> cyan-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 100% 25%)"></span> cyan-700</td>
+                                <td><span class="badge badge-md badge-info">New</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Neutral</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 93%)"></span> warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 8% 35%)"></span> warm-700</td>
+                                <td><span class="badge badge-md badge-neutral">Draft</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 -->
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge badge-md badge-success">Completed</span>
+                    <span class="badge badge-md badge-warning">Pending</span>
+                    <span class="badge badge-md badge-error">Failed</span>
+                    <span class="badge badge-md badge-info">New</span>
+                    <span class="badge badge-md badge-neutral">Draft</span>
+                </div>
+            </div>
+
+            <!-- Outline Badge -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Outline Badge</h3>
+                <p class="text-sm text-warm-500 mb-4">Transparent background with colored border. Use for reduced emphasis.</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Semantic</th>
+                                <th>Background</th>
+                                <th>Border</th>
+                                <th>Text</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Success</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 45% 75%)"></span> emerald-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span> emerald-700</td>
+                                <td><span class="badge badge-md badge-outline badge-outline-success">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Warning</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 50% 75%)"></span> orange-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 80% 40%)"></span> orange-700</td>
+                                <td><span class="badge badge-md badge-outline badge-outline-warning">Review</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Error</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 50% 78%)"></span> magenta-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 85% 45%)"></span> magenta-700</td>
+                                <td><span class="badge badge-md badge-outline badge-outline-error">Declined</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Info</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 45% 70%)"></span> cyan-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 100% 30%)"></span> cyan-700</td>
+                                <td><span class="badge badge-md badge-outline badge-outline-info">Updated</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Neutral</td>
+                                <td>transparent</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span> warm-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 8% 40%)"></span> warm-600</td>
+                                <td><span class="badge badge-md badge-outline badge-outline-neutral">Archived</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 -->
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge badge-md badge-outline badge-outline-success">Active</span>
+                    <span class="badge badge-md badge-outline badge-outline-warning">Review</span>
+                    <span class="badge badge-md badge-outline badge-outline-error">Declined</span>
+                    <span class="badge badge-md badge-outline badge-outline-info">Updated</span>
+                    <span class="badge badge-md badge-outline badge-outline-neutral">Archived</span>
+                </div>
+            </div>
+
+            <!-- Subtle Badge -->
+            <div class="mb-6">
+                <h3 class="font-display text-xl mb-4">Subtle Badge</h3>
+                <p class="text-sm text-warm-500 mb-4">Very light background for minimal visual weight. Use when badges shouldn't draw attention.</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Semantic</th>
+                                <th>Background</th>
+                                <th>Text</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Success</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 40% 96%)"></span> emerald-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span> emerald-600</td>
+                                <td><span class="badge badge-md badge-subtle-success">Connected</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Warning</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 45% 96%)"></span> orange-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(20 80% 35%)"></span> orange-600</td>
+                                <td><span class="badge badge-md badge-subtle-warning">Expiring</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Error</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 45% 96%)"></span> magenta-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(330 85% 40%)"></span> magenta-600</td>
+                                <td><span class="badge badge-md badge-subtle-error">Overdue</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Info</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 40% 95%)"></span> cyan-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(170 100% 25%)"></span> cyan-600</td>
+                                <td><span class="badge badge-md badge-subtle-info">Updated</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Neutral</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 98%)"></span> warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 7% 35%)"></span> warm-600</td>
+                                <td><span class="badge badge-md badge-subtle-neutral">Inactive</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 -->
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge badge-md badge-subtle-success">Connected</span>
+                    <span class="badge badge-md badge-subtle-warning">Expiring</span>
+                    <span class="badge badge-md badge-subtle-error">Overdue</span>
+                    <span class="badge badge-md badge-subtle-info">Updated</span>
+                    <span class="badge badge-md badge-subtle-neutral">Inactive</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: DARK MODE VARIANTS (Fire Opal) -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Badge Variants &#8212; Dark Mode (Fire Opal)</p>
+            <p class="text-warm-600 text-sm mb-6">Badge variants for dark backgrounds. Used in Merchant Dashboard and dark sections.</p>
+
+            <!-- Filled Badge (Dark) -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Filled Badge (on dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">Semi-transparent backgrounds with thread-level text colors for the Fire Opal effect.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="color: hsl(30 5% 70%)">Semantic</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Success</td>
+                                <td>emerald-500/20</td>
+                                <td>emerald-400</td>
+                                <td><span class="badge badge-md badge-success-dark">Cleared</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Warning</td>
+                                <td>orange-500/20</td>
+                                <td>orange-400</td>
+                                <td><span class="badge badge-md badge-warning-dark">Pending</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Error</td>
+                                <td>magenta-500/20</td>
+                                <td>magenta-400</td>
+                                <td><span class="badge badge-md badge-error-dark">Failed</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Info</td>
+                                <td>cyan-500/20</td>
+                                <td>cyan-400</td>
+                                <td><span class="badge badge-md badge-info-dark">Processing</span></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Neutral</td>
+                                <td>warm-500/20</td>
+                                <td>warm-300</td>
+                                <td><span class="badge badge-md badge-neutral-dark">Draft</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 on dark -->
+                <div class="bg-[hsl(24_29%_8%)] rounded-lg p-6">
+                    <div class="flex flex-wrap gap-3">
+                        <span class="badge badge-md badge-success-dark">Cleared</span>
+                        <span class="badge badge-md badge-warning-dark">Pending</span>
+                        <span class="badge badge-md badge-error-dark">Failed</span>
+                        <span class="badge badge-md badge-info-dark">Processing</span>
+                        <span class="badge badge-md badge-neutral-dark">Draft</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outline Badge (Dark) -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-4">Outline Badge (on dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">Transparent background with semi-transparent borders. Use for reduced emphasis on dark surfaces.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="color: hsl(30 5% 70%)">Semantic</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Border</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Success</td>
+                                <td>transparent</td>
+                                <td>emerald-500/50</td>
+                                <td>emerald-400</td>
+                                <td><span class="badge badge-md badge-outline-success-dark">Active</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Warning</td>
+                                <td>transparent</td>
+                                <td>orange-500/50</td>
+                                <td>orange-400</td>
+                                <td><span class="badge badge-md badge-outline-warning-dark">Review</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Error</td>
+                                <td>transparent</td>
+                                <td>magenta-500/50</td>
+                                <td>magenta-400</td>
+                                <td><span class="badge badge-md badge-outline-error-dark">Declined</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Info</td>
+                                <td>transparent</td>
+                                <td>cyan-500/50</td>
+                                <td>cyan-400</td>
+                                <td><span class="badge badge-md badge-outline-info-dark">Updated</span></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Neutral</td>
+                                <td>transparent</td>
+                                <td>warm-500/50</td>
+                                <td>warm-400</td>
+                                <td><span class="badge badge-md badge-outline-neutral-dark">Archived</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 on dark -->
+                <div class="bg-[hsl(24_29%_8%)] rounded-lg p-6">
+                    <div class="flex flex-wrap gap-3">
+                        <span class="badge badge-md badge-outline-success-dark">Active</span>
+                        <span class="badge badge-md badge-outline-warning-dark">Review</span>
+                        <span class="badge badge-md badge-outline-error-dark">Declined</span>
+                        <span class="badge badge-md badge-outline-info-dark">Updated</span>
+                        <span class="badge badge-md badge-outline-neutral-dark">Archived</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bright Badge (Fire Opal Special) -->
+            <div class="mb-6">
+                <h3 class="font-display text-xl mb-4">Bright Badge (Fire Opal Special)</h3>
+                <p class="text-sm text-warm-500 mb-4">Full saturation backgrounds for maximum emphasis on dark surfaces. <strong class="text-amber-600">Use sparingly</strong>&#8212;for important status that must stand out.</p>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden mb-4">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="color: hsl(30 5% 70%)">Semantic</th>
+                                <th style="color: hsl(30 5% 70%)">Background</th>
+                                <th style="color: hsl(30 5% 70%)">Text</th>
+                                <th style="color: hsl(30 5% 70%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Success</td>
+                                <td>emerald-500</td>
+                                <td>white</td>
+                                <td><span class="badge badge-md badge-bright-success">Live</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Warning</td>
+                                <td>orange-500</td>
+                                <td>white</td>
+                                <td><span class="badge badge-md badge-bright-warning">Urgent</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Error</td>
+                                <td>magenta-500</td>
+                                <td>white</td>
+                                <td><span class="badge badge-md badge-bright-error">Critical</span></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium">Info</td>
+                                <td>cyan-500</td>
+                                <td>intaglio-900</td>
+                                <td><span class="badge badge-md badge-bright-info">Beta</span></td>
+                            </tr>
+                            <tr style="border-bottom: none">
+                                <td class="font-medium">Neutral</td>
+                                <td>warm-400</td>
+                                <td>intaglio-900</td>
+                                <td><span class="badge badge-md badge-bright-neutral">v2.0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Visual all 5 on dark -->
+                <div class="bg-[hsl(24_29%_8%)] rounded-lg p-6">
+                    <div class="flex flex-wrap gap-3">
+                        <span class="badge badge-md badge-bright-success">Live</span>
+                        <span class="badge badge-md badge-bright-warning">Urgent</span>
+                        <span class="badge badge-md badge-bright-error">Critical</span>
+                        <span class="badge badge-md badge-bright-info">Beta</span>
+                        <span class="badge badge-md badge-bright-neutral">v2.0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: DOT INDICATOR -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Dot Indicator</p>
+            <p class="text-warm-600 text-sm mb-6">Minimal status indicator&#8212;just a colored dot. Use for inline status or when space is limited.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Diameter</th>
+                            <th>Class</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Small</td>
+                            <td>6px</td>
+                            <td><code>dot-sm</code></td>
+                            <td><span class="dot dot-sm dot-success"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td>8px</td>
+                            <td><code>dot-md</code></td>
+                            <td><span class="dot dot-md dot-success"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Large</td>
+                            <td>10px</td>
+                            <td><code>dot-lg</code></td>
+                            <td><span class="dot dot-lg dot-success"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dot Colors -->
+            <p class="font-medium text-ink mb-4">Dot Colors</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center gap-8 mb-6">
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-success"></span>
+                        <span class="text-sm">Success</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-warning"></span>
+                        <span class="text-sm">Warning</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-error"></span>
+                        <span class="text-sm">Error</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-info"></span>
+                        <span class="text-sm">Info</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-neutral"></span>
+                        <span class="text-sm">Neutral</span>
+                    </span>
+                </div>
+
+                <!-- With pulse animation -->
+                <p class="text-sm font-medium text-warm-600 mb-3">With Pulse Animation (for live/active states)</p>
+                <div class="flex items-center gap-8">
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-success dot-pulse"></span>
+                        <span class="text-sm">Live</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="dot dot-md dot-info dot-pulse"></span>
+                        <span class="text-sm">Recording</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Dot with Label -->
+            <p class="font-medium text-ink mb-4">Dot with Label</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-sm text-warm-500 mb-4">Dot placed left of text with 6px gap. Text at 12px in appropriate semantic color.</p>
+                <div class="space-y-3">
+                    <span class="flex items-center gap-1.5">
+                        <span class="dot dot-sm dot-success"></span>
+                        <span class="text-sm" style="color: hsl(150 100% 27%)">Active</span>
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span class="dot dot-sm dot-warning"></span>
+                        <span class="text-sm" style="color: hsl(20 80% 40%)">Away</span>
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span class="dot dot-sm dot-neutral"></span>
+                        <span class="text-sm" style="color: hsl(30 6% 46%)">Offline</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: COUNT BADGE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Count Badge</p>
+            <p class="text-warm-600 text-sm mb-6">Numeric indicator for notifications, unread items, and quantities.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Shape</td>
+                            <td>Circle (1-2 digits) or pill (3+ digits)</td>
+                            <td>Min-width equals height for perfect circle</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Font</td>
+                            <td>Tabular nums</td>
+                            <td><code>font-variant-numeric: tabular-nums</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default Color</td>
+                            <td>Magenta-500 bg, white text</td>
+                            <td>High visibility for notifications</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Position Offset</td>
+                            <td>-4px from edge</td>
+                            <td>When positioned on icons/avatars</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Position Border</td>
+                            <td>2px white</td>
+                            <td>Separates badge from background</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Size Scale -->
+            <p class="font-medium text-ink mb-4">Size Scale</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Height</th>
+                            <th>Min Width</th>
+                            <th>Font Size</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Small</td>
+                            <td>16px</td>
+                            <td>16px</td>
+                            <td>10px</td>
+                            <td><span class="count-badge count-badge-sm">3</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td>20px</td>
+                            <td>20px</td>
+                            <td>11px</td>
+                            <td><span class="count-badge count-badge-md">12</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Large</td>
+                            <td>24px</td>
+                            <td>24px</td>
+                            <td>12px</td>
+                            <td><span class="count-badge count-badge-lg">99+</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Truncation -->
+            <p class="font-medium text-ink mb-4">Truncation Rules</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center gap-6 mb-4">
+                    <span class="flex items-center gap-2">
+                        <span class="count-badge count-badge-md">3</span>
+                        <span class="text-sm text-warm-500">1-99: exact</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="count-badge count-badge-md">12</span>
+                        <span class="text-sm text-warm-500">1-99: exact</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="count-badge count-badge-md">99</span>
+                        <span class="text-sm text-warm-500">1-99: exact</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <span class="count-badge count-badge-md">99+</span>
+                        <span class="text-sm text-warm-500">100+: show 99+</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Position on Icon -->
+            <p class="font-medium text-ink mb-4">Positioned on Icon</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-center gap-12">
+                    <div class="relative inline-block">
+                        <i data-lucide="bell" class="w-6 h-6 text-warm-600"></i>
+                        <span class="count-badge count-badge-sm count-badge-positioned">3</span>
+                    </div>
+                    <div class="relative inline-block">
+                        <i data-lucide="mail" class="w-6 h-6 text-warm-600"></i>
+                        <span class="count-badge count-badge-sm count-badge-positioned">12</span>
+                    </div>
+                    <div class="relative inline-block">
+                        <i data-lucide="shopping-cart" class="w-6 h-6 text-warm-600"></i>
+                        <span class="count-badge count-badge-sm count-badge-positioned">99+</span>
+                    </div>
+                    <span class="text-sm text-warm-500">Top-right corner, -4px offset, 2px white border</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: TAG (REMOVABLE BADGE) -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Tag (Removable Badge)</p>
+            <p class="text-warm-600 text-sm mb-6">User-generated or removable labels. Different from badges: 6px border-radius (not pill), includes close button.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Token / Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Border Radius</td>
+                            <td>6px</td>
+                            <td><code>rounded-md</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Close Button</td>
+                            <td>14px square, right side</td>
+                            <td>&#8212;</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Close Hover</td>
+                            <td>Background darkens slightly</td>
+                            <td>&#8212;</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Disabled</td>
+                            <td>50% opacity, no close interaction</td>
+                            <td><code>opacity-50 pointer-events-none</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Size Scale -->
+            <p class="font-medium text-ink mb-4">Size Scale</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Height</th>
+                            <th>Padding</th>
+                            <th>Font Size</th>
+                            <th>Close Icon</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Small</td>
+                            <td>24px</td>
+                            <td>6px 8px</td>
+                            <td>12px</td>
+                            <td>12px</td>
+                            <td>
+                                <span class="tag tag-sm tag-neutral">
+                                    Filter
+                                    <span class="tag-close"><i data-lucide="x" class="w-3 h-3"></i></span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td>28px</td>
+                            <td>6px 10px</td>
+                            <td>13px</td>
+                            <td>14px</td>
+                            <td>
+                                <span class="tag tag-md tag-neutral">
+                                    Category
+                                    <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Large</td>
+                            <td>32px</td>
+                            <td>8px 12px</td>
+                            <td>14px</td>
+                            <td>16px</td>
+                            <td>
+                                <span class="tag tag-lg tag-neutral">
+                                    Selection
+                                    <span class="tag-close"><i data-lucide="x" class="w-4 h-4"></i></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- States -->
+            <p class="font-medium text-ink mb-4">Interactive States</p>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Light Mode Tags -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-warm-600 mb-4">Light Mode</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral">
+                                Target Circle
+                                <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-400">Default</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral" style="background: hsl(30 5% 88%)">
+                                Target Circle
+                                <span class="tag-close" style="background: hsl(30 5% 78%)"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-400">Hover (on close)</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral tag-disabled">
+                                Target Circle
+                                <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-400">Disabled</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode Tags -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg p-6">
+                    <p class="text-sm font-medium text-warm-400 mb-4">Dark Mode</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral-dark">
+                                Target Circle
+                                <span class="tag-close tag-close-dark"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-500">Default</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral-dark" style="background: hsl(24 27% 22%)">
+                                Target Circle
+                                <span class="tag-close tag-close-dark" style="background: hsl(24 27% 25%)"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-500">Hover (on close)</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="tag tag-md tag-neutral-dark tag-disabled">
+                                Target Circle
+                                <span class="tag-close tag-close-dark"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                            </span>
+                            <span class="text-xs text-warm-500">Disabled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Tags -->
+            <p class="font-medium text-ink mb-4">Tag Groups</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex flex-wrap gap-2">
+                    <span class="tag tag-md tag-neutral">
+                        Target Circle
+                        <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                    </span>
+                    <span class="tag tag-md tag-neutral">
+                        AAdvantage
+                        <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                    </span>
+                    <span class="tag tag-md tag-neutral">
+                        Hilton Honors
+                        <span class="tag-close"><i data-lucide="x" class="w-3.5 h-3.5"></i></span>
+                    </span>
+                    <span class="tag tag-md" style="background: transparent; border: 1px dashed hsl(30 5% 78%); color: hsl(30 6% 46%); cursor: pointer;">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                        Add filter
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: BADGE WITH ICON -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Badge with Icon</p>
+            <p class="text-warm-600 text-sm mb-6">Icons can enhance badge meaning. Leading icon with 4px gap, icon size matches or slightly exceeds font size.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-sm font-medium text-warm-600 mb-4">Leading Icon</p>
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <span class="badge badge-md badge-success flex items-center gap-1">
+                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        Verified
+                    </span>
+                    <span class="badge badge-md badge-warning flex items-center gap-1">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                        Pending
+                    </span>
+                    <span class="badge badge-md badge-error flex items-center gap-1">
+                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                        Failed
+                    </span>
+                    <span class="badge badge-md badge-info flex items-center gap-1">
+                        <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                        Beta
+                    </span>
+                </div>
+
+                <p class="text-sm font-medium text-warm-600 mb-4">Icon-Only Badge</p>
+                <p class="text-xs text-warm-500 mb-4">Square aspect ratio with padding. For very compact spaces only.</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge badge-md badge-success" style="padding: 0 6px;">
+                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span class="badge badge-md badge-warning" style="padding: 0 6px;">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span class="badge badge-md badge-error" style="padding: 0 6px;">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span class="badge badge-md badge-info" style="padding: 0 6px;">
+                        <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 11: BADGE GROUPS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11. Badge Groups</p>
+            <p class="text-warm-600 text-sm mb-6">When displaying multiple badges together, follow these spacing rules.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Inline Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Inline Group</p>
+                    <p class="text-xs text-warm-500 mb-4">6px gap between badges. Wrap to next line if needed.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-sm badge-success">Active</span>
+                        <span class="badge badge-sm badge-info">New</span>
+                        <span class="badge badge-sm badge-neutral">Travel</span>
+                    </div>
+                </div>
+
+                <!-- Stacked Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Stacked Group</p>
+                    <p class="text-xs text-warm-500 mb-4">4px gap between rows. Left-aligned.</p>
+                    <div class="flex flex-col gap-1">
+                        <span class="badge badge-sm badge-success w-fit">Active</span>
+                        <span class="badge badge-sm badge-info w-fit">Verified</span>
+                        <span class="badge badge-sm badge-neutral w-fit">Premium</span>
+                    </div>
+                </div>
+
+                <!-- Truncated Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Truncated Group</p>
+                    <p class="text-xs text-warm-500 mb-4">Show "+X more" for overflow.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-sm badge-neutral">Travel</span>
+                        <span class="badge badge-sm badge-neutral">Retail</span>
+                        <span class="badge badge-sm badge-neutral" style="background: transparent; color: hsl(30 6% 46%);">+3 more</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 12: BADGES IN CONTEXT -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12. Badges in Context</p>
+            <p class="text-warm-600 text-sm mb-6">Real-world usage patterns across the interface.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Transaction Status in Table -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="font-medium text-sm">Transaction Status in Table</p>
+                    </div>
+                    <table class="w-full text-sm">
+                        <thead class="bg-warm-50 border-b border-warm-200">
+                            <tr>
+                                <th class="text-left p-3 text-xs font-medium text-warm-500 uppercase">Transaction</th>
+                                <th class="text-right p-3 text-xs font-medium text-warm-500 uppercase">Amount</th>
+                                <th class="text-left p-3 text-xs font-medium text-warm-500 uppercase">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-warm-100">
+                                <td class="p-3 font-mono text-xs">#TXN-4521</td>
+                                <td class="p-3 text-right">$127.50</td>
+                                <td class="p-3"><span class="badge badge-sm badge-success">Completed</span></td>
+                            </tr>
+                            <tr class="border-b border-warm-100">
+                                <td class="p-3 font-mono text-xs">#TXN-4520</td>
+                                <td class="p-3 text-right">$89.23</td>
+                                <td class="p-3"><span class="badge badge-sm badge-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-mono text-xs">#TXN-4519</td>
+                                <td class="p-3 text-right">$234.99</td>
+                                <td class="p-3"><span class="badge badge-sm badge-error">Failed</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- In navigation -->
-                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
-                    <div class="p-4 border-b border-warm-200">
-                        <h3 class="font-semibold">In Navigation</h3>
+                <!-- Program Connection Status -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="font-medium text-sm">Program Connection Status</p>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-warm-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-sm">Target Circle</p>
+                                <p class="text-xs text-warm-500">12,340 points</p>
+                            </div>
+                            <span class="badge badge-sm badge-success">Connected</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-warm-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-sm">AAdvantage</p>
+                                <p class="text-xs text-warm-500">Awaiting verification</p>
+                            </div>
+                            <span class="badge badge-sm badge-warning">Pending</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Count -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="font-medium text-sm">Notification Count in Nav</p>
                     </div>
                     <div class="p-4">
                         <nav class="space-y-1">
                             <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700">
-                                <span class="font-medium">Inbox</span>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="inbox" class="w-4 h-4"></i>
+                                    <span class="font-medium text-sm">Inbox</span>
+                                </div>
                                 <span class="count-badge count-badge-sm" style="background: hsl(150 100% 27%);">12</span>
                             </a>
                             <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-warm-600 hover:bg-warm-50">
-                                <span>Pending</span>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    <span class="text-sm">Pending</span>
+                                </div>
                                 <span class="count-badge count-badge-sm" style="background: hsl(20 90% 50%);">3</span>
-                            </a>
-                            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-warm-600 hover:bg-warm-50">
-                                <span>Completed</span>
                             </a>
                         </nav>
                     </div>
                 </div>
 
-                <!-- On cards -->
-                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
-                    <div class="p-4 border-b border-warm-200">
-                        <h3 class="font-semibold">On Cards</h3>
+                <!-- Filter Tags -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="font-medium text-sm">Filter Tags</p>
                     </div>
                     <div class="p-4">
-                        <div class="bg-warm-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-medium">Target Circle</span>
-                                <span class="badge badge-success">Connected</span>
-                            </div>
-                            <p class="text-sm text-warm-600">12,340 points available</p>
+                        <p class="text-xs text-warm-500 mb-3">Active filters:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag tag-sm tag-neutral">
+                                Travel
+                                <span class="tag-close"><i data-lucide="x" class="w-3 h-3"></i></span>
+                            </span>
+                            <span class="tag tag-sm tag-neutral">
+                                Last 30 days
+                                <span class="tag-close"><i data-lucide="x" class="w-3 h-3"></i></span>
+                            </span>
+                            <span class="tag tag-sm" style="background: transparent; border: 1px dashed hsl(30 5% 78%); color: hsl(150 100% 27%); cursor: pointer;">
+                                <i data-lucide="plus" class="w-3 h-3"></i>
+                                Add filter
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Inline with text -->
-                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
-                    <div class="p-4 border-b border-warm-200">
-                        <h3 class="font-semibold">Inline with Text</h3>
+                <!-- Status on Dark (Fire Opal) -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="bg-intaglio-800 px-4 py-3 border-b border-intaglio-700">
+                        <p class="font-medium text-sm text-warm-200">Status on Dark (Fire Opal)</p>
                     </div>
-                    <div class="p-4 space-y-3">
-                        <p class="text-sm">
-                            Transaction <span class="font-mono">#TXN-4521</span> was
-                            <span class="badge badge-success" style="padding: 2px 6px; font-size: 11px;">cleared</span>
-                            successfully.
-                        </p>
-                        <p class="text-sm">
-                            Your account is
-                            <span class="badge badge-info" style="padding: 2px 6px; font-size: 11px;">new</span>
-                            — complete setup to unlock all features.
-                        </p>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="font-medium text-warm-100">Merchant Dashboard</p>
+                                <p class="text-xs text-warm-400">Real-time metrics</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="badge badge-sm badge-success-dark">
+                                    <span class="dot dot-sm dot-success-dark dot-pulse"></span>
+                                    Live
+                                </span>
+                                <span class="badge badge-sm badge-neutral-dark">3 items</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dot Indicators in List -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="font-medium text-sm">Dot Indicators in List</p>
+                    </div>
+                    <div class="p-4">
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-2">
+                                <span class="dot dot-sm dot-success"></span>
+                                <span class="text-sm">Payment processed</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="dot dot-sm dot-warning"></span>
+                                <span class="text-sm">Verification pending</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="dot dot-sm dot-error"></span>
+                                <span class="text-sm">Connection failed</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 13: USAGE GUIDELINES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">13. Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Do -->
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-5">
+                    <p class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        Do
+                    </p>
+                    <ul class="text-sm text-emerald-700 space-y-2">
+                        <li>&#8226; Use consistent colors for consistent meanings</li>
+                        <li>&#8226; Use filled badges for primary status</li>
+                        <li>&#8226; Use outline badges for secondary/subtle status</li>
+                        <li>&#8226; Use dots for minimal footprint</li>
+                        <li>&#8226; Keep badge text short (1-2 words)</li>
+                        <li>&#8226; Use sentence case for badge labels</li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-magenta-50 border-2 border-magenta-200 rounded-lg p-5">
+                    <p class="font-medium text-magenta-700 mb-3 flex items-center gap-2">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                        Don't
+                    </p>
+                    <ul class="text-sm text-magenta-700 space-y-2">
+                        <li>&#8226; Mix color meanings across the product</li>
+                        <li>&#8226; Use too many badges on one element</li>
+                        <li>&#8226; Use bright badges everywhere (loses impact)</li>
+                        <li>&#8226; Use badges for actions (use buttons instead)</li>
+                        <li>&#8226; Use ALL CAPS in badge labels</li>
+                        <li>&#8226; Create custom colors outside the semantic palette</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Hierarchy -->
+            <p class="font-medium text-ink mb-4">Visual Hierarchy (Highest to Lowest Emphasis)</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-center gap-8">
+                    <div class="text-center">
+                        <span class="badge badge-md badge-bright-success mb-2">Bright</span>
+                        <p class="text-xs text-warm-500">Highest<br/>(use sparingly)</p>
+                    </div>
+                    <span class="text-warm-300">&#8594;</span>
+                    <div class="text-center">
+                        <span class="badge badge-md badge-success mb-2">Filled</span>
+                        <p class="text-xs text-warm-500">Standard<br/>emphasis</p>
+                    </div>
+                    <span class="text-warm-300">&#8594;</span>
+                    <div class="text-center">
+                        <span class="badge badge-md badge-outline badge-outline-success mb-2">Outline</span>
+                        <p class="text-xs text-warm-500">Reduced<br/>emphasis</p>
+                    </div>
+                    <span class="text-warm-300">&#8594;</span>
+                    <div class="text-center">
+                        <span class="badge badge-md badge-subtle-success mb-2">Subtle</span>
+                        <p class="text-xs text-warm-500">Minimal<br/>emphasis</p>
+                    </div>
+                    <span class="text-warm-300">&#8594;</span>
+                    <div class="text-center">
+                        <span class="flex items-center gap-1.5 mb-2">
+                            <span class="dot dot-md dot-success"></span>
+                            <span class="text-sm" style="color: hsl(150 100% 27%)">Status</span>
+                        </span>
+                        <p class="text-xs text-warm-500">Lowest<br/>(status only)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 14: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">14. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-6">Verify your badge implementation covers all requirements.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Base Badge -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Base Badge</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Border radius: 9999px (pill)
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Font weight: 500
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Default size: 24px height, 8px horizontal padding
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Font size: 12px
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Semantic Colors (Light) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Semantic Colors (Light)</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Success: emerald-100 bg, emerald-700 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Warning: orange-100 bg, orange-700 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Error: magenta-100 bg, magenta-700 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Info: cyan-100 bg, cyan-700 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Neutral: warm-100 bg, warm-700 text
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Semantic Colors (Dark) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Semantic Colors (Dark)</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Success: emerald-500/20 bg, emerald-400 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Warning: orange-500/20 bg, orange-400 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Error: magenta-500/20 bg, magenta-400 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Info: cyan-500/20 bg, cyan-400 text
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Neutral: warm-500/20 bg, warm-300 text
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Count Badge -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Count Badge</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Circle shape for 1-2 digits
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Pill shape for 3+ digits
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Truncate to 99+ or 999+
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Position offset: -4px
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tags -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Tags</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Border radius: 6px (not pill)
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Close button: right side, 14px
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Hover state on close button
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dots -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-4">Dots</p>
+                    <ul class="checklist">
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Sizes: 6px, 8px, 10px
+                        </li>
+                        <li>
+                            <span class="checklist-check"><i data-lucide="check" class="w-3 h-3"></i></span>
+                            Pulse animation available
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 15: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">15. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-6">Tailwind/CSS class definitions for implementation.</p>
+
+            <!-- Filled Badge (Light) -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Filled Badge (Light Mode)</p>
+                <div class="code-block">
+                    <pre><code><span class="comment">/* Base badge */</span>
+<span class="property">.badge</span> {
+  @apply inline-flex items-center px-2 py-0.5 rounded-full;
+  @apply text-xs font-medium;
+}
+
+<span class="property">.badge-success</span> {
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+<span class="property">.badge-warning</span> {
+  @apply bg-orange-100 text-orange-700;
+}
+
+<span class="property">.badge-error</span> {
+  @apply bg-magenta-100 text-magenta-700;
+}
+
+<span class="property">.badge-info</span> {
+  @apply bg-cyan-100 text-cyan-700;
+}
+
+<span class="property">.badge-neutral</span> {
+  @apply bg-warm-100 text-warm-700;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Filled Badge (Dark) -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Filled Badge (Dark Mode)</p>
+                <div class="code-block">
+                    <pre><code><span class="property">.badge-success-dark</span> {
+  @apply bg-emerald-500/20 text-emerald-400;
+}
+
+<span class="property">.badge-warning-dark</span> {
+  @apply bg-orange-500/20 text-orange-400;
+}
+
+<span class="property">.badge-error-dark</span> {
+  @apply bg-magenta-500/20 text-magenta-400;
+}
+
+<span class="property">.badge-info-dark</span> {
+  @apply bg-cyan-500/20 text-cyan-400;
+}
+
+<span class="property">.badge-neutral-dark</span> {
+  @apply bg-warm-500/20 text-warm-300;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Outline Badge -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Outline Badge</p>
+                <div class="code-block">
+                    <pre><code><span class="property">.badge-outline</span> {
+  @apply bg-transparent border;
+}
+
+<span class="property">.badge-outline-success</span> {
+  @apply border-emerald-300 text-emerald-700;
+}
+
+<span class="comment">/* ... repeat for other semantics */</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Count Badge -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Count Badge</p>
+                <div class="code-block">
+                    <pre><code><span class="property">.count-badge</span> {
+  @apply inline-flex items-center justify-center;
+  @apply min-w-[20px] h-5 px-1.5 rounded-full;
+  @apply text-[11px] font-medium tabular-nums;
+  @apply bg-magenta-500 text-white;
+}
+
+<span class="comment">/* Positioned on icon */</span>
+<span class="property">.count-badge-positioned</span> {
+  @apply absolute -top-1 -right-1;
+  @apply border-2 border-white;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Tag -->
+            <div class="mb-8">
+                <p class="font-medium text-ink mb-3">Tag</p>
+                <div class="code-block">
+                    <pre><code><span class="property">.tag</span> {
+  @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-md;
+  @apply text-sm font-medium;
+  @apply bg-warm-100 text-warm-700;
+}
+
+<span class="property">.tag-close</span> {
+  @apply p-0.5 rounded hover:bg-warm-200;
+  @apply text-warm-500 hover:text-warm-700;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Dot -->
+            <div class="mb-6">
+                <p class="font-medium text-ink mb-3">Dot Indicator</p>
+                <div class="code-block">
+                    <pre><code><span class="property">.dot</span> {
+  @apply w-2 h-2 rounded-full;
+}
+
+<span class="property">.dot-success</span> {
+  @apply bg-emerald-500;
+}
+
+<span class="property">.dot-pulse</span> {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+<span class="comment">@keyframes pulse</span> {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-8 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="hover:text-emerald-600">Home</a>
+                    <span class="text-warm-300">&#183;</span>
+                    <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                </div>
+                <p>Saltwyk Design System v0.6</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- Footer -->
-    <footer class="border-t-2 border-warm-200 mt-16">
-        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
-            <span>Saltwyk Design System</span>
-            <span class="mx-2">·</span>
-            <span>v0.5.0</span>
-        </div>
-    </footer>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
