@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltwyk Marketing — Illustration Prompting System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
+        pre code { background: none; padding: 0; }
+
+        /* Prompt block styling */
+        .prompt-block {
+            background: hsl(var(--intaglio-900));
+            border: 1px solid hsl(var(--intaglio-700));
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: hsl(var(--warm-200));
+            padding: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .prompt-block .highlight { color: hsl(170 100% 50%); }
+        .prompt-block .variable { color: hsl(330 100% 70%); }
+        .prompt-block .constant { color: hsl(74 100% 60%); }
+
+        /* Illustration frame preview */
+        .illustration-frame {
+            background: linear-gradient(180deg, hsl(var(--sepia-50)) 0%, hsl(var(--sepia-200)) 100%);
+            border: 3px solid hsl(var(--sepia-300));
+            border-radius: 4px;
+        }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Quality gate checkmarks */
+        .check-accept { color: hsl(150 100% 27%); }
+        .check-reject { color: hsl(330 85% 50%); }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-responsive.html">Responsive</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                        <a href="product-shopper-passport.html">Shopper Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-illustration-system.html" class="font-medium text-emerald-600">Illustration System</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="marketing/" class="hover:text-emerald-600">Marketing</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Illustration System</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-warm-500 mb-2">Marketing Design System</p>
+            <h1 class="font-display text-4xl mb-2">Illustration Prompting System</h1>
+            <p class="text-warm-600">A systematic approach to generating consistent sepia intaglio illustrations with AI.</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: ILLUSTRATION PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Philosophy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 space-y-4 mb-6">
+                <p class="text-warm-700 leading-relaxed">
+                    <strong class="text-ink">Illustrations reinforce Saltwyk's "currency aesthetic"—the look of money, security, and trust.</strong>
+                    We use a sepia intaglio engraving style reminiscent of banknote art: fine crosshatching, stippling, ornate borders,
+                    and allegorical subjects. This visual language says "established," "valuable," and "permanent" without words.
+                </p>
+
+                <p class="text-warm-700 leading-relaxed">
+                    Unlike contemporary flat illustrations or photorealistic renders, our style evokes the craftsmanship of 19th-century
+                    engravers—the same tradition that still appears on the back of a $100 bill. This deliberate anachronism creates
+                    instant gravitas and distinguishes Saltwyk from fintech competitors chasing minimalist trends.
+                </p>
+
+                <p class="text-warm-700 leading-relaxed">
+                    Illustrations are generated via AI (Google Gemini) using a systematic prompting approach. This document provides
+                    the vocabulary, structure, and quality criteria needed to produce consistent, on-brand imagery every time.
+                </p>
+            </div>
+
+            <!-- When to use / When not to use -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4 flex items-center gap-2">
+                        <span class="check-accept">&#10003;</span> When to Use Illustrations
+                    </p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Hero sections (marketing website)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Empty states (product UI)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Pitch decks and investor materials</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Documentation headers (sparingly)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Email headers and social cards</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4 flex items-center gap-2">
+                        <span class="check-reject">&#10007;</span> When NOT to Use
+                    </p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Product UI (too heavy, distracts from function)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Checkout flow (competes for attention)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Data-dense screens (competes with content)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Small icons or UI elements</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: THE SALTWYK AESTHETIC -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">The Saltwyk Illustration Aesthetic</p>
+
+            <!-- Visual Characteristics Table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Visual Characteristics</p>
+                </div>
+                <table class="w-full text-sm">
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4 text-warm-500 w-40">Style</td>
+                            <td class="p-4 text-ink">Intaglio engraving, fine crosshatching, stippling</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Color palette</td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-2">
+                                    <span>Sepia monochrome</span>
+                                    <div class="flex gap-1">
+                                        <span class="w-4 h-4 rounded" style="background: hsl(40 25% 96%)"></span>
+                                        <span class="w-4 h-4 rounded" style="background: hsl(36 35% 85%)"></span>
+                                        <span class="w-4 h-4 rounded" style="background: hsl(32 28% 58%)"></span>
+                                        <span class="w-4 h-4 rounded" style="background: hsl(30 25% 45%)"></span>
+                                        <span class="w-4 h-4 rounded" style="background: hsl(26 20% 25%)"></span>
+                                    </div>
+                                    <code class="text-xs">sepia-100 → sepia-700</code>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Line weight</td>
+                            <td class="p-4 text-ink">Fine, precise, evenly spaced</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Subjects</td>
+                            <td class="p-4 text-ink">Allegorical (scales, handshakes, commerce symbols, flowing forms)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Borders</td>
+                            <td class="p-4 text-ink">Ornate guilloche patterns, scrollwork frames, rosettes</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Mood</td>
+                            <td class="p-4 text-ink">Trustworthy, established, valuable, permanent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- What it should feel like -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-emerald-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">What It Should Feel Like</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>The back of a $100 bill</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>A vintage stock certificate</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>A trust seal from a 19th-century bank</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">✓</span>
+                            <span>An antique bond certificate</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">What It Should NOT Feel Like</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">✗</span>
+                            <span>Cartoon or whimsical</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">✗</span>
+                            <span>Flat vector illustration</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">✗</span>
+                            <span>Modern minimalist line art</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">✗</span>
+                            <span>Photorealistic or 3D renders</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: PROMPT ARCHITECTURE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Prompt Architecture</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Base Prompt Structure</p>
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 font-mono text-sm text-center mb-4">
+                    <span class="text-cyan-600">[STYLE]</span> + <span class="text-magenta-600">[SUBJECT]</span> + <span class="text-orange-600">[COMPOSITION]</span> + <span class="text-lime-600">[DETAILS]</span> + <span class="text-warm-500">[EXCLUSIONS]</span>
+                </div>
+                <p class="text-sm text-warm-600">Each prompt combines these elements in sequence. STYLE and EXCLUSIONS remain constant; the middle elements vary by use case.</p>
+            </div>
+
+            <!-- STYLE (constant) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-cyan-100 text-cyan-700 rounded">CONSTANT</span>
+                    <p class="font-medium text-ink">STYLE Block</p>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, sepia-toned intaglio illustration with fine crosshatching and stippling, reminiscent of 19th-century banknote art. Monochromatic warm brown tones.</div>
+            </div>
+
+            <!-- SUBJECT, COMPOSITION, DETAILS -->
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-magenta-100 text-magenta-700 rounded">VARIABLE</span>
+                        <p class="font-medium text-ink">SUBJECT</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-3">Choose from approved categories:</p>
+                    <ul class="text-sm text-warm-700 space-y-1">
+                        <li>• Value Exchange</li>
+                        <li>• Partnership & Connection</li>
+                        <li>• Digital Commerce</li>
+                        <li>• Security & Trust</li>
+                        <li>• Growth & Prosperity</li>
+                        <li>• Rewards & Points</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-700 rounded">VARIABLE</span>
+                        <p class="font-medium text-ink">COMPOSITION</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-3">Frame and layout:</p>
+                    <ul class="text-sm text-warm-700 space-y-1">
+                        <li>• Centered vignette</li>
+                        <li>• Oval frame</li>
+                        <li>• Rectangular border with guilloche</li>
+                        <li>• Corner ornament</li>
+                        <li>• Full scene</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-lime-100 text-lime-700 rounded">VARIABLE</span>
+                        <p class="font-medium text-ink">DETAILS</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-3">Additional specifications:</p>
+                    <ul class="text-sm text-warm-700 space-y-1">
+                        <li>• Decorative border: yes/no</li>
+                        <li>• Background: plain / radial lines / crosshatch</li>
+                        <li>• Frame style: simple / ornate / guilloche</li>
+                        <li>• Density: sparse / medium / dense</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- EXCLUSIONS (constant) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">CONSTANT</span>
+                    <p class="font-medium text-ink">EXCLUSIONS Block</p>
+                </div>
+                <div class="prompt-block">No color. No modern elements. No text or typography. No photorealism. No flat vector style. No cartoon or whimsical elements.</div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: SUBJECT CATEGORIES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Subject Categories</p>
+            <p class="text-sm text-warm-600 mb-6">Approved subjects that align with Saltwyk's brand themes of value, trust, and commerce.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Value Exchange -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Value Exchange</p>
+                    <p class="text-sm text-warm-600 mb-4">Symbolizes the core of what Saltwyk enables.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Scales balancing coins and goods</li>
+                        <li>• Handshake over ledger</li>
+                        <li>• Flowing ribbons connecting symbols</li>
+                    </ul>
+                    <div class="prompt-block text-xs">A balanced scale with coins on one side and a wrapped gift on the other, surrounded by flowing ribbons.</div>
+                </div>
+
+                <!-- Partnership & Connection -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Partnership & Connection</p>
+                    <p class="text-sm text-warm-600 mb-4">Represents network relationships and trust.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Two hands clasping</li>
+                        <li>• Interlocking rings or chains</li>
+                        <li>• Bridge connecting two shores</li>
+                    </ul>
+                    <div class="prompt-block text-xs">Two hands in a formal handshake, surrounded by laurel wreaths and decorative scrollwork.</div>
+                </div>
+
+                <!-- Digital Commerce -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Digital Commerce</p>
+                    <p class="text-sm text-warm-600 mb-4">Commerce themes rendered in classical style.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Shopping basket with radiating lines</li>
+                        <li>• Storefront with classical architecture</li>
+                        <li>• Package/parcel with decorative ribbons</li>
+                    </ul>
+                    <div class="prompt-block text-xs">A classical storefront with columns and an ornate awning, radiating lines emanating from behind.</div>
+                </div>
+
+                <!-- Security & Trust -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Security & Trust</p>
+                    <p class="text-sm text-warm-600 mb-4">Protection and reliability symbols.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Lock and key</li>
+                        <li>• Shield with laurel wreath</li>
+                        <li>• Vault door with ornate hinges</li>
+                    </ul>
+                    <div class="prompt-block text-xs">An ornate shield surrounded by a laurel wreath, with a keyhole at center.</div>
+                </div>
+
+                <!-- Growth & Prosperity -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Growth & Prosperity</p>
+                    <p class="text-sm text-warm-600 mb-4">Abundance and flourishing themes.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Cornucopia with coins</li>
+                        <li>• Tree with currency leaves</li>
+                        <li>• Rising sun over merchant ships</li>
+                    </ul>
+                    <div class="prompt-block text-xs">A flourishing tree with coins as leaves, roots extending into decorative scrollwork.</div>
+                </div>
+
+                <!-- Rewards & Points -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Rewards & Points</p>
+                    <p class="text-sm text-warm-600 mb-4">Loyalty and earned value symbols.</p>
+                    <ul class="text-sm text-warm-700 space-y-1 mb-4">
+                        <li>• Star clusters</li>
+                        <li>• Coins transforming into gifts</li>
+                        <li>• Treasure chest with radiating light</li>
+                    </ul>
+                    <div class="prompt-block text-xs">A treasure chest with radiating lines of light, overflowing with coins and stars.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: PROMPT VARIABLES MATRIX -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Prompt Variables Matrix</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-32">Variable</th>
+                            <th class="text-left p-4 font-medium">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4 text-warm-500">Subject</td>
+                            <td class="p-4 text-warm-700">Value Exchange, Partnership, Commerce, Security, Growth, Rewards</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Composition</td>
+                            <td class="p-4 text-warm-700">Centered vignette, Oval frame, Rectangular, Corner, Full scene</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Border</td>
+                            <td class="p-4 text-warm-700">None, Simple line, Ornate scrollwork, Guilloche</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Background</td>
+                            <td class="p-4 text-warm-700">Plain, Radial lines, Crosshatch field, Gradient fade</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Density</td>
+                            <td class="p-4 text-warm-700">Sparse (more white space), Medium, Dense (detailed fill)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Combining for use cases -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Hero Illustration</p>
+                    <table class="w-full text-xs">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr><td class="py-2 text-warm-500">Subject</td><td class="py-2">Value Exchange</td></tr>
+                            <tr><td class="py-2 text-warm-500">Composition</td><td class="py-2">Full scene</td></tr>
+                            <tr><td class="py-2 text-warm-500">Border</td><td class="py-2">Ornate scrollwork</td></tr>
+                            <tr><td class="py-2 text-warm-500">Background</td><td class="py-2">Radial lines</td></tr>
+                            <tr><td class="py-2 text-warm-500">Density</td><td class="py-2 font-medium">Dense</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Empty State</p>
+                    <table class="w-full text-xs">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr><td class="py-2 text-warm-500">Subject</td><td class="py-2">Relevant to context</td></tr>
+                            <tr><td class="py-2 text-warm-500">Composition</td><td class="py-2">Centered vignette</td></tr>
+                            <tr><td class="py-2 text-warm-500">Border</td><td class="py-2">None or simple</td></tr>
+                            <tr><td class="py-2 text-warm-500">Background</td><td class="py-2">Plain</td></tr>
+                            <tr><td class="py-2 text-warm-500">Density</td><td class="py-2 font-medium">Sparse</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: QUALITY GATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Quality Gates</p>
+            <p class="text-sm text-warm-600 mb-6">Use these criteria to evaluate whether a generated illustration is on-brand.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Accept -->
+                <div class="bg-white border-2 border-emerald-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4 flex items-center gap-2">
+                        <span class="text-emerald-600 text-lg">✓</span> Accept If
+                    </p>
+                    <ul class="text-sm text-warm-700 space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>Monochromatic sepia/brown tones only</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>Fine line work visible (not blurry or soft)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>Crosshatching or stippling technique apparent</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>Subject is allegorical/symbolic, not literal</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>Feels like it could be on currency</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-accept">●</span>
+                            <span>No text or typography in image</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Reject -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4 flex items-center gap-2">
+                        <span class="text-magenta-600 text-lg">✗</span> Reject If
+                    </p>
+                    <ul class="text-sm text-warm-700 space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Any color beyond sepia range</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Soft, painterly, or photorealistic rendering</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Cartoon or whimsical style</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Modern objects (computers, phones, etc.)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Text or numbers visible</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Flat vector appearance</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="check-reject">●</span>
+                            <span>Subject is too literal (photo of actual money)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: ITERATION GUIDANCE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Iteration Guidance</p>
+            <p class="text-sm text-warm-600 mb-6">When outputs miss the mark, use these adjustments to steer generation.</p>
+
+            <div class="space-y-4">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">If output is too modern:</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-warm-500 mb-1">Add:</p>
+                            <code class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded">"19th-century aesthetic, historical engraving style, antique"</code>
+                        </div>
+                        <div>
+                            <p class="text-warm-500 mb-1">Remove:</p>
+                            <code class="block bg-magenta-50 text-magenta-700 px-3 py-2 rounded">Any contemporary descriptors</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">If output is too colorful:</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-warm-500 mb-1">Add:</p>
+                            <code class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded">"Strictly monochromatic, sepia only, no color variation"</code>
+                        </div>
+                        <div>
+                            <p class="text-warm-500 mb-1">Emphasize:</p>
+                            <code class="block bg-cyan-50 text-cyan-700 px-3 py-2 rounded">"Warm brown tones ranging from cream to dark brown"</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">If output is too soft/painterly:</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-warm-500 mb-1">Add:</p>
+                            <code class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded">"Sharp precise lines, visible crosshatching, engraved look"</code>
+                        </div>
+                        <div>
+                            <p class="text-warm-500 mb-1">Add:</p>
+                            <code class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded">"High contrast between light and dark areas"</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">If output lacks detail:</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-warm-500 mb-1">Add:</p>
+                            <code class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded">"Intricate fine details, dense linework, elaborate ornamentation"</code>
+                        </div>
+                        <div>
+                            <p class="text-warm-500 mb-1">Specify:</p>
+                            <code class="block bg-cyan-50 text-cyan-700 px-3 py-2 rounded">"Density: Dense"</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">If composition is wrong:</p>
+                    <p class="text-sm text-warm-600">Be more specific about framing:</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm mt-2">
+                        <code class="block bg-cyan-50 text-cyan-700 px-3 py-2 rounded">"Centered in oval vignette"</code>
+                        <code class="block bg-cyan-50 text-cyan-700 px-3 py-2 rounded">"Rectangular frame with 2-inch border"</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 8: READY-TO-USE PROMPTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Ready-to-Use Prompts</p>
+            <p class="text-sm text-warm-600 mb-6">Complete, tested prompts for common use cases. Copy and paste into Gemini.</p>
+
+            <!-- Hero: Value Exchange -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Hero: Value Exchange</p>
+                    <span class="text-xs text-warm-500">Marketing hero sections</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio illustration depicting a classical allegory of value exchange. A balanced ornate scale with gold coins on one side and wrapped gifts on the other, connected by flowing decorative ribbons. Fine crosshatching and stippling throughout. Ornate rectangular frame with guilloche border pattern. Radial lines emanating from center. Monochromatic warm brown tones only, ranging from cream to dark sepia. 19th-century banknote aesthetic. No color, no modern elements, no text, no photorealism.</div>
+            </div>
+
+            <!-- Hero: Partnership -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Hero: Partnership</p>
+                    <span class="text-xs text-warm-500">B2B / merchant pages</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio illustration of two hands in a formal handshake, surrounded by laurel wreaths and decorative scrollwork. Fine crosshatching and stippling technique. Classical allegorical style reminiscent of stock certificates. Oval vignette frame with ornate border. Monochromatic warm brown tones. No color, no modern elements, no text.</div>
+            </div>
+
+            <!-- Hero: Growth -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Hero: Growth</p>
+                    <span class="text-xs text-warm-500">Pitch decks, investor materials</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio illustration of a flourishing tree with coins as leaves, roots extending into decorative scrollwork. Dense intricate detail. Rectangular frame with elaborate guilloche border. Radial background lines. Monochromatic sepia tones. 19th-century banknote aesthetic. No color, no modern elements, no text.</div>
+            </div>
+
+            <!-- Empty State: No Transactions -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Empty State: No Transactions</p>
+                    <span class="text-xs text-warm-500">Product UI - transaction history</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a simple sepia-toned intaglio vignette of an open ledger book with blank pages, a quill pen resting beside it. Sparse composition with ample white space. Fine crosshatching, minimal border. Monochromatic warm brown tones. No color, no text.</div>
+            </div>
+
+            <!-- Empty State: No Connected Programs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Empty State: No Connected Programs</p>
+                    <span class="text-xs text-warm-500">Product UI - connections</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio vignette of an unlinked chain with three ornate links separated, suggesting connection potential. Centered composition, simple oval frame. Fine stippling technique. Monochromatic warm brown. No color, no text.</div>
+            </div>
+
+            <!-- Documentation Header: API -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Documentation Header: API</p>
+                    <span class="text-xs text-warm-500">Docs - API reference</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio corner ornament depicting interlocking gears and a key, suggesting systematic access. Sparse, suitable for corner placement. Fine linework. Monochromatic warm brown. No color, no text.</div>
+            </div>
+
+            <!-- Security Hero -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-medium text-ink">Security Hero</p>
+                    <span class="text-xs text-warm-500">Trust / security pages</span>
+                </div>
+                <div class="prompt-block">In the style of vintage currency engraving, a sepia-toned intaglio illustration of an ornate vault door with decorative hinges and a central keyhole, surrounded by laurel branches. Dense intricate detail with fine crosshatching. Rectangular frame with guilloche border. Monochromatic warm brown tones. 19th-century banknote aesthetic. No color, no modern elements, no text, no photorealism.</div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 9: IMPLEMENTATION NOTES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Implementation Notes</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- File Formats -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">File Formats</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Generate at high resolution (2048px minimum)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Export as PNG with transparency where appropriate</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Create 1x and 2x versions for retina</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Color Adjustment -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Color Adjustment</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Apply color overlay using <code>sepia-500</code> as midtone</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Ensure darkest areas don't exceed <code>sepia-800</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span>Ensure lightest areas don't go below <code>sepia-50</code></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Placement Guidance -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Placement Guidance</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span><strong>Hero:</strong> Full width or 50% with text wrap</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span><strong>Empty states:</strong> Centered, max 200px width</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span><strong>Documentation:</strong> Corner ornaments, max 100px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-warm-400">•</span>
+                            <span><strong>Pitch decks:</strong> Full bleed or contained in frame</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.5.0</p>
+        </div>
+    </footer>
+</body>
+</html>

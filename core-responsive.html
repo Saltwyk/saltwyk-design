@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltwyk Product — Responsive Strategy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
+        pre code { background: none; padding: 0; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Breakpoint visualization */
+        .breakpoint-bar { height: 8px; border-radius: 4px; }
+
+        /* Device frames */
+        .device-frame { border: 2px solid hsl(var(--warm-300)); border-radius: 12px; overflow: hidden; }
+        .device-notch { width: 60px; height: 6px; background: hsl(var(--warm-300)); border-radius: 0 0 6px 6px; margin: 0 auto; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-responsive.html" class="font-medium text-emerald-600">Responsive</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                        <a href="product-shopper-passport.html">Shopper Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-illustration-system.html">Illustration System</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Responsive</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Core Foundation</p>
+            <h1 class="font-display text-4xl mb-2">Responsive Strategy</h1>
+            <p class="text-warm-600">Context-driven responsive design: why surfaces adapt differently and how components transform.</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: RESPONSIVE PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Philosophy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 space-y-4">
+                <p class="text-warm-700 leading-relaxed">
+                    <strong class="text-ink">Responsive design at Saltwyk is driven by user context, not screen size.</strong>
+                    A 768px viewport could be a tablet held vertically, a desktop browser resized, or a laptop in split-screen mode.
+                    The breakpoint tells us nothing about the user's intent or environment. Context does.
+                </p>
+
+                <p class="text-warm-700 leading-relaxed">
+                    We design for <em>where</em> and <em>how</em> people use each surface. A shopper completing checkout is likely
+                    on a phone, thumb hovering, standing in a store or sitting on a couch. A merchant reviewing transactions is
+                    at a desk with a mouse and keyboard, perhaps with multiple windows open. The device follows behavior, not the reverse.
+                </p>
+
+                <p class="text-warm-700 leading-relaxed">
+                    This means different surfaces have different responsive strategies. Shopper Passport is mobile-first because
+                    that's where shoppers live. Merchant Dashboard is desktop-first because that's where operators work. Neither
+                    approach is universally correct—each is correct for its context.
+                </p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: SURFACE CONTEXTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Surface Contexts</p>
+            <p class="text-sm text-warm-600 mb-6">Each surface has a primary user context that determines its responsive strategy.</p>
+
+            <!-- Shopper Passport -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-ink">Shopper Passport</p>
+                        <p class="text-sm text-warm-500">my.saltwyk.com</p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-cyan-100 text-cyan-700 rounded-full">Mobile-First</span>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 text-warm-500 w-40">Primary context</td>
+                                <td class="py-3 text-ink font-medium">Mobile (phone in hand at checkout)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Secondary context</td>
+                                <td class="py-3 text-warm-700">Desktop (merchant team testing, employees as shoppers)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Design approach</td>
+                                <td class="py-3"><code>Mobile-first</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Why mobile-first</td>
+                                <td class="py-3 text-warm-700">Shoppers encounter Saltwyk at point of purchase, usually on a merchant's mobile site or in-store. The checkout moment is handheld.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Desktop consideration</td>
+                                <td class="py-3 text-warm-700">Merchant team members working at desks are also shoppers. They need to test the flow and may use their own points. Desktop must work, but mobile is the design origin.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Checkout Widget -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-ink">Checkout Widget</p>
+                        <p class="text-sm text-warm-500">Embedded in merchant checkout</p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-orange-100 text-orange-700 rounded-full">Container-Responsive</span>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 text-warm-500 w-40">Primary context</td>
+                                <td class="py-3 text-ink font-medium">Embedded in merchant checkout (any device)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Design approach</td>
+                                <td class="py-3"><code>Container-responsive</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Why container-responsive</td>
+                                <td class="py-3 text-warm-700">Widget lives inside merchant sites we don't control. Must adapt to available width, not viewport.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Constraints</td>
+                                <td class="py-3"><code>min-width: 320px</code>, <code>max-width: 480px</code>. Designed for constraint.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Merchant Dashboard -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-ink">Merchant Dashboard</p>
+                        <p class="text-sm text-warm-500">dashboard.saltwyk.com</p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-intaglio-100 text-intaglio-700 rounded-full">Desktop-First</span>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 text-warm-500 w-40">Primary context</td>
+                                <td class="py-3 text-ink font-medium">Desktop (operational work)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Secondary context</td>
+                                <td class="py-3 text-warm-700">Tablet (possible, not prioritized)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Design approach</td>
+                                <td class="py-3"><code>Desktop-first</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Why desktop-first</td>
+                                <td class="py-3 text-warm-700">Merchants manage their business at workstations. Data density, multi-column layouts, and keyboard shortcuts require screen real estate.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Mobile consideration</td>
+                                <td class="py-3 text-warm-700">Basic functionality should work on tablet for quick checks, but this is not the primary design target.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Marketing Website -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-ink">Marketing Website</p>
+                        <p class="text-sm text-warm-500">saltwyk.com</p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">Responsive (Both)</span>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 text-warm-500 w-40">Primary context</td>
+                                <td class="py-3 text-ink font-medium">Desktop and mobile equally</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Design approach</td>
+                                <td class="py-3"><code>Responsive</code> (both breakpoints designed intentionally)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Why both</td>
+                                <td class="py-3 text-warm-700">Prospects arrive from anywhere—LinkedIn on desktop, social ads on mobile. Neither is secondary.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Documentation -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-ink">Documentation</p>
+                        <p class="text-sm text-warm-500">docs.saltwyk.com</p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-intaglio-100 text-intaglio-700 rounded-full">Desktop-First</span>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 text-warm-500 w-40">Primary context</td>
+                                <td class="py-3 text-ink font-medium">Desktop (coding at workstation)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Secondary context</td>
+                                <td class="py-3 text-warm-700">Mobile (quick reference)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Design approach</td>
+                                <td class="py-3"><code>Desktop-first</code> with mobile fallback</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Why desktop-first</td>
+                                <td class="py-3 text-warm-700">Developers implement while reading docs. Code editor + docs side-by-side is the primary use case.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 text-warm-500">Mobile consideration</td>
+                                <td class="py-3 text-warm-700">Must be readable for quick lookups, but not optimized for extended reading.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: BREAKPOINT SYSTEM -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Breakpoint System</p>
+
+            <!-- Breakpoint Definitions -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Breakpoint Definitions</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-20">Name</th>
+                            <th class="text-left p-4 font-medium w-24">Min-width</th>
+                            <th class="text-left p-4 font-medium">Target</th>
+                            <th class="text-left p-4 font-medium w-48">Visual</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>xs</code></td>
+                            <td class="p-4 text-warm-500">0</td>
+                            <td class="p-4 text-warm-600">Small phones</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-warm-300" style="width: 40px;"></div></td>
+                        </tr>
+                        <tr class="bg-cyan-50">
+                            <td class="p-4"><code>sm</code></td>
+                            <td class="p-4 text-warm-500">480px</td>
+                            <td class="p-4 text-warm-600 font-medium">Large phones</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-cyan-400" style="width: 60px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>md</code></td>
+                            <td class="p-4 text-warm-500">768px</td>
+                            <td class="p-4 text-warm-600">Tablets</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-emerald-400" style="width: 96px;"></div></td>
+                        </tr>
+                        <tr class="bg-emerald-50">
+                            <td class="p-4"><code>lg</code></td>
+                            <td class="p-4 text-warm-500">1024px</td>
+                            <td class="p-4 text-warm-600 font-medium">Small desktops, landscape tablets</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-emerald-500" style="width: 128px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>xl</code></td>
+                            <td class="p-4 text-warm-500">1280px</td>
+                            <td class="p-4 text-warm-600">Desktops</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-emerald-600" style="width: 160px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>2xl</code></td>
+                            <td class="p-4 text-warm-500">1536px</td>
+                            <td class="p-4 text-warm-600">Large desktops</td>
+                            <td class="p-4"><div class="breakpoint-bar bg-emerald-700" style="width: 192px;"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Design Breakpoints by Surface -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Design Breakpoints by Surface</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium">Surface</th>
+                            <th class="text-left p-4 font-medium">Primary breakpoint</th>
+                            <th class="text-left p-4 font-medium">Key adaptation point</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4 font-medium text-ink">Shopper Passport</td>
+                            <td class="p-4"><code>sm</code> (480px)</td>
+                            <td class="p-4 text-warm-600">Core design target</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-ink">Checkout Widget</td>
+                            <td class="p-4 text-warm-500">Container-based</td>
+                            <td class="p-4 text-warm-600">320px min, 480px max</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-ink">Merchant Dashboard</td>
+                            <td class="p-4"><code>lg</code> (1024px)</td>
+                            <td class="p-4 text-warm-600">Below this, simplified layout</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-ink">Marketing</td>
+                            <td class="p-4"><code>md</code> (768px)</td>
+                            <td class="p-4 text-warm-600">Stack vs. side-by-side</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-ink">Docs</td>
+                            <td class="p-4"><code>lg</code> (1024px)</td>
+                            <td class="p-4 text-warm-600">Sidebar visible vs. hidden</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: COMPONENT ADAPTATION PATTERNS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Component Adaptation Patterns</p>
+            <p class="text-sm text-warm-600 mb-6">How key components adapt across breakpoints for each design approach.</p>
+
+            <!-- Navigation -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Navigation</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-24">Breakpoint</th>
+                            <th class="text-left p-4 font-medium">Merchant (Desktop-first)</th>
+                            <th class="text-left p-4 font-medium">Shopper (Mobile-first)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>xs-sm</code></td>
+                            <td class="p-4 text-warm-600">Hamburger menu, no sidebar</td>
+                            <td class="p-4 text-ink font-medium">Primary design: bottom nav or minimal header</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>md</code></td>
+                            <td class="p-4 text-warm-600">Collapsed sidebar (icons only)</td>
+                            <td class="p-4 text-warm-600">Optional: expanded if needed</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>lg+</code></td>
+                            <td class="p-4 text-ink font-medium">Full sidebar (icons + labels)</td>
+                            <td class="p-4 text-warm-600">Desktop view: can show sidebar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tables -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Tables</p>
+                </div>
+                <div class="p-6">
+                    <table class="w-full text-sm mb-6">
+                        <thead class="bg-warm-50 border-b border-warm-200">
+                            <tr>
+                                <th class="text-left p-4 font-medium w-24">Breakpoint</th>
+                                <th class="text-left p-4 font-medium">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="p-4"><code>lg+</code></td>
+                                <td class="p-4 text-warm-700">Full table with all columns</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4"><code>md</code></td>
+                                <td class="p-4 text-warm-700">Hide low-priority columns, show on expansion</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4"><code>xs-sm</code></td>
+                                <td class="p-4 text-warm-700">Transform to card stack <em>or</em> horizontal scroll</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Table to Card Demo -->
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Table → Card Transformation Example</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Desktop Table -->
+                        <div>
+                            <p class="text-xs text-warm-400 mb-2">Desktop (lg+)</p>
+                            <div class="border border-warm-200 rounded-lg overflow-hidden text-xs">
+                                <table class="w-full">
+                                    <thead class="bg-warm-100">
+                                        <tr>
+                                            <th class="text-left p-2">Date</th>
+                                            <th class="text-left p-2">Merchant</th>
+                                            <th class="text-right p-2">Points</th>
+                                            <th class="text-left p-2">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-warm-100">
+                                        <tr>
+                                            <td class="p-2 text-warm-500">Jan 12</td>
+                                            <td class="p-2">Coffee Shop</td>
+                                            <td class="p-2 text-right text-emerald-600">+250</td>
+                                            <td class="p-2"><span class="text-emerald-600">Complete</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 text-warm-500">Jan 11</td>
+                                            <td class="p-2">Bookstore</td>
+                                            <td class="p-2 text-right text-emerald-600">+1,200</td>
+                                            <td class="p-2"><span class="text-emerald-600">Complete</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div>
+                            <p class="text-xs text-warm-400 mb-2">Mobile (xs-sm)</p>
+                            <div class="space-y-2">
+                                <div class="border border-warm-200 rounded-lg p-3 text-xs">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium">Coffee Shop</span>
+                                        <span class="text-emerald-600 font-medium">+250</span>
+                                    </div>
+                                    <div class="flex justify-between text-warm-500">
+                                        <span>Jan 12</span>
+                                        <span class="text-emerald-600">Complete</span>
+                                    </div>
+                                </div>
+                                <div class="border border-warm-200 rounded-lg p-3 text-xs">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="font-medium">Bookstore</span>
+                                        <span class="text-emerald-600 font-medium">+1,200</span>
+                                    </div>
+                                    <div class="flex justify-between text-warm-500">
+                                        <span>Jan 11</span>
+                                        <span class="text-emerald-600">Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Cards Grid</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-24">Breakpoint</th>
+                            <th class="text-left p-4 font-medium">Grid behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>xs</code></td>
+                            <td class="p-4 text-warm-700">1 column, full width</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>sm</code></td>
+                            <td class="p-4 text-warm-700">1-2 columns</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>md</code></td>
+                            <td class="p-4 text-warm-700">2-3 columns</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>lg+</code></td>
+                            <td class="p-4 text-warm-700">3-4 columns</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modals -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Modals</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-24">Breakpoint</th>
+                            <th class="text-left p-4 font-medium">Behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>xs-sm</code></td>
+                            <td class="p-4 text-warm-700">Full screen (bottom sheet on mobile)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>md+</code></td>
+                            <td class="p-4 text-warm-700">Centered overlay with backdrop</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Forms -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Forms</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-24">Breakpoint</th>
+                            <th class="text-left p-4 font-medium">Behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>xs-sm</code></td>
+                            <td class="p-4 text-warm-700">Single column, full-width inputs</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>md+</code></td>
+                            <td class="p-4 text-warm-700">Can use 2-column layouts for related fields</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: TOUCH VS POINTER -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Touch vs. Pointer</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Touch Targets -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Touch Targets (Mobile)</p>
+                    <ul class="text-sm text-warm-600 space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="inline-block w-11 h-11 bg-cyan-100 border-2 border-cyan-400 rounded flex-shrink-0 flex items-center justify-center text-xs text-cyan-700">44</span>
+                            <div>
+                                <p class="font-medium text-ink">Minimum: 44×44px</p>
+                                <p class="text-xs text-warm-500">Apple HIG minimum tap target</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="inline-block w-12 h-12 bg-emerald-100 border-2 border-emerald-400 rounded flex-shrink-0 flex items-center justify-center text-xs text-emerald-700">48</span>
+                            <div>
+                                <p class="font-medium text-ink">Recommended: 48×48px</p>
+                                <p class="text-xs text-warm-500">Comfortable thumb target</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="flex gap-2 flex-shrink-0">
+                                <span class="inline-block w-8 h-8 bg-warm-200 rounded"></span>
+                                <span class="inline-block w-2 h-8 bg-orange-200 rounded"></span>
+                                <span class="inline-block w-8 h-8 bg-warm-200 rounded"></span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-ink">Spacing: 8px minimum</p>
+                                <p class="text-xs text-warm-500">Between adjacent targets</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pointer Targets -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Pointer Targets (Desktop)</p>
+                    <ul class="text-sm text-warm-600 space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="inline-block w-8 h-8 bg-intaglio-100 border-2 border-intaglio-400 rounded flex-shrink-0 flex items-center justify-center text-xs text-intaglio-700">32</span>
+                            <div>
+                                <p class="font-medium text-ink">Minimum: 32×32px</p>
+                                <p class="text-xs text-warm-500">Precise pointer allows smaller targets</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="inline-block w-8 h-8 bg-warm-100 rounded flex-shrink-0"></span>
+                            <div>
+                                <p class="font-medium text-ink">Can be denser than mobile</p>
+                                <p class="text-xs text-warm-500">Data density is acceptable</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="inline-block w-8 h-8 bg-cyan-50 border border-cyan-300 rounded flex-shrink-0 relative">
+                                <span class="absolute inset-0 bg-cyan-200 opacity-50 rounded"></span>
+                            </span>
+                            <div>
+                                <p class="font-medium text-ink">Hover states provide affordance</p>
+                                <p class="text-xs text-warm-500">Visual feedback on cursor proximity</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Adaptation Guidance -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Adaptation Guidance</p>
+                <table class="w-full text-sm">
+                    <thead class="border-b border-warm-200">
+                        <tr>
+                            <th class="text-left py-3 font-medium">Element</th>
+                            <th class="text-left py-3 font-medium">Touch Adaptation</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="py-3 text-ink">Buttons</td>
+                            <td class="py-3 text-warm-600">Same visual size, but increase padding/hit area on touch</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 text-ink">Links</td>
+                            <td class="py-3 text-warm-600">Inline on desktop, larger tap targets on mobile</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 text-ink">Dropdowns</td>
+                            <td class="py-3 text-warm-600">Click-to-open on desktop, tap-to-open on mobile <em>(no hover-to-open)</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: RESPONSIVE UTILITIES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Responsive Utilities</p>
+
+            <!-- Prefixes -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Tailwind Responsive Prefixes</p>
+                <div class="grid grid-cols-5 gap-4 text-center mb-6">
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-3">
+                        <code class="text-sm">sm:</code>
+                        <p class="text-xs text-warm-500 mt-1">480px+</p>
+                    </div>
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-3">
+                        <code class="text-sm">md:</code>
+                        <p class="text-xs text-warm-500 mt-1">768px+</p>
+                    </div>
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-3">
+                        <code class="text-sm">lg:</code>
+                        <p class="text-xs text-warm-500 mt-1">1024px+</p>
+                    </div>
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-3">
+                        <code class="text-sm">xl:</code>
+                        <p class="text-xs text-warm-500 mt-1">1280px+</p>
+                    </div>
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-3">
+                        <code class="text-sm">2xl:</code>
+                        <p class="text-xs text-warm-500 mt-1">1536px+</p>
+                    </div>
+                </div>
+                <p class="text-sm text-warm-600">
+                    All prefixes apply at their breakpoint <em>and above</em> (mobile-first by default).
+                </p>
+            </div>
+
+            <!-- Common Patterns -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Common Patterns</p>
+                <div class="space-y-4">
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Stack on mobile, row on desktop</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;div class="<span class="text-cyan-300">flex flex-col md:flex-row</span>"&gt;</pre>
+                    </div>
+
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Hide on mobile, show on desktop</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;div class="<span class="text-cyan-300">hidden lg:block</span>"&gt;</pre>
+                    </div>
+
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Full width on mobile, constrained on desktop</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;div class="<span class="text-cyan-300">w-full max-w-md mx-auto lg:max-w-none</span>"&gt;</pre>
+                    </div>
+
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Responsive grid columns</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;div class="<span class="text-cyan-300">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4</span>"&gt;</pre>
+                    </div>
+
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Responsive spacing</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;div class="<span class="text-cyan-300">px-4 sm:px-6 lg:px-8 py-8 lg:py-12</span>"&gt;</pre>
+                    </div>
+
+                    <div class="bg-intaglio-900 text-ledger rounded-lg p-4 overflow-x-auto">
+                        <p class="text-xs text-warm-400 mb-2">Responsive text size</p>
+                        <pre class="text-sm font-mono text-emerald-300">&lt;h1 class="<span class="text-cyan-300">text-2xl sm:text-3xl lg:text-4xl</span>"&gt;</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: TESTING CHECKLIST -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Testing Checklist</p>
+            <p class="text-sm text-warm-600 mb-6">Responsive QA requirements by surface.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Shopper Passport -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-cyan-100 text-cyan-700 rounded-full">Mobile-First</span>
+                        <p class="font-medium text-ink">Shopper Passport</p>
+                    </div>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Works on 320px width (small phones)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Primary flow completable with thumb only</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Touch targets meet 44px minimum</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Desktop view is functional (not broken)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Checkout Widget -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-700 rounded-full">Container</span>
+                        <p class="font-medium text-ink">Checkout Widget</p>
+                    </div>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Renders correctly at 320px container</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Renders correctly at 480px container</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>No horizontal overflow</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Form inputs are usable on mobile</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Merchant Dashboard -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-intaglio-100 text-intaglio-700 rounded-full">Desktop-First</span>
+                        <p class="font-medium text-ink">Merchant Dashboard</p>
+                    </div>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Full functionality at 1024px+</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Graceful degradation at 768px (tablet)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Critical actions accessible on mobile</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Marketing -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">Both</span>
+                        <p class="font-medium text-ink">Marketing Website</p>
+                    </div>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Hero sections work at all breakpoints</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>CTAs are prominent on mobile</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Feature sections stack appropriately</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="inline-block w-4 h-4 mt-0.5 border-2 border-warm-300 rounded flex-shrink-0"></span>
+                            <span>Typography scales are readable</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.5.0</p>
+        </div>
+    </footer>
+</body>
+</html>
