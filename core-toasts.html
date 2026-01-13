@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toasts - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Toast base */
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            max-width: 380px;
+        }
+
+        /* Toast icons */
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .toast-icon-success { color: hsl(150 100% 27%); }
+        .toast-icon-warning { color: hsl(20 90% 50%); }
+        .toast-icon-error { color: hsl(330 85% 50%); }
+        .toast-icon-info { color: hsl(170 100% 35%); }
+
+        /* Toast content */
+        .toast-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(24 29% 8%);
+            margin-bottom: 2px;
+        }
+        .toast-message {
+            font-size: 13px;
+            color: hsl(30 6% 46%);
+            line-height: 1.4;
+        }
+
+        /* Toast close */
+        .toast-close {
+            width: 20px;
+            height: 20px;
+            color: hsl(30 5% 60%);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: color 0.1s ease;
+        }
+        .toast-close:hover {
+            color: hsl(24 29% 8%);
+        }
+
+        /* Toast action */
+        .toast-action {
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(150 100% 27%);
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .toast-action:hover {
+            text-decoration: underline;
+        }
+
+        /* Progress bar */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: hsl(30 5% 92%);
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+        }
+        .toast-progress-bar {
+            height: 100%;
+            background: hsl(150 100% 27%);
+            transition: width 0.1s linear;
+        }
+
+        /* Dark toast */
+        .toast-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 18%);
+        }
+        .toast-dark .toast-title {
+            color: hsl(30 5% 95%);
+        }
+        .toast-dark .toast-message {
+            color: hsl(30 8% 55%);
+        }
+        .toast-dark .toast-close {
+            color: hsl(30 8% 45%);
+        }
+        .toast-dark .toast-close:hover {
+            color: hsl(30 5% 85%);
+        }
+        .toast-dark .toast-icon-success { color: hsl(150 80% 50%); }
+        .toast-dark .toast-icon-warning { color: hsl(20 100% 55%); }
+        .toast-dark .toast-icon-error { color: hsl(330 100% 60%); }
+        .toast-dark .toast-icon-info { color: hsl(170 100% 50%); }
+
+        /* Animation keyframes */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-slide-in {
+            animation: slideInRight 200ms ease-out;
+        }
+
+        /* Demo trigger button */
+        .demo-trigger {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: 1.5px solid hsl(30 5% 85%);
+            background: white;
+            color: hsl(24 29% 8%);
+        }
+        .demo-trigger:hover {
+            border-color: hsl(30 5% 75%);
+            background: hsl(30 5% 98%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html" class="font-medium text-emerald-600">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Toasts</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Toast Notifications</h1>
+            <p class="text-warm-600">Temporary, non-blocking feedback for user actions and system events.</p>
+        </header>
+
+        <!-- Toast Anatomy -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Toast Anatomy</h2>
+            <p class="text-warm-600 mb-8">The structural components of a toast notification.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="flex gap-12">
+                    <div class="toast relative" style="width: 340px;">
+                        <svg class="toast-icon toast-icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Payment successful</div>
+                            <div class="toast-message">Your transaction has been processed.</div>
+                            <div class="toast-action">View details</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <div class="toast-progress">
+                            <div class="toast-progress-bar" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Icon</p>
+                                <p class="text-warm-600">Status indicator (success, warning, error, info)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-cyan-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Content</p>
+                                <p class="text-warm-600">Title (optional) and message</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-lime-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Action</p>
+                                <p class="text-warm-600">Optional button or link</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-warm-400 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Dismiss</p>
+                                <p class="text-warm-600">Close button</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-orange-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Progress</p>
+                                <p class="text-warm-600">Auto-dismiss countdown (optional)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toast Types -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Toast Types</h2>
+            <p class="text-warm-600 mb-8">Different types for various notification purposes.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Success -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Success</h3>
+                    <div class="toast">
+                        <svg class="toast-icon toast-icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Transaction cleared</div>
+                            <div class="toast-message">$127.50 has been processed successfully.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Use for completed actions, confirmations</p>
+                </div>
+
+                <!-- Warning -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Warning</h3>
+                    <div class="toast">
+                        <svg class="toast-icon toast-icon-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Balance running low</div>
+                            <div class="toast-message">Add funds to avoid transaction delays.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Use for attention-needed, non-critical</p>
+                </div>
+
+                <!-- Error -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Error</h3>
+                    <div class="toast">
+                        <svg class="toast-icon toast-icon-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Payment failed</div>
+                            <div class="toast-message">Unable to process transaction. Please try again.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Use for failed actions, errors</p>
+                </div>
+
+                <!-- Info -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Info</h3>
+                    <div class="toast">
+                        <svg class="toast-icon toast-icon-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">New feature available</div>
+                            <div class="toast-message">You can now connect multiple loyalty programs.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Use for informational updates, tips</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toast Variants -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Toast Variants</h2>
+            <p class="text-warm-600 mb-8">Different configurations for various contexts.</p>
+
+            <div class="space-y-6">
+                <!-- Minimal -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Minimal (Icon + Message)</h3>
+                    <div class="toast" style="max-width: 300px;">
+                        <svg class="toast-icon toast-icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-message" style="color: hsl(24 29% 8%);">Changes saved</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- With Action -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">With Action</h3>
+                    <div class="toast">
+                        <svg class="toast-icon toast-icon-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-message">Transaction #TXN-4521 requires review.</div>
+                            <div class="toast-action">Review now</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- With Progress -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">With Progress Bar</h3>
+                    <div class="toast relative" style="overflow: hidden;">
+                        <svg class="toast-icon toast-icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Payout initiated</div>
+                            <div class="toast-message">$8,420.00 will arrive tomorrow.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <div class="toast-progress">
+                            <div class="toast-progress-bar" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Auto-dismiss after 5 seconds (default)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Positioning -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Positioning</h2>
+            <p class="text-warm-600 mb-8">Toast placement on screen.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Position Options</h3>
+                    <div class="relative bg-warm-50 rounded-lg h-48 overflow-hidden">
+                        <div class="absolute top-3 right-3 bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded">top-right (default)</div>
+                        <div class="absolute top-3 left-1/2 -translate-x-1/2 bg-warm-200 text-warm-600 text-xs px-2 py-1 rounded">top-center</div>
+                        <div class="absolute bottom-3 right-3 bg-warm-200 text-warm-600 text-xs px-2 py-1 rounded">bottom-right</div>
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-warm-200 text-warm-600 text-xs px-2 py-1 rounded">bottom-center</div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Stack Behavior</h3>
+                    <div class="space-y-2">
+                        <div class="toast text-sm" style="max-width: 280px; padding: 10px 12px;">
+                            <svg class="toast-icon toast-icon-success" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div class="toast-content">
+                                <div class="toast-message" style="font-size: 12px;">Newest toast</div>
+                            </div>
+                        </div>
+                        <div class="toast text-sm" style="max-width: 280px; padding: 10px 12px; opacity: 0.8;">
+                            <svg class="toast-icon toast-icon-info" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div class="toast-content">
+                                <div class="toast-message" style="font-size: 12px;">Previous toast</div>
+                            </div>
+                        </div>
+                        <div class="toast text-sm" style="max-width: 280px; padding: 10px 12px; opacity: 0.6;">
+                            <svg class="toast-icon toast-icon-success" style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div class="toast-content">
+                                <div class="toast-message" style="font-size: 12px;">Oldest toast</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">New toasts push existing ones down</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animation -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Animation</h2>
+            <p class="text-warm-600 mb-8">Entry and exit animations.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-semibold mb-4">Entrance</h3>
+                        <ul class="text-sm text-warm-600 space-y-2">
+                            <li>• <code>slideInRight</code> — 200ms, ease-out</li>
+                            <li>• Slides from off-screen right</li>
+                            <li>• Fades in simultaneously</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-4">Exit</h3>
+                        <ul class="text-sm text-warm-600 space-y-2">
+                            <li>• <code>slideOutRight + fadeOut</code> — 150ms</li>
+                            <li>• On manual dismiss or auto-dismiss</li>
+                            <li>• Remaining toasts slide up to fill gap</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal (Dark) -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">Toast notifications on dark backgrounds.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="space-y-4">
+                    <div class="toast toast-dark">
+                        <svg class="toast-icon toast-icon-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Transaction cleared</div>
+                            <div class="toast-message">$127.50 has been processed successfully.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+
+                    <div class="toast toast-dark">
+                        <svg class="toast-icon toast-icon-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="toast-content">
+                            <div class="toast-title">Payment failed</div>
+                            <div class="toast-message">Unable to process. Please try again.</div>
+                        </div>
+                        <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-warm-400 mt-6">Icons use full-saturation thread colors for visibility</p>
+            </div>
+        </section>
+
+        <!-- Toast vs Alert -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Toast vs Alert Banner</h2>
+            <p class="text-warm-600 mb-8">When to use toasts versus persistent alert banners.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-emerald-600">Use Toast</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Temporary feedback (auto-dismiss)</li>
+                        <li>• Non-blocking, non-critical</li>
+                        <li>• Action confirmations</li>
+                        <li>• Background process updates</li>
+                        <li>• Can be missed without consequence</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-orange-600">Use Alert Banner</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Persistent, requires acknowledgment</li>
+                        <li>• Critical information</li>
+                        <li>• System-wide announcements</li>
+                        <li>• Errors requiring user action</li>
+                        <li>• Must not be missed</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Accessibility</h2>
+            <p class="text-warm-600 mb-8">ARIA attributes and screen reader considerations.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">ARIA Attributes</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• <code>role="alert"</code> for errors</li>
+                        <li>• <code>role="status"</code> for success/info</li>
+                        <li>• <code>aria-live="polite"</code> for info</li>
+                        <li>• <code>aria-live="assertive"</code> for errors</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Focus Management</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Toast should not steal focus</li>
+                        <li>• Action buttons must be focusable</li>
+                        <li>• Close button: <code>aria-label="Dismiss"</code></li>
+                        <li>• Announce to screen readers on appear</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Demo -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Live Demo</h2>
+            <p class="text-warm-600 mb-8">Click buttons to trigger toast notifications.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="flex flex-wrap gap-3">
+                    <button class="demo-trigger" onclick="showToast('success')">Show Success</button>
+                    <button class="demo-trigger" onclick="showToast('warning')">Show Warning</button>
+                    <button class="demo-trigger" onclick="showToast('error')">Show Error</button>
+                    <button class="demo-trigger" onclick="showToast('info')">Show Info</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast container for demo -->
+    <div id="toast-container" style="position: fixed; top: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 12px;"></div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+
+    <script>
+        const toastMessages = {
+            success: { title: 'Transaction cleared', message: '$127.50 has been processed successfully.' },
+            warning: { title: 'Balance running low', message: 'Add funds to avoid transaction delays.' },
+            error: { title: 'Payment failed', message: 'Unable to process. Please try again.' },
+            info: { title: 'New feature available', message: 'You can now connect multiple programs.' }
+        };
+
+        const iconPaths = {
+            success: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+            warning: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+            error: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z',
+            info: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+        };
+
+        function showToast(type) {
+            const container = document.getElementById('toast-container');
+            const { title, message } = toastMessages[type];
+
+            const toast = document.createElement('div');
+            toast.className = 'toast animate-slide-in';
+            toast.innerHTML = `
+                <svg class="toast-icon toast-icon-${type}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPaths[type]}"/>
+                </svg>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <svg class="toast-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="this.parentElement.remove()">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.animation = 'slideOutRight 150ms ease-out forwards';
+                    setTimeout(() => toast.remove(), 150);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Underline Tabs */
+        .tabs-underline {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .tab-underline {
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-underline:hover {
+            color: hsl(24 29% 8%);
+        }
+        .tab-underline.active {
+            color: hsl(24 29% 8%);
+            border-bottom-color: hsl(150 100% 27%);
+        }
+
+        /* Pill Tabs */
+        .tabs-pill {
+            display: inline-flex;
+            gap: 4px;
+            padding: 4px;
+            background: hsl(30 5% 95%);
+            border-radius: 10px;
+        }
+        .tab-pill {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-pill:hover {
+            background: hsl(30 5% 90%);
+            color: hsl(24 29% 8%);
+        }
+        .tab-pill.active {
+            background: hsl(150 100% 27%);
+            color: white;
+        }
+
+        /* Boxed Tabs */
+        .tabs-boxed {
+            display: inline-flex;
+            gap: 0;
+            background: hsl(30 5% 88%);
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .tab-boxed {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-boxed:hover {
+            background: hsl(30 5% 82%);
+            color: hsl(24 29% 8%);
+        }
+        .tab-boxed.active {
+            background: white;
+            color: hsl(24 29% 8%);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        /* Tab Sizes */
+        .tab-sm { padding: 6px 12px; font-size: 12px; }
+        .tab-lg { padding: 12px 20px; font-size: 16px; }
+
+        /* Vertical Tabs */
+        .tabs-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            border-right: 1px solid hsl(30 5% 88%);
+            padding-right: 0;
+            width: 200px;
+        }
+        .tab-vertical {
+            padding: 10px 16px;
+            font-size: 14px;
+            color: hsl(30 6% 46%);
+            border-left: 3px solid transparent;
+            margin-left: -1px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+        }
+        .tab-vertical:hover {
+            color: hsl(24 29% 8%);
+            background: hsl(30 5% 97%);
+        }
+        .tab-vertical.active {
+            color: hsl(150 100% 22%);
+            background: hsl(150 45% 97%);
+            border-left-color: hsl(150 100% 27%);
+            font-weight: 500;
+        }
+
+        /* Dark mode tabs */
+        .tabs-underline-dark {
+            border-bottom-color: hsl(24 27% 18%);
+        }
+        .tab-underline-dark {
+            color: hsl(30 8% 55%);
+        }
+        .tab-underline-dark:hover {
+            color: hsl(30 5% 85%);
+        }
+        .tab-underline-dark.active {
+            color: hsl(30 5% 95%);
+            border-bottom-color: hsl(150 80% 50%);
+        }
+
+        .tabs-pill-dark {
+            background: hsl(24 27% 16%);
+        }
+        .tab-pill-dark {
+            color: hsl(30 8% 55%);
+        }
+        .tab-pill-dark:hover {
+            background: hsl(24 27% 20%);
+            color: hsl(30 5% 85%);
+        }
+        .tab-pill-dark.active {
+            background: hsl(150 100% 27%);
+            color: white;
+        }
+
+        /* Tab with badge */
+        .tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background: hsl(30 5% 90%);
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(30 6% 46%);
+            margin-left: 6px;
+        }
+        .tab-underline.active .tab-badge {
+            background: hsl(150 45% 92%);
+            color: hsl(150 100% 22%);
+        }
+
+        /* Tab panel */
+        .tab-panel {
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html" class="font-medium text-emerald-600">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Tabs</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Tab Navigation</h1>
+            <p class="text-warm-600">Organize content into switchable panels with tab controls.</p>
+        </header>
+
+        <!-- Tab Anatomy -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tab Anatomy</h2>
+            <p class="text-warm-600 mb-8">The structural components of a tab interface.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="flex gap-12">
+                    <div class="flex-1">
+                        <div class="border border-dashed border-emerald-300 rounded-lg p-1 mb-1">
+                            <p class="text-xs text-emerald-600 mb-2 px-2">Tab List</p>
+                            <div class="tabs-underline">
+                                <div class="tab-underline active">Dashboard</div>
+                                <div class="tab-underline">Transactions</div>
+                                <div class="tab-underline">Settings</div>
+                            </div>
+                        </div>
+                        <div class="border border-dashed border-cyan-300 rounded-lg p-4 mt-4">
+                            <p class="text-xs text-cyan-600 mb-2">Tab Panel</p>
+                            <p class="text-sm text-warm-600">Panel content for the active tab goes here. Each tab controls the visibility of its associated panel.</p>
+                        </div>
+                    </div>
+                    <div class="w-64 space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Tab List</p>
+                                <p class="text-warm-600">Container for tab triggers. <code>role="tablist"</code></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-lime-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Tab Trigger</p>
+                                <p class="text-warm-600">Clickable element. <code>role="tab"</code></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-cyan-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Tab Panel</p>
+                                <p class="text-warm-600">Content area. <code>role="tabpanel"</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Variants -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tab Variants</h2>
+            <p class="text-warm-600 mb-8">Different visual styles for tab navigation.</p>
+
+            <div class="space-y-6">
+                <!-- Underline Tabs -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">Underline Tabs</h3>
+                    <p class="text-sm text-warm-600 mb-6">Default style. Clean underline indicator for active state.</p>
+                    <div class="tabs-underline">
+                        <div class="tab-underline active">Dashboard</div>
+                        <div class="tab-underline">Transactions</div>
+                        <div class="tab-underline">Clearing</div>
+                        <div class="tab-underline">Settings</div>
+                    </div>
+                    <div class="tab-panel">
+                        <p class="text-sm text-warm-600">Dashboard content would appear here.</p>
+                    </div>
+                </div>
+
+                <!-- Pill Tabs -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">Pill Tabs</h3>
+                    <p class="text-sm text-warm-600 mb-6">Contained style with filled active indicator. Good for filters.</p>
+                    <div class="tabs-pill">
+                        <div class="tab-pill active">All</div>
+                        <div class="tab-pill">Pending</div>
+                        <div class="tab-pill">Completed</div>
+                        <div class="tab-pill">Failed</div>
+                    </div>
+                    <div class="tab-panel">
+                        <p class="text-sm text-warm-600">Showing all transactions.</p>
+                    </div>
+                </div>
+
+                <!-- Boxed Tabs -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-2">Boxed Tabs</h3>
+                    <p class="text-sm text-warm-600 mb-6">Elevated active state with shadow. Segmented control feel.</p>
+                    <div class="tabs-boxed">
+                        <div class="tab-boxed active">Daily</div>
+                        <div class="tab-boxed">Weekly</div>
+                        <div class="tab-boxed">Monthly</div>
+                    </div>
+                    <div class="tab-panel">
+                        <p class="text-sm text-warm-600">Showing daily metrics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Sizes -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tab Sizes</h2>
+            <p class="text-warm-600 mb-8">Size variants for different contexts.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="space-y-8">
+                    <div>
+                        <p class="text-sm font-medium mb-3">Small <code class="ml-2">12px text, 8px 12px padding</code></p>
+                        <div class="tabs-underline">
+                            <div class="tab-underline tab-sm active">Overview</div>
+                            <div class="tab-underline tab-sm">Details</div>
+                            <div class="tab-underline tab-sm">Activity</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium mb-3">Default <code class="ml-2">14px text, 10px 16px padding</code></p>
+                        <div class="tabs-underline">
+                            <div class="tab-underline active">Overview</div>
+                            <div class="tab-underline">Details</div>
+                            <div class="tab-underline">Activity</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium mb-3">Large <code class="ml-2">16px text, 12px 20px padding</code></p>
+                        <div class="tabs-underline">
+                            <div class="tab-underline tab-lg active">Overview</div>
+                            <div class="tab-underline tab-lg">Details</div>
+                            <div class="tab-underline tab-lg">Activity</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vertical Tabs -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Vertical Tabs</h2>
+            <p class="text-warm-600 mb-8">Left-aligned tab navigation for settings and account pages.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="flex gap-8">
+                    <div class="tabs-vertical">
+                        <div class="tab-vertical active">Profile</div>
+                        <div class="tab-vertical">Notifications</div>
+                        <div class="tab-vertical">Security</div>
+                        <div class="tab-vertical">Billing</div>
+                        <div class="tab-vertical">API Keys</div>
+                    </div>
+                    <div class="flex-1 p-4">
+                        <h3 class="font-semibold mb-2">Profile Settings</h3>
+                        <p class="text-sm text-warm-600">Manage your account profile information.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- With Icons -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tabs with Icons</h2>
+            <p class="text-warm-600 mb-8">Icon + label combinations for enhanced visual cues.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Icon + Label -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Icon + Label</h3>
+                    <div class="tabs-underline">
+                        <div class="tab-underline active flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span>Home</span>
+                        </div>
+                        <div class="tab-underline flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <span>Transactions</span>
+                        </div>
+                        <div class="tab-underline flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span>Settings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icon Only -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Icon Only (with tooltip)</h3>
+                    <div class="tabs-pill">
+                        <div class="tab-pill active" title="Grid view" style="padding: 8px;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            </svg>
+                        </div>
+                        <div class="tab-pill" title="List view" style="padding: 8px;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                            </svg>
+                        </div>
+                        <div class="tab-pill" title="Table view" style="padding: 8px;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- With Badges -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tabs with Counts</h2>
+            <p class="text-warm-600 mb-8">Badge indicators for unread counts or filtered totals.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="tabs-underline">
+                    <div class="tab-underline active">
+                        Inbox
+                        <span class="tab-badge">12</span>
+                    </div>
+                    <div class="tab-underline">
+                        Pending
+                        <span class="tab-badge">3</span>
+                    </div>
+                    <div class="tab-underline">
+                        Completed
+                        <span class="tab-badge">847</span>
+                    </div>
+                    <div class="tab-underline">
+                        Failed
+                        <span class="tab-badge" style="background: hsl(330 50% 92%); color: hsl(330 85% 40%);">2</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal (Dark) -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">Tabs on dark backgrounds.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="space-y-8">
+                    <!-- Underline Dark -->
+                    <div>
+                        <p class="text-sm text-warm-300 mb-3">Underline Tabs</p>
+                        <div class="tabs-underline tabs-underline-dark">
+                            <div class="tab-underline tab-underline-dark active">Dashboard</div>
+                            <div class="tab-underline tab-underline-dark">Transactions</div>
+                            <div class="tab-underline tab-underline-dark">Settings</div>
+                        </div>
+                    </div>
+
+                    <!-- Pill Dark -->
+                    <div>
+                        <p class="text-sm text-warm-300 mb-3">Pill Tabs</p>
+                        <div class="tabs-pill tabs-pill-dark">
+                            <div class="tab-pill tab-pill-dark active">All</div>
+                            <div class="tab-pill tab-pill-dark">Pending</div>
+                            <div class="tab-pill tab-pill-dark">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Accessibility</h2>
+            <p class="text-warm-600 mb-8">ARIA attributes and keyboard navigation requirements.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">ARIA Attributes</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Tab list: <code>role="tablist"</code></li>
+                        <li>• Tab trigger: <code>role="tab"</code>, <code>aria-selected</code>, <code>aria-controls</code></li>
+                        <li>• Tab panel: <code>role="tabpanel"</code>, <code>aria-labelledby</code></li>
+                        <li>• Inactive tabs: <code>tabindex="-1"</code></li>
+                        <li>• Active tab: <code>tabindex="0"</code></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Keyboard Navigation</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• <code>←</code> / <code>→</code> — Navigate between tabs (horizontal)</li>
+                        <li>• <code>↑</code> / <code>↓</code> — Navigate between tabs (vertical)</li>
+                        <li>• <code>Home</code> — First tab</li>
+                        <li>• <code>End</code> — Last tab</li>
+                        <li>• <code>Tab</code> — Move to panel content</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6 col-span-2">
+                    <h3 class="font-semibold mb-4">Focus Management</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Focus should move to the active tab when entering the tab list</li>
+                        <li>• Arrow keys move focus between tabs without activating them (optional: automatic activation)</li>
+                        <li>• Enter/Space activates the focused tab</li>
+                        <li>• Focus ring: 2px emerald-500 outline with 2px offset</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Example -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Live Example</h2>
+            <p class="text-warm-600 mb-8">Interactive tab demonstration.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-6">
+                <div class="tabs-underline" id="demo-tabs">
+                    <div class="tab-underline active" data-tab="overview">Overview</div>
+                    <div class="tab-underline" data-tab="transactions">Transactions</div>
+                    <div class="tab-underline" data-tab="settings">Settings</div>
+                </div>
+                <div class="tab-panel" id="panel-overview">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <p class="text-xs text-warm-500 mb-1">Today's Revenue</p>
+                            <p class="font-display text-2xl">$4,127</p>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <p class="text-xs text-warm-500 mb-1">Transactions</p>
+                            <p class="font-display text-2xl">847</p>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <p class="text-xs text-warm-500 mb-1">Clear Rate</p>
+                            <p class="font-display text-2xl">98.2%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel hidden" id="panel-transactions">
+                    <p class="text-sm text-warm-600">Transaction list would appear here with filtering and sorting controls.</p>
+                </div>
+                <div class="tab-panel hidden" id="panel-settings">
+                    <p class="text-sm text-warm-600">Account settings and preferences would be configured here.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('#demo-tabs .tab-underline').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update tab states
+                document.querySelectorAll('#demo-tabs .tab-underline').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update panel visibility
+                const tabId = tab.dataset.tab;
+                document.querySelectorAll('[id^="panel-"]').forEach(panel => panel.classList.add('hidden'));
+                document.getElementById('panel-' + tabId).classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

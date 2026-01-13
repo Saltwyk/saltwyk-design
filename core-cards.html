@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Card variants */
+        .card {
+            background: white;
+            border-radius: 12px;
+        }
+        .card-default {
+            border: 1.5px solid hsl(30 5% 88%);
+        }
+        .card-elevated {
+            box-shadow: 0 4px 20px -4px rgba(0,0,0,0.1);
+        }
+        .card-outlined {
+            background: transparent;
+            border: 1.5px solid hsl(30 5% 82%);
+        }
+        .card-interactive {
+            border: 1.5px solid hsl(30 5% 88%);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .card-interactive:hover {
+            box-shadow: 0 8px 24px -8px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            border-color: hsl(30 5% 80%);
+        }
+        .card-interactive:active {
+            box-shadow: 0 2px 8px -2px rgba(0,0,0,0.1);
+            transform: translateY(0);
+        }
+
+        /* Card sizes */
+        .card-compact { padding: 16px; }
+        .card-default-padding { padding: 24px; }
+        .card-spacious { padding: 32px; }
+
+        /* Thread accents */
+        .card-thread-top {
+            border-top: 3px solid transparent;
+            border-image: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%)) 1;
+        }
+        .card-thread-left {
+            border-left: 3px solid hsl(150 100% 27%);
+        }
+
+        /* Dark cards */
+        .card-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 18%);
+        }
+        .card-dark-elevated {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+        }
+
+        /* Gradient backgrounds */
+        .card-gradient-cool {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%);
+        }
+        .card-gradient-fresh {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 40% 96%) 100%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html" class="font-medium text-emerald-600">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Cards</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Cards</h1>
+            <p class="text-warm-600">Container patterns for grouping and presenting related content.</p>
+        </header>
+
+        <!-- Card Anatomy -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Card Anatomy</h2>
+            <p class="text-warm-600 mb-8">The structural components of a card.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="flex gap-12">
+                    <div class="card card-default" style="width: 320px;">
+                        <div class="p-4 border-b border-warm-100">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold">Card Header</span>
+                                <span class="text-xs text-warm-500">Action</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-1">Optional subtitle</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm text-warm-600">Card body content goes here. This is the main content area of the card.</p>
+                        </div>
+                        <div class="p-4 border-t border-warm-100 flex justify-end gap-2">
+                            <button class="px-3 py-1.5 text-sm text-warm-600">Cancel</button>
+                            <button class="px-3 py-1.5 text-sm bg-emerald-500 text-white rounded-lg">Save</button>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Container</p>
+                                <p class="text-warm-600">Background, border, shadow, border-radius</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-cyan-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Header (Optional)</p>
+                                <p class="text-warm-600">Title, subtitle, actions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-lime-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Body</p>
+                                <p class="text-warm-600">Main content area</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-orange-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Footer (Optional)</p>
+                                <p class="text-warm-600">Actions, metadata</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Variants -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Card Variants</h2>
+            <p class="text-warm-600 mb-8">Different visual styles for various contexts.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Default -->
+                <div class="bg-warm-50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Default Card</h3>
+                    <div class="card card-default card-default-padding">
+                        <p class="font-medium mb-2">Card Title</p>
+                        <p class="text-sm text-warm-600">White background with warm-200 border. Standard card style.</p>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4"><code>border: 1.5px solid warm-200</code></p>
+                </div>
+
+                <!-- Elevated -->
+                <div class="bg-warm-50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Elevated Card</h3>
+                    <div class="card card-elevated card-default-padding">
+                        <p class="font-medium mb-2">Card Title</p>
+                        <p class="text-sm text-warm-600">White background with shadow. No border, shadow provides edge.</p>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4"><code>box-shadow: 0 4px 20px -4px rgba(0,0,0,0.1)</code></p>
+                </div>
+
+                <!-- Outlined -->
+                <div class="bg-warm-100 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Outlined Card</h3>
+                    <div class="card card-outlined card-default-padding">
+                        <p class="font-medium mb-2">Card Title</p>
+                        <p class="text-sm text-warm-600">Transparent background with border. For grouping on colored backgrounds.</p>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4"><code>background: transparent; border: 1.5px solid warm-300</code></p>
+                </div>
+
+                <!-- Interactive -->
+                <div class="bg-warm-50 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Interactive Card</h3>
+                    <div class="card card-interactive card-default-padding">
+                        <p class="font-medium mb-2">Clickable Card</p>
+                        <p class="text-sm text-warm-600">Hover to see elevation effect. Entire card is clickable.</p>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4"><code>:hover → shadow-lg, translateY(-2px)</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Sizes -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Card Sizes</h2>
+            <p class="text-warm-600 mb-8">Padding variants for different content densities.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Compact</h3>
+                    <div class="card card-default card-compact">
+                        <p class="font-medium text-sm">Compact Card</p>
+                        <p class="text-xs text-warm-600 mt-1">16px padding</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Default</h3>
+                    <div class="card card-default card-default-padding">
+                        <p class="font-medium">Default Card</p>
+                        <p class="text-sm text-warm-600 mt-1">24px padding</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Spacious</h3>
+                    <div class="card card-default card-spacious">
+                        <p class="font-medium">Spacious Card</p>
+                        <p class="text-sm text-warm-600 mt-1">32px padding</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thread Accents -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Thread Accents</h2>
+            <p class="text-warm-600 mb-8">Thread color borders for visual categorization.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Top accent -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Top Border Accent</h3>
+                    <div class="card card-default card-default-padding card-thread-top overflow-hidden" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        <p class="font-medium mb-2">Featured Content</p>
+                        <p class="text-sm text-warm-600">Full thread gradient accent on top edge.</p>
+                    </div>
+                </div>
+
+                <!-- Left accent -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Left Border Accent</h3>
+                    <div class="card card-default card-default-padding card-thread-left">
+                        <p class="font-medium mb-2">Category Item</p>
+                        <p class="text-sm text-warm-600">Single thread color for categorization.</p>
+                    </div>
+                </div>
+
+                <!-- Status accents -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6 col-span-2">
+                    <h3 class="font-semibold mb-4">Status Accents</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="card card-default card-compact" style="border-left: 3px solid hsl(150 100% 27%);">
+                            <p class="text-sm font-medium">Success</p>
+                            <p class="text-xs text-warm-500">emerald-500</p>
+                        </div>
+                        <div class="card card-default card-compact" style="border-left: 3px solid hsl(20 90% 50%);">
+                            <p class="text-sm font-medium">Warning</p>
+                            <p class="text-xs text-warm-500">orange-500</p>
+                        </div>
+                        <div class="card card-default card-compact" style="border-left: 3px solid hsl(330 85% 50%);">
+                            <p class="text-sm font-medium">Error</p>
+                            <p class="text-xs text-warm-500">magenta-500</p>
+                        </div>
+                        <div class="card card-default card-compact" style="border-left: 3px solid hsl(170 100% 40%);">
+                            <p class="text-sm font-medium">Info</p>
+                            <p class="text-xs text-warm-500">cyan-500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal (Dark) -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">Cards on dark backgrounds.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm text-warm-300 mb-3">Default Dark</p>
+                        <div class="card card-dark card-default-padding">
+                            <p class="font-medium text-warm-100 mb-2">Card Title</p>
+                            <p class="text-sm text-warm-400">Dark card with intaglio-800 background and intaglio-700 border.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-warm-300 mb-3">With Thread Accent</p>
+                        <div class="card card-dark card-default-padding overflow-hidden" style="border-top: 3px solid transparent; border-image: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%)) 1;">
+                            <p class="font-medium text-warm-100 mb-2">Featured Card</p>
+                            <p class="text-sm text-warm-400">Thread colors at 100% saturation on dark surfaces.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gradient Backgrounds -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Gradient Backgrounds</h2>
+            <p class="text-warm-600 mb-8">Traditional Opal gradient surfaces for featured cards.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Cool Gradient</h3>
+                    <div class="card card-gradient-cool card-default-padding border border-warm-200/50">
+                        <p class="font-medium mb-2">Featured Card</p>
+                        <p class="text-sm text-warm-600">Cyan → Magenta at 8-20% saturation.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Fresh Gradient</h3>
+                    <div class="card card-gradient-fresh card-default-padding border border-warm-200/50">
+                        <p class="font-medium mb-2">Success Card</p>
+                        <p class="text-sm text-warm-600">Cyan → Lime at 8-20% saturation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metric Cards -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Metric Cards</h2>
+            <p class="text-warm-600 mb-8">Cards optimized for displaying key metrics and statistics.</p>
+
+            <div class="grid grid-cols-4 gap-4">
+                <div class="card card-default card-default-padding">
+                    <p class="text-xs text-warm-500 mb-1">Today's Revenue</p>
+                    <p class="font-display text-2xl">$4,127</p>
+                    <p class="text-xs text-emerald-600 mt-2">↑ 12% vs yesterday</p>
+                </div>
+
+                <div class="card card-default card-default-padding">
+                    <p class="text-xs text-warm-500 mb-1">Transactions</p>
+                    <p class="font-display text-2xl">847</p>
+                    <p class="text-xs text-emerald-600 mt-2">↑ 8% vs yesterday</p>
+                </div>
+
+                <div class="card card-default card-default-padding">
+                    <p class="text-xs text-warm-500 mb-1">Clear Rate</p>
+                    <p class="font-display text-2xl">98.2%</p>
+                    <p class="text-xs text-lime-600 mt-2">Excellent</p>
+                </div>
+
+                <div class="card card-default card-default-padding">
+                    <p class="text-xs text-warm-500 mb-1">Failed</p>
+                    <p class="font-display text-2xl">3</p>
+                    <p class="text-xs text-magenta-600 mt-2">Needs attention</p>
+                </div>
+            </div>
+
+            <!-- Dark metric cards -->
+            <div class="bg-intaglio-900 rounded-xl p-6 mt-6">
+                <p class="text-sm text-warm-300 mb-4">Dark Metric Cards</p>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="card card-dark card-compact">
+                        <p class="text-xs text-warm-500 mb-1">Revenue</p>
+                        <p class="font-display text-xl text-warm-100">$4,127</p>
+                        <p class="text-xs mt-2" style="color: hsl(150 80% 55%);">↑ 12%</p>
+                    </div>
+                    <div class="card card-dark card-compact">
+                        <p class="text-xs text-warm-500 mb-1">Transactions</p>
+                        <p class="font-display text-xl text-warm-100">847</p>
+                        <p class="text-xs mt-2" style="color: hsl(170 100% 50%);">↑ 8%</p>
+                    </div>
+                    <div class="card card-dark card-compact">
+                        <p class="text-xs text-warm-500 mb-1">Clear Rate</p>
+                        <p class="font-display text-xl text-warm-100">98.2%</p>
+                        <p class="text-xs mt-2" style="color: hsl(74 100% 55%);">Excellent</p>
+                    </div>
+                    <div class="card card-dark card-compact">
+                        <p class="text-xs text-warm-500 mb-1">Failed</p>
+                        <p class="font-display text-xl text-warm-100">3</p>
+                        <p class="text-xs mt-2" style="color: hsl(330 100% 60%);">Action needed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Compositions -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Card Compositions</h2>
+            <p class="text-warm-600 mb-8">Common card layout patterns.</p>
+
+            <div class="space-y-8">
+                <!-- Card Grid -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Card Grid</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="card card-interactive card-compact">
+                            <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center mb-3">
+                                <span class="text-orange-600 font-semibold">TC</span>
+                            </div>
+                            <p class="font-medium text-sm">Target Circle</p>
+                            <p class="text-xs text-warm-500">12,340 points</p>
+                        </div>
+                        <div class="card card-interactive card-compact">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mb-3">
+                                <span class="text-blue-600 font-semibold">AA</span>
+                            </div>
+                            <p class="font-medium text-sm">AAdvantage</p>
+                            <p class="text-xs text-warm-500">24,500 miles</p>
+                        </div>
+                        <div class="card card-interactive card-compact">
+                            <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center mb-3">
+                                <span class="text-purple-600 font-semibold">HH</span>
+                            </div>
+                            <p class="font-medium text-sm">Hilton Honors</p>
+                            <p class="text-xs text-warm-500">45,000 points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card List -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Card List</h3>
+                    <div class="space-y-3">
+                        <div class="card card-default card-compact flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-sm">Transaction #TXN-4521</p>
+                                <p class="text-xs text-warm-500">Target Circle • $127.50</p>
+                            </div>
+                            <p class="text-sm text-warm-500">2 min ago</p>
+                        </div>
+                        <div class="card card-default card-compact flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-lime-100 flex items-center justify-center flex-shrink-0">
+                                <div class="w-2 h-2 rounded-full bg-lime-500"></div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-sm">Transaction #TXN-4520</p>
+                                <p class="text-xs text-warm-500">AAdvantage • $89.00</p>
+                            </div>
+                            <p class="text-sm text-warm-500">15 min ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card with Image -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Card with Image Header</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="card card-default overflow-hidden">
+                            <div class="h-32 bg-gradient-to-br from-emerald-400 to-cyan-500"></div>
+                            <div class="p-4">
+                                <p class="font-medium text-sm">Premium Features</p>
+                                <p class="text-xs text-warm-500 mt-1">Unlock advanced analytics</p>
+                            </div>
+                        </div>
+                        <div class="card card-default overflow-hidden">
+                            <div class="h-32 bg-gradient-to-br from-orange-400 to-magenta-500"></div>
+                            <div class="p-4">
+                                <p class="font-medium text-sm">Limited Time Offer</p>
+                                <p class="text-xs text-warm-500 mt-1">2x points this weekend</p>
+                            </div>
+                        </div>
+                        <div class="card card-default overflow-hidden">
+                            <div class="h-32 bg-gradient-to-br from-warm-300 to-warm-400"></div>
+                            <div class="p-4">
+                                <p class="font-medium text-sm">Getting Started</p>
+                                <p class="text-xs text-warm-500 mt-1">Connect your first program</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+</body>
+</html>

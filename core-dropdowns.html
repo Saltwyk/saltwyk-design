@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdowns - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Select trigger */
+        .select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: white;
+            border: 1.5px solid hsl(30 5% 85%);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 200px;
+        }
+        .select-trigger:hover {
+            border-color: hsl(30 5% 75%);
+        }
+        .select-trigger:focus {
+            outline: none;
+            border-color: hsl(150 100% 27%);
+            box-shadow: 0 0 0 3px hsla(150 100% 27% / 15%);
+        }
+        .select-trigger.open {
+            border-color: hsl(150 100% 27%);
+            box-shadow: 0 0 0 3px hsla(150 100% 27% / 15%);
+        }
+        .select-trigger.disabled {
+            background: hsl(30 5% 96%);
+            color: hsl(30 5% 60%);
+            cursor: not-allowed;
+        }
+        .select-trigger.error {
+            border-color: hsl(330 85% 50%);
+        }
+
+        /* Select menu */
+        .select-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1.5px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15);
+            z-index: 50;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        /* Select option */
+        .select-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            font-size: 14px;
+        }
+        .select-option:hover {
+            background: hsl(30 10% 97%);
+        }
+        .select-option.selected {
+            background: hsl(150 45% 96%);
+            color: hsl(150 100% 22%);
+        }
+        .select-option.disabled {
+            color: hsl(30 5% 60%);
+            cursor: not-allowed;
+        }
+        .select-option.disabled:hover {
+            background: transparent;
+        }
+
+        /* Option group header */
+        .option-group-header {
+            padding: 8px 12px 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: hsl(30 6% 50%);
+        }
+
+        /* Checkmark */
+        .select-check {
+            width: 16px;
+            height: 16px;
+            color: hsl(150 100% 27%);
+            flex-shrink: 0;
+        }
+
+        /* Chevron */
+        .select-chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(30 6% 50%);
+            transition: transform 0.15s ease;
+        }
+        .select-trigger.open .select-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Search input in dropdown */
+        .select-search {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            font-size: 14px;
+            outline: none;
+        }
+        .select-search::placeholder {
+            color: hsl(30 5% 60%);
+        }
+
+        /* Multi-select tag */
+        .select-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: hsl(150 45% 94%);
+            border-radius: 4px;
+            font-size: 12px;
+            color: hsl(150 100% 22%);
+        }
+        .select-tag-remove {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            color: hsl(150 100% 30%);
+        }
+        .select-tag-remove:hover {
+            color: hsl(150 100% 20%);
+        }
+
+        /* Checkbox in multi-select */
+        .select-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid hsl(30 5% 78%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.1s ease;
+        }
+        .select-checkbox.checked {
+            background: hsl(150 100% 27%);
+            border-color: hsl(150 100% 27%);
+        }
+
+        /* Dark mode variants */
+        .select-trigger-dark {
+            background: hsl(24 28% 14%);
+            border-color: hsl(24 27% 22%);
+            color: hsl(30 5% 88%);
+        }
+        .select-trigger-dark:hover {
+            border-color: hsl(24 27% 28%);
+        }
+        .select-trigger-dark:focus,
+        .select-trigger-dark.open {
+            border-color: hsl(170 100% 45%);
+            box-shadow: 0 0 0 3px hsla(170 100% 45% / 20%);
+        }
+
+        .select-menu-dark {
+            background: hsl(24 28% 12%);
+            border-color: hsl(24 27% 18%);
+        }
+        .select-option-dark:hover {
+            background: hsl(24 27% 16%);
+        }
+        .select-option-dark.selected {
+            background: hsla(150 100% 40% / 15%);
+            color: hsl(150 80% 60%);
+        }
+
+        /* Loading spinner */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .select-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid hsl(30 5% 85%);
+            border-top-color: hsl(150 100% 27%);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* Icon option prefix */
+        .option-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html" class="font-medium text-emerald-600">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Dropdowns</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Dropdowns & Selects</h1>
+            <p class="text-warm-600">Selection controls for choosing from a list of options.</p>
+        </header>
+
+        <!-- Dropdown Anatomy -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Dropdown Anatomy</h2>
+            <p class="text-warm-600 mb-8">The structural components of a dropdown select.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="flex items-start gap-12">
+                    <div class="relative" style="width: 280px;">
+                        <!-- Trigger -->
+                        <div class="select-trigger open">
+                            <span>Status Filter</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <!-- Menu -->
+                        <div class="select-menu" style="position: relative; top: 4px; margin-top: 4px;">
+                            <div class="select-option selected">
+                                <svg class="select-check" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>All Statuses</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Pending</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Completed</span>
+                            </div>
+                            <div class="select-option disabled">
+                                <div style="width: 16px;"></div>
+                                <span>Archived</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-4 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Trigger</p>
+                                <p class="text-warm-600">Button or input that opens the dropdown. Shows current selection.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-cyan-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Menu</p>
+                                <p class="text-warm-600">Container for options. White background, rounded-lg, shadow-lg, border warm-200.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-lime-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Option</p>
+                                <p class="text-warm-600">Individual selectable item with hover and selected states.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-warm-400 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Disabled Option</p>
+                                <p class="text-warm-600">Non-selectable option with muted styling.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Basic Select -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Basic Select</h2>
+            <p class="text-warm-600 mb-8">Standard single-selection dropdown.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Closed State -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Closed State</h3>
+                    <div class="relative" style="width: 240px;">
+                        <div class="select-trigger">
+                            <span class="text-warm-500">Select a program...</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Placeholder text when no selection</p>
+                </div>
+
+                <!-- With Selection -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">With Selection</h3>
+                    <div class="relative" style="width: 240px;">
+                        <div class="select-trigger">
+                            <span>Target Circle</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Selected value displayed in trigger</p>
+                </div>
+
+                <!-- Open State -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6 col-span-2">
+                    <h3 class="font-semibold mb-4">Open State</h3>
+                    <div class="flex gap-12">
+                        <div class="relative" style="width: 240px;">
+                            <div class="select-trigger open">
+                                <span>Target Circle</span>
+                                <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                            <div class="select-menu" style="position: relative; top: 4px;">
+                                <div class="select-option">
+                                    <div style="width: 16px;"></div>
+                                    <span>All Programs</span>
+                                </div>
+                                <div class="select-option selected">
+                                    <svg class="select-check" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span>Target Circle</span>
+                                </div>
+                                <div class="select-option">
+                                    <div style="width: 16px;"></div>
+                                    <span>AAdvantage</span>
+                                </div>
+                                <div class="select-option">
+                                    <div style="width: 16px;"></div>
+                                    <span>Hilton Honors</span>
+                                </div>
+                                <div class="select-option">
+                                    <div style="width: 16px;"></div>
+                                    <span>Starbucks Rewards</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm space-y-2">
+                            <p><code>selected</code> — emerald-50 background with check icon</p>
+                            <p><code>hover</code> — warm-50 background</p>
+                            <p><code>disabled</code> — warm-500 text, no hover effect</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dropdown Variants -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Dropdown Variants</h2>
+            <p class="text-warm-600 mb-8">Different dropdown configurations for various use cases.</p>
+
+            <div class="space-y-6">
+                <!-- Searchable -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Searchable Select</h3>
+                    <p class="text-sm text-warm-600 mb-4">Text input to filter options. Useful for long lists.</p>
+                    <div class="relative" style="width: 280px;">
+                        <div class="select-trigger open">
+                            <span>Search programs...</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="select-menu" style="position: relative; top: 4px;">
+                            <input type="text" class="select-search" placeholder="Search..." value="target">
+                            <div class="p-1">
+                                <div class="select-option">
+                                    <div style="width: 16px;"></div>
+                                    <span><strong>Target</strong> Circle</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-select -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Multi-Select</h3>
+                    <p class="text-sm text-warm-600 mb-4">Select multiple options. Selected items shown as tags.</p>
+                    <div class="relative" style="width: 320px;">
+                        <div class="select-trigger open" style="min-height: 44px; flex-wrap: wrap; gap: 4px; padding: 6px 14px;">
+                            <span class="select-tag">
+                                Target Circle
+                                <svg class="select-tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </span>
+                            <span class="select-tag">
+                                AAdvantage
+                                <svg class="select-tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </span>
+                            <svg class="select-chevron ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="select-menu" style="position: relative; top: 4px;">
+                            <div class="select-option">
+                                <div class="select-checkbox checked">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span>Target Circle</span>
+                            </div>
+                            <div class="select-option">
+                                <div class="select-checkbox checked">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span>AAdvantage</span>
+                            </div>
+                            <div class="select-option">
+                                <div class="select-checkbox"></div>
+                                <span>Hilton Honors</span>
+                            </div>
+                            <div class="select-option">
+                                <div class="select-checkbox"></div>
+                                <span>Starbucks Rewards</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grouped Options -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Grouped Options</h3>
+                    <p class="text-sm text-warm-600 mb-4">Option groups with headers for categorization.</p>
+                    <div class="relative" style="width: 260px;">
+                        <div class="select-trigger open">
+                            <span>Select date range...</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="select-menu" style="position: relative; top: 4px;">
+                            <div class="option-group-header">Relative</div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Today</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Last 7 days</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Last 30 days</span>
+                            </div>
+                            <div class="option-group-header">Absolute</div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>This month</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Last month</span>
+                            </div>
+                            <div class="select-option">
+                                <div style="width: 16px;"></div>
+                                <span>Custom range...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- With Icons -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">With Icons</h3>
+                    <p class="text-sm text-warm-600 mb-4">Icon prefix on each option for visual clarity.</p>
+                    <div class="relative" style="width: 260px;">
+                        <div class="select-trigger open">
+                            <div class="flex items-center gap-2">
+                                <div class="w-5 h-5 rounded bg-emerald-500 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span>Completed</span>
+                            </div>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="select-menu" style="position: relative; top: 4px;">
+                            <div class="select-option">
+                                <div class="w-5 h-5 rounded bg-warm-300 flex items-center justify-center">
+                                    <div class="w-2 h-2 rounded-full bg-warm-500"></div>
+                                </div>
+                                <span>All statuses</span>
+                            </div>
+                            <div class="select-option">
+                                <div class="w-5 h-5 rounded bg-lime-100 flex items-center justify-center">
+                                    <div class="w-2 h-2 rounded-full bg-lime-500"></div>
+                                </div>
+                                <span>Pending</span>
+                            </div>
+                            <div class="select-option selected">
+                                <div class="w-5 h-5 rounded bg-emerald-100 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span>Completed</span>
+                            </div>
+                            <div class="select-option">
+                                <div class="w-5 h-5 rounded bg-magenta-100 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-magenta-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </div>
+                                <span>Failed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- States -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">States</h2>
+            <p class="text-warm-600 mb-8">Interactive and validation states for dropdown triggers.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Default</h3>
+                    <div class="select-trigger" style="width: 100%;">
+                        <span>Select option</span>
+                        <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Hover</h3>
+                    <div class="select-trigger" style="width: 100%; border-color: hsl(30 5% 75%);">
+                        <span>Select option</span>
+                        <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Open / Focused</h3>
+                    <div class="select-trigger open" style="width: 100%;">
+                        <span>Select option</span>
+                        <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Disabled</h3>
+                    <div class="select-trigger disabled" style="width: 100%;">
+                        <span>Select option</span>
+                        <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Error</h3>
+                    <div class="select-trigger error" style="width: 100%;">
+                        <span class="text-warm-500">Required field</span>
+                        <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs text-magenta-600 mt-2">Please select an option</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Loading</h3>
+                    <div class="select-trigger" style="width: 100%;">
+                        <span class="text-warm-500">Loading...</span>
+                        <div class="select-spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal (Dark) -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">Dropdowns on dark backgrounds use full-saturation thread colors.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="flex gap-12">
+                    <div class="relative" style="width: 260px;">
+                        <div class="select-trigger-dark select-trigger open">
+                            <span>All Transactions</span>
+                            <svg class="select-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transform: rotate(180deg);">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="select-menu select-menu-dark" style="position: relative; top: 4px;">
+                            <div class="select-option select-option-dark selected">
+                                <svg class="select-check" style="color: hsl(150 80% 55%);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>All Transactions</span>
+                            </div>
+                            <div class="select-option select-option-dark">
+                                <div style="width: 16px;"></div>
+                                <span style="color: hsl(30 5% 75%);">Pending</span>
+                            </div>
+                            <div class="select-option select-option-dark">
+                                <div style="width: 16px;"></div>
+                                <span style="color: hsl(30 5% 75%);">Completed</span>
+                            </div>
+                            <div class="select-option select-option-dark">
+                                <div style="width: 16px;"></div>
+                                <span style="color: hsl(30 5% 75%);">Failed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm space-y-3 text-warm-300">
+                        <p><span class="text-warm-100 font-medium">Trigger:</span> intaglio-800 background, warm-200 text</p>
+                        <p><span class="text-warm-100 font-medium">Menu:</span> intaglio-800 background, intaglio-700 border</p>
+                        <p><span class="text-warm-100 font-medium">Option hover:</span> intaglio-700</p>
+                        <p><span class="text-warm-100 font-medium">Selected:</span> emerald-500/20 background, emerald-400 text</p>
+                        <p><span class="text-warm-100 font-medium">Focus ring:</span> cyan-thread at 20% opacity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Positioning -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Positioning</h2>
+            <p class="text-warm-600 mb-8">Menu placement relative to the trigger.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Below (Default)</h3>
+                    <p class="text-sm text-warm-600 mb-4">Menu appears below trigger, left-aligned.</p>
+                    <div class="bg-warm-50 rounded-lg p-4 h-40 relative">
+                        <div class="w-32 h-8 bg-white border border-warm-300 rounded flex items-center justify-center text-xs">Trigger</div>
+                        <div class="w-32 h-20 bg-white border border-warm-300 rounded mt-1 flex items-center justify-center text-xs text-warm-500">Menu</div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Above (Flip)</h3>
+                    <p class="text-sm text-warm-600 mb-4">Flips above when insufficient space below.</p>
+                    <div class="bg-warm-50 rounded-lg p-4 h-40 relative flex flex-col justify-end">
+                        <div class="w-32 h-20 bg-white border border-warm-300 rounded mb-1 flex items-center justify-center text-xs text-warm-500">Menu</div>
+                        <div class="w-32 h-8 bg-white border border-warm-300 rounded flex items-center justify-center text-xs">Trigger</div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Width Options</h3>
+                    <p class="text-sm text-warm-600 mb-4">Menu width can match trigger or auto-size.</p>
+                    <div class="space-y-2 text-xs">
+                        <p><code>width: 100%</code> — Match trigger width</p>
+                        <p><code>min-width: 200px</code> — Minimum menu width</p>
+                        <p><code>max-width: 320px</code> — Maximum menu width</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Accessibility</h2>
+            <p class="text-warm-600 mb-8">ARIA attributes and keyboard navigation.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">ARIA Attributes</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Trigger: <code>role="combobox"</code>, <code>aria-expanded</code>, <code>aria-haspopup="listbox"</code></li>
+                        <li>• Menu: <code>role="listbox"</code></li>
+                        <li>• Option: <code>role="option"</code>, <code>aria-selected</code></li>
+                        <li>• Disabled option: <code>aria-disabled="true"</code></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Keyboard Navigation</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• <code>Enter</code> / <code>Space</code> — Open menu, select option</li>
+                        <li>• <code>Escape</code> — Close menu</li>
+                        <li>• <code>↑</code> / <code>↓</code> — Navigate options</li>
+                        <li>• <code>Home</code> / <code>End</code> — First / last option</li>
+                        <li>• Type-ahead — Jump to matching option</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Status Badge Base */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        /* Status Badge Colors */
+        .badge-success {
+            background: hsl(150 45% 93%);
+            color: hsl(150 100% 22%);
+        }
+        .badge-warning {
+            background: hsl(20 50% 93%);
+            color: hsl(20 80% 35%);
+        }
+        .badge-error {
+            background: hsl(330 50% 94%);
+            color: hsl(330 85% 40%);
+        }
+        .badge-info {
+            background: hsl(170 45% 92%);
+            color: hsl(170 100% 25%);
+        }
+        .badge-neutral {
+            background: hsl(30 5% 93%);
+            color: hsl(30 8% 35%);
+        }
+
+        /* Dot indicator */
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .badge-dot-success { background: hsl(150 100% 35%); }
+        .badge-dot-warning { background: hsl(20 90% 50%); }
+        .badge-dot-error { background: hsl(330 85% 50%); }
+        .badge-dot-info { background: hsl(170 100% 40%); }
+        .badge-dot-neutral { background: hsl(30 6% 50%); }
+
+        /* Count Badge */
+        .count-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            background: hsl(330 85% 50%);
+            color: white;
+        }
+        .count-badge-sm {
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            font-size: 10px;
+            border-radius: 8px;
+        }
+        .count-badge-lg {
+            min-width: 24px;
+            height: 24px;
+            padding: 0 8px;
+            font-size: 12px;
+            border-radius: 12px;
+        }
+
+        /* Tag */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            background: hsl(30 5% 95%);
+            color: hsl(30 8% 30%);
+        }
+        .tag-remove {
+            width: 14px;
+            height: 14px;
+            color: hsl(30 6% 50%);
+            cursor: pointer;
+            transition: color 0.1s ease;
+        }
+        .tag-remove:hover {
+            color: hsl(24 29% 8%);
+        }
+
+        /* Outline Badges */
+        .badge-outline {
+            background: transparent;
+            border: 1.5px solid currentColor;
+        }
+        .badge-outline-success {
+            color: hsl(150 100% 27%);
+            border-color: hsl(150 45% 75%);
+        }
+        .badge-outline-warning {
+            color: hsl(20 80% 40%);
+            border-color: hsl(20 50% 75%);
+        }
+        .badge-outline-error {
+            color: hsl(330 85% 45%);
+            border-color: hsl(330 50% 78%);
+        }
+        .badge-outline-info {
+            color: hsl(170 100% 30%);
+            border-color: hsl(170 45% 70%);
+        }
+        .badge-outline-neutral {
+            color: hsl(30 8% 40%);
+            border-color: hsl(30 5% 78%);
+        }
+
+        /* Dark mode badges */
+        .badge-success-dark {
+            background: hsla(150 100% 40% / 15%);
+            color: hsl(150 80% 55%);
+        }
+        .badge-warning-dark {
+            background: hsla(20 100% 50% / 15%);
+            color: hsl(20 90% 60%);
+        }
+        .badge-error-dark {
+            background: hsla(330 100% 55% / 15%);
+            color: hsl(330 90% 65%);
+        }
+        .badge-info-dark {
+            background: hsla(170 100% 50% / 15%);
+            color: hsl(170 100% 55%);
+        }
+        .badge-neutral-dark {
+            background: hsla(30 10% 50% / 15%);
+            color: hsl(30 5% 65%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html" class="font-medium text-emerald-600">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Badges</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Badges & Tags</h1>
+            <p class="text-warm-600">Status indicators, counts, and categorization labels.</p>
+        </header>
+
+        <!-- Status Badges -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Status Badges</h2>
+            <p class="text-warm-600 mb-8">Semantic status indicators with dot or label variants.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="space-y-8">
+                    <!-- Label badges -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Label Badges</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="badge badge-success">
+                                <span class="badge-dot badge-dot-success"></span>
+                                Completed
+                            </span>
+                            <span class="badge badge-warning">
+                                <span class="badge-dot badge-dot-warning"></span>
+                                Pending
+                            </span>
+                            <span class="badge badge-error">
+                                <span class="badge-dot badge-dot-error"></span>
+                                Failed
+                            </span>
+                            <span class="badge badge-info">
+                                <span class="badge-dot badge-dot-info"></span>
+                                Processing
+                            </span>
+                            <span class="badge badge-neutral">
+                                <span class="badge-dot badge-dot-neutral"></span>
+                                Draft
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Without dots -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Without Dot Indicator</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="badge badge-success">Active</span>
+                            <span class="badge badge-warning">Review</span>
+                            <span class="badge badge-error">Declined</span>
+                            <span class="badge badge-info">New</span>
+                            <span class="badge badge-neutral">Archived</span>
+                        </div>
+                    </div>
+
+                    <!-- Dot only -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Dot Only (Inline)</p>
+                        <div class="flex items-center gap-6">
+                            <span class="flex items-center gap-2">
+                                <span class="badge-dot badge-dot-success"></span>
+                                <span class="text-sm">Online</span>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="badge-dot badge-dot-warning"></span>
+                                <span class="text-sm">Away</span>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="badge-dot badge-dot-neutral"></span>
+                                <span class="text-sm">Offline</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Color Mapping -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Color Mapping</h2>
+            <p class="text-warm-600 mb-8">Semantic color assignments for badge states.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium">Purpose</th>
+                            <th class="text-left p-4 font-medium">Background</th>
+                            <th class="text-left p-4 font-medium">Text</th>
+                            <th class="text-left p-4 font-medium">Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4">Success / Complete</td>
+                            <td class="p-4"><code>emerald-100</code></td>
+                            <td class="p-4"><code>emerald-700</code></td>
+                            <td class="p-4"><span class="badge badge-success">Cleared</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Warning / Pending</td>
+                            <td class="p-4"><code>orange-100</code></td>
+                            <td class="p-4"><code>orange-700</code></td>
+                            <td class="p-4"><span class="badge badge-warning">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Error / Failed</td>
+                            <td class="p-4"><code>magenta-100</code></td>
+                            <td class="p-4"><code>magenta-700</code></td>
+                            <td class="p-4"><span class="badge badge-error">Failed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Info / Processing</td>
+                            <td class="p-4"><code>cyan-100</code></td>
+                            <td class="p-4"><code>cyan-700</code></td>
+                            <td class="p-4"><span class="badge badge-info">Processing</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Neutral / Default</td>
+                            <td class="p-4"><code>warm-100</code></td>
+                            <td class="p-4"><code>warm-700</code></td>
+                            <td class="p-4"><span class="badge badge-neutral">Draft</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Count Badges -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Count Badges</h2>
+            <p class="text-warm-600 mb-8">Numeric indicators for notifications and unread counts.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="space-y-8">
+                    <!-- Sizes -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Sizes</p>
+                        <div class="flex items-center gap-6">
+                            <span class="flex items-center gap-2">
+                                <span class="count-badge count-badge-sm">3</span>
+                                <span class="text-sm text-warm-600">Small (16px)</span>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="count-badge">12</span>
+                                <span class="text-sm text-warm-600">Default (20px)</span>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="count-badge count-badge-lg">99+</span>
+                                <span class="text-sm text-warm-600">Large (24px)</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Truncation -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Truncation</p>
+                        <div class="flex items-center gap-6">
+                            <span class="count-badge">5</span>
+                            <span class="count-badge">42</span>
+                            <span class="count-badge">99</span>
+                            <span class="count-badge">99+</span>
+                            <span class="text-sm text-warm-500">Use 99+ for counts over 99</span>
+                        </div>
+                    </div>
+
+                    <!-- In context -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">In Context</p>
+                        <div class="flex items-center gap-8">
+                            <span class="relative">
+                                <svg class="w-6 h-6 text-warm-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                                <span class="count-badge count-badge-sm absolute -top-1 -right-1">3</span>
+                            </span>
+                            <span class="text-sm text-warm-600">Notification icon with badge</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tags -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Tags</h2>
+            <p class="text-warm-600 mb-8">Removable labels for filters, selections, and categories.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="space-y-8">
+                    <!-- Basic tags -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Basic Tags</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag">Loyalty</span>
+                            <span class="tag">Travel</span>
+                            <span class="tag">Retail</span>
+                            <span class="tag">Dining</span>
+                        </div>
+                    </div>
+
+                    <!-- Removable tags -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Removable Tags</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag">
+                                Target Circle
+                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </span>
+                            <span class="tag">
+                                AAdvantage
+                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </span>
+                            <span class="tag">
+                                Hilton Honors
+                                <svg class="tag-remove" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Colored tags -->
+                    <div>
+                        <p class="text-sm font-medium mb-4">Colored Tags</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag" style="background: hsl(150 45% 93%); color: hsl(150 100% 22%);">Active</span>
+                            <span class="tag" style="background: hsl(170 45% 92%); color: hsl(170 100% 25%);">Travel</span>
+                            <span class="tag" style="background: hsl(20 50% 93%); color: hsl(20 80% 35%);">Retail</span>
+                            <span class="tag" style="background: hsl(330 50% 94%); color: hsl(330 85% 40%);">Expiring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outline Variants -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Outline Variants</h2>
+            <p class="text-warm-600 mb-8">Transparent background with colored border for subtle categorization.</p>
+
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <div class="flex flex-wrap gap-3">
+                    <span class="badge badge-outline badge-outline-success">Success</span>
+                    <span class="badge badge-outline badge-outline-warning">Warning</span>
+                    <span class="badge badge-outline badge-outline-error">Error</span>
+                    <span class="badge badge-outline badge-outline-info">Info</span>
+                    <span class="badge badge-outline badge-outline-neutral">Neutral</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal (Dark) -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">Badges on dark backgrounds use higher saturation thread colors.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="space-y-6">
+                    <div class="flex flex-wrap gap-3">
+                        <span class="badge badge-success-dark">
+                            <span class="badge-dot" style="background: hsl(150 100% 45%);"></span>
+                            Cleared
+                        </span>
+                        <span class="badge badge-warning-dark">
+                            <span class="badge-dot" style="background: hsl(20 100% 55%);"></span>
+                            Pending
+                        </span>
+                        <span class="badge badge-error-dark">
+                            <span class="badge-dot" style="background: hsl(330 100% 60%);"></span>
+                            Failed
+                        </span>
+                        <span class="badge badge-info-dark">
+                            <span class="badge-dot" style="background: hsl(170 100% 50%);"></span>
+                            Processing
+                        </span>
+                        <span class="badge badge-neutral-dark">
+                            <span class="badge-dot" style="background: hsl(30 5% 50%);"></span>
+                            Draft
+                        </span>
+                    </div>
+                    <div class="text-sm text-warm-400">
+                        <p>Thread colors at higher saturation for contrast on dark surfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges in Context -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Badges in Context</h2>
+            <p class="text-warm-600 mb-8">Common usage patterns across the interface.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- In table -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-warm-200">
+                        <h3 class="font-semibold">In Table Cells</h3>
+                    </div>
+                    <table class="w-full text-sm">
+                        <thead class="bg-warm-50">
+                            <tr>
+                                <th class="text-left p-3">Transaction</th>
+                                <th class="text-left p-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-warm-100">
+                                <td class="p-3">#TXN-4521</td>
+                                <td class="p-3"><span class="badge badge-success">Cleared</span></td>
+                            </tr>
+                            <tr class="border-t border-warm-100">
+                                <td class="p-3">#TXN-4520</td>
+                                <td class="p-3"><span class="badge badge-info">Processing</span></td>
+                            </tr>
+                            <tr class="border-t border-warm-100">
+                                <td class="p-3">#TXN-4519</td>
+                                <td class="p-3"><span class="badge badge-error">Failed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- In navigation -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-warm-200">
+                        <h3 class="font-semibold">In Navigation</h3>
+                    </div>
+                    <div class="p-4">
+                        <nav class="space-y-1">
+                            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700">
+                                <span class="font-medium">Inbox</span>
+                                <span class="count-badge count-badge-sm" style="background: hsl(150 100% 27%);">12</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-warm-600 hover:bg-warm-50">
+                                <span>Pending</span>
+                                <span class="count-badge count-badge-sm" style="background: hsl(20 90% 50%);">3</span>
+                            </a>
+                            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-warm-600 hover:bg-warm-50">
+                                <span>Completed</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- On cards -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-warm-200">
+                        <h3 class="font-semibold">On Cards</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium">Target Circle</span>
+                                <span class="badge badge-success">Connected</span>
+                            </div>
+                            <p class="text-sm text-warm-600">12,340 points available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inline with text -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-warm-200">
+                        <h3 class="font-semibold">Inline with Text</h3>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <p class="text-sm">
+                            Transaction <span class="font-mono">#TXN-4521</span> was
+                            <span class="badge badge-success" style="padding: 2px 6px; font-size: 11px;">cleared</span>
+                            successfully.
+                        </p>
+                        <p class="text-sm">
+                            Your account is
+                            <span class="badge badge-info" style="padding: 2px 6px; font-size: 11px;">new</span>
+                            — complete setup to unlock all features.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+</body>
+</html>
