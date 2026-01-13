@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Table base styles */
+        .table-base { width: 100%; border-collapse: collapse; }
+        .table-base th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: hsl(30 6% 46%);
+            padding: 12px 16px;
+            background: hsl(30 5% 97%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+        }
+        .table-base th.text-right { text-align: right; }
+        .table-base td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            color: hsl(24 29% 8%);
+        }
+        .table-base td.text-right { text-align: right; }
+        .table-base tbody tr:hover { background: hsl(30 5% 98%); }
+
+        /* Table variants */
+        .table-striped tbody tr:nth-child(even) { background: hsl(30 5% 98%); }
+        .table-striped tbody tr:hover { background: hsl(30 5% 96%); }
+
+        .table-bordered th, .table-bordered td { border: 1px solid hsl(30 5% 88%); }
+
+        .table-compact th, .table-compact td { padding: 8px 12px; font-size: 13px; }
+
+        .table-comfortable th, .table-comfortable td { padding: 16px 20px; }
+
+        /* Selected row */
+        .table-base tbody tr.selected {
+            background: hsl(150 45% 96%);
+            border-left: 3px solid hsl(150 100% 27%);
+        }
+
+        /* Dark table styles */
+        .table-dark { background: hsl(24 29% 8%); }
+        .table-dark th {
+            background: hsl(24 28% 12%);
+            color: hsl(30 5% 65%);
+            border-bottom: 1px solid hsl(24 27% 18%);
+        }
+        .table-dark td {
+            color: hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(24 27% 15%);
+        }
+        .table-dark tbody tr:hover { background: hsl(24 28% 12%); }
+        .table-dark tbody tr.selected {
+            background: hsla(150 100% 27% / 15%);
+            border-left: 3px solid hsl(150 80% 50%);
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .status-success { background: hsl(150 45% 92%); color: hsl(150 100% 22%); }
+        .status-success .dot { background: hsl(150 100% 40%); }
+        .status-warning { background: hsl(20 50% 93%); color: hsl(20 80% 30%); }
+        .status-warning .dot { background: hsl(20 90% 50%); }
+        .status-error { background: hsl(330 50% 94%); color: hsl(330 85% 35%); }
+        .status-error .dot { background: hsl(330 85% 50%); }
+        .status-info { background: hsl(170 45% 92%); color: hsl(170 100% 25%); }
+        .status-info .dot { background: hsl(170 100% 40%); }
+        .status-pending { background: hsl(74 45% 90%); color: hsl(74 80% 28%); }
+        .status-pending .dot { background: hsl(74 80% 45%); }
+
+        /* Dark status badges */
+        .status-success-dark { background: hsla(150 100% 40% / 15%); color: hsl(150 80% 65%); }
+        .status-success-dark .dot { background: hsl(150 100% 50%); }
+        .status-warning-dark { background: hsla(20 100% 50% / 15%); color: hsl(20 90% 65%); }
+        .status-warning-dark .dot { background: hsl(20 100% 55%); }
+        .status-error-dark { background: hsla(330 100% 50% / 15%); color: hsl(330 90% 70%); }
+        .status-error-dark .dot { background: hsl(330 100% 55%); }
+
+        /* Sortable column */
+        .sortable { cursor: pointer; user-select: none; }
+        .sortable:hover { color: hsl(150 100% 27%); }
+        .sort-icon { opacity: 0.4; margin-left: 4px; }
+        .sortable.active .sort-icon { opacity: 1; color: hsl(150 100% 27%); }
+
+        /* Thread line */
+        .thread-line-thin {
+            height: 2px;
+            background: linear-gradient(90deg,
+                hsl(170 100% 50%) 0%,
+                hsl(74 100% 50%) 25%,
+                hsl(20 100% 50%) 50%,
+                hsl(330 100% 50%) 75%,
+                hsl(170 100% 50%) 100%
+            );
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-warm-200">
+        <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-ink hover:text-emerald-600 transition-colors">
+                <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-8 w-auto">
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-tables.html" class="font-medium text-emerald-600">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-states.html">States</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-warm-400 uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Docs ▾</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Tables</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Token</p>
+            <h1 class="font-display text-4xl mb-2">Tables</h1>
+            <p class="text-warm-600">Data table patterns for displaying financial transactions, metrics, and structured information.</p>
+        </header>
+
+        <!-- BASIC TABLE -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Basic Table</p>
+            <p class="text-warm-600 mb-6">The foundational table style. Header row uses warm-100 background with uppercase labels. Body rows have white background with warm-200 bottom border.</p>
+
+            <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-4">
+                <table class="table-base">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th class="text-right">Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-2024-0847</td>
+                            <td>Jan 12, 2026</td>
+                            <td>Target — Minneapolis, MN</td>
+                            <td class="text-right font-medium">$127.50</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Cleared</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-2024-0846</td>
+                            <td>Jan 12, 2026</td>
+                            <td>Whole Foods — Austin, TX</td>
+                            <td class="text-right font-medium">$89.23</td>
+                            <td><span class="status-badge status-pending"><span class="dot"></span>Processing</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-2024-0845</td>
+                            <td>Jan 11, 2026</td>
+                            <td>Amazon.com</td>
+                            <td class="text-right font-medium">$234.99</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Cleared</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-2024-0844</td>
+                            <td>Jan 11, 2026</td>
+                            <td>Starbucks — Chicago, IL</td>
+                            <td class="text-right font-medium">$12.45</td>
+                            <td><span class="status-badge status-error"><span class="dot"></span>Failed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-warm-50 rounded-lg p-4 text-sm">
+                <p class="font-medium mb-2">Anatomy</p>
+                <ul class="text-warm-600 space-y-1">
+                    <li>• <strong>Header:</strong> <code>bg-warm-100</code>, uppercase labels, <code>caption</code> size (11px)</li>
+                    <li>• <strong>Body rows:</strong> <code>bg-white</code>, <code>border-b border-warm-200</code></li>
+                    <li>• <strong>Cell padding:</strong> <code>py-3 px-4</code> (12px 16px)</li>
+                    <li>• <strong>Text alignment:</strong> Left for text, right for numbers</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TABLE VARIANTS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Table Variants</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Striped -->
+                <div>
+                    <p class="font-medium mb-3">Striped</p>
+                    <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-3">
+                        <table class="table-base table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Program</th>
+                                    <th class="text-right">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Target Circle</td><td class="text-right">$123.40</td></tr>
+                                <tr><td>AAdvantage</td><td class="text-right">$245.00</td></tr>
+                                <tr><td>Hilton Honors</td><td class="text-right">$89.50</td></tr>
+                                <tr><td>Marriott Bonvoy</td><td class="text-right">$167.25</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-warm-500">Alternating <code>warm-50</code>/<code>white</code> rows for scannability.</p>
+                </div>
+
+                <!-- Bordered -->
+                <div>
+                    <p class="font-medium mb-3">Bordered</p>
+                    <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-3">
+                        <table class="table-base table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Program</th>
+                                    <th class="text-right">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Target Circle</td><td class="text-right">$123.40</td></tr>
+                                <tr><td>AAdvantage</td><td class="text-right">$245.00</td></tr>
+                                <tr><td>Hilton Honors</td><td class="text-right">$89.50</td></tr>
+                                <tr><td>Marriott Bonvoy</td><td class="text-right">$167.25</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-warm-500">Full cell borders using <code>warm-200</code> for complex data.</p>
+                </div>
+
+                <!-- Compact -->
+                <div>
+                    <p class="font-medium mb-3">Compact</p>
+                    <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-3">
+                        <table class="table-base table-compact">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Merchant</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="font-mono">0847</td><td>Target</td><td class="text-right">$127.50</td></tr>
+                                <tr><td class="font-mono">0846</td><td>Whole Foods</td><td class="text-right">$89.23</td></tr>
+                                <tr><td class="font-mono">0845</td><td>Amazon</td><td class="text-right">$234.99</td></tr>
+                                <tr><td class="font-mono">0844</td><td>Starbucks</td><td class="text-right">$12.45</td></tr>
+                                <tr><td class="font-mono">0843</td><td>Costco</td><td class="text-right">$312.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-warm-500">Reduced padding (<code>py-2 px-3</code>) for data-dense views.</p>
+                </div>
+
+                <!-- Comfortable -->
+                <div>
+                    <p class="font-medium mb-3">Comfortable</p>
+                    <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-3">
+                        <table class="table-base table-comfortable">
+                            <thead>
+                                <tr>
+                                    <th>Program</th>
+                                    <th class="text-right">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Target Circle</td><td class="text-right">$123.40</td></tr>
+                                <tr><td>AAdvantage</td><td class="text-right">$245.00</td></tr>
+                                <tr><td>Hilton Honors</td><td class="text-right">$89.50</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-warm-500">Increased padding (<code>py-4 px-5</code>) for improved readability.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE TABLES -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Interactive Tables</p>
+
+            <div class="bg-white rounded-lg border-2 border-warm-200 overflow-hidden mb-4">
+                <table class="table-base">
+                    <thead>
+                        <tr>
+                            <th class="sortable active">Transaction ID <span class="sort-icon">↓</span></th>
+                            <th class="sortable">Date <span class="sort-icon">↕</span></th>
+                            <th class="sortable">Merchant <span class="sort-icon">↕</span></th>
+                            <th class="sortable text-right">Amount <span class="sort-icon">↕</span></th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cursor-pointer">
+                            <td class="font-mono text-sm">TXN-2024-0847</td>
+                            <td>Jan 12, 2026</td>
+                            <td>Target — Minneapolis, MN</td>
+                            <td class="text-right font-medium">$127.50</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Cleared</span></td>
+                        </tr>
+                        <tr class="selected cursor-pointer">
+                            <td class="font-mono text-sm">TXN-2024-0846</td>
+                            <td>Jan 12, 2026</td>
+                            <td>Whole Foods — Austin, TX</td>
+                            <td class="text-right font-medium">$89.23</td>
+                            <td><span class="status-badge status-pending"><span class="dot"></span>Processing</span></td>
+                        </tr>
+                        <tr class="cursor-pointer">
+                            <td class="font-mono text-sm">TXN-2024-0845</td>
+                            <td>Jan 11, 2026</td>
+                            <td>Amazon.com</td>
+                            <td class="text-right font-medium">$234.99</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Cleared</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="font-medium text-sm mb-2">Hover State</p>
+                    <p class="text-sm text-warm-600"><code>bg-warm-50</code> background on row hover.</p>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="font-medium text-sm mb-2">Selected Row</p>
+                    <p class="text-sm text-warm-600"><code>bg-emerald-50</code> with <code>emerald-500</code> left border (3px).</p>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="font-medium text-sm mb-2">Sortable Columns</p>
+                    <p class="text-sm text-warm-600">Sort icon with active indicator. Hover changes header color.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABLE ON DARK (FIRE OPAL) -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Table on Dark (Fire Opal)</p>
+            <p class="text-warm-600 mb-6">For merchant dashboards and dark-themed interfaces. Thread colors burn through dark backgrounds at full saturation.</p>
+
+            <div class="rounded-lg overflow-hidden mb-4">
+                <div class="thread-line-thin"></div>
+                <div class="table-dark rounded-b-lg overflow-hidden">
+                    <table class="table-base">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Merchant</th>
+                                <th class="text-right">Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm" style="color: hsl(170 100% 50%)">TXN-2024-0847</td>
+                                <td>Jan 12, 2026</td>
+                                <td>Target — Minneapolis, MN</td>
+                                <td class="text-right font-medium">$127.50</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Cleared</span></td>
+                            </tr>
+                            <tr class="selected">
+                                <td class="font-mono text-sm" style="color: hsl(170 100% 50%)">TXN-2024-0846</td>
+                                <td>Jan 12, 2026</td>
+                                <td>Whole Foods — Austin, TX</td>
+                                <td class="text-right font-medium">$89.23</td>
+                                <td><span class="status-badge status-warning-dark"><span class="dot"></span>Processing</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm" style="color: hsl(170 100% 50%)">TXN-2024-0845</td>
+                                <td>Jan 11, 2026</td>
+                                <td>Amazon.com</td>
+                                <td class="text-right font-medium">$234.99</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Cleared</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm" style="color: hsl(170 100% 50%)">TXN-2024-0844</td>
+                                <td>Jan 11, 2026</td>
+                                <td>Starbucks — Chicago, IL</td>
+                                <td class="text-right font-medium">$12.45</td>
+                                <td><span class="status-badge status-error-dark"><span class="dot"></span>Failed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm" style="color: hsl(170 100% 50%)">TXN-2024-0843</td>
+                                <td>Jan 10, 2026</td>
+                                <td>Costco — Seattle, WA</td>
+                                <td class="text-right font-medium">$312.00</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Cleared</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-warm-50 rounded-lg p-4 text-sm">
+                <p class="font-medium mb-2">Fire Opal Table Tokens</p>
+                <ul class="text-warm-600 space-y-1">
+                    <li>• <strong>Header:</strong> <code>bg-intaglio-800</code></li>
+                    <li>• <strong>Body:</strong> <code>bg-intaglio-900</code></li>
+                    <li>• <strong>Borders:</strong> <code>intaglio-700</code></li>
+                    <li>• <strong>Hover:</strong> <code>bg-intaglio-800</code></li>
+                    <li>• <strong>Selected:</strong> <code>emerald-500/20</code> bg with <code>emerald-400</code> left border</li>
+                    <li>• <strong>Text:</strong> <code>warm-100</code> primary, <code>warm-400</code> secondary</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- STATUS CELLS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Status Cells</p>
+            <p class="text-warm-600 mb-6">Status badges for table cells use thread-derived colors for semantic meaning.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <p class="font-medium mb-4">Light Background</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-success"><span class="dot"></span>Cleared</span>
+                            <span class="text-sm text-warm-500">Success, complete, approved</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-pending"><span class="dot"></span>Processing</span>
+                            <span class="text-sm text-warm-500">In progress, pending</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-warning"><span class="dot"></span>Attention</span>
+                            <span class="text-sm text-warm-500">Needs review, expiring</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-error"><span class="dot"></span>Failed</span>
+                            <span class="text-sm text-warm-500">Error, rejected, critical</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-info"><span class="dot"></span>Info</span>
+                            <span class="text-sm text-warm-500">Informational, neutral</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="font-medium mb-4">Dark Background (Fire Opal)</p>
+                    <div class="bg-[hsl(24_29%_8%)] rounded-lg p-4 space-y-3">
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-success-dark"><span class="dot"></span>Cleared</span>
+                            <span class="text-sm text-warm-400">Success, complete</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-warning-dark"><span class="dot"></span>Processing</span>
+                            <span class="text-sm text-warm-400">In progress</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="status-badge status-error-dark"><span class="dot"></span>Failed</span>
+                            <span class="text-sm text-warm-400">Error, rejected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-warm-50 rounded-lg p-4 text-sm">
+                <p class="font-medium mb-2">Color Mapping</p>
+                <ul class="text-warm-600 space-y-1">
+                    <li>• <strong class="text-emerald-600">Emerald:</strong> Success, cleared, approved, active</li>
+                    <li>• <strong style="color: hsl(74 80% 35%)">Lime:</strong> Processing, in-progress, pending positive</li>
+                    <li>• <strong style="color: hsl(20 90% 45%)">Orange:</strong> Warning, attention needed, expiring</li>
+                    <li>• <strong style="color: hsl(330 85% 45%)">Magenta:</strong> Error, failed, rejected, critical</li>
+                    <li>• <strong style="color: hsl(170 100% 35%)">Cyan:</strong> Informational, neutral, link-related</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- RESPONSIVE BEHAVIOR -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Responsive Behavior</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-warm-50 rounded-lg p-5">
+                    <p class="font-medium mb-2">Horizontal Scroll</p>
+                    <p class="text-sm text-warm-600">Wrap table in <code>overflow-x-auto</code> container. Table maintains minimum column widths.</p>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-5">
+                    <p class="font-medium mb-2">Priority Columns</p>
+                    <p class="text-sm text-warm-600">Hide secondary columns on mobile using <code>hidden md:table-cell</code>. Keep ID, Amount, Status visible.</p>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-5">
+                    <p class="font-medium mb-2">Card Transformation</p>
+                    <p class="text-sm text-warm-600">On narrow viewports, transform rows into stacked cards with label-value pairs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-8 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="hover:text-emerald-600">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                </div>
+                <p>Saltwyk Design System v0.6</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
