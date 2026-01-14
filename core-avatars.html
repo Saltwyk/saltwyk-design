@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Specification - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* ========================================= */
+        /* AVATAR BASE STYLES */
+        /* ========================================= */
+        .avatar {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Sizes */
+        .avatar-xs { width: 24px; height: 24px; }
+        .avatar-sm { width: 32px; height: 32px; }
+        .avatar-md { width: 40px; height: 40px; }
+        .avatar-lg { width: 48px; height: 48px; }
+        .avatar-xl { width: 64px; height: 64px; }
+        .avatar-2xl { width: 96px; height: 96px; }
+
+        /* Image */
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Initials */
+        .avatar-initials {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .avatar-xs .avatar-initials { font-size: 10px; }
+        .avatar-sm .avatar-initials { font-size: 12px; }
+        .avatar-md .avatar-initials { font-size: 14px; }
+        .avatar-lg .avatar-initials { font-size: 16px; }
+        .avatar-xl .avatar-initials { font-size: 20px; }
+        .avatar-2xl .avatar-initials { font-size: 28px; }
+
+        /* Initials color variants - Light */
+        .avatar-emerald { background: hsl(150 45% 92%); color: hsl(150 100% 22%); }
+        .avatar-cyan { background: hsl(180 50% 92%); color: hsl(180 100% 28%); }
+        .avatar-orange { background: hsl(30 90% 92%); color: hsl(25 100% 40%); }
+        .avatar-magenta { background: hsl(330 80% 94%); color: hsl(330 85% 45%); }
+        .avatar-neutral { background: hsl(30 5% 88%); color: hsl(30 8% 35%); }
+
+        /* Initials color variants - Dark */
+        .avatar-emerald-dark { background: hsl(150 100% 27% / 20%); color: hsl(150 80% 60%); }
+        .avatar-cyan-dark { background: hsl(180 100% 35% / 20%); color: hsl(180 80% 60%); }
+        .avatar-orange-dark { background: hsl(30 100% 50% / 20%); color: hsl(30 80% 65%); }
+        .avatar-magenta-dark { background: hsl(330 100% 50% / 20%); color: hsl(330 80% 70%); }
+        .avatar-neutral-dark { background: hsl(30 5% 50% / 20%); color: hsl(30 5% 65%); }
+
+        /* Fallback icon */
+        .avatar-fallback {
+            background: hsl(30 5% 93%);
+            color: hsl(30 6% 62%);
+        }
+        .avatar-fallback-dark {
+            background: hsl(24 26% 22%);
+            color: hsl(30 6% 46%);
+        }
+        .avatar-xs .avatar-icon { width: 12px; height: 12px; }
+        .avatar-sm .avatar-icon { width: 16px; height: 16px; }
+        .avatar-md .avatar-icon { width: 20px; height: 20px; }
+        .avatar-lg .avatar-icon { width: 24px; height: 24px; }
+        .avatar-xl .avatar-icon { width: 28px; height: 28px; }
+        .avatar-2xl .avatar-icon { width: 40px; height: 40px; }
+
+        /* Status indicator */
+        .avatar-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-radius: 9999px;
+            border: 2px solid white;
+        }
+        .avatar-status-dark {
+            border-color: hsl(24 29% 8%);
+        }
+        .avatar-xs .avatar-status { width: 6px; height: 6px; border-width: 1.5px; }
+        .avatar-sm .avatar-status { width: 8px; height: 8px; }
+        .avatar-md .avatar-status { width: 10px; height: 10px; }
+        .avatar-lg .avatar-status { width: 12px; height: 12px; }
+        .avatar-xl .avatar-status { width: 14px; height: 14px; }
+        .avatar-2xl .avatar-status { width: 16px; height: 16px; }
+
+        .status-online { background: hsl(150 100% 27%); }
+        .status-away { background: hsl(30 100% 50%); }
+        .status-busy { background: hsl(330 85% 50%); }
+        .status-offline { background: hsl(30 6% 62%); }
+
+        /* Badge */
+        .avatar-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            background: hsl(330 85% 50%);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 9999px;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-badge-dark {
+            border-color: hsl(24 29% 8%);
+        }
+
+        /* Avatar group */
+        .avatar-group {
+            display: flex;
+        }
+        .avatar-group .avatar {
+            border: 2px solid white;
+            margin-left: -8px;
+        }
+        .avatar-group .avatar:first-child {
+            margin-left: 0;
+        }
+        .avatar-group-dark .avatar {
+            border-color: hsl(24 29% 8%);
+        }
+        .avatar-group .avatar-overflow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: hsl(30 5% 93%);
+            color: hsl(30 6% 46%);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .avatar-group-dark .avatar-overflow {
+            background: hsl(24 26% 22%);
+            color: hsl(30 5% 65%);
+        }
+
+        /* Interactive states */
+        .avatar-interactive {
+            cursor: pointer;
+            transition: box-shadow 0.15s ease;
+        }
+        .avatar-interactive:hover {
+            box-shadow: 0 0 0 2px hsl(30 5% 88%);
+        }
+        .avatar-interactive:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);
+        }
+        .avatar-interactive.selected {
+            box-shadow: 0 0 0 2px hsl(150 100% 27%);
+        }
+        .avatar-interactive-dark:hover {
+            box-shadow: 0 0 0 2px hsl(24 26% 28%);
+        }
+        .avatar-interactive-dark:focus {
+            box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%);
+        }
+
+        /* Rounded square variant */
+        .avatar-square {
+            border-radius: 20%;
+        }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* State demo cards */
+        .state-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border: 1px solid hsl(30 5% 92%);
+            border-radius: 8px;
+        }
+        .state-row + .state-row { margin-top: 8px; }
+        .state-label {
+            width: 80px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .state-preview { flex: 1; }
+        .state-specs {
+            font-size: 11px;
+            color: hsl(30 6% 46%);
+            text-align: right;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            font-size: 14px;
+            color: hsl(30 8% 30%);
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist-box {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(30 5% 78%);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+    </style>
+</head>
+<body class="bg-warm-50 text-ink min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b-2 border-warm-200 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex items-center gap-8">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/logos/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-8 w-8">
+                <span class="font-brand text-lg">Saltwyk</span>
+            </a>
+
+            <div class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-inputs.html">Inputs</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-responsive.html">Responsive</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                        <a href="core-avatars.html" class="font-medium text-emerald-600">Avatars</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                    </div>
+                </div>
+                <a href="sitemap.html" class="text-warm-600 hover:text-ink">Sitemap</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Home</a>
+            <span>&#8594;</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Avatars</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-3">Avatars</h1>
+            <p class="text-warm-600 text-lg">Implementation specification for Saltwyk avatar components. Visual identity representations with graceful fallbacks.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">Avatars represent people and entities in the interface.</strong>
+                    They provide visual identity and recognition at a glance. A well-designed avatar system helps users quickly identify who they're interacting with.
+                </p>
+                <p class="text-warm-600 text-sm">
+                    Fallbacks must be graceful—initials or a generic icon when no image is available. The color system for initials ensures visual distinction while maintaining brand consistency.
+                </p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: ANATOMY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Anatomy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="flex items-start gap-12">
+                    <!-- Visual anatomy -->
+                    <div class="relative">
+                        <div class="avatar avatar-xl avatar-emerald" style="width: 96px; height: 96px;">
+                            <span class="avatar-initials" style="font-size: 28px;">JD</span>
+                            <span class="avatar-status status-online" style="width: 16px; height: 16px;"></span>
+                            <span class="avatar-badge">3</span>
+                        </div>
+                        <!-- Annotation lines -->
+                        <div class="absolute -right-32 top-0 flex items-center gap-2">
+                            <div class="w-8 border-t border-warm-400"></div>
+                            <span class="text-xs text-warm-500">Badge</span>
+                        </div>
+                        <div class="absolute -right-40 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                            <div class="w-16 border-t border-warm-400"></div>
+                            <span class="text-xs text-warm-500">Initials/Image</span>
+                        </div>
+                        <div class="absolute -right-44 bottom-2 flex items-center gap-2">
+                            <div class="w-20 border-t border-warm-400"></div>
+                            <span class="text-xs text-warm-500">Status indicator</span>
+                        </div>
+                        <div class="absolute -left-28 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                            <span class="text-xs text-warm-500">Container</span>
+                            <div class="w-4 border-t border-warm-400"></div>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy list -->
+                    <div class="flex-1 ml-24">
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5"></span>
+                                <div>
+                                    <strong class="text-ink">Container</strong>
+                                    <span class="text-warm-600"> — Circular or rounded frame</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5"></span>
+                                <div>
+                                    <strong class="text-ink">Image</strong>
+                                    <span class="text-warm-600"> — User photo or logo</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5"></span>
+                                <div>
+                                    <strong class="text-ink">Fallback</strong>
+                                    <span class="text-warm-600"> — Initials or icon when no image</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5"></span>
+                                <div>
+                                    <strong class="text-ink">Status indicator</strong>
+                                    <span class="text-warm-600"> — Optional online/offline dot</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5"></span>
+                                <div>
+                                    <strong class="text-ink">Badge</strong>
+                                    <span class="text-warm-600"> — Optional count or notification</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: BASE SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Base Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Shape</td>
+                            <td>Circle (default) or rounded square</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius (circle)</td>
+                            <td><code>9999px</code> (full)</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius (square)</td>
+                            <td>20% of size</td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td>Optional, <code>2px</code> white or intaglio-900</td>
+                        </tr>
+                        <tr>
+                            <td>Font family (initials)</td>
+                            <td>Inter</td>
+                        </tr>
+                        <tr>
+                            <td>Font weight (initials)</td>
+                            <td>600 (semibold)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: SIZE SCALE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Size Scale</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Dimensions</th>
+                            <th>Font Size</th>
+                            <th>Icon Size</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>XS</code></td>
+                            <td>24px</td>
+                            <td>10px</td>
+                            <td>12px</td>
+                            <td>Dense lists, inline mentions</td>
+                        </tr>
+                        <tr>
+                            <td><code>SM</code></td>
+                            <td>32px</td>
+                            <td>12px</td>
+                            <td>16px</td>
+                            <td>Comments, compact lists</td>
+                        </tr>
+                        <tr>
+                            <td><code>MD</code></td>
+                            <td>40px</td>
+                            <td>14px</td>
+                            <td>20px</td>
+                            <td>Default, navigation, cards</td>
+                        </tr>
+                        <tr>
+                            <td><code>LG</code></td>
+                            <td>48px</td>
+                            <td>16px</td>
+                            <td>24px</td>
+                            <td>Profile headers, featured</td>
+                        </tr>
+                        <tr>
+                            <td><code>XL</code></td>
+                            <td>64px</td>
+                            <td>20px</td>
+                            <td>28px</td>
+                            <td>Profile pages, hero areas</td>
+                        </tr>
+                        <tr>
+                            <td><code>2XL</code></td>
+                            <td>96px</td>
+                            <td>28px</td>
+                            <td>40px</td>
+                            <td>Account settings, large profiles</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Visual size comparison -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <p class="text-sm font-medium text-warm-600 mb-6">Size Comparison</p>
+                <div class="flex items-end gap-6">
+                    <div class="text-center">
+                        <div class="avatar avatar-xs avatar-emerald mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">XS</p>
+                        <p class="text-xs text-warm-400">24px</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-sm avatar-cyan mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">SM</p>
+                        <p class="text-xs text-warm-400">32px</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-md avatar-orange mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">MD</p>
+                        <p class="text-xs text-warm-400">40px</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-lg avatar-magenta mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">LG</p>
+                        <p class="text-xs text-warm-400">48px</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-xl avatar-neutral mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">XL</p>
+                        <p class="text-xs text-warm-400">64px</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-2xl avatar-emerald mb-2">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <p class="text-xs text-warm-500">2XL</p>
+                        <p class="text-xs text-warm-400">96px</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: AVATAR TYPES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Avatar Types</p>
+
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <!-- Image Avatar -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Image Avatar</p>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="avatar avatar-md">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="User">
+                        </div>
+                        <div class="avatar avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=face" alt="User">
+                        </div>
+                        <div class="avatar avatar-xl">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop&crop=face" alt="User">
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Display user-uploaded photo or logo. Object-fit: cover, centered.</p>
+                </div>
+
+                <!-- Initials Avatar -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Initials Avatar</p>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="avatar avatar-md avatar-emerald">
+                            <span class="avatar-initials">J</span>
+                        </div>
+                        <div class="avatar avatar-lg avatar-cyan">
+                            <span class="avatar-initials">JD</span>
+                        </div>
+                        <div class="avatar avatar-xl avatar-orange">
+                            <span class="avatar-initials">SM</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">When no image: show 1-2 initials. Color based on name hash.</p>
+                </div>
+
+                <!-- Icon Fallback -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Icon Fallback</p>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="avatar avatar-md avatar-fallback">
+                            <i data-lucide="user" class="avatar-icon"></i>
+                        </div>
+                        <div class="avatar avatar-lg avatar-fallback">
+                            <i data-lucide="user" class="avatar-icon"></i>
+                        </div>
+                        <div class="avatar avatar-xl avatar-fallback">
+                            <i data-lucide="user" class="avatar-icon"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Generic placeholder when no name or image available.</p>
+                </div>
+            </div>
+
+            <!-- Initials generation rules -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-sm font-medium text-ink mb-4">Initial Generation Rules</p>
+                <div class="grid grid-cols-3 gap-6">
+                    <div>
+                        <p class="text-xs text-warm-500 mb-2">Single name</p>
+                        <div class="flex items-center gap-3">
+                            <code class="text-xs">"John"</code>
+                            <span class="text-warm-400">→</span>
+                            <div class="avatar avatar-sm avatar-emerald">
+                                <span class="avatar-initials">J</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-warm-500 mb-2">Two names</p>
+                        <div class="flex items-center gap-3">
+                            <code class="text-xs">"John Doe"</code>
+                            <span class="text-warm-400">→</span>
+                            <div class="avatar avatar-sm avatar-cyan">
+                                <span class="avatar-initials">JD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-warm-500 mb-2">Three+ names</p>
+                        <div class="flex items-center gap-3">
+                            <code class="text-xs">"John M. Doe"</code>
+                            <span class="text-warm-400">→</span>
+                            <div class="avatar avatar-sm avatar-orange">
+                                <span class="avatar-initials">JD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: INITIALS COLOR VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Initials Color Variants</p>
+
+            <!-- Light mode colors -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Light Mode (Traditional Opal)</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Preview</th>
+                            <th>Background</th>
+                            <th>Text Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>
+                                <div class="avatar avatar-md avatar-emerald">
+                                    <span class="avatar-initials">AB</span>
+                                </div>
+                            </td>
+                            <td><code>emerald-100</code></td>
+                            <td><code>emerald-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="avatar avatar-md avatar-cyan">
+                                    <span class="avatar-initials">CD</span>
+                                </div>
+                            </td>
+                            <td><code>cyan-100</code></td>
+                            <td><code>cyan-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="avatar avatar-md avatar-orange">
+                                    <span class="avatar-initials">EF</span>
+                                </div>
+                            </td>
+                            <td><code>orange-100</code></td>
+                            <td><code>orange-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="avatar avatar-md avatar-magenta">
+                                    <span class="avatar-initials">GH</span>
+                                </div>
+                            </td>
+                            <td><code>magenta-100</code></td>
+                            <td><code>magenta-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <div class="avatar avatar-md avatar-neutral">
+                                    <span class="avatar-initials">IJ</span>
+                                </div>
+                            </td>
+                            <td><code>warm-200</code></td>
+                            <td><code>warm-700</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dark mode colors -->
+            <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-[hsl(24_26%_22%)]" style="background: linear-gradient(90deg, hsl(170 100% 50% / 8%) 0%, hsl(330 100% 50% / 8%) 100%);">
+                    <p class="font-medium text-warm-100">Dark Mode (Fire Opal)</p>
+                </div>
+                <div class="p-6">
+                    <table class="spec-table" style="background: transparent;">
+                        <thead>
+                            <tr style="background: hsl(24 26% 12%);">
+                                <th class="text-warm-400">Index</th>
+                                <th class="text-warm-400">Preview</th>
+                                <th class="text-warm-400">Background</th>
+                                <th class="text-warm-400">Text Color</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 26% 22%);">
+                                <td class="text-warm-300">0</td>
+                                <td>
+                                    <div class="avatar avatar-md avatar-emerald-dark">
+                                        <span class="avatar-initials">AB</span>
+                                    </div>
+                                </td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(150 80% 60%);">emerald-500/20</code></td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(150 80% 60%);">emerald-400</code></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 26% 22%);">
+                                <td class="text-warm-300">1</td>
+                                <td>
+                                    <div class="avatar avatar-md avatar-cyan-dark">
+                                        <span class="avatar-initials">CD</span>
+                                    </div>
+                                </td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(180 80% 60%);">cyan-500/20</code></td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(180 80% 60%);">cyan-400</code></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 26% 22%);">
+                                <td class="text-warm-300">2</td>
+                                <td>
+                                    <div class="avatar avatar-md avatar-orange-dark">
+                                        <span class="avatar-initials">EF</span>
+                                    </div>
+                                </td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(30 80% 65%);">orange-500/20</code></td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(30 80% 65%);">orange-400</code></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 26% 22%);">
+                                <td class="text-warm-300">3</td>
+                                <td>
+                                    <div class="avatar avatar-md avatar-magenta-dark">
+                                        <span class="avatar-initials">GH</span>
+                                    </div>
+                                </td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(330 80% 70%);">magenta-500/20</code></td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(330 80% 70%);">magenta-400</code></td>
+                            </tr>
+                            <tr style="border-color: hsl(24 26% 22%);">
+                                <td class="text-warm-300">4</td>
+                                <td>
+                                    <div class="avatar avatar-md avatar-neutral-dark">
+                                        <span class="avatar-initials">IJ</span>
+                                    </div>
+                                </td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(30 5% 65%);">warm-500/20</code></td>
+                                <td class="text-warm-300"><code style="background: hsl(24 26% 18%); color: hsl(30 5% 65%);">warm-400</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: INTERACTIVE STATES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Interactive States</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light mode states -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Light Mode</p>
+                    <div class="space-y-4">
+                        <div class="state-row">
+                            <span class="state-label">Default</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald avatar-interactive">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs">No border/shadow</span>
+                        </div>
+                        <div class="state-row">
+                            <span class="state-label">Hover</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald avatar-interactive" style="box-shadow: 0 0 0 2px hsl(30 5% 88%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs">2px warm-200 ring</span>
+                        </div>
+                        <div class="state-row">
+                            <span class="state-label">Focus</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald avatar-interactive" style="box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs">2px emerald-500 ring</span>
+                        </div>
+                        <div class="state-row">
+                            <span class="state-label">Selected</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald avatar-interactive" style="box-shadow: 0 0 0 2px hsl(150 100% 27%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs">2px emerald-500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark mode states -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg p-6">
+                    <p class="text-sm font-medium text-warm-100 mb-4">Dark Mode</p>
+                    <div class="space-y-4">
+                        <div class="state-row" style="background: hsl(24 26% 12%); border-color: hsl(24 26% 22%);">
+                            <span class="state-label" style="color: hsl(30 5% 65%);">Default</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald-dark avatar-interactive-dark">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs" style="color: hsl(30 5% 50%);">No border/shadow</span>
+                        </div>
+                        <div class="state-row" style="background: hsl(24 26% 12%); border-color: hsl(24 26% 22%);">
+                            <span class="state-label" style="color: hsl(30 5% 65%);">Hover</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald-dark avatar-interactive-dark" style="box-shadow: 0 0 0 2px hsl(24 26% 28%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs" style="color: hsl(30 5% 50%);">2px intaglio-600 ring</span>
+                        </div>
+                        <div class="state-row" style="background: hsl(24 26% 12%); border-color: hsl(24 26% 22%);">
+                            <span class="state-label" style="color: hsl(30 5% 65%);">Focus</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald-dark avatar-interactive-dark" style="box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs" style="color: hsl(30 5% 50%);">2px emerald-500 ring</span>
+                        </div>
+                        <div class="state-row" style="background: hsl(24 26% 12%); border-color: hsl(24 26% 22%);">
+                            <span class="state-label" style="color: hsl(30 5% 65%);">Selected</span>
+                            <div class="state-preview">
+                                <div class="avatar avatar-lg avatar-emerald-dark avatar-interactive-dark" style="box-shadow: 0 0 0 2px hsl(150 100% 27%);">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                            </div>
+                            <span class="state-specs" style="color: hsl(30 5% 50%);">2px emerald-500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: STATUS INDICATOR -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Status Indicator</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Status colors -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Status Colors</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-lg avatar-emerald">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Online / Active</p>
+                                <p class="text-xs text-warm-500"><code>emerald-500</code></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-lg avatar-cyan">
+                                <span class="avatar-initials">SM</span>
+                                <span class="avatar-status status-away"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Away / Idle</p>
+                                <p class="text-xs text-warm-500"><code>orange-500</code></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-lg avatar-orange">
+                                <span class="avatar-initials">AK</span>
+                                <span class="avatar-status status-busy"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Busy / Do Not Disturb</p>
+                                <p class="text-xs text-warm-500"><code>magenta-500</code></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-lg avatar-magenta">
+                                <span class="avatar-initials">RB</span>
+                                <span class="avatar-status status-offline"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Offline</p>
+                                <p class="text-xs text-warm-500"><code>warm-400</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status sizes -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Indicator Size by Avatar Size</p>
+                    <div class="flex items-end gap-4">
+                        <div class="text-center">
+                            <div class="avatar avatar-xs avatar-emerald mb-2">
+                                <span class="avatar-initials">J</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">XS</p>
+                            <p class="text-xs text-warm-400">6px</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="avatar avatar-sm avatar-cyan mb-2">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">SM</p>
+                            <p class="text-xs text-warm-400">8px</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="avatar avatar-md avatar-orange mb-2">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">MD</p>
+                            <p class="text-xs text-warm-400">10px</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="avatar avatar-lg avatar-magenta mb-2">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">LG</p>
+                            <p class="text-xs text-warm-400">12px</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="avatar avatar-xl avatar-neutral mb-2">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">XL</p>
+                            <p class="text-xs text-warm-400">14px</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="avatar avatar-2xl avatar-emerald mb-2">
+                                <span class="avatar-initials">JD</span>
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <p class="text-xs text-warm-500">2XL</p>
+                            <p class="text-xs text-warm-400">16px</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status specs table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Avatar Size</th>
+                            <th>Indicator Size</th>
+                            <th>Position</th>
+                            <th>Border</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XS (24px)</td>
+                            <td>6px</td>
+                            <td rowspan="6">Bottom-right, 10% inward</td>
+                            <td rowspan="6">2px white (light) / intaglio-900 (dark)</td>
+                        </tr>
+                        <tr>
+                            <td>SM (32px)</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>MD (40px)</td>
+                            <td>10px</td>
+                        </tr>
+                        <tr>
+                            <td>LG (48px)</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>XL (64px)</td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>2XL (96px)</td>
+                            <td>16px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: AVATAR WITH BADGE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Avatar with Badge</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-sm font-medium text-ink mb-6">Notification count badge on avatar</p>
+
+                <div class="flex items-center gap-8 mb-6">
+                    <div class="text-center">
+                        <div class="avatar avatar-md avatar-emerald mb-2">
+                            <span class="avatar-initials">JD</span>
+                            <span class="avatar-badge">3</span>
+                        </div>
+                        <p class="text-xs text-warm-500">Single digit</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-lg avatar-cyan mb-2">
+                            <span class="avatar-initials">SM</span>
+                            <span class="avatar-badge">12</span>
+                        </div>
+                        <p class="text-xs text-warm-500">Double digit</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="avatar avatar-xl avatar-orange mb-2">
+                            <span class="avatar-initials">AK</span>
+                            <span class="avatar-badge">99+</span>
+                        </div>
+                        <p class="text-xs text-warm-500">Overflow</p>
+                    </div>
+                </div>
+
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="text-xs text-warm-600">
+                        <strong>Badge specs:</strong> Position top-right, overlapping edge by 25%. Min size 16px.
+                        Background <code>magenta-500</code>, text white 10px font. Border 2px matching background (white or intaglio-900).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: AVATAR GROUP -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Avatar Group</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Light mode group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Light Mode</p>
+
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">Basic group (SM)</p>
+                            <div class="avatar-group">
+                                <div class="avatar avatar-sm avatar-emerald">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-cyan">
+                                    <span class="avatar-initials">SM</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-orange">
+                                    <span class="avatar-initials">AK</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-magenta">
+                                    <span class="avatar-initials">RB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">With overflow (MD)</p>
+                            <div class="avatar-group">
+                                <div class="avatar avatar-md avatar-emerald">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-cyan">
+                                    <span class="avatar-initials">SM</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-orange">
+                                    <span class="avatar-initials">AK</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-overflow">+3</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">With images (LG)</p>
+                            <div class="avatar-group">
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg avatar-overflow">+5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark mode group -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg p-6">
+                    <p class="text-sm font-medium text-warm-100 mb-4">Dark Mode</p>
+
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">Basic group (SM)</p>
+                            <div class="avatar-group avatar-group-dark">
+                                <div class="avatar avatar-sm avatar-emerald-dark">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-cyan-dark">
+                                    <span class="avatar-initials">SM</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-orange-dark">
+                                    <span class="avatar-initials">AK</span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-magenta-dark">
+                                    <span class="avatar-initials">RB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">With overflow (MD)</p>
+                            <div class="avatar-group avatar-group-dark">
+                                <div class="avatar avatar-md avatar-emerald-dark">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-cyan-dark">
+                                    <span class="avatar-initials">SM</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-orange-dark">
+                                    <span class="avatar-initials">AK</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-overflow">+3</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-xs text-warm-500 mb-3">With images (LG)</p>
+                            <div class="avatar-group avatar-group-dark">
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-lg avatar-overflow">+5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group specs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Avatar Size</th>
+                            <th>Overlap (negative margin)</th>
+                            <th>Border</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SM (32px)</td>
+                            <td>-8px</td>
+                            <td rowspan="3">2px white (light) / intaglio-900 (dark)</td>
+                        </tr>
+                        <tr>
+                            <td>MD (40px)</td>
+                            <td>-10px</td>
+                        </tr>
+                        <tr>
+                            <td>LG (48px)</td>
+                            <td>-12px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 11: SHAPE VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11. Shape Variants</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-sm font-medium text-ink mb-4">Circle (Default)</p>
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-md avatar-emerald">
+                                <span class="avatar-initials">JD</span>
+                            </div>
+                            <div class="avatar avatar-lg avatar-cyan">
+                                <span class="avatar-initials">SM</span>
+                            </div>
+                            <div class="avatar avatar-xl avatar-orange">
+                                <span class="avatar-initials">AK</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-3">Border radius: <code>9999px</code> (full)</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-ink mb-4">Rounded Square</p>
+                        <div class="flex items-center gap-4">
+                            <div class="avatar avatar-md avatar-square avatar-emerald">
+                                <span class="avatar-initials">JD</span>
+                            </div>
+                            <div class="avatar avatar-lg avatar-square avatar-cyan">
+                                <span class="avatar-initials">SM</span>
+                            </div>
+                            <div class="avatar avatar-xl avatar-square avatar-orange">
+                                <span class="avatar-initials">AK</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-3">Border radius: 20% of size</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 12: CONTEXTUAL EXAMPLES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12. Contextual Examples</p>
+
+            <div class="space-y-6">
+                <!-- User Navigation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">User Navigation</p>
+                        <p class="text-xs text-warm-500">MD avatar with dropdown trigger in header</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="bg-white border border-warm-200 rounded-lg p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="assets/logos/saltwyk-logomark-mono-light.svg" alt="Logo" class="h-8 w-8">
+                                <span class="font-brand">Saltwyk</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button class="avatar avatar-md avatar-interactive">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="User">
+                                    <span class="avatar-status status-online"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Thread -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Comment Thread</p>
+                        <p class="text-xs text-warm-500">SM avatars with names and timestamps</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="avatar avatar-sm avatar-emerald flex-shrink-0">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-medium">John Doe</span>
+                                        <span class="text-xs text-warm-400">2 hours ago</span>
+                                    </div>
+                                    <p class="text-sm text-warm-600 mt-1">This looks great! I love the color palette choices.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 ml-8">
+                                <div class="avatar avatar-sm avatar-cyan flex-shrink-0">
+                                    <span class="avatar-initials">SM</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-medium">Sarah Miller</span>
+                                        <span class="text-xs text-warm-400">1 hour ago</span>
+                                    </div>
+                                    <p class="text-sm text-warm-600 mt-1">Thanks! The emerald really pops against the warm tones.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team List -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Team List</p>
+                        <p class="text-xs text-warm-500">Avatar group showing 4 members + overflow</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="bg-warm-50 rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium">Design Team</p>
+                                <p class="text-xs text-warm-500">7 members</p>
+                            </div>
+                            <div class="avatar-group">
+                                <div class="avatar avatar-md">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-md">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="User">
+                                </div>
+                                <div class="avatar avatar-md avatar-emerald">
+                                    <span class="avatar-initials">AK</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-cyan">
+                                    <span class="avatar-initials">RB</span>
+                                </div>
+                                <div class="avatar avatar-md avatar-overflow">+3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Header -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Profile Header</p>
+                        <p class="text-xs text-warm-500">XL avatar with name, role, status indicator</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-6">
+                            <div class="avatar avatar-xl">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=face" alt="User">
+                                <span class="avatar-status status-online"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium">John Doe</h3>
+                                <p class="text-warm-500">Senior Product Designer</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="inline-flex items-center gap-1.5 text-xs text-emerald-600">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        Online
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avatars on Dark -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-[hsl(24_26%_22%)]" style="background: linear-gradient(90deg, hsl(170 100% 50% / 8%) 0%, hsl(330 100% 50% / 8%) 100%);">
+                        <p class="font-medium text-warm-100">Avatars on Dark (Fire Opal)</p>
+                        <p class="text-xs text-warm-500">All sizes on intaglio-900 background</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-end gap-6">
+                            <div class="text-center">
+                                <div class="avatar avatar-xs avatar-emerald-dark mb-2">
+                                    <span class="avatar-initials">J</span>
+                                </div>
+                                <p class="text-xs text-warm-500">XS</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="avatar avatar-sm avatar-cyan-dark mb-2">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <p class="text-xs text-warm-500">SM</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="avatar avatar-md avatar-orange-dark mb-2">
+                                    <span class="avatar-initials">JD</span>
+                                </div>
+                                <p class="text-xs text-warm-500">MD</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="avatar avatar-lg avatar-magenta-dark mb-2">
+                                    <span class="avatar-initials">JD</span>
+                                    <span class="avatar-status avatar-status-dark status-online"></span>
+                                </div>
+                                <p class="text-xs text-warm-500">LG</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="avatar avatar-xl avatar-neutral-dark mb-2">
+                                    <span class="avatar-initials">JD</span>
+                                    <span class="avatar-status avatar-status-dark status-away"></span>
+                                </div>
+                                <p class="text-xs text-warm-500">XL</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="avatar avatar-2xl mb-2">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=192&h=192&fit=crop&crop=face" alt="User">
+                                    <span class="avatar-status avatar-status-dark status-online"></span>
+                                    <span class="avatar-badge avatar-badge-dark">5</span>
+                                </div>
+                                <p class="text-xs text-warm-500">2XL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 13: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">13. Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Base Avatar -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Base Avatar</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="comment">/* Base avatar container */</span>
+<span class="property">.avatar</span> {
+  <span class="property">@apply</span> <span class="value">relative inline-flex items-center justify-center</span>;
+  <span class="property">@apply</span> <span class="value">rounded-full overflow-hidden</span>;
+  <span class="property">@apply</span> <span class="value">bg-warm-100</span>;
+}
+
+<span class="comment">/* Size scale */</span>
+<span class="property">.avatar-xs</span> { <span class="property">@apply</span> <span class="value">w-6 h-6</span>; }
+<span class="property">.avatar-sm</span> { <span class="property">@apply</span> <span class="value">w-8 h-8</span>; }
+<span class="property">.avatar-md</span> { <span class="property">@apply</span> <span class="value">w-10 h-10</span>; }
+<span class="property">.avatar-lg</span> { <span class="property">@apply</span> <span class="value">w-12 h-12</span>; }
+<span class="property">.avatar-xl</span> { <span class="property">@apply</span> <span class="value">w-16 h-16</span>; }
+<span class="property">.avatar-2xl</span> { <span class="property">@apply</span> <span class="value">w-24 h-24</span>; }</code>
+                    </div>
+                </div>
+
+                <!-- Avatar Image -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Avatar Image</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.avatar-image</span> {
+  <span class="property">@apply</span> <span class="value">w-full h-full object-cover</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Avatar Initials -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Avatar Initials</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.avatar-initials</span> {
+  <span class="property">@apply</span> <span class="value">font-semibold text-emerald-700</span>;
+}
+
+<span class="comment">/* Font sizes per avatar size */</span>
+<span class="property">.avatar-xs .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-[10px]</span>; }
+<span class="property">.avatar-sm .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-xs</span>; }
+<span class="property">.avatar-md .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-sm</span>; }
+<span class="property">.avatar-lg .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-base</span>; }
+<span class="property">.avatar-xl .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-xl</span>; }
+<span class="property">.avatar-2xl .avatar-initials</span> { <span class="property">@apply</span> <span class="value">text-[28px]</span>; }
+
+<span class="comment">/* Color variants - Light */</span>
+<span class="property">.avatar-initials-emerald</span> { <span class="property">@apply</span> <span class="value">bg-emerald-100 text-emerald-700</span>; }
+<span class="property">.avatar-initials-cyan</span> { <span class="property">@apply</span> <span class="value">bg-cyan-100 text-cyan-700</span>; }
+<span class="property">.avatar-initials-orange</span> { <span class="property">@apply</span> <span class="value">bg-orange-100 text-orange-700</span>; }
+<span class="property">.avatar-initials-magenta</span> { <span class="property">@apply</span> <span class="value">bg-magenta-100 text-magenta-700</span>; }
+<span class="property">.avatar-initials-neutral</span> { <span class="property">@apply</span> <span class="value">bg-warm-200 text-warm-700</span>; }</code>
+                    </div>
+                </div>
+
+                <!-- Avatar Fallback -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Avatar Fallback Icon</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.avatar-fallback</span> {
+  <span class="property">@apply</span> <span class="value">bg-warm-100 text-warm-400</span>;
+}
+
+<span class="property">.avatar-fallback-dark</span> {
+  <span class="property">@apply</span> <span class="value">bg-intaglio-700 text-warm-500</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Status Indicator -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Status Indicator</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.avatar-status</span> {
+  <span class="property">@apply</span> <span class="value">absolute bottom-0 right-0</span>;
+  <span class="property">@apply</span> <span class="value">rounded-full border-2 border-white</span>;
+}
+
+<span class="comment">/* Sizes */</span>
+<span class="property">.avatar-md .avatar-status</span> { <span class="property">@apply</span> <span class="value">w-2.5 h-2.5</span>; }
+<span class="property">.avatar-lg .avatar-status</span> { <span class="property">@apply</span> <span class="value">w-3 h-3</span>; }
+
+<span class="comment">/* Status colors */</span>
+<span class="property">.avatar-status-online</span> { <span class="property">@apply</span> <span class="value">bg-emerald-500</span>; }
+<span class="property">.avatar-status-away</span> { <span class="property">@apply</span> <span class="value">bg-orange-500</span>; }
+<span class="property">.avatar-status-busy</span> { <span class="property">@apply</span> <span class="value">bg-magenta-500</span>; }
+<span class="property">.avatar-status-offline</span> { <span class="property">@apply</span> <span class="value">bg-warm-400</span>; }</code>
+                    </div>
+                </div>
+
+                <!-- Avatar Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Avatar Group</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.avatar-group</span> {
+  <span class="property">@apply</span> <span class="value">flex -space-x-2</span>;
+}
+
+<span class="property">.avatar-group .avatar</span> {
+  <span class="property">@apply</span> <span class="value">border-2 border-white</span>;
+}
+
+<span class="property">.avatar-group-overflow</span> {
+  <span class="property">@apply</span> <span class="value">flex items-center justify-center</span>;
+  <span class="property">@apply</span> <span class="value">bg-warm-100 text-warm-600 text-xs font-medium</span>;
+  <span class="property">@apply</span> <span class="value">rounded-full border-2 border-white</span>;
+}</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 14: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">14. Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Base -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Base</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Sizes: 24px, 32px, 40px, 48px, 64px, 96px</li>
+                        <li><span class="checklist-box"></span>Shape: Circle default, rounded square optional</li>
+                        <li><span class="checklist-box"></span>Object-fit: cover for images</li>
+                    </ul>
+                </div>
+
+                <!-- Initials -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Initials</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Max 2 characters</li>
+                        <li><span class="checklist-box"></span>5 color variants (emerald, cyan, orange, magenta, neutral)</li>
+                        <li><span class="checklist-box"></span>Deterministic color from name hash</li>
+                        <li><span class="checklist-box"></span>Font weight: 600</li>
+                    </ul>
+                </div>
+
+                <!-- Fallback -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Fallback</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Generic user icon</li>
+                        <li><span class="checklist-box"></span>Appropriate icon sizing per avatar size</li>
+                    </ul>
+                </div>
+
+                <!-- Status -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Status</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Position: bottom-right</li>
+                        <li><span class="checklist-box"></span>Colors: emerald (online), orange (away), magenta (busy), warm (offline)</li>
+                        <li><span class="checklist-box"></span>Border: 2px matching background</li>
+                    </ul>
+                </div>
+
+                <!-- Avatar group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Avatar Group</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Overlap: 25-30%</li>
+                        <li><span class="checklist-box"></span>Border between avatars</li>
+                        <li><span class="checklist-box"></span>Overflow indicator: "+N"</li>
+                    </ul>
+                </div>
+
+                <!-- Dark mode -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Dark Mode</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Initials: semantic-500/20 backgrounds</li>
+                        <li><span class="checklist-box"></span>Fallback: intaglio-700 background</li>
+                        <li><span class="checklist-box"></span>Status border: intaglio-900</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-6 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="assets/logos/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-6 w-6 opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
