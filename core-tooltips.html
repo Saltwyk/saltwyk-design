@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltip Specification - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* ========================================= */
+        /* TOOLTIP STYLES */
+        /* ========================================= */
+        .tooltip {
+            position: absolute;
+            z-index: 50;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: hsl(24 29% 8%);
+            color: white;
+            font-size: 12px;
+            line-height: 1.4;
+            max-width: 240px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .tooltip-multiline {
+            white-space: normal;
+            max-width: 280px;
+            text-align: left;
+        }
+
+        .tooltip-dark {
+            background: hsl(24 26% 22%);
+        }
+
+        /* Arrow */
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+        }
+
+        /* Top placement - arrow points down */
+        .tooltip[data-side="top"] {
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .tooltip[data-side="top"] .tooltip-arrow {
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-top-color: hsl(24 29% 8%);
+            border-bottom: none;
+        }
+
+        /* Bottom placement - arrow points up */
+        .tooltip[data-side="bottom"] {
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .tooltip[data-side="bottom"] .tooltip-arrow {
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-color: hsl(24 29% 8%);
+            border-top: none;
+        }
+
+        /* Left placement - arrow points right */
+        .tooltip[data-side="left"] {
+            right: calc(100% + 8px);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .tooltip[data-side="left"] .tooltip-arrow {
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left-color: hsl(24 29% 8%);
+            border-right: none;
+        }
+
+        /* Right placement - arrow points left */
+        .tooltip[data-side="right"] {
+            left: calc(100% + 8px);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .tooltip[data-side="right"] .tooltip-arrow {
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-right-color: hsl(24 29% 8%);
+            border-left: none;
+        }
+
+        /* Top-start placement */
+        .tooltip[data-side="top-start"] {
+            bottom: calc(100% + 8px);
+            left: 0;
+        }
+        .tooltip[data-side="top-start"] .tooltip-arrow {
+            bottom: -6px;
+            left: 12px;
+            border-top-color: hsl(24 29% 8%);
+            border-bottom: none;
+        }
+
+        /* Top-end placement */
+        .tooltip[data-side="top-end"] {
+            bottom: calc(100% + 8px);
+            right: 0;
+        }
+        .tooltip[data-side="top-end"] .tooltip-arrow {
+            bottom: -6px;
+            right: 12px;
+            border-top-color: hsl(24 29% 8%);
+            border-bottom: none;
+        }
+
+        /* Tooltip title and description */
+        .tooltip-title {
+            font-weight: 600;
+            color: white;
+        }
+        .tooltip-description {
+            color: hsl(30 5% 70%);
+            margin-top: 2px;
+        }
+
+        /* Tooltip with shortcut */
+        .tooltip-shortcut {
+            color: hsl(30 6% 62%);
+            font-family: 'SF Mono', Monaco, monospace;
+            margin-left: 8px;
+        }
+
+        /* Animation */
+        @keyframes tooltip-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes tooltip-exit {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .tooltip-enter {
+            animation: tooltip-enter 100ms ease-out forwards;
+        }
+        .tooltip-exit {
+            animation: tooltip-exit 75ms ease-in forwards;
+        }
+
+        /* Demo trigger wrapper */
+        .tooltip-trigger-wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+
+        /* Show tooltip on hover for demos */
+        .tooltip-trigger-wrapper .tooltip {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.1s ease, visibility 0.1s;
+        }
+        .tooltip-trigger-wrapper:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            font-size: 14px;
+            color: hsl(30 8% 30%);
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist-box {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(30 5% 78%);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Demo button styles */
+        .demo-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            background: hsl(30 5% 95%);
+            border: 1.5px solid hsl(30 5% 78%);
+            color: hsl(24 29% 8%);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .demo-btn:hover {
+            background: hsl(30 5% 88%);
+            border-color: hsl(30 6% 62%);
+        }
+        .demo-btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+        }
+        .demo-btn-primary {
+            background: hsl(150 100% 27%);
+            border-color: transparent;
+            color: white;
+        }
+        .demo-btn-primary:hover {
+            background: hsl(150 100% 22%);
+        }
+        .demo-btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-warm-50 text-ink min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b-2 border-warm-200 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex items-center gap-8">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/logos/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-8 w-8">
+                <span class="font-brand text-lg">Saltwyk</span>
+            </a>
+
+            <div class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-ink font-medium">Foundation &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-inputs.html">Inputs</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-responsive.html">Responsive</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                        <a href="core-avatars.html">Avatars</a>
+                        <a href="core-tooltips.html" class="font-medium text-emerald-600">Tooltips</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Shopper &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Merchant &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="cursor-pointer text-warm-600 hover:text-ink">Marketing &#9662;</span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                    </div>
+                </div>
+                <a href="sitemap.html" class="text-warm-600 hover:text-ink">Sitemap</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Home</a>
+            <span>&#8594;</span>
+            <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Tooltips</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-3">Tooltips</h1>
+            <p class="text-warm-600 text-lg">Implementation specification for Saltwyk tooltip components. Brief, contextual information on hover or focus.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">Tooltips provide contextual information on hover or focus.</strong>
+                    They should be brief, helpful, and non-essential—the information should be discoverable elsewhere in the interface.
+                </p>
+                <p class="text-warm-600 text-sm">
+                    Tooltips must not block important content or require precise mouse positioning. They appear after a short delay to avoid visual noise during normal navigation.
+                </p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: ANATOMY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Anatomy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="flex items-start gap-12">
+                    <!-- Visual anatomy -->
+                    <div class="relative flex flex-col items-center" style="min-width: 200px;">
+                        <!-- Static tooltip display -->
+                        <div class="relative inline-block px-2.5 py-1.5 rounded-md text-xs text-white" style="background: hsl(24 29% 8%);">
+                            Save changes
+                            <!-- Arrow pointing down -->
+                            <div style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid hsl(24 29% 8%);"></div>
+                        </div>
+
+                        <!-- Gap between tooltip and trigger -->
+                        <div class="h-2"></div>
+
+                        <!-- Trigger button -->
+                        <button class="demo-btn demo-btn-icon">
+                            <i data-lucide="save" class="w-5 h-5"></i>
+                        </button>
+
+                        <!-- Annotation lines -->
+                        <div class="absolute" style="top: 0; left: calc(50% + 70px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Container</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 10px; left: calc(50% + 70px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Content</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 26px; left: calc(50% + 20px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Arrow</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 52px; left: calc(50% + 30px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Trigger</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy list -->
+                    <div class="flex-1 ml-16">
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Trigger</strong>
+                                    <span class="text-warm-600"> — Element that shows tooltip on hover/focus</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Container</strong>
+                                    <span class="text-warm-600"> — The tooltip box</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Arrow</strong>
+                                    <span class="text-warm-600"> — Pointer connecting tooltip to trigger</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Content</strong>
+                                    <span class="text-warm-600"> — Text (and optionally small icons)</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: BASE SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Base Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background (light page)</td>
+                            <td><code>intaglio-900</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(24 29% 8%);"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Background (dark page)</td>
+                            <td><code>intaglio-700</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(24 26% 22%);"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Text color</td>
+                            <td><code>white</code></td>
+                        </tr>
+                        <tr>
+                            <td>Font size</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Font weight</td>
+                            <td>400</td>
+                        </tr>
+                        <tr>
+                            <td>Line height</td>
+                            <td>1.4</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>6px 10px</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td>6px</td>
+                        </tr>
+                        <tr>
+                            <td>Max width</td>
+                            <td>240px</td>
+                        </tr>
+                        <tr>
+                            <td>Arrow size</td>
+                            <td>6px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: TOOLTIP VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Tooltip Variants</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Simple Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Simple Tooltip</p>
+                    <p class="text-xs text-warm-500 mb-6">Single line of text. Max width 240px, wraps if longer.</p>
+                    <div class="flex justify-center py-8">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-simple">
+                                <i data-lucide="settings" class="w-5 h-5"></i>
+                            </button>
+                            <div class="tooltip" data-side="top" role="tooltip" id="tooltip-simple">
+                                Settings
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center">Hover to see tooltip</p>
+                </div>
+
+                <!-- Multi-line Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Multi-line Tooltip</p>
+                    <p class="text-xs text-warm-500 mb-6">Longer explanatory text. Max width 280px, left-aligned.</p>
+                    <div class="flex justify-center py-8">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn" aria-describedby="tooltip-multiline">
+                                <i data-lucide="info" class="w-4 h-4"></i>
+                                Learn more
+                            </button>
+                            <div class="tooltip tooltip-multiline" data-side="top" role="tooltip" id="tooltip-multiline">
+                                This action will permanently delete all selected items. This cannot be undone.
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center">Hover to see tooltip</p>
+                </div>
+
+                <!-- Tooltip with Title -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Tooltip with Title</p>
+                    <p class="text-xs text-warm-500 mb-6">Title + description pattern. 4px gap between.</p>
+                    <div class="flex justify-center py-8">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-primary" aria-describedby="tooltip-title">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                Export
+                            </button>
+                            <div class="tooltip tooltip-multiline" data-side="top" role="tooltip" id="tooltip-title">
+                                <div class="tooltip-title">Export Data</div>
+                                <div class="tooltip-description">Download all records as CSV file</div>
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center">Hover to see tooltip</p>
+                </div>
+
+                <!-- Tooltip with Shortcut -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Tooltip with Shortcut</p>
+                    <p class="text-xs text-warm-500 mb-6">Shows keyboard shortcut. Monospace font for keys.</p>
+                    <div class="flex justify-center py-8">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-shortcut">
+                                <i data-lucide="save" class="w-5 h-5"></i>
+                            </button>
+                            <div class="tooltip" data-side="top" role="tooltip" id="tooltip-shortcut">
+                                Save<span class="tooltip-shortcut">⌘S</span>
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center">Hover to see tooltip</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: POSITIONING -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Positioning</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Arrow Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>top</code></td>
+                            <td>Arrow points down, centered</td>
+                        </tr>
+                        <tr>
+                            <td><code>top-start</code></td>
+                            <td>Arrow points down, left-aligned</td>
+                        </tr>
+                        <tr>
+                            <td><code>top-end</code></td>
+                            <td>Arrow points down, right-aligned</td>
+                        </tr>
+                        <tr>
+                            <td><code>bottom</code></td>
+                            <td>Arrow points up, centered</td>
+                        </tr>
+                        <tr>
+                            <td><code>left</code></td>
+                            <td>Arrow points right, centered</td>
+                        </tr>
+                        <tr>
+                            <td><code>right</code></td>
+                            <td>Arrow points left, centered</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Position demos -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <p class="text-sm font-medium text-ink mb-6">Position Examples</p>
+                <div class="grid grid-cols-4 gap-8 py-8">
+                    <!-- Top -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-pos-top">
+                                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                            </button>
+                            <div class="tooltip" data-side="top" role="tooltip" id="tooltip-pos-top">
+                                Top
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-warm-500">top</span>
+                    </div>
+
+                    <!-- Bottom -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-pos-bottom">
+                                <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                            </button>
+                            <div class="tooltip" data-side="bottom" role="tooltip" id="tooltip-pos-bottom">
+                                Bottom
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-warm-500">bottom</span>
+                    </div>
+
+                    <!-- Left -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-pos-left">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            </button>
+                            <div class="tooltip" data-side="left" role="tooltip" id="tooltip-pos-left">
+                                Left
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-warm-500">left</span>
+                    </div>
+
+                    <!-- Right -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="tooltip-trigger-wrapper">
+                            <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-pos-right">
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                            <div class="tooltip" data-side="right" role="tooltip" id="tooltip-pos-right">
+                                Right
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-warm-500">right</span>
+                    </div>
+                </div>
+
+                <div class="bg-warm-50 rounded-lg p-4 mt-4">
+                    <p class="text-xs text-warm-600">
+                        <strong>Auto-positioning:</strong> Default is top. If insufficient space, flips to opposite side. Stays within viewport with 8px minimum margin. Offset from trigger: 8px (including arrow).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: ARROW SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Arrow Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Size</td>
+                            <td>6px</td>
+                        </tr>
+                        <tr>
+                            <td>Shape</td>
+                            <td>Equilateral triangle (CSS border trick)</td>
+                        </tr>
+                        <tr>
+                            <td>Color</td>
+                            <td>Matches tooltip background</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: BEHAVIOR -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Behavior</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Timing</p>
+                    <table class="spec-table">
+                        <tbody>
+                            <tr>
+                                <td>Show delay (hover)</td>
+                                <td><code>300ms</code></td>
+                            </tr>
+                            <tr>
+                                <td>Show delay (focus)</td>
+                                <td><code>0ms</code> (immediate)</td>
+                            </tr>
+                            <tr>
+                                <td>Hide delay</td>
+                                <td><code>100ms</code></td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>No auto-dismiss</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Interactions</p>
+                    <ul class="space-y-3 text-sm text-warm-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Tooltip is not interactive by default</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Mouse can pass over tooltip to reach elements behind</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>For interactive tooltips (with links), use Popover instead</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Hide delay allows moving mouse to tooltip if needed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: ANIMATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Animation</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Enter Animation</p>
+                    <div class="code-block mb-4">
+<code><span class="comment">/* Enter: 100ms, ease-out */</span>
+<span class="property">@keyframes</span> <span class="value">tooltip-enter</span> {
+  <span class="property">from</span> {
+    opacity: <span class="value">0</span>;
+    transform: <span class="value">scale(0.95)</span>;
+  }
+  <span class="property">to</span> {
+    opacity: <span class="value">1</span>;
+    transform: <span class="value">scale(1)</span>;
+  }
+}</code>
+                    </div>
+                    <p class="text-xs text-warm-500">Duration: 100ms, ease-out easing</p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Exit Animation</p>
+                    <div class="code-block mb-4">
+<code><span class="comment">/* Exit: 75ms, ease-in */</span>
+<span class="property">@keyframes</span> <span class="value">tooltip-exit</span> {
+  <span class="property">from</span> { opacity: <span class="value">1</span>; }
+  <span class="property">to</span> { opacity: <span class="value">0</span>; }
+}</code>
+                    </div>
+                    <p class="text-xs text-warm-500">Duration: 75ms, ease-in easing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: ACCESSIBILITY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Accessibility</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Trigger Requirements</p>
+                    <ul class="space-y-3 text-sm text-warm-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Focusable element (button, link, input)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span><code>aria-describedby</code> pointing to tooltip id</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>OR <code>aria-label</code> containing tooltip text</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Tooltip Requirements</p>
+                    <ul class="space-y-3 text-sm text-warm-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span><code>role="tooltip"</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span><code>id</code> matching trigger's <code>aria-describedby</code></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Keyboard Behavior</p>
+                    <table class="spec-table">
+                        <tbody>
+                            <tr>
+                                <td>Focus</td>
+                                <td>Shows tooltip</td>
+                            </tr>
+                            <tr>
+                                <td>Blur</td>
+                                <td>Hides tooltip</td>
+                            </tr>
+                            <tr>
+                                <td>ESC</td>
+                                <td>Dismisses tooltip</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Screen Readers</p>
+                    <ul class="space-y-3 text-sm text-warm-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Tooltip content announced when trigger focused</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#8226;</span>
+                            <span>Content should be supplementary, not essential</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ARIA example -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mt-6">
+                <p class="text-sm font-medium text-ink mb-4">ARIA Structure Example</p>
+                <div class="code-block">
+<code><span class="comment">&lt;!-- Trigger --&gt;</span>
+&lt;<span class="property">button</span> <span class="value">aria-describedby</span>="tooltip-1"&gt;
+  Save
+&lt;/<span class="property">button</span>&gt;
+
+<span class="comment">&lt;!-- Tooltip --&gt;</span>
+&lt;<span class="property">div</span> <span class="value">role</span>="tooltip" <span class="value">id</span>="tooltip-1"&gt;
+  Save changes (⌘S)
+&lt;/<span class="property">div</span>&gt;</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: CONTEXTUAL EXAMPLES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Contextual Examples</p>
+
+            <div class="space-y-6">
+                <!-- Icon Button Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Icon Button Tooltip</p>
+                        <p class="text-xs text-warm-500">Tooltip on icon-only button explaining action</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2">
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-ex1">
+                                    <i data-lucide="bold" class="w-4 h-4"></i>
+                                </button>
+                                <div class="tooltip" data-side="top" role="tooltip" id="tooltip-ex1">
+                                    Bold<span class="tooltip-shortcut">⌘B</span>
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                            </div>
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-ex2">
+                                    <i data-lucide="italic" class="w-4 h-4"></i>
+                                </button>
+                                <div class="tooltip" data-side="top" role="tooltip" id="tooltip-ex2">
+                                    Italic<span class="tooltip-shortcut">⌘I</span>
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                            </div>
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-ex3">
+                                    <i data-lucide="underline" class="w-4 h-4"></i>
+                                </button>
+                                <div class="tooltip" data-side="top" role="tooltip" id="tooltip-ex3">
+                                    Underline<span class="tooltip-shortcut">⌘U</span>
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                            </div>
+                            <div class="w-px h-6 bg-warm-200 mx-2"></div>
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn demo-btn-icon" aria-describedby="tooltip-ex4">
+                                    <i data-lucide="link" class="w-4 h-4"></i>
+                                </button>
+                                <div class="tooltip" data-side="top" role="tooltip" id="tooltip-ex4">
+                                    Insert link<span class="tooltip-shortcut">⌘K</span>
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Truncated Text Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Truncated Text Tooltip</p>
+                        <p class="text-xs text-warm-500">Shows full text when content is truncated</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="max-w-md bg-warm-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-semibold text-sm">JS</div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="tooltip-trigger-wrapper w-full">
+                                        <p class="font-medium truncate cursor-default" aria-describedby="tooltip-truncate">
+                                            John Smith-Wellington III, Senior Vice President of Product Development
+                                        </p>
+                                        <div class="tooltip tooltip-multiline" data-side="top" role="tooltip" id="tooltip-truncate" style="white-space: normal;">
+                                            John Smith-Wellington III, Senior Vice President of Product Development
+                                            <span class="tooltip-arrow"></span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-warm-500">Engineering</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disabled Button Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Disabled Button Tooltip</p>
+                        <p class="text-xs text-warm-500">Explains why button is disabled</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn demo-btn-primary demo-btn-disabled" aria-describedby="tooltip-disabled" tabindex="0">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                    Submit
+                                </button>
+                                <div class="tooltip tooltip-multiline" data-side="top" role="tooltip" id="tooltip-disabled">
+                                    Please fill in all required fields before submitting
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                            </div>
+                            <span class="text-sm text-warm-500">Hover to see why it's disabled</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Icon Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Info Icon Tooltip</p>
+                        <p class="text-xs text-warm-500">Small (i) icon with explanatory tooltip</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="max-w-sm">
+                            <label class="flex items-center gap-2 text-sm font-medium text-ink mb-2">
+                                API Rate Limit
+                                <div class="tooltip-trigger-wrapper">
+                                    <button class="w-4 h-4 rounded-full bg-warm-200 text-warm-500 flex items-center justify-center text-xs hover:bg-warm-300 transition-colors" aria-describedby="tooltip-info">
+                                        ?
+                                    </button>
+                                    <div class="tooltip tooltip-multiline" data-side="right" role="tooltip" id="tooltip-info">
+                                        Maximum number of API requests allowed per minute. Exceeding this limit will result in temporary throttling.
+                                        <span class="tooltip-arrow"></span>
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" value="1000" class="w-full px-3 py-2 border border-warm-300 rounded-md text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tooltips on Dark -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-[hsl(24_26%_22%)]" style="background: linear-gradient(90deg, hsl(170 100% 50% / 8%) 0%, hsl(330 100% 50% / 8%) 100%);">
+                        <p class="font-medium text-warm-100">Tooltips on Dark (Fire Opal)</p>
+                        <p class="text-xs text-warm-500">Using intaglio-700 background for contrast</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn" style="background: hsl(150 100% 27% / 10%); border-color: hsl(150 100% 27% / 30%); color: hsl(150 80% 55%);" aria-describedby="tooltip-dark1">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                    Copy
+                                </button>
+                                <div class="tooltip tooltip-dark" data-side="top" role="tooltip" id="tooltip-dark1">
+                                    Copy to clipboard<span class="tooltip-shortcut">⌘C</span>
+                                    <span class="tooltip-arrow" style="border-top-color: hsl(24 26% 22%);"></span>
+                                </div>
+                            </div>
+                            <div class="tooltip-trigger-wrapper">
+                                <button class="demo-btn" style="background: hsl(150 100% 27% / 10%); border-color: hsl(150 100% 27% / 30%); color: hsl(150 80% 55%);" aria-describedby="tooltip-dark2">
+                                    <i data-lucide="share" class="w-4 h-4"></i>
+                                    Share
+                                </button>
+                                <div class="tooltip tooltip-dark" data-side="top" role="tooltip" id="tooltip-dark2">
+                                    Share with team
+                                    <span class="tooltip-arrow" style="border-top-color: hsl(24 26% 22%);"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 11: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11. Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Tooltip Container -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Tooltip Container</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.tooltip</span> {
+  <span class="property">@apply</span> <span class="value">absolute z-50</span>;
+  <span class="property">@apply</span> <span class="value">px-2.5 py-1.5 rounded-md</span>;
+  <span class="property">@apply</span> <span class="value">bg-intaglio-900 text-white</span>;
+  <span class="property">@apply</span> <span class="value">text-xs leading-snug</span>;
+  <span class="property">@apply</span> <span class="value">max-w-[240px]</span>;
+  <span class="property">@apply</span> <span class="value">pointer-events-none</span>;
+}
+
+<span class="property">.tooltip-dark</span> {
+  <span class="property">@apply</span> <span class="value">bg-intaglio-700</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Tooltip Arrow -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Tooltip Arrow</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.tooltip-arrow</span> {
+  <span class="property">@apply</span> <span class="value">absolute w-0 h-0</span>;
+  border: <span class="value">6px solid transparent</span>;
+}
+
+<span class="comment">/* Top placement - arrow points down */</span>
+<span class="property">.tooltip[data-side="top"] .tooltip-arrow</span> {
+  <span class="property">@apply</span> <span class="value">-bottom-3 left-1/2 -translate-x-1/2</span>;
+  border-top-color: <span class="value">theme('colors.intaglio.900')</span>;
+  border-bottom: <span class="value">none</span>;
+}
+
+<span class="comment">/* Bottom placement - arrow points up */</span>
+<span class="property">.tooltip[data-side="bottom"] .tooltip-arrow</span> {
+  <span class="property">@apply</span> <span class="value">-top-3 left-1/2 -translate-x-1/2</span>;
+  border-bottom-color: <span class="value">theme('colors.intaglio.900')</span>;
+  border-top: <span class="value">none</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Tooltip Variants -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Tooltip Variants</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="comment">/* Title + Description */</span>
+<span class="property">.tooltip-title</span> {
+  <span class="property">@apply</span> <span class="value">font-semibold text-white</span>;
+}
+
+<span class="property">.tooltip-description</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-300 mt-1</span>;
+}
+
+<span class="comment">/* Keyboard Shortcut */</span>
+<span class="property">.tooltip-shortcut</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-400 font-mono ml-2</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Animation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Animation</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.tooltip-enter</span> {
+  animation: <span class="value">tooltip-enter 100ms ease-out</span>;
+}
+
+<span class="property">.tooltip-exit</span> {
+  animation: <span class="value">tooltip-exit 75ms ease-in forwards</span>;
+}
+
+<span class="property">@keyframes</span> <span class="value">tooltip-enter</span> {
+  <span class="property">from</span> {
+    opacity: <span class="value">0</span>;
+    transform: <span class="value">scale(0.95)</span>;
+  }
+  <span class="property">to</span> {
+    opacity: <span class="value">1</span>;
+    transform: <span class="value">scale(1)</span>;
+  }
+}
+
+<span class="property">@keyframes</span> <span class="value">tooltip-exit</span> {
+  <span class="property">from</span> { opacity: <span class="value">1</span>; }
+  <span class="property">to</span> { opacity: <span class="value">0</span>; }
+}</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 12: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12. Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Container -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Container</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Background: intaglio-900 (light) / intaglio-700 (dark)</li>
+                        <li><span class="checklist-box"></span>Text: white, 12px</li>
+                        <li><span class="checklist-box"></span>Padding: 6px 10px</li>
+                        <li><span class="checklist-box"></span>Border radius: 6px</li>
+                        <li><span class="checklist-box"></span>Max width: 240px</li>
+                    </ul>
+                </div>
+
+                <!-- Arrow -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Arrow</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Size: 6px</li>
+                        <li><span class="checklist-box"></span>Matches background color</li>
+                        <li><span class="checklist-box"></span>Positioned based on placement</li>
+                    </ul>
+                </div>
+
+                <!-- Behavior -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Behavior</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Show delay: 300ms (hover), 0ms (focus)</li>
+                        <li><span class="checklist-box"></span>Hide delay: 100ms</li>
+                        <li><span class="checklist-box"></span>Auto-positioning to stay in viewport</li>
+                    </ul>
+                </div>
+
+                <!-- Animation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Animation</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Enter: 100ms scale + fade</li>
+                        <li><span class="checklist-box"></span>Exit: 75ms fade</li>
+                    </ul>
+                </div>
+
+                <!-- Accessibility -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 col-span-2">
+                    <p class="font-medium text-ink mb-4">Accessibility</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>role="tooltip"</li>
+                        <li><span class="checklist-box"></span>aria-describedby on trigger</li>
+                        <li><span class="checklist-box"></span>Shows on focus</li>
+                        <li><span class="checklist-box"></span>ESC dismisses</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-6 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="assets/logos/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-6 w-6 opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="foundation/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
