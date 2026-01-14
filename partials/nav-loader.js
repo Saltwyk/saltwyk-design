@@ -34,9 +34,51 @@
         return normalized;
     }
 
-    // Check if current page is within the products section
-    function isProductsPage() {
-        return window.location.pathname.includes('/products/');
+    // Foundation token pages (at root level)
+    const foundationPages = [
+        'core-colors', 'core-typography', 'core-logos', 'core-threads',
+        'core-gradients', 'core-spacing', 'core-buttons', 'core-inputs',
+        'core-animation', 'core-responsive'
+    ];
+
+    // Component pages (at root level)
+    const componentPages = [
+        'core-states', 'core-tables', 'core-modals', 'core-dropdowns',
+        'core-tabs', 'core-badges', 'core-toasts', 'core-cards',
+        'core-navigation', 'core-avatars', 'core-tooltips', 'core-popovers',
+        'core-progress', 'core-context-switcher'
+    ];
+
+    // Product pages (at root level) - includes product-*, marketing-* files
+    const productPages = [
+        'product-checkout-widget', 'product-components', 'product-shopper-passport', 'product-surfaces',
+        'marketing-components', 'marketing-heroes', 'marketing-illustration-system', 'marketing-illustrations'
+    ];
+
+    // Product subdirectories
+    const productDirectories = ['/shopper/', '/merchant/', '/marketing/', '/docs/'];
+
+    // Determine which section we're in based on path
+    function getCurrentSection() {
+        const path = window.location.pathname;
+        const filename = path.split('/').pop().replace('.html', '');
+
+        // Check directory-based sections first
+        if (path.includes('/foundation/')) return 'foundation';
+        if (path.includes('/components/')) return 'components';
+        if (path.includes('/products/')) return 'products';
+
+        // Check product subdirectories (shopper, merchant, marketing, docs)
+        for (const dir of productDirectories) {
+            if (path.includes(dir)) return 'products';
+        }
+
+        // Check filename-based sections for root-level pages
+        if (foundationPages.includes(filename)) return 'foundation';
+        if (componentPages.includes(filename)) return 'components';
+        if (productPages.includes(filename)) return 'products';
+
+        return null;
     }
 
     // Load HTML partial and inject into container
@@ -59,14 +101,18 @@
     // Highlight active item in top navigation
     function highlightTopNav() {
         const currentPath = normalizePath(window.location.pathname.replace(basePath, ''));
+        const currentSection = getCurrentSection();
 
-        // Handle "Products" link - active when on any /products/* page
-        const productsLink = document.querySelector('#top-nav a[data-nav="products"]');
-        if (productsLink && isProductsPage()) {
-            productsLink.classList.add('nav-link-active');
-            productsLink.classList.remove('text-warm-600');
-            productsLink.classList.add('text-ink', 'font-medium');
-        }
+        // Handle section links (Foundation, Components, Products)
+        const sectionLinks = ['foundation', 'components', 'products'];
+        sectionLinks.forEach(section => {
+            const link = document.querySelector(`#top-nav a[data-nav="${section}"]`);
+            if (link && currentSection === section) {
+                link.classList.add('nav-link-active');
+                link.classList.remove('text-warm-600');
+                link.classList.add('text-ink', 'font-medium');
+            }
+        });
 
         // Handle dropdown menu items
         const navLinks = document.querySelectorAll('#top-nav .nav-dropdown-menu a');
@@ -215,7 +261,7 @@
                 font-weight: 500;
             }
 
-            /* Active state for top nav link (Products) */
+            /* Active state for top nav link */
             .nav-link-active {
                 color: hsl(150 100% 27%) !important;
             }
@@ -248,6 +294,15 @@
         document.head.appendChild(style);
     }
 
+    // Get the sidebar partial URL for the current section
+    function getSidebarUrl() {
+        const section = getCurrentSection();
+        if (section === 'foundation') return '/partials/side-nav-foundation.html';
+        if (section === 'components') return '/partials/side-nav-components.html';
+        if (section === 'products') return '/partials/side-nav-products.html';
+        return null;
+    }
+
     // Main initialization
     async function init() {
         // Inject active state styles
@@ -258,11 +313,12 @@
         highlightTopNav();
         initDropdowns();
 
-        // Load side navigation only on products pages
-        if (isProductsPage()) {
+        // Load side navigation based on current section
+        const sidebarUrl = getSidebarUrl();
+        if (sidebarUrl) {
             const sideNavContainer = document.getElementById('side-nav');
             if (sideNavContainer) {
-                await loadPartial('/partials/side-nav.html', 'side-nav');
+                await loadPartial(sidebarUrl, 'side-nav');
                 highlightSideNav();
             }
         }
