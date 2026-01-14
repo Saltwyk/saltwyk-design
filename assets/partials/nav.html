@@ -9,12 +9,14 @@ Copy the relevant sections when creating new pages.
 IMPORTANT: Path adjustments required based on file location:
 - Root level files (e.g., index.html): Use paths as-is
 - Subdirectory files (e.g., foundation/index.html): Add ../ prefix to all paths
+- Products subpages (e.g., products/shopper/color-strategy.html): Add ../../ prefix
 
 SECTIONS:
 1. CSS Variables & Styles (required in <head>)
 2. Header Navigation with Dropdowns
-3. Breadcrumb Pattern
-4. Footer Navigation
+3. Products Sidebar (for products/* pages only)
+4. Breadcrumb Pattern
+5. Footer Navigation
 
 ================================================================================
 -->
@@ -81,6 +83,27 @@ SECTIONS:
 .nav-dropdown:hover .nav-dropdown-trigger svg {
     transform: rotate(180deg);
 }
+
+/* Products sidebar styles */
+.sidebar-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    color: hsl(24 29% 8%);
+    transition: background-color 0.1s;
+}
+.sidebar-link:hover {
+    background-color: hsl(30 29% 97%);
+}
+.sidebar-link-active {
+    background-color: hsl(150 45% 97%);
+    color: hsl(150 100% 27%);
+    font-weight: 500;
+}
+.sidebar-link-coming {
+    color: hsl(30 6% 62%);
+}
 </style>
 
 
@@ -89,10 +112,11 @@ SECTIONS:
      Place immediately after opening <body> tag
 
      Adjust paths:
-     - Root level: href="foundation/" or href="core-colors.html"
-     - Subdirectory: href="../foundation/" or href="../core-colors.html"
+     - Root level: href="products/" or href="core-colors.html"
+     - Subdirectory: href="../products/" or href="../core-colors.html"
+     - Products subpage: href="../../products/" or href="../../core-colors.html"
 ============================================================================= -->
-<header class="bg-white border-b-2 border-[hsl(30_5%_88%)]">
+<header class="bg-white border-b-2 border-warm-200">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <!-- Logo and Title -->
         <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
@@ -107,7 +131,7 @@ SECTIONS:
                     <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/>
                 </g>
             </svg>
-            <span class="font-brand font-semibold text-lg text-[hsl(24_29%_8%)]">Design System</span>
+            <span class="font-brand font-semibold text-lg text-ink">Design System</span>
         </a>
 
         <!-- Navigation Links -->
@@ -115,41 +139,59 @@ SECTIONS:
 
             <!-- Foundation Dropdown -->
             <div class="nav-dropdown">
-                <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                <span class="nav-dropdown-trigger text-warm-600 hover:text-ink">
                     Foundation
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </span>
                 <div class="nav-dropdown-menu">
-                    <a href="foundation/">Overview</a>
+                    <a href="foundation/" class="font-medium">Foundation</a>
                     <div class="divider"></div>
+                    <p class="px-4 py-1 text-xs text-warm-500 uppercase tracking-wider">Tokens</p>
                     <a href="core-colors.html">Colors</a>
                     <a href="core-typography.html">Typography</a>
                     <a href="core-buttons.html">Buttons</a>
                     <a href="core-inputs.html">Inputs</a>
-                    <a href="core-badges.html">Badges</a>
                     <a href="core-logos.html">Logos</a>
                     <a href="core-threads.html">Threads</a>
                     <a href="core-gradients.html">Gradients</a>
                     <a href="core-spacing.html">Spacing</a>
                     <a href="core-animation.html">Animation</a>
                     <a href="core-responsive.html">Responsive</a>
+                    <div class="divider"></div>
+                    <p class="px-4 py-1 text-xs text-warm-500 uppercase tracking-wider">Components</p>
+                    <a href="core-states.html">States</a>
+                    <a href="core-tables.html">Tables</a>
+                    <a href="core-modals.html">Modals</a>
+                    <a href="core-dropdowns.html">Dropdowns</a>
+                    <a href="core-tabs.html">Tabs</a>
+                    <a href="core-badges.html">Badges</a>
+                    <a href="core-toasts.html">Toasts</a>
+                    <a href="core-cards.html">Cards</a>
+                    <a href="core-navigation.html">Navigation</a>
+                    <a href="core-avatars.html">Avatars</a>
+                    <a href="core-tooltips.html">Tooltips</a>
+                    <a href="core-popovers.html">Popovers</a>
+                    <a href="core-progress.html">Progress</a>
+                    <a href="core-context-switcher.html">Context Switcher</a>
                 </div>
             </div>
 
             <!-- Shopper Dropdown -->
             <div class="nav-dropdown">
-                <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                <span class="nav-dropdown-trigger text-warm-600 hover:text-ink">
                     Shopper
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </span>
                 <div class="nav-dropdown-menu">
-                    <a href="shopper/">Overview</a>
+                    <a href="shopper/" class="font-medium">Shopper</a>
                     <a href="shopper/showcase.html">Showcase</a>
+                    <a href="products/shopper/color-strategy.html">Color Strategy</a>
                     <div class="divider"></div>
+                    <p class="px-4 py-1 text-xs text-warm-500 uppercase tracking-wider">Files</p>
                     <a href="product-shopper-passport.html">Passport</a>
                     <a href="product-checkout-widget.html">Checkout Widget</a>
                 </div>
@@ -157,34 +199,38 @@ SECTIONS:
 
             <!-- Merchant Dropdown -->
             <div class="nav-dropdown">
-                <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                <span class="nav-dropdown-trigger text-warm-600 hover:text-ink">
                     Merchant
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </span>
                 <div class="nav-dropdown-menu">
-                    <a href="merchant/">Overview</a>
+                    <a href="merchant/" class="font-medium">Merchant</a>
                     <a href="merchant/showcase.html">Showcase</a>
+                    <a href="merchant/dashboard.html">Dashboard</a>
+                    <a href="products/merchant/color-strategy.html" class="text-warm-400">Color Strategy (coming)</a>
                     <div class="divider"></div>
+                    <p class="px-4 py-1 text-xs text-warm-500 uppercase tracking-wider">Files</p>
                     <a href="product-components.html">Components</a>
-                    <a href="core-inputs.html">Inputs</a>
                     <a href="product-surfaces.html">Surfaces</a>
                 </div>
             </div>
 
             <!-- Marketing Dropdown -->
             <div class="nav-dropdown">
-                <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                <span class="nav-dropdown-trigger text-warm-600 hover:text-ink">
                     Marketing
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </span>
                 <div class="nav-dropdown-menu">
-                    <a href="marketing/">Overview</a>
+                    <a href="marketing/" class="font-medium">Marketing</a>
                     <a href="marketing/showcase.html">Showcase</a>
+                    <a href="products/marketing/color-strategy.html" class="text-warm-400">Color Strategy (coming)</a>
                     <div class="divider"></div>
+                    <p class="px-4 py-1 text-xs text-warm-500 uppercase tracking-wider">Files</p>
                     <a href="marketing-heroes.html">Heroes</a>
                     <a href="marketing-illustrations.html">Illustrations</a>
                     <a href="marketing-illustration-system.html">Illustration System</a>
@@ -194,15 +240,16 @@ SECTIONS:
 
             <!-- Docs Dropdown -->
             <div class="nav-dropdown">
-                <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                <span class="nav-dropdown-trigger text-warm-600 hover:text-ink">
                     Docs
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </span>
                 <div class="nav-dropdown-menu">
-                    <a href="docs/">Overview</a>
+                    <a href="docs/" class="font-medium">Docs</a>
                     <a href="docs/showcase.html">Showcase</a>
+                    <a href="products/docs/color-strategy.html" class="text-warm-400">Color Strategy (coming)</a>
                 </div>
             </div>
 
@@ -212,61 +259,113 @@ SECTIONS:
 
 
 <!-- ============================================================================
-     3. BREADCRUMB PATTERN
-     Place after header, before main content
+     3. PRODUCTS SIDEBAR
+     Use ONLY on pages under /products/ directory
+     Shows all product surfaces with active state highlighting
 
-     Patterns by page location:
-     - Home: No breadcrumb needed
-     - Section index (e.g., foundation/index.html): Home → Section
-     - Section page (e.g., foundation/showcase.html): Home → Section → Page
-     - Root page in section (e.g., core-colors.html): Home → Foundation → Colors
+     Path adjustments for sidebar links (from products/index.html):
+     - href="shopper/color-strategy.html"
+
+     Path adjustments for sidebar links (from products/shopper/color-strategy.html):
+     - href="../shopper/color-strategy.html" or just "color-strategy.html" for same dir
 ============================================================================= -->
 
-<!-- Example: Section index page (e.g., foundation/index.html) -->
-<nav class="max-w-6xl mx-auto px-6 py-4">
-    <ol class="flex items-center gap-2 text-sm text-[hsl(30_6%_46%)]">
-        <li><a href="../index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Design System</a></li>
-        <li class="text-[hsl(30_5%_78%)]">→</li>
-        <li class="text-[hsl(24_29%_8%)] font-medium">Foundation</li>
-    </ol>
+<!-- Wrapper: Use flex layout for sidebar + content -->
+<div class="flex min-h-screen">
+
+    <!-- Sidebar (from products/index.html perspective) -->
+    <aside class="w-60 border-r border-warm-200 bg-white sticky top-0 self-start min-h-screen flex-shrink-0">
+        <nav class="p-4">
+            <!-- Shopper -->
+            <div class="mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-2">Shopper</p>
+                <ul class="space-y-1">
+                    <li><a href="shopper/color-strategy.html" class="sidebar-link">Color Strategy</a></li>
+                    <li><a href="shopper/patterns.html" class="sidebar-link sidebar-link-coming">Patterns (coming)</a></li>
+                </ul>
+            </div>
+
+            <!-- Merchant -->
+            <div class="mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-2">Merchant</p>
+                <ul class="space-y-1">
+                    <li><a href="merchant/color-strategy.html" class="sidebar-link sidebar-link-coming">Color Strategy (coming)</a></li>
+                </ul>
+            </div>
+
+            <!-- Marketing -->
+            <div class="mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-2">Marketing</p>
+                <ul class="space-y-1">
+                    <li><a href="marketing/color-strategy.html" class="sidebar-link sidebar-link-coming">Color Strategy (coming)</a></li>
+                </ul>
+            </div>
+
+            <!-- Documentation -->
+            <div class="mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-2">Documentation</p>
+                <ul class="space-y-1">
+                    <li><a href="docs/color-strategy.html" class="sidebar-link sidebar-link-coming">Color Strategy (coming)</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 bg-ledger">
+        <!-- Page content goes here -->
+    </main>
+
+</div>
+
+
+<!-- ============================================================================
+     4. BREADCRUMB PATTERNS
+     Place after header, before main content
+
+     Products pages use this pattern:
+     Design System → Products → Shopper → Color Strategy
+============================================================================= -->
+
+<!-- Example: Products landing page (products/index.html) -->
+<nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+    <a href="../index.html" class="hover:text-emerald-600 transition-colors">Design System</a>
+    <span class="text-warm-300">→</span>
+    <span class="text-ink font-medium">Products</span>
 </nav>
 
-<!-- Example: Section sub-page (e.g., shopper/showcase.html) -->
-<nav class="max-w-6xl mx-auto px-6 py-4">
-    <ol class="flex items-center gap-2 text-sm text-[hsl(30_6%_46%)]">
-        <li><a href="../index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Design System</a></li>
-        <li class="text-[hsl(30_5%_78%)]">→</li>
-        <li><a href="index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Shopper</a></li>
-        <li class="text-[hsl(30_5%_78%)]">→</li>
-        <li class="text-[hsl(24_29%_8%)] font-medium">Showcase</li>
-    </ol>
+<!-- Example: Products subpage (products/shopper/color-strategy.html) -->
+<nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+    <a href="../../index.html" class="hover:text-emerald-600 transition-colors">Design System</a>
+    <span class="text-warm-300">→</span>
+    <a href="../index.html" class="hover:text-emerald-600 transition-colors">Products</a>
+    <span class="text-warm-300">→</span>
+    <a href="index.html" class="hover:text-emerald-600 transition-colors">Shopper</a>
+    <span class="text-warm-300">→</span>
+    <span class="text-ink font-medium">Color Strategy</span>
 </nav>
 
-<!-- Example: Root-level page with logical hierarchy (e.g., core-colors.html → Foundation) -->
-<nav class="max-w-6xl mx-auto px-6 py-4">
-    <ol class="flex items-center gap-2 text-sm text-[hsl(30_6%_46%)]">
-        <li><a href="index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Design System</a></li>
-        <li class="text-[hsl(30_5%_78%)]">→</li>
-        <li><a href="foundation/" class="hover:text-[hsl(150_100%_27%)] transition-colors">Foundation</a></li>
-        <li class="text-[hsl(30_5%_78%)]">→</li>
-        <li class="text-[hsl(24_29%_8%)] font-medium">Colors</li>
-    </ol>
+<!-- Example: Root component page (core-buttons.html) -->
+<nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+    <a href="index.html" class="hover:text-emerald-600 transition-colors">Design System</a>
+    <span class="text-warm-300">→</span>
+    <span class="text-ink font-medium">Buttons</span>
 </nav>
 
 
 <!-- ============================================================================
-     4. FOOTER NAVIGATION
+     5. FOOTER NAVIGATION
      Place at the end of the page, before closing </body>
 ============================================================================= -->
-<footer class="border-t-2 border-[hsl(30_5%_88%)] mt-16">
+<footer class="border-t-2 border-warm-200 mt-16">
     <div class="max-w-6xl mx-auto px-6 py-6">
         <div class="flex items-center justify-between text-sm">
-            <div class="flex items-center gap-4 text-[hsl(30_6%_46%)]">
-                <a href="index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Home</a>
-                <span class="text-[hsl(30_5%_78%)]">·</span>
-                <a href="sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Sitemap</a>
+            <div class="flex items-center gap-4 text-warm-500">
+                <a href="index.html" class="hover:text-emerald-600 transition-colors">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
             </div>
-            <p class="text-[hsl(30_6%_62%)]">Saltwyk Design System v0.6 · January 2026</p>
+            <p class="text-warm-400">Saltwyk Design System v0.6 · January 2026</p>
         </div>
     </div>
 </footer>
@@ -277,13 +376,27 @@ SECTIONS:
 
      FROM ROOT (e.g., index.html, core-colors.html):
        Home link:        href="index.html"
-       Foundation:       href="foundation/"
-       Shopper:          href="shopper/"
+       Products:         href="products/"
        Core page:        href="core-colors.html"
+       Assets:           href="assets/..."
 
      FROM SUBDIRECTORY (e.g., foundation/index.html, shopper/showcase.html):
        Home link:        href="../index.html"
-       Foundation:       href="../foundation/"
-       Shopper:          href="../shopper/"
+       Products:         href="../products/"
        Core page:        href="../core-colors.html"
+       Assets:           href="../assets/..."
+
+     FROM PRODUCTS ROOT (e.g., products/index.html):
+       Home link:        href="../index.html"
+       Products:         href="./" or href="../products/"
+       Core page:        href="../core-colors.html"
+       Assets:           href="../assets/..."
+       Sidebar links:    href="shopper/color-strategy.html"
+
+     FROM PRODUCTS SUBPAGE (e.g., products/shopper/color-strategy.html):
+       Home link:        href="../../index.html"
+       Products:         href="../" or href="../../products/"
+       Core page:        href="../../core-colors.html"
+       Assets:           href="../../assets/..."
+       Sidebar links:    href="../shopper/color-strategy.html"
 ============================================================================= -->
