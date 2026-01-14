@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+
+        .serial {
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* Token card hover */
+        .token-card {
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .token-card:hover {
+            transform: translateY(-2px);
+            border-color: hsl(150 100% 27%);
+            box-shadow: 0 4px 12px -4px rgba(26, 15, 10, 0.1);
+        }
+
+        /* Navigation dropdown styles */
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
+        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
+        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
+        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-[hsl(48_29%_95%)] text-[hsl(24_29%_8%)] min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-[hsl(30_5%_88%)]">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <svg width="32" height="32" viewBox="0 0 95 95" fill="none"><mask id="nav-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75"><circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/></mask><g mask="url(#nav-mask)"><circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/><circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/><circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/><circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/></g></svg>
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(24_29%_8%)] font-medium">Foundation <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../foundation/" class="font-medium text-[hsl(150_100%_27%)]">Foundation</a><div class="divider"></div><p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p><a href="../core-colors.html">Colors</a><a href="../core-typography.html">Typography</a><a href="../core-buttons.html">Buttons</a><a href="../core-inputs.html">Inputs</a><a href="../core-logos.html">Logos</a><a href="../core-threads.html">Threads</a><a href="../core-gradients.html">Gradients</a><a href="../core-spacing.html">Spacing</a><a href="../core-animation.html">Animation</a><a href="../core-responsive.html">Responsive</a><div class="divider"></div><p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p><a href="../core-states.html">States</a><a href="../core-tables.html">Tables</a><a href="../core-modals.html">Modals</a><a href="../core-dropdowns.html">Dropdowns</a><a href="../core-tabs.html">Tabs</a><a href="../core-badges.html">Badges</a><a href="../core-toasts.html">Toasts</a><a href="../core-cards.html">Cards</a><a href="../core-navigation.html">Navigation</a><a href="../core-avatars.html">Avatars</a><a href="../core-tooltips.html">Tooltips</a>
+                        <a href="../core-popovers.html">Popovers</a>
+                        <a href="../core-progress.html">Progress</a>
+                        <a href="../core-context-switcher.html">Context Switcher</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">Shopper <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../shopper/" class="font-medium">Shopper</a><a href="../shopper/showcase.html">Showcase</a><div class="divider"></div><p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p><a href="../product-shopper-passport.html">Passport</a><a href="../product-checkout-widget.html">Checkout Widget</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">Merchant <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../merchant/" class="font-medium">Merchant</a><a href="../merchant/showcase.html">Showcase</a><a href="../merchant/dashboard.html">Dashboard</a><div class="divider"></div><p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p><a href="../product-components.html">Components</a><a href="../product-forms.html">Forms</a><a href="../product-surfaces.html">Surfaces</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">Marketing <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../marketing/" class="font-medium">Marketing</a><a href="../marketing/showcase.html">Showcase</a><div class="divider"></div><p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p><a href="../marketing-heroes.html">Heroes</a><a href="../marketing-illustrations.html">Illustrations</a><a href="../marketing-illustration-system.html">Illustration System</a><a href="../marketing-components.html">Components</a></div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">Docs <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></span>
+                    <div class="nav-dropdown-menu"><a href="../docs/" class="font-medium">Docs</a><a href="../docs/showcase.html">Showcase</a></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Single thread accent at top - cyan only for docs aesthetic -->
+    <div class="h-1 bg-[hsl(170_100%_50%)]"></div>
+
+    <div class="max-w-4xl mx-auto px-6 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-[hsl(30_6%_46%)] mb-8">
+            <a href="../index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Design System</a>
+            <span class="text-[hsl(30_5%_78%)]">→</span>
+            <span class="text-[hsl(24_29%_8%)] font-medium">Foundation</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="font-display text-4xl mb-3">Foundation</h1>
+            <p class="text-lg text-[hsl(30_6%_46%)]">Shared tokens across all product surfaces</p>
+        </header>
+
+        <!-- Narrative Section -->
+        <section class="mb-12">
+            <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-6">
+                <p class="text-[hsl(30_7%_35%)] leading-relaxed mb-3">
+                    Foundation defines the raw materials: color scales, type families, spacing units, motion curves. These tokens are <strong class="text-[hsl(24_29%_8%)]">shared across every surface</strong>—Shopper, Merchant, Marketing, and Docs.
+                </p>
+                <p class="text-[hsl(30_6%_46%)] text-sm">
+                    What differs between surfaces is composition—how tokens combine. Fire opal and bright opal treatments use the same thread colors at different saturation levels. The foundation provides the palette; surfaces determine the application.
+                </p>
+            </div>
+        </section>
+
+        <!-- Token Category Grid -->
+        <section class="mb-12">
+            <p class="serial text-[hsl(30_6%_46%)] mb-4">Token Categories</p>
+
+            <div class="grid grid-cols-2 gap-4">
+
+                <!-- Colors -->
+                <a href="../core-colors.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="flex gap-1 mt-1">
+                            <div class="w-4 h-4 rounded bg-[hsl(150_100%_27%)]"></div>
+                            <div class="w-4 h-4 rounded bg-[hsl(24_29%_8%)]"></div>
+                            <div class="w-4 h-4 rounded bg-[hsl(170_100%_50%)]"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Colors</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Warm gray, intaglio brown, emerald green, and four thread accent scales. Named surfaces: ledger and ink.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Typography -->
+                <a href="../core-typography.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1">
+                            <span class="font-display text-2xl leading-none">Aa</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Typography</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">DM Serif Display for headlines, Inter for body, Outfit for brand moments. Type scale from caption to display.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Buttons -->
+                <a href="../core-buttons.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1">
+                            <div class="px-3 py-1.5 bg-[hsl(150_100%_27%)] rounded text-white text-xs font-medium">Button</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Buttons</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Primary, secondary, ghost, outline variants. Three sizes. States including loading and disabled.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Logos -->
+                <a href="../core-logos.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1">
+                            <svg width="32" height="32" viewBox="0 0 95 95" fill="none">
+                                <mask id="m2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
+                                    <circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/>
+                                </mask>
+                                <g mask="url(#m2)">
+                                    <circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/>
+                                    <circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/>
+                                    <circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/>
+                                    <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Logos</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Lockup, logomark, and wordmark variants. Emerald, inverse, and monochrome options with usage guidelines.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Thread Lines -->
+                <a href="../core-threads.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-2 w-12">
+                            <div class="h-1 rounded-full" style="background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%));"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Thread Lines</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Security thread patterns. Full spectrum, single color accents, horizontal and vertical orientations, fade variants.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Gradients -->
+                <a href="../core-gradients.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1">
+                            <div class="w-8 h-8 rounded" style="background: linear-gradient(135deg, hsl(170 70% 55%) 0%, hsl(330 70% 60%) 100%);"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Gradients</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Four thread families (cool, fresh, flame, tropic) at five intensity levels from thread to background.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Spacing -->
+                <a href="../core-spacing.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1 flex gap-1 items-end">
+                            <div class="w-1 h-2 bg-[hsl(170_100%_40%)]"></div>
+                            <div class="w-1 h-4 bg-[hsl(170_100%_40%)]"></div>
+                            <div class="w-1 h-6 bg-[hsl(170_100%_40%)]"></div>
+                            <div class="w-1 h-8 bg-[hsl(170_100%_40%)]"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Spacing & Layout</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Base-4 spacing scale, container widths, grid patterns, and responsive breakpoints.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Motion -->
+                <a href="../core-animation.html" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-5 block">
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1">
+                            <div class="w-4 h-4 rounded-full bg-[hsl(74_80%_45%)] animate-pulse"></div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Motion & Animation</h3>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">Duration scale, easing curves, entrance animations, continuous animations, and accessibility considerations.</p>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Config Files -->
+        <section class="mb-12">
+            <p class="serial text-[hsl(30_6%_46%)] mb-4">Configuration Files</p>
+
+            <div class="flex gap-3">
+                <a href="../assets/config/tailwind.config.js" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">tailwind.config.js</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
+                </a>
+
+                <a href="../assets/config/design-tokens.css" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">design-tokens.css</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
+                </a>
+
+                <a href="../DESIGN_SYSTEM.md" class="token-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">DESIGN_SYSTEM.md</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-[hsl(30_5%_88%)]">
+            <div class="flex justify-between items-center text-sm text-[hsl(30_6%_46%)]">
+                <div class="flex items-center gap-4">
+                    <a href="../index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Home</a>
+                    <span class="text-[hsl(30_5%_78%)]">·</span>
+                    <a href="../sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

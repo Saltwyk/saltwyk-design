@@ -4,81 +4,255 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saltwyk Design System</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
     <style>
         body { font-family: 'Inter', system-ui, sans-serif; }
         .font-display { font-family: 'DM Serif Display', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
-        
+
         .serial {
             font-weight: 600;
             font-size: 11px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
         }
-        
+
         /* Thread line */
         .thread-line {
             height: 3px;
-            background: linear-gradient(90deg, 
-                hsl(170 100% 50%) 0%, 
-                hsl(74 100% 50%) 25%, 
-                hsl(20 100% 50%) 50%, 
-                hsl(330 100% 50%) 75%, 
+            background: linear-gradient(90deg,
+                hsl(170 100% 50%) 0%,
+                hsl(74 100% 50%) 25%,
+                hsl(20 100% 50%) 50%,
+                hsl(330 100% 50%) 75%,
                 hsl(170 100% 50%) 100%
             );
         }
-        
-        /* Section card */
-        .section-card {
+
+        .thread-line-thin {
+            height: 2px;
+            background: linear-gradient(90deg,
+                hsl(170 100% 50%) 0%,
+                hsl(74 100% 50%) 25%,
+                hsl(20 100% 50%) 50%,
+                hsl(330 100% 50%) 75%,
+                hsl(170 100% 50%) 100%
+            );
+        }
+
+        /* Bright Opal - soft threads on light */
+        .gradient-cool-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%); }
+        .gradient-fresh-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 40% 96%) 100%); }
+
+        /* Fire Opal - bright threads on dark */
+        .gradient-hero-intaglio { background: linear-gradient(135deg, hsl(24 29% 12%) 0%, hsl(24 28% 18%) 40%, hsl(24 29% 8%) 100%); }
+        .gradient-hero-emerald { background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(150 100% 18%) 50%, hsl(24 29% 8%) 100%); }
+
+        /* Hero card hover */
+        .hero-card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .section-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px -8px rgba(26, 15, 10, 0.12);
+        .hero-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px -8px rgba(26, 15, 10, 0.15);
         }
-        
-        /* Page link hover */
-        .page-link {
-            transition: background-color 0.15s ease;
+
+        /* Foundation link hover */
+        .foundation-link {
+            transition: border-color 0.15s ease, background-color 0.15s ease;
         }
-        .page-link:hover {
-            background-color: hsl(48 29% 92%);
+        .foundation-link:hover {
+            border-color: hsl(150 100% 27%);
+            background-color: hsl(150 45% 97%);
         }
-        
-        /* Status badges */
-        .badge-stable { background: hsl(150 45% 92%); color: hsl(150 100% 22%); border-color: hsl(150 45% 85%); }
-        .badge-draft { background: hsl(48 50% 92%); color: hsl(40 80% 30%); border-color: hsl(48 50% 80%); }
-        .badge-planned { background: hsl(30 5% 94%); color: hsl(30 6% 46%); border-color: hsl(30 5% 85%); }
-        
-        /* Section accent colors */
-        .accent-core { color: hsl(150 100% 27%); }
-        .accent-product { color: hsl(24 26% 35%); }
-        .accent-marketing { color: hsl(170 100% 40%); }
-        .accent-docs { color: hsl(30 6% 46%); }
-        
-        .border-accent-core { border-color: hsl(150 100% 27%); }
-        .border-accent-product { border-color: hsl(24 26% 35%); }
-        .border-accent-marketing { border-color: hsl(170 100% 40%); }
-        .border-accent-docs { border-color: hsl(30 6% 46%); }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background: white;
+            border: 2px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu,
+        .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: hsl(30 8% 35%);
+            font-size: 0.875rem;
+            transition: background-color 0.1s ease, color 0.1s ease;
+        }
+        .nav-dropdown-menu a:hover {
+            background-color: hsl(150 45% 97%);
+            color: hsl(150 100% 27%);
+        }
+        .nav-dropdown-menu .divider {
+            height: 1px;
+            background: hsl(30 5% 90%);
+            margin: 0.5rem 0;
+        }
+        .nav-dropdown-trigger svg {
+            transition: transform 0.15s ease;
+        }
+        .nav-dropdown:hover .nav-dropdown-trigger svg {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="bg-[hsl(48_29%_95%)] text-[hsl(24_29%_8%)] min-h-screen">
-    
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b-2 border-[hsl(30_5%_88%)]">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <svg width="32" height="32" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="nav-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
+                        <circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/>
+                    </mask>
+                    <g mask="url(#nav-mask)">
+                        <circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/>
+                        <circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/>
+                        <circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/>
+                        <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/>
+                    </g>
+                </svg>
+                <span class="font-brand font-semibold text-lg">Saltwyk Design System</span>
+            </a>
+            <nav class="flex items-center gap-6 text-sm">
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                        Foundation
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </span>
+                    <div class="nav-dropdown-menu">
+                        <a href="foundation/" class="font-medium">Foundation</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Tokens</p>
+                        <a href="core-colors.html">Colors</a>
+                        <a href="core-typography.html">Typography</a>
+                        <a href="core-buttons.html">Buttons</a>
+                        <a href="core-inputs.html">Inputs</a>
+                        <a href="core-logos.html">Logos</a>
+                        <a href="core-threads.html">Threads</a>
+                        <a href="core-gradients.html">Gradients</a>
+                        <a href="core-spacing.html">Spacing</a>
+                        <a href="core-animation.html">Animation</a>
+                        <a href="core-responsive.html">Responsive</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Components</p>
+                        <a href="core-states.html">States</a>
+                        <a href="core-tables.html">Tables</a>
+                        <a href="core-modals.html">Modals</a>
+                        <a href="core-dropdowns.html">Dropdowns</a>
+                        <a href="core-tabs.html">Tabs</a>
+                        <a href="core-badges.html">Badges</a>
+                        <a href="core-toasts.html">Toasts</a>
+                        <a href="core-cards.html">Cards</a>
+                        <a href="core-navigation.html">Navigation</a>
+                        <a href="core-avatars.html">Avatars</a>
+                        <a href="core-tooltips.html">Tooltips</a>
+                        <a href="core-popovers.html">Popovers</a>
+                        <a href="core-progress.html">Progress</a>
+                        <a href="core-context-switcher.html">Context Switcher</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                        Shopper
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </span>
+                    <div class="nav-dropdown-menu">
+                        <a href="shopper/" class="font-medium">Shopper</a>
+                        <a href="shopper/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-shopper-passport.html">Passport</a>
+                        <a href="product-checkout-widget.html">Checkout Widget</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                        Merchant
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </span>
+                    <div class="nav-dropdown-menu">
+                        <a href="merchant/" class="font-medium">Merchant</a>
+                        <a href="merchant/showcase.html">Showcase</a>
+                        <a href="merchant/dashboard.html">Dashboard</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="product-components.html">Components</a>
+                        <a href="product-forms.html">Forms</a>
+                        <a href="product-surfaces.html">Surfaces</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                        Marketing
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </span>
+                    <div class="nav-dropdown-menu">
+                        <a href="marketing/" class="font-medium">Marketing</a>
+                        <a href="marketing/showcase.html">Showcase</a>
+                        <div class="divider"></div>
+                        <p class="px-4 py-1 text-xs text-[hsl(30_6%_62%)] uppercase tracking-wider">Files</p>
+                        <a href="marketing-heroes.html">Heroes</a>
+                        <a href="marketing-illustrations.html">Illustrations</a>
+                        <a href="marketing-illustration-system.html">Illustration System</a>
+                        <a href="marketing-components.html">Components</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <span class="nav-dropdown-trigger text-[hsl(30_6%_46%)] hover:text-[hsl(24_29%_8%)]">
+                        Docs
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </span>
+                    <div class="nav-dropdown-menu">
+                        <a href="docs/" class="font-medium">Docs</a>
+                        <a href="docs/showcase.html">Showcase</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
     <!-- Thread line at top -->
     <div class="thread-line"></div>
-    
-    <div class="max-w-6xl mx-auto px-6 py-12">
-        
-        <!-- Header -->
-        <header class="mb-12">
-            <div class="flex items-center gap-4 mb-6">
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+
+        <!-- Brand Header -->
+        <header class="mb-16">
+            <div class="flex items-center gap-4 mb-4">
                 <!-- Logo mark -->
                 <svg width="48" height="48" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
@@ -93,410 +267,261 @@
                 </svg>
                 <div>
                     <h1 class="font-display text-4xl">Design System</h1>
-                    <p class="text-[hsl(30_6%_46%)]">Visual foundation for Saltwyk</p>
                 </div>
             </div>
-            
-            <div class="flex items-center gap-6 text-sm text-[hsl(30_6%_46%)]">
+
+            <div class="flex items-center gap-4 text-sm text-[hsl(30_6%_46%)]">
                 <span>Version 0.6.0</span>
-                <span>•</span>
+                <span class="text-[hsl(30_5%_78%)]">·</span>
                 <span>January 2026</span>
-                <span>•</span>
-                <a href="DESIGN_SYSTEM.md" class="text-[hsl(150_100%_27%)] hover:underline">Read Overview →</a>
+                <span class="text-[hsl(30_5%_78%)]">·</span>
+                <a href="DESIGN_SYSTEM.md" class="text-[hsl(150_100%_27%)] hover:underline">Full Reference</a>
             </div>
         </header>
 
-        <!-- Four Systems Grid -->
-        <div class="grid grid-cols-2 gap-6 mb-12">
-            
-            <!-- CORE -->
-            <div class="section-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
-                <div class="p-5 border-b border-[hsl(30_5%_92%)] bg-[hsl(150_45%_97%)]">
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="serial accent-core">Core</p>
-                        <span class="badge-stable text-xs px-2 py-0.5 rounded-full border">stable</span>
-                    </div>
-                    <h2 class="font-display text-xl mb-1">Foundation</h2>
-                    <p class="text-sm text-[hsl(30_6%_46%)]">
-                        Shared tokens across all contexts. Colors, type, logos, threads.
-                    </p>
-                </div>
-                
-                <div class="divide-y divide-[hsl(30_5%_95%)]">
-                    <a href="core-colors.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(150_45%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-3 rounded-sm bg-[hsl(150_100%_27%)]"></div>
-                            </div>
-                            <span class="text-sm font-medium">Colors</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="core-typography.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(30_5%_94%)] flex items-center justify-center font-display text-sm">
-                                Aa
-                            </div>
-                            <span class="text-sm font-medium">Typography</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-
-                    <a href="core-buttons.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(150_45%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-2 rounded bg-[hsl(150_100%_27%)]"></div>
-                            </div>
-                            <span class="text-sm font-medium">Buttons</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-
-                    <a href="core-logos.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(150_45%_92%)] flex items-center justify-center">
-                                <svg width="14" height="14" viewBox="0 0 95 95" fill="none">
-                                    <mask id="m1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
-                                        <circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/>
-                                    </mask>
-                                    <g mask="url(#m1)">
-                                        <circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/>
-                                        <circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/>
-                                        <circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/>
-                                        <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/>
-                                    </g>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium">Logos</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="core-threads.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(30_5%_94%)] flex items-center justify-center overflow-hidden">
-                                <div class="w-4 h-0.5 rounded-full" style="background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%));"></div>
-                            </div>
-                            <span class="text-sm font-medium">Thread Lines</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="core-gradients.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded overflow-hidden" style="background: linear-gradient(135deg, hsl(170 70% 55%) 0%, hsl(330 70% 60%) 100%);"></div>
-                            <span class="text-sm font-medium">Gradients</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="core-spacing.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(170_50%_92%)] flex items-center justify-center">
-                                <div class="flex gap-px">
-                                    <div class="w-0.5 h-3 bg-[hsl(170_100%_40%)]"></div>
-                                    <div class="w-0.5 h-3 bg-[hsl(170_100%_40%)] opacity-60"></div>
-                                    <div class="w-0.5 h-3 bg-[hsl(170_100%_40%)] opacity-30"></div>
-                                </div>
-                            </div>
-                            <span class="text-sm font-medium">Spacing & Layout</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-
-                    <a href="core-animation.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(74_45%_92%)] flex items-center justify-center">
-                                <div class="w-2 h-2 bg-[hsl(74_80%_45%)] rounded-full animate-pulse"></div>
-                            </div>
-                            <span class="text-sm font-medium">Motion & Animation</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                </div>
+        <!-- Philosophy Statement -->
+        <section class="mb-16">
+            <div class="max-w-3xl">
+                <p class="text-lg text-[hsl(30_7%_35%)] leading-relaxed mb-4">
+                    <strong class="text-[hsl(24_29%_8%)]">Intaglio Ink + Ledger Paper + Security Threads.</strong>
+                    The visual language of currency—engraved permanence, warm paper, fluorescent authentication—adapted for digital commerce.
+                </p>
+                <p class="text-[hsl(30_6%_46%)]">
+                    Two treatments emerge from the same tokens: <strong class="text-[hsl(24_29%_8%)]">Fire Opal</strong> places bright threads against dark intaglio for merchant authority. <strong class="text-[hsl(24_29%_8%)]">Bright Opal</strong> washes soft thread tints across ledger paper for shopper approachability.
+                </p>
             </div>
-            
-            <!-- PRODUCT -->
-            <div class="section-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
-                <div class="p-5 border-b border-[hsl(30_5%_92%)] bg-[hsl(24_18%_96%)]">
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="serial accent-product">Product</p>
-                        <span class="badge-stable text-xs px-2 py-0.5 rounded-full border">stable</span>
+        </section>
+
+        <!-- Four Hero Cards - 2x2 Grid -->
+        <section class="mb-16">
+            <div class="grid grid-cols-2 gap-6">
+
+                <!-- SHOPPER - Bright Opal -->
+                <a href="product-shopper-passport.html" class="hero-card rounded-xl overflow-hidden border-2 border-[hsl(30_5%_88%)] block">
+                    <!-- Soft thread tint background (8% saturation) -->
+                    <div class="gradient-cool-bg p-8 min-h-[200px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-[hsl(170_100%_32%)] mb-2">Shopper Product</p>
+                            <h2 class="font-display text-2xl text-[hsl(24_29%_8%)] mb-2">Passport & Wallet</h2>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">
+                                Warm paper, soft thread washes. The bright opal treatment for consumer trust.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-[hsl(150_100%_27%)] mt-4">
+                            <span>View surface</span>
+                            <span>→</span>
+                        </div>
                     </div>
-                    <h2 class="font-display text-xl mb-1">Application</h2>
-                    <p class="text-sm text-[hsl(30_6%_46%)]">
-                        Components for dashboard, wallet, checkout widget.
-                    </p>
-                </div>
-                
-                <div class="divide-y divide-[hsl(30_5%_95%)]">
-                    <a href="product-components.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(24_18%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-2 border-2 border-[hsl(24_26%_35%)] rounded-sm"></div>
-                            </div>
-                            <span class="text-sm font-medium">Common Components</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
+                </a>
 
-                    <a href="product-shopper-passport.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(150_45%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-3 border-2 border-[hsl(150_100%_27%)] rounded-full"></div>
-                            </div>
-                            <span class="text-sm font-medium">Shopper Passport</span>
+                <!-- MERCHANT - Fire Opal -->
+                <a href="product-checkout-widget.html" class="hero-card rounded-xl overflow-hidden block">
+                    <!-- Thread line at top -->
+                    <div class="thread-line-thin"></div>
+                    <!-- Dark intaglio background -->
+                    <div class="gradient-hero-intaglio p-8 min-h-[200px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-[hsl(24_22%_65%)] mb-2">Merchant Product</p>
+                            <h2 class="font-display text-2xl text-white mb-2">Dashboard & Widget</h2>
+                            <p class="text-sm text-[hsl(24_20%_70%)]">
+                                Dark matrix, bright threads burning through. Fire opal for merchant authority.
+                            </p>
                         </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
+                        <div class="flex items-center gap-2 text-sm text-[hsl(170_100%_50%)] mt-4">
+                            <span>View surface</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </a>
 
-                    <a href="product-checkout-widget.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(170_50%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-2 border-2 border-[hsl(170_100%_40%)] rounded-sm"></div>
-                            </div>
-                            <span class="text-sm font-medium">Checkout Widget</span>
+                <!-- MARKETING - Expressive -->
+                <a href="marketing-heroes.html" class="hero-card rounded-xl overflow-hidden block">
+                    <!-- Dramatic emerald to dark gradient -->
+                    <div class="gradient-hero-emerald p-8 min-h-[200px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-[hsl(150_45%_75%)] mb-2">Marketing Website</p>
+                            <h2 class="font-display text-2xl text-white mb-2">Heroes & Landing</h2>
+                            <p class="text-sm text-[hsl(150_30%_80%)]">
+                                Full expressive range. Both opal treatments plus dramatic brand gradients.
+                            </p>
                         </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
+                        <div class="flex items-center gap-2 text-sm text-[hsl(74_100%_60%)] mt-4">
+                            <span>View surface</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+                    <!-- Thread line at bottom -->
+                    <div class="thread-line-thin"></div>
+                </a>
 
-                    <a href="product-forms.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(74_45%_92%)] flex items-center justify-center">
-                                <div class="w-3 h-1.5 border-b-2 border-[hsl(74_80%_40%)]"></div>
-                            </div>
-                            <span class="text-sm font-medium">Forms & Inputs</span>
+                <!-- DOCS - Minimal Opal -->
+                <a href="docs/" class="hero-card rounded-xl overflow-hidden bg-white border-2 border-[hsl(30_5%_88%)] block">
+                    <!-- Single thread accent - cyan only -->
+                    <div class="h-1 bg-[hsl(170_100%_50%)]"></div>
+                    <div class="p-8 min-h-[200px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-[hsl(170_100%_32%)] mb-2">Minimal Opal</p>
+                            <h2 class="font-display text-2xl text-[hsl(24_29%_8%)] mb-2">Documentation</h2>
+                            <p class="text-sm text-[hsl(30_6%_46%)]">
+                                Customer docs and developer docs. Light and dark variants for clarity.
+                            </p>
                         </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
+                        <div class="flex items-center gap-2 text-sm text-[hsl(150_100%_27%)] mt-4">
+                            <span>View documentation</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </a>
 
-                    <a href="product-surfaces.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(48_29%_90%)] flex items-center justify-center">
-                                <div class="w-3 h-3 bg-white rounded shadow-sm"></div>
-                            </div>
-                            <span class="text-sm font-medium">Surfaces & Elevation</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                </div>
             </div>
-            
-            <!-- MARKETING -->
-            <div class="section-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
-                <div class="p-5 border-b border-[hsl(30_5%_92%)] bg-[hsl(170_45%_96%)]">
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="serial accent-marketing">Marketing</p>
-                        <span class="badge-draft text-xs px-2 py-0.5 rounded-full border">draft</span>
-                    </div>
-                    <h2 class="font-display text-xl mb-1">Website</h2>
-                    <p class="text-sm text-[hsl(30_6%_46%)]">
-                        Heroes, illustrations, expressive treatments for marketing site.
-                    </p>
-                </div>
-                
-                <div class="divide-y divide-[hsl(30_5%_95%)]">
-                    <a href="marketing-heroes.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded overflow-hidden" style="background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(24 29% 8%) 100%);"></div>
-                            <span class="text-sm font-medium">Hero Variants</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="marketing-illustrations.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded flex items-center justify-center" style="background: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(36 35% 88%) 100%); border: 1.5px solid hsl(34 32% 75%);">
-                                <span class="text-[hsl(30_25%_45%)] text-[10px]">◈</span>
-                            </div>
-                            <span class="text-sm font-medium">Illustrations</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <a href="marketing-components.html" class="page-link flex items-center justify-between px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(330_50%_94%)] flex items-center justify-center">
-                                <div class="w-3 h-2 border-2 border-[hsl(330_85%_50%)] rounded-sm"></div>
-                            </div>
-                            <span class="text-sm font-medium">Components</span>
-                        </div>
-                        <span class="text-[hsl(30_6%_75%)] text-sm">→</span>
-                    </a>
-                    
-                    <div class="flex items-center justify-between px-5 py-3 opacity-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(30_5%_94%)] flex items-center justify-center">
-                                <div class="w-3 h-3 border border-[hsl(30_6%_70%)] rounded-sm"></div>
-                            </div>
-                            <span class="text-sm font-medium">Page Patterns</span>
-                        </div>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- DOCS -->
-            <div class="section-card bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
-                <div class="p-5 border-b border-[hsl(30_5%_92%)] bg-[hsl(30_5%_97%)]">
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="serial accent-docs">Documentation</p>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                    <h2 class="font-display text-xl mb-1">Docs Site</h2>
-                    <p class="text-sm text-[hsl(30_6%_46%)]">
-                        Code blocks, API reference, callouts for technical docs.
-                    </p>
-                </div>
-                
-                <div class="divide-y divide-[hsl(30_5%_95%)]">
-                    <div class="flex items-center justify-between px-5 py-3 opacity-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(24_29%_12%)] flex items-center justify-center">
-                                <span class="text-[hsl(74_100%_60%)] text-[10px] font-mono">&lt;/&gt;</span>
-                            </div>
-                            <span class="text-sm font-medium">Code Blocks</span>
-                        </div>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                    
-                    <div class="flex items-center justify-between px-5 py-3 opacity-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(170_50%_92%)] flex items-center justify-center">
-                                <span class="text-[hsl(170_100%_32%)] text-[10px]">ℹ</span>
-                            </div>
-                            <span class="text-sm font-medium">Callouts</span>
-                        </div>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                    
-                    <div class="flex items-center justify-between px-5 py-3 opacity-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(30_5%_94%)] flex items-center justify-center">
-                                <span class="text-[hsl(30_6%_46%)] text-[10px] font-mono">{ }</span>
-                            </div>
-                            <span class="text-sm font-medium">API Reference</span>
-                        </div>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                    
-                    <div class="flex items-center justify-between px-5 py-3 opacity-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-[hsl(30_5%_94%)] flex items-center justify-center">
-                                <div class="w-3 h-3 border-l-2 border-[hsl(30_6%_70%)]"></div>
-                            </div>
-                            <span class="text-sm font-medium">Navigation</span>
-                        </div>
-                        <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <!-- Quick Reference -->
-        <section class="mb-12">
-            <h3 class="serial text-[hsl(30_6%_46%)] mb-4">Quick Reference</h3>
-            
-            <div class="grid grid-cols-4 gap-4">
-                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4">
-                    <p class="text-sm font-medium mb-2">Brand Colors</p>
-                    <div class="flex gap-1">
-                        <div class="w-5 h-5 rounded bg-[hsl(150_100%_27%)]" title="emerald-500"></div>
-                        <div class="w-5 h-5 rounded bg-[hsl(24_29%_8%)]" title="intaglio-900"></div>
-                        <div class="w-5 h-5 rounded bg-[hsl(48_29%_95%)] border border-[hsl(30_5%_88%)]" title="ledger"></div>
-                        <div class="w-5 h-5 rounded bg-white border border-[hsl(30_5%_88%)]" title="white"></div>
+        <!-- Foundation Tokens - Secondary Section -->
+        <section class="mb-16">
+            <p class="serial text-[hsl(30_6%_46%)] mb-1">Foundation Tokens</p>
+            <p class="text-sm text-[hsl(30_6%_62%)] mb-4">Shared design primitives across all surfaces</p>
+
+            <div class="grid grid-cols-4 gap-3">
+                <a href="core-colors.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-5 h-5 rounded bg-[hsl(150_100%_27%)]"></div>
+                        <span class="font-medium text-sm">Colors</span>
                     </div>
-                </div>
-                
-                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4">
-                    <p class="text-sm font-medium mb-2">Thread Colors</p>
-                    <div class="flex gap-1">
-                        <div class="w-5 h-5 rounded bg-[hsl(170_100%_50%)]" title="cyan"></div>
-                        <div class="w-5 h-5 rounded bg-[hsl(74_100%_50%)]" title="lime"></div>
-                        <div class="w-5 h-5 rounded bg-[hsl(20_100%_50%)]" title="orange"></div>
-                        <div class="w-5 h-5 rounded bg-[hsl(330_100%_50%)]" title="magenta"></div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Warm, intaglio, emerald, threads</p>
+                </a>
+
+                <a href="core-typography.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="font-display text-lg">Aa</span>
+                        <span class="font-medium text-sm">Typography</span>
                     </div>
-                </div>
-                
-                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4">
-                    <p class="text-sm font-medium mb-2">Type Stack</p>
-                    <div class="text-xs text-[hsl(30_6%_46%)] space-y-0.5">
-                        <p><span class="font-display">DM Serif</span> — Display</p>
-                        <p><span class="font-brand">Outfit</span> — Brand</p>
-                        <p>Inter — Body</p>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">DM Serif, Inter, Outfit</p>
+                </a>
+
+                <a href="core-buttons.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-5 h-3 rounded bg-[hsl(150_100%_27%)]"></div>
+                        <span class="font-medium text-sm">Buttons</span>
                     </div>
-                </div>
-                
-                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4">
-                    <p class="text-sm font-medium mb-2">Thread Line</p>
-                    <div class="h-1 rounded-full mt-3" style="background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%), hsl(170 100% 50%));"></div>
-                </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Variants, sizes, states</p>
+                </a>
+
+                <a href="core-logos.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg width="18" height="18" viewBox="0 0 95 95" fill="none">
+                            <mask id="m1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
+                                <circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/>
+                            </mask>
+                            <g mask="url(#m1)">
+                                <circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="hsl(150 100% 27%)"/>
+                                <circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="hsl(150 100% 27%)"/>
+                                <circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="hsl(150 100% 27%)"/>
+                                <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="hsl(150 100% 27%)"/>
+                            </g>
+                        </svg>
+                        <span class="font-medium text-sm">Logos</span>
+                    </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Lockup, mark, wordmark</p>
+                </a>
+
+                <a href="core-threads.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-5 h-1 rounded-full" style="background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%));"></div>
+                        <span class="font-medium text-sm">Threads</span>
+                    </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Security line patterns</p>
+                </a>
+
+                <a href="core-gradients.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-5 h-5 rounded" style="background: linear-gradient(135deg, hsl(170 70% 55%) 0%, hsl(330 70% 60%) 100%);"></div>
+                        <span class="font-medium text-sm">Gradients</span>
+                    </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Thread families, intensity scale</p>
+                </a>
+
+                <a href="core-spacing.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="flex gap-0.5">
+                            <div class="w-0.5 h-4 bg-[hsl(170_100%_40%)]"></div>
+                            <div class="w-0.5 h-4 bg-[hsl(170_100%_40%)] opacity-60"></div>
+                            <div class="w-0.5 h-4 bg-[hsl(170_100%_40%)] opacity-30"></div>
+                        </div>
+                        <span class="font-medium text-sm">Spacing</span>
+                    </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Scale, grids, breakpoints</p>
+                </a>
+
+                <a href="core-animation.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 block">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-3 h-3 rounded-full bg-[hsl(74_80%_45%)] animate-pulse"></div>
+                        <span class="font-medium text-sm">Motion</span>
+                    </div>
+                    <p class="text-xs text-[hsl(30_6%_62%)]">Timing, easing, keyframes</p>
+                </a>
             </div>
         </section>
 
         <!-- Resources -->
         <section class="mb-12">
-            <h3 class="serial text-[hsl(30_6%_46%)] mb-4">Resources</h3>
-            
-            <div class="grid grid-cols-4 gap-4">
-                <a href="assets/config/tailwind.config.js" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <p class="text-sm font-medium mb-1">Tailwind Config</p>
-                    <p class="text-xs text-[hsl(30_6%_62%)]">Full token definitions</p>
+            <p class="serial text-[hsl(30_6%_46%)] mb-4">Resources</p>
+
+            <div class="flex gap-3">
+                <a href="assets/config/tailwind.config.js" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">Tailwind Config</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
                 </a>
-                
-                <a href="assets/config/design-tokens.css" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <p class="text-sm font-medium mb-1">CSS Tokens</p>
-                    <p class="text-xs text-[hsl(30_6%_62%)]">Custom properties</p>
+
+                <a href="assets/config/design-tokens.css" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">CSS Tokens</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
                 </a>
-                
-                <a href="assets/logos/" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <p class="text-sm font-medium mb-1">Logo Assets</p>
-                    <p class="text-xs text-[hsl(30_6%_62%)]">SVG + PNG formats</p>
+
+                <a href="assets/logos/" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">Logo Assets</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
                 </a>
-                
-                <a href="assets/fonts/" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-4 hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <p class="text-sm font-medium mb-1">Font Files</p>
-                    <p class="text-xs text-[hsl(30_6%_62%)]">Outfit self-hosted</p>
+
+                <a href="sitemap.html" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">Site Index</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
                 </a>
             </div>
         </section>
 
-        <!-- Status Legend -->
-        <section class="mb-8">
-            <div class="flex gap-6 text-sm">
-                <div class="flex items-center gap-2">
-                    <span class="badge-stable text-xs px-2 py-0.5 rounded-full border">stable</span>
-                    <span class="text-[hsl(30_6%_46%)]">Production ready</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="badge-draft text-xs px-2 py-0.5 rounded-full border">draft</span>
-                    <span class="text-[hsl(30_6%_46%)]">In development</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="badge-planned text-xs px-2 py-0.5 rounded-full border">planned</span>
-                    <span class="text-[hsl(30_6%_46%)]">Not yet started</span>
-                </div>
+        <!-- Machine Readable -->
+        <section class="mb-12">
+            <p class="serial text-[hsl(30_6%_46%)] mb-1">Machine Readable</p>
+            <p class="text-sm text-[hsl(30_6%_62%)] mb-4">Brand definitions for tooling and AI</p>
+
+            <div class="flex gap-3">
+                <a href="brand.json" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">brand.json</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">— Structured brand tokens</span>
+                </a>
+
+                <a href="brand.txt" class="foundation-link bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm block">
+                    <span class="font-medium">brand.txt</span>
+                    <span class="text-[hsl(30_6%_62%)] ml-2">— Natural language brand definition</span>
+                </a>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="pt-6 border-t-2 border-[hsl(30_5%_88%)]">
             <div class="flex justify-between items-center text-sm text-[hsl(30_6%_46%)]">
-                <p>Saltwyk Design System</p>
                 <div class="flex items-center gap-4">
-                    <a href="sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Site Index</a>
-                    <span class="text-[hsl(30_5%_78%)]">•</span>
-                    <a href="sitemap.json" class="hover:text-[hsl(150_100%_27%)] transition-colors">JSON</a>
-                    <span class="text-[hsl(30_5%_78%)]">•</span>
-                    <span>January 2026</span>
+                    <a href="index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Home</a>
+                    <span class="text-[hsl(30_5%_78%)]">·</span>
+                    <a href="sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Sitemap</a>
                 </div>
+                <span>v0.6 · January 2026</span>
             </div>
         </footer>
     </div>
-    
+
     <!-- Thread line at bottom -->
     <div class="thread-line mt-8"></div>
-    
+
 </body>
 </html>
