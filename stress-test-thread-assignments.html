@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thread Assignment Stress Test v3 - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; }
+
+        /* Section dividers */
+        .section-divider {
+            border-bottom: 2px solid hsl(var(--warm-200));
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Question callout */
+        .question-box {
+            background: hsl(var(--cyan-50));
+            border: 2px solid hsl(var(--cyan-200));
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }
+        .question-box p {
+            color: hsl(var(--cyan-700));
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Insight callout */
+        .insight-box {
+            background: hsl(var(--lime-50));
+            border: 2px solid hsl(var(--lime-200));
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .insight-box p {
+            color: hsl(var(--lime-800));
+            font-size: 0.875rem;
+        }
+
+        /* ========================================= */
+        /* CONFIRMED THREAD GRADIENTS */
+        /* ========================================= */
+        .thread-spectrum {
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--lime-thread)) 25%,
+                hsl(var(--orange-thread)) 50%,
+                hsl(var(--magenta-thread)) 75%,
+                hsl(var(--cyan-thread)) 100%
+            );
+        }
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)));
+        }
+
+        /* ========================================= */
+        /* HOT THREAD GRADIENTS (Warning Risk) */
+        /* ========================================= */
+        .thread-flame {
+            background: linear-gradient(90deg, hsl(var(--orange-thread)), hsl(var(--magenta-thread)));
+        }
+        .thread-tropic {
+            background: linear-gradient(90deg, hsl(var(--orange-thread)), hsl(var(--cyan-thread)));
+        }
+        .thread-warm {
+            background: linear-gradient(90deg, hsl(var(--lime-thread)), hsl(var(--orange-thread)));
+        }
+
+        /* ========================================= */
+        /* NEW BRIGHT THREAD GRADIENTS (Not Hot) */
+        /* Vibrant but no orange/magenta dominant */
+        /* ========================================= */
+
+        /* Cyan-anchored */
+        .thread-arctic {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(0 0% 100%) 50%, hsl(170 100% 50%) 100%);
+        }
+        .thread-ocean {
+            background: linear-gradient(90deg, hsl(170 100% 50%), hsl(230 70% 55%));
+        }
+        .thread-electric {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 50%, hsl(170 100% 50%) 100%);
+        }
+
+        /* Lime-anchored */
+        .thread-volt {
+            background: linear-gradient(90deg, hsl(74 100% 60%), hsl(170 100% 50%));
+        }
+        .thread-spring {
+            background: linear-gradient(90deg, hsl(74 100% 60%) 0%, hsl(150 100% 35%) 50%, hsl(74 100% 60%) 100%);
+        }
+        .thread-neon {
+            background: linear-gradient(90deg, hsl(74 100% 60%) 0%, hsl(0 0% 100%) 50%, hsl(74 100% 60%) 100%);
+        }
+
+        /* Indigo-anchored (bright but professional) */
+        .thread-twilight {
+            background: linear-gradient(90deg, hsl(230 70% 60%), hsl(170 100% 50%));
+        }
+        .thread-depth {
+            background: linear-gradient(90deg, hsl(230 70% 55%) 0%, hsl(230 80% 45%) 50%, hsl(170 100% 50%) 100%);
+        }
+
+        /* Multi-cool (no orange/magenta) */
+        .thread-prism {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 50%, hsl(230 70% 55%) 100%);
+        }
+        .thread-aurora {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 33%, hsl(150 100% 35%) 66%, hsl(170 100% 50%) 100%);
+        }
+
+        /* ========================================= */
+        /* HERO BACKGROUNDS (from core-gradients) */
+        /* ========================================= */
+        .gradient-brand {
+            background: linear-gradient(135deg, hsl(var(--emerald-500)), hsl(var(--cyan-500)));
+        }
+        .gradient-hero {
+            background: linear-gradient(180deg, hsl(var(--emerald-600)) 0%, hsl(var(--emerald-800)) 40%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-warm-dark {
+            background: linear-gradient(135deg, hsl(var(--intaglio-900)), hsl(var(--intaglio-500)));
+        }
+        .gradient-dark {
+            background: linear-gradient(180deg, hsl(var(--intaglio-800)) 0%, hsl(var(--intaglio-400)) 100%);
+        }
+        .hero-shopper {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 35% 96%) 50%, hsl(var(--ledger)) 100%);
+        }
+        .hero-merchant {
+            background: linear-gradient(180deg, hsl(var(--intaglio-800)) 0%, hsl(var(--intaglio-900)) 100%);
+        }
+
+        /* ========================================= */
+        /* COMPREHENSIVE BACKGROUND TESTS */
+        /* ========================================= */
+        /* Dark Backgrounds */
+        .bg-intaglio-solid { background: hsl(30 10% 12%); }
+        .bg-fire-opal {
+            background: hsl(var(--intaglio-900));
+            background-image: linear-gradient(135deg, hsla(170 100% 50% / 0.05) 0%, hsla(330 100% 50% / 0.08) 100%);
+        }
+
+        /* Brand/Colored Backgrounds */
+        .bg-gradient-warm {
+            background: linear-gradient(180deg, hsl(var(--intaglio-800)) 0%, hsl(var(--sepia-300)) 100%);
+        }
+        .bg-emerald-solid { background: hsl(var(--emerald-600)); }
+        .bg-cyan-solid { background: hsl(170 100% 50%); }
+
+        /* Light Backgrounds */
+        .bg-gradient-subtle {
+            background: linear-gradient(180deg, hsl(var(--ledger)) 0%, hsl(var(--warm-100)) 100%);
+        }
+        .bg-bright-opal {
+            background: hsl(var(--warm-50));
+            background-image: linear-gradient(135deg, hsla(170 100% 50% / 0.03) 0%, hsla(74 100% 60% / 0.05) 100%);
+        }
+
+        /* Image/Illustration Simulations */
+        .bg-sepia-toned {
+            background: linear-gradient(180deg, hsl(var(--sepia-100)) 0%, hsl(var(--sepia-300)) 100%);
+        }
+        .bg-warm-photo {
+            background: linear-gradient(180deg, hsl(var(--warm-100)) 0%, hsl(var(--warm-200)) 100%);
+        }
+        .bg-cool-photo {
+            background: linear-gradient(180deg, hsl(var(--intaglio-900)) 0%, hsl(220 15% 20%) 100%);
+        }
+
+        /* Mid-tone Edge Case */
+        .bg-slate-mid { background: hsl(var(--slate-400)); }
+
+        /* Mini card for comprehensive test */
+        .mini-hero-card {
+            width: 350px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .mini-hero-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.25rem;
+        }
+
+        /* ========================================= */
+        /* STATUS BADGES */
+        /* ========================================= */
+        .status-confirmed {
+            display: inline-flex; align-items: center; padding: 0.125rem 0.5rem;
+            font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            border-radius: 9999px; background: hsl(var(--emerald-100)); color: hsl(var(--emerald-700));
+        }
+        .status-testing {
+            display: inline-flex; align-items: center; padding: 0.125rem 0.5rem;
+            font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            border-radius: 9999px; background: hsl(var(--orange-100)); color: hsl(var(--orange-700));
+        }
+        .status-warning {
+            display: inline-flex; align-items: center; padding: 0.125rem 0.5rem;
+            font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            border-radius: 9999px; background: hsl(var(--magenta-100)); color: hsl(var(--magenta-700));
+        }
+        .status-new {
+            display: inline-flex; align-items: center; padding: 0.125rem 0.5rem;
+            font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            border-radius: 9999px; background: hsl(var(--cyan-100)); color: hsl(var(--cyan-700));
+        }
+
+        /* ========================================= */
+        /* DOC LAYOUT MOCKUP */
+        /* ========================================= */
+        .doc-mockup {
+            display: flex;
+            overflow: hidden;
+            height: 200px;
+        }
+        .doc-mockup-rounded {
+            border-radius: 0 0 8px 8px;
+        }
+        .doc-sidebar {
+            width: 160px;
+            flex-shrink: 0;
+            padding: 1rem;
+        }
+        .doc-sidebar-light {
+            background: hsl(var(--slate-50));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+        .doc-sidebar-dark {
+            background: hsl(var(--intaglio-800));
+            border-right: 1px solid hsl(var(--intaglio-600));
+        }
+        .doc-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .doc-content-light {
+            background: white;
+        }
+        .doc-content-dark {
+            background: hsl(var(--intaglio-900));
+        }
+        .doc-thread {
+            height: 3px;
+            flex-shrink: 0;
+        }
+        .doc-body {
+            padding: 1rem;
+            flex: 1;
+        }
+        .nav-item {
+            padding: 0.375rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        .nav-item-light { color: hsl(var(--slate-600)); }
+        .nav-item-light:hover { background: hsl(var(--slate-100)); }
+        .nav-item-light.active { background: hsl(var(--indigo-100)); color: hsl(var(--indigo-700)); }
+        .nav-item-dark { color: hsl(var(--warm-400)); }
+        .nav-item-dark:hover { background: hsl(var(--intaglio-700)); }
+        .nav-item-dark.active { background: hsl(var(--intaglio-600)); color: hsl(var(--warm-100)); }
+
+        /* Primary button */
+        .btn-primary {
+            display: inline-flex; align-items: center; padding: 0.5rem 1.25rem;
+            font-size: 0.875rem; font-weight: 500; border-radius: 6px;
+            background: hsl(var(--emerald-500)); color: white;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+
+    <div class="max-w-7xl mx-auto px-8 py-12">
+
+        <!-- ============================================ -->
+        <!-- PAGE HEADER -->
+        <!-- ============================================ -->
+        <header class="mb-12 section-divider">
+            <p class="serial text-cyan-600 mb-2">Stress Test v3</p>
+            <h1 class="font-display text-4xl mb-3">Thread Assignment Stress Test</h1>
+            <p class="text-warm-600 max-w-3xl mb-4">Testing threads in realistic hero contexts with background gradients. Introducing new BRIGHT thread options that are vibrant but NOT hot/warning colors.</p>
+
+            <div class="insight-box">
+                <p><strong>Key Insight:</strong> Muted/cooler gradients don't work &mdash; threads need CONTRAST. But hot colors (orange, magenta) read as warning/error. We need bright threads using cyan, lime, indigo, and emerald &mdash; vibrant but not alarming.</p>
+            </div>
+
+            <div class="flex gap-4 text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="status-confirmed">Confirmed</span>
+                    <span class="text-warm-500">Locked</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="status-new">Bright</span>
+                    <span class="text-warm-500">New options</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="status-warning">Hot</span>
+                    <span class="text-warm-500">Warning risk</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: MARKETING THREAD COMPREHENSIVE TEST -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 1</p>
+                <h2 class="font-display text-2xl mb-3">Marketing Thread Comprehensive Test</h2>
+                <p class="text-warm-500 mb-4">Testing Spectrum and Volt threads against ALL marketing background types. Each row shows the same background with both threads for direct comparison.</p>
+                <div class="flex gap-6 text-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="h-[3px] w-12 thread-spectrum"></div>
+                        <span class="text-warm-600">Spectrum</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="h-[3px] w-12 thread-volt"></div>
+                        <span class="text-warm-600">Volt</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- DARK BACKGROUNDS -->
+            <!-- ======================= -->
+            <div class="mb-10">
+                <p class="serial text-warm-400 mb-4">Dark Backgrounds</p>
+
+                <!-- 1. Intaglio Solid -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">1. Intaglio Solid <code>hsl(30 10% 12%)</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-intaglio-solid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-intaglio-solid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Gradient-Hero -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">2. Gradient-Hero <code>emerald-600 → emerald-800 → intaglio-900</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content gradient-hero">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content gradient-hero">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Gradient-Dark -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">3. Gradient-Dark <code>intaglio-800 → intaglio-400</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content gradient-dark">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-200">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content gradient-dark">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-200">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Fire Opal (Merchant Treatment) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">4. Fire Opal (Merchant Treatment) <code>intaglio-900 + subtle cool tint</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-fire-opal">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-fire-opal">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- BRAND/COLORED BACKGROUNDS -->
+            <!-- ======================= -->
+            <div class="mb-10">
+                <p class="serial text-warm-400 mb-4">Brand / Colored Backgrounds</p>
+
+                <!-- 5. Gradient-Brand -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">5. Gradient-Brand <code>emerald-500 → cyan</code> <span class="status-warning ml-2">Critical Test</span></p>
+                    <p class="text-xs text-warm-400 mb-2">Does Spectrum clash with brand gradient?</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content gradient-brand">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content gradient-brand">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Gradient-Warm -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">6. Gradient-Warm <code>intaglio-800 → sepia-300</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-gradient-warm">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-sepia-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-gradient-warm">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-sepia-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Emerald Solid -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">7. Emerald Solid <code>emerald-600</code> <span class="status-warning ml-2">Critical Test</span></p>
+                    <p class="text-xs text-warm-400 mb-2">Thread on brand color</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-emerald-solid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-emerald-solid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-emerald-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Cyan Solid -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">8. Cyan Solid <code>hsl(170 100% 50%)</code> <span class="status-warning ml-2">Critical Test</span></p>
+                    <p class="text-xs text-warm-400 mb-2">Cyan is IN both threads — does it disappear?</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-cyan-solid">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-intaglio-700">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-cyan-solid">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-intaglio-700">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- LIGHT BACKGROUNDS -->
+            <!-- ======================= -->
+            <div class="mb-10">
+                <p class="serial text-warm-400 mb-4">Light Backgrounds</p>
+
+                <!-- 9. Ledger (Cream) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">9. Ledger (Cream) <code>hsl(43 30% 95%)</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-ledger">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-ledger">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Gradient-Subtle -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">10. Gradient-Subtle <code>ledger → warm-100</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-gradient-subtle">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-gradient-subtle">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Bright Opal (Shopper Treatment) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">11. Bright Opal (Shopper Treatment) <code>warm-50 + cool tint</code></p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-bright-opal">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-bright-opal">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. Pure White -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">12. Pure White <code>#ffffff</code> <span class="status-testing ml-2">Edge Test</span></p>
+                    <p class="text-xs text-warm-400 mb-2">Maximum contrast</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-white">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-white">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- IMAGE/ILLUSTRATION SIMULATIONS -->
+            <!-- ======================= -->
+            <div class="mb-10">
+                <p class="serial text-warm-400 mb-4">Image / Illustration Simulations</p>
+
+                <!-- 13. Sepia Toned (Vintage Illustration) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">13. Sepia Toned (Vintage Illustration) <code>sepia-100 → sepia-300</code></p>
+                    <p class="text-xs text-warm-400 mb-2">Simulates aged illustration or vintage photography</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-sepia-toned">
+                                <h3 class="font-display text-xl text-sepia-800 mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-sepia-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-sepia-toned">
+                                <h3 class="font-display text-xl text-sepia-800 mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-sepia-600">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. Warm Photography (Light) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">14. Warm Photography (Light) <code>warm-100 → warm-200</code></p>
+                    <p class="text-xs text-warm-400 mb-2">Simulates bright, warm photograph</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-warm-photo">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-700">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg border border-warm-200">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-warm-photo">
+                                <h3 class="font-display text-xl text-ink mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-warm-700">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15. Cool Photography (Dark) -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">15. Cool Photography (Dark) <code>intaglio-900 + slate tint</code></p>
+                    <p class="text-xs text-warm-400 mb-2">Simulates moody, cool-toned photograph</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-cool-photo">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-slate-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-cool-photo">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-slate-300">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- MID-TONE EDGE CASE -->
+            <!-- ======================= -->
+            <div class="mb-10">
+                <p class="serial text-warm-400 mb-4">Mid-tone Edge Case</p>
+
+                <!-- 16. Slate Mid-tone -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-warm-600 mb-2">16. Slate Mid-tone <code>slate-400</code> <span class="status-warning ml-2">Edge Test</span></p>
+                    <p class="text-xs text-warm-400 mb-2">Neither light nor dark — hardest case</p>
+                    <div class="flex gap-4">
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-spectrum"></div>
+                            <div class="mini-hero-content bg-slate-mid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-slate-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                        <div class="mini-hero-card rounded-b-lg">
+                            <div class="h-[3px] thread-volt"></div>
+                            <div class="mini-hero-content bg-slate-mid">
+                                <h3 class="font-display text-xl text-white mb-1">Loyalty, Everywhere</h3>
+                                <p class="text-sm text-slate-100">Join the rewards network</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Callout -->
+            <div class="bg-white border-2 border-warm-200 rounded-xl p-6">
+                <h4 class="font-medium text-lg mb-4">Quick Reference: Thread Performance by Background</h4>
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <p class="serial text-warm-400 mb-3">Spectrum Observations</p>
+                        <ul class="space-y-2 text-sm text-warm-600">
+                            <li class="flex gap-2">
+                                <span class="text-emerald-600">✓</span>
+                                <span>Maximum expression on dark backgrounds</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-emerald-600">✓</span>
+                                <span>Works well on light neutrals</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-orange-500">?</span>
+                                <span>May clash with gradient-brand (both use cyan)</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-orange-500">?</span>
+                                <span>Cyan disappears on cyan-solid</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="serial text-warm-400 mb-3">Volt Observations</p>
+                        <ul class="space-y-2 text-sm text-warm-600">
+                            <li class="flex gap-2">
+                                <span class="text-emerald-600">✓</span>
+                                <span>Simpler, two-color gradient</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-emerald-600">✓</span>
+                                <span>Fresh/growth feeling, not warning</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-orange-500">?</span>
+                                <span>May feel similar to Fresh (Shopper)</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-orange-500">?</span>
+                                <span>Less "premium" than Spectrum</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box mt-6">
+                <p>Across all 16 backgrounds: Does Spectrum or Volt work better for Marketing? Are there specific backgrounds where one fails?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: NEW BRIGHT THREAD OPTIONS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 2</p>
+                <h2 class="font-display text-2xl mb-3">New Bright Thread Options (Not Hot)</h2>
+                <p class="text-warm-500">Vibrant gradients using cyan, lime, indigo, and emerald &mdash; bright but NOT orange/magenta dominant.</p>
+            </div>
+
+            <!-- Cyan-anchored -->
+            <div class="mb-8">
+                <p class="serial text-cyan-600 mb-4">Cyan-Anchored (bright, icy, clean)</p>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-arctic"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Arctic</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Cyan &rarr; White &rarr; Cyan</p>
+                            <code class="text-[10px]">hsl(170 100% 50%) → white → hsl(170 100% 50%)</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-ocean"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Ocean</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Cyan &rarr; Indigo</p>
+                            <code class="text-[10px]">hsl(170 100% 50%) → hsl(230 70% 55%)</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-electric"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Electric</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Cyan &rarr; Lime &rarr; Cyan</p>
+                            <code class="text-[10px]">hsl(170 100% 50%) → hsl(74 100% 60%) → cyan</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lime-anchored -->
+            <div class="mb-8">
+                <p class="serial text-lime-600 mb-4">Lime-Anchored (bright, positive, growth)</p>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-volt"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Volt</span>
+                                <span class="status-new">Existing</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Lime &rarr; Cyan</p>
+                            <code class="text-[10px]">hsl(74 100% 60%) → hsl(170 100% 50%)</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-spring"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Spring</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Lime &rarr; Emerald &rarr; Lime</p>
+                            <code class="text-[10px]">hsl(74 100% 60%) → emerald-500 → lime</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-neon"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Neon</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Lime &rarr; White &rarr; Lime</p>
+                            <code class="text-[10px]">hsl(74 100% 60%) → white → lime</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indigo-anchored -->
+            <div class="mb-8">
+                <p class="serial text-indigo-600 mb-4">Indigo-Anchored (professional but vibrant)</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-twilight"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Twilight</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Indigo &rarr; Cyan</p>
+                            <code class="text-[10px]">hsl(230 70% 60%) → hsl(170 100% 50%)</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-depth"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Depth</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Indigo &rarr; Deep Indigo &rarr; Cyan</p>
+                            <code class="text-[10px]">indigo-400 → indigo-500 → cyan</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-cool -->
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-4">Multi-Cool Spectrum (no orange/magenta)</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-prism"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Prism</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Cyan &rarr; Lime &rarr; Indigo</p>
+                            <code class="text-[10px]">Cool spectrum without hot colors</code>
+                        </div>
+                    </div>
+                    <div class="bg-white border-1.5 border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-aurora"></div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="font-medium">Aurora</span>
+                                <span class="status-new">New</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mb-1">Cyan &rarr; Lime &rarr; Emerald &rarr; Cyan</p>
+                            <code class="text-[10px]">Cool cycle, nature-inspired</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: DOCUMENTATION WITH NEW BRIGHT OPTIONS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 3</p>
+                <h2 class="font-display text-2xl mb-3">Documentation with New Bright Threads</h2>
+                <p class="text-warm-500">Testing new bright threads in realistic doc layouts. Threads should POP against both light and dark backgrounds without reading as warning/error.</p>
+            </div>
+
+            <!-- Light Mode -->
+            <div class="mb-10">
+                <h3 class="font-medium text-lg mb-4">Light Mode (slate-50 sidebar + white content)</h3>
+                <div class="grid grid-cols-5 gap-4">
+                    <!-- Ocean -->
+                    <div>
+                        <div class="doc-mockup border border-warm-200 rounded-b-lg" style="height: 180px;">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 100px; padding: 0.5rem;">
+                                <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                <div class="nav-item nav-item-light" style="padding: 0.25rem; font-size: 9px;">API</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-ocean"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-sm mb-1">Getting Started</h4>
+                                    <p class="text-[9px] text-warm-500">Learn how to...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-warm-500 mt-1 text-center">Ocean</p>
+                    </div>
+
+                    <!-- Twilight -->
+                    <div>
+                        <div class="doc-mockup border border-warm-200 rounded-b-lg" style="height: 180px;">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 100px; padding: 0.5rem;">
+                                <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                <div class="nav-item nav-item-light" style="padding: 0.25rem; font-size: 9px;">API</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-twilight"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-sm mb-1">Getting Started</h4>
+                                    <p class="text-[9px] text-warm-500">Learn how to...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-warm-500 mt-1 text-center">Twilight</p>
+                    </div>
+
+                    <!-- Prism -->
+                    <div>
+                        <div class="doc-mockup border border-warm-200 rounded-b-lg" style="height: 180px;">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 100px; padding: 0.5rem;">
+                                <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                <div class="nav-item nav-item-light" style="padding: 0.25rem; font-size: 9px;">API</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-prism"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-sm mb-1">Getting Started</h4>
+                                    <p class="text-[9px] text-warm-500">Learn how to...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-warm-500 mt-1 text-center">Prism</p>
+                    </div>
+
+                    <!-- Volt -->
+                    <div>
+                        <div class="doc-mockup border border-warm-200 rounded-b-lg" style="height: 180px;">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 100px; padding: 0.5rem;">
+                                <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                <div class="nav-item nav-item-light" style="padding: 0.25rem; font-size: 9px;">API</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-volt"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-sm mb-1">Getting Started</h4>
+                                    <p class="text-[9px] text-warm-500">Learn how to...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-warm-500 mt-1 text-center">Volt</p>
+                    </div>
+
+                    <!-- Aurora -->
+                    <div>
+                        <div class="doc-mockup border border-warm-200 rounded-b-lg" style="height: 180px;">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 100px; padding: 0.5rem;">
+                                <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                <div class="nav-item nav-item-light" style="padding: 0.25rem; font-size: 9px;">API</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-aurora"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-sm mb-1">Getting Started</h4>
+                                    <p class="text-[9px] text-warm-500">Learn how to...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-warm-500 mt-1 text-center">Aurora</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Mode -->
+            <div class="mb-6">
+                <h3 class="font-medium text-lg mb-4">Dark Mode (intaglio-800 sidebar + intaglio-900 content)</h3>
+                <div class="bg-intaglio-900 rounded-xl p-6">
+                    <div class="grid grid-cols-5 gap-4">
+                        <!-- Ocean -->
+                        <div>
+                            <div class="doc-mockup rounded-b-lg" style="height: 180px;">
+                                <div class="doc-sidebar doc-sidebar-dark" style="width: 100px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-warm-500 uppercase tracking-wide mb-1">Docs</p>
+                                    <div class="nav-item nav-item-dark active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                    <div class="nav-item nav-item-dark" style="padding: 0.25rem; font-size: 9px;">API</div>
+                                </div>
+                                <div class="doc-content doc-content-dark">
+                                    <div class="doc-thread thread-ocean"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-sm text-warm-100 mb-1">Getting Started</h4>
+                                        <p class="text-[9px] text-warm-400">Learn how to...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-warm-400 mt-1 text-center">Ocean</p>
+                        </div>
+
+                        <!-- Twilight -->
+                        <div>
+                            <div class="doc-mockup rounded-b-lg" style="height: 180px;">
+                                <div class="doc-sidebar doc-sidebar-dark" style="width: 100px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-warm-500 uppercase tracking-wide mb-1">Docs</p>
+                                    <div class="nav-item nav-item-dark active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                    <div class="nav-item nav-item-dark" style="padding: 0.25rem; font-size: 9px;">API</div>
+                                </div>
+                                <div class="doc-content doc-content-dark">
+                                    <div class="doc-thread thread-twilight"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-sm text-warm-100 mb-1">Getting Started</h4>
+                                        <p class="text-[9px] text-warm-400">Learn how to...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-warm-400 mt-1 text-center">Twilight</p>
+                        </div>
+
+                        <!-- Prism -->
+                        <div>
+                            <div class="doc-mockup rounded-b-lg" style="height: 180px;">
+                                <div class="doc-sidebar doc-sidebar-dark" style="width: 100px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-warm-500 uppercase tracking-wide mb-1">Docs</p>
+                                    <div class="nav-item nav-item-dark active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                    <div class="nav-item nav-item-dark" style="padding: 0.25rem; font-size: 9px;">API</div>
+                                </div>
+                                <div class="doc-content doc-content-dark">
+                                    <div class="doc-thread thread-prism"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-sm text-warm-100 mb-1">Getting Started</h4>
+                                        <p class="text-[9px] text-warm-400">Learn how to...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-warm-400 mt-1 text-center">Prism</p>
+                        </div>
+
+                        <!-- Volt -->
+                        <div>
+                            <div class="doc-mockup rounded-b-lg" style="height: 180px;">
+                                <div class="doc-sidebar doc-sidebar-dark" style="width: 100px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-warm-500 uppercase tracking-wide mb-1">Docs</p>
+                                    <div class="nav-item nav-item-dark active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                    <div class="nav-item nav-item-dark" style="padding: 0.25rem; font-size: 9px;">API</div>
+                                </div>
+                                <div class="doc-content doc-content-dark">
+                                    <div class="doc-thread thread-volt"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-sm text-warm-100 mb-1">Getting Started</h4>
+                                        <p class="text-[9px] text-warm-400">Learn how to...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-warm-400 mt-1 text-center">Volt</p>
+                        </div>
+
+                        <!-- Aurora -->
+                        <div>
+                            <div class="doc-mockup rounded-b-lg" style="height: 180px;">
+                                <div class="doc-sidebar doc-sidebar-dark" style="width: 100px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-warm-500 uppercase tracking-wide mb-1">Docs</p>
+                                    <div class="nav-item nav-item-dark active" style="padding: 0.25rem; font-size: 9px;">Start</div>
+                                    <div class="nav-item nav-item-dark" style="padding: 0.25rem; font-size: 9px;">API</div>
+                                </div>
+                                <div class="doc-content doc-content-dark">
+                                    <div class="doc-thread thread-aurora"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-sm text-warm-100 mb-1">Getting Started</h4>
+                                        <p class="text-[9px] text-warm-400">Learn how to...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-warm-400 mt-1 text-center">Aurora</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Which bright thread works for documentation without reading as warning or conflicting with Shopper (Fresh) / Merchant (Cool)?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: SINGLE DOCS THREAD WITH NEW OPTIONS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 4</p>
+                <h2 class="font-display text-2xl mb-3">Single Docs Thread with New Bright Options</h2>
+                <p class="text-warm-500">What if all documentation uses one bright thread? Testing the top candidates.</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <!-- Option A: Ocean for all -->
+                <div>
+                    <p class="serial text-warm-500 mb-3">Option A: Ocean for All Docs</p>
+                    <div class="space-y-3">
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Business</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Integration</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-ocean"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Integration Guide</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Consumer</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">FAQs</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-ocean"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Frequently Asked</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Technical</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">API Ref</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-ocean"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">API Reference</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-cyan-600 mt-3">Professional, deep, doesn't conflict with existing</p>
+                </div>
+
+                <!-- Option B: Twilight for all -->
+                <div>
+                    <p class="serial text-warm-500 mb-3">Option B: Twilight for All Docs</p>
+                    <div class="space-y-3">
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Business</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Integration</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-twilight"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Integration Guide</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Consumer</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">FAQs</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-twilight"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Frequently Asked</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Technical</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">API Ref</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-twilight"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">API Reference</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-indigo-600 mt-3">Starts indigo, ends cyan &mdash; unique direction</p>
+                </div>
+
+                <!-- Option C: Prism for all -->
+                <div>
+                    <p class="serial text-warm-500 mb-3">Option C: Prism for All Docs</p>
+                    <div class="space-y-3">
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Business</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Integration</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-prism"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Integration Guide</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Consumer</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">FAQs</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-prism"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">Frequently Asked</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 130px;">
+                            <div class="doc-mockup h-full">
+                                <div class="doc-sidebar doc-sidebar-light" style="width: 90px; padding: 0.5rem;">
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wide mb-1">Technical</p>
+                                    <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">API Ref</div>
+                                </div>
+                                <div class="doc-content doc-content-light">
+                                    <div class="doc-thread thread-prism"></div>
+                                    <div class="doc-body" style="padding: 0.5rem;">
+                                        <h4 class="font-display text-xs">API Reference</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-emerald-600 mt-3">Cool mini-spectrum &mdash; cyan, lime, indigo</p>
+                </div>
+            </div>
+
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                <p class="text-sm text-warm-700"><strong>Simplification:</strong> Using one thread for all documentation reduces complexity. Doc type differentiation comes from navigation headers, icons, or section labels.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: THREE-THREAD POSSIBILITY -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 5</p>
+                <h2 class="font-display text-2xl mb-3">The Three-Thread Possibility</h2>
+                <p class="text-warm-500">What if we only have three product threads and share/omit for other surfaces?</p>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-xl p-6 mb-6">
+                <table class="w-full text-sm mb-6">
+                    <thead>
+                        <tr class="border-b border-warm-200">
+                            <th class="text-left py-2 font-medium">Surface</th>
+                            <th class="text-left py-2 font-medium">Thread</th>
+                            <th class="text-left py-2 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="py-3 font-medium">Design System</td>
+                            <td class="py-3"><div class="h-[3px] w-24 thread-spectrum"></div></td>
+                            <td class="py-3"><span class="status-confirmed">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-medium">Shopper</td>
+                            <td class="py-3"><div class="h-[3px] w-24 thread-fresh"></div></td>
+                            <td class="py-3"><span class="status-confirmed">Fresh</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-medium">Merchant</td>
+                            <td class="py-3"><div class="h-[3px] w-24 thread-cool"></div></td>
+                            <td class="py-3"><span class="status-confirmed">Cool</span></td>
+                        </tr>
+                        <tr class="bg-orange-50">
+                            <td class="py-3 font-medium">Marketing</td>
+                            <td class="py-3 text-warm-500 italic">Shares Spectrum with Design System?</td>
+                            <td class="py-3"><span class="status-testing">Decision</span></td>
+                        </tr>
+                        <tr class="bg-orange-50">
+                            <td class="py-3 font-medium">Documentation</td>
+                            <td class="py-3 text-warm-500 italic">??? (see options below)</td>
+                            <td class="py-3"><span class="status-testing">Decision</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Three options -->
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <!-- Option A: No thread for docs -->
+                <div class="bg-white border-2 border-warm-200 rounded-xl p-5">
+                    <p class="serial text-warm-500 mb-3">Option A</p>
+                    <h4 class="font-medium text-lg mb-2">Documentation uses NO thread</h4>
+                    <p class="text-sm text-warm-500 mb-4">Differentiation comes from navigation structure and content alone.</p>
+                    <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 120px;">
+                        <div class="doc-mockup h-full">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 80px; padding: 0.5rem;">
+                                <p class="text-[7px] font-medium text-slate-500 uppercase mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Start</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <!-- No thread -->
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-xs mb-1">Getting Started</h4>
+                                    <p class="text-[8px] text-warm-500">No thread...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-3">Pros: Simplest. Cons: Loses brand moment.</p>
+                </div>
+
+                <!-- Option B: Docs share Spectrum -->
+                <div class="bg-white border-2 border-warm-200 rounded-xl p-5">
+                    <p class="serial text-warm-500 mb-3">Option B</p>
+                    <h4 class="font-medium text-lg mb-2">Documentation uses Spectrum</h4>
+                    <p class="text-sm text-warm-500 mb-4">Shares with Design System + Marketing. Spectrum = "Saltwyk brand".</p>
+                    <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 120px;">
+                        <div class="doc-mockup h-full">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 80px; padding: 0.5rem;">
+                                <p class="text-[7px] font-medium text-slate-500 uppercase mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Start</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-spectrum"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-xs mb-1">Getting Started</h4>
+                                    <p class="text-[8px] text-warm-500">Spectrum...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-3">Pros: Strong brand. Cons: No wayfinding distinction.</p>
+                </div>
+
+                <!-- Option C: New fourth thread -->
+                <div class="bg-white border-2 border-warm-200 rounded-xl p-5">
+                    <p class="serial text-warm-500 mb-3">Option C</p>
+                    <h4 class="font-medium text-lg mb-2">Documentation gets new thread</h4>
+                    <p class="text-sm text-warm-500 mb-4">A fourth thread (Ocean, Twilight, or Prism) just for docs.</p>
+                    <div class="border border-warm-200 rounded-b-lg overflow-hidden" style="height: 120px;">
+                        <div class="doc-mockup h-full">
+                            <div class="doc-sidebar doc-sidebar-light" style="width: 80px; padding: 0.5rem;">
+                                <p class="text-[7px] font-medium text-slate-500 uppercase mb-1">Docs</p>
+                                <div class="nav-item nav-item-light active" style="padding: 0.2rem; font-size: 8px;">Start</div>
+                            </div>
+                            <div class="doc-content doc-content-light">
+                                <div class="doc-thread thread-ocean"></div>
+                                <div class="doc-body" style="padding: 0.5rem;">
+                                    <h4 class="font-display text-xs mb-1">Getting Started</h4>
+                                    <p class="text-[8px] text-warm-500">Ocean...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-3">Pros: Clear wayfinding. Cons: More complexity.</p>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Should Marketing share Spectrum with Design System? If so, does Documentation also share Spectrum, get its own thread, or go without?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: REVISED ASSIGNMENT TABLE -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 6</p>
+                <h2 class="font-display text-2xl mb-3">Revised Assignment Status</h2>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-xl overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-warm-200 bg-warm-50">
+                            <th class="text-left py-3 px-4 font-medium">Surface</th>
+                            <th class="text-left py-3 px-4 font-medium">Thread</th>
+                            <th class="text-left py-3 px-4 font-medium">Status</th>
+                            <th class="text-left py-3 px-4 font-medium">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="py-3 px-4 font-medium">Design System</td>
+                            <td class="py-3 px-4"><div class="h-[3px] w-20 thread-spectrum"></div></td>
+                            <td class="py-3 px-4"><span class="status-confirmed">Confirmed</span></td>
+                            <td class="py-3 px-4 text-warm-500">Full brand expression</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">Shopper (Bright Opal)</td>
+                            <td class="py-3 px-4"><div class="h-[3px] w-20 thread-fresh"></div></td>
+                            <td class="py-3 px-4"><span class="status-confirmed">Confirmed</span></td>
+                            <td class="py-3 px-4 text-warm-500">Fresh: Growth, reward</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">Merchant (Fire Opal)</td>
+                            <td class="py-3 px-4"><div class="h-[3px] w-20 thread-cool"></div></td>
+                            <td class="py-3 px-4"><span class="status-confirmed">Confirmed</span></td>
+                            <td class="py-3 px-4 text-warm-500">Cool: Authority, premium</td>
+                        </tr>
+                        <tr class="bg-orange-50">
+                            <td class="py-3 px-4 font-medium">Marketing</td>
+                            <td class="py-3 px-4"><div class="h-[3px] w-20 thread-spectrum"></div></td>
+                            <td class="py-3 px-4"><span class="status-testing">Testing Spectrum</span></td>
+                            <td class="py-3 px-4 text-warm-500">May share with Design System. Flame reads as warning.</td>
+                        </tr>
+                        <tr class="bg-orange-50">
+                            <td class="py-3 px-4 font-medium">Documentation</td>
+                            <td class="py-3 px-4">
+                                <div class="flex gap-2">
+                                    <div class="h-[3px] w-10 thread-ocean" title="Ocean"></div>
+                                    <div class="h-[3px] w-10 thread-twilight" title="Twilight"></div>
+                                    <div class="h-[3px] w-10 thread-prism" title="Prism"></div>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4"><span class="status-testing">Testing bright options</span></td>
+                            <td class="py-3 px-4 text-warm-500">New bright threads (Ocean, Twilight, Prism) or share Spectrum</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: OBSERVATIONS & QUESTIONS -->
+        <!-- ============================================ -->
+        <section class="mb-12">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 7</p>
+                <h2 class="font-display text-2xl mb-3">Key Decisions Needed</h2>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-xl p-6">
+                <ol class="space-y-4 text-warm-700">
+                    <li class="flex gap-3">
+                        <span class="font-medium text-emerald-600">1.</span>
+                        <span>Should <strong>Marketing share Spectrum</strong> with Design System, or get its own unique thread?</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="font-medium text-emerald-600">2.</span>
+                        <span>If Marketing shares Spectrum, does this dilute Spectrum's meaning or strengthen it as "Saltwyk brand"?</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="font-medium text-emerald-600">3.</span>
+                        <span>Which <strong>new bright thread</strong> (Ocean, Twilight, Prism, Volt, Aurora) works best for documentation?</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="font-medium text-emerald-600">4.</span>
+                        <span>Should documentation have <strong>its own thread</strong>, <strong>share Spectrum</strong>, or <strong>have no thread</strong>?</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="font-medium text-emerald-600">5.</span>
+                        <span>Do the new bright threads (using cyan/lime/indigo/emerald) successfully avoid the <strong>warning/error association</strong> of hot colors?</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- REFERENCE: HOT OPTIONS (Collapsed) -->
+        <!-- ============================================ -->
+        <section class="opacity-50">
+            <details>
+                <summary class="cursor-pointer text-warm-500 text-sm mb-4">Reference: Hot Thread Options (warning risk)</summary>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <div class="bg-white border border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-flame"></div>
+                        <div class="p-3">
+                            <p class="text-xs font-medium text-warm-500">Flame</p>
+                            <p class="text-[10px] text-warm-400">Orange &rarr; Magenta</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-tropic"></div>
+                        <div class="p-3">
+                            <p class="text-xs font-medium text-warm-500">Tropic</p>
+                            <p class="text-[10px] text-warm-400">Orange &rarr; Cyan</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-warm-200 rounded-b-lg overflow-hidden">
+                        <div class="h-[3px] thread-warm"></div>
+                        <div class="p-3">
+                            <p class="text-xs font-medium text-warm-500">Warm</p>
+                            <p class="text-[10px] text-warm-400">Lime &rarr; Orange</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+    </div>
+
+</body>
+</html>
