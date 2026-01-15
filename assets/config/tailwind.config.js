@@ -232,7 +232,7 @@ tailwind.config = {
       // TYPOGRAPHY
       // ===========================================
       fontFamily: {
-        display: ["'DM Serif Display'", "Georgia", "serif"],
+        display: ["'Fraunces'", "Georgia", "serif"],
         body: ["'Inter'", "system-ui", "sans-serif"],
         brand: ["'Outfit'", "system-ui", "sans-serif"],
         sans: ["'Inter'", "system-ui", "sans-serif"],

@@ -161,7 +161,7 @@ These families create instant recognition of context while maintaining the core 
 
 | Font | Role | Use |
 |------|------|-----|
-| DM Serif Display | Headlines, display | Page titles, hero text, marketing |
+| Fraunces | Headlines, display | Page titles, hero text, marketing (variable, 100-900 weights) |
 | Inter | Body, UI | All body text, form labels, buttons |
 | Outfit | Brand, wordmark | Logo wordmark only |
 

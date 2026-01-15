@@ -25,7 +25,7 @@ The Saltwyk design system embodies **"Intaglio Ink + Ledger Paper + Security Thr
 
 | Role | Font | Weight | Usage |
 |------|------|--------|-------|
-| Display / Headlines | DM Serif Display | 400, 400 italic | Hero text, section headers, marketing |
+| Display / Headlines | Fraunces | 100–900, italic | Hero text, section headers, marketing (variable font with optical sizing) |
 | Body / UI | Inter | 300–700 | Body copy, labels, buttons, forms |
 | Brand / Logo | Outfit | 400–800 | Logo lockup, brand moments only |
 
