@@ -19,27 +19,27 @@
         .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
-        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
-        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
-        .code-block .comment { color: hsl(30 10% 50%); }
-        .code-block .property { color: hsl(170 70% 60%); }
-        .code-block .value { color: hsl(40 80% 70%); }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-400)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-400)); }
+        .code-block .value { color: hsl(var(--orange-300)); }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
         .nav-dropdown-menu {
             position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             opacity: 0; visibility: hidden; transform: translateY(-4px);
             transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
             z-index: 100; padding: 8px 0;
         }
         .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
-        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(var(--warm-700)); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(var(--warm-50)); color: hsl(var(--emerald-600)); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(var(--warm-200)); margin: 8px 0; }
 
         /* ========================================= */
         /* TOOLTIP STYLES */
@@ -49,7 +49,7 @@
             z-index: 50;
             padding: 6px 10px;
             border-radius: 6px;
-            background: hsl(24 29% 8%);
+            background: hsl(var(--ink));
             color: white;
             font-size: 12px;
             line-height: 1.4;
@@ -64,8 +64,9 @@
             text-align: left;
         }
 
+        /* Dark variant for use on dark backgrounds */
         .tooltip-dark {
-            background: hsl(24 26% 22%);
+            background: hsl(var(--intaglio-700));
         }
 
         /* Arrow */
@@ -86,7 +87,7 @@
             bottom: -6px;
             left: 50%;
             transform: translateX(-50%);
-            border-top-color: hsl(24 29% 8%);
+            border-top-color: hsl(var(--ink));
             border-bottom: none;
         }
 
@@ -100,7 +101,7 @@
             top: -6px;
             left: 50%;
             transform: translateX(-50%);
-            border-bottom-color: hsl(24 29% 8%);
+            border-bottom-color: hsl(var(--ink));
             border-top: none;
         }
 
@@ -114,7 +115,7 @@
             right: -6px;
             top: 50%;
             transform: translateY(-50%);
-            border-left-color: hsl(24 29% 8%);
+            border-left-color: hsl(var(--ink));
             border-right: none;
         }
 
@@ -128,7 +129,7 @@
             left: -6px;
             top: 50%;
             transform: translateY(-50%);
-            border-right-color: hsl(24 29% 8%);
+            border-right-color: hsl(var(--ink));
             border-left: none;
         }
 
@@ -140,7 +141,7 @@
         .tooltip[data-side="top-start"] .tooltip-arrow {
             bottom: -6px;
             left: 12px;
-            border-top-color: hsl(24 29% 8%);
+            border-top-color: hsl(var(--ink));
             border-bottom: none;
         }
 
@@ -152,8 +153,28 @@
         .tooltip[data-side="top-end"] .tooltip-arrow {
             bottom: -6px;
             right: 12px;
-            border-top-color: hsl(24 29% 8%);
+            border-top-color: hsl(var(--ink));
             border-bottom: none;
+        }
+
+        /* Dark variant arrow colors */
+        .tooltip-dark[data-side="top"] .tooltip-arrow {
+            border-top-color: hsl(var(--intaglio-700));
+        }
+        .tooltip-dark[data-side="bottom"] .tooltip-arrow {
+            border-bottom-color: hsl(var(--intaglio-700));
+        }
+        .tooltip-dark[data-side="left"] .tooltip-arrow {
+            border-left-color: hsl(var(--intaglio-700));
+        }
+        .tooltip-dark[data-side="right"] .tooltip-arrow {
+            border-right-color: hsl(var(--intaglio-700));
+        }
+        .tooltip-dark[data-side="top-start"] .tooltip-arrow {
+            border-top-color: hsl(var(--intaglio-700));
+        }
+        .tooltip-dark[data-side="top-end"] .tooltip-arrow {
+            border-top-color: hsl(var(--intaglio-700));
         }
 
         /* Tooltip title and description */
@@ -162,13 +183,13 @@
             color: white;
         }
         .tooltip-description {
-            color: hsl(30 5% 70%);
+            color: hsl(var(--warm-300));
             margin-top: 2px;
         }
 
         /* Tooltip with shortcut */
         .tooltip-shortcut {
-            color: hsl(30 6% 62%);
+            color: hsl(var(--warm-400));
             font-family: 'SF Mono', Monaco, monospace;
             margin-left: 8px;
         }
@@ -224,13 +245,13 @@
             text-align: left;
             padding: 12px 16px;
             font-weight: 500;
-            color: hsl(30 6% 46%);
-            border-bottom: 2px solid hsl(30 5% 88%);
-            background: hsl(30 5% 98%);
+            color: hsl(var(--warm-500));
+            border-bottom: 2px solid hsl(var(--warm-200));
+            background: hsl(var(--warm-50));
         }
         .spec-table td {
             padding: 12px 16px;
-            border-bottom: 1px solid hsl(30 5% 92%);
+            border-bottom: 1px solid hsl(var(--warm-100));
             vertical-align: middle;
         }
         .spec-table tr:last-child td { border-bottom: none; }
@@ -246,15 +267,15 @@
             align-items: flex-start;
             gap: 12px;
             padding: 10px 0;
-            border-bottom: 1px solid hsl(30 5% 92%);
+            border-bottom: 1px solid hsl(var(--warm-100));
             font-size: 14px;
-            color: hsl(30 8% 30%);
+            color: hsl(var(--warm-700));
         }
         .checklist li:last-child { border-bottom: none; }
         .checklist-box {
             width: 18px;
             height: 18px;
-            border: 2px solid hsl(30 5% 78%);
+            border: 2px solid hsl(var(--warm-300));
             border-radius: 4px;
             flex-shrink: 0;
             margin-top: 1px;
@@ -270,15 +291,15 @@
             font-size: 14px;
             font-weight: 500;
             border-radius: 6px;
-            background: hsl(30 5% 95%);
-            border: 1.5px solid hsl(30 5% 78%);
-            color: hsl(24 29% 8%);
+            background: hsl(var(--warm-100));
+            border: 1.5px solid hsl(var(--warm-300));
+            color: hsl(var(--ink));
             cursor: pointer;
             transition: all 0.15s ease;
         }
         .demo-btn:hover {
-            background: hsl(30 5% 88%);
-            border-color: hsl(30 6% 62%);
+            background: hsl(var(--warm-200));
+            border-color: hsl(var(--warm-400));
         }
         .demo-btn-icon {
             width: 36px;
@@ -286,12 +307,12 @@
             padding: 0;
         }
         .demo-btn-primary {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-600));
             border-color: transparent;
             color: white;
         }
         .demo-btn-primary:hover {
-            background: hsl(150 100% 22%);
+            background: hsl(var(--emerald-700));
         }
         .demo-btn-disabled {
             opacity: 0.5;
@@ -306,7 +327,7 @@
         <div id="side-nav"></div>
         <main class="flex-1">
             <!-- Spectrum thread at top -->
-            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+            <div class="thread-line w-full rounded-none"></div>
 
     <div class="max-w-6xl mx-auto px-6 py-12">
 
@@ -353,10 +374,10 @@
                     <!-- Visual anatomy -->
                     <div class="relative flex flex-col items-center" style="min-width: 200px;">
                         <!-- Static tooltip display -->
-                        <div class="relative inline-block px-2.5 py-1.5 rounded-md text-xs text-white" style="background: hsl(24 29% 8%);">
+                        <div class="relative inline-block px-2.5 py-1.5 rounded-md text-xs text-white" style="background: hsl(var(--ink));">
                             Save changes
                             <!-- Arrow pointing down -->
-                            <div style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid hsl(24 29% 8%);"></div>
+                            <div style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid hsl(var(--ink));"></div>
                         </div>
 
                         <!-- Gap between tooltip and trigger -->
@@ -448,11 +469,11 @@
                     <tbody>
                         <tr>
                             <td>Background (light page)</td>
-                            <td><code>intaglio-900</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(24 29% 8%);"></span></td>
+                            <td><code>ink</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(var(--ink));"></span></td>
                         </tr>
                         <tr>
                             <td>Background (dark page)</td>
-                            <td><code>intaglio-700</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(24 26% 22%);"></span></td>
+                            <td><code>intaglio-700</code> <span class="inline-block w-4 h-4 rounded ml-2 align-middle" style="background: hsl(var(--intaglio-700));"></span></td>
                         </tr>
                         <tr>
                             <td>Text color</td>
@@ -1036,31 +1057,31 @@
                 </div>
 
                 <!-- Tooltips on Dark -->
-                <div class="bg-[hsl(24_29%_8%)] border-2 border-[hsl(24_26%_22%)] rounded-lg overflow-hidden">
-                    <div class="px-6 py-4 border-b border-[hsl(24_26%_22%)]" style="background: linear-gradient(90deg, hsl(170 100% 50% / 8%) 0%, hsl(330 100% 50% / 8%) 100%);">
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-intaglio-700" style="background: linear-gradient(90deg, hsl(var(--cyan-thread) / 8%) 0%, hsl(var(--magenta-thread) / 8%) 100%);">
                         <p class="font-medium text-warm-100">Tooltips on Dark (Fire Opal)</p>
                         <p class="text-xs text-warm-500">Using intaglio-700 background for contrast</p>
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-4">
                             <div class="tooltip-trigger-wrapper">
-                                <button class="demo-btn" style="background: hsl(150 100% 27% / 10%); border-color: hsl(150 100% 27% / 30%); color: hsl(150 80% 55%);" aria-describedby="tooltip-dark1">
+                                <button class="demo-btn" style="background: hsl(var(--emerald-500) / 10%); border-color: hsl(var(--emerald-500) / 30%); color: hsl(var(--emerald-400));" aria-describedby="tooltip-dark1">
                                     <i data-lucide="copy" class="w-4 h-4"></i>
                                     Copy
                                 </button>
                                 <div class="tooltip tooltip-dark" data-side="top" role="tooltip" id="tooltip-dark1">
                                     Copy to clipboard<span class="tooltip-shortcut">⌘C</span>
-                                    <span class="tooltip-arrow" style="border-top-color: hsl(24 26% 22%);"></span>
+                                    <span class="tooltip-arrow" style="border-top-color: hsl(var(--intaglio-700));"></span>
                                 </div>
                             </div>
                             <div class="tooltip-trigger-wrapper">
-                                <button class="demo-btn" style="background: hsl(150 100% 27% / 10%); border-color: hsl(150 100% 27% / 30%); color: hsl(150 80% 55%);" aria-describedby="tooltip-dark2">
+                                <button class="demo-btn" style="background: hsl(var(--emerald-500) / 10%); border-color: hsl(var(--emerald-500) / 30%); color: hsl(var(--emerald-400));" aria-describedby="tooltip-dark2">
                                     <i data-lucide="share" class="w-4 h-4"></i>
                                     Share
                                 </button>
                                 <div class="tooltip tooltip-dark" data-side="top" role="tooltip" id="tooltip-dark2">
                                     Share with team
-                                    <span class="tooltip-arrow" style="border-top-color: hsl(24 26% 22%);"></span>
+                                    <span class="tooltip-arrow" style="border-top-color: hsl(var(--intaglio-700));"></span>
                                 </div>
                             </div>
                         </div>
