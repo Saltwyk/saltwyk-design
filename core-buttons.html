@@ -42,7 +42,7 @@
         }
         .btn:focus-visible {
             outline: none;
-            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
         }
         .btn:disabled, .btn.disabled {
             opacity: 0.5;
@@ -72,7 +72,7 @@
             background-color: hsl(var(--emerald-700));
         }
         .btn-primary.focus-demo {
-            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
         }
 
         /* 2. SECONDARY - Indigo outline */
@@ -88,7 +88,7 @@
             background-color: hsl(var(--indigo-100));
         }
         .btn-secondary.focus-demo {
-            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
         }
 
         /* 3. TERTIARY - Warm fill */
@@ -129,6 +129,17 @@
         }
         .btn-destructive:active {
             background-color: hsl(var(--magenta-700));
+        }
+
+        /* Focus demo states for all button types */
+        .btn-tertiary.focus-demo {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
+        }
+        .btn-ghost.focus-demo {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
+        }
+        .btn-destructive.focus-demo {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
         }
 
         /* ========================================= */
@@ -178,6 +189,27 @@
         /* 5. DESTRUCTIVE - Same */
         .dark .btn-destructive {
             background-color: hsl(var(--magenta-500));
+        }
+
+        /* Dark mode focus rings */
+        .btn-secondary-dark.focus-demo {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(170 100% 45%);
+        }
+        .btn-tertiary-dark.focus-demo {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(170 100% 45%);
+        }
+        .btn-ghost-dark.focus-demo {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(170 100% 45%);
+        }
+
+        /* Size: Icon Only (square) */
+        .btn-icon { padding: 10px; }
+        .btn-icon.btn-sm { padding: 6px; }
+        .btn-icon.btn-lg { padding: 14px; }
+
+        /* Spin animation for loading buttons */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Section styling */
@@ -290,6 +322,10 @@
                     <div class="text-center">
                         <button class="btn btn-primary" style="background-color: hsl(var(--emerald-600));">Hover</button>
                         <p class="text-xs text-warm-500">Hover</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary" style="background-color: hsl(var(--emerald-700));">Active</button>
+                        <p class="text-xs text-warm-500">Active</p>
                     </div>
                     <div class="text-center">
                         <button class="btn btn-primary focus-demo mb-2">Focused</button>
@@ -629,6 +665,160 @@
         </section>
 
         <!-- ============================================ -->
+        <!-- SECTION: FOCUS STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Accessibility</p>
+            <h2 class="font-display text-2xl mb-2">Focus States</h2>
+            <p class="text-warm-500 mb-6">All buttons must have visible focus indicators for keyboard navigation. Focus rings use cyan to distinguish from success states.</p>
+
+            <div class="section-card mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Focus Ring on Light Background</p>
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <div class="text-center">
+                        <button class="btn btn-primary focus-demo mb-2">Primary</button>
+                        <p class="text-xs text-warm-500">Primary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-secondary focus-demo mb-2">Secondary</button>
+                        <p class="text-xs text-warm-500">Secondary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-tertiary focus-demo mb-2">Tertiary</button>
+                        <p class="text-xs text-warm-500">Tertiary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-ghost focus-demo mb-2">Ghost</button>
+                        <p class="text-xs text-warm-500">Ghost</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-destructive focus-demo mb-2">Destructive</button>
+                        <p class="text-xs text-warm-500">Destructive</p>
+                    </div>
+                </div>
+
+                <!-- Spec -->
+                <div class="grid grid-cols-2 gap-6 pt-4 border-t border-warm-100">
+                    <div>
+                        <p class="font-medium mb-2">Specification</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li><code>box-shadow</code>: 0 0 0 2px white, 0 0 0 4px cyan</li>
+                            <li><code>cyan</code>: hsl(170 100% 40%)</li>
+                            <li><code>outline</code>: none (replaced by box-shadow)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-2">Why Cyan?</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• Distinct from emerald (action/success)</li>
+                            <li>• High contrast on both light and dark</li>
+                            <li>• Consistent across all interactive elements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- On Dark -->
+            <div class="dark-preview">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-400 mb-4">Focus Ring on Dark Background</p>
+                <div class="flex flex-wrap items-center gap-4 mb-4">
+                    <div class="text-center">
+                        <button class="btn btn-primary focus-demo mb-2" style="box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(170 100% 45%);">Primary</button>
+                        <p class="text-xs text-warm-400">Primary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-secondary-dark focus-demo mb-2">Secondary</button>
+                        <p class="text-xs text-warm-400">Secondary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-tertiary-dark focus-demo mb-2">Tertiary</button>
+                        <p class="text-xs text-warm-400">Tertiary</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-ghost-dark focus-demo mb-2">Ghost</button>
+                        <p class="text-xs text-warm-400">Ghost</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-destructive focus-demo mb-2" style="box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(170 100% 45%);">Destructive</button>
+                        <p class="text-xs text-warm-400">Destructive</p>
+                    </div>
+                </div>
+                <p class="text-xs text-warm-400">On dark backgrounds, the inner ring matches the background color (intaglio-900) instead of white.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION: LOADING STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">States</p>
+            <h2 class="font-display text-2xl mb-2">Loading Buttons</h2>
+            <p class="text-warm-500 mb-6">Show loading state during async operations. Disable interaction while loading.</p>
+
+            <div class="section-card">
+                <div class="space-y-6">
+                    <!-- Spinner Only -->
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Spinner Only (replaces text)</p>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button class="btn btn-primary" disabled style="position: relative; color: transparent;">
+                                Submit
+                                <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                                    <span style="width: 16px; height: 16px; border: 2px solid hsla(0 0% 100% / 30%); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;"></span>
+                                </span>
+                            </button>
+                            <button class="btn btn-secondary" disabled style="position: relative; color: transparent;">
+                                Submit
+                                <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                                    <span style="width: 16px; height: 16px; border: 2px solid hsla(230 28% 42% / 30%); border-top-color: hsl(var(--indigo-500)); border-radius: 50%; animation: spin 0.6s linear infinite;"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Spinner with Text -->
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Spinner with Text</p>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button class="btn btn-primary" disabled>
+                                <span style="width: 14px; height: 14px; border: 2px solid hsla(0 0% 100% / 30%); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;"></span>
+                                Processing...
+                            </button>
+                            <button class="btn btn-primary" disabled>
+                                <span style="width: 14px; height: 14px; border: 2px solid hsla(0 0% 100% / 30%); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;"></span>
+                                Saving changes
+                            </button>
+                            <button class="btn btn-destructive" disabled>
+                                <span style="width: 14px; height: 14px; border: 2px solid hsla(0 0% 100% / 30%); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;"></span>
+                                Deleting...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spec -->
+                <div class="grid grid-cols-2 gap-6 pt-4 mt-6 border-t border-warm-100">
+                    <div>
+                        <p class="font-medium mb-2">Specification</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li><code>disabled</code>: true (prevent double-submit)</li>
+                            <li><code>spinner</code>: 14-16px, 2px border</li>
+                            <li><code>animation</code>: spin 0.6s linear infinite</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-2">Usage Guidelines</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• Always disable button while loading</li>
+                            <li>• Use text for operations > 2 seconds</li>
+                            <li>• Keep button same width (prevent layout shift)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
         <!-- SECTION 8: BUTTONS WITH ICONS -->
         <!-- ============================================ -->
         <section class="mb-16">
@@ -683,22 +873,23 @@
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Icon Only</p>
                         <div class="flex flex-wrap items-center gap-3">
-                            <button class="btn btn-primary" style="padding: 10px;">
+                            <button class="btn btn-primary btn-icon">
                                 <i data-lucide="plus" class="w-5 h-5"></i>
                             </button>
-                            <button class="btn btn-secondary" style="padding: 10px;">
+                            <button class="btn btn-secondary btn-icon">
                                 <i data-lucide="edit" class="w-5 h-5"></i>
                             </button>
-                            <button class="btn btn-tertiary" style="padding: 10px;">
+                            <button class="btn btn-tertiary btn-icon">
                                 <i data-lucide="copy" class="w-5 h-5"></i>
                             </button>
-                            <button class="btn btn-ghost" style="padding: 10px;">
+                            <button class="btn btn-ghost btn-icon">
                                 <i data-lucide="x" class="w-5 h-5"></i>
                             </button>
-                            <button class="btn btn-destructive" style="padding: 10px;">
+                            <button class="btn btn-destructive btn-icon">
                                 <i data-lucide="trash-2" class="w-5 h-5"></i>
                             </button>
                         </div>
+                        <p class="text-xs text-warm-500 mt-2"><code>.btn-icon</code> · Always include <code>aria-label</code> for accessibility</p>
                     </div>
                 </div>
             </div>
