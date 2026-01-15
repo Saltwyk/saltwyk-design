@@ -122,7 +122,7 @@ tailwind.config = {
           thread: "hsl(var(--orange-thread))",
         },
 
-        // Sepia Scale (Illustrations)
+        // Sepia Scale (Intaglio Palette - Warm Brown)
         sepia: {
           50: "hsl(var(--sepia-50))",
           100: "hsl(var(--sepia-100))",
@@ -134,6 +134,63 @@ tailwind.config = {
           700: "hsl(var(--sepia-700))",
           800: "hsl(var(--sepia-800))",
           900: "hsl(var(--sepia-900))",
+        },
+
+        // Sienna Scale (Intaglio Palette - Burnt Orange-Brown)
+        sienna: {
+          50: "hsl(var(--sienna-50))",
+          100: "hsl(var(--sienna-100))",
+          200: "hsl(var(--sienna-200))",
+          300: "hsl(var(--sienna-300))",
+          400: "hsl(var(--sienna-400))",
+          500: "hsl(var(--sienna-500))",
+          600: "hsl(var(--sienna-600))",
+          700: "hsl(var(--sienna-700))",
+          800: "hsl(var(--sienna-800))",
+          900: "hsl(var(--sienna-900))",
+        },
+
+        // Slate Scale (Intaglio Palette - Blue-Gray)
+        slate: {
+          50: "hsl(var(--slate-50))",
+          100: "hsl(var(--slate-100))",
+          200: "hsl(var(--slate-200))",
+          300: "hsl(var(--slate-300))",
+          400: "hsl(var(--slate-400))",
+          500: "hsl(var(--slate-500))",
+          600: "hsl(var(--slate-600))",
+          700: "hsl(var(--slate-700))",
+          800: "hsl(var(--slate-800))",
+          900: "hsl(var(--slate-900))",
+        },
+
+        // Indigo Scale (Intaglio Palette - Deep Blue)
+        indigo: {
+          50: "hsl(var(--indigo-50))",
+          100: "hsl(var(--indigo-100))",
+          200: "hsl(var(--indigo-200))",
+          300: "hsl(var(--indigo-300))",
+          400: "hsl(var(--indigo-400))",
+          500: "hsl(var(--indigo-500))",
+          600: "hsl(var(--indigo-600))",
+          700: "hsl(var(--indigo-700))",
+          800: "hsl(var(--indigo-800))",
+          900: "hsl(var(--indigo-900))",
+          thread: "hsl(var(--indigo-thread))",
+        },
+
+        // Burgundy Scale (Intaglio Palette - Deep Red)
+        burgundy: {
+          50: "hsl(var(--burgundy-50))",
+          100: "hsl(var(--burgundy-100))",
+          200: "hsl(var(--burgundy-200))",
+          300: "hsl(var(--burgundy-300))",
+          400: "hsl(var(--burgundy-400))",
+          500: "hsl(var(--burgundy-500))",
+          600: "hsl(var(--burgundy-600))",
+          700: "hsl(var(--burgundy-700))",
+          800: "hsl(var(--burgundy-800))",
+          900: "hsl(var(--burgundy-900))",
         },
 
         // shadcn semantic colors
@@ -176,7 +233,7 @@ tailwind.config = {
       // TYPOGRAPHY
       // ===========================================
       fontFamily: {
-        display: ["'DM Serif Display'", "Georgia", "serif"],
+        display: ["'Fraunces'", "Georgia", "serif"],
         body: ["'Inter'", "system-ui", "sans-serif"],
         brand: ["'Outfit'", "system-ui", "sans-serif"],
         sans: ["'Inter'", "system-ui", "sans-serif"],

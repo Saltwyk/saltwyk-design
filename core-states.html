@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="assets/config/tailwind.config.js"></script>
@@ -15,7 +15,7 @@
 
     <style>
         body { font-family: 'Inter', system-ui, sans-serif; }
-        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
         code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
@@ -53,8 +53,8 @@
             color: hsl(24 29% 8%);
         }
         .state-toggle.active {
-            background: hsl(150 100% 27%);
-            border-color: hsl(150 100% 27%);
+            background: hsl(24 29% 15%);
+            border-color: hsl(24 29% 15%);
             color: white;
         }
 
@@ -79,7 +79,7 @@
         }
         .demo-btn.state-focused {
             background: hsl(150 100% 27%);
-            box-shadow: 0 0 0 3px hsla(150 100% 27% / 25%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 35%);
         }
         .demo-btn.state-disabled {
             background: hsl(30 5% 82%);
@@ -120,8 +120,8 @@
             border-color: hsl(30 5% 75%);
         }
         .demo-input.state-focused {
-            border-color: hsl(150 100% 27%);
-            box-shadow: 0 0 0 3px hsla(150 100% 27% / 15%);
+            border-color: hsl(170 100% 40%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 15%);
             outline: none;
         }
         .demo-input.state-disabled {
@@ -154,19 +154,19 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
         .demo-card.state-active {
-            border-color: hsl(150 100% 27%);
-            box-shadow: 0 0 0 2px hsla(150 100% 27% / 15%);
+            border-color: hsl(30 8% 50%);
+            box-shadow: 0 0 0 2px hsla(30 8% 50% / 15%);
         }
         .demo-card.state-selected {
-            border-color: hsl(150 100% 27%);
-            background: hsl(150 45% 98%);
+            border-color: hsl(30 8% 60%);
+            background: hsl(30 10% 97%);
         }
         .demo-card.state-disabled {
             opacity: 0.5;
             pointer-events: none;
         }
 
-        /* Demo links */
+        /* Demo links — emerald is brand color for actionable text */
         .demo-link {
             color: hsl(150 100% 27%);
             text-decoration: none;
@@ -180,7 +180,7 @@
             color: hsl(150 100% 18%);
         }
         .demo-link.state-focused {
-            outline: 2px solid hsla(150 100% 27% / 30%);
+            outline: 2px solid hsla(170 100% 40% / 30%);
             outline-offset: 2px;
             border-radius: 2px;
         }
@@ -201,10 +201,10 @@
             background: hsl(30 10% 98%);
         }
         .demo-row.state-selected {
-            background: hsl(150 45% 97%);
+            background: hsl(30 15% 95%);
         }
         .demo-row.state-active {
-            background: hsl(150 45% 95%);
+            background: hsl(30 15% 93%);
         }
 
         /* Demo list item */
@@ -218,12 +218,12 @@
             background: hsl(30 10% 97%);
         }
         .demo-list-item.state-selected {
-            background: hsl(150 45% 95%);
-            color: hsl(150 100% 22%);
+            background: hsl(30 15% 94%);
+            color: hsl(24 29% 15%);
             font-weight: 500;
         }
         .demo-list-item.state-active {
-            background: hsl(150 45% 92%);
+            background: hsl(30 15% 91%);
         }
 
         /* Loading spinner */
@@ -234,7 +234,7 @@
             width: 20px;
             height: 20px;
             border: 2px solid hsl(30 5% 85%);
-            border-top-color: hsl(150 100% 27%);
+            border-top-color: hsl(24 29% 20%);
             border-radius: 50%;
             animation: spin 0.6s linear infinite;
         }
@@ -269,9 +269,12 @@
         }
         .progress-fill {
             height: 100%;
-            background: hsl(150 100% 27%);
+            background: hsl(30 8% 45%);
             border-radius: 3px;
             transition: width 0.3s ease;
+        }
+        .progress-fill.complete {
+            background: hsl(150 100% 27%);
         }
 
         /* Empty state */
@@ -383,6 +386,11 @@
             justify-content: center;
             border-radius: inherit;
         }
+        .overlay-spinner .spinner,
+        .overlay-spinner .spinner-lg {
+            border-color: hsl(30 5% 80%);
+            border-top-color: hsl(24 29% 20%);
+        }
     </style>
 </head>
 <body class="bg-ledger text-ink">
@@ -391,6 +399,8 @@
     <div class="flex">
         <div id="side-nav"></div>
         <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
 
     <div class="max-w-6xl mx-auto p-8">
         <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
@@ -426,7 +436,7 @@
                 <!-- Hover -->
                 <div class="bg-white border border-warm-200 rounded-xl p-6">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-warm-400"></div>
                         <h3 class="font-semibold">Hover</h3>
                     </div>
                     <p class="text-sm text-warm-600 mb-4">Visual feedback when the cursor hovers over an interactive element.</p>
@@ -436,7 +446,7 @@
                 <!-- Active/Pressed -->
                 <div class="bg-white border border-warm-200 rounded-xl p-6">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-3 h-3 rounded-full bg-emerald-600"></div>
+                        <div class="w-3 h-3 rounded-full bg-warm-600"></div>
                         <h3 class="font-semibold">Active / Pressed</h3>
                     </div>
                     <p class="text-sm text-warm-600 mb-4">The moment of activation, typically while mouse is pressed down.</p>
@@ -505,6 +515,59 @@
             </div>
         </section>
 
+        <!-- State Color Semantics -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">State Color Semantics</h2>
+            <p class="text-warm-600 mb-8">Colors have meaning. Use them consistently.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-emerald-700">Emerald = Action or Success</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use emerald green ONLY for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Primary buttons and CTAs</li>
+                        <li>• Success validation states</li>
+                        <li>• Completed operations</li>
+                        <li>• Actionable text links</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Emerald means "do this" or "you did it correctly"</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4" style="color: hsl(170 100% 35%);">Cyan = Focus</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use cyan ONLY for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Keyboard focus indicators</li>
+                        <li>• Focus rings on inputs and buttons</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Cyan is distinct from success — focus ≠ correct</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-warm-600">Neutral = Feedback</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use warm grays and ink for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Hover states</li>
+                        <li>• Active/pressed states</li>
+                        <li>• Selected items (not "correct", just "chosen")</li>
+                        <li>• Loading spinners and progress bars</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Neutral means "something is happening" — no judgment</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4" style="color: hsl(330 85% 45%);">Magenta = Error</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use magenta ONLY for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Validation errors</li>
+                        <li>• Failed operations</li>
+                        <li>• Destructive action warnings</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Magenta means "something is wrong"</p>
+                </div>
+            </div>
+        </section>
+
         <!-- State Application by Component -->
         <section class="mb-16">
             <h2 class="font-display text-2xl mb-2">State Application by Component</h2>
@@ -523,6 +586,53 @@
                 </div>
                 <div class="bg-warm-50 rounded-lg p-8 flex items-center justify-center">
                     <button id="btn-demo" class="demo-btn">Submit Order</button>
+                </div>
+
+                <!-- Static Button State Examples -->
+                <div class="mt-6 pt-6 border-t border-warm-200">
+                    <h4 class="text-sm font-medium text-warm-600 mb-4">All States (Static Reference)</h4>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="text-center">
+                            <button class="demo-btn">Default</button>
+                            <p class="text-xs text-warm-500 mt-2">Default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-hover">Hover</button>
+                            <p class="text-xs text-warm-500 mt-2">Hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-active">Active</button>
+                            <p class="text-xs text-warm-500 mt-2">Active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-focused">Focused</button>
+                            <p class="text-xs text-warm-500 mt-2">Focused</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-disabled" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500 mt-2">Disabled</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-loading" aria-busy="true">Loading</button>
+                            <p class="text-xs text-warm-500 mt-2">Loading</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Button with Text -->
+                <div class="mt-6 pt-6 border-t border-warm-200">
+                    <h4 class="text-sm font-medium text-warm-600 mb-4">Loading Button with Text</h4>
+                    <p class="text-sm text-warm-500 mb-4">For longer operations, show loading text alongside the spinner.</p>
+                    <div class="flex items-center gap-6">
+                        <button class="demo-btn flex items-center gap-2" style="color: white;">
+                            <span class="spinner" style="width: 14px; height: 14px; border-width: 2px; border-color: hsla(0 0% 100% / 30%); border-top-color: white;"></span>
+                            <span>Processing...</span>
+                        </button>
+                        <button class="demo-btn flex items-center gap-2" style="color: white;">
+                            <span class="spinner" style="width: 14px; height: 14px; border-width: 2px; border-color: hsla(0 0% 100% / 30%); border-top-color: white;"></span>
+                            <span>Saving changes</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -649,7 +759,7 @@
                             <div class="text-2xl font-semibold">$1,234.56</div>
                         </div>
                         <div class="overlay-spinner">
-                            <div class="spinner-lg"></div>
+                            <div class="spinner spinner-lg"></div>
                         </div>
                     </div>
                 </div>
@@ -687,12 +797,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Thread Gradient Restriction Note -->
+            <div class="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div class="flex gap-3">
+                    <svg width="20" height="20" fill="none" stroke="hsl(45 93% 47%)" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0 mt-0.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+                    </svg>
+                    <div>
+                        <p class="font-medium text-amber-800 text-sm mb-1">Thread Gradient Restriction</p>
+                        <p class="text-sm text-amber-700">Security thread gradients are <strong>not used</strong> for progress bars, focus rings, or state indicators. Thread gradients are reserved for page-level wayfinding and high-impact brand moments only. State indicators use solid Emerald <code class="bg-amber-100 text-amber-800">hsl(150 100% 27%)</code> or appropriate semantic colors.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Empty States -->
         <section class="mb-16">
             <h2 class="font-display text-2xl mb-2">Empty States</h2>
-            <p class="text-warm-600 mb-8">Helpful guidance when no content is available.</p>
+            <p class="text-warm-600 mb-6">Helpful guidance when no content is available.</p>
+
+            <div class="bg-warm-100 rounded-lg px-4 py-3 mb-8 text-sm text-warm-700">
+                <strong>Illustration style:</strong> Empty state icons use monochromatic <code>warm-500</code> stroke on a <code>warm-50</code> background. Avoid colored or branded icons in empty states—keep the focus on the guidance text and action.
+            </div>
 
             <div class="grid grid-cols-2 gap-6">
                 <!-- Basic Empty State -->
@@ -857,7 +984,7 @@
                 <div class="mt-8 pt-8 border-t border-intaglio-700">
                     <h3 class="text-warm-100 font-semibold mb-4">Loading on Dark</h3>
                     <div class="flex items-center gap-4">
-                        <div class="spinner" style="border-color: hsl(24 27% 25%); border-top-color: hsl(170 100% 45%);"></div>
+                        <div class="spinner" style="border-color: hsl(24 27% 25%); border-top-color: hsl(30 10% 70%);"></div>
                         <span class="text-warm-300">Processing transaction...</span>
                     </div>
                 </div>
@@ -872,11 +999,19 @@
             <div class="grid grid-cols-2 gap-6">
                 <div class="bg-white border border-warm-200 rounded-xl p-6">
                     <h3 class="font-semibold mb-4">Focus Indicators</h3>
-                    <ul class="text-sm text-warm-600 space-y-2">
+                    <ul class="text-sm text-warm-600 space-y-2 mb-6">
                         <li>• Never remove focus outlines without providing alternatives</li>
                         <li>• Focus rings must have 3:1 contrast against backgrounds</li>
                         <li>• Use <code>:focus-visible</code> to show focus only for keyboard navigation</li>
                     </ul>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">Focus ring examples:</p>
+                        <div class="flex items-center gap-4">
+                            <button class="demo-btn state-focused">Button</button>
+                            <a href="#" class="demo-link state-focused">Link</a>
+                            <input type="text" class="demo-input state-focused w-32" value="Input" style="width: 120px;">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white border border-warm-200 rounded-xl p-6">
@@ -915,7 +1050,7 @@
         <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
             <span>Saltwyk Design System</span>
             <span class="mx-2">·</span>
-            <span>v0.5.0</span>
+            <span>v0.6.0</span>
         </div>
     </footer>
         </main>

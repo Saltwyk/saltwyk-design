@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,30 +16,30 @@
 
     <style>
         body { font-family: 'Inter', system-ui, sans-serif; }
-        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
-        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
-        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
-        .code-block .comment { color: hsl(30 10% 50%); }
-        .code-block .property { color: hsl(170 70% 60%); }
-        .code-block .value { color: hsl(40 80% 70%); }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-400)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-400)); }
+        .code-block .value { color: hsl(var(--orange-300)); }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
         .nav-dropdown-menu {
             position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             opacity: 0; visibility: hidden; transform: translateY(-4px);
             transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
             z-index: 100; padding: 8px 0;
         }
         .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
-        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(var(--warm-700)); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(var(--warm-50)); color: hsl(var(--emerald-600)); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(var(--warm-200)); margin: 8px 0; }
 
         /* ========================================= */
         /* SPEC TABLE STYLES */
@@ -53,13 +53,13 @@
             text-align: left;
             padding: 12px 16px;
             font-weight: 500;
-            color: hsl(30 6% 46%);
-            border-bottom: 2px solid hsl(30 5% 88%);
-            background: hsl(30 5% 98%);
+            color: hsl(var(--warm-500));
+            border-bottom: 2px solid hsl(var(--warm-200));
+            background: hsl(var(--warm-50));
         }
         .spec-table td {
             padding: 12px 16px;
-            border-bottom: 1px solid hsl(30 5% 92%);
+            border-bottom: 1px solid hsl(var(--warm-100));
             vertical-align: middle;
         }
         .spec-table tr:last-child td { border-bottom: none; }
@@ -79,7 +79,7 @@
         .sidebar {
             width: 240px;
             background: white;
-            border-right: 1px solid hsl(30 5% 88%);
+            border-right: 1px solid hsl(var(--warm-200));
             display: flex;
             flex-direction: column;
         }
@@ -90,7 +90,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 1px solid hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(var(--warm-200));
         }
 
         .sidebar-nav {
@@ -104,13 +104,13 @@
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            color: hsl(30 6% 50%);
+            color: hsl(var(--warm-500));
             padding: 12px 16px 8px;
         }
 
         .sidebar-divider {
             height: 1px;
-            background: hsl(30 5% 88%);
+            background: hsl(var(--warm-200));
             margin: 8px 16px;
         }
 
@@ -123,52 +123,58 @@
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
-            color: hsl(30 6% 40%);
+            color: hsl(var(--warm-600));
             cursor: pointer;
             transition: all 0.15s ease;
             position: relative;
         }
         .sidebar-item:hover {
-            background: hsl(30 5% 97%);
-            color: hsl(24 29% 8%);
+            background: hsl(var(--warm-50));
+            color: hsl(var(--ink));
         }
         .sidebar-item:hover .sidebar-item-icon {
-            color: hsl(30 6% 50%);
+            color: hsl(var(--warm-500));
         }
+
+        /* ACTIVE STATE - Uses INDIGO (selection color) */
         .sidebar-item-active {
-            background: hsl(150 45% 96%);
-            color: hsl(150 100% 22%);
-            border-left: 3px solid hsl(150 100% 27%);
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-700));
+            border-left: 3px solid hsl(var(--indigo-500));
             margin-left: 5px;
             padding-left: 13px;
         }
         .sidebar-item-active .sidebar-item-icon {
-            color: hsl(150 100% 27%);
+            color: hsl(var(--indigo-600));
         }
+
         .sidebar-item-disabled {
-            color: hsl(30 5% 78%);
+            color: hsl(var(--warm-300));
             cursor: not-allowed;
         }
         .sidebar-item-disabled .sidebar-item-icon {
-            color: hsl(30 5% 78%);
+            color: hsl(var(--warm-300));
         }
         .sidebar-item-icon {
             width: 20px;
             height: 20px;
-            color: hsl(30 6% 62%);
+            color: hsl(var(--warm-400));
             flex-shrink: 0;
         }
+
+        /* FOCUS STATE - Uses INDIGO */
         .sidebar-item-focus {
             outline: none;
-            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(150 100% 27%);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
         }
 
+        /* Notification badge - magenta for attention */
         .sidebar-badge {
             margin-left: auto;
             min-width: 20px;
             height: 20px;
             padding: 0 6px;
-            background: hsl(330 85% 50%);
+            background: hsl(var(--magenta-500));
             border-radius: 10px;
             font-size: 11px;
             font-weight: 600;
@@ -177,8 +183,9 @@
             align-items: center;
             justify-content: center;
         }
+        /* "New" badge - emerald for positive/success semantic */
         .sidebar-badge-new {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-600));
         }
         .sidebar-dot {
             width: 8px;
@@ -189,7 +196,7 @@
 
         .sidebar-user {
             padding: 16px 20px;
-            border-top: 1px solid hsl(30 5% 88%);
+            border-top: 1px solid hsl(var(--warm-200));
             display: flex;
             align-items: center;
             gap: 12px;
@@ -198,76 +205,98 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: hsl(30 5% 88%);
+            background: hsl(var(--warm-200));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
             font-weight: 600;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
 
         /* ========================================= */
         /* SIDEBAR STYLES - DARK MODE (Fire Opal) */
         /* ========================================= */
         .sidebar-dark {
-            background: hsl(24 29% 8%);
+            background: hsl(var(--intaglio-900));
             border-right: none;
         }
         .sidebar-dark .sidebar-logo {
-            border-bottom-color: hsl(24 27% 18%);
+            border-bottom-color: hsl(var(--intaglio-700));
         }
         .sidebar-dark .sidebar-section-header {
-            color: hsl(30 8% 50%);
+            color: hsl(var(--warm-500));
         }
         .sidebar-dark .sidebar-divider {
-            background: hsl(24 27% 18%);
+            background: hsl(var(--intaglio-700));
         }
         .sidebar-dark .sidebar-item {
-            color: hsl(30 8% 55%);
+            color: hsl(var(--warm-400));
         }
         .sidebar-dark .sidebar-item:hover {
-            background: hsl(24 28% 12%);
-            color: hsl(30 5% 85%);
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
         }
         .sidebar-dark .sidebar-item:hover .sidebar-item-icon {
-            color: hsl(30 8% 65%);
+            color: hsl(var(--warm-300));
         }
         .sidebar-dark .sidebar-item-icon {
-            color: hsl(30 8% 45%);
-        }
-        .sidebar-dark .sidebar-item-active {
-            background: hsl(150 100% 27% / 15%);
-            color: hsl(150 80% 60%);
-            border-left-color: hsl(150 100% 40%);
-        }
-        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
-            color: hsl(150 80% 60%);
-        }
-        .sidebar-dark .sidebar-item-disabled {
-            color: hsl(24 20% 30%);
-        }
-        .sidebar-dark .sidebar-item-disabled .sidebar-item-icon {
-            color: hsl(24 20% 30%);
-        }
-        .sidebar-dark .sidebar-item-focus {
-            box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%);
-        }
-        .sidebar-dark .sidebar-user {
-            border-top-color: hsl(24 27% 18%);
-        }
-        .sidebar-dark .sidebar-user-avatar {
-            background: hsl(24 27% 18%);
-            color: hsl(30 5% 70%);
-        }
-        .sidebar-dark .sidebar-badge {
-            background: hsl(330 100% 55%);
+            color: hsl(var(--warm-500));
         }
 
-        /* Thread line accent */
+        /* ACTIVE STATE - Uses INDIGO (selection color) */
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left-color: hsl(var(--indigo-400));
+        }
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-item-disabled {
+            color: hsl(var(--intaglio-600));
+        }
+        .sidebar-dark .sidebar-item-disabled .sidebar-item-icon {
+            color: hsl(var(--intaglio-600));
+        }
+
+        /* FOCUS STATE - Uses INDIGO */
+        .sidebar-dark .sidebar-item-focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+
+        .sidebar-dark .sidebar-user {
+            border-top-color: hsl(var(--intaglio-700));
+        }
+        .sidebar-dark .sidebar-user-avatar {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-300));
+        }
+        .sidebar-dark .sidebar-badge {
+            background: hsl(var(--magenta-400));
+        }
+
+        /* Thread line accent - Spectrum for brand expression in navigation */
         .thread-line {
             height: 3px;
-            background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 50%), hsl(20 100% 50%), hsl(330 100% 50%));
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--lime-thread)) 25%,
+                hsl(var(--orange-thread)) 50%,
+                hsl(var(--magenta-thread)) 75%,
+                hsl(var(--cyan-thread)) 100%
+            );
+        }
+
+        /* Alternative thread variants for different contexts */
+        .thread-line-fresh {
+            height: 3px;
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)));
+        }
+        .thread-line-cool {
+            height: 3px;
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
         }
 
         /* ========================================= */
@@ -306,7 +335,7 @@
             transform: translateY(-50%);
             margin-left: 8px;
             padding: 6px 10px;
-            background: hsl(24 29% 8%);
+            background: hsl(var(--ink));
             color: white;
             font-size: 13px;
             font-weight: 500;
@@ -332,33 +361,33 @@
             font-size: 14px;
         }
         .breadcrumb-link {
-            color: hsl(30 6% 40%);
+            color: hsl(var(--warm-600));
             text-decoration: none;
             transition: color 0.15s;
         }
         .breadcrumb-link:hover {
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
             text-decoration: underline;
         }
         .breadcrumb-separator {
-            color: hsl(30 6% 62%);
+            color: hsl(var(--warm-400));
         }
         .breadcrumb-current {
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
             font-weight: 500;
         }
 
         .breadcrumbs-dark .breadcrumb-link {
-            color: hsl(30 8% 55%);
+            color: hsl(var(--warm-400));
         }
         .breadcrumbs-dark .breadcrumb-link:hover {
-            color: hsl(30 5% 85%);
+            color: hsl(var(--warm-200));
         }
         .breadcrumbs-dark .breadcrumb-separator {
-            color: hsl(30 8% 40%);
+            color: hsl(var(--warm-600));
         }
         .breadcrumbs-dark .breadcrumb-current {
-            color: hsl(30 5% 95%);
+            color: hsl(var(--warm-100));
         }
 
         /* ========================================= */
@@ -370,27 +399,28 @@
             height: 64px;
             padding: 0 24px;
             background: white;
-            border-bottom: 1px solid hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(var(--warm-200));
         }
         .topnav-dark {
-            background: hsl(24 29% 8%);
-            border-bottom-color: hsl(24 27% 18%);
+            background: hsl(var(--intaglio-900));
+            border-bottom-color: hsl(var(--intaglio-700));
         }
         .topnav-item {
             padding: 8px 16px;
             font-size: 14px;
             font-weight: 500;
-            color: hsl(30 6% 40%);
+            color: hsl(var(--warm-600));
             text-decoration: none;
             position: relative;
             transition: color 0.15s;
         }
         .topnav-item:hover {
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
         }
         .topnav-item-active {
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
         }
+        /* ACTIVE INDICATOR - Uses INDIGO (selection color) */
         .topnav-item-active::after {
             content: '';
             position: absolute;
@@ -398,20 +428,20 @@
             left: 16px;
             right: 16px;
             height: 2px;
-            background: hsl(150 100% 27%);
+            background: hsl(var(--indigo-500));
             border-radius: 1px;
         }
         .topnav-dark .topnav-item {
-            color: hsl(30 8% 55%);
+            color: hsl(var(--warm-400));
         }
         .topnav-dark .topnav-item:hover {
-            color: hsl(30 5% 95%);
+            color: hsl(var(--warm-100));
         }
         .topnav-dark .topnav-item-active {
-            color: hsl(30 5% 95%);
+            color: hsl(var(--warm-100));
         }
         .topnav-dark .topnav-item-active::after {
-            background: hsl(150 80% 50%);
+            background: hsl(var(--indigo-400));
         }
 
         /* ========================================= */
@@ -423,7 +453,7 @@
             justify-content: space-around;
             height: 64px;
             background: white;
-            border-top: 1px solid hsl(30 5% 88%);
+            border-top: 1px solid hsl(var(--warm-200));
             box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
         }
         .bottomnav-item {
@@ -432,17 +462,18 @@
             align-items: center;
             gap: 4px;
             padding: 8px 16px;
-            color: hsl(30 6% 62%);
+            color: hsl(var(--warm-400));
             text-decoration: none;
             font-size: 10px;
             font-weight: 500;
             transition: color 0.15s;
         }
+        /* ACTIVE STATE - Uses INDIGO (selection color) */
         .bottomnav-item-active {
-            color: hsl(150 100% 27%);
+            color: hsl(var(--indigo-600));
         }
         .bottomnav-item-active span:last-child {
-            color: hsl(150 100% 22%);
+            color: hsl(var(--indigo-700));
         }
         .bottomnav-item svg,
         .bottomnav-item i {
@@ -491,6 +522,8 @@
     <div class="flex">
         <div id="side-nav"></div>
         <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="thread-line w-full rounded-none"></div>
 
     <div class="max-w-6xl mx-auto p-8">
         <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
@@ -623,6 +656,7 @@
                                 <img src="assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-7 w-auto">
                                 <span class="font-brand font-semibold text-ink">Saltwyk</span>
                             </div>
+                            <div class="thread-line"></div>
                             <nav class="sidebar-nav">
                                 <div class="sidebar-section-header">Main</div>
                                 <div class="sidebar-item sidebar-item-active">
@@ -736,8 +770,8 @@
                             <tr>
                                 <td class="font-medium">Default</td>
                                 <td><code>transparent</code></td>
-                                <td><span class="spec-swatch" style="background: hsl(30 6% 40%)"></span>warm-600</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 6% 62%)"></span>warm-400</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-600))"></span>warm-600</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-400))"></span>warm-400</td>
                                 <td>none</td>
                                 <td>
                                     <div class="sidebar-item" style="background: white; margin: 0;">
@@ -748,23 +782,23 @@
                             </tr>
                             <tr>
                                 <td class="font-medium">Hover</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 5% 97%)"></span>warm-50</td>
-                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 6% 50%)"></span>warm-500</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-50))"></span>warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--ink))"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
                                 <td>none</td>
                                 <td>
-                                    <div class="sidebar-item" style="background: hsl(30 5% 97%); color: hsl(24 29% 8%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(30 6% 50%)"></i>
+                                    <div class="sidebar-item" style="background: hsl(var(--warm-50)); color: hsl(var(--ink)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="font-medium">Active</td>
-                                <td><span class="spec-swatch" style="background: hsl(150 45% 96%)"></span>emerald-50</td>
-                                <td><span class="spec-swatch" style="background: hsl(150 100% 22%)"></span>emerald-700</td>
-                                <td><span class="spec-swatch" style="background: hsl(150 100% 27%)"></span>emerald-600</td>
-                                <td>emerald-500 left (3px)</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--indigo-50))"></span>indigo-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--indigo-700))"></span>indigo-700</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--indigo-600))"></span>indigo-600</td>
+                                <td>indigo-500 left (3px)</td>
                                 <td>
                                     <div class="sidebar-item sidebar-item-active" style="margin: 0;">
                                         <i data-lucide="home" class="sidebar-item-icon"></i>
@@ -774,13 +808,13 @@
                             </tr>
                             <tr>
                                 <td class="font-medium">Focus</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 5% 97%)"></span>warm-50</td>
-                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 6% 50%)"></span>warm-500</td>
-                                <td>focus ring</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-50))"></span>warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--ink))"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
+                                <td>indigo-500 ring</td>
                                 <td>
-                                    <div class="sidebar-item sidebar-item-focus" style="background: hsl(30 5% 97%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(30 6% 50%)"></i>
+                                    <div class="sidebar-item sidebar-item-focus" style="background: hsl(var(--warm-50)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
@@ -788,8 +822,8 @@
                             <tr>
                                 <td class="font-medium">Disabled</td>
                                 <td><code>transparent</code></td>
-                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span>warm-300</td>
-                                <td><span class="spec-swatch" style="background: hsl(30 5% 78%)"></span>warm-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                                <td><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
                                 <td>none</td>
                                 <td>
                                     <div class="sidebar-item sidebar-item-disabled" style="margin: 0;">
@@ -807,85 +841,90 @@
             <div class="mb-10">
                 <h3 class="font-display text-xl mb-4">Nav Item States &mdash; Dark Mode (Fire Opal)</h3>
                 <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
-                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                    <table class="spec-table" style="color: hsl(var(--warm-200))">
                         <thead>
-                            <tr style="background: hsl(24 28% 12%)">
-                                <th style="width: 100px; color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">State</th>
-                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Background</th>
-                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Text</th>
-                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Icon</th>
-                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Border</th>
-                                <th style="width: 180px; color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Preview</th>
+                            <tr style="background: hsl(var(--intaglio-800))">
+                                <th style="width: 100px; color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">State</th>
+                                <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Background</th>
+                                <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Text</th>
+                                <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Icon</th>
+                                <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Border</th>
+                                <th style="width: 180px; color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Preview</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="border-color: hsl(24 27% 20%)">
-                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Default</td>
-                                <td style="border-color: hsl(24 27% 20%)"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">transparent</code></td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 8% 55%)"></span>warm-400</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 8% 45%)"></span>warm-500</td>
-                                <td style="border-color: hsl(24 27% 20%)">none</td>
-                                <td style="border-color: hsl(24 27% 20%)">
-                                    <div class="sidebar-item" style="background: transparent; color: hsl(30 8% 55%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(30 8% 45%)"></i>
+                            <tr style="border-color: hsl(var(--intaglio-700))">
+                                <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Default</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">transparent</code></td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-400))"></span>warm-400</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">
+                                    <div class="sidebar-item" style="background: transparent; color: hsl(var(--warm-400)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
                             </tr>
-                            <tr style="border-color: hsl(24 27% 20%)">
-                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Hover</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 28% 12%)"></span>intaglio-800</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 85%)"></span>warm-200</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 70%)"></span>warm-300</td>
-                                <td style="border-color: hsl(24 27% 20%)">none</td>
-                                <td style="border-color: hsl(24 27% 20%)">
-                                    <div class="sidebar-item" style="background: hsl(24 28% 12%); color: hsl(30 5% 85%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(30 5% 70%)"></i>
+                            <tr style="border-color: hsl(var(--intaglio-700))">
+                                <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Hover</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--intaglio-800))"></span>intaglio-800</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-200))"></span>warm-200</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">
+                                    <div class="sidebar-item" style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-200)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-300))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
                             </tr>
-                            <tr style="border-color: hsl(24 27% 20%)">
-                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Active</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(150 100% 27% / 15%)"></span>emerald-500/15</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(150 80% 60%)"></span>emerald-400</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(150 80% 60%)"></span>emerald-400</td>
-                                <td style="border-color: hsl(24 27% 20%)">emerald-500 left (3px)</td>
-                                <td style="border-color: hsl(24 27% 20%)">
-                                    <div class="sidebar-item" style="background: hsl(150 100% 27% / 15%); color: hsl(150 80% 60%); border-left: 3px solid hsl(150 100% 40%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(150 80% 60%)"></i>
+                            <tr style="border-color: hsl(var(--intaglio-700))">
+                                <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Active</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-500) / 15%)"></span>indigo-500/15</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-300))"></span>indigo-300</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-300))"></span>indigo-300</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">indigo-400 left (3px)</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">
+                                    <div class="sidebar-item" style="background: hsl(var(--indigo-500) / 15%); color: hsl(var(--indigo-300)); border-left: 3px solid hsl(var(--indigo-400)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--indigo-300))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
                             </tr>
-                            <tr style="border-color: hsl(24 27% 20%)">
-                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Focus</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 28% 12%)"></span>intaglio-800</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 85%)"></span>warm-200</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 70%)"></span>warm-300</td>
-                                <td style="border-color: hsl(24 27% 20%)">focus ring</td>
-                                <td style="border-color: hsl(24 27% 20%)">
-                                    <div class="sidebar-item" style="background: hsl(24 28% 12%); color: hsl(30 5% 85%); box-shadow: 0 0 0 2px hsl(24 29% 8%), 0 0 0 4px hsl(150 100% 27%); margin: 0;">
-                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(30 5% 70%)"></i>
+                            <tr style="border-color: hsl(var(--intaglio-700))">
+                                <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Focus</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--intaglio-800))"></span>intaglio-800</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-200))"></span>warm-200</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">indigo-400 ring</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">
+                                    <div class="sidebar-item" style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-200)); box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400)); margin: 0;">
+                                        <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-300))"></i>
                                         <span>Dashboard</span>
                                     </div>
                                 </td>
                             </tr>
                             <tr style="border-bottom: none">
-                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Disabled</td>
-                                <td style="border-color: hsl(24 27% 20%)"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">transparent</code></td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 20% 30%)"></span>warm-700</td>
-                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 20% 30%)"></span>warm-700</td>
-                                <td style="border-color: hsl(24 27% 20%)">none</td>
-                                <td style="border-color: hsl(24 27% 20%)">
-                                    <div class="sidebar-item" style="background: transparent; color: hsl(24 20% 30%); margin: 0; cursor: not-allowed;">
-                                        <i data-lucide="lock" class="sidebar-item-icon" style="color: hsl(24 20% 30%)"></i>
+                                <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Disabled</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">transparent</code></td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-700))"></span>warm-700</td>
+                                <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-700))"></span>warm-700</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                                <td style="border-color: hsl(var(--intaglio-700))">
+                                    <div class="sidebar-item" style="background: transparent; color: hsl(var(--warm-700)); margin: 0; cursor: not-allowed;">
+                                        <i data-lucide="lock" class="sidebar-item-icon" style="color: hsl(var(--warm-700))"></i>
                                         <span>Locked</span>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Design Decision: Selection Color -->
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mt-6">
+                    <p class="text-sm text-indigo-700"><strong>Design Decision:</strong> Navigation active states use indigo (selection color) rather than emerald (action/success color). This maintains consistency with other selection patterns like tabs, table rows, and form controls. Emerald is reserved for action buttons and positive/success semantics like the "New" badge.</p>
                 </div>
             </div>
 
@@ -915,7 +954,7 @@
                         <div class="p-4">
                             <table class="text-sm w-full text-warm-300">
                                 <tr><td class="py-1 text-warm-500">Width</td><td class="py-1 font-medium">240px (expanded), 64px (collapsed)</td></tr>
-                                <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">intaglio-900</code></td></tr>
+                                <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">intaglio-900</code></td></tr>
                                 <tr><td class="py-1 text-warm-500">Border</td><td class="py-1 font-medium">none (darkness provides edge)</td></tr>
                                 <tr><td class="py-1 text-warm-500">Shadow</td><td class="py-1 font-medium">optional subtle right shadow</td></tr>
                             </table>
@@ -931,7 +970,7 @@
                     <div class="grid grid-cols-3 gap-6">
                         <div>
                             <p class="text-xs text-warm-500 mb-3 font-medium">Count Badge</p>
-                            <div class="sidebar-item" style="background: hsl(30 5% 97%); margin: 0;">
+                            <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
                                 <i data-lucide="bell" class="sidebar-item-icon"></i>
                                 <span>Notifications</span>
                                 <span class="sidebar-badge">5</span>
@@ -940,16 +979,16 @@
                         </div>
                         <div>
                             <p class="text-xs text-warm-500 mb-3 font-medium">Status Dot</p>
-                            <div class="sidebar-item" style="background: hsl(30 5% 97%); margin: 0;">
+                            <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
                                 <i data-lucide="activity" class="sidebar-item-icon"></i>
                                 <span>Activity</span>
-                                <span class="sidebar-dot" style="background: hsl(150 100% 27%);"></span>
+                                <span class="sidebar-dot" style="background: hsl(var(--emerald-500));"></span>
                             </div>
                             <p class="text-xs text-warm-400 mt-2">Colored indicator</p>
                         </div>
                         <div>
                             <p class="text-xs text-warm-500 mb-3 font-medium">Text Badge</p>
-                            <div class="sidebar-item" style="background: hsl(30 5% 97%); margin: 0;">
+                            <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
                                 <i data-lucide="sparkles" class="sidebar-item-icon"></i>
                                 <span>Features</span>
                                 <span class="sidebar-badge sidebar-badge-new">New</span>
@@ -1032,10 +1071,10 @@
                     <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
                         <p class="text-xs text-warm-500 mb-4 font-medium">Expanded with Child Active</p>
                         <div class="space-y-1">
-                            <div class="sidebar-item sidebar-nested-parent expanded" style="margin: 0; background: hsl(150 45% 96%);">
-                                <i data-lucide="shopping-cart" class="sidebar-item-icon" style="color: hsl(150 100% 27%)"></i>
-                                <span style="color: hsl(150 100% 22%)">Products</span>
-                                <i data-lucide="chevron-right" class="chevron" style="color: hsl(150 100% 27%)"></i>
+                            <div class="sidebar-item sidebar-nested-parent expanded" style="margin: 0; background: hsl(var(--indigo-50));">
+                                <i data-lucide="shopping-cart" class="sidebar-item-icon" style="color: hsl(var(--indigo-600))"></i>
+                                <span style="color: hsl(var(--indigo-700))">Products</span>
+                                <i data-lucide="chevron-right" class="chevron" style="color: hsl(var(--indigo-600))"></i>
                             </div>
                             <div class="sidebar-nested-children">
                                 <div class="sidebar-item" style="margin: 0;">

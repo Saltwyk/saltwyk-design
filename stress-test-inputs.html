@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Test: Input Colors - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; }
+
+        /* Section dividers */
+        .section-divider {
+            border-bottom: 2px solid hsl(var(--warm-200));
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Question callout */
+        .question-box {
+            background: hsl(var(--cyan-50));
+            border: 2px solid hsl(var(--cyan-300));
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        .question-box p {
+            color: hsl(var(--cyan-700));
+            font-weight: 500;
+        }
+
+        /* ========================================= */
+        /* BASE INPUT STYLES */
+        /* ========================================= */
+        .input-base {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            font-family: 'Inter', system-ui, sans-serif;
+            border-radius: 6px;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--ink));
+            transition: all 150ms ease-out;
+        }
+        .input-base::placeholder { color: hsl(var(--warm-400)); }
+        .input-base:hover { border-color: hsl(var(--warm-400)); }
+
+        /* Dark mode input base */
+        .input-base-dark {
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-600));
+            color: hsl(var(--warm-100));
+        }
+        .input-base-dark::placeholder { color: hsl(var(--warm-500)); }
+        .input-base-dark:hover { border-color: hsl(var(--intaglio-500)); }
+
+        /* ========================================= */
+        /* FOCUS RING VARIANTS */
+        /* ========================================= */
+        /* A: Emerald Focus */
+        .focus-emerald:focus {
+            outline: none;
+            border-color: hsl(var(--emerald-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+        }
+        .focus-emerald-dark:focus {
+            border-color: hsl(var(--emerald-400));
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--emerald-400));
+        }
+
+        /* B: Indigo Focus */
+        .focus-indigo:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
+        }
+        .focus-indigo-dark:focus {
+            border-color: hsl(var(--indigo-400));
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+
+        /* C: Slate Focus */
+        .focus-slate:focus {
+            outline: none;
+            border-color: hsl(var(--slate-400));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--slate-400));
+        }
+        .focus-slate-dark:focus {
+            border-color: hsl(var(--slate-300));
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--slate-300));
+        }
+
+        /* D: Warm Focus */
+        .focus-warm:focus {
+            outline: none;
+            border-color: hsl(var(--warm-400));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--warm-400));
+        }
+        .focus-warm-dark:focus {
+            border-color: hsl(var(--warm-300));
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* CHECKBOX BASE */
+        /* ========================================= */
+        .checkbox-base {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            cursor: pointer;
+            transition: all 150ms ease-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .checkbox-base:hover { border-color: hsl(var(--warm-400)); }
+        .checkbox-base::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+        .checkbox-base:checked::after { opacity: 1; }
+
+        /* Dark mode checkbox base */
+        .checkbox-base-dark {
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-600));
+        }
+        .checkbox-base-dark:hover { border-color: hsl(var(--intaglio-500)); }
+
+        /* Checkbox color variants - Emerald */
+        .checkbox-emerald:checked {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+        }
+        .checkbox-emerald:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+        }
+        .checkbox-emerald-dark:checked {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+        }
+        .checkbox-emerald-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--emerald-400));
+        }
+
+        /* Checkbox color variants - Indigo */
+        .checkbox-indigo:checked {
+            background: hsl(var(--indigo-500));
+            border-color: hsl(var(--indigo-500));
+        }
+        .checkbox-indigo:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
+        }
+        .checkbox-indigo-dark:checked {
+            background: hsl(var(--indigo-400));
+            border-color: hsl(var(--indigo-400));
+        }
+        .checkbox-indigo-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+
+        /* Checkbox color variants - Slate */
+        .checkbox-slate:checked {
+            background: hsl(var(--slate-500));
+            border-color: hsl(var(--slate-500));
+        }
+        .checkbox-slate:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--slate-400));
+        }
+        .checkbox-slate-dark:checked {
+            background: hsl(var(--slate-400));
+            border-color: hsl(var(--slate-400));
+        }
+        .checkbox-slate-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--slate-300));
+        }
+
+        /* Checkbox color variants - Ink */
+        .checkbox-ink:checked {
+            background: hsl(var(--ink));
+            border-color: hsl(var(--ink));
+        }
+        .checkbox-ink:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--warm-500));
+        }
+        .checkbox-ink-dark:checked {
+            background: hsl(var(--warm-200));
+            border-color: hsl(var(--warm-200));
+        }
+        .checkbox-ink-dark:checked::after {
+            border-color: hsl(var(--ink));
+        }
+        .checkbox-ink-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--warm-400));
+        }
+
+        /* ========================================= */
+        /* RADIO BASE */
+        /* ========================================= */
+        .radio-base {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            cursor: pointer;
+            transition: all 150ms ease-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .radio-base:hover { border-color: hsl(var(--warm-400)); }
+        .radio-base::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 150ms ease-out;
+        }
+        .radio-base:checked::after { opacity: 1; }
+
+        /* Dark mode radio base */
+        .radio-base-dark {
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-600));
+        }
+        .radio-base-dark:hover { border-color: hsl(var(--intaglio-500)); }
+
+        /* Radio color variants - Emerald */
+        .radio-emerald:checked {
+            border-color: hsl(var(--emerald-500));
+        }
+        .radio-emerald:checked::after {
+            background: hsl(var(--emerald-500));
+        }
+        .radio-emerald:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--emerald-500));
+        }
+        .radio-emerald-dark:checked {
+            border-color: hsl(var(--emerald-400));
+        }
+        .radio-emerald-dark:checked::after {
+            background: hsl(var(--emerald-400));
+        }
+        .radio-emerald-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--emerald-400));
+        }
+
+        /* Radio color variants - Indigo */
+        .radio-indigo:checked {
+            border-color: hsl(var(--indigo-500));
+        }
+        .radio-indigo:checked::after {
+            background: hsl(var(--indigo-500));
+        }
+        .radio-indigo:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
+        }
+        .radio-indigo-dark:checked {
+            border-color: hsl(var(--indigo-400));
+        }
+        .radio-indigo-dark:checked::after {
+            background: hsl(var(--indigo-400));
+        }
+        .radio-indigo-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+
+        /* Radio color variants - Slate */
+        .radio-slate:checked {
+            border-color: hsl(var(--slate-500));
+        }
+        .radio-slate:checked::after {
+            background: hsl(var(--slate-500));
+        }
+        .radio-slate:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--slate-400));
+        }
+        .radio-slate-dark:checked {
+            border-color: hsl(var(--slate-300));
+        }
+        .radio-slate-dark:checked::after {
+            background: hsl(var(--slate-300));
+        }
+        .radio-slate-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--slate-300));
+        }
+
+        /* Radio color variants - Ink */
+        .radio-ink:checked {
+            border-color: hsl(var(--ink));
+        }
+        .radio-ink:checked::after {
+            background: hsl(var(--ink));
+        }
+        .radio-ink:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--warm-500));
+        }
+        .radio-ink-dark:checked {
+            border-color: hsl(var(--warm-200));
+        }
+        .radio-ink-dark:checked::after {
+            background: hsl(var(--warm-200));
+        }
+        .radio-ink-dark:focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--warm-400));
+        }
+
+        /* ========================================= */
+        /* TOGGLE BASE */
+        /* ========================================= */
+        .toggle-track-base {
+            width: 44px;
+            height: 24px;
+            background: hsl(var(--warm-300));
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 150ms ease-out;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .toggle-track-base:hover { background: hsl(var(--warm-400)); }
+        .toggle-thumb-base {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 150ms ease-out;
+        }
+        .toggle-track-base[data-state="checked"] .toggle-thumb-base {
+            transform: translateX(20px);
+        }
+
+        /* Dark mode toggle base */
+        .toggle-track-dark {
+            background: hsl(var(--intaglio-600));
+        }
+        .toggle-track-dark:hover { background: hsl(var(--intaglio-500)); }
+        .toggle-track-dark .toggle-thumb-base {
+            background: hsl(var(--warm-300));
+        }
+
+        /* Toggle color variants - Emerald */
+        .toggle-emerald[data-state="checked"] {
+            background: hsl(var(--emerald-500));
+        }
+        .toggle-emerald[data-state="checked"]:hover {
+            background: hsl(var(--emerald-600));
+        }
+        .toggle-emerald-dark[data-state="checked"] {
+            background: hsl(var(--emerald-500));
+        }
+        .toggle-emerald-dark[data-state="checked"] .toggle-thumb-base {
+            background: white;
+        }
+
+        /* Toggle color variants - Indigo */
+        .toggle-indigo[data-state="checked"] {
+            background: hsl(var(--indigo-500));
+        }
+        .toggle-indigo[data-state="checked"]:hover {
+            background: hsl(var(--indigo-600));
+        }
+        .toggle-indigo-dark[data-state="checked"] {
+            background: hsl(var(--indigo-400));
+        }
+        .toggle-indigo-dark[data-state="checked"] .toggle-thumb-base {
+            background: white;
+        }
+
+        /* Toggle color variants - Slate */
+        .toggle-slate[data-state="checked"] {
+            background: hsl(var(--slate-500));
+        }
+        .toggle-slate[data-state="checked"]:hover {
+            background: hsl(var(--slate-600));
+        }
+        .toggle-slate-dark[data-state="checked"] {
+            background: hsl(var(--slate-400));
+        }
+        .toggle-slate-dark[data-state="checked"] .toggle-thumb-base {
+            background: white;
+        }
+
+        /* Toggle color variants - Ink */
+        .toggle-ink[data-state="checked"] {
+            background: hsl(var(--ink));
+        }
+        .toggle-ink[data-state="checked"]:hover {
+            background: hsl(var(--warm-800));
+        }
+        .toggle-ink-dark[data-state="checked"] {
+            background: hsl(var(--warm-200));
+        }
+        .toggle-ink-dark[data-state="checked"] .toggle-thumb-base {
+            background: hsl(var(--ink));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div class="max-w-5xl mx-auto p-8">
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-cyan-600 mb-2">Stress Test v0.1</p>
+            <h1 class="font-display text-4xl mb-4">Input Color Strategies</h1>
+            <p class="text-warm-600 max-w-3xl">Testing different color treatments for form inputs and controls. Should focus rings and selected states use the interactive color (emerald) or something neutral?</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: FOCUS RING COLORS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 1</p>
+                <h2 class="font-display text-2xl mb-3">Focus Ring Colors</h2>
+                <p class="text-warm-500">Testing four different focus ring colors on text inputs. Click each input to see the focus state.</p>
+            </div>
+
+            <!-- Light Background -->
+            <div class="mb-8">
+                <p class="text-sm font-medium text-warm-600 mb-4">Light Background</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 space-y-6">
+                    <!-- Row A: Emerald -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Row A: Emerald Focus <span class="text-warm-400 font-normal">(Current)</span></label>
+                        <input type="text" placeholder="Click to focus..." class="input-base focus-emerald">
+                        <p class="text-xs text-warm-500 mt-2">Emerald — Current approach, matches interactive color</p>
+                    </div>
+
+                    <!-- Row B: Indigo -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Row B: Indigo Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base focus-indigo">
+                        <p class="text-xs text-warm-500 mt-2">Indigo — Distinct from button color, still visible</p>
+                    </div>
+
+                    <!-- Row C: Slate -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Row C: Slate Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base focus-slate">
+                        <p class="text-xs text-warm-500 mt-2">Slate — Neutral, doesn't imply action</p>
+                    </div>
+
+                    <!-- Row D: Warm -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Row D: Warm Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base focus-warm">
+                        <p class="text-xs text-warm-500 mt-2">Warm — Subtle, matches system neutrals</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Background -->
+            <div class="mb-6">
+                <p class="text-sm font-medium text-warm-600 mb-4">Dark Background</p>
+                <div class="bg-intaglio-900 rounded-lg p-6 space-y-6">
+                    <!-- Row A: Emerald -->
+                    <div>
+                        <label class="block text-sm font-medium text-warm-200 mb-2">Row A: Emerald Focus <span class="text-warm-500 font-normal">(Current)</span></label>
+                        <input type="text" placeholder="Click to focus..." class="input-base input-base-dark focus-emerald-dark">
+                        <p class="text-xs text-warm-500 mt-2">emerald-400 ring on dark</p>
+                    </div>
+
+                    <!-- Row B: Indigo -->
+                    <div>
+                        <label class="block text-sm font-medium text-warm-200 mb-2">Row B: Indigo Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base input-base-dark focus-indigo-dark">
+                        <p class="text-xs text-warm-500 mt-2">indigo-400 ring on dark</p>
+                    </div>
+
+                    <!-- Row C: Slate -->
+                    <div>
+                        <label class="block text-sm font-medium text-warm-200 mb-2">Row C: Slate Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base input-base-dark focus-slate-dark">
+                        <p class="text-xs text-warm-500 mt-2">slate-300 ring on dark</p>
+                    </div>
+
+                    <!-- Row D: Warm -->
+                    <div>
+                        <label class="block text-sm font-medium text-warm-200 mb-2">Row D: Warm Focus</label>
+                        <input type="text" placeholder="Click to focus..." class="input-base input-base-dark focus-warm-dark">
+                        <p class="text-xs text-warm-500 mt-2">warm-300 ring on dark</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Should focus rings match the interactive color (emerald) or be neutral?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: CHECKBOX SELECTED STATE COLORS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 2</p>
+                <h2 class="font-display text-2xl mb-3">Selected State Colors (Checkboxes)</h2>
+                <p class="text-warm-500">Testing checkbox selected states with different colors.</p>
+            </div>
+
+            <!-- Light Background -->
+            <div class="mb-8">
+                <p class="text-sm font-medium text-warm-600 mb-4">Light Background</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option A: Emerald Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-emerald">
+                                    <span class="text-sm">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-emerald">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-emerald">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Emerald — Matches interactive system</p>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option B: Indigo Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-indigo">
+                                    <span class="text-sm">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-indigo">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-indigo">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Indigo — Distinct from buttons, means 'selected'</p>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option C: Slate Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-slate">
+                                    <span class="text-sm">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-slate">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-slate">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Slate — Neutral selection indicator</p>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option D: Ink Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-ink">
+                                    <span class="text-sm">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-ink">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-ink">
+                                    <span class="text-sm">Unselected item</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Ink — High contrast, no color meaning</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Background -->
+            <div class="mb-6">
+                <p class="text-sm font-medium text-warm-600 mb-4">Dark Background</p>
+                <div class="bg-intaglio-900 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option A: Emerald</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-base-dark checkbox-emerald-dark">
+                                    <span class="text-sm text-warm-200">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-emerald-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-emerald-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option B: Indigo</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-base-dark checkbox-indigo-dark">
+                                    <span class="text-sm text-warm-200">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-indigo-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-indigo-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option C: Slate</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-base-dark checkbox-slate-dark">
+                                    <span class="text-sm text-warm-200">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-slate-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-slate-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option D: Ink (inverted)</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" checked class="checkbox-base checkbox-base-dark checkbox-ink-dark">
+                                    <span class="text-sm text-warm-200">Selected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-ink-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="checkbox-base checkbox-base-dark checkbox-ink-dark">
+                                    <span class="text-sm text-warm-200">Unselected item</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Should selected state use the interactive color or a neutral?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: RADIO BUTTON COLORS -->
+        <!-- ============================================ -->
+        <section class="section-divider">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 3</p>
+                <h2 class="font-display text-2xl mb-3">Radio Button Colors</h2>
+                <p class="text-warm-500">Same test as checkboxes but with radio buttons.</p>
+            </div>
+
+            <!-- Light Background -->
+            <div class="mb-8">
+                <p class="text-sm font-medium text-warm-600 mb-4">Light Background</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option A: Emerald Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald" checked class="radio-base radio-emerald">
+                                    <span class="text-sm">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald" class="radio-base radio-emerald">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald" class="radio-base radio-emerald">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Emerald — Matches interactive system</p>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option B: Indigo Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo" checked class="radio-base radio-indigo">
+                                    <span class="text-sm">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo" class="radio-base radio-indigo">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo" class="radio-base radio-indigo">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Indigo — Distinct from buttons</p>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option C: Slate Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate" checked class="radio-base radio-slate">
+                                    <span class="text-sm">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate" class="radio-base radio-slate">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate" class="radio-base radio-slate">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Slate — Neutral selection</p>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium mb-3">Option D: Ink Selected</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink" checked class="radio-base radio-ink">
+                                    <span class="text-sm">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink" class="radio-base radio-ink">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink" class="radio-base radio-ink">
+                                    <span class="text-sm">Unselected option</span>
+                                </label>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Ink — High contrast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Background -->
+            <div class="mb-6">
+                <p class="text-sm font-medium text-warm-600 mb-4">Dark Background</p>
+                <div class="bg-intaglio-900 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option A: Emerald</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald-dark" checked class="radio-base radio-base-dark radio-emerald-dark">
+                                    <span class="text-sm text-warm-200">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald-dark" class="radio-base radio-base-dark radio-emerald-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-emerald-dark" class="radio-base radio-base-dark radio-emerald-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option B: Indigo</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo-dark" checked class="radio-base radio-base-dark radio-indigo-dark">
+                                    <span class="text-sm text-warm-200">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo-dark" class="radio-base radio-base-dark radio-indigo-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-indigo-dark" class="radio-base radio-base-dark radio-indigo-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option C: Slate</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate-dark" checked class="radio-base radio-base-dark radio-slate-dark">
+                                    <span class="text-sm text-warm-200">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate-dark" class="radio-base radio-base-dark radio-slate-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-slate-dark" class="radio-base radio-base-dark radio-slate-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-3">Option D: Ink (inverted)</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink-dark" checked class="radio-base radio-base-dark radio-ink-dark">
+                                    <span class="text-sm text-warm-200">Selected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink-dark" class="radio-base radio-base-dark radio-ink-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="radio" name="radio-ink-dark" class="radio-base radio-base-dark radio-ink-dark">
+                                    <span class="text-sm text-warm-200">Unselected option</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Should radio selection use the same color as checkboxes for consistency?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: TOGGLE/SWITCH COLORS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <div class="mb-8">
+                <p class="serial text-emerald-600 mb-2">Section 4</p>
+                <h2 class="font-display text-2xl mb-3">Toggle/Switch Colors</h2>
+                <p class="text-warm-500">Testing toggle switches with different on-state colors.</p>
+            </div>
+
+            <!-- Light Background -->
+            <div class="mb-8">
+                <p class="text-sm font-medium text-warm-600 mb-4">Light Background</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium mb-4">Option A: Emerald On</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-emerald" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-emerald" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm">On</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Emerald — Matches interactive system</p>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium mb-4">Option B: Indigo On</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-indigo" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-indigo" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm">On</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Indigo — Distinct from buttons</p>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium mb-4">Option C: Slate On</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-slate" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-slate" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm">On</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Slate — Neutral selection</p>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium mb-4">Option D: Ink On</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-ink" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-ink" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm">On</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-3">Ink — High contrast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Background -->
+            <div class="mb-6">
+                <p class="text-sm font-medium text-warm-600 mb-4">Dark Background</p>
+                <div class="bg-intaglio-900 rounded-lg p-6">
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Option A: Emerald -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-4">Option A: Emerald</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-emerald-dark" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-emerald-dark" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-200">On</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Option B: Indigo -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-4">Option B: Indigo</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-indigo-dark" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-indigo-dark" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-200">On</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Option C: Slate -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-4">Option C: Slate</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-slate-dark" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-slate-dark" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-200">On</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Option D: Ink -->
+                        <div>
+                            <p class="text-sm font-medium text-warm-200 mb-4">Option D: Ink (inverted)</p>
+                            <div class="flex items-center gap-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-ink-dark" data-state="unchecked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-500">Off</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="toggle-track-base toggle-track-dark toggle-ink-dark" data-state="checked">
+                                        <div class="toggle-thumb-base"></div>
+                                    </div>
+                                    <span class="text-sm text-warm-200">On</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p>Should toggles use the same color system as checkboxes and radios?</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- OBSERVATIONS -->
+        <!-- ============================================ -->
+        <section class="bg-warm-100 rounded-lg p-6">
+            <p class="serial text-warm-600 mb-3">Observations</p>
+            <ul class="space-y-2 text-sm text-warm-700">
+                <li><strong>Emerald (A):</strong> Consistent with the interactive color system. Selected = clickable. May imply "action" when selection is just data.</li>
+                <li><strong>Indigo (B):</strong> Creates clear separation: emerald = action buttons, indigo = selection state. Still colorful and visible.</li>
+                <li><strong>Slate (C):</strong> Most neutral option. Selection is pure information, no color meaning. May feel less "designed".</li>
+                <li><strong>Ink (D):</strong> Maximum contrast, works well in both modes when inverted. No semantic color meaning.</li>
+            </ul>
+
+            <div class="mt-6 pt-4 border-t border-warm-200">
+                <p class="text-sm text-warm-600"><strong>Key Question:</strong> If emerald means "interactive/clickable," should selected checkboxes/radios/toggles use emerald? They ARE interactive, but the emerald communicates "click me" more than "I am selected."</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-5xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="stress-test-color-harmony.html" class="hover:text-emerald-600">Color Harmony Test</a>
+                <span class="text-warm-300">·</span>
+                <a href="stress-test-buttons.html" class="hover:text-emerald-600">Button Test</a>
+            </div>
+            <p>Saltwyk Design System v0.1</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Harmony Stress Test - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="assets/config/design-tokens.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+
+        /* Base button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: all 150ms ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        /* Filled buttons */
+        .btn-emerald-filled {
+            background-color: hsl(var(--emerald-500));
+            color: white;
+        }
+        .btn-emerald-filled:hover {
+            background-color: hsl(var(--emerald-600));
+        }
+
+        /* Outline buttons - Light mode */
+        .btn-emerald-outline {
+            background-color: transparent;
+            border-color: hsl(var(--emerald-500));
+            color: hsl(var(--emerald-600));
+        }
+        .btn-emerald-outline:hover {
+            background-color: hsl(var(--emerald-50));
+        }
+
+        .btn-slate-outline {
+            background-color: transparent;
+            border-color: hsl(var(--slate-400));
+            color: hsl(var(--slate-600));
+        }
+        .btn-slate-outline:hover {
+            background-color: hsl(var(--slate-50));
+        }
+
+        .btn-indigo-outline {
+            background-color: transparent;
+            border-color: hsl(var(--indigo-400));
+            color: hsl(var(--indigo-600));
+        }
+        .btn-indigo-outline:hover {
+            background-color: hsl(var(--indigo-50));
+        }
+
+        .btn-warm-outline {
+            background-color: transparent;
+            border-color: hsl(var(--warm-400));
+            color: hsl(var(--warm-600));
+        }
+        .btn-warm-outline:hover {
+            background-color: hsl(var(--warm-100));
+        }
+
+        .btn-sepia-outline {
+            background-color: transparent;
+            border-color: hsl(var(--sepia-400));
+            color: hsl(var(--sepia-600));
+        }
+        .btn-sepia-outline:hover {
+            background-color: hsl(var(--sepia-50));
+        }
+
+        .btn-white-outline {
+            background-color: transparent;
+            border-color: white;
+            color: white;
+        }
+        .btn-white-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Outline buttons - Dark mode */
+        .btn-emerald-outline-dark {
+            background-color: transparent;
+            border-color: hsl(var(--emerald-400));
+            color: hsl(var(--emerald-400));
+        }
+        .btn-emerald-outline-dark:hover {
+            background-color: hsl(150 100% 27% / 0.15);
+        }
+
+        .btn-slate-outline-dark {
+            background-color: transparent;
+            border-color: hsl(var(--slate-300));
+            color: hsl(var(--slate-300));
+        }
+        .btn-slate-outline-dark:hover {
+            background-color: hsl(210 14% 42% / 0.2);
+        }
+
+        .btn-indigo-outline-dark {
+            background-color: transparent;
+            border-color: hsl(var(--indigo-300));
+            color: hsl(var(--indigo-300));
+        }
+        .btn-indigo-outline-dark:hover {
+            background-color: hsl(230 28% 42% / 0.2);
+        }
+
+        .btn-warm-outline-dark {
+            background-color: transparent;
+            border-color: hsl(var(--warm-300));
+            color: hsl(var(--warm-300));
+        }
+        .btn-warm-outline-dark:hover {
+            background-color: hsl(30 6% 46% / 0.2);
+        }
+
+        /* 5-Tier Button Hierarchy */
+        .btn-tier-primary {
+            background-color: hsl(var(--emerald-500));
+            color: white;
+        }
+        .btn-tier-primary:hover {
+            background-color: hsl(var(--emerald-600));
+        }
+
+        .btn-tier-secondary {
+            background-color: transparent;
+            border-color: hsl(var(--indigo-500));
+            color: hsl(var(--indigo-600));
+        }
+        .btn-tier-secondary:hover {
+            background-color: hsl(var(--indigo-50));
+        }
+
+        .btn-tier-tertiary {
+            background-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-700));
+            border-color: transparent;
+        }
+        .btn-tier-tertiary:hover {
+            background-color: hsl(var(--warm-300));
+        }
+
+        .btn-tier-ghost {
+            background-color: transparent;
+            border-color: transparent;
+            color: hsl(var(--warm-600));
+        }
+        .btn-tier-ghost:hover {
+            background-color: hsl(var(--warm-100));
+        }
+
+        .btn-tier-destructive {
+            background-color: hsl(var(--magenta-500));
+            color: white;
+            border-color: transparent;
+        }
+        .btn-tier-destructive:hover {
+            background-color: hsl(var(--magenta-600));
+        }
+
+        /* Dark mode variants for tier buttons */
+
+        /* Indigo outline on dark - using indigo-400 for better visibility */
+        .btn-tier-secondary-dark {
+            background-color: transparent;
+            border-color: hsl(var(--indigo-400));
+            color: hsl(var(--indigo-400));
+        }
+        .btn-tier-secondary-dark:hover {
+            background-color: hsl(230 28% 42% / 0.2);
+        }
+
+        /* Indigo filled alternative on dark */
+        .btn-indigo-filled-dark {
+            background-color: hsl(var(--indigo-600));
+            color: white;
+            border-color: transparent;
+        }
+        .btn-indigo-filled-dark:hover {
+            background-color: hsl(var(--indigo-500));
+        }
+
+        /* Tertiary dark - Option A: warm-600 fill + warm-500 border */
+        .btn-tier-tertiary-dark-a {
+            background-color: hsl(var(--warm-600));
+            color: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-500));
+            border-width: 1.5px;
+        }
+        .btn-tier-tertiary-dark-a:hover {
+            background-color: hsl(var(--warm-500));
+        }
+
+        /* Tertiary dark - Option B: warm-700 fill + warm-400 border */
+        .btn-tier-tertiary-dark-b {
+            background-color: hsl(var(--warm-700));
+            color: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+            border-width: 1.5px;
+        }
+        .btn-tier-tertiary-dark-b:hover {
+            background-color: hsl(var(--warm-600));
+        }
+
+        /* Tertiary dark - Option C: intaglio-700 fill + intaglio-500 border */
+        .btn-tier-tertiary-dark-c {
+            background-color: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-200));
+            border-color: hsl(var(--intaglio-500));
+            border-width: 1.5px;
+        }
+        .btn-tier-tertiary-dark-c:hover {
+            background-color: hsl(var(--intaglio-600));
+        }
+
+        .btn-tier-ghost-dark {
+            background-color: transparent;
+            border-color: transparent;
+            color: hsl(var(--warm-400));
+        }
+        .btn-tier-ghost-dark:hover {
+            background-color: hsl(var(--intaglio-800));
+        }
+
+        /* Card with accent bar */
+        .accent-card {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .accent-bar {
+            height: 4px;
+        }
+
+        /* Icon container */
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+        }
+
+        /* Section styling */
+        .test-section {
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 2px solid hsl(var(--warm-200));
+        }
+        .test-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .question-box {
+            background: hsl(var(--cyan-50));
+            border: 2px solid hsl(var(--cyan-200));
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        .question-box p {
+            color: hsl(var(--cyan-700));
+            font-size: 0.875rem;
+        }
+
+        /* Code block */
+        .code-block {
+            background: hsl(var(--slate-100));
+            color: hsl(var(--slate-800));
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+        }
+
+        /* Callout */
+        .callout-sepia {
+            background: hsl(var(--sepia-50));
+            border: 2px solid hsl(var(--sepia-300));
+            border-left-width: 4px;
+            border-radius: 0.375rem;
+            padding: 1rem;
+        }
+
+        /* Dashboard sidebar */
+        .dashboard-sidebar {
+            background: hsl(var(--intaglio-900));
+            width: 220px;
+            min-height: 400px;
+            padding: 1rem;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 0.75rem;
+            border-radius: 0.375rem;
+            color: hsl(var(--warm-400));
+            font-size: 0.875rem;
+            transition: all 150ms;
+        }
+        .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+        .sidebar-item-active {
+            background: hsl(var(--emerald-500));
+            color: white;
+        }
+        .sidebar-item-active:hover {
+            background: hsl(var(--emerald-600));
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+
+    <div class="max-w-7xl mx-auto p-8">
+
+        <!-- Page Header -->
+        <header class="mb-12">
+            <h1 class="font-display text-4xl mb-2">Color Harmony Stress Test</h1>
+            <p class="text-warm-600 max-w-2xl">Testing how the new Intaglio Palette colors (burgundy, indigo, slate, sepia, sienna) coexist with existing colors (emerald, intaglio, warm) in realistic UI compositions.</p>
+        </header>
+
+        <!-- SECTION 1: Button Hierarchy with Outline Secondary -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 1: Button Hierarchy with Outline Secondary</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing emerald primary with different outline secondary colors</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Background -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Light Background (Ledger)</p>
+                    <div class="bg-ledger border-2 border-warm-200 rounded-lg p-6 space-y-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-500 w-20">Row A:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-emerald-outline">Emerald Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-500 w-20">Row B:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-slate-outline">Slate Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-500 w-20">Row C:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-indigo-outline">Indigo Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-500 w-20">Row D:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-warm-outline">Warm Outline</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Background -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Dark Background (Intaglio-900)</p>
+                    <div class="bg-intaglio-900 rounded-lg p-6 space-y-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-400 w-20">Row A:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-emerald-outline-dark">Emerald Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-400 w-20">Row B:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-slate-outline-dark">Slate Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-400 w-20">Row C:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-indigo-outline-dark">Indigo Outline</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-warm-400 w-20">Row D:</span>
+                            <button class="btn btn-emerald-filled">Primary</button>
+                            <button class="btn btn-warm-outline-dark">Warm Outline</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Which outline color provides the best visual hierarchy with emerald primary? Does slate feel too corporate? Does warm feel too invisible?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Card Color Accents -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 2: Card Color Accents</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing top accent bars across the color palette</p>
+
+            <!-- Light Background -->
+            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">On Ledger Background</p>
+            <div class="grid grid-cols-6 gap-4 mb-8">
+                <div class="accent-card">
+                    <div class="accent-bar bg-emerald-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Emerald</p>
+                        <p class="text-xs text-warm-500">Interactive/Primary</p>
+                    </div>
+                </div>
+                <div class="accent-card">
+                    <div class="accent-bar bg-indigo-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Indigo</p>
+                        <p class="text-xs text-warm-500">Professional/Trust</p>
+                    </div>
+                </div>
+                <div class="accent-card">
+                    <div class="accent-bar bg-slate-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Slate</p>
+                        <p class="text-xs text-warm-500">Technical/Neutral</p>
+                    </div>
+                </div>
+                <div class="accent-card">
+                    <div class="accent-bar bg-burgundy-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Burgundy</p>
+                        <p class="text-xs text-warm-500">Important/Formal</p>
+                    </div>
+                </div>
+                <div class="accent-card">
+                    <div class="accent-bar bg-sepia-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Sepia</p>
+                        <p class="text-xs text-warm-500">Documentation</p>
+                    </div>
+                </div>
+                <div class="accent-card">
+                    <div class="accent-bar bg-sienna-500"></div>
+                    <div class="p-4">
+                        <p class="font-medium text-sm">Sienna</p>
+                        <p class="text-xs text-warm-500">Warm/Earthy</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Background -->
+            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">On Intaglio-900 Background</p>
+            <div class="bg-intaglio-900 rounded-lg p-6">
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="accent-card">
+                        <div class="accent-bar bg-emerald-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Emerald</p>
+                            <p class="text-xs text-warm-500">Interactive</p>
+                        </div>
+                    </div>
+                    <div class="accent-card">
+                        <div class="accent-bar bg-indigo-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Indigo</p>
+                            <p class="text-xs text-warm-500">Professional</p>
+                        </div>
+                    </div>
+                    <div class="accent-card">
+                        <div class="accent-bar bg-slate-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Slate</p>
+                            <p class="text-xs text-warm-500">Technical</p>
+                        </div>
+                    </div>
+                    <div class="accent-card">
+                        <div class="accent-bar bg-burgundy-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Burgundy</p>
+                            <p class="text-xs text-warm-500">Important</p>
+                        </div>
+                    </div>
+                    <div class="accent-card">
+                        <div class="accent-bar bg-sepia-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Sepia</p>
+                            <p class="text-xs text-warm-500">Docs</p>
+                        </div>
+                    </div>
+                    <div class="accent-card">
+                        <div class="accent-bar bg-sienna-500"></div>
+                        <div class="p-4">
+                            <p class="font-medium text-sm">Sienna</p>
+                            <p class="text-xs text-warm-500">Warm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Do all accent colors feel like they belong to the same system? Does any color feel out of place or clash with the warm undertones?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Dashboard Widget Grid -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 3: Dashboard Widget Grid</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing revised palette: indigo, slate, sienna, emerald, cyan for dashboard metrics</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Widget 1: Total Revenue — Indigo -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-indigo-500">
+                            <i data-lucide="dollar-sign" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-indigo-600 font-medium">+12%</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">$84,254</p>
+                    <p class="text-sm text-warm-500">Total Revenue</p>
+                    <div class="mt-3 h-1 bg-indigo-200 rounded-full">
+                        <div class="h-1 bg-indigo-500 rounded-full w-3/4"></div>
+                    </div>
+                </div>
+
+                <!-- Widget 2: Active Users — Slate -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-slate-500">
+                            <i data-lucide="users" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-slate-600 font-medium">+8%</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">2,847</p>
+                    <p class="text-sm text-warm-500">Active Users</p>
+                    <div class="mt-3 h-1 bg-slate-200 rounded-full">
+                        <div class="h-1 bg-slate-500 rounded-full w-2/3"></div>
+                    </div>
+                </div>
+
+                <!-- Widget 3: Pending Orders — Sienna -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-sienna-500">
+                            <i data-lucide="clock" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-sienna-600 font-medium">-3%</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">156</p>
+                    <p class="text-sm text-warm-500">Pending Orders</p>
+                    <div class="mt-3 h-1 bg-sienna-200 rounded-full">
+                        <div class="h-1 bg-sienna-500 rounded-full w-1/4"></div>
+                    </div>
+                </div>
+
+                <!-- Widget 4: Conversion Rate — Emerald -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-emerald-500">
+                            <i data-lucide="target" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-emerald-600 font-medium">+2.4%</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">3.8%</p>
+                    <p class="text-sm text-warm-500">Conversion Rate</p>
+                    <div class="mt-3 h-1 bg-emerald-200 rounded-full">
+                        <div class="h-1 bg-emerald-500 rounded-full w-2/5"></div>
+                    </div>
+                </div>
+
+                <!-- Widget 5: Avg Order Value — Indigo (repeated) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-indigo-500">
+                            <i data-lucide="receipt" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-indigo-600 font-medium">+$8</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">$67.40</p>
+                    <p class="text-sm text-warm-500">Avg Order Value</p>
+                    <div class="mt-3 h-1 bg-indigo-200 rounded-full">
+                        <div class="h-1 bg-indigo-500 rounded-full w-3/5"></div>
+                    </div>
+                </div>
+
+                <!-- Widget 6: New Signups — Cyan (info/new semantic) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="icon-circle bg-cyan-500">
+                            <i data-lucide="user-plus" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xs text-cyan-600 font-medium">+24</span>
+                    </div>
+                    <p class="text-2xl font-semibold mb-1">142</p>
+                    <p class="text-sm text-warm-500">New Signups</p>
+                    <div class="mt-3 h-1 bg-cyan-200 rounded-full">
+                        <div class="h-1 bg-cyan-500 rounded-full w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Does the revised palette (indigo, slate, sienna, emerald, cyan) work together for dashboard metrics? Are there metrics that need colors we haven't included?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Documentation/Content Page -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 4: Documentation/Content Page</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing sepia and slate for content hierarchy</p>
+
+            <div class="flex gap-0 rounded-lg overflow-hidden border-2 border-warm-200">
+                <!-- Sidebar -->
+                <div class="bg-slate-50 w-56 p-4 border-r border-warm-200">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Documentation</p>
+                    <nav class="space-y-1">
+                        <a href="#" class="block px-3 py-2 text-sm text-slate-700 bg-slate-200 rounded font-medium">Getting Started</a>
+                        <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded">Installation</a>
+                        <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded">Configuration</a>
+                        <a href="#" class="block px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded">API Reference</a>
+                    </nav>
+                </div>
+
+                <!-- Main Content -->
+                <div class="flex-1 bg-white p-6">
+                    <h3 class="font-display text-xl mb-3">Getting Started</h3>
+                    <p class="text-warm-600 mb-4">Welcome to the Saltwyk API documentation. This guide will help you integrate our payment processing system into your application.</p>
+
+                    <div class="code-block mb-4">
+                        <code>npm install @saltwyk/sdk</code>
+                    </div>
+
+                    <p class="text-warm-600 mb-4">After installation, initialize the client with your API key. You can find your key in the <a href="#" class="text-emerald-600 hover:text-emerald-700 underline">merchant dashboard</a>.</p>
+
+                    <div class="callout-sepia mb-4">
+                        <p class="text-sepia-800 text-sm"><strong class="text-sepia-900">Note:</strong> Make sure to keep your API key secure. Never expose it in client-side code or public repositories.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <code>const saltwyk = new Saltwyk({<br>
+                        &nbsp;&nbsp;apiKey: process.env.SALTWYK_KEY<br>
+                        });</code>
+                    </div>
+
+                    <p class="text-warm-600 mt-4">For more configuration options, see the <a href="#" class="text-emerald-600 hover:text-emerald-700 underline">full API reference</a>.</p>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Do emerald links feel natural alongside slate sidebar and sepia callouts? Does the slate sidebar feel too cold against the warm system?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Marketing Hero Variations -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 5: Marketing Hero Variations</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing emerald CTAs on different background treatments</p>
+
+            <div class="space-y-6">
+                <!-- Hero A: Dark -->
+                <div class="bg-intaglio-900 rounded-lg p-10">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-6">Hero A: Dark (Intaglio-900)</p>
+                    <h3 class="font-display text-3xl text-white mb-3">Transform Your Business</h3>
+                    <p class="text-warm-300 mb-6 max-w-lg">Join thousands of merchants who've increased their customer retention by 40% with Saltwyk rewards.</p>
+                    <div class="flex gap-4">
+                        <button class="btn btn-emerald-filled">Start Free Trial</button>
+                        <button class="btn btn-white-outline">Watch Demo</button>
+                    </div>
+                </div>
+
+                <!-- Hero B: Indigo accent -->
+                <div class="bg-indigo-50 rounded-lg p-10 border-2 border-indigo-100">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-indigo-500 mb-6">Hero B: Light with Indigo Accent</p>
+                    <h3 class="font-display text-3xl text-indigo-900 mb-3">Enterprise Solutions</h3>
+                    <p class="text-indigo-600 mb-6 max-w-lg">Scalable payment infrastructure for businesses processing millions in transactions.</p>
+                    <div class="flex gap-4">
+                        <button class="btn btn-emerald-filled">Contact Sales</button>
+                        <button class="btn btn-indigo-outline">View Pricing</button>
+                    </div>
+                </div>
+
+                <!-- Hero C: Sepia/Warm -->
+                <div class="bg-sepia-50 rounded-lg p-10 border-2 border-sepia-200">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-sepia-500 mb-6">Hero C: Warm/Sepia</p>
+                    <h3 class="font-display text-3xl text-ink mb-3">Built on Trust</h3>
+                    <p class="text-sepia-600 mb-6 max-w-lg">A payment platform inspired by the reliability of traditional banking, built for the modern age.</p>
+                    <div class="flex gap-4">
+                        <button class="btn btn-emerald-filled">Learn Our Story</button>
+                        <button class="btn btn-sepia-outline">Read Case Studies</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Does the emerald CTA work equally well on all three backgrounds? Does it feel jarring on indigo-50 or sepia-50?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Thread + Surface Pairings -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 6: Thread + Surface Pairings</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing thread line gradients on different Intaglio Palette surfaces</p>
+
+            <div class="space-y-6">
+                <!-- Pairing 1: Sepia + Cool Thread (cyan→magenta) -->
+                <div class="bg-sepia-100 rounded-lg p-8 border-2 border-sepia-300">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-sepia-600 mb-4">Sepia Surface + Cool Thread (cyan→magenta)</p>
+                    <h3 class="font-display text-2xl text-sepia-900 mb-2">Classic Documentation</h3>
+                    <p class="text-sepia-700 mb-4">Warm paper-like surfaces with cool accent threading for visual interest.</p>
+                    <div class="h-1 rounded-full mb-4" style="background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));"></div>
+                    <div class="flex gap-3">
+                        <button class="btn btn-emerald-filled">Get Started</button>
+                        <button class="btn btn-sepia-outline">View Docs</button>
+                    </div>
+                </div>
+
+                <!-- Pairing 2: Sepia + Spectrum Thread (full) -->
+                <div class="bg-sepia-50 rounded-lg p-8 border-2 border-sepia-200">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-sepia-500 mb-4">Sepia Surface + Spectrum Thread (full)</p>
+                    <h3 class="font-display text-2xl text-ink mb-2">Archival Experience</h3>
+                    <p class="text-sepia-600 mb-4">Lighter sepia with the full spectrum thread creates a vibrant accent on soft warmth.</p>
+                    <div class="thread-line mb-4"></div>
+                    <div class="flex gap-3">
+                        <button class="btn btn-emerald-filled">Explore Archive</button>
+                        <button class="btn btn-sepia-outline">Browse Collections</button>
+                    </div>
+                </div>
+
+                <!-- Pairing 3: Burgundy + Spectrum Thread -->
+                <div class="bg-burgundy-100 rounded-lg p-8 border-2 border-burgundy-300">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-burgundy-600 mb-4">Burgundy Surface + Spectrum Thread</p>
+                    <h3 class="font-display text-2xl text-burgundy-900 mb-2">Important Announcement</h3>
+                    <p class="text-burgundy-700 mb-4">Burgundy's formal warmth creates urgency while the spectrum thread adds brand energy.</p>
+                    <div class="thread-line mb-4"></div>
+                    <div class="flex gap-3">
+                        <button class="btn btn-emerald-filled">Take Action</button>
+                        <button class="btn" style="background-color: transparent; border-color: hsl(var(--burgundy-500)); color: hsl(var(--burgundy-600));">Learn More</button>
+                    </div>
+                </div>
+
+                <!-- Pairing 4: Slate + Fresh Thread (cyan→lime) -->
+                <div class="bg-slate-100 rounded-lg p-8 border-2 border-slate-300">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-600 mb-4">Slate Surface + Fresh Thread (cyan→lime)</p>
+                    <h3 class="font-display text-2xl text-slate-900 mb-2">Technical Documentation</h3>
+                    <p class="text-slate-700 mb-4">Cool slate with the fresh green thread creates a modern, tech-forward feel.</p>
+                    <div class="h-1 rounded-full mb-4" style="background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)));"></div>
+                    <div class="flex gap-3">
+                        <button class="btn btn-emerald-filled">View API</button>
+                        <button class="btn btn-slate-outline">See Examples</button>
+                    </div>
+                </div>
+
+                <!-- Pairing 5: Intaglio Dark + Spectrum Thread -->
+                <div class="bg-intaglio-900 rounded-lg p-8">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Intaglio Dark + Spectrum Thread</p>
+                    <h3 class="font-display text-2xl text-white mb-2">Premium Experience</h3>
+                    <p class="text-warm-300 mb-4">Dark intaglio with full spectrum creates maximum contrast and visual pop.</p>
+                    <div class="thread-line mb-4"></div>
+                    <div class="flex gap-3">
+                        <button class="btn btn-emerald-filled">Upgrade Now</button>
+                        <button class="btn btn-white-outline">Compare Plans</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Which surface + thread combinations feel most cohesive? Does the spectrum thread work on all surfaces, or do some pairings feel discordant?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7: Thread Placement Guidelines -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 7: Thread Placement Guidelines</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing where threads appear and how they interact with container shapes</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Pattern A: Thread at Top, Full Bleed -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Pattern A: Thread at Top, Full Bleed</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-b-lg overflow-hidden" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                        <div class="h-[3px] thread-spectrum"></div>
+                        <div class="p-6">
+                            <h4 class="font-display text-lg mb-2">Welcome to Saltwyk</h4>
+                            <p class="text-sm text-warm-600 mb-4">Discover the power of unified rewards.</p>
+                            <button class="btn btn-emerald-filled text-sm">Get Started</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2 italic">Thread extends full width, requires squared top corners</p>
+                </div>
+
+                <!-- Pattern B: Thread at Top, Inset -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Pattern B: Thread at Top, Inset</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 pb-0">
+                            <div class="h-[3px] thread-spectrum rounded-full"></div>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <h4 class="font-display text-lg mb-2">Welcome to Saltwyk</h4>
+                            <p class="text-sm text-warm-600 mb-4">Discover the power of unified rewards.</p>
+                            <button class="btn btn-emerald-filled text-sm">Get Started</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2 italic">Thread respects container radius, feels contained</p>
+                </div>
+
+                <!-- Pattern C: Thread at Bottom -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Pattern C: Thread at Bottom</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="font-display text-lg mb-2">Welcome to Saltwyk</h4>
+                            <p class="text-sm text-warm-600 mb-4">Discover the power of unified rewards.</p>
+                            <button class="btn btn-emerald-filled text-sm">Get Started</button>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <div class="h-[3px] thread-spectrum rounded-full"></div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2 italic">Thread as footer accent, completes the card</p>
+                </div>
+
+                <!-- Pattern D: Thread as Divider -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Pattern D: Thread as Divider</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="font-display text-lg mb-2">Section One</h4>
+                            <p class="text-sm text-warm-600">Content from the first section goes here.</p>
+                        </div>
+                        <div class="h-[3px] thread-spectrum"></div>
+                        <div class="p-6">
+                            <h4 class="font-display text-lg mb-2">Section Two</h4>
+                            <p class="text-sm text-warm-600">Content from the second section goes here.</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2 italic">Thread separates sections (full width)</p>
+                </div>
+
+                <!-- Pattern E: Vertical Thread -->
+                <div class="col-span-2">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Pattern E: Vertical Thread</p>
+                    <div class="flex gap-6">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden flex" style="max-width: 400px;">
+                            <div class="w-[3px] thread-spectrum flex-shrink-0" style="background: linear-gradient(180deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);"></div>
+                            <div class="p-6">
+                                <h4 class="font-display text-lg mb-2">Featured Content</h4>
+                                <p class="text-sm text-warm-600 mb-4">This card uses a vertical thread accent on the left edge.</p>
+                                <button class="btn btn-emerald-filled text-sm">Learn More</button>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden flex" style="max-width: 400px;">
+                            <div class="p-2 flex-shrink-0">
+                                <div class="w-[3px] h-full rounded-full" style="background: linear-gradient(180deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);"></div>
+                            </div>
+                            <div class="p-6 pl-0">
+                                <h4 class="font-display text-lg mb-2">Inset Vertical</h4>
+                                <p class="text-sm text-warm-600 mb-4">Vertical thread with inset padding, rounded ends.</p>
+                                <button class="btn btn-emerald-filled text-sm">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2 italic">Vertical thread as accent bar (left: full bleed, right: inset)</p>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Questions:</strong></p>
+                <ul class="mt-2 space-y-1 text-sm text-cyan-700">
+                    <li>• Which thread placements feel intentional vs. arbitrary?</li>
+                    <li>• Should threads always be at top? Always full-bleed?</li>
+                    <li>• Do inset threads look intentional or like a mistake?</li>
+                    <li>• Does vertical thread work, or is it too different from horizontal patterns?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 8: Data Table with Status Indicators -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 8: Data Table with Status Indicators</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing Intaglio Palette alongside semantic thread colors</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 text-sm font-medium">Merchant</th>
+                            <th class="text-left p-4 text-sm font-medium">Status</th>
+                            <th class="text-left p-4 text-sm font-medium">Category</th>
+                            <th class="text-right p-4 text-sm font-medium">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4">
+                                <p class="font-medium">Joe's Coffee</p>
+                                <p class="text-xs text-warm-500">Portland, OR</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-cyan-100 text-cyan-700">Connected</span>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-slate-100 text-slate-700">Food & Beverage</span>
+                            </td>
+                            <td class="p-4 text-right font-medium">$12,450</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">
+                                <p class="font-medium">Valley Wine Shop</p>
+                                <p class="text-xs text-warm-500">Napa, CA</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-orange-100 text-orange-700">Pending</span>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-indigo-100 text-indigo-700">Retail</span>
+                            </td>
+                            <td class="p-4 text-right font-medium">$8,200</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">
+                                <p class="font-medium">Old Town Books</p>
+                                <p class="text-xs text-warm-500">Boston, MA</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-magenta-100 text-magenta-700">Error</span>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-burgundy-100 text-burgundy-700">Education</span>
+                            </td>
+                            <td class="p-4 text-right font-medium text-warm-400">$0</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">
+                                <p class="font-medium">Urban Fitness</p>
+                                <p class="text-xs text-warm-500">Austin, TX</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-cyan-100 text-cyan-700">Connected</span>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-sienna-100 text-sienna-700">Health & Wellness</span>
+                            </td>
+                            <td class="p-4 text-right font-medium">$15,800</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">
+                                <p class="font-medium">Archive Museum</p>
+                                <p class="text-xs text-warm-500">Chicago, IL</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-cyan-100 text-cyan-700">Connected</span>
+                            </td>
+                            <td class="p-4">
+                                <span class="badge bg-sepia-100 text-sepia-700">Arts & Culture</span>
+                            </td>
+                            <td class="p-4 text-right font-medium">$6,340</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Can slate/indigo/burgundy/sepia/sienna category badges coexist with cyan/orange/magenta semantic status badges without confusion? Is there any risk of burgundy being mistaken for an error state?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 9: Mixed Icon Set -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 9: Mixed Icon Set</h2>
+            <p class="text-warm-500 text-sm mb-6">All color families as icon containers</p>
+
+            <div class="flex gap-4 justify-center bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="text-center">
+                    <div class="icon-circle bg-cyan-100 mb-2 mx-auto">
+                        <i data-lucide="info" class="w-5 h-5 text-cyan-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Cyan</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-magenta-100 mb-2 mx-auto">
+                        <i data-lucide="x-circle" class="w-5 h-5 text-magenta-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Magenta</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-emerald-100 mb-2 mx-auto">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Emerald</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-indigo-100 mb-2 mx-auto">
+                        <i data-lucide="briefcase" class="w-5 h-5 text-indigo-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Indigo</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-slate-100 mb-2 mx-auto">
+                        <i data-lucide="settings" class="w-5 h-5 text-slate-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Slate</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-burgundy-100 mb-2 mx-auto">
+                        <i data-lucide="shield" class="w-5 h-5 text-burgundy-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Burgundy</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-sepia-100 mb-2 mx-auto">
+                        <i data-lucide="book-open" class="w-5 h-5 text-sepia-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Sepia</p>
+                </div>
+                <div class="text-center">
+                    <div class="icon-circle bg-sienna-100 mb-2 mx-auto">
+                        <i data-lucide="sun" class="w-5 h-5 text-sienna-600"></i>
+                    </div>
+                    <p class="text-xs text-warm-500">Sienna</p>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Do all 8 icon containers feel cohesive? Do the warm colors (sepia, sienna, burgundy) feel distinctly different from the semantic thread colors (cyan, magenta)?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 10: Full Page Composition -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 10: Full Page Composition</h2>
+            <p class="text-warm-500 text-sm mb-6">The ultimate test: a realistic merchant dashboard combining all elements</p>
+
+            <div class="flex rounded-lg overflow-hidden border-2 border-warm-200" style="min-height: 500px;">
+                <!-- Dark Sidebar -->
+                <div class="dashboard-sidebar">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                            <span class="text-white text-sm font-semibold">S</span>
+                        </div>
+                        <span class="text-warm-100 font-medium text-sm">Saltwyk</span>
+                    </div>
+                    <nav class="space-y-1">
+                        <a href="#" class="sidebar-item sidebar-item-active">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            Dashboard
+                        </a>
+                        <a href="#" class="sidebar-item">
+                            <i data-lucide="credit-card" class="w-4 h-4"></i>
+                            Transactions
+                        </a>
+                        <a href="#" class="sidebar-item">
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            Customers
+                        </a>
+                        <a href="#" class="sidebar-item">
+                            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                            Analytics
+                        </a>
+                        <a href="#" class="sidebar-item">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Main Content -->
+                <div class="flex-1 bg-ledger p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="font-display text-xl">Dashboard</h3>
+                            <p class="text-sm text-warm-500">Welcome back, Jane</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button class="btn btn-slate-outline">Export Data</button>
+                            <button class="btn btn-emerald-filled">Add Transaction</button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="icon-circle bg-slate-100">
+                                    <i data-lucide="trending-up" class="w-4 h-4 text-slate-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-warm-500">This Month</p>
+                                    <p class="text-lg font-semibold">$24,580</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="icon-circle bg-sepia-100">
+                                    <i data-lucide="users" class="w-4 h-4 text-sepia-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-warm-500">Active Customers</p>
+                                    <p class="text-lg font-semibold">1,284</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="icon-circle bg-cyan-100">
+                                    <i data-lucide="zap" class="w-4 h-4 text-cyan-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-warm-500">Reward Rate</p>
+                                    <p class="text-lg font-semibold">2.5%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Important Notice (Burgundy) -->
+                    <div class="bg-burgundy-50 border-2 border-burgundy-200 border-l-4 border-l-burgundy-500 rounded-lg p-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-burgundy-600 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-medium text-burgundy-900 mb-1">Important Notice</p>
+                                <p class="text-sm text-burgundy-700">Your payout method expires on Feb 15. Update your bank details to avoid payment delays.</p>
+                                <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium mt-2 inline-block">Update Payment Method →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg">
+                        <div class="p-4 border-b border-warm-200">
+                            <p class="font-medium">Recent Transactions</p>
+                        </div>
+                        <div class="divide-y divide-warm-100">
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-warm-100 flex items-center justify-center text-sm font-medium">JD</div>
+                                    <div>
+                                        <p class="text-sm font-medium">John Doe</p>
+                                        <p class="text-xs text-warm-500">2 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="badge bg-cyan-100 text-cyan-700">Completed</span>
+                                    <span class="font-medium">+$42.50</span>
+                                </div>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-warm-100 flex items-center justify-center text-sm font-medium">SM</div>
+                                    <div>
+                                        <p class="text-sm font-medium">Sarah Miller</p>
+                                        <p class="text-xs text-warm-500">15 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="badge bg-orange-100 text-orange-700">Pending</span>
+                                    <span class="font-medium">+$18.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Question:</strong> Does everything work together harmoniously? Is there visual coherence between the dark sidebar (emerald active), light main area (ledger), slate outline buttons, sepia icon accents, cyan/orange status badges, and burgundy notice callout?</p>
+            </div>
+        </section>
+
+        <!-- SECTION 11: Proposed 5-Tier Button Hierarchy -->
+        <section class="test-section">
+            <h2 class="font-display text-2xl mb-2">Section 11: Proposed 5-Tier Button Hierarchy</h2>
+            <p class="text-warm-500 text-sm mb-6">Testing the full hierarchy: Primary (emerald filled) → Secondary (indigo outline) → Tertiary (warm fill) → Ghost → Destructive (magenta filled)</p>
+
+            <!-- Legend -->
+            <div class="bg-warm-50 border-2 border-warm-200 rounded-lg p-4 mb-8">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Button Hierarchy Legend</p>
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-tier-primary text-xs px-3 py-1">Primary</button>
+                        <span class="text-xs text-warm-500">Emerald filled - Main action</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-tier-secondary text-xs px-3 py-1">Secondary</button>
+                        <span class="text-xs text-warm-500">Indigo outline - Secondary action</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-tier-tertiary text-xs px-3 py-1">Tertiary</button>
+                        <span class="text-xs text-warm-500">Warm fill - De-emphasized</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-tier-ghost text-xs px-3 py-1">Ghost</button>
+                        <span class="text-xs text-warm-500">Transparent - Minimal emphasis</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-tier-destructive text-xs px-3 py-1">Destructive</button>
+                        <span class="text-xs text-warm-500">Magenta filled - Danger action</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Context 1: Simple Button Row -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 1: Simple Button Row</p>
+                    <div class="bg-ledger border-2 border-warm-200 rounded-lg p-6">
+                        <div class="flex gap-3 flex-wrap">
+                            <button class="btn btn-tier-primary">Primary Action</button>
+                            <button class="btn btn-tier-secondary">Secondary Action</button>
+                            <button class="btn btn-tier-tertiary">Tertiary Action</button>
+                            <button class="btn btn-tier-ghost">Ghost Action</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context 2: Card with Multiple CTAs -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 2: Card with Multiple CTAs</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 max-w-md">
+                        <h4 class="font-medium mb-2">Upgrade Your Plan</h4>
+                        <p class="text-sm text-warm-600 mb-4">Get access to premium features and priority support with our Pro plan.</p>
+                        <div class="flex gap-3">
+                            <button class="btn btn-tier-primary">Upgrade Now</button>
+                            <button class="btn btn-tier-secondary">Compare Plans</button>
+                            <button class="btn btn-tier-ghost">Maybe Later</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context 3: Modal Footer -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 3: Modal Footer</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg max-w-lg overflow-hidden">
+                        <div class="p-4 border-b border-warm-200">
+                            <h4 class="font-medium">Confirm Changes</h4>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm text-warm-600">Are you sure you want to save these changes? This will update your account settings immediately.</p>
+                        </div>
+                        <div class="bg-warm-50 p-4 flex justify-end gap-3">
+                            <button class="btn btn-tier-ghost">Cancel</button>
+                            <button class="btn btn-tier-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context 4: Hero Section (Dark) - Button Comparison -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 4: Hero Section (Dark Background) — Button Comparisons</p>
+                    <div class="bg-intaglio-900 rounded-lg p-10 space-y-8">
+                        <div>
+                            <h3 class="font-display text-3xl text-white mb-3">Build Something Amazing</h3>
+                            <p class="text-warm-300 mb-6 max-w-lg">Join the community of developers shipping faster with our tools.</p>
+                        </div>
+
+                        <!-- Secondary Button Options -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Secondary Button Options</p>
+                            <div class="flex gap-4 flex-wrap">
+                                <div class="text-center">
+                                    <button class="btn btn-tier-secondary-dark mb-2">Indigo Outline (400)</button>
+                                    <p class="text-xs text-warm-500">Current: indigo-400 outline</p>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-indigo-filled-dark mb-2">Indigo Filled (600)</button>
+                                    <p class="text-xs text-warm-500">Alt: indigo-600 filled</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tertiary Button Options -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Tertiary Button Options (all have 1.5px border)</p>
+                            <div class="flex gap-4 flex-wrap">
+                                <div class="text-center">
+                                    <button class="btn btn-tier-tertiary-dark-a mb-2">Tertiary Option A</button>
+                                    <p class="text-xs text-warm-500">warm-600 fill + warm-500 border</p>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-tier-tertiary-dark-b mb-2">Tertiary Option B</button>
+                                    <p class="text-xs text-warm-500">warm-700 fill + warm-400 border</p>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-tier-tertiary-dark-c mb-2">Tertiary Option C</button>
+                                    <p class="text-xs text-warm-500">intaglio-700 fill + intaglio-500 border</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Row -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Example Row (using Option A tertiary)</p>
+                            <div class="flex gap-4">
+                                <button class="btn btn-tier-primary">Get Started Free</button>
+                                <button class="btn btn-tier-secondary-dark">View Documentation</button>
+                                <button class="btn btn-tier-tertiary-dark-a">Compare Plans</button>
+                                <button class="btn btn-tier-ghost-dark">Watch Video</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context 5: Checkout Flow -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 5: Checkout Flow</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg max-w-md overflow-hidden">
+                        <div class="p-4 border-b border-warm-200">
+                            <h4 class="font-medium">Order Summary</h4>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-warm-600">Subtotal</span>
+                                <span>$99.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-warm-600">Tax</span>
+                                <span>$8.91</span>
+                            </div>
+                            <div class="flex justify-between font-medium pt-2 border-t border-warm-200">
+                                <span>Total</span>
+                                <span>$107.91</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-warm-50 space-y-3">
+                            <button class="btn btn-tier-primary w-full">Complete Purchase</button>
+                            <div class="flex gap-3">
+                                <button class="btn btn-tier-secondary flex-1">Apply Coupon</button>
+                                <button class="btn btn-tier-tertiary flex-1">Save for Later</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context 6: Form with Destructive Action -->
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Context 6: Form with Destructive Action</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg max-w-lg overflow-hidden">
+                        <div class="p-4 border-b border-warm-200">
+                            <h4 class="font-medium">Account Settings</h4>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Display Name</label>
+                                <input type="text" value="Jane Merchant" class="w-full px-3 py-2 border-2 border-warm-200 rounded-md text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Email</label>
+                                <input type="email" value="jane@example.com" class="w-full px-3 py-2 border-2 border-warm-200 rounded-md text-sm">
+                            </div>
+                        </div>
+                        <div class="p-4 bg-warm-50 flex justify-between">
+                            <button class="btn btn-tier-destructive">Delete Account</button>
+                            <div class="flex gap-3">
+                                <button class="btn btn-tier-ghost">Cancel</button>
+                                <button class="btn btn-tier-primary">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p><strong>Questions:</strong></p>
+                <ul class="mt-2 space-y-1 text-sm text-cyan-700">
+                    <li>• Does the indigo secondary provide enough contrast with emerald primary?</li>
+                    <li>• Is the warm-200 tertiary button visible enough, or does it feel disabled?</li>
+                    <li>• Does the 5-tier system create clear visual hierarchy?</li>
+                    <li>• On dark backgrounds, do the secondary/tertiary variants maintain hierarchy?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Observations Section -->
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-6">Key Evaluation Questions</h2>
+
+            <div class="space-y-6">
+                <!-- Button Hierarchy Questions -->
+                <div class="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3 text-indigo-900">Button Hierarchy</h3>
+                    <ul class="space-y-2 text-sm text-indigo-700">
+                        <li class="flex gap-2"><span class="text-indigo-500">1.</span> <span>Does indigo-400 outline work on dark backgrounds?</span></li>
+                        <li class="flex gap-2"><span class="text-indigo-500">2.</span> <span>Which tertiary dark mode treatment works best (A, B, or C)?</span></li>
+                        <li class="flex gap-2"><span class="text-indigo-500">3.</span> <span>Is the 5-tier hierarchy (Primary/Secondary/Tertiary/Ghost/Destructive) clear across all contexts?</span></li>
+                    </ul>
+                </div>
+
+                <!-- Dashboard Colors -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3 text-slate-900">Dashboard Colors</h3>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                        <li class="flex gap-2"><span class="text-slate-500">1.</span> <span>Does the revised widget palette (indigo, slate, sienna, emerald, cyan) feel cohesive?</span></li>
+                        <li class="flex gap-2"><span class="text-slate-500">2.</span> <span>Are there metrics that need colors we haven't included?</span></li>
+                    </ul>
+                </div>
+
+                <!-- Thread Placement -->
+                <div class="bg-cyan-50 border-2 border-cyan-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3 text-cyan-900">Thread Placement</h3>
+                    <ul class="space-y-2 text-sm text-cyan-700">
+                        <li class="flex gap-2"><span class="text-cyan-500">1.</span> <span>Should thread placement be standardized (always top, always full-bleed)?</span></li>
+                        <li class="flex gap-2"><span class="text-cyan-500">2.</span> <span>Do inset threads look intentional or like a mistake?</span></li>
+                        <li class="flex gap-2"><span class="text-cyan-500">3.</span> <span>Does vertical thread work, or is it too different from horizontal patterns?</span></li>
+                    </ul>
+                </div>
+
+                <!-- Thread + Surface Questions -->
+                <div class="bg-sepia-50 border-2 border-sepia-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3 text-sepia-900">Thread + Surface</h3>
+                    <ul class="space-y-2 text-sm text-sepia-700">
+                        <li class="flex gap-2"><span class="text-sepia-500">1.</span> <span>Confirm: warm surfaces (sepia, burgundy) + thread = good; cool surfaces (slate) + thread = flat?</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Notes Area -->
+            <div class="grid grid-cols-2 gap-6 mt-8">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3">What Works Well</h3>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2"><span class="text-emerald-500">•</span> <span>[Note observations here]</span></li>
+                        <li class="flex gap-2"><span class="text-emerald-500">•</span> <span></span></li>
+                        <li class="flex gap-2"><span class="text-emerald-500">•</span> <span></span></li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-3">Concerns or Issues</h3>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2"><span class="text-magenta-500">•</span> <span>[Note concerns here]</span></li>
+                        <li class="flex gap-2"><span class="text-magenta-500">•</span> <span></span></li>
+                        <li class="flex gap-2"><span class="text-magenta-500">•</span> <span></span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200 text-sm text-warm-500">
+            <p>Saltwyk Design System - Color Harmony Stress Test v0.8</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

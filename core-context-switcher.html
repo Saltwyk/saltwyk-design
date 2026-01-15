@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,35 +16,35 @@
 
     <style>
         body { font-family: 'Inter', system-ui, sans-serif; }
-        .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
-        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
-        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
-        .code-block .comment { color: hsl(30 10% 50%); }
-        .code-block .property { color: hsl(170 70% 60%); }
-        .code-block .value { color: hsl(40 80% 70%); }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-400)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-400)); }
+        .code-block .value { color: hsl(var(--orange-300)); }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
         .nav-dropdown-menu {
             position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             opacity: 0; visibility: hidden; transform: translateY(-4px);
             transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
             z-index: 100; padding: 8px 0;
         }
         .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
-        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(var(--warm-700)); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(var(--warm-50)); color: hsl(var(--emerald-600)); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(var(--warm-200)); margin: 8px 0; }
 
         /* Spec table */
         .spec-table { width: 100%; border-collapse: collapse; }
-        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(30 6% 46%); background: hsl(30 10% 96%); border-bottom: 1px solid hsl(30 5% 88%); }
-        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(30 5% 93%); color: hsl(24 29% 8%); }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
         .spec-table tr:last-child td { border-bottom: none; }
 
         /* ========================================= */
@@ -55,14 +55,14 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background: hsl(24 26% 15%);
-            border: 1px solid hsl(24 26% 22%);
+            background: hsl(var(--intaglio-800));
+            border: 1px solid hsl(var(--intaglio-700));
             border-radius: 8px;
             cursor: pointer;
             transition: background 150ms ease;
         }
         .context-indicator:hover {
-            background: hsl(24 26% 18%);
+            background: hsl(var(--intaglio-750));
         }
         .context-icon {
             width: 32px;
@@ -73,12 +73,12 @@
             justify-content: center;
         }
         .context-icon-merchant {
-            background: hsla(150, 100%, 27%, 0.2);
-            color: hsl(150 70% 45%);
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
         }
         .context-icon-shopper {
-            background: hsl(200 80% 92%);
-            color: hsl(200 80% 45%);
+            background: hsl(var(--cyan-100));
+            color: hsl(var(--cyan-600));
         }
         .context-label {
             flex: 1;
@@ -86,36 +86,36 @@
         .context-name {
             font-size: 14px;
             font-weight: 600;
-            color: hsl(30 5% 90%);
+            color: hsl(var(--warm-100));
         }
         .context-type {
             font-size: 12px;
-            color: hsl(30 6% 50%);
+            color: hsl(var(--warm-500));
         }
         .context-chevron {
             width: 16px;
             height: 16px;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
 
         /* ========================================= */
         /* CONTEXT SWITCHER STYLES - LIGHT (SHOPPER) */
         /* ========================================= */
         .context-indicator-light {
-            background: hsl(30 10% 96%);
-            border-color: hsl(30 5% 88%);
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
         }
         .context-indicator-light:hover {
-            background: hsl(30 5% 93%);
+            background: hsl(var(--warm-100));
         }
         .context-indicator-light .context-name {
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
         }
         .context-indicator-light .context-type {
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
         .context-indicator-light .context-chevron {
-            color: hsl(30 6% 62%);
+            color: hsl(var(--warm-400));
         }
 
         /* ========================================= */
@@ -125,13 +125,13 @@
             width: 280px;
             padding: 8px;
             background: white;
-            border: 1px solid hsl(30 5% 88%);
+            border: 1px solid hsl(var(--warm-200));
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
         .context-menu-dark {
-            background: hsl(24 26% 15%);
-            border-color: hsl(24 26% 22%);
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-700));
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
 
@@ -145,16 +145,22 @@
             transition: background 150ms ease;
         }
         .context-option:hover {
-            background: hsl(30 10% 96%);
+            background: hsl(var(--warm-50));
         }
         .context-option-dark:hover {
-            background: hsl(24 26% 20%);
+            background: hsl(var(--intaglio-700));
         }
         .context-option-active {
-            background: hsl(150 40% 96%);
+            background: hsl(var(--indigo-50));
+        }
+        .context-option-active:hover {
+            background: hsl(var(--indigo-100));
         }
         .context-option-active-dark {
-            background: hsla(150, 100%, 27%, 0.15);
+            background: hsl(var(--indigo-500) / 15%);
+        }
+        .context-option-active-dark:hover {
+            background: hsl(var(--indigo-500) / 25%);
         }
 
         .context-option-icon {
@@ -166,12 +172,12 @@
             justify-content: center;
         }
         .context-option-icon-shopper {
-            background: hsl(200 80% 92%);
-            color: hsl(200 80% 45%);
+            background: hsl(var(--cyan-100));
+            color: hsl(var(--cyan-600));
         }
         .context-option-icon-merchant {
-            background: hsl(150 40% 92%);
-            color: hsl(150 100% 27%);
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-600));
         }
 
         .context-option-info {
@@ -180,31 +186,31 @@
         .context-option-name {
             font-size: 14px;
             font-weight: 600;
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
         }
         .context-option-name-dark {
-            color: hsl(30 5% 90%);
+            color: hsl(var(--warm-100));
         }
         .context-option-description {
             font-size: 12px;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
         .context-option-description-dark {
-            color: hsl(30 6% 50%);
+            color: hsl(var(--warm-500));
         }
         .context-option-check {
             width: 20px;
             height: 20px;
-            color: hsl(150 100% 27%);
+            color: hsl(var(--indigo-500));
         }
 
         .context-section {
             padding-top: 12px;
             margin-top: 4px;
-            border-top: 1px solid hsl(30 5% 88%);
+            border-top: 1px solid hsl(var(--warm-200));
         }
         .context-section-dark {
-            border-color: hsl(24 26% 22%);
+            border-color: hsl(var(--intaglio-700));
         }
         .context-section-label {
             padding: 8px 12px;
@@ -212,7 +218,7 @@
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
 
         /* ========================================= */
@@ -225,18 +231,18 @@
         }
         .sidebar-light {
             background: white;
-            border: 1px solid hsl(30 5% 88%);
+            border: 1px solid hsl(var(--warm-200));
         }
         .sidebar-dark {
-            background: hsl(24 26% 12%);
-            border: 1px solid hsl(24 26% 20%);
+            background: hsl(var(--intaglio-900));
+            border: 1px solid hsl(var(--intaglio-700));
         }
         .sidebar-header {
             padding: 16px;
-            border-bottom: 1px solid hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(var(--warm-200));
         }
         .sidebar-header-dark {
-            border-color: hsl(24 26% 20%);
+            border-color: hsl(var(--intaglio-700));
         }
         .sidebar-nav {
             padding: 8px;
@@ -248,28 +254,28 @@
             padding: 10px 12px;
             border-radius: 6px;
             font-size: 14px;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
             cursor: pointer;
             transition: all 150ms ease;
         }
         .sidebar-item:hover {
-            background: hsl(30 10% 96%);
-            color: hsl(24 29% 8%);
+            background: hsl(var(--warm-50));
+            color: hsl(var(--ink));
         }
         .sidebar-item-dark {
-            color: hsl(30 6% 50%);
+            color: hsl(var(--warm-500));
         }
         .sidebar-item-dark:hover {
-            background: hsl(24 26% 18%);
-            color: hsl(30 5% 90%);
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-100));
         }
         .sidebar-item-active {
-            background: hsl(150 40% 96%);
-            color: hsl(150 100% 22%);
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-600));
         }
         .sidebar-item-active-dark {
-            background: hsla(150, 100%, 27%, 0.15);
-            color: hsl(150 70% 45%);
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-400));
         }
 
         /* ========================================= */
@@ -299,13 +305,13 @@
             width: 8px;
             height: 8px;
             border-radius: 9999px;
-            border: 2px solid hsl(24 26% 12%);
+            border: 2px solid hsl(var(--intaglio-900));
         }
         .context-dot-merchant {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
         }
         .context-dot-shopper {
-            background: hsl(200 80% 50%);
+            background: hsl(var(--cyan-500));
         }
 
         /* ========================================= */
@@ -321,9 +327,9 @@
             font-size: 12px;
             font-weight: 600;
         }
-        .org-avatar-1 { background: hsl(150 40% 92%); color: hsl(150 100% 27%); }
-        .org-avatar-2 { background: hsl(200 80% 92%); color: hsl(200 80% 40%); }
-        .org-avatar-3 { background: hsl(30 80% 92%); color: hsl(30 80% 45%); }
+        .org-avatar-1 { background: hsl(var(--emerald-100)); color: hsl(var(--emerald-600)); }
+        .org-avatar-2 { background: hsl(var(--cyan-100)); color: hsl(var(--cyan-600)); }
+        .org-avatar-3 { background: hsl(var(--orange-100)); color: hsl(var(--orange-600)); }
 
         .role-badge {
             font-size: 10px;
@@ -333,8 +339,8 @@
             text-transform: uppercase;
             letter-spacing: 0.03em;
         }
-        .role-admin { background: hsl(150 40% 92%); color: hsl(150 100% 22%); }
-        .role-viewer { background: hsl(30 10% 93%); color: hsl(30 6% 46%); }
+        .role-admin { background: hsl(var(--indigo-100)); color: hsl(var(--indigo-600)); }
+        .role-viewer { background: hsl(var(--warm-100)); color: hsl(var(--warm-500)); }
 
         /* ========================================= */
         /* MOBILE BOTTOM SHEET */
@@ -347,7 +353,7 @@
         .bottom-sheet-handle {
             width: 32px;
             height: 4px;
-            background: hsl(30 5% 78%);
+            background: hsl(var(--warm-300));
             border-radius: 2px;
             margin: 12px auto;
         }
@@ -359,6 +365,8 @@
     <div class="flex">
         <div id="side-nav"></div>
         <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="thread-line w-full rounded-none"></div>
 
     <div class="max-w-6xl mx-auto px-8 py-12">
 
@@ -1371,7 +1379,7 @@
             </div>
         </section>
 
-    </main>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
