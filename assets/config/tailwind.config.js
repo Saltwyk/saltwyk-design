@@ -176,6 +176,7 @@ tailwind.config = {
           700: "hsl(var(--indigo-700))",
           800: "hsl(var(--indigo-800))",
           900: "hsl(var(--indigo-900))",
+          thread: "hsl(var(--indigo-thread))",
         },
 
         // Burgundy Scale (Intaglio Palette - Deep Red)
