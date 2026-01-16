@@ -8,12 +8,8 @@
 (function() {
     'use strict';
 
-    // Get the partials directory from script's own location
-    // This works for both file:// and http:// protocols
-    const scriptEl = document.currentScript;
-    const partialsDir = scriptEl ? scriptEl.src.replace(/nav-loader\.js.*$/, '') : '/partials/';
-
-    // Get the base path for URL comparisons (used for active state highlighting)
+    // Get the base path for loading partials
+    // This handles both local file:// and deployed http(s):// environments
     function getBasePath() {
         const path = window.location.pathname;
 
@@ -96,9 +92,7 @@
         if (!container) return null;
 
         try {
-            // Convert /partials/foo.html to use partialsDir (works for both file:// and http://)
-            const filename = url.replace(/^\/partials\//, '');
-            const response = await fetch(partialsDir + filename);
+            const response = await fetch(basePath + url);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const html = await response.text();
             container.innerHTML = html;
