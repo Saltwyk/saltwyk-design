@@ -5,7 +5,7 @@
 - Context switchers help users navigate between distinct product areas (Shopper Passport vs Merchant Dashboard)
 - They must provide clear wayfinding—users should always know where they are
 - Transitions should feel intentional, not accidental
-- Visual treatment must reinforce the context (Traditional Opal for Shopper, Fire Opal for Merchant)
+- Visual treatment must reinforce the context (Bright Opal for Shopper, Fire Opal for Merchant)
 
 ---
 
@@ -142,7 +142,7 @@ When showing multiple context types (e.g., Shopper section + Merchant section):
 
 ### When in Shopper Context
 
-- Sidebar: Light background (Traditional Opal)
+- Sidebar: Light background (Bright Opal)
 - Context indicator: Cyan icon accent
 - Page content: Light surfaces
 - URL: `/passport/...` or similar

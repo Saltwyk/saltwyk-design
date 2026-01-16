@@ -71,8 +71,19 @@ The Saltwyk design system embodies **"Intaglio Ink + Ledger Paper + Security Thr
 - **Warm Gray (warm-*)**: UI workhorse — borders, backgrounds, muted text. Low saturation (3-8%) so it doesn't compete with brand colors.
 - **Intaglio (intaglio-*)**: Brand brown — dark surfaces, sidebar, emphatic elements. Higher saturation (15-30%) for warmth.
 - **Emerald (emerald-*)**: Primary action — use sparingly to maintain impact. The "serial green."
-- **Thread Colors**: Activity indicators and semantic states. Vibrant `thread` variants for highlights only.
+- **Thread Colors**: Decorative gradients only. Vibrant `thread` variants for gradient accents.
 - **Sepia (sepia-*)**: Illustration style — warm browns for intaglio-style imagery.
+
+### Color Semantics Quick Reference
+
+| Color | Usage | Never Use For |
+|-------|-------|---------------|
+| **Emerald** | Primary CTA, logo, success states, progress | Info states, focus rings |
+| **Indigo** | Focus rings, selection, links, active states, info badges, info boxes | Primary actions |
+| **Cyan** | Thread gradients, spectrum lines, decorative accents | ANY UI interactive element |
+| **Orange** | Warning states | Info states |
+| **Magenta** | Error states, destructive actions | Success states |
+| **Neutral (Warm)** | Text, borders, backgrounds | Semantic meaning |
 
 ### Warm Gray Scale
 
@@ -124,11 +135,21 @@ emerald-900: hsl(150 100% 10%)  // #00331A
 
 Each thread scale has 50-900 for UI usage, plus a `thread` variant for highlights.
 
-#### Cyan (Info, Links)
+#### Cyan (Decorative Thread Gradients ONLY)
+
+> **Important:** Cyan is reserved for decorative thread gradients only. For info states, focus rings, and UI interactions, use **Indigo** instead.
+
 ```
-cyan-500: hsl(170 100% 40%)     // Toned for icons/UI
-cyan-700: hsl(170 100% 25%)     // Accessible text
-cyan-thread: hsl(170 100% 50%)  // #00FFC0 — highlights only
+cyan-thread: hsl(170 100% 50%)  // #00FFC0 — thread gradients only
+cyan-500: hsl(170 100% 40%)     // Only for palette documentation
+cyan-700: hsl(170 100% 25%)     // Never for UI elements
+```
+
+#### Indigo (Info, Selection, Focus)
+```
+indigo-500: hsl(239 84% 67%)    // Focus rings, selection states
+indigo-600: hsl(239 84% 57%)    // Links, info badges
+indigo-700: hsl(239 76% 48%)    // Accessible text on light
 ```
 
 #### Magenta (Error, Destructive)

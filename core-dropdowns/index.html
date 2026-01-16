@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdowns Overview - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* ========================================= */
+        /* DROPDOWN MENU - LIGHT MODE */
+        /* ========================================= */
+        .dropdown-menu {
+            background: white;
+            border: 1px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 4px 0;
+            min-width: 180px;
+            max-width: 320px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: hsl(24 29% 8%);
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+        }
+        .dropdown-item:hover {
+            background: hsl(30 5% 97%);
+        }
+        .dropdown-item-active {
+            background: hsl(30 5% 95%);
+        }
+        .dropdown-item-selected {
+            background: hsl(237 100% 97%);
+            color: hsl(237 100% 40%);
+            font-weight: 500;
+        }
+        .dropdown-item-selected:hover {
+            background: hsl(237 100% 94%);
+        }
+        .dropdown-item-disabled {
+            color: hsl(30 5% 65%);
+            cursor: not-allowed;
+        }
+        .dropdown-item-disabled:hover {
+            background: transparent;
+        }
+        .dropdown-item-destructive {
+            color: hsl(330 85% 45%);
+        }
+        .dropdown-item-destructive:hover {
+            background: hsl(330 85% 97%);
+        }
+        .dropdown-item-focus {
+            background: hsl(30 5% 97%);
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+        }
+
+        .dropdown-item-icon {
+            width: 16px;
+            height: 16px;
+            color: hsl(30 6% 50%);
+            flex-shrink: 0;
+        }
+        .dropdown-item:hover .dropdown-item-icon {
+            color: hsl(30 6% 40%);
+        }
+        .dropdown-item-selected .dropdown-item-icon {
+            color: hsl(237 100% 50%);
+        }
+        .dropdown-item-destructive .dropdown-item-icon {
+            color: hsl(330 85% 45%);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: hsl(30 5% 90%);
+            margin: 4px 0;
+        }
+
+        .dropdown-group-header {
+            padding: 8px 12px 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: hsl(30 6% 50%);
+        }
+
+        .dropdown-shortcut {
+            margin-left: auto;
+            font-size: 12px;
+            color: hsl(30 6% 55%);
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .dropdown-description {
+            font-size: 12px;
+            color: hsl(30 6% 50%);
+            margin-top: 2px;
+        }
+
+        /* ========================================= */
+        /* DROPDOWN MENU - DARK MODE */
+        /* ========================================= */
+        .dropdown-menu-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .dropdown-item-dark {
+            color: hsl(30 5% 80%);
+        }
+        .dropdown-item-dark:hover {
+            background: hsl(24 27% 18%);
+            color: hsl(30 5% 95%);
+        }
+        .dropdown-item-dark-active {
+            background: hsl(24 27% 16%);
+        }
+        .dropdown-item-dark-selected {
+            background: hsl(237 100% 65% / 15%);
+            color: hsl(237 80% 75%);
+        }
+        .dropdown-item-dark-selected:hover {
+            background: hsl(237 100% 65% / 25%);
+        }
+        .dropdown-item-dark-disabled {
+            color: hsl(24 20% 40%);
+        }
+        .dropdown-item-dark-destructive {
+            color: hsl(330 85% 60%);
+        }
+        .dropdown-item-dark-destructive:hover {
+            background: hsl(330 85% 50% / 15%);
+        }
+        .dropdown-item-dark-focus {
+            background: hsl(24 27% 18%);
+            box-shadow: inset 0 0 0 2px hsl(170 100% 45%);
+        }
+
+        .dropdown-item-dark .dropdown-item-icon {
+            color: hsl(30 8% 45%);
+        }
+        .dropdown-item-dark:hover .dropdown-item-icon {
+            color: hsl(30 5% 70%);
+        }
+        .dropdown-item-dark-selected .dropdown-item-icon {
+            color: hsl(237 80% 75%);
+        }
+
+        .dropdown-divider-dark {
+            background: hsl(24 27% 20%);
+        }
+
+        .dropdown-group-header-dark {
+            color: hsl(30 8% 50%);
+        }
+
+        .dropdown-shortcut-dark {
+            color: hsl(30 8% 45%);
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS */
+        /* ========================================= */
+        @keyframes dropdown-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        @keyframes dropdown-exit {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+        .dropdown-animate-in {
+            animation: dropdown-enter 150ms ease-out;
+            transform-origin: top;
+        }
+        .dropdown-animate-in-above {
+            animation: dropdown-enter 150ms ease-out;
+            transform-origin: bottom;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="../sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Dropdowns</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Dropdown Menus</h1>
+            <p class="text-warm-600">Select menus, action menus, comboboxes, and multi-select patterns for revealing options on demand.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <span class="text-emerald-600 font-medium">Overview</span>
+            <a href="select.html" class="text-warm-500 hover:text-emerald-600">Select</a>
+            <a href="action.html" class="text-warm-500 hover:text-emerald-600">Action Menu</a>
+            <a href="combobox.html" class="text-warm-500 hover:text-emerald-600">Combobox</a>
+            <a href="multiselect.html" class="text-warm-500 hover:text-emerald-600">Multi-Select</a>
+        </nav>
+
+        <!-- Quick Nav -->
+        <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-12">
+            <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide mb-3">On This Page</p>
+            <div class="flex flex-wrap gap-2">
+                <a href="#philosophy" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Philosophy</a>
+                <a href="#types" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Types Overview</a>
+                <a href="#anatomy" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Anatomy</a>
+                <a href="#container" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Container Specs</a>
+                <a href="#item-states" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Item States</a>
+                <a href="#accessibility" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Accessibility</a>
+                <a href="#checklist" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Checklist</a>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- =========================================== -->
+        <section id="philosophy" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
+            <div class="prose max-w-none">
+                <ul class="text-warm-700 space-y-2 ml-4">
+                    <li>Dropdowns reveal options on demand, keeping interfaces clean</li>
+                    <li>They should feel responsive and lightweight &mdash; appear instantly, easy to dismiss</li>
+                    <li>Consistent trigger patterns help users recognize interactive elements</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: DROPDOWN TYPES OVERVIEW -->
+        <!-- =========================================== -->
+        <section id="types" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Dropdown Types Overview</p>
+            <p class="text-warm-600 text-sm mb-6">Different dropdown types serve different interaction patterns.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 140px">Type</th>
+                            <th>Trigger</th>
+                            <th>Use Case</th>
+                            <th style="width: 100px">Spec</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Select Menu</td>
+                            <td>Input-style trigger</td>
+                            <td>Form field selection</td>
+                            <td><a href="select.html" class="text-emerald-600 hover:underline">View &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Action Menu</td>
+                            <td>Button trigger</td>
+                            <td>Actions on an item</td>
+                            <td><a href="action.html" class="text-emerald-600 hover:underline">View &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Combobox</td>
+                            <td>Input with search</td>
+                            <td>Filterable selection</td>
+                            <td><a href="combobox.html" class="text-emerald-600 hover:underline">View &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Multi-Select</td>
+                            <td>Input with tags</td>
+                            <td>Multiple selections</td>
+                            <td><a href="multiselect.html" class="text-emerald-600 hover:underline">View &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Context Menu</td>
+                            <td>Right-click</td>
+                            <td>Contextual actions</td>
+                            <td><span class="text-warm-400">N/A</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: ANATOMY -->
+        <!-- =========================================== -->
+        <section id="anatomy" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Anatomy</p>
+            <p class="text-warm-600 text-sm mb-6">The structural components of a dropdown menu.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="flex gap-12">
+                    <!-- Visual Example -->
+                    <div class="w-72 flex-shrink-0">
+                        <div class="dropdown-menu dropdown-animate-in">
+                            <div class="dropdown-group-header">Actions</div>
+                            <div class="dropdown-item dropdown-item-selected">
+                                <i data-lucide="check" class="dropdown-item-icon"></i>
+                                <span>Edit</span>
+                                <span class="dropdown-shortcut">&#8984;E</span>
+                            </div>
+                            <div class="dropdown-item">
+                                <i data-lucide="copy" class="dropdown-item-icon"></i>
+                                <span>Duplicate</span>
+                                <span class="dropdown-shortcut">&#8984;D</span>
+                            </div>
+                            <div class="dropdown-item dropdown-item-disabled">
+                                <i data-lucide="archive" class="dropdown-item-icon"></i>
+                                <span>Archive</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item dropdown-item-destructive">
+                                <i data-lucide="trash-2" class="dropdown-item-icon"></i>
+                                <span>Delete</span>
+                                <span class="dropdown-shortcut">&#8984;&#9003;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Labels -->
+                    <div class="flex-1 space-y-3 text-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Menu container</p>
+                                <p class="text-warm-600">White background, 8px border-radius, shadow, border</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-indigo-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Group header</p>
+                                <p class="text-warm-600">11px, uppercase, semibold, warm-500</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-lime-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Menu item</p>
+                                <p class="text-warm-600">Icon (optional) + Label + Shortcut (optional)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-orange-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Divider</p>
+                                <p class="text-warm-600">1px warm-200, 4px margin</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 mt-1 rounded-full bg-magenta-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium">Destructive item</p>
+                                <p class="text-warm-600">Magenta-600 color for dangerous actions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: MENU CONTAINER SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section id="container" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Menu Container Specifications</p>
+            <p class="text-warm-600 text-sm mb-6">Container styling for light and dark modes.</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <!-- Light Mode Container -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Light Mode</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="dropdown-menu mb-4" style="position: relative;">
+                            <div class="dropdown-item">
+                                <i data-lucide="settings" class="dropdown-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="dropdown-item">
+                                <i data-lucide="help-circle" class="dropdown-item-icon"></i>
+                                <span>Help</span>
+                            </div>
+                        </div>
+                        <table class="text-sm w-full">
+                            <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code>white</code></td></tr>
+                            <tr><td class="py-1 text-warm-500">Border</td><td class="py-1 font-medium"><code>warm-200</code> (1px)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Border radius</td><td class="py-1 font-medium">8px</td></tr>
+                            <tr><td class="py-1 text-warm-500">Shadow</td><td class="py-1 font-medium"><code>0 4px 16px rgba(0,0,0,0.12)</code></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- Dark Mode Container -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="bg-intaglio-800 px-4 py-2 border-b border-intaglio-700">
+                        <p class="text-xs font-medium text-warm-400">Dark Mode (Fire Opal)</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="dropdown-menu dropdown-menu-dark mb-4" style="position: relative;">
+                            <div class="dropdown-item dropdown-item-dark">
+                                <i data-lucide="settings" class="dropdown-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="dropdown-item dropdown-item-dark">
+                                <i data-lucide="help-circle" class="dropdown-item-icon"></i>
+                                <span>Help</span>
+                            </div>
+                        </div>
+                        <table class="text-sm w-full text-warm-300">
+                            <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">intaglio-800</code></td></tr>
+                            <tr><td class="py-1 text-warm-500">Border</td><td class="py-1 font-medium"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">intaglio-700</code> (1px)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Border radius</td><td class="py-1 font-medium">8px</td></tr>
+                            <tr><td class="py-1 text-warm-500">Shadow</td><td class="py-1 font-medium"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">0 4px 16px rgba(0,0,0,0.3)</code></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Container dimensions -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 140px">Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Min width</td>
+                            <td>180px</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Max width</td>
+                            <td>320px (or match trigger width)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Max height</td>
+                            <td>320px (scrollable if more)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Padding (y)</td>
+                            <td>4px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: MENU ITEM STATES -->
+        <!-- =========================================== -->
+        <section id="item-states" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Menu Item States</p>
+            <p class="text-warm-600 text-sm mb-6">Interactive states for menu items in light and dark modes.</p>
+
+            <!-- Light Mode States -->
+            <div class="mb-8">
+                <h3 class="font-display text-xl mb-4">Light Mode States</h3>
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 120px">State</th>
+                                <th>Background</th>
+                                <th>Text</th>
+                                <th>Icon</th>
+                                <th style="width: 200px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Default</td>
+                                <td><code>transparent</code></td>
+                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 50%)"></span>warm-500</td>
+                                <td>
+                                    <div class="dropdown-item" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px;"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Hover</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 97%)"></span>warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 40%)"></span>warm-600</td>
+                                <td>
+                                    <div class="dropdown-item" style="margin: 0; padding: 6px 10px; background: hsl(30 5% 97%);">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(30 6% 40%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Active</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span>warm-100</td>
+                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 40%)"></span>warm-600</td>
+                                <td>
+                                    <div class="dropdown-item" style="margin: 0; padding: 6px 10px; background: hsl(30 5% 95%);">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(30 6% 40%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Selected</td>
+                                <td><span class="spec-swatch" style="background: hsl(237 100% 97%)"></span>indigo-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(237 100% 40%)"></span>indigo-700</td>
+                                <td><span class="spec-swatch" style="background: hsl(237 100% 50%)"></span>indigo-600</td>
+                                <td>
+                                    <div class="dropdown-item dropdown-item-selected" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="check" class="dropdown-item-icon" style="width: 14px; height: 14px;"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Disabled</td>
+                                <td><code>transparent</code></td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 65%)"></span>warm-400</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 75%)"></span>warm-300</td>
+                                <td>
+                                    <div class="dropdown-item dropdown-item-disabled" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(30 5% 75%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Focused</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 5% 97%)"></span>warm-50</td>
+                                <td><span class="spec-swatch" style="background: hsl(24 29% 8%)"></span>ink</td>
+                                <td><span class="spec-swatch" style="background: hsl(30 6% 40%)"></span>warm-600</td>
+                                <td>
+                                    <div class="dropdown-item dropdown-item-focus" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(30 6% 40%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Dark Mode States -->
+            <div class="mb-8">
+                <h3 class="font-display text-xl mb-4">Dark Mode States (Fire Opal)</h3>
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <table class="spec-table" style="color: hsl(30 5% 88%)">
+                        <thead>
+                            <tr style="background: hsl(24 28% 12%)">
+                                <th style="width: 120px; color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">State</th>
+                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Background</th>
+                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Text</th>
+                                <th style="color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Icon</th>
+                                <th style="width: 200px; color: hsl(30 5% 70%); border-color: hsl(24 27% 20%)">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Default</td>
+                                <td style="border-color: hsl(24 27% 20%)"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">transparent</code></td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 80%)"></span>warm-200</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 8% 50%)"></span>warm-500</td>
+                                <td style="border-color: hsl(24 27% 20%)">
+                                    <div class="dropdown-item dropdown-item-dark" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px;"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Hover</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 27% 18%)"></span>intaglio-700</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 95%)"></span>warm-100</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(30 5% 65%)"></span>warm-400</td>
+                                <td style="border-color: hsl(24 27% 20%)">
+                                    <div class="dropdown-item dropdown-item-dark" style="margin: 0; padding: 6px 10px; background: hsl(24 27% 18%); color: hsl(30 5% 95%);">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(30 5% 65%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Selected</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(237 100% 65% / 15%)"></span>indigo-500/15</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(237 80% 75%)"></span>indigo-400</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(237 80% 75%)"></span>indigo-400</td>
+                                <td style="border-color: hsl(24 27% 20%)">
+                                    <div class="dropdown-item dropdown-item-dark dropdown-item-dark-selected" style="margin: 0; padding: 6px 10px;">
+                                        <i data-lucide="check" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(237 80% 75%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-color: hsl(24 27% 20%)">
+                                <td class="font-medium" style="border-color: hsl(24 27% 20%)">Disabled</td>
+                                <td style="border-color: hsl(24 27% 20%)"><code style="background: hsl(24 28% 15%); color: hsl(30 5% 70%)">transparent</code></td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 20% 40%)"></span>warm-600</td>
+                                <td style="border-color: hsl(24 27% 20%)"><span class="spec-swatch" style="background: hsl(24 20% 30%)"></span>warm-700</td>
+                                <td style="border-color: hsl(24 27% 20%)">
+                                    <div class="dropdown-item dropdown-item-dark dropdown-item-dark-disabled" style="margin: 0; padding: 6px 10px; color: hsl(24 20% 40%); cursor: not-allowed;">
+                                        <i data-lucide="edit" class="dropdown-item-icon" style="width: 14px; height: 14px; color: hsl(24 20% 30%);"></i>
+                                        <span style="font-size: 13px;">Edit item</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Item Dimensions -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 140px">Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Height</td>
+                            <td>36px (default), 32px (compact)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Padding</td>
+                            <td>8px 12px</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Font size</td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Font weight</td>
+                            <td>400 (normal), 500 (selected)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Gap (icon to label)</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Icon size</td>
+                            <td>16px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: KEYBOARD & ACCESSIBILITY -->
+        <!-- =========================================== -->
+        <section id="accessibility" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Keyboard Navigation & Accessibility</p>
+            <p class="text-warm-600 text-sm mb-8">Keyboard interactions and ARIA requirements.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Keyboard Navigation</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li><kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">Enter</kbd> / <kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">Space</kbd> &mdash; Open menu, select item</li>
+                        <li><kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">Escape</kbd> &mdash; Close menu</li>
+                        <li><kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">&#8593;</kbd> / <kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">&#8595;</kbd> &mdash; Navigate items</li>
+                        <li><kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">Home</kbd> / <kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">End</kbd> &mdash; First / last item</li>
+                        <li>Type characters &mdash; Jump to matching item</li>
+                        <li><kbd class="px-2 py-0.5 bg-warm-100 rounded text-xs">Tab</kbd> &mdash; Close menu, move focus</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">ARIA Requirements</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>Trigger: <code>aria-haspopup</code>, <code>aria-expanded</code></li>
+                        <li>Select menu: <code>role="listbox"</code></li>
+                        <li>Action menu: <code>role="menu"</code></li>
+                        <li>Items: <code>role="option"</code> or <code>role="menuitem"</code></li>
+                        <li>Selected: <code>aria-selected="true"</code></li>
+                        <li>Disabled: <code>aria-disabled="true"</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section id="checklist" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Key specifications to verify during implementation.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Menu Container</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border radius: 8px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Shadow: 0 4px 16px rgba(0,0,0,0.12)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border: warm-200 (light) / intaglio-700 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Max height: 320px with scroll</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Padding: 4px top/bottom</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Menu Item</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Height: 36px default</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Padding: 8px 12px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Hover: warm-50 (light) / intaglio-700 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Selected: indigo-50 + indigo-700 text (light)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Selected dark: indigo-500/15 + indigo-400 text</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Animation</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Enter: 150ms scale + fade</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Exit: 100ms scale + fade</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Transform origin based on position</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Positioning</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Flip when insufficient space</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Stay within viewport</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> 8px minimum from edges</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../partials/nav-loader.js"></script>
+</body>
+</html>

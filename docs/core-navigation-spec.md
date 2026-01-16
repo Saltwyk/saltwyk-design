@@ -33,7 +33,7 @@
 - **User area** — Bottom, profile/account
 - **Collapse toggle** — Optional
 
-### Sidebar — Light Mode (Traditional Opal)
+### Sidebar — Light Mode (Bright Opal)
 
 **Container:**
 
@@ -361,7 +361,7 @@
 ## Contextual Examples to Build
 
 1. **Merchant Dashboard Shell** — Dark sidebar (Fire Opal) with logo, nav sections, user area, light content area with breadcrumbs
-2. **Shopper Wallet (Desktop)** — Light sidebar, content area, Traditional Opal treatment
+2. **Shopper Wallet (Desktop)** — Light sidebar, content area, Bright Opal treatment
 3. **Marketing Site Header** — Top navigation with logo, nav items, CTA button (light and dark)
 4. **Mobile Shopper App** — Bottom navigation with 4 items (Home, Wallet, Activity, Profile)
 5. **Nested Navigation Expanded** — Sidebar with nested section expanded, child item active
