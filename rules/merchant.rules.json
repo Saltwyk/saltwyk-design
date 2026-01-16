@@ -1,0 +1,173 @@
+{
+  "surface": "merchant",
+  "identity": "Fire Opal",
+  "description": "Professional, confident, operational - infrastructure that helps merchants prosper",
+  "character": "Desktop-first, B2B dashboard, functional, confident",
+  
+  "color_semantics": {
+    "emerald": {
+      "role": "Primary CTA and logo ONLY",
+      "allowed_on": ["primary CTA button", "logo"],
+      "forbidden_on": [
+        "secondary buttons",
+        "tertiary buttons",
+        "links",
+        "focus rings",
+        "selection states",
+        "active states",
+        "borders",
+        "decorative elements"
+      ],
+      "rationale": "Reserved for the single most important action on screen"
+    },
+    "indigo": {
+      "role": "UI interactive and info states",
+      "allowed_on": [
+        "focus rings",
+        "selection states",
+        "links",
+        "active navigation states",
+        "selected sidebar items",
+        "hover states",
+        "info badges",
+        "info indicators"
+      ],
+      "dark_mode_variants": {
+        "active_state": "bg-indigo-500/15%, text-indigo-300, border-indigo-400",
+        "focus_ring": "indigo-400"
+      },
+      "rationale": "Standard interactive color for all selection and focus states"
+    },
+    "cyan": {
+      "role": "Thread gradients ONLY",
+      "allowed_on": ["Cool thread gradient lines", "sidebar thread accent"],
+      "forbidden_on": [
+        "focus rings",
+        "selection states",
+        "links",
+        "buttons",
+        "badges",
+        "any UI interactive element"
+      ],
+      "rationale": "Decorative only - too intense for functional UI"
+    },
+    "magenta": {
+      "role": "Error and destructive states",
+      "allowed_on": ["error badges", "error toasts", "destructive buttons", "error form states"]
+    },
+    "orange": {
+      "role": "Warning states",
+      "allowed_on": ["warning badges", "warning toasts", "pending states"]
+    }
+  },
+  
+  "thread_rules": {
+    "assigned_thread": "Cool",
+    "gradient_composition": "Cyan → Magenta",
+    "gradient_css": "linear-gradient(90deg, hsl(170 70% L%), hsl(330 70% L%))",
+    "placement": {
+      "sidebar_thread": {
+        "location": "below logo in dark sidebar",
+        "height": "3px",
+        "width": "full-width",
+        "treatment": "glowing effect against intaglio background"
+      },
+      "navigation_thread": {
+        "location": "below logo in sidebar",
+        "height": "3px",
+        "gradient": "spectrum for brand expression"
+      },
+      "max_threads_per_page": 1,
+      "accent_use_cases": ["sidebar brand moment", "key dashboard metric (sparingly)"]
+    },
+    "intensity_levels": {
+      "dark_mode_decorative": {
+        "saturation": "70%",
+        "lightness": "50-72%",
+        "note": "Higher saturation visible against dark intaglio backgrounds"
+      }
+    }
+  },
+  
+  "layout_rules": {
+    "structure": "Dark sidebar + light content area",
+    "sidebar": {
+      "background": "intaglio-900",
+      "text": "warm palette (light text on dark)",
+      "thread": "Cool thread or Spectrum as vertical accent",
+      "active_state": "bg-indigo-500/15%, border-left: indigo-400"
+    },
+    "content_area": {
+      "background": ["ledger", "white"],
+      "text": "intaglio or warm-dark",
+      "cards": "white with subtle shadows"
+    }
+  },
+  
+  "background_rules": {
+    "sidebar_backgrounds": {
+      "primary": "intaglio-900",
+      "allowed": ["intaglio-800", "intaglio-900", "intaglio-950"]
+    },
+    "content_backgrounds": {
+      "primary": "ledger",
+      "allowed": ["ledger", "white"],
+      "cards": "white"
+    },
+    "forbidden_in_content": ["dark backgrounds", "intaglio in main content area"]
+  },
+  
+  "typography": {
+    "display_font": "Fraunces",
+    "body_font": "Inter",
+    "tone": "Professional, clear, confident"
+  },
+  
+  "emotional_targets": {
+    "primary_feeling": "I can run this myself",
+    "secondary_feelings": ["in control", "professional", "capable", "infrastructure"],
+    "avoid": ["consumer-y", "playful", "uncertain", "complex"]
+  },
+  
+  "validation_checklist": [
+    "Emerald appears ONLY on primary CTA button and logo",
+    "All focus rings use indigo",
+    "All selection states (including sidebar nav) use indigo",
+    "All links use indigo",
+    "Cyan appears ONLY in Cool thread accent, never UI elements",
+    "Sidebar uses intaglio (dark) palette",
+    "Content area uses light background (ledger or white)",
+    "Thread accent in sidebar creates glowing effect against dark",
+    "Maximum one prominent thread element per page",
+    "Dark mode hover states maintain proper text contrast",
+    "Dashboard feels professional and operational, not consumer-facing",
+    "No hardcoded HSL values - all colors use CSS custom properties"
+  ],
+  
+  "common_violations": [
+    {
+      "pattern": "Emerald used for selected nav items",
+      "fix": "Replace with indigo - emerald is for CTA only"
+    },
+    {
+      "pattern": "Cyan used for active states or info badges",
+      "fix": "Replace with indigo"
+    },
+    {
+      "pattern": "Light sidebar instead of intaglio",
+      "fix": "Sidebar must use dark intaglio palette for Fire Opal identity"
+    },
+    {
+      "pattern": "Dark content area",
+      "fix": "Content area should be light (ledger/white) to contrast with dark sidebar"
+    },
+    {
+      "pattern": "Selected dark menu items unreadable on hover",
+      "fix": "Add specific CSS rules for active dark options that maintain contrast"
+    },
+    {
+      "pattern": "Hardcoded HSL values",
+      "fix": "Convert to CSS custom property tokens"
+    }
+  ]
+}
