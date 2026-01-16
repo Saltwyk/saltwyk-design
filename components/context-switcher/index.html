@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Switcher Specification - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-400)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-400)); }
+        .code-block .value { color: hsl(var(--orange-300)); }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(var(--warm-700)); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(var(--warm-50)); color: hsl(var(--emerald-600)); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(var(--warm-200)); margin: 8px 0; }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        /* ========================================= */
+        /* CONTEXT SWITCHER STYLES - DARK (MERCHANT) */
+        /* ========================================= */
+        .context-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: hsl(var(--intaglio-800));
+            border: 1px solid hsl(var(--intaglio-700));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+        }
+        .context-indicator:hover {
+            background: hsl(var(--intaglio-750));
+        }
+        .context-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .context-icon-merchant {
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
+        }
+        .context-icon-shopper {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+        .context-label {
+            flex: 1;
+        }
+        .context-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+        }
+        .context-type {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+        .context-chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* CONTEXT SWITCHER STYLES - LIGHT (SHOPPER) */
+        /* ========================================= */
+        .context-indicator-light {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+        }
+        .context-indicator-light:hover {
+            background: hsl(var(--warm-100));
+        }
+        .context-indicator-light .context-name {
+            color: hsl(var(--ink));
+        }
+        .context-indicator-light .context-type {
+            color: hsl(var(--warm-500));
+        }
+        .context-indicator-light .context-chevron {
+            color: hsl(var(--warm-400));
+        }
+
+        /* ========================================= */
+        /* SWITCHER MENU STYLES */
+        /* ========================================= */
+        .context-menu {
+            width: 280px;
+            padding: 8px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .context-menu-dark {
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-700));
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .context-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+        }
+        .context-option:hover {
+            background: hsl(var(--warm-50));
+        }
+        .context-option-dark:hover {
+            background: hsl(var(--intaglio-700));
+        }
+        .context-option-active {
+            background: hsl(var(--indigo-50));
+        }
+        .context-option-active:hover {
+            background: hsl(var(--indigo-100));
+        }
+        .context-option-active-dark {
+            background: hsl(var(--indigo-500) / 15%);
+        }
+        .context-option-active-dark:hover {
+            background: hsl(var(--indigo-500) / 25%);
+        }
+
+        .context-option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .context-option-icon-shopper {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+        .context-option-icon-merchant {
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-600));
+        }
+
+        .context-option-info {
+            flex: 1;
+        }
+        .context-option-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .context-option-name-dark {
+            color: hsl(var(--warm-100));
+        }
+        .context-option-description {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+        .context-option-description-dark {
+            color: hsl(var(--warm-500));
+        }
+        .context-option-check {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-500));
+        }
+
+        .context-section {
+            padding-top: 12px;
+            margin-top: 4px;
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+        .context-section-dark {
+            border-color: hsl(var(--intaglio-700));
+        }
+        .context-section-label {
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR DEMO STYLES */
+        /* ========================================= */
+        .sidebar-demo {
+            width: 260px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .sidebar-light {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+        }
+        .sidebar-dark {
+            background: hsl(var(--intaglio-900));
+            border: 1px solid hsl(var(--intaglio-700));
+        }
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+        .sidebar-header-dark {
+            border-color: hsl(var(--intaglio-700));
+        }
+        .sidebar-nav {
+            padding: 8px;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .sidebar-item:hover {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--ink));
+        }
+        .sidebar-item-dark {
+            color: hsl(var(--warm-500));
+        }
+        .sidebar-item-dark:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-100));
+        }
+        .sidebar-item-active {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-600));
+        }
+        .sidebar-item-active-dark {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-400));
+        }
+
+        /* ========================================= */
+        /* COLLAPSED SIDEBAR */
+        /* ========================================= */
+        .sidebar-collapsed {
+            width: 64px;
+            padding: 12px;
+        }
+        .context-indicator-collapsed {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .context-indicator-collapsed .context-icon {
+            width: 32px;
+            height: 32px;
+        }
+        .context-dot {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            border: 2px solid hsl(var(--intaglio-900));
+        }
+        .context-dot-merchant {
+            background: hsl(var(--emerald-500));
+        }
+        .context-dot-shopper {
+            background: hsl(var(--indigo-500));
+        }
+
+        /* ========================================= */
+        /* MULTI-ORG STYLES */
+        /* ========================================= */
+        .org-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .org-avatar-1 { background: hsl(var(--emerald-100)); color: hsl(var(--emerald-600)); }
+        .org-avatar-2 { background: hsl(var(--indigo-100)); color: hsl(var(--indigo-600)); }
+        .org-avatar-3 { background: hsl(var(--orange-100)); color: hsl(var(--orange-600)); }
+
+        .role-badge {
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .role-admin { background: hsl(var(--indigo-100)); color: hsl(var(--indigo-600)); }
+        .role-viewer { background: hsl(var(--warm-100)); color: hsl(var(--warm-500)); }
+
+        /* ========================================= */
+        /* MOBILE BOTTOM SHEET */
+        /* ========================================= */
+        .bottom-sheet {
+            background: white;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+        }
+        .bottom-sheet-handle {
+            width: 32px;
+            height: 4px;
+            background: hsl(var(--warm-300));
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="thread-line w-full rounded-none"></div>
+
+    <div class="max-w-6xl mx-auto px-8 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+            <span>&#8594;</span>
+            <a href="../../foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Context Switcher</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-3">Context Switcher</h1>
+            <p class="text-warm-600 text-lg">Implementation specification for switching between Shopper Passport and Merchant Dashboard contexts.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Philosophy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">Context switchers help users navigate between distinct product areas.</strong>
+                    They must provide clear wayfinding—users should always know where they are. Transitions should feel intentional, not accidental.
+                </p>
+                <p class="text-warm-600 text-sm">
+                    Visual treatment must reinforce the context: Bright Opal (light) for Shopper Passport, Fire Opal (dark) for Merchant Dashboard.
+                </p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: USE CASES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Use Cases</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Primary -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Primary: Shopper &#8596; Merchant</p>
+                    <p class="text-sm text-warm-600 mb-4">Users who are both shoppers and merchants need to switch between:</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-2 h-2 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0"></span>
+                            <span><strong class="text-ink">Shopper Passport</strong> — Personal rewards wallet, point balances, transaction history</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                            <span><strong class="text-ink">Merchant Dashboard</strong> — Business operations, clearing balance, settlements</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Secondary -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Secondary Use Cases</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="briefcase" class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0"></i>
+                            <span><strong class="text-ink">Multi-merchant access</strong> — Consultants/agencies managing multiple merchants</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="building-2" class="w-4 h-4 text-warm-500 mt-0.5 flex-shrink-0"></i>
+                            <span><strong class="text-ink">Organization switcher</strong> — Switching between different merchant accounts</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="shield" class="w-4 h-4 text-warm-500 mt-0.5 flex-shrink-0"></i>
+                            <span><strong class="text-ink">Role switcher</strong> — Different permission levels within same organization</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: ANATOMY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Anatomy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="flex items-start gap-12">
+                    <!-- Visual anatomy -->
+                    <div class="relative" style="min-width: 280px;">
+                        <div class="context-indicator" style="width: 240px;">
+                            <div class="context-icon context-icon-merchant">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-label">
+                                <div class="context-name">Acme Commerce</div>
+                                <div class="context-type">Merchant Dashboard</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-chevron"></i>
+                        </div>
+
+                        <!-- Annotation lines -->
+                        <div class="absolute" style="top: 8px; left: calc(100% + 16px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Context icon</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 24px; left: calc(100% + 16px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Context label</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 40px; left: calc(100% + 16px);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Context type</span>
+                            </div>
+                        </div>
+                        <div class="absolute" style="top: 24px; right: -8px; transform: translateX(100%);">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Chevron</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy list -->
+                    <div class="flex-1 ml-12">
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Current context indicator</strong>
+                                    <span class="text-warm-600"> — Shows which context you're in</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Context label</strong>
+                                    <span class="text-warm-600"> — Name of current context (Org name)</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Context icon</strong>
+                                    <span class="text-warm-600"> — Visual identifier for context type</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Switcher trigger</strong>
+                                    <span class="text-warm-600"> — Clickable element to open switcher</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Switcher menu</strong>
+                                    <span class="text-warm-600"> — Dropdown with available contexts</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: CONTEXT INDICATOR SPECS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Context Indicator Specifications</p>
+
+            <!-- Specifications Table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Expanded State</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Light (Shopper)</th>
+                            <th>Dark (Merchant)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Container</td>
+                            <td><code>warm-50</code> bg, <code>warm-200</code> border</td>
+                            <td><code>intaglio-800</code> bg, <code>intaglio-700</code> border</td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td>24px, <code>indigo-600</code></td>
+                            <td>24px, <code>emerald-400</code></td>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
+                            <td>14px, font-weight 600, <code>ink</code></td>
+                            <td>14px, font-weight 600, <code>warm-100</code></td>
+                        </tr>
+                        <tr>
+                            <td>Sublabel</td>
+                            <td>12px, <code>warm-500</code></td>
+                            <td>12px, <code>warm-400</code></td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td>8px</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>12px</td>
+                            <td>12px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Examples -->
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light (Shopper) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Light Mode (Shopper)</p>
+                    <div class="context-indicator context-indicator-light" style="width: 220px;">
+                        <div class="context-icon context-icon-shopper">
+                            <i data-lucide="wallet" class="w-5 h-5"></i>
+                        </div>
+                        <div class="context-label">
+                            <div class="context-name" style="color: hsl(24 29% 8%);">My Passport</div>
+                            <div class="context-type">Shopper</div>
+                        </div>
+                        <i data-lucide="chevron-down" class="context-chevron"></i>
+                    </div>
+                </div>
+                <!-- Dark (Merchant) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Dark Mode (Merchant)</p>
+                    <div class="context-indicator" style="width: 220px;">
+                        <div class="context-icon context-icon-merchant">
+                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                        </div>
+                        <div class="context-label">
+                            <div class="context-name">Acme Commerce</div>
+                            <div class="context-type">Merchant</div>
+                        </div>
+                        <i data-lucide="chevron-down" class="context-chevron"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: SWITCHER MENU -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Switcher Menu</p>
+
+            <!-- Menu Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Menu Container</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Light</th>
+                            <th>Dark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background</td>
+                            <td><code>white</code></td>
+                            <td><code>intaglio-800</code></td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td><code>warm-200</code></td>
+                            <td><code>intaglio-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td>12px</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Shadow</td>
+                            <td><code>0 8px 24px rgba(0,0,0,0.15)</code></td>
+                            <td><code>0 8px 24px rgba(0,0,0,0.4)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td>280px</td>
+                            <td>280px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Menu Examples -->
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Light Mode Menu</p>
+                    <div class="context-menu">
+                        <!-- Shopper option (active) -->
+                        <div class="context-option context-option-active">
+                            <div class="context-option-icon context-option-icon-shopper">
+                                <i data-lucide="wallet" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-option-info">
+                                <div class="context-option-name">My Passport</div>
+                                <div class="context-option-description">Personal rewards wallet</div>
+                            </div>
+                            <i data-lucide="check" class="context-option-check"></i>
+                        </div>
+                        <!-- Merchant option -->
+                        <div class="context-option">
+                            <div class="context-option-icon context-option-icon-merchant">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-option-info">
+                                <div class="context-option-name">Acme Commerce</div>
+                                <div class="context-option-description">Merchant Dashboard</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dark Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Dark Mode Menu</p>
+                    <div class="context-menu context-menu-dark">
+                        <!-- Shopper option -->
+                        <div class="context-option context-option-dark">
+                            <div class="context-option-icon context-option-icon-shopper">
+                                <i data-lucide="wallet" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-option-info">
+                                <div class="context-option-name context-option-name-dark">My Passport</div>
+                                <div class="context-option-description context-option-description-dark">Personal rewards wallet</div>
+                            </div>
+                        </div>
+                        <!-- Merchant option (active) -->
+                        <div class="context-option context-option-active-dark">
+                            <div class="context-option-icon context-option-icon-merchant">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-option-info">
+                                <div class="context-option-name context-option-name-dark">Acme Commerce</div>
+                                <div class="context-option-description context-option-description-dark">Merchant Dashboard</div>
+                            </div>
+                            <i data-lucide="check" class="context-option-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: COLLAPSED STATE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Collapsed State</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Collapsed Sidebar Indicator</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Icon only</td>
+                            <td>24px, centered</td>
+                        </tr>
+                        <tr>
+                            <td>Tooltip</td>
+                            <td>Shows full context on hover</td>
+                        </tr>
+                        <tr>
+                            <td>Indicator dot</td>
+                            <td>Small colored dot showing context type</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Collapsed Light -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Collapsed (Shopper)</p>
+                    <div class="sidebar-collapsed sidebar-light inline-flex flex-col items-center gap-4">
+                        <div class="context-indicator-collapsed context-indicator-light" style="background: hsl(30 10% 96%); border: 1px solid hsl(30 5% 88%);">
+                            <div class="context-icon context-icon-shopper" style="width: 28px; height: 28px;">
+                                <i data-lucide="wallet" class="w-4 h-4"></i>
+                            </div>
+                            <div class="context-dot context-dot-shopper" style="border-color: white;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Collapsed Dark -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Collapsed (Merchant)</p>
+                    <div class="p-3 rounded-lg inline-block" style="background: hsl(24 26% 12%);">
+                        <div class="context-indicator-collapsed context-indicator" style="background: hsl(24 26% 15%); border: 1px solid hsl(24 26% 22%);">
+                            <div class="context-icon context-icon-merchant" style="width: 28px; height: 28px;">
+                                <i data-lucide="building-2" class="w-4 h-4"></i>
+                            </div>
+                            <div class="context-dot context-dot-merchant"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- With Tooltip -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">With Tooltip</p>
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 rounded-lg" style="background: hsl(24 26% 12%);">
+                            <div class="context-indicator-collapsed context-indicator" style="background: hsl(24 26% 15%); border: 1px solid hsl(24 26% 22%);">
+                                <div class="context-icon context-icon-merchant" style="width: 28px; height: 28px;">
+                                    <i data-lucide="building-2" class="w-4 h-4"></i>
+                                </div>
+                                <div class="context-dot context-dot-merchant"></div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-2 bg-[hsl(24_29%_8%)] text-white text-xs rounded-md">
+                            Acme Commerce
+                            <div class="text-warm-400">Merchant</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: MULTI-ORGANIZATION SWITCHER -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Multi-Organization Switcher</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Org Specs -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Organization List Item</p>
+                    </div>
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Element</th>
+                                <th>Specification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Avatar/logo</td>
+                                <td>32px, org logo or initials</td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td>14px, font-weight 600</td>
+                            </tr>
+                            <tr>
+                                <td>Role</td>
+                                <td>12px, <code>warm-500</code></td>
+                            </tr>
+                            <tr>
+                                <td>Search</td>
+                                <td>Show if &gt;5 organizations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Live Multi-Org Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Multi-Organization Menu</p>
+                    <div class="context-menu">
+                        <!-- Section Label -->
+                        <div class="context-section-label">Your Organizations</div>
+
+                        <!-- Org 1 (active) -->
+                        <div class="context-option context-option-active">
+                            <div class="org-avatar org-avatar-1">AC</div>
+                            <div class="context-option-info">
+                                <div class="context-option-name">Acme Commerce</div>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="role-badge role-admin">Admin</span>
+                                </div>
+                            </div>
+                            <i data-lucide="check" class="context-option-check"></i>
+                        </div>
+
+                        <!-- Org 2 -->
+                        <div class="context-option">
+                            <div class="org-avatar org-avatar-2">BC</div>
+                            <div class="context-option-info">
+                                <div class="context-option-name">Blue Coffee Co</div>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="role-badge role-viewer">Viewer</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Org 3 -->
+                        <div class="context-option">
+                            <div class="org-avatar org-avatar-3">SW</div>
+                            <div class="context-option-info">
+                                <div class="context-option-name">Sunset Winery</div>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="role-badge role-admin">Admin</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add org link -->
+                        <div class="context-section">
+                            <div class="context-option" style="color: hsl(150 100% 27%);">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                                <span class="text-sm font-medium">Add organization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: VISUAL CONTEXT REINFORCEMENT -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Visual Context Reinforcement</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-700 text-sm mb-4">
+                    The entire sidebar changes to reinforce which context the user is in. This provides strong wayfinding and prevents accidental context confusion.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Shopper Context -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Shopper Context (Bright Opal)</p>
+                    <div class="sidebar-demo sidebar-light">
+                        <div class="sidebar-header">
+                            <div class="context-indicator context-indicator-light">
+                                <div class="context-icon context-icon-shopper">
+                                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                                </div>
+                                <div class="context-label">
+                                    <div class="context-name" style="color: hsl(24 29% 8%);">My Passport</div>
+                                    <div class="context-type">Shopper</div>
+                                </div>
+                                <i data-lucide="chevron-down" class="context-chevron"></i>
+                            </div>
+                        </div>
+                        <div class="sidebar-nav">
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="home" class="w-4 h-4"></i>
+                                <span>Overview</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="star" class="w-4 h-4"></i>
+                                <span>Rewards</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="receipt" class="w-4 h-4"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="w-4 h-4"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Light sidebar, indigo accent, /passport/... URL</p>
+                </div>
+
+                <!-- Merchant Context -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Merchant Context (Fire Opal)</p>
+                    <div class="sidebar-demo sidebar-dark">
+                        <div class="sidebar-header sidebar-header-dark">
+                            <div class="context-indicator">
+                                <div class="context-icon context-icon-merchant">
+                                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                                </div>
+                                <div class="context-label">
+                                    <div class="context-name">Acme Commerce</div>
+                                    <div class="context-type">Merchant</div>
+                                </div>
+                                <i data-lucide="chevron-down" class="context-chevron"></i>
+                            </div>
+                        </div>
+                        <div class="sidebar-nav">
+                            <div class="sidebar-item sidebar-item-dark sidebar-item-active-dark">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-dark">
+                                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-dark">
+                                <i data-lucide="banknote" class="w-4 h-4"></i>
+                                <span>Settlements</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-dark">
+                                <i data-lucide="settings" class="w-4 h-4"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Dark sidebar, emerald accent, /dashboard/... URL</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: MOBILE BEHAVIOR -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Mobile Behavior</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Max height</td>
+                            <td>60vh</td>
+                        </tr>
+                        <tr>
+                            <td>Handle</td>
+                            <td>4px x 32px, <code>warm-300</code>, top center</td>
+                        </tr>
+                        <tr>
+                            <td>Animation</td>
+                            <td>Slide up from bottom</td>
+                        </tr>
+                        <tr>
+                            <td>Touch targets</td>
+                            <td>48px minimum</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Mobile Bottom Sheet -->
+                <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Mobile Bottom Sheet</p>
+                    <div class="relative" style="height: 280px;">
+                        <!-- Phone frame mockup -->
+                        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64">
+                            <div class="bottom-sheet">
+                                <div class="bottom-sheet-handle"></div>
+                                <div class="p-4">
+                                    <p class="context-section-label" style="padding: 0 0 12px;">Switch Context</p>
+                                    <!-- Shopper option -->
+                                    <div class="context-option context-option-active" style="padding: 16px 12px;">
+                                        <div class="context-option-icon context-option-icon-shopper">
+                                            <i data-lucide="wallet" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="context-option-info">
+                                            <div class="context-option-name">My Passport</div>
+                                            <div class="context-option-description">Personal wallet</div>
+                                        </div>
+                                        <i data-lucide="check" class="context-option-check"></i>
+                                    </div>
+                                    <!-- Merchant option -->
+                                    <div class="context-option" style="padding: 16px 12px;">
+                                        <div class="context-option-icon context-option-icon-merchant">
+                                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="context-option-info">
+                                            <div class="context-option-name">Acme Commerce</div>
+                                            <div class="context-option-description">Merchant Dashboard</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transition Animation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-4">Context Transition</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-xs font-medium text-warm-600">1</span>
+                            <span class="text-sm text-warm-700">Menu closes</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-xs font-medium text-warm-600">2</span>
+                            <span class="text-sm text-warm-700">Brief loading state (if needed)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-xs font-medium text-warm-600">3</span>
+                            <span class="text-sm text-warm-700">Page transition: Fade out → Fade in</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-xs font-medium text-warm-600">4</span>
+                            <span class="text-sm text-warm-700">New context loads with visual treatment</span>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2 pl-9">Duration: 300-400ms total</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: ACCESSIBILITY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Accessibility</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- ARIA Structure -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">ARIA Structure</p>
+                    <div class="code-block text-xs">
+                        <code><span class="comment">&lt;!-- Trigger --&gt;</span>
+&lt;button
+  <span class="property">aria-haspopup</span>=<span class="value">"true"</span>
+  <span class="property">aria-expanded</span>=<span class="value">"false"</span>
+  <span class="property">aria-label</span>=<span class="value">"Switch context, currently viewing Merchant Dashboard"</span>
+&gt;
+  ...
+&lt;/button&gt;
+
+<span class="comment">&lt;!-- Menu --&gt;</span>
+&lt;div <span class="property">role</span>=<span class="value">"menu"</span> <span class="property">aria-label</span>=<span class="value">"Available contexts"</span>&gt;
+  &lt;div <span class="property">role</span>=<span class="value">"menuitemradio"</span> <span class="property">aria-checked</span>=<span class="value">"false"</span>&gt;
+    Shopper Passport
+  &lt;/div&gt;
+  &lt;div <span class="property">role</span>=<span class="value">"menuitemradio"</span> <span class="property">aria-checked</span>=<span class="value">"true"</span>&gt;
+    Merchant Dashboard
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                    </div>
+                </div>
+
+                <!-- Keyboard Navigation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Keyboard Navigation</p>
+                    </div>
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Enter</code> / <code>Space</code></td>
+                                <td>Open menu, select item</td>
+                            </tr>
+                            <tr>
+                                <td><code>Arrow Up/Down</code></td>
+                                <td>Navigate options</td>
+                            </tr>
+                            <tr>
+                                <td><code>Escape</code></td>
+                                <td>Close menu</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tab</code></td>
+                                <td>Move to next focusable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 11: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11. Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Context Indicator (Dark) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Context Indicator (Dark/Merchant)</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="code-block">
+                            <code><span class="property">.context-indicator</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">gap</span>: <span class="value">12px</span>;
+  <span class="property">padding</span>: <span class="value">12px</span>;
+  <span class="property">background</span>: <span class="value">hsl(24 26% 15%)</span>;  <span class="comment">/* intaglio-800 */</span>
+  <span class="property">border</span>: <span class="value">1px solid hsl(24 26% 22%)</span>;  <span class="comment">/* intaglio-700 */</span>
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+  <span class="property">cursor</span>: <span class="value">pointer</span>;
+  <span class="property">transition</span>: <span class="value">background 150ms ease</span>;
+}
+
+<span class="property">.context-indicator:hover</span> {
+  <span class="property">background</span>: <span class="value">hsl(24 26% 18%)</span>;
+}
+
+<span class="property">.context-icon</span> {
+  <span class="property">width</span>: <span class="value">32px</span>;
+  <span class="property">height</span>: <span class="value">32px</span>;
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+  <span class="property">background</span>: <span class="value">hsla(150, 100%, 27%, 0.2)</span>;
+  <span class="property">color</span>: <span class="value">hsl(150 70% 45%)</span>;  <span class="comment">/* emerald-400 */</span>
+}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Context Indicator (Light) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Context Indicator (Light/Shopper)</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="code-block">
+                            <code><span class="property">.context-indicator-light</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 10% 96%)</span>;  <span class="comment">/* warm-50 */</span>
+  <span class="property">border-color</span>: <span class="value">hsl(30 5% 88%)</span>;  <span class="comment">/* warm-200 */</span>
+}
+
+<span class="property">.context-indicator-light:hover</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 5% 93%)</span>;
+}
+
+<span class="property">.context-indicator-light .context-icon</span> {
+  <span class="property">background</span>: <span class="value">hsl(237 100% 96%)</span>;  <span class="comment">/* indigo-100 */</span>
+  <span class="property">color</span>: <span class="value">hsl(237 100% 65%)</span>;  <span class="comment">/* indigo-600 */</span>
+}
+
+<span class="property">.context-indicator-light .context-name</span> {
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;  <span class="comment">/* ink */</span>
+}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Switcher Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Switcher Menu</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="code-block">
+                            <code><span class="property">.context-menu</span> {
+  <span class="property">width</span>: <span class="value">280px</span>;
+  <span class="property">padding</span>: <span class="value">8px</span>;
+  <span class="property">background</span>: <span class="value">white</span>;
+  <span class="property">border</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+  <span class="property">border-radius</span>: <span class="value">12px</span>;
+  <span class="property">box-shadow</span>: <span class="value">0 8px 24px rgba(0,0,0,0.15)</span>;
+}
+
+<span class="property">.context-option</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">gap</span>: <span class="value">12px</span>;
+  <span class="property">padding</span>: <span class="value">12px</span>;
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+  <span class="property">cursor</span>: <span class="value">pointer</span>;
+  <span class="property">transition</span>: <span class="value">background 150ms ease</span>;
+}
+
+<span class="property">.context-option:hover</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 10% 96%)</span>;
+}
+
+<span class="property">.context-option-active</span> {
+  <span class="property">background</span>: <span class="value">hsl(150 40% 96%)</span>;
+}</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 12: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12. Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Context Indicator -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Context Indicator</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Shows current context name and type</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Icon matches context (wallet/building)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Chevron indicates expandable</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Hover state implemented</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Light/dark variants</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Switcher Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Switcher Menu</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Lists available contexts</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Current context marked with checkmark</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Hover states on options</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Section dividers if multiple types</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Search if &gt;5 options</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Visual Reinforcement -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Visual Reinforcement</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Sidebar changes light/dark on switch</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Icon colors match context type</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">URL reflects current context</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Transition animation on switch</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Accessibility -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Accessibility</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">aria-haspopup and aria-expanded on trigger</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">role="menu" on dropdown</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Keyboard navigation</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5 flex-shrink-0"></span>
+                            <span class="text-warm-700">Screen reader announcements</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="../../assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="../../foundation/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

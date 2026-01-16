@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Code block styles */
+        .code-block {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 88%);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        .code-block .comment { color: hsl(30 5% 50%); }
+        .code-block .property { color: hsl(170 100% 60%); }
+        .code-block .value { color: hsl(74 100% 65%); }
+        .code-block .selector { color: hsl(330 100% 70%); }
+
+        /* ========================================== */
+        /* UNDERLINE TABS - LIGHT */
+        /* ========================================== */
+        .tab-list-underline {
+            display: flex;
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .tab-underline {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-underline:hover {
+            color: hsl(24 29% 8%);
+        }
+        .tab-underline.active {
+            color: hsl(24 29% 8%);
+            border-bottom-color: hsl(237 100% 65%);
+        }
+        .tab-underline.disabled {
+            color: hsl(30 5% 70%);
+            cursor: not-allowed;
+        }
+
+        /* ========================================== */
+        /* UNDERLINE TABS - DARK */
+        /* ========================================== */
+        .tab-list-underline-dark {
+            border-bottom-color: hsl(24 27% 20%);
+        }
+        .tab-underline-dark {
+            color: hsl(30 5% 55%);
+        }
+        .tab-underline-dark:hover {
+            color: hsl(30 5% 85%);
+        }
+        .tab-underline-dark.active {
+            color: hsl(30 5% 95%);
+            border-bottom-color: hsl(237 90% 72%);
+        }
+        .tab-underline-dark.disabled {
+            color: hsl(30 5% 40%);
+        }
+
+        /* ========================================== */
+        /* PILL TABS - LIGHT */
+        /* ========================================== */
+        .tab-list-pill {
+            display: flex;
+            gap: 4px;
+        }
+        .tab-pill {
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-pill:hover {
+            background: hsl(30 5% 93%);
+            color: hsl(24 29% 8%);
+        }
+        .tab-pill.active {
+            background: hsl(237 100% 95%);
+            color: hsl(237 100% 40%);
+        }
+        .tab-pill.disabled {
+            color: hsl(30 5% 70%);
+            cursor: not-allowed;
+        }
+
+        /* ========================================== */
+        /* PILL TABS - DARK */
+        /* ========================================== */
+        .tab-pill-dark {
+            color: hsl(30 5% 55%);
+        }
+        .tab-pill-dark:hover {
+            background: hsl(24 27% 20%);
+            color: hsl(30 5% 85%);
+        }
+        .tab-pill-dark.active {
+            background: hsl(237 100% 65% / 20%);
+            color: hsl(237 80% 75%);
+        }
+        .tab-pill-dark.disabled {
+            color: hsl(30 5% 40%);
+        }
+
+        /* ========================================== */
+        /* BOXED TABS - LIGHT */
+        /* ========================================== */
+        .tab-list-boxed {
+            display: inline-flex;
+            padding: 4px;
+            background: hsl(30 5% 93%);
+            border-radius: 8px;
+            gap: 0;
+        }
+        .tab-boxed {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-boxed:hover {
+            background: hsl(30 5% 97%);
+            color: hsl(24 29% 8%);
+        }
+        .tab-boxed.active {
+            background: white;
+            color: hsl(24 29% 8%);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* ========================================== */
+        /* BOXED TABS - DARK */
+        /* ========================================== */
+        .tab-list-boxed-dark {
+            background: hsl(24 29% 8%);
+        }
+        .tab-boxed-dark {
+            color: hsl(30 5% 55%);
+        }
+        .tab-boxed-dark:hover {
+            background: hsl(24 28% 15%);
+            color: hsl(30 5% 85%);
+        }
+        .tab-boxed-dark.active {
+            background: hsl(24 27% 20%);
+            color: hsl(30 5% 95%);
+            box-shadow: none;
+        }
+
+        /* ========================================== */
+        /* VERTICAL TABS - LIGHT */
+        /* ========================================== */
+        .tab-list-vertical {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            gap: 2px;
+        }
+        .tab-vertical {
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-vertical:hover {
+            background: hsl(30 5% 97%);
+            color: hsl(24 29% 8%);
+        }
+        .tab-vertical.active {
+            background: hsl(237 100% 97%);
+            color: hsl(237 100% 40%);
+            border-left-color: hsl(237 100% 65%);
+        }
+
+        /* ========================================== */
+        /* VERTICAL TABS - DARK */
+        /* ========================================== */
+        .tab-vertical-dark {
+            color: hsl(30 5% 55%);
+        }
+        .tab-vertical-dark:hover {
+            background: hsl(24 28% 15%);
+            color: hsl(30 5% 85%);
+        }
+        .tab-vertical-dark.active {
+            background: hsl(237 100% 65% / 15%);
+            color: hsl(237 80% 75%);
+            border-left-color: hsl(237 90% 72%);
+        }
+
+        /* ========================================== */
+        /* TAB EXTRAS */
+        /* ========================================== */
+        .tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background: hsl(30 5% 90%);
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(30 6% 46%);
+        }
+        .tab-underline.active .tab-badge,
+        .tab-pill.active .tab-badge,
+        .tab-vertical.active .tab-badge {
+            background: hsl(237 100% 92%);
+            color: hsl(237 100% 40%);
+        }
+        .tab-badge-dark {
+            background: hsl(24 27% 25%);
+            color: hsl(30 5% 60%);
+        }
+        .tab-underline-dark.active .tab-badge-dark,
+        .tab-pill-dark.active .tab-badge-dark {
+            background: hsl(237 100% 65% / 30%);
+            color: hsl(237 80% 75%);
+        }
+
+        .tab-close {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(30 5% 60%);
+            border-radius: 4px;
+            transition: all 0.15s ease;
+            margin-left: 4px;
+        }
+        .tab-close:hover {
+            background: hsl(30 5% 88%);
+            color: hsl(30 5% 30%);
+        }
+        .tab-close-dark:hover {
+            background: hsl(24 27% 25%);
+            color: hsl(30 5% 80%);
+        }
+
+        /* ========================================== */
+        /* TAB FOCUS STATES */
+        /* ========================================== */
+        .tab-underline:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+            border-radius: 4px;
+        }
+        .tab-underline-dark:focus-visible {
+            box-shadow: inset 0 0 0 2px hsl(170 100% 45%);
+        }
+
+        .tab-pill:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+        }
+        .tab-pill-dark:focus-visible {
+            box-shadow: inset 0 0 0 2px hsl(170 100% 45%);
+        }
+
+        .tab-boxed:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+        }
+        .tab-boxed-dark:focus-visible {
+            box-shadow: inset 0 0 0 2px hsl(170 100% 45%);
+        }
+
+        .tab-vertical:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+        }
+        .tab-vertical-dark:focus-visible {
+            box-shadow: inset 0 0 0 2px hsl(170 100% 45%);
+        }
+
+        /* Tab panel */
+        .tab-panel {
+            padding: 16px 0;
+        }
+
+        /* ========================================== */
+        /* SPEC TABLES */
+        /* ========================================== */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px;
+            background: hsl(30 5% 97%);
+            color: hsl(30 6% 46%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .spec-table td {
+            padding: 12px;
+            font-size: 14px;
+            color: hsl(24 29% 8%);
+            border-bottom: 1px solid hsl(30 5% 92%);
+        }
+        .spec-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Compact tabs */
+        .tab-compact {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="../../foundation/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Tabs</span>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Tabs</h1>
+            <p class="text-warm-600 max-w-2xl">Organize content into parallel views within the same context. Switching tabs is instant with no page reload.</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">01 — Philosophy</p>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="layers" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Parallel Organization</h3>
+                    <p class="text-sm text-warm-600">Tabs organize content into parallel views within the same context. Only one tab panel is visible at a time.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="zap" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Instant Switching</h3>
+                    <p class="text-sm text-warm-600">Tabs should feel lightweight. Switching is instant with no page reload or heavy transitions.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="eye" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Clear Indication</h3>
+                    <p class="text-sm text-warm-600">The active tab must be clearly distinguishable. Users should always know which view they're seeing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- ANATOMY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">02 — Anatomy</p>
+            <div class="bg-white border border-warm-200 rounded-lg p-8">
+                <div class="grid grid-cols-4 gap-4 text-center mb-8">
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-8 bg-warm-100 rounded mb-2 flex gap-1 p-1">
+                            <div class="flex-1 bg-warm-200 rounded"></div>
+                            <div class="flex-1 bg-white rounded shadow-sm"></div>
+                            <div class="flex-1 bg-warm-200 rounded"></div>
+                        </div>
+                        <p class="text-xs text-warm-500">Tab List</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-16 h-8 bg-warm-200 rounded mx-auto mb-2"></div>
+                        <p class="text-xs text-warm-500">Tab Trigger</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-16 h-1 rounded mx-auto mb-2 mt-3" style="background: hsl(237 100% 65%);"></div>
+                        <p class="text-xs text-warm-500">Tab Indicator</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-12 bg-warm-50 rounded mb-2"></div>
+                        <p class="text-xs text-warm-500">Tab Panel</p>
+                    </div>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-4 text-sm">
+                    <ul class="grid grid-cols-2 gap-2 text-warm-600">
+                        <li><strong>Tab list:</strong> Container for tab triggers (<code>role="tablist"</code>)</li>
+                        <li><strong>Tab trigger:</strong> Clickable element for each tab (<code>role="tab"</code>)</li>
+                        <li><strong>Tab indicator:</strong> Visual marker for active tab (underline, background)</li>
+                        <li><strong>Tab panel:</strong> Content area that changes based on selected tab</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- BASE SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">03 — Base Specifications</p>
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Token</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tab trigger height (default)</td>
+                            <td>40px</td>
+                            <td><code>h-10</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tab trigger height (compact)</td>
+                            <td>36px</td>
+                            <td><code>h-9</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tab trigger padding</td>
+                            <td>12px 16px</td>
+                            <td><code>py-3 px-4</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tab trigger font size</td>
+                            <td>14px</td>
+                            <td><code>text-sm</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tab trigger font weight</td>
+                            <td>500 (medium)</td>
+                            <td><code>font-medium</code></td>
+                        </tr>
+                        <tr>
+                            <td>Gap between tabs</td>
+                            <td>0 (touching) or 4px</td>
+                            <td><code>gap-0</code> or <code>gap-1</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tab panel margin-top</td>
+                            <td>16px</td>
+                            <td><code>mt-4</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- UNDERLINE TABS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">04 — Underline Tabs (Default)</p>
+            <p class="text-warm-600 mb-6">Most common style. Active tab has underline indicator.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <!-- Light Mode -->
+                <div>
+                    <p class="font-medium mb-3">Light Mode</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="tab-list-underline mb-4">
+                            <div class="tab-underline">Default</div>
+                            <div class="tab-underline" style="color: hsl(24 29% 8%);">Hover</div>
+                            <div class="tab-underline active">Active</div>
+                            <div class="tab-underline disabled">Disabled</div>
+                        </div>
+                        <div class="bg-warm-50 rounded p-4 text-sm text-warm-600">
+                            Tab panel content area. Full-width spanning below the tab list.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="font-medium mb-3">Dark Mode (Fire Opal)</p>
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="bg-intaglio-800 p-6 rounded-lg">
+                            <div class="tab-list-underline tab-list-underline-dark mb-4">
+                                <div class="tab-underline tab-underline-dark">Default</div>
+                                <div class="tab-underline tab-underline-dark" style="color: hsl(30 5% 85%);">Hover</div>
+                                <div class="tab-underline tab-underline-dark active">Active</div>
+                                <div class="tab-underline tab-underline-dark disabled">Disabled</div>
+                            </div>
+                            <div class="bg-intaglio-900 rounded p-4 text-sm" style="color: hsl(30 5% 60%);">
+                                Tab panel content area on dark background.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Specifications -->
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Default</td>
+                            <td><code>warm-600</code> text, no underline</td>
+                            <td><code>warm-400</code> text, no underline</td>
+                        </tr>
+                        <tr>
+                            <td>Hover</td>
+                            <td><code>ink</code> text</td>
+                            <td><code>warm-200</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Active</td>
+                            <td><code>ink</code> text, <code>indigo-500</code> underline (2px)</td>
+                            <td><code>warm-100</code> text, <code>indigo-400</code> underline (2px)</td>
+                        </tr>
+                        <tr>
+                            <td>Disabled</td>
+                            <td><code>warm-400</code> text, cursor not-allowed</td>
+                            <td><code>warm-600</code> text, cursor not-allowed</td>
+                        </tr>
+                        <tr>
+                            <td>Tab list border</td>
+                            <td><code>warm-200</code> bottom (1px)</td>
+                            <td><code>intaglio-700</code> bottom (1px)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PILL TABS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">05 — Pill Tabs</p>
+            <p class="text-warm-600 mb-6">Tabs with rounded background on active state. Good for filters and compact spaces.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <!-- Light Mode -->
+                <div>
+                    <p class="font-medium mb-3">Light Mode</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="tab-list-pill mb-4">
+                            <div class="tab-pill">Default</div>
+                            <div class="tab-pill" style="background: hsl(30 5% 93%); color: hsl(24 29% 8%);">Hover</div>
+                            <div class="tab-pill active">Active</div>
+                            <div class="tab-pill disabled">Disabled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="font-medium mb-3">Dark Mode (Fire Opal)</p>
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="bg-intaglio-800 p-6 rounded-lg">
+                            <div class="tab-list-pill mb-4">
+                                <div class="tab-pill tab-pill-dark">Default</div>
+                                <div class="tab-pill tab-pill-dark" style="background: hsl(24 27% 20%); color: hsl(30 5% 85%);">Hover</div>
+                                <div class="tab-pill tab-pill-dark active">Active</div>
+                                <div class="tab-pill tab-pill-dark disabled">Disabled</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Specifications -->
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Default</td>
+                            <td><code>transparent</code> bg, <code>warm-600</code> text</td>
+                            <td><code>transparent</code> bg, <code>warm-400</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Hover</td>
+                            <td><code>warm-100</code> bg, <code>ink</code> text</td>
+                            <td><code>intaglio-700</code> bg, <code>warm-200</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Active</td>
+                            <td><code>indigo-100</code> bg, <code>indigo-700</code> text</td>
+                            <td><code>indigo-500/20</code> bg, <code>indigo-400</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td colspan="2">6px (<code>rounded-md</code>)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- BOXED TABS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">06 — Boxed Tabs (Segmented Control)</p>
+            <p class="text-warm-600 mb-6">Tabs contained in a background box, like iOS segmented control. Best for binary or ternary choices.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <!-- Light Mode -->
+                <div>
+                    <p class="font-medium mb-3">Light Mode</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="tab-list-boxed">
+                            <div class="tab-boxed">Default</div>
+                            <div class="tab-boxed" style="background: hsl(30 5% 97%);">Hover</div>
+                            <div class="tab-boxed active">Active</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="font-medium mb-3">Dark Mode (Fire Opal)</p>
+                    <div class="bg-intaglio-800 p-6 rounded-lg">
+                        <div class="tab-list-boxed tab-list-boxed-dark">
+                            <div class="tab-boxed tab-boxed-dark">Default</div>
+                            <div class="tab-boxed tab-boxed-dark" style="background: hsl(24 28% 15%);">Hover</div>
+                            <div class="tab-boxed tab-boxed-dark active">Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Specifications -->
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Container</td>
+                            <td><code>warm-100</code> bg, 4px padding</td>
+                            <td><code>intaglio-900</code> bg, 4px padding</td>
+                        </tr>
+                        <tr>
+                            <td>Default tab</td>
+                            <td><code>transparent</code> bg, <code>warm-600</code> text</td>
+                            <td><code>transparent</code> bg, <code>warm-400</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Hover tab</td>
+                            <td><code>warm-50</code> bg</td>
+                            <td><code>intaglio-800</code> bg</td>
+                        </tr>
+                        <tr>
+                            <td>Active tab</td>
+                            <td><code>white</code> bg, shadow, <code>ink</code> text</td>
+                            <td><code>intaglio-700</code> bg, <code>warm-100</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td colspan="2">Container: 8px, Tabs: 6px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VERTICAL TABS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">07 — Vertical Tabs</p>
+            <p class="text-warm-600 mb-6">Tabs stacked vertically, typically in a sidebar. Great for settings pages.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <!-- Light Mode -->
+                <div>
+                    <p class="font-medium mb-3">Light Mode</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="flex gap-6">
+                            <div class="tab-list-vertical border-r border-warm-200 pr-0" style="width: 160px;">
+                                <div class="tab-vertical">Default</div>
+                                <div class="tab-vertical" style="background: hsl(30 5% 97%);">Hover</div>
+                                <div class="tab-vertical active">Active</div>
+                                <div class="tab-vertical disabled">Disabled</div>
+                            </div>
+                            <div class="flex-1 p-4 bg-warm-50 rounded">
+                                <p class="text-sm text-warm-600">Panel content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="font-medium mb-3">Dark Mode (Fire Opal)</p>
+                    <div class="bg-intaglio-800 p-6 rounded-lg">
+                        <div class="flex gap-6">
+                            <div class="tab-list-vertical pr-0" style="width: 160px; border-right: 1px solid hsl(24 27% 20%);">
+                                <div class="tab-vertical tab-vertical-dark">Default</div>
+                                <div class="tab-vertical tab-vertical-dark" style="background: hsl(24 28% 15%);">Hover</div>
+                                <div class="tab-vertical tab-vertical-dark active">Active</div>
+                                <div class="tab-vertical tab-vertical-dark disabled" style="color: hsl(30 5% 40%);">Disabled</div>
+                            </div>
+                            <div class="flex-1 p-4 bg-intaglio-900 rounded">
+                                <p class="text-sm" style="color: hsl(30 5% 60%);">Panel content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Specifications -->
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Default</td>
+                            <td><code>transparent</code> bg, <code>warm-600</code> text</td>
+                            <td><code>transparent</code> bg, <code>warm-400</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Hover</td>
+                            <td><code>warm-50</code> bg, <code>ink</code> text</td>
+                            <td><code>intaglio-800</code> bg, <code>warm-200</code> text</td>
+                        </tr>
+                        <tr>
+                            <td>Active</td>
+                            <td><code>indigo-50</code> bg, <code>indigo-700</code> text, <code>indigo-500</code> left border (3px)</td>
+                            <td><code>indigo-500/15</code> bg, <code>indigo-400</code> text, <code>indigo-500</code> left border (3px)</td>
+                        </tr>
+                        <tr>
+                            <td>Tab list width</td>
+                            <td colspan="2">180-240px (fixed)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TAB ENHANCEMENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">08 — Tab Enhancements</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Tabs with Icons -->
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Tabs with Icons</p>
+                    <div class="tab-list-underline mb-4">
+                        <div class="tab-underline active">
+                            <i data-lucide="home" class="w-4 h-4"></i>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="tab-underline">
+                            <i data-lucide="receipt" class="w-4 h-4"></i>
+                            <span>Transactions</span>
+                        </div>
+                        <div class="tab-underline">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            <span>Settings</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Icon size: 16px, gap: 8px</p>
+                </div>
+
+                <!-- Tabs with Badges -->
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Tabs with Badges</p>
+                    <div class="tab-list-underline mb-4">
+                        <div class="tab-underline active">
+                            <span>Inbox</span>
+                            <span class="tab-badge">12</span>
+                        </div>
+                        <div class="tab-underline">
+                            <span>Pending</span>
+                            <span class="tab-badge">3</span>
+                        </div>
+                        <div class="tab-underline">
+                            <span>Completed</span>
+                            <span class="tab-badge">847</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Badge: 18px height, gap: 8px</p>
+                </div>
+
+                <!-- Tabs with Close Button -->
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Tabs with Close Button</p>
+                    <div class="tab-list-underline mb-4">
+                        <div class="tab-underline active">
+                            <span>Report.pdf</span>
+                            <span class="tab-close"><i data-lucide="x" class="w-3 h-3"></i></span>
+                        </div>
+                        <div class="tab-underline">
+                            <span>Data.csv</span>
+                            <span class="tab-close"><i data-lucide="x" class="w-3 h-3"></i></span>
+                        </div>
+                        <div class="tab-underline">
+                            <span>+</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Close button: 16px icon, 24px hit area</p>
+                </div>
+
+                <!-- Compact Tabs -->
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Compact Size</p>
+                    <div class="tab-list-pill mb-4">
+                        <div class="tab-pill tab-compact active">All</div>
+                        <div class="tab-pill tab-compact">Active</div>
+                        <div class="tab-pill tab-compact">Pending</div>
+                        <div class="tab-pill tab-compact">Completed</div>
+                    </div>
+                    <p class="text-xs text-warm-500">Compact: 36px height, 8px 12px padding</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- ANIMATION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">09 — Animation</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">Tab Indicator (Underline)</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li><strong>Behavior:</strong> Underline slides from previous tab to current tab</li>
+                        <li><strong>Duration:</strong> 200ms</li>
+                        <li><strong>Easing:</strong> ease-out</li>
+                    </ul>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">Tab Panel Transition</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li><strong>Option 1:</strong> Fade out old panel, fade in new panel (150ms)</li>
+                        <li><strong>Option 2:</strong> No animation (instant switch)</li>
+                        <li><strong>Recommendation:</strong> Instant switch for most cases</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- KEYBOARD & ACCESSIBILITY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10 — Keyboard & Accessibility</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">Keyboard Navigation</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li><code>Tab</code> — Move focus to tab list, then to active panel</li>
+                        <li><code>←</code> / <code>→</code> — Move between tabs (horizontal)</li>
+                        <li><code>↑</code> / <code>↓</code> — Move between tabs (vertical tabs)</li>
+                        <li><code>Home</code> — Move to first tab</li>
+                        <li><code>End</code> — Move to last tab</li>
+                        <li><code>Enter</code> / <code>Space</code> — Activate focused tab</li>
+                    </ul>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">ARIA Requirements</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>Tab list: <code>role="tablist"</code></li>
+                        <li>Each tab: <code>role="tab"</code></li>
+                        <li>Active tab: <code>aria-selected="true"</code></li>
+                        <li>Each panel: <code>role="tabpanel"</code></li>
+                        <li>Panel linked via: <code>aria-labelledby</code></li>
+                        <li>Hidden panels: <code>hidden</code> attribute</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block">
+<pre><span class="comment">&lt;!-- Accessible tab structure --&gt;</span>
+&lt;div <span class="property">role</span>=<span class="value">"tablist"</span> <span class="property">aria-label</span>=<span class="value">"Settings tabs"</span>&gt;
+  &lt;button <span class="property">role</span>=<span class="value">"tab"</span> <span class="property">aria-selected</span>=<span class="value">"true"</span> <span class="property">aria-controls</span>=<span class="value">"panel-1"</span> <span class="property">id</span>=<span class="value">"tab-1"</span>&gt;
+    General
+  &lt;/button&gt;
+  &lt;button <span class="property">role</span>=<span class="value">"tab"</span> <span class="property">aria-selected</span>=<span class="value">"false"</span> <span class="property">aria-controls</span>=<span class="value">"panel-2"</span> <span class="property">id</span>=<span class="value">"tab-2"</span>&gt;
+    Security
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div <span class="property">role</span>=<span class="value">"tabpanel"</span> <span class="property">id</span>=<span class="value">"panel-1"</span> <span class="property">aria-labelledby</span>=<span class="value">"tab-1"</span>&gt;
+  <span class="comment">&lt;!-- Panel 1 content --&gt;</span>
+&lt;/div&gt;
+
+&lt;div <span class="property">role</span>=<span class="value">"tabpanel"</span> <span class="property">id</span>=<span class="value">"panel-2"</span> <span class="property">aria-labelledby</span>=<span class="value">"tab-2"</span> <span class="property">hidden</span>&gt;
+  <span class="comment">&lt;!-- Panel 2 content --&gt;</span>
+&lt;/div&gt;</pre>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- CONTEXTUAL EXAMPLES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11 — Contextual Examples</p>
+
+            <div class="space-y-8">
+                <!-- Settings Page -->
+                <div>
+                    <p class="font-medium mb-3">Settings Page (Underline)</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="tab-list-underline">
+                            <div class="tab-underline active">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                                General
+                            </div>
+                            <div class="tab-underline">
+                                <i data-lucide="shield" class="w-4 h-4"></i>
+                                Security
+                            </div>
+                            <div class="tab-underline">
+                                <i data-lucide="bell" class="w-4 h-4"></i>
+                                Notifications
+                            </div>
+                            <div class="tab-underline">
+                                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                Billing
+                            </div>
+                        </div>
+                        <div class="tab-panel">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Display Name</label>
+                                    <input type="text" value="Sarah Johnson" class="w-full px-3 py-2 border border-warm-200 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Email Address</label>
+                                    <input type="email" value="sarah@example.com" class="w-full px-3 py-2 border border-warm-200 rounded-lg text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Filters -->
+                <div>
+                    <p class="font-medium mb-3">Dashboard Filters (Pill)</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-medium">Transactions</h3>
+                            <div class="tab-list-pill">
+                                <div class="tab-pill tab-compact active">All</div>
+                                <div class="tab-pill tab-compact">Active <span class="tab-badge ml-1">24</span></div>
+                                <div class="tab-pill tab-compact">Pending <span class="tab-badge ml-1">3</span></div>
+                                <div class="tab-pill tab-compact">Completed</div>
+                            </div>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-4 text-sm text-warm-600">
+                            Transaction list would appear here filtered by selection.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Toggle -->
+                <div>
+                    <p class="font-medium mb-3">View Toggle (Boxed)</p>
+                    <div class="bg-white border border-warm-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-medium">Products</h3>
+                            <div class="tab-list-boxed">
+                                <div class="tab-boxed active">
+                                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                                </div>
+                                <div class="tab-boxed">
+                                    <i data-lucide="list" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="bg-warm-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 bg-warm-200 rounded-lg mx-auto mb-2"></div>
+                                <p class="text-xs text-warm-600">Product 1</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 bg-warm-200 rounded-lg mx-auto mb-2"></div>
+                                <p class="text-xs text-warm-600">Product 2</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 bg-warm-200 rounded-lg mx-auto mb-2"></div>
+                                <p class="text-xs text-warm-600">Product 3</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 bg-warm-200 rounded-lg mx-auto mb-2"></div>
+                                <p class="text-xs text-warm-600">Product 4</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Sidebar (Dark) -->
+                <div>
+                    <p class="font-medium mb-3">Settings Sidebar (Vertical, Dark)</p>
+                    <div class="bg-intaglio-800 p-6 rounded-lg">
+                        <div class="flex gap-6">
+                            <div class="tab-list-vertical" style="width: 180px; border-right: 1px solid hsl(24 27% 20%);">
+                                <div class="tab-vertical tab-vertical-dark">
+                                    <i data-lucide="user" class="w-4 h-4"></i>
+                                    Profile
+                                </div>
+                                <div class="tab-vertical tab-vertical-dark active">
+                                    <i data-lucide="bell" class="w-4 h-4"></i>
+                                    Notifications
+                                </div>
+                                <div class="tab-vertical tab-vertical-dark">
+                                    <i data-lucide="shield" class="w-4 h-4"></i>
+                                    Security
+                                </div>
+                                <div class="tab-vertical tab-vertical-dark">
+                                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                    Billing
+                                </div>
+                                <div class="tab-vertical tab-vertical-dark">
+                                    <i data-lucide="key" class="w-4 h-4"></i>
+                                    API Keys
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-medium mb-4" style="color: hsl(30 5% 95%);">Notification Settings</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3" style="border-bottom: 1px solid hsl(24 27% 20%);">
+                                        <div>
+                                            <p class="text-sm font-medium" style="color: hsl(30 5% 88%);">Email notifications</p>
+                                            <p class="text-xs" style="color: hsl(30 5% 55%);">Receive updates via email</p>
+                                        </div>
+                                        <div class="w-10 h-5 rounded-full relative" style="background: hsl(237 100% 65%);">
+                                            <div class="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="text-sm font-medium" style="color: hsl(30 5% 88%);">Push notifications</p>
+                                            <p class="text-xs" style="color: hsl(30 5% 55%);">Get notified on your device</p>
+                                        </div>
+                                        <div class="w-10 h-5 rounded-full relative" style="background: hsl(24 27% 25%);">
+                                            <div class="w-4 h-4 bg-white rounded-full absolute left-0.5 top-0.5" style="opacity: 0.6;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- CODE REFERENCE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12 — Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Underline Tabs -->
+                <div>
+                    <p class="font-medium mb-3">Underline Tabs</p>
+                    <div class="code-block">
+<pre><span class="selector">.tab-list</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">border-bottom</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+}
+
+<span class="selector">.tab-trigger</span> {
+  <span class="property">padding</span>: <span class="value">12px 16px</span>;
+  <span class="property">font-size</span>: <span class="value">14px</span>;
+  <span class="property">font-weight</span>: <span class="value">500</span>;
+  <span class="property">color</span>: <span class="value">hsl(30 6% 46%)</span>;
+  <span class="property">border-bottom</span>: <span class="value">2px solid transparent</span>;
+  <span class="property">margin-bottom</span>: <span class="value">-1px</span>;
+  <span class="property">transition</span>: <span class="value">all 0.15s ease</span>;
+}
+
+<span class="selector">.tab-trigger:hover</span> {
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+}
+
+<span class="selector">.tab-trigger[data-state="active"]</span> {
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+  <span class="property">border-bottom-color</span>: <span class="value">hsl(237 100% 65%)</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Pill Tabs -->
+                <div>
+                    <p class="font-medium mb-3">Pill Tabs</p>
+                    <div class="code-block">
+<pre><span class="selector">.tab-list-pill</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">gap</span>: <span class="value">4px</span>;
+}
+
+<span class="selector">.tab-trigger-pill</span> {
+  <span class="property">padding</span>: <span class="value">8px 12px</span>;
+  <span class="property">font-size</span>: <span class="value">14px</span>;
+  <span class="property">font-weight</span>: <span class="value">500</span>;
+  <span class="property">color</span>: <span class="value">hsl(30 6% 46%)</span>;
+  <span class="property">border-radius</span>: <span class="value">6px</span>;
+  <span class="property">transition</span>: <span class="value">all 0.15s ease</span>;
+}
+
+<span class="selector">.tab-trigger-pill:hover</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 5% 93%)</span>;
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+}
+
+<span class="selector">.tab-trigger-pill[data-state="active"]</span> {
+  <span class="property">background</span>: <span class="value">hsl(237 100% 95%)</span>;
+  <span class="property">color</span>: <span class="value">hsl(237 100% 40%)</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Boxed Tabs -->
+                <div>
+                    <p class="font-medium mb-3">Boxed Tabs</p>
+                    <div class="code-block">
+<pre><span class="selector">.tab-list-boxed</span> {
+  <span class="property">display</span>: <span class="value">inline-flex</span>;
+  <span class="property">padding</span>: <span class="value">4px</span>;
+  <span class="property">background</span>: <span class="value">hsl(30 5% 93%)</span>;
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+}
+
+<span class="selector">.tab-trigger-boxed</span> {
+  <span class="property">padding</span>: <span class="value">8px 16px</span>;
+  <span class="property">font-size</span>: <span class="value">14px</span>;
+  <span class="property">font-weight</span>: <span class="value">500</span>;
+  <span class="property">color</span>: <span class="value">hsl(30 6% 46%)</span>;
+  <span class="property">border-radius</span>: <span class="value">6px</span>;
+}
+
+<span class="selector">.tab-trigger-boxed[data-state="active"]</span> {
+  <span class="property">background</span>: <span class="value">white</span>;
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+  <span class="property">box-shadow</span>: <span class="value">0 1px 2px rgba(0,0,0,0.05)</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Vertical Tabs -->
+                <div>
+                    <p class="font-medium mb-3">Vertical Tabs</p>
+                    <div class="code-block">
+<pre><span class="selector">.tab-list-vertical</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">flex-direction</span>: <span class="value">column</span>;
+  <span class="property">width</span>: <span class="value">200px</span>;
+}
+
+<span class="selector">.tab-trigger-vertical</span> {
+  <span class="property">padding</span>: <span class="value">10px 16px</span>;
+  <span class="property">text-align</span>: <span class="value">left</span>;
+  <span class="property">border-left</span>: <span class="value">3px solid transparent</span>;
+}
+
+<span class="selector">.tab-trigger-vertical[data-state="active"]</span> {
+  <span class="property">background</span>: <span class="value">hsl(237 100% 97%)</span>;
+  <span class="property">color</span>: <span class="value">hsl(237 100% 40%)</span>;
+  <span class="property">border-left-color</span>: <span class="value">hsl(237 100% 65%)</span>;
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- IMPLEMENTATION CHECKLIST -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">13 — Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Underline Tabs</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Tab list: <code>border-b warm-200</code> (light) / <code>intaglio-700</code> (dark)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Active: <code>indigo-500</code> underline (2px)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Default text: <code>warm-600</code> (light) / <code>warm-400</code> (dark)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Pill Tabs</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Border radius: 6px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Active: <code>indigo-100</code> bg (light) / <code>indigo-500/20</code> (dark)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>No tab list border</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Boxed Tabs</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Container: <code>warm-100</code> bg (light) / <code>intaglio-900</code> (dark), 4px padding</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Active: <code>white</code> bg with shadow (light) / <code>intaglio-700</code> (dark)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Vertical Tabs</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Active: <code>indigo-500</code> left border (3px)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Fixed width: 180-240px</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Keyboard & Focus</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Arrow keys navigate</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Home/End jump to first/last</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Enter/Space activate (if manual activation)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Focus ring: <code>indigo-500</code> inset 2px (light) / <code>indigo-400</code> (dark)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Accessibility</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span><code>role="tablist"</code> on container</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span><code>role="tab"</code> on triggers</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span><code>role="tabpanel"</code> on panels</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span><code>aria-selected</code> on active tab</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-8 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                </div>
+                <p>Saltwyk Design System v0.6</p>
+            </div>
+        </footer>
+    </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

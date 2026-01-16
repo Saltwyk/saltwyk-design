@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Navigation - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-400)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-400)); }
+        .code-block .value { color: hsl(var(--orange-300)); }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            border-bottom: 2px solid hsl(var(--warm-200));
+            background: hsl(var(--warm-50));
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist-box {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(var(--warm-300));
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Thread line accent - Spectrum for brand expression in navigation */
+        .thread-line {
+            height: 3px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--lime-thread)) 25%,
+                hsl(var(--orange-thread)) 50%,
+                hsl(var(--magenta-thread)) 75%,
+                hsl(var(--cyan-thread)) 100%
+            );
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - LIGHT MODE */
+        /* ========================================= */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid hsl(var(--warm-200));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-logo {
+            height: 64px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-header {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-500));
+            padding: 12px 16px 8px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--warm-200));
+            margin: 8px 16px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        .sidebar-item:hover {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--ink));
+        }
+        .sidebar-item:hover .sidebar-item-icon {
+            color: hsl(var(--warm-500));
+        }
+
+        /* ACTIVE STATE - Uses INDIGO (selection color) */
+        .sidebar-item-active {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-700));
+            border-left: 3px solid hsl(var(--indigo-500));
+            margin-left: 5px;
+            padding-left: 13px;
+        }
+        .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-600));
+        }
+
+        .sidebar-item-disabled {
+            color: hsl(var(--warm-300));
+            cursor: not-allowed;
+        }
+        .sidebar-item-disabled .sidebar-item-icon {
+            color: hsl(var(--warm-300));
+        }
+        .sidebar-item-icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+            flex-shrink: 0;
+        }
+
+        /* FOCUS STATE - Uses INDIGO */
+        .sidebar-item-focus {
+            outline: none;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
+        }
+
+        /* Notification badge - magenta for attention */
+        .sidebar-badge {
+            margin-left: auto;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: hsl(var(--magenta-500));
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* "New" badge - emerald for positive/success semantic */
+        .sidebar-badge-new {
+            background: hsl(var(--emerald-600));
+        }
+        .sidebar-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: auto;
+        }
+
+        .sidebar-user {
+            padding: 16px 20px;
+            border-top: 1px solid hsl(var(--warm-200));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--warm-200));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal) */
+        /* ========================================= */
+        .sidebar-dark {
+            background: hsl(var(--intaglio-900));
+            border-right: none;
+        }
+        .sidebar-dark .sidebar-logo {
+            border-bottom-color: hsl(var(--intaglio-700));
+        }
+        .sidebar-dark .sidebar-section-header {
+            color: hsl(var(--warm-500));
+        }
+        .sidebar-dark .sidebar-divider {
+            background: hsl(var(--intaglio-700));
+        }
+        .sidebar-dark .sidebar-item {
+            color: hsl(var(--warm-400));
+        }
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+        .sidebar-dark .sidebar-item:hover .sidebar-item-icon {
+            color: hsl(var(--warm-300));
+        }
+        .sidebar-dark .sidebar-item-icon {
+            color: hsl(var(--warm-500));
+        }
+
+        /* ACTIVE STATE - Uses INDIGO (selection color) */
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left-color: hsl(var(--indigo-400));
+        }
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-item-disabled {
+            color: hsl(var(--intaglio-600));
+        }
+        .sidebar-dark .sidebar-item-disabled .sidebar-item-icon {
+            color: hsl(var(--intaglio-600));
+        }
+
+        /* FOCUS STATE - Uses INDIGO */
+        .sidebar-dark .sidebar-item-focus {
+            box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+
+        .sidebar-dark .sidebar-user {
+            border-top-color: hsl(var(--intaglio-700));
+        }
+        .sidebar-dark .sidebar-user-avatar {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-300));
+        }
+        .sidebar-dark .sidebar-badge {
+            background: hsl(var(--magenta-400));
+        }
+
+        /* ========================================= */
+        /* COLLAPSED SIDEBAR */
+        /* ========================================= */
+        .sidebar-collapsed {
+            width: 64px;
+        }
+        .sidebar-collapsed .sidebar-logo {
+            padding: 0;
+            justify-content: center;
+        }
+        .sidebar-collapsed .sidebar-item {
+            padding: 12px;
+            margin: 0 8px;
+            justify-content: center;
+        }
+        .sidebar-collapsed .sidebar-item span,
+        .sidebar-collapsed .sidebar-badge,
+        .sidebar-collapsed .sidebar-section-header {
+            display: none;
+        }
+        .sidebar-collapsed .sidebar-user {
+            padding: 16px;
+            justify-content: center;
+        }
+        .sidebar-collapsed .sidebar-user > div {
+            display: none;
+        }
+
+        /* Tooltip for collapsed state */
+        .sidebar-tooltip {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 8px;
+            padding: 6px 10px;
+            background: hsl(var(--ink));
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s, visibility 0.15s;
+            z-index: 100;
+        }
+        .sidebar-collapsed .sidebar-item:hover .sidebar-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========================================= */
+        /* NESTED NAVIGATION */
+        /* ========================================= */
+        .sidebar-nested-parent {
+            padding-right: 12px;
+        }
+        .sidebar-nested-parent .chevron {
+            margin-left: auto;
+            width: 16px;
+            height: 16px;
+            transition: transform 0.15s;
+        }
+        .sidebar-nested-parent.expanded .chevron {
+            transform: rotate(90deg);
+        }
+        .sidebar-nested-children {
+            padding-left: 24px;
+        }
+        .sidebar-nested-children .sidebar-item {
+            font-size: 13px;
+            padding: 8px 16px;
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS */
+        /* ========================================= */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sidebar-nested-children {
+            animation: fadeIn 0.15s ease;
+        }
+    </style>
+</head>
+<body class="bg-warm-50 text-ink min-h-screen">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="thread-line w-full rounded-none"></div>
+
+    <div class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="../components/index.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <a href="./index.html" class="hover:text-emerald-600">Navigation</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Sidebar</span>
+        </nav>
+
+        <header class="mb-8">
+            <p class="serial text-emerald-600 mb-2">Navigation Pattern</p>
+            <h1 class="font-display text-4xl mb-3">Sidebar Navigation</h1>
+            <p class="text-warm-600 text-lg">Primary navigation for dashboard applications. Persistent vertical navigation with icon + label items, section grouping, and user area.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <div class="flex items-center gap-2 mb-12 pb-6 border-b border-warm-200">
+            <a href="./index.html" class="px-4 py-2 text-sm font-medium text-warm-600 hover:text-ink hover:bg-warm-100 rounded-lg transition-colors">Overview</a>
+            <a href="sidebar.html" class="px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 rounded-lg">Sidebar</a>
+            <a href="topnav.html" class="px-4 py-2 text-sm font-medium text-warm-600 hover:text-ink hover:bg-warm-100 rounded-lg transition-colors">Top Nav</a>
+            <a href="breadcrumbs.html" class="px-4 py-2 text-sm font-medium text-warm-600 hover:text-ink hover:bg-warm-100 rounded-lg transition-colors">Breadcrumbs</a>
+            <a href="bottomnav.html" class="px-4 py-2 text-sm font-medium text-warm-600 hover:text-ink hover:bg-warm-100 rounded-lg transition-colors">Bottom Nav</a>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: ANATOMY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Anatomy</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-8">
+                <div class="flex items-start gap-12">
+                    <!-- Visual anatomy -->
+                    <div class="sidebar rounded-lg h-[400px] shadow-sm flex-shrink-0" style="width: 240px;">
+                        <div class="sidebar-logo relative">
+                            <img src="../../assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-ink">Saltwyk</span>
+                            <!-- Annotation -->
+                            <div class="absolute right-[-120px] top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                <div class="w-8 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">Logo Area</span>
+                            </div>
+                        </div>
+                        <nav class="sidebar-nav relative">
+                            <div class="sidebar-section-header relative">
+                                Main
+                                <div class="absolute right-[-140px] top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                    <div class="w-8 border-t border-dashed border-warm-400"></div>
+                                    <span class="text-xs text-warm-500 whitespace-nowrap">Section Header</span>
+                                </div>
+                            </div>
+                            <div class="sidebar-item sidebar-item-active relative">
+                                <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                <span>Dashboard</span>
+                                <div class="absolute right-[-120px] top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                    <div class="w-8 border-t border-dashed border-warm-400"></div>
+                                    <span class="text-xs text-warm-500 whitespace-nowrap">Nav Item</span>
+                                </div>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                                <span class="sidebar-badge">12</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                <span>Clearing</span>
+                            </div>
+                            <div class="sidebar-divider relative">
+                                <div class="absolute right-[-100px] top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                    <div class="w-8 border-t border-dashed border-warm-400"></div>
+                                    <span class="text-xs text-warm-500 whitespace-nowrap">Divider</span>
+                                </div>
+                            </div>
+                            <div class="sidebar-section-header">Settings</div>
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                        </nav>
+                        <div class="sidebar-user relative">
+                            <div class="sidebar-user-avatar">JD</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium truncate">John Doe</p>
+                                <p class="text-xs text-warm-500 truncate">john@example.com</p>
+                            </div>
+                            <div class="absolute right-[-120px] top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                <div class="w-8 border-t border-dashed border-warm-400"></div>
+                                <span class="text-xs text-warm-500 whitespace-nowrap">User Area</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy list -->
+                    <div class="flex-1 ml-16">
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Container</strong>
+                                    <span class="text-warm-600"> - Fixed width (240px), full viewport height, vertical flex layout</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Logo Area</strong>
+                                    <span class="text-warm-600"> - 64px height, brand identity with logomark and wordmark</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Nav Sections</strong>
+                                    <span class="text-warm-600"> - Grouped navigation items with optional section headers</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Nav Items</strong>
+                                    <span class="text-warm-600"> - Icon (20px) + label + optional badge, 10px 16px padding</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">Dividers</strong>
+                                    <span class="text-warm-600"> - 1px horizontal line between sections, 8px vertical margin</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                                <div>
+                                    <strong class="text-ink">User Area</strong>
+                                    <span class="text-warm-600"> - Bottom of sidebar, avatar + name + email, border-top separator</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: LIGHT MODE VS DARK MODE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Light Mode vs Dark Mode (Fire Opal)</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Sidebar -->
+                <div class="bg-warm-100 rounded-xl p-4 overflow-hidden">
+                    <p class="text-sm font-medium mb-4">Light Mode (Bright Opal)</p>
+                    <div class="sidebar rounded-lg h-[480px] shadow-sm">
+                        <div class="sidebar-logo">
+                            <img src="../../assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-ink">Saltwyk</span>
+                        </div>
+                        <div class="thread-line"></div>
+                        <nav class="sidebar-nav">
+                            <div class="sidebar-section-header">Main</div>
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                                <span class="sidebar-badge">12</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                <span>Clearing</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="users" class="sidebar-item-icon"></i>
+                                <span>Customers</span>
+                            </div>
+
+                            <div class="sidebar-divider"></div>
+                            <div class="sidebar-section-header">Settings</div>
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-disabled">
+                                <i data-lucide="lock" class="sidebar-item-icon"></i>
+                                <span>Security</span>
+                            </div>
+                        </nav>
+                        <div class="sidebar-user">
+                            <div class="sidebar-user-avatar">JD</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium truncate">John Doe</p>
+                                <p class="text-xs text-warm-500 truncate">john@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Sidebar (Fire Opal) -->
+                <div class="bg-intaglio-950 rounded-xl p-4 overflow-hidden">
+                    <p class="text-sm font-medium text-warm-300 mb-4">Dark Mode (Fire Opal)</p>
+                    <div class="sidebar sidebar-dark rounded-lg h-[480px]">
+                        <div class="sidebar-logo">
+                            <img src="../../assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-white">Saltwyk</span>
+                        </div>
+                        <div class="thread-line"></div>
+                        <nav class="sidebar-nav">
+                            <div class="sidebar-section-header">Main</div>
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                                <span class="sidebar-badge">12</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                <span>Clearing</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="users" class="sidebar-item-icon"></i>
+                                <span>Customers</span>
+                                <span class="sidebar-badge sidebar-badge-new">New</span>
+                            </div>
+
+                            <div class="sidebar-divider"></div>
+                            <div class="sidebar-section-header">Settings</div>
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-disabled">
+                                <i data-lucide="lock" class="sidebar-item-icon"></i>
+                                <span>Security</span>
+                            </div>
+                        </nav>
+                        <div class="sidebar-user">
+                            <div class="sidebar-user-avatar">JD</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-warm-200 truncate">John Doe</p>
+                                <p class="text-xs text-warm-500 truncate">john@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: NAV ITEM STATES - LIGHT MODE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Nav Item States - Light Mode</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px">State</th>
+                            <th>Background</th>
+                            <th>Text</th>
+                            <th>Icon</th>
+                            <th>Border</th>
+                            <th style="width: 180px">Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td><code>transparent</code></td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-600))"></span>warm-600</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-400))"></span>warm-400</td>
+                            <td>none</td>
+                            <td>
+                                <div class="sidebar-item" style="background: white; margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Hover</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-50))"></span>warm-50</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--ink))"></span>ink</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
+                            <td>none</td>
+                            <td>
+                                <div class="sidebar-item" style="background: hsl(var(--warm-50)); color: hsl(var(--ink)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Active</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--indigo-50))"></span>indigo-50</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--indigo-700))"></span>indigo-700</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--indigo-600))"></span>indigo-600</td>
+                            <td>indigo-500 left (3px)</td>
+                            <td>
+                                <div class="sidebar-item sidebar-item-active" style="margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Focus</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-50))"></span>warm-50</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--ink))"></span>ink</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
+                            <td>indigo-500 ring</td>
+                            <td>
+                                <div class="sidebar-item sidebar-item-focus" style="background: hsl(var(--warm-50)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Disabled</td>
+                            <td><code>transparent</code></td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                            <td><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                            <td>none</td>
+                            <td>
+                                <div class="sidebar-item sidebar-item-disabled" style="margin: 0;">
+                                    <i data-lucide="lock" class="sidebar-item-icon"></i>
+                                    <span>Locked</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: NAV ITEM STATES - DARK MODE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Nav Item States - Dark Mode (Fire Opal)</p>
+
+            <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                <table class="spec-table" style="color: hsl(var(--warm-200))">
+                    <thead>
+                        <tr style="background: hsl(var(--intaglio-800))">
+                            <th style="width: 100px; color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">State</th>
+                            <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Background</th>
+                            <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Text</th>
+                            <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Icon</th>
+                            <th style="color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Border</th>
+                            <th style="width: 180px; color: hsl(var(--warm-300)); border-color: hsl(var(--intaglio-700))">Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-color: hsl(var(--intaglio-700))">
+                            <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Default</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">transparent</code></td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-400))"></span>warm-400</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-500))"></span>warm-500</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">
+                                <div class="sidebar-item" style="background: transparent; color: hsl(var(--warm-400)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-500))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-color: hsl(var(--intaglio-700))">
+                            <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Hover</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--intaglio-800))"></span>intaglio-800</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-200))"></span>warm-200</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">
+                                <div class="sidebar-item" style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-200)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-300))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-color: hsl(var(--intaglio-700))">
+                            <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Active</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-500) / 15%)"></span>indigo-500/15%</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-300))"></span>indigo-300</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--indigo-300))"></span>indigo-300</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">indigo-400 left (3px)</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">
+                                <div class="sidebar-item" style="background: hsl(var(--indigo-500) / 15%); color: hsl(var(--indigo-300)); border-left: 3px solid hsl(var(--indigo-400)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--indigo-300))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-color: hsl(var(--intaglio-700))">
+                            <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Focus</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--intaglio-800))"></span>intaglio-800</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-200))"></span>warm-200</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-300))"></span>warm-300</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">indigo-400 ring</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">
+                                <div class="sidebar-item" style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-200)); box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(var(--indigo-400)); margin: 0;">
+                                    <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-300))"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: none">
+                            <td class="font-medium" style="border-color: hsl(var(--intaglio-700))">Disabled</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">transparent</code></td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-700))"></span>warm-700</td>
+                            <td style="border-color: hsl(var(--intaglio-700))"><span class="spec-swatch" style="background: hsl(var(--warm-700))"></span>warm-700</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">none</td>
+                            <td style="border-color: hsl(var(--intaglio-700))">
+                                <div class="sidebar-item" style="background: transparent; color: hsl(var(--warm-700)); margin: 0; cursor: not-allowed;">
+                                    <i data-lucide="lock" class="sidebar-item-icon" style="color: hsl(var(--warm-700))"></i>
+                                    <span>Locked</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Design Decision: Selection Color -->
+            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mt-6">
+                <p class="text-sm text-indigo-700"><strong>Design Decision:</strong> Navigation active states use indigo (selection color) rather than emerald (action/success color). This maintains consistency with other selection patterns like tabs, table rows, and form controls. Emerald is reserved for action buttons and positive/success semantics like the "New" badge.</p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: CONTAINER SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Container Specifications</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light Mode -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-2 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Light Mode</p>
+                    </div>
+                    <div class="p-4">
+                        <table class="text-sm w-full">
+                            <tr><td class="py-1 text-warm-500">Width</td><td class="py-1 font-medium">240px (expanded), 64px (collapsed)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code>white</code></td></tr>
+                            <tr><td class="py-1 text-warm-500">Border</td><td class="py-1 font-medium"><code>warm-200</code> right (1px)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Shadow</td><td class="py-1 font-medium">none</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- Dark Mode -->
+                <div class="bg-[hsl(24_29%_8%)] border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="bg-intaglio-800 px-4 py-2 border-b border-intaglio-700">
+                        <p class="text-xs font-medium text-warm-400">Dark Mode (Fire Opal)</p>
+                    </div>
+                    <div class="p-4">
+                        <table class="text-sm w-full text-warm-300">
+                            <tr><td class="py-1 text-warm-500">Width</td><td class="py-1 font-medium">240px (expanded), 64px (collapsed)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Background</td><td class="py-1 font-medium"><code style="background: hsl(var(--intaglio-800)); color: hsl(var(--warm-300))">intaglio-900</code></td></tr>
+                            <tr><td class="py-1 text-warm-500">Border</td><td class="py-1 font-medium">none (darkness provides edge)</td></tr>
+                            <tr><td class="py-1 text-warm-500">Shadow</td><td class="py-1 font-medium">optional subtle right shadow</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: NAV ITEM WITH BADGE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Nav Item with Badge</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Count Badge</p>
+                        <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
+                            <i data-lucide="bell" class="sidebar-item-icon"></i>
+                            <span>Notifications</span>
+                            <span class="sidebar-badge">5</span>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2">Shows numeric count (magenta-500)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Status Dot</p>
+                        <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
+                            <i data-lucide="activity" class="sidebar-item-icon"></i>
+                            <span>Activity</span>
+                            <span class="sidebar-dot" style="background: hsl(var(--emerald-500));"></span>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2">Colored indicator (8px circle)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Text Badge</p>
+                        <div class="sidebar-item" style="background: hsl(var(--warm-50)); margin: 0;">
+                            <i data-lucide="sparkles" class="sidebar-item-icon"></i>
+                            <span>Features</span>
+                            <span class="sidebar-badge sidebar-badge-new">New</span>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2">"New", "Beta" labels (emerald-600)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: COLLAPSED STATE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Collapsed State</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-warm-100 rounded-xl p-4">
+                    <p class="text-sm font-medium mb-4">Light Mode (Collapsed)</p>
+                    <div class="sidebar sidebar-collapsed rounded-lg h-80 shadow-sm">
+                        <div class="sidebar-logo">
+                            <img src="../../assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-7 w-auto">
+                        </div>
+                        <nav class="sidebar-nav">
+                            <div class="sidebar-item sidebar-item-active" style="position: relative;">
+                                <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Dashboard</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Transactions</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Clearing</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Settings</span>
+                            </div>
+                        </nav>
+                        <div class="sidebar-user">
+                            <div class="sidebar-user-avatar">JD</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-intaglio-950 rounded-xl p-4">
+                    <p class="text-sm font-medium text-warm-300 mb-4">Dark Mode (Collapsed)</p>
+                    <div class="sidebar sidebar-dark sidebar-collapsed rounded-lg h-80">
+                        <div class="sidebar-logo">
+                            <img src="../../assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                        </div>
+                        <div class="thread-line"></div>
+                        <nav class="sidebar-nav">
+                            <div class="sidebar-item sidebar-item-active" style="position: relative;">
+                                <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Dashboard</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Transactions</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Clearing</span>
+                            </div>
+                            <div class="sidebar-item" style="position: relative;">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span class="sidebar-tooltip">Settings</span>
+                            </div>
+                        </nav>
+                        <div class="sidebar-user">
+                            <div class="sidebar-user-avatar">JD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mt-4">
+                <p class="text-sm text-warm-600"><strong>Animation:</strong> Width transition 200ms ease-out. Labels fade out before width shrinks, fade in after width expands. Tooltip appears to the right on hover when collapsed.</p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: NESTED NAVIGATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Nested Navigation</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Expanded with Child Active</p>
+                    <div class="space-y-1">
+                        <div class="sidebar-item sidebar-nested-parent expanded" style="margin: 0; background: hsl(var(--indigo-50));">
+                            <i data-lucide="shopping-cart" class="sidebar-item-icon" style="color: hsl(var(--indigo-600))"></i>
+                            <span style="color: hsl(var(--indigo-700))">Products</span>
+                            <i data-lucide="chevron-right" class="chevron" style="color: hsl(var(--indigo-600))"></i>
+                        </div>
+                        <div class="sidebar-nested-children">
+                            <div class="sidebar-item" style="margin: 0;">
+                                <span>All Products</span>
+                            </div>
+                            <div class="sidebar-item sidebar-item-active" style="margin: 0;">
+                                <span>Categories</span>
+                            </div>
+                            <div class="sidebar-item" style="margin: 0;">
+                                <span>Inventory</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Collapsed</p>
+                    <div class="space-y-1">
+                        <div class="sidebar-item sidebar-nested-parent" style="margin: 0;">
+                            <i data-lucide="shopping-cart" class="sidebar-item-icon"></i>
+                            <span>Products</span>
+                            <i data-lucide="chevron-right" class="chevron"></i>
+                        </div>
+                        <div class="sidebar-item" style="margin: 0;">
+                            <i data-lucide="users" class="sidebar-item-icon"></i>
+                            <span>Customers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mt-4">
+                <p class="text-sm text-warm-600"><strong>Behavior:</strong> Parent stays highlighted if any child is active. Children animate in with fade + slide down (150ms). Child items are indented 24px with optional smaller font (13px).</p>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Sidebar Container -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Sidebar Container</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.sidebar</span> {
+  width: <span class="value">240px</span>;
+  background: <span class="value">white</span>;
+  border-right: <span class="value">1px solid hsl(var(--warm-200))</span>;
+  display: <span class="value">flex</span>;
+  flex-direction: <span class="value">column</span>;
+}
+
+<span class="property">.sidebar-dark</span> {
+  background: <span class="value">hsl(var(--intaglio-900))</span>;
+  border-right: <span class="value">none</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Logo Area -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Logo Area</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.sidebar-logo</span> {
+  height: <span class="value">64px</span>;
+  padding: <span class="value">0 20px</span>;
+  display: <span class="value">flex</span>;
+  align-items: <span class="value">center</span>;
+  gap: <span class="value">10px</span>;
+  border-bottom: <span class="value">1px solid hsl(var(--warm-200))</span>;
+}</code>
+                    </div>
+                </div>
+
+                <!-- Nav Item Styles -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Nav Item Styles</p>
+                    </div>
+                    <div class="code-block m-4">
+<code><span class="property">.sidebar-item</span> {
+  display: <span class="value">flex</span>;
+  align-items: <span class="value">center</span>;
+  gap: <span class="value">12px</span>;
+  padding: <span class="value">10px 16px</span>;
+  margin: <span class="value">0 8px</span>;
+  border-radius: <span class="value">6px</span>;
+  font-size: <span class="value">14px</span>;
+  font-weight: <span class="value">500</span>;
+  color: <span class="value">hsl(var(--warm-600))</span>;
+  cursor: <span class="value">pointer</span>;
+  transition: <span class="value">all 0.15s ease</span>;
+}
+
+<span class="comment">/* Active state - uses INDIGO */</span>
+<span class="property">.sidebar-item-active</span> {
+  background: <span class="value">hsl(var(--indigo-50))</span>;
+  color: <span class="value">hsl(var(--indigo-700))</span>;
+  border-left: <span class="value">3px solid hsl(var(--indigo-500))</span>;
+  margin-left: <span class="value">5px</span>;
+  padding-left: <span class="value">13px</span>;
+}
+
+<span class="comment">/* Dark mode active */</span>
+<span class="property">.sidebar-dark .sidebar-item-active</span> {
+  background: <span class="value">hsl(var(--indigo-500) / 15%)</span>;
+  color: <span class="value">hsl(var(--indigo-300))</span>;
+  border-left-color: <span class="value">hsl(var(--indigo-400))</span>;
+}</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light Mode -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Light Mode</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Container: 240px width, white background, warm-200 border-right</li>
+                        <li><span class="checklist-box"></span>Logo area: 64px height, 20px horizontal padding</li>
+                        <li><span class="checklist-box"></span>Nav item: 10px 16px padding, 6px radius, warm-600 text</li>
+                        <li><span class="checklist-box"></span>Active state: indigo-50 bg, indigo-700 text, indigo-500 left border (3px)</li>
+                        <li><span class="checklist-box"></span>Focus ring: 2px white gap, 4px indigo-500 ring</li>
+                        <li><span class="checklist-box"></span>Badge: magenta-500 background, white text</li>
+                    </ul>
+                </div>
+
+                <!-- Dark Mode -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Dark Mode (Fire Opal)</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Container: 240px width, intaglio-900 background, no border</li>
+                        <li><span class="checklist-box"></span>Nav item: warm-400 default text, warm-500 icon</li>
+                        <li><span class="checklist-box"></span>Hover: intaglio-800 bg, warm-200 text</li>
+                        <li><span class="checklist-box"></span>Active state: indigo-500/15% bg, indigo-300 text, indigo-400 left border</li>
+                        <li><span class="checklist-box"></span>Focus ring: 2px intaglio-900 gap, 4px indigo-400 ring</li>
+                        <li><span class="checklist-box"></span>Badge: magenta-400 background</li>
+                    </ul>
+                </div>
+
+                <!-- Collapsed State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Collapsed State</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Width: 64px</li>
+                        <li><span class="checklist-box"></span>Hide: labels, badges, section headers</li>
+                        <li><span class="checklist-box"></span>Center: icons and avatar</li>
+                        <li><span class="checklist-box"></span>Tooltip: right of item on hover, ink background</li>
+                        <li><span class="checklist-box"></span>Animation: 200ms ease-out width transition</li>
+                    </ul>
+                </div>
+
+                <!-- Nested Navigation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Nested Navigation</p>
+                    <ul class="checklist">
+                        <li><span class="checklist-box"></span>Parent: chevron icon rotates 90deg when expanded</li>
+                        <li><span class="checklist-box"></span>Children: 24px left indent, 13px font size</li>
+                        <li><span class="checklist-box"></span>Parent highlighted when any child is active</li>
+                        <li><span class="checklist-box"></span>Animation: 150ms fade + slide down</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-6 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="../../assets/logos/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-6 w-6 opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5.0</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="../foundation/index.html" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="../../partials/nav-loader.js"></script>
+</body>
+</html>

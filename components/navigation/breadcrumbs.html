@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumbs - Navigation - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* ========================================= */
+        /* BREADCRUMBS - LIGHT MODE */
+        /* ========================================= */
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .breadcrumb-link {
+            color: hsl(var(--warm-600));
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .breadcrumb-link:hover {
+            color: hsl(var(--ink));
+            text-decoration: underline;
+        }
+        .breadcrumb-separator {
+            color: hsl(var(--warm-400));
+        }
+        .breadcrumb-current {
+            color: hsl(var(--ink));
+            font-weight: 500;
+        }
+
+        /* ========================================= */
+        /* BREADCRUMBS - DARK MODE */
+        /* ========================================= */
+        .breadcrumbs-dark .breadcrumb-link {
+            color: hsl(var(--warm-400));
+        }
+        .breadcrumbs-dark .breadcrumb-link:hover {
+            color: hsl(var(--warm-200));
+        }
+        .breadcrumbs-dark .breadcrumb-separator {
+            color: hsl(var(--warm-600));
+        }
+        .breadcrumbs-dark .breadcrumb-current {
+            color: hsl(var(--warm-100));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="../../sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <a href="./index.html" class="hover:text-emerald-600">Navigation</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Breadcrumbs</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Navigation Pattern</p>
+            <h1 class="font-display text-4xl mb-2">Breadcrumbs</h1>
+            <p class="text-warm-600">Location indicators for hierarchical navigation. Show the user's current position within the site structure.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <a href="./index.html" class="text-warm-500 hover:text-emerald-600">Overview</a>
+            <a href="sidebar.html" class="text-warm-500 hover:text-emerald-600">Sidebar</a>
+            <a href="topnav.html" class="text-warm-500 hover:text-emerald-600">Top Nav</a>
+            <span class="text-emerald-600 font-medium">Breadcrumbs</span>
+            <a href="bottomnav.html" class="text-warm-500 hover:text-emerald-600">Bottom Nav</a>
+        </nav>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: LIGHT MODE EXAMPLES -->
+        <!-- =========================================== -->
+        <section id="light-mode" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Light Mode Examples</p>
+            <p class="text-warm-600 text-sm mb-8">Breadcrumb trails in light mode with different separator styles.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Slash Separator -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Slash Separator</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="breadcrumbs">
+                            <a href="#" class="breadcrumb-link">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-link">Transactions</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-link">2024</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span class="breadcrumb-current">Transaction #TXN-4521</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chevron Separator -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="bg-warm-50 px-4 py-3 border-b border-warm-200">
+                        <p class="text-xs font-medium text-warm-500">Chevron Separator</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="breadcrumbs">
+                            <a href="#" class="breadcrumb-link">Home</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <a href="#" class="breadcrumb-link">Settings</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <a href="#" class="breadcrumb-link">Account</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <span class="breadcrumb-current">Notifications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: DARK MODE EXAMPLES -->
+        <!-- =========================================== -->
+        <section id="dark-mode" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Dark Mode Examples</p>
+            <p class="text-warm-600 text-sm mb-8">Breadcrumb trails in dark mode with adjusted color values.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Slash Separator - Dark -->
+                <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="bg-intaglio-800 px-4 py-3 border-b border-intaglio-700">
+                        <p class="text-xs font-medium text-warm-400">Slash Separator</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="breadcrumbs breadcrumbs-dark">
+                            <a href="#" class="breadcrumb-link">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-link">Transactions</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <a href="#" class="breadcrumb-link">2024</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span class="breadcrumb-current">Transaction #TXN-4521</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chevron Separator - Dark -->
+                <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-lg overflow-hidden">
+                    <div class="bg-intaglio-800 px-4 py-3 border-b border-intaglio-700">
+                        <p class="text-xs font-medium text-warm-400">Chevron Separator</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="breadcrumbs breadcrumbs-dark">
+                            <a href="#" class="breadcrumb-link">Home</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <a href="#" class="breadcrumb-link">Settings</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <a href="#" class="breadcrumb-link">Account</a>
+                            <i data-lucide="chevron-right" class="breadcrumb-separator" style="width: 14px; height: 14px;"></i>
+                            <span class="breadcrumb-current">Notifications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: SPECIFICATIONS TABLE -->
+        <!-- =========================================== -->
+        <section id="specifications" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Specifications</p>
+            <p class="text-warm-600 text-sm mb-8">Token values and styling specifications for breadcrumb components.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2"><strong>Container</strong></td>
+                            <td>Display</td>
+                            <td><code>flex</code> (horizontal)</td>
+                        </tr>
+                        <tr>
+                            <td>Gap</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Link</strong></td>
+                            <td>Color (default)</td>
+                            <td><span class="spec-swatch" style="background: hsl(30 7% 35%);"></span><code>warm-600</code></td>
+                        </tr>
+                        <tr>
+                            <td>Color (hover)</td>
+                            <td><span class="spec-swatch" style="background: hsl(24 29% 8%);"></span><code>ink</code></td>
+                        </tr>
+                        <tr>
+                            <td>Text decoration (hover)</td>
+                            <td>underline</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Separator</strong></td>
+                            <td>Character</td>
+                            <td><code>/</code> or <code>chevron-right</code> icon</td>
+                        </tr>
+                        <tr>
+                            <td>Color</td>
+                            <td><span class="spec-swatch" style="background: hsl(30 6% 62%);"></span><code>warm-400</code></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Current</strong></td>
+                            <td>Color</td>
+                            <td><span class="spec-swatch" style="background: hsl(24 29% 8%);"></span><code>ink</code></td>
+                        </tr>
+                        <tr>
+                            <td>Font weight</td>
+                            <td>500 (medium)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: TRUNCATION NOTE -->
+        <!-- =========================================== -->
+        <section id="truncation" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Truncation Behavior</p>
+            <p class="text-warm-600 text-sm mb-8">Handling long breadcrumb paths with ellipsis overflow.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="mb-6">
+                    <p class="text-sm font-medium mb-3">Truncated Example</p>
+                    <div class="breadcrumbs">
+                        <a href="#" class="breadcrumb-link">Home</a>
+                        <span class="breadcrumb-separator">/</span>
+                        <button class="breadcrumb-link flex items-center gap-1 hover:bg-warm-100 px-2 py-1 rounded">
+                            <span>...</span>
+                            <i data-lucide="chevron-down" style="width: 12px; height: 12px;"></i>
+                        </button>
+                        <span class="breadcrumb-separator">/</span>
+                        <a href="#" class="breadcrumb-link">Settings</a>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-current">Notifications</span>
+                    </div>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="text-sm text-warm-700">
+                        <strong>Truncation Guidelines:</strong>
+                    </p>
+                    <ul class="text-sm text-warm-600 mt-2 space-y-1 list-disc list-inside">
+                        <li>Use ellipsis (<code>...</code>) when paths exceed 4-5 levels</li>
+                        <li>Ellipsis should be clickable to reveal a dropdown with hidden levels</li>
+                        <li>Always show the first (root) and last 2-3 items</li>
+                        <li>Include a subtle chevron-down indicator on the ellipsis button</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section id="code" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-8">CSS implementation for breadcrumb styling.</p>
+
+            <div class="code-block">
+                <code><span class="comment">/* Container */</span>
+<span class="property">.breadcrumbs</span> {
+  <span class="property">@apply</span> <span class="value">flex items-center gap-2 text-sm</span>;
+}
+
+<span class="comment">/* Clickable links */</span>
+<span class="property">.breadcrumb-link</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-600 hover:text-ink hover:underline</span>;
+  <span class="property">@apply</span> <span class="value">transition-colors duration-150</span>;
+}
+
+<span class="comment">/* Separator (/ or chevron) */</span>
+<span class="property">.breadcrumb-separator</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-400</span>;
+}
+
+<span class="comment">/* Current page (not clickable) */</span>
+<span class="property">.breadcrumb-current</span> {
+  <span class="property">@apply</span> <span class="value">text-ink font-medium</span>;
+}
+
+<span class="comment">/* Dark mode overrides */</span>
+<span class="property">.breadcrumbs-dark .breadcrumb-link</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-400 hover:text-warm-200</span>;
+}
+<span class="property">.breadcrumbs-dark .breadcrumb-separator</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-600</span>;
+}
+<span class="property">.breadcrumbs-dark .breadcrumb-current</span> {
+  <span class="property">@apply</span> <span class="value">text-warm-100</span>;
+}</code>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section id="checklist" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Key specifications to verify for breadcrumb implementation.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Visual</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Gap between items: 8px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Font size: 14px (text-sm)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Link color: warm-600</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Current item: font-medium (500)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Separator color: warm-400</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Interaction &amp; Accessibility</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Links show underline on hover</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Current page is not a link</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Use <code>&lt;nav&gt;</code> element with <code>aria-label="Breadcrumb"</code></li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Current item uses <code>aria-current="page"</code></li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Separators hidden from screen readers</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../../partials/nav-loader.js"></script>
+</body>
+</html>
