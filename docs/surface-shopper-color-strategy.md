@@ -8,9 +8,9 @@
 
 ---
 
-## Thread Family: Cool (Cyan → Magenta)
+## Thread Family: Fresh (Cyan → Lime)
 
-The Cool thread family represents vibrant energy, celebration, and delight. It signals "your rewards are valuable" without the corporate weight of emerald.
+The Fresh thread family represents vibrant energy, celebration, and delight. It signals "your rewards are valuable" without the corporate weight of emerald.
 
 ### Thread Gradient
 
@@ -300,6 +300,6 @@ When shopper components appear on dark backgrounds (e.g., marketing pages):
 - [ ] Emerald only appears on interactive elements
 - [ ] Maximum one hero thread per page
 - [ ] Thread accents used on 1-2 featured elements, not all
-- [ ] Badges use cyan/magenta, not emerald (except success)
+- [ ] Badges use cyan/lime, not emerald (except success)
 - [ ] Page feels warm and approachable, not corporate
-- [ ] Cool thread family creates consistent identity
+- [ ] Fresh thread family creates consistent identity

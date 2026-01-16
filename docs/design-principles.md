@@ -146,8 +146,8 @@ Each opal treatment has a signature thread gradient:
 
 | Surface | Opal Treatment | Thread Family | Gradient |
 |---------|----------------|---------------|----------|
-| Shopper | Bright Opal | Cool | Cyan → Magenta |
-| Merchant | Fire Opal | Fresh | Cyan → Lime |
+| Shopper | Bright Opal | Fresh | Cyan → Lime |
+| Merchant | Fire Opal | Cool | Cyan → Magenta |
 | Marketing | Mixed | Full Spectrum | All four thread colors |
 | Docs | Bright Opal | Mono | Single color or none |
 
