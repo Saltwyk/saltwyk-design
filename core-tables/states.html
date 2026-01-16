@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table States - Tables - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+
+        /* Code block styles */
+        .code-block {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 88%);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        .code-block .comment { color: hsl(30 5% 50%); }
+        .code-block .property { color: hsl(170 100% 60%); }
+        .code-block .value { color: hsl(74 100% 65%); }
+        .code-block .selector { color: hsl(330 100% 70%); }
+
+        /* Table base styles */
+        .table-container {
+            background: white;
+            border: 1px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-container-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-base {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-base th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px;
+        }
+        .table-base td {
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        /* Light mode table */
+        .table-light th {
+            background: hsl(30 5% 97%);
+            color: hsl(30 6% 46%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .table-light td {
+            color: hsl(24 29% 8%);
+            border-bottom: 1px solid hsl(30 5% 95%);
+        }
+        .table-light tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Dark mode table */
+        .table-dark th {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 65%);
+            border-bottom: 1px solid hsl(24 27% 20%);
+        }
+        .table-dark td {
+            color: hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(24 27% 18%);
+        }
+        .table-dark tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========================================= */
+        /* ROW STATES - LIGHT MODE */
+        /* ========================================= */
+        .row-hover {
+            background: hsl(30 5% 98%) !important;
+        }
+        .row-hover-dark {
+            background: hsl(24 28% 18%) !important;
+        }
+        .row-selected {
+            background: hsl(230 25% 96%) !important;
+            border-left: 3px solid hsl(230 28% 42%);
+        }
+        .row-selected-dark {
+            background: hsl(230 28% 42% / 10%) !important;
+            border-left: 3px solid hsl(230 26% 54%);
+        }
+        .row-active {
+            background: hsl(30 5% 95%) !important;
+        }
+        .row-active-dark {
+            background: hsl(24 29% 12%) !important;
+        }
+        .row-disabled {
+            opacity: 0.5;
+        }
+        .row-disabled td {
+            color: hsl(30 6% 62%);
+        }
+
+        /* ========================================= */
+        /* STATUS BADGES */
+        /* ========================================= */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        /* Light mode badges */
+        .status-success { background: hsl(150 45% 92%); color: hsl(150 100% 22%); }
+        .status-success .dot { background: hsl(150 100% 40%); }
+        .status-warning { background: hsl(20 50% 93%); color: hsl(20 80% 30%); }
+        .status-warning .dot { background: hsl(20 90% 50%); }
+        .status-error { background: hsl(330 50% 94%); color: hsl(330 85% 35%); }
+        .status-error .dot { background: hsl(330 85% 50%); }
+        .status-pending { background: hsl(74 45% 90%); color: hsl(74 80% 28%); }
+        .status-pending .dot { background: hsl(74 80% 45%); }
+        .status-info { background: hsl(170 45% 92%); color: hsl(170 100% 25%); }
+        .status-info .dot { background: hsl(170 100% 40%); }
+
+        /* Dark mode badges */
+        .status-success-dark { background: hsl(150 100% 40% / 15%); color: hsl(150 80% 65%); }
+        .status-success-dark .dot { background: hsl(150 100% 50%); }
+        .status-warning-dark { background: hsl(20 100% 50% / 15%); color: hsl(20 90% 65%); }
+        .status-warning-dark .dot { background: hsl(20 100% 55%); }
+        .status-error-dark { background: hsl(330 100% 50% / 15%); color: hsl(330 90% 70%); }
+        .status-error-dark .dot { background: hsl(330 100% 55%); }
+        .status-pending-dark { background: hsl(74 100% 50% / 15%); color: hsl(74 80% 65%); }
+        .status-pending-dark .dot { background: hsl(74 100% 55%); }
+        .status-info-dark { background: hsl(170 100% 40% / 15%); color: hsl(170 80% 65%); }
+        .status-info-dark .dot { background: hsl(170 100% 50%); }
+
+        /* ========================================= */
+        /* EMPTY STATE */
+        /* ========================================= */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .empty-state-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            color: hsl(30 5% 78%);
+        }
+        .empty-state-icon-dark {
+            color: hsl(24 27% 35%);
+        }
+        .empty-state-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .empty-state-description {
+            font-size: 14px;
+            color: hsl(30 6% 46%);
+            margin-bottom: 16px;
+        }
+        .empty-state-description-dark {
+            color: hsl(30 5% 50%);
+        }
+
+        /* ========================================= */
+        /* LOADING / SKELETON STATES */
+        /* ========================================= */
+        .skeleton {
+            background: linear-gradient(90deg, hsl(30 5% 93%) 25%, hsl(30 5% 97%) 50%, hsl(30 5% 93%) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: 4px;
+            height: 16px;
+        }
+        .skeleton-dark {
+            background: linear-gradient(90deg, hsl(24 27% 18%) 25%, hsl(24 27% 22%) 50%, hsl(24 27% 18%) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: 4px;
+            height: 16px;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Column alignment helpers */
+        .col-right {
+            text-align: right;
+        }
+        .col-center {
+            text-align: center;
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Action button */
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            color: hsl(30 5% 50%);
+        }
+        .action-btn:hover {
+            background: hsl(30 5% 93%);
+            color: hsl(24 29% 8%);
+        }
+        .action-btn-dark {
+            color: hsl(30 5% 50%);
+        }
+        .action-btn-dark:hover {
+            background: hsl(24 27% 22%);
+            color: hsl(30 5% 88%);
+        }
+
+        /* CTA button for empty state */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: hsl(150 100% 27%);
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .btn-primary:hover {
+            background: hsl(150 100% 22%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="../sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <a href="index.html" class="hover:text-emerald-600">Tables</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">States</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Table Pattern</p>
+            <h1 class="font-display text-4xl mb-2">Table States</h1>
+            <p class="text-warm-600">Visual states for table rows, status indicators, empty states, and loading states.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <a href="index.html" class="text-warm-500 hover:text-emerald-600">Overview</a>
+            <a href="base.html" class="text-warm-500 hover:text-emerald-600">Base & Variants</a>
+            <a href="interactive.html" class="text-warm-500 hover:text-emerald-600">Interactive</a>
+            <span class="text-emerald-600 font-medium">States</span>
+            <a href="responsive.html" class="text-warm-500 hover:text-emerald-600">Responsive</a>
+        </nav>
+
+        <!-- Quick Nav -->
+        <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-12">
+            <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide mb-3">On This Page</p>
+            <div class="flex flex-wrap gap-2">
+                <a href="#row-states" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Row States</a>
+                <a href="#column-types" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Column Types</a>
+                <a href="#status-badges" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Status Badges</a>
+                <a href="#empty-state" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Empty State</a>
+                <a href="#loading-state" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Loading State</a>
+                <a href="#code" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Code Reference</a>
+                <a href="#checklist" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Checklist</a>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: ROW STATES -->
+        <!-- =========================================== -->
+        <section id="row-states" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Row States</p>
+            <p class="text-warm-600 text-sm mb-8">Visual feedback for different row interaction states.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-medium">Default</span></td>
+                                    <td>Normal row styling</td>
+                                    <td class="text-warm-500">white</td>
+                                </tr>
+                                <tr class="row-hover">
+                                    <td><span class="font-medium">Hover</span></td>
+                                    <td>Mouse over state</td>
+                                    <td class="text-warm-500">warm-50</td>
+                                </tr>
+                                <tr class="row-selected">
+                                    <td><span class="font-medium">Selected</span></td>
+                                    <td>Checked/selected row</td>
+                                    <td class="text-warm-500">indigo-50 + border</td>
+                                </tr>
+                                <tr class="row-active">
+                                    <td><span class="font-medium">Active</span></td>
+                                    <td>Pressed/clicked state</td>
+                                    <td class="text-warm-500">warm-100</td>
+                                </tr>
+                                <tr class="row-disabled">
+                                    <td><span class="font-medium">Disabled</span></td>
+                                    <td>Non-interactive row</td>
+                                    <td class="text-warm-500">50% opacity</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-medium">Default</span></td>
+                                    <td>Normal row styling</td>
+                                    <td class="text-warm-500">intaglio-800</td>
+                                </tr>
+                                <tr class="row-hover-dark">
+                                    <td><span class="font-medium">Hover</span></td>
+                                    <td>Mouse over state</td>
+                                    <td class="text-warm-500">intaglio-700</td>
+                                </tr>
+                                <tr class="row-selected-dark">
+                                    <td><span class="font-medium">Selected</span></td>
+                                    <td>Checked/selected row</td>
+                                    <td class="text-warm-500">indigo-500/10%</td>
+                                </tr>
+                                <tr class="row-active-dark">
+                                    <td><span class="font-medium">Active</span></td>
+                                    <td>Pressed/clicked state</td>
+                                    <td class="text-warm-500">intaglio-800</td>
+                                </tr>
+                                <tr class="row-disabled">
+                                    <td><span class="font-medium">Disabled</span></td>
+                                    <td>Non-interactive row</td>
+                                    <td class="text-warm-500">50% opacity</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-5">
+                <h4 class="font-semibold mb-3">State Specifications</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Hover (Light)</p>
+                        <p class="font-mono text-xs">warm-50 / hsl(30 5% 98%)</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Hover (Dark)</p>
+                        <p class="font-mono text-xs">intaglio-700 / hsl(24 28% 18%)</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Selected Border</p>
+                        <p class="font-mono text-xs">3px indigo-500</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Disabled Opacity</p>
+                        <p class="font-mono text-xs">50% / opacity: 0.5</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: COLUMN TYPES -->
+        <!-- =========================================== -->
+        <section id="column-types" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Column Types</p>
+            <p class="text-warm-600 text-sm mb-8">Alignment and formatting conventions for different data types.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="col-right">Amount</th>
+                                    <th class="col-right">Date</th>
+                                    <th class="col-center">Status</th>
+                                    <th class="col-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Invoice #1234</td>
+                                    <td class="col-right tabular-nums">$1,250.00</td>
+                                    <td class="col-right tabular-nums">Jan 15, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-success">
+                                            <span class="dot"></span>Paid
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice #1235</td>
+                                    <td class="col-right tabular-nums">$890.50</td>
+                                    <td class="col-right tabular-nums">Jan 12, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-pending">
+                                            <span class="dot"></span>Pending
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice #1236</td>
+                                    <td class="col-right tabular-nums">$2,100.00</td>
+                                    <td class="col-right tabular-nums">Jan 10, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-error">
+                                            <span class="dot"></span>Failed
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="col-right">Amount</th>
+                                    <th class="col-right">Date</th>
+                                    <th class="col-center">Status</th>
+                                    <th class="col-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Invoice #1234</td>
+                                    <td class="col-right tabular-nums">$1,250.00</td>
+                                    <td class="col-right tabular-nums">Jan 15, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-success-dark">
+                                            <span class="dot"></span>Paid
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn action-btn-dark ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice #1235</td>
+                                    <td class="col-right tabular-nums">$890.50</td>
+                                    <td class="col-right tabular-nums">Jan 12, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-pending-dark">
+                                            <span class="dot"></span>Pending
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn action-btn-dark ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice #1236</td>
+                                    <td class="col-right tabular-nums">$2,100.00</td>
+                                    <td class="col-right tabular-nums">Jan 10, 2026</td>
+                                    <td class="col-center">
+                                        <span class="status-badge status-error-dark">
+                                            <span class="dot"></span>Failed
+                                        </span>
+                                    </td>
+                                    <td class="col-right">
+                                        <div class="action-btn action-btn-dark ml-auto">
+                                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column Type Reference -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-5 mt-6">
+                <h4 class="font-semibold mb-3">Column Alignment Rules</h4>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Text</p>
+                        <p class="font-medium">Left aligned</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Numbers/Currency</p>
+                        <p class="font-medium">Right aligned</p>
+                        <p class="text-xs text-warm-500">tabular-nums</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Date/Time</p>
+                        <p class="font-medium">Right aligned</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Status Badges</p>
+                        <p class="font-medium">Centered</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Actions</p>
+                        <p class="font-medium">Right aligned</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: STATUS BADGES -->
+        <!-- =========================================== -->
+        <section id="status-badges" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Status Badges</p>
+            <p class="text-warm-600 text-sm mb-8">Semantic status indicators with dot icons for quick visual scanning.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Mode Badges -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-6 font-medium">Light Mode</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-success">
+                                <span class="dot"></span>Success
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">emerald tones</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-warning">
+                                <span class="dot"></span>Warning
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">orange tones</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-error">
+                                <span class="dot"></span>Error
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">magenta tones</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-pending">
+                                <span class="dot"></span>Pending
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">lime tones</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-info">
+                                <span class="dot"></span>Info
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">cyan tones</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode Badges -->
+                <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-lg p-6">
+                    <p class="text-xs text-warm-400 mb-6 font-medium">Dark Mode</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-success-dark">
+                                <span class="dot"></span>Success
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">emerald 40%/15%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-warning-dark">
+                                <span class="dot"></span>Warning
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">orange 50%/15%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-error-dark">
+                                <span class="dot"></span>Error
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">magenta 50%/15%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-pending-dark">
+                                <span class="dot"></span>Pending
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">lime 50%/15%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge status-info-dark">
+                                <span class="dot"></span>Info
+                            </span>
+                            <span class="text-xs text-warm-500 font-mono">cyan 40%/15%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badge Anatomy -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-5 mt-6">
+                <h4 class="font-semibold mb-3">Badge Anatomy</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Padding</p>
+                        <p class="font-mono text-xs">4px 10px</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Border Radius</p>
+                        <p class="font-mono text-xs">9999px (pill)</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Dot Size</p>
+                        <p class="font-mono text-xs">6px x 6px</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Font</p>
+                        <p class="font-mono text-xs">12px / 500 weight</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: EMPTY STATE -->
+        <!-- =========================================== -->
+        <section id="empty-state" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Empty State</p>
+            <p class="text-warm-600 text-sm mb-8">Display when table has no data. Includes icon, title, description, and optional action.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="empty-state">
+                                            <i data-lucide="inbox" class="empty-state-icon"></i>
+                                            <p class="empty-state-title">No invoices found</p>
+                                            <p class="empty-state-description">Get started by creating your first invoice.</p>
+                                            <button class="btn-primary">
+                                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                                Create Invoice
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="empty-state">
+                                            <i data-lucide="inbox" class="empty-state-icon empty-state-icon-dark"></i>
+                                            <p class="empty-state-title text-warm-100">No invoices found</p>
+                                            <p class="empty-state-description empty-state-description-dark">Get started by creating your first invoice.</p>
+                                            <button class="btn-primary">
+                                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                                Create Invoice
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-5 mt-6">
+                <h4 class="font-semibold mb-3">Empty State Specifications</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Container Padding</p>
+                        <p class="font-mono text-xs">48px vertical, 24px horizontal</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Icon Size</p>
+                        <p class="font-mono text-xs">48px x 48px</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Title</p>
+                        <p class="font-mono text-xs">16px / 600 weight</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Description</p>
+                        <p class="font-mono text-xs">14px / warm-500</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: LOADING STATE -->
+        <!-- =========================================== -->
+        <section id="loading-state" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Loading State</p>
+            <p class="text-warm-600 text-sm mb-8">Skeleton rows with shimmer animation while data loads. Maintains same row height as real data.</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th class="col-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="skeleton" style="width: 75%;"></div></td>
+                                    <td><div class="skeleton" style="width: 60px;"></div></td>
+                                    <td class="col-right"><div class="skeleton ml-auto" style="width: 80px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton" style="width: 60%;"></div></td>
+                                    <td><div class="skeleton" style="width: 70px;"></div></td>
+                                    <td class="col-right"><div class="skeleton ml-auto" style="width: 65px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton" style="width: 85%;"></div></td>
+                                    <td><div class="skeleton" style="width: 55px;"></div></td>
+                                    <td class="col-right"><div class="skeleton ml-auto" style="width: 90px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton" style="width: 50%;"></div></td>
+                                    <td><div class="skeleton" style="width: 75px;"></div></td>
+                                    <td class="col-right"><div class="skeleton ml-auto" style="width: 70px;"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th class="col-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="skeleton-dark" style="width: 75%;"></div></td>
+                                    <td><div class="skeleton-dark" style="width: 60px;"></div></td>
+                                    <td class="col-right"><div class="skeleton-dark ml-auto" style="width: 80px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton-dark" style="width: 60%;"></div></td>
+                                    <td><div class="skeleton-dark" style="width: 70px;"></div></td>
+                                    <td class="col-right"><div class="skeleton-dark ml-auto" style="width: 65px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton-dark" style="width: 85%;"></div></td>
+                                    <td><div class="skeleton-dark" style="width: 55px;"></div></td>
+                                    <td class="col-right"><div class="skeleton-dark ml-auto" style="width: 90px;"></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="skeleton-dark" style="width: 50%;"></div></td>
+                                    <td><div class="skeleton-dark" style="width: 75px;"></div></td>
+                                    <td class="col-right"><div class="skeleton-dark ml-auto" style="width: 70px;"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-5 mt-6">
+                <h4 class="font-semibold mb-3">Skeleton Specifications</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Height</p>
+                        <p class="font-mono text-xs">16px (matches text)</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Border Radius</p>
+                        <p class="font-mono text-xs">4px</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Animation</p>
+                        <p class="font-mono text-xs">1.5s infinite shimmer</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs uppercase tracking-wide mb-1">Width Variety</p>
+                        <p class="font-mono text-xs">50%-85% for realism</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section id="code" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-8">CSS implementation for row states, status badges, and loading states.</p>
+
+            <div class="space-y-6">
+                <!-- Row States -->
+                <div>
+                    <h4 class="font-semibold mb-3">Row States</h4>
+                    <div class="code-block">
+                        <code><span class="comment">/* Hover state */</span>
+<span class="selector">.row-hover</span> { <span class="property">background</span>: <span class="value">hsl(30 5% 98%)</span>; }
+<span class="selector">.row-hover-dark</span> { <span class="property">background</span>: <span class="value">hsl(24 28% 18%)</span>; }
+
+<span class="comment">/* Selected state (indigo) */</span>
+<span class="selector">.row-selected</span> {
+  <span class="property">background</span>: <span class="value">hsl(230 25% 96%)</span>;
+  <span class="property">border-left</span>: <span class="value">3px solid hsl(230 28% 42%)</span>;
+}
+<span class="selector">.row-selected-dark</span> {
+  <span class="property">background</span>: <span class="value">hsl(230 28% 42% / 10%)</span>;
+  <span class="property">border-left</span>: <span class="value">3px solid hsl(230 26% 54%)</span>;
+}
+
+<span class="comment">/* Active/Pressed state */</span>
+<span class="selector">.row-active</span> { <span class="property">background</span>: <span class="value">hsl(30 5% 95%)</span>; }
+<span class="selector">.row-active-dark</span> { <span class="property">background</span>: <span class="value">hsl(24 29% 12%)</span>; }
+
+<span class="comment">/* Disabled state */</span>
+<span class="selector">.row-disabled</span> { <span class="property">opacity</span>: <span class="value">0.5</span>; }
+<span class="selector">.row-disabled td</span> { <span class="property">color</span>: <span class="value">hsl(30 6% 62%)</span>; }</code>
+                    </div>
+                </div>
+
+                <!-- Status Badges -->
+                <div>
+                    <h4 class="font-semibold mb-3">Status Badges</h4>
+                    <div class="code-block">
+                        <code><span class="comment">/* Badge base */</span>
+<span class="selector">.status-badge</span> {
+  <span class="property">display</span>: <span class="value">inline-flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">gap</span>: <span class="value">6px</span>;
+  <span class="property">padding</span>: <span class="value">4px 10px</span>;
+  <span class="property">border-radius</span>: <span class="value">9999px</span>;
+  <span class="property">font-size</span>: <span class="value">12px</span>;
+  <span class="property">font-weight</span>: <span class="value">500</span>;
+}
+<span class="selector">.status-badge .dot</span> {
+  <span class="property">width</span>: <span class="value">6px</span>;
+  <span class="property">height</span>: <span class="value">6px</span>;
+  <span class="property">border-radius</span>: <span class="value">50%</span>;
+}
+
+<span class="comment">/* Light mode variants */</span>
+<span class="selector">.status-success</span> { <span class="property">background</span>: <span class="value">hsl(150 45% 92%)</span>; <span class="property">color</span>: <span class="value">hsl(150 100% 22%)</span>; }
+<span class="selector">.status-warning</span> { <span class="property">background</span>: <span class="value">hsl(20 50% 93%)</span>; <span class="property">color</span>: <span class="value">hsl(20 80% 30%)</span>; }
+<span class="selector">.status-error</span> { <span class="property">background</span>: <span class="value">hsl(330 50% 94%)</span>; <span class="property">color</span>: <span class="value">hsl(330 85% 35%)</span>; }
+<span class="selector">.status-pending</span> { <span class="property">background</span>: <span class="value">hsl(74 45% 90%)</span>; <span class="property">color</span>: <span class="value">hsl(74 80% 28%)</span>; }
+<span class="selector">.status-info</span> { <span class="property">background</span>: <span class="value">hsl(170 45% 92%)</span>; <span class="property">color</span>: <span class="value">hsl(170 100% 25%)</span>; }</code>
+                    </div>
+                </div>
+
+                <!-- Skeleton Loading -->
+                <div>
+                    <h4 class="font-semibold mb-3">Skeleton Loading</h4>
+                    <div class="code-block">
+                        <code><span class="comment">/* Skeleton with shimmer animation */</span>
+<span class="selector">.skeleton</span> {
+  <span class="property">background</span>: <span class="value">linear-gradient(90deg,
+    hsl(30 5% 93%) 25%,
+    hsl(30 5% 97%) 50%,
+    hsl(30 5% 93%) 75%)</span>;
+  <span class="property">background-size</span>: <span class="value">200% 100%</span>;
+  <span class="property">animation</span>: <span class="value">skeleton-shimmer 1.5s infinite</span>;
+  <span class="property">border-radius</span>: <span class="value">4px</span>;
+  <span class="property">height</span>: <span class="value">16px</span>;
+}
+
+<span class="selector">@keyframes skeleton-shimmer</span> {
+  <span class="value">0%</span> { <span class="property">background-position</span>: <span class="value">200% 0</span>; }
+  <span class="value">100%</span> { <span class="property">background-position</span>: <span class="value">-200% 0</span>; }
+}</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section id="checklist" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Key specifications to verify for table states.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Row States</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Hover: warm-50 (light) / intaglio-700 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Selected: indigo-50 + 3px left border</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Active: warm-100 (light) / intaglio-800 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Disabled: 50% opacity + warm-400 text</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Column Alignment</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Text columns: left aligned</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Numbers: right aligned + <code>tabular-nums</code></li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Dates: right aligned</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Status: centered</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Actions: right aligned</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Status Badges</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Dot indicator: 6px circle</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Padding: 4px 10px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Font: 12px / 500 weight</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border radius: 9999px (pill)</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Empty & Loading States</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Empty: 48px padding, 48px icon</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Skeleton height: 16px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Shimmer animation: 1.5s infinite</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Skeleton widths: vary 50%-85%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../partials/nav-loader.js"></script>
+</body>
+</html>

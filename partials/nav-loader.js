@@ -68,6 +68,11 @@
         if (path.includes('/components/')) return 'components';
         if (path.includes('/products/')) return 'products';
 
+        // Check for split component subdirectories
+        if (path.includes('/core-dropdowns/')) return 'components';
+        if (path.includes('/core-navigation/')) return 'components';
+        if (path.includes('/core-tables/')) return 'components';
+
         // Check product subdirectories (shopper, merchant, marketing, docs)
         for (const dir of productDirectories) {
             if (path.includes(dir)) return 'products';
@@ -148,7 +153,55 @@
                 // Don't activate disabled links
                 if (!link.classList.contains('sidebar-link-disabled')) {
                     link.classList.add('sidebar-link-active');
+
+                    // If this link is inside a nav-group, expand the group and highlight parent
+                    const navGroup = link.closest('.nav-group');
+                    if (navGroup) {
+                        navGroup.classList.add('expanded');
+                        const header = navGroup.querySelector('.nav-group-header');
+                        if (header && !link.classList.contains('nav-group-header')) {
+                            header.classList.add('has-active-child');
+                        }
+                    }
                 }
+            }
+        });
+
+        // Also check if we're on a nav-group index page (expand that group)
+        const navGroups = document.querySelectorAll('#side-nav .nav-group');
+        navGroups.forEach(group => {
+            const header = group.querySelector('.nav-group-header');
+            if (header) {
+                const headerPath = normalizePath(header.getAttribute('href'));
+                if (currentPath === headerPath) {
+                    group.classList.add('expanded');
+                    header.classList.add('sidebar-link-active');
+                }
+            }
+        });
+    }
+
+    // Initialize nav group toggle behavior
+    function initNavGroups() {
+        const navGroups = document.querySelectorAll('#side-nav .nav-group');
+
+        navGroups.forEach(group => {
+            const header = group.querySelector('.nav-group-header');
+            if (!header) return;
+
+            // Add click handler to toggle expansion (but allow navigation)
+            const chevron = header.querySelector('.nav-group-chevron');
+            if (chevron) {
+                chevron.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    group.classList.toggle('expanded');
+                });
+
+                // Make chevron area larger for easier clicking
+                chevron.style.cursor = 'pointer';
+                chevron.style.padding = '4px';
+                chevron.style.margin = '-4px';
             }
         });
     }
@@ -290,6 +343,49 @@
                 color: hsl(30 5% 62%);
                 pointer-events: none;
             }
+
+            /* Nav group styles for expandable sections */
+            .nav-group {
+                list-style: none;
+            }
+
+            .nav-group-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-group-chevron {
+                width: 16px;
+                height: 16px;
+                color: hsl(30 5% 55%);
+                transition: transform 150ms ease;
+                flex-shrink: 0;
+            }
+
+            .nav-group.expanded .nav-group-chevron {
+                transform: rotate(90deg);
+            }
+
+            .nav-group-items {
+                display: none;
+                padding-left: 12px;
+                margin-top: 2px;
+            }
+
+            .nav-group.expanded .nav-group-items {
+                display: block;
+            }
+
+            .nav-group-items .sidebar-link {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            /* Active parent when child is active */
+            .nav-group-header.has-active-child {
+                color: hsl(150 100% 27%);
+            }
         `;
         document.head.appendChild(style);
     }
@@ -320,6 +416,7 @@
             if (sideNavContainer) {
                 await loadPartial(sidebarUrl, 'side-nav');
                 highlightSideNav();
+                initNavGroups();
             }
         }
     }
