@@ -4,7 +4,7 @@
 
 **Product:** Shopper Passport & Wallet
 **Character:** Consumer-friendly, approachable, trustworthy
-**Opal Treatment:** Traditional Opal — warm paper, soft thread tints
+**Opal Treatment:** Bright Opal — warm paper, soft thread tints
 
 ---
 
