@@ -9,21 +9,45 @@
     'use strict';
 
     // Get the base path for loading partials
-    // This handles both local file:// and deployed http(s):// environments
+    // This handles local file://, simple web servers, and GitHub Pages
     function getBasePath() {
         const path = window.location.pathname;
 
         // For GitHub Pages or similar deployments with a base path
         // e.g., https://saltwyk.github.io/saltwyk-design/
-        const match = path.match(/^(\/[^\/]+)/);
-        if (window.location.hostname.includes('github.io') && match) {
-            return match[1];
+        if (window.location.hostname.includes('github.io')) {
+            const match = path.match(/^(\/[^\/]+)/);
+            if (match) return match[1];
         }
 
-        return '';
+        // For web servers with absolute paths
+        if (window.location.protocol.startsWith('http')) {
+            return '';
+        }
+
+        // For file:// protocol, calculate relative path to project root
+        // /components/dropdowns/index.html → depth 2 → ../..
+        // /foundation/colors.html → depth 1 → ..
+        // /index.html → depth 0 → .
+        const pathParts = path.split('/').filter(Boolean);
+        pathParts.pop(); // Remove filename
+        const depth = pathParts.length;
+
+        if (depth === 0) return '.';
+        return Array(depth).fill('..').join('/');
     }
 
     const basePath = getBasePath();
+
+    // Build URL for fetching - handles both absolute (http) and relative (file://) paths
+    function buildUrl(absolutePath) {
+        if (window.location.protocol.startsWith('http')) {
+            return basePath + absolutePath;
+        }
+        // For file://, convert absolute path to relative
+        const relativePath = absolutePath.startsWith('/') ? absolutePath.slice(1) : absolutePath;
+        return basePath + '/' + relativePath;
+    }
 
     // Normalize path for comparison (remove trailing slashes, handle index.html)
     function normalizePath(path) {
@@ -92,7 +116,7 @@
         if (!container) return null;
 
         try {
-            const response = await fetch(basePath + url);
+            const response = await fetch(buildUrl(url));
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const html = await response.text();
             container.innerHTML = html;
