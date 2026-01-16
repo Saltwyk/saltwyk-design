@@ -1,0 +1,187 @@
+{
+  "surface": "shopper",
+  "identity": "Bright Opal",
+  "description": "Warm, approachable, trustworthy - the feeling of winning and snagging deals",
+  "character": "Mobile-first, consumer-facing, emotional, celebratory",
+  
+  "color_semantics": {
+    "emerald": {
+      "role": "Primary CTA and logo ONLY",
+      "allowed_on": ["primary CTA button", "logo"],
+      "forbidden_on": [
+        "secondary buttons",
+        "tertiary buttons",
+        "links",
+        "focus rings",
+        "selection states",
+        "active states",
+        "borders",
+        "decorative elements",
+        "backgrounds",
+        "icons (except in logo)"
+      ],
+      "rationale": "Reserved for the single most important action on screen"
+    },
+    "indigo": {
+      "role": "UI interactive and info states",
+      "allowed_on": [
+        "focus rings",
+        "selection states",
+        "links",
+        "active navigation states",
+        "selected items",
+        "hover states on interactive elements",
+        "info badges",
+        "info toasts",
+        "info callouts"
+      ],
+      "forbidden_on": ["decorative threads", "backgrounds"],
+      "rationale": "Workhorse interactive color - indicates clickable, selected, or informational"
+    },
+    "cyan": {
+      "role": "Thread gradients ONLY",
+      "allowed_on": ["Fresh thread gradient lines"],
+      "forbidden_on": [
+        "focus rings",
+        "selection states",
+        "links",
+        "buttons",
+        "badges",
+        "toasts",
+        "callouts",
+        "backgrounds",
+        "any UI interactive element"
+      ],
+      "rationale": "Too searing for UI - reserved for decorative thread expression only"
+    },
+    "magenta": {
+      "role": "Error and destructive states",
+      "allowed_on": ["error badges", "error toasts", "destructive buttons", "error form states"]
+    },
+    "orange": {
+      "role": "Warning states",
+      "allowed_on": ["warning badges", "warning toasts", "pending states"]
+    }
+  },
+  
+  "thread_rules": {
+    "assigned_thread": "Fresh",
+    "gradient_composition": "Cyan → Lime",
+    "gradient_css": "linear-gradient(90deg, hsl(170 70% L%), hsl(90 70% L%))",
+    "placement": {
+      "hero_thread": {
+        "location": "top edge of hero section, full-bleed",
+        "css_class": "rounded-b-lg",
+        "note": "Thread lives AT the top edge, not floating in the hero field. Square top corners allow edge-to-edge thread flow."
+      },
+      "navigation_thread": {
+        "location": "below logo in sidebar",
+        "height": "3px",
+        "width": "full-width",
+        "gradient": "spectrum (not Fresh) for brand expression"
+      },
+      "max_hero_threads_per_page": 1,
+      "max_accent_threads_per_page": 2,
+      "accent_use_cases": ["featured cards", "celebration moments", "section dividers"]
+    },
+    "intensity_levels": {
+      "hero": {
+        "height": "3px",
+        "saturation": "70%",
+        "lightness": "65-72%",
+        "use": "Page headers, major brand moments"
+      },
+      "accent": {
+        "height": "2px",
+        "saturation": "60%",
+        "lightness": "80-84%",
+        "use": "Cards, section dividers"
+      },
+      "subtle": {
+        "height": "2px",
+        "saturation": "55%",
+        "lightness": "90-92%",
+        "use": "Minor decorative elements"
+      }
+    }
+  },
+  
+  "background_rules": {
+    "hero_backgrounds": {
+      "hero_300": {
+        "lightness": "85-88%",
+        "css": "linear-gradient(135deg, hsl(170 70% 85%), hsl(90 70% 88%))",
+        "limit": "One per page maximum"
+      },
+      "feature_200": {
+        "lightness": "92-94%",
+        "css": "linear-gradient(135deg, hsl(170 55% 92%), hsl(90 55% 94%))"
+      },
+      "subtle_100": {
+        "lightness": "97-98%",
+        "css": "linear-gradient(180deg, hsl(170 45% 97%), hsl(90 45% 98%))"
+      }
+    },
+    "page_backgrounds": {
+      "primary": "ledger",
+      "allowed": ["ledger", "white", "subtle_100 gradient"]
+    },
+    "forbidden": [
+      "full saturation gradient backgrounds",
+      "dark/intaglio backgrounds",
+      "hero_300 used more than once per page"
+    ]
+  },
+  
+  "typography": {
+    "display_font": "Fraunces",
+    "body_font": "Inter",
+    "tone": "Warm, approachable, slightly playful"
+  },
+  
+  "emotional_targets": {
+    "primary_feeling": "I snagged it!",
+    "secondary_feelings": ["winning", "clever", "found money", "private triumph"],
+    "avoid": ["corporate", "cold", "transactional", "debt-like"]
+  },
+  
+  "validation_checklist": [
+    "Emerald appears ONLY on primary CTA button and logo",
+    "All focus rings use indigo",
+    "All selection states use indigo",
+    "All links use indigo",
+    "All info badges/toasts use indigo (not cyan)",
+    "Cyan appears ONLY in Fresh thread gradient lines",
+    "Hero thread is at TOP EDGE, full-bleed, not floating in field",
+    "Hero container uses rounded-b-lg (square top, rounded bottom)",
+    "Maximum one hero-intensity (300) background per page",
+    "Maximum one hero thread per page",
+    "Thread accents on 1-2 featured elements, not all cards",
+    "Page background is ledger or white, not dark",
+    "No hardcoded HSL values - all colors use CSS custom properties",
+    "Page feels warm and approachable, not corporate"
+  ],
+  
+  "common_violations": [
+    {
+      "pattern": "Cyan used for focus rings or info states",
+      "fix": "Replace with indigo"
+    },
+    {
+      "pattern": "Emerald used for links or secondary buttons",
+      "fix": "Replace with indigo for links, use ghost/outline variant for secondary buttons"
+    },
+    {
+      "pattern": "Thread floating in hero field",
+      "fix": "Move thread to top edge; use rounded-b-lg on hero container"
+    },
+    {
+      "pattern": "Multiple hero-intensity backgrounds",
+      "fix": "Use hero_300 once, feature_200 or subtle_100 for other sections"
+    },
+    {
+      "pattern": "Hardcoded HSL values",
+      "fix": "Convert to CSS custom property tokens"
+    }
+  ]
+}
