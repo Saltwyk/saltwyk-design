@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Table Variants - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+
+        /* Code block styles */
+        .code-block {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 88%);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        .code-block .comment { color: hsl(30 5% 50%); }
+        .code-block .property { color: hsl(170 100% 60%); }
+        .code-block .value { color: hsl(74 100% 65%); }
+        .code-block .selector { color: hsl(330 100% 70%); }
+
+        /* ========================================= */
+        /* TABLE CONTAINER STYLES */
+        /* ========================================= */
+        .table-container {
+            background: white;
+            border: 1px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-container-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* ========================================= */
+        /* TABLE BASE STYLES */
+        /* ========================================= */
+        .table-base {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-base th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px;
+        }
+        .table-base td {
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        /* ========================================= */
+        /* LIGHT MODE TABLE */
+        /* ========================================= */
+        .table-light th {
+            background: hsl(30 5% 97%);
+            color: hsl(30 6% 46%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .table-light td {
+            color: hsl(24 29% 8%);
+            border-bottom: 1px solid hsl(30 5% 95%);
+        }
+        .table-light tr:last-child td {
+            border-bottom: none;
+        }
+        .table-light tbody tr:hover {
+            background: hsl(30 5% 97%);
+        }
+
+        /* ========================================= */
+        /* DARK MODE TABLE */
+        /* ========================================= */
+        .table-dark th {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 65%);
+            border-bottom: 1px solid hsl(24 27% 20%);
+        }
+        .table-dark td {
+            color: hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(24 27% 18%);
+        }
+        .table-dark tr:last-child td {
+            border-bottom: none;
+        }
+        .table-dark tbody tr:hover {
+            background: hsl(24 27% 20%);
+        }
+
+        /* ========================================= */
+        /* TABLE VARIANTS - STRIPED */
+        /* ========================================= */
+        .table-striped tbody tr:nth-child(even) {
+            background: hsl(30 5% 97%);
+        }
+        .table-striped-dark tbody tr:nth-child(even) {
+            background: hsl(24 29% 8%);
+        }
+
+        /* ========================================= */
+        /* TABLE VARIANTS - BORDERED */
+        /* ========================================= */
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid hsl(30 5% 88%);
+        }
+        .table-bordered-dark th,
+        .table-bordered-dark td {
+            border: 1px solid hsl(24 27% 20%);
+        }
+
+        /* ========================================= */
+        /* TABLE VARIANTS - MINIMAL */
+        /* ========================================= */
+        .table-minimal {
+            border: none;
+            background: transparent;
+        }
+        .table-minimal th {
+            background: transparent;
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .table-minimal td {
+            border-bottom: 1px solid hsl(30 5% 95%);
+        }
+
+        /* ========================================= */
+        /* TABLE DENSITY OPTIONS */
+        /* ========================================= */
+        .table-compact th,
+        .table-compact td {
+            padding: 8px 12px;
+        }
+        .table-comfortable th,
+        .table-comfortable td {
+            padding: 16px;
+        }
+
+        /* ========================================= */
+        /* STATUS BADGES */
+        /* ========================================= */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .status-success { background: hsl(150 45% 92%); color: hsl(150 100% 22%); }
+        .status-success .dot { background: hsl(150 100% 40%); }
+        .status-warning { background: hsl(20 50% 93%); color: hsl(20 80% 30%); }
+        .status-warning .dot { background: hsl(20 90% 50%); }
+        .status-error { background: hsl(330 50% 94%); color: hsl(330 85% 35%); }
+        .status-error .dot { background: hsl(330 85% 50%); }
+        .status-pending { background: hsl(74 45% 90%); color: hsl(74 80% 28%); }
+        .status-pending .dot { background: hsl(74 80% 45%); }
+        .status-info { background: hsl(170 45% 92%); color: hsl(170 100% 25%); }
+        .status-info .dot { background: hsl(170 100% 40%); }
+
+        /* Dark status badges */
+        .status-success-dark { background: hsl(150 100% 40% / 15%); color: hsl(150 80% 65%); }
+        .status-success-dark .dot { background: hsl(150 100% 50%); }
+        .status-warning-dark { background: hsl(20 100% 50% / 15%); color: hsl(20 90% 65%); }
+        .status-warning-dark .dot { background: hsl(20 100% 55%); }
+        .status-error-dark { background: hsl(330 100% 50% / 15%); color: hsl(330 90% 70%); }
+        .status-error-dark .dot { background: hsl(330 100% 55%); }
+        .status-pending-dark { background: hsl(74 100% 50% / 15%); color: hsl(74 80% 65%); }
+        .status-pending-dark .dot { background: hsl(74 100% 55%); }
+
+        /* ========================================= */
+        /* SHOPIFY ADMIN TABLE STYLES */
+        /* ========================================= */
+        .table-shopify {
+            background: white;
+            border: 1px solid hsl(0 0% 90%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-shopify th {
+            background: hsl(0 0% 98%);
+            color: hsl(0 0% 45%);
+            border-bottom: 1px solid hsl(0 0% 90%);
+        }
+        .table-shopify td {
+            color: hsl(0 0% 20%);
+            border-bottom: 1px solid hsl(0 0% 94%);
+        }
+        .table-shopify tr:last-child td {
+            border-bottom: none;
+        }
+        .table-shopify tbody tr:hover {
+            background: hsl(0 0% 98%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="../../sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&rarr;</span>
+            <a href="./index.html" class="hover:text-emerald-600">Tables</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Base &amp; Variants</span>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Table Pattern</p>
+            <h1 class="font-display text-4xl mb-2">Base Table Variants</h1>
+            <p class="text-warm-600 max-w-2xl">Core table styling options for displaying structured data. Choose the right variant for your context.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <a href="./index.html" class="text-warm-500 hover:text-emerald-600">Overview</a>
+            <span class="text-emerald-600 font-medium">Base &amp; Variants</span>
+            <a href="interactive.html" class="text-warm-500 hover:text-emerald-600">Interactive</a>
+            <a href="states.html" class="text-warm-500 hover:text-emerald-600">States</a>
+            <a href="responsive.html" class="text-warm-500 hover:text-emerald-600">Responsive</a>
+        </nav>
+
+        <!-- Quick Nav -->
+        <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-12">
+            <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide mb-3">On This Page</p>
+            <div class="flex flex-wrap gap-2">
+                <a href="#light-variants" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Light Mode Variants</a>
+                <a href="#dark-variants" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Dark Mode Variants</a>
+                <a href="#product-surfaces" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Product Surfaces</a>
+                <a href="#density" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Density Options</a>
+                <a href="#code-reference" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Code Reference</a>
+                <a href="#checklist" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Implementation Checklist</a>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: LIGHT MODE VARIANTS -->
+        <!-- ============================================ -->
+        <section id="light-variants" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Table Variants (Light Mode)</p>
+            <p class="text-warm-600 text-sm mb-8">Four core table variants for light mode contexts. Each serves different data presentation needs.</p>
+
+            <!-- Default Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Default</h3>
+                <p class="text-sm text-warm-500 mb-4">White background, warm-50 header, subtle row borders. Standard choice for most tables.</p>
+                <div class="table-container">
+                    <table class="table-base table-light">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-001</td>
+                                <td>Sarah Chen</td>
+                                <td>$1,250.00</td>
+                                <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-002</td>
+                                <td>Marcus Johnson</td>
+                                <td>$890.50</td>
+                                <td><span class="status-badge status-pending"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-003</td>
+                                <td>Elena Rodriguez</td>
+                                <td>$2,100.00</td>
+                                <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-004</td>
+                                <td>David Kim</td>
+                                <td>$450.75</td>
+                                <td><span class="status-badge status-warning"><span class="dot"></span>Processing</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Striped Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Striped</h3>
+                <p class="text-sm text-warm-500 mb-4">Alternating row backgrounds (warm-50 every other row). Improves readability for dense data.</p>
+                <div class="table-container">
+                    <table class="table-base table-light table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-005</td>
+                                <td>Amy Watson</td>
+                                <td>$3,200.00</td>
+                                <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-006</td>
+                                <td>James Park</td>
+                                <td>$1,575.25</td>
+                                <td><span class="status-badge status-error"><span class="dot"></span>Failed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-007</td>
+                                <td>Lisa Thompson</td>
+                                <td>$920.00</td>
+                                <td><span class="status-badge status-pending"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-008</td>
+                                <td>Robert Garcia</td>
+                                <td>$4,800.50</td>
+                                <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bordered Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Bordered</h3>
+                <p class="text-sm text-warm-500 mb-4">All cell borders visible. Best for data that needs clear column separation.</p>
+                <div class="table-container">
+                    <table class="table-base table-light table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-009</td>
+                                <td>Michelle Lee</td>
+                                <td>$750.00</td>
+                                <td><span class="status-badge status-info"><span class="dot"></span>In Review</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-010</td>
+                                <td>Kevin Brown</td>
+                                <td>$2,340.75</td>
+                                <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-011</td>
+                                <td>Jennifer White</td>
+                                <td>$1,100.00</td>
+                                <td><span class="status-badge status-warning"><span class="dot"></span>Processing</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-012</td>
+                                <td>Chris Martinez</td>
+                                <td>$5,600.25</td>
+                                <td><span class="status-badge status-pending"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Minimal Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Minimal</h3>
+                <p class="text-sm text-warm-500 mb-4">No container, just bottom borders. Lightweight option for inline data display.</p>
+                <table class="table-base table-light table-minimal">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-013</td>
+                            <td>Amanda Taylor</td>
+                            <td>$1,890.00</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-014</td>
+                            <td>Brian Wilson</td>
+                            <td>$670.50</td>
+                            <td><span class="status-badge status-pending"><span class="dot"></span>Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-015</td>
+                            <td>Diana Moore</td>
+                            <td>$3,450.00</td>
+                            <td><span class="status-badge status-success"><span class="dot"></span>Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-016</td>
+                            <td>Eric Davis</td>
+                            <td>$890.75</td>
+                            <td><span class="status-badge status-warning"><span class="dot"></span>Processing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: DARK MODE VARIANTS -->
+        <!-- ============================================ -->
+        <section id="dark-variants" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Table Variants (Dark Mode / Fire Opal)</p>
+            <p class="text-warm-600 text-sm mb-8">Same four variants adapted for dark mode surfaces. Uses intaglio palette for backgrounds and borders.</p>
+
+            <!-- Default Dark Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Default (Dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">Intaglio-800 background, intaglio-900 header, darker borders.</p>
+                <div class="table-container-dark">
+                    <table class="table-base table-dark">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-017</td>
+                                <td>Sarah Chen</td>
+                                <td>$1,250.00</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-018</td>
+                                <td>Marcus Johnson</td>
+                                <td>$890.50</td>
+                                <td><span class="status-badge status-pending-dark"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-019</td>
+                                <td>Elena Rodriguez</td>
+                                <td>$2,100.00</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-020</td>
+                                <td>David Kim</td>
+                                <td>$450.75</td>
+                                <td><span class="status-badge status-warning-dark"><span class="dot"></span>Processing</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Striped Dark Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Striped (Dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">Alternating with intaglio-900 rows for better row distinction.</p>
+                <div class="table-container-dark">
+                    <table class="table-base table-dark table-striped-dark">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-021</td>
+                                <td>Amy Watson</td>
+                                <td>$3,200.00</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-022</td>
+                                <td>James Park</td>
+                                <td>$1,575.25</td>
+                                <td><span class="status-badge status-error-dark"><span class="dot"></span>Failed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-023</td>
+                                <td>Lisa Thompson</td>
+                                <td>$920.00</td>
+                                <td><span class="status-badge status-pending-dark"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-024</td>
+                                <td>Robert Garcia</td>
+                                <td>$4,800.50</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bordered Dark Table -->
+            <div class="mb-10">
+                <h3 class="font-display text-xl mb-2">Bordered (Dark)</h3>
+                <p class="text-sm text-warm-500 mb-4">All cell borders visible with darker border color (intaglio-700).</p>
+                <div class="table-container-dark">
+                    <table class="table-base table-dark table-bordered-dark">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-025</td>
+                                <td>Michelle Lee</td>
+                                <td>$750.00</td>
+                                <td><span class="status-badge status-pending-dark"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-026</td>
+                                <td>Kevin Brown</td>
+                                <td>$2,340.75</td>
+                                <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-027</td>
+                                <td>Jennifer White</td>
+                                <td>$1,100.00</td>
+                                <td><span class="status-badge status-warning-dark"><span class="dot"></span>Processing</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono text-sm">TXN-028</td>
+                                <td>Chris Martinez</td>
+                                <td>$5,600.25</td>
+                                <td><span class="status-badge status-pending-dark"><span class="dot"></span>Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Minimal Dark Table -->
+            <div class="mb-10 p-6 rounded-lg" style="background: hsl(24 28% 12%);">
+                <h3 class="font-display text-xl mb-2 text-warm-100">Minimal (Dark)</h3>
+                <p class="text-sm text-warm-400 mb-4">No container, bottom borders only. For inline dark mode contexts.</p>
+                <table class="table-base table-dark table-minimal" style="background: transparent;">
+                    <thead>
+                        <tr>
+                            <th style="background: transparent;">ID</th>
+                            <th style="background: transparent;">Name</th>
+                            <th style="background: transparent;">Amount</th>
+                            <th style="background: transparent;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-029</td>
+                            <td>Amanda Taylor</td>
+                            <td>$1,890.00</td>
+                            <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-030</td>
+                            <td>Brian Wilson</td>
+                            <td>$670.50</td>
+                            <td><span class="status-badge status-pending-dark"><span class="dot"></span>Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-031</td>
+                            <td>Diana Moore</td>
+                            <td>$3,450.00</td>
+                            <td><span class="status-badge status-success-dark"><span class="dot"></span>Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-sm">TXN-032</td>
+                            <td>Eric Davis</td>
+                            <td>$890.75</td>
+                            <td><span class="status-badge status-warning-dark"><span class="dot"></span>Processing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: PRODUCT SURFACES -->
+        <!-- ============================================ -->
+        <section id="product-surfaces" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Tables Across Product Surfaces</p>
+            <p class="text-warm-600 text-sm mb-8">Comparing Saltwyk table styling with Shopify Admin conventions.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Saltwyk Style -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Saltwyk Style</h3>
+                    <p class="text-sm text-warm-500 mb-4">Warm gray palette, rounded corners, emerald accents.</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Sales</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Premium Widget</td>
+                                    <td>$12,450</td>
+                                    <td><span class="status-badge status-success"><span class="dot"></span>Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Basic Plan</td>
+                                    <td>$8,200</td>
+                                    <td><span class="status-badge status-success"><span class="dot"></span>Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Enterprise Suite</td>
+                                    <td>$45,000</td>
+                                    <td><span class="status-badge status-pending"><span class="dot"></span>Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Shopify Admin Style -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Shopify Admin Style</h3>
+                    <p class="text-sm text-warm-500 mb-4">Neutral gray palette, blue accents for selection.</p>
+                    <div class="table-shopify">
+                        <table class="table-base" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="background: hsl(0 0% 98%); color: hsl(0 0% 45%); border-bottom: 1px solid hsl(0 0% 90%);">Product</th>
+                                    <th style="background: hsl(0 0% 98%); color: hsl(0 0% 45%); border-bottom: 1px solid hsl(0 0% 90%);">Sales</th>
+                                    <th style="background: hsl(0 0% 98%); color: hsl(0 0% 45%); border-bottom: 1px solid hsl(0 0% 90%);">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color: hsl(0 0% 20%); border-bottom: 1px solid hsl(0 0% 94%);">Premium Widget</td>
+                                    <td style="color: hsl(0 0% 20%); border-bottom: 1px solid hsl(0 0% 94%);">$12,450</td>
+                                    <td style="border-bottom: 1px solid hsl(0 0% 94%);"><span class="px-2 py-1 rounded text-xs font-medium" style="background: hsl(142 76% 93%); color: hsl(142 71% 29%);">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="color: hsl(0 0% 20%); border-bottom: 1px solid hsl(0 0% 94%);">Basic Plan</td>
+                                    <td style="color: hsl(0 0% 20%); border-bottom: 1px solid hsl(0 0% 94%);">$8,200</td>
+                                    <td style="border-bottom: 1px solid hsl(0 0% 94%);"><span class="px-2 py-1 rounded text-xs font-medium" style="background: hsl(142 76% 93%); color: hsl(142 71% 29%);">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="color: hsl(0 0% 20%);">Enterprise Suite</td>
+                                    <td style="color: hsl(0 0% 20%);">$45,000</td>
+                                    <td><span class="px-2 py-1 rounded text-xs font-medium" style="background: hsl(48 96% 89%); color: hsl(21 90% 31%);">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="mt-8 bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="table-base table-light">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Saltwyk</th>
+                            <th>Shopify Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Header Background</td>
+                            <td><code>warm-50</code> (warm gray)</td>
+                            <td><code>gray-100</code> (neutral gray)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Border Color</td>
+                            <td><code>warm-200</code></td>
+                            <td><code>gray-200</code></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Selection Color</td>
+                            <td>Indigo (hsl 237)</td>
+                            <td>Blue (hsl 212)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Border Radius</td>
+                            <td>8px</td>
+                            <td>8px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: DENSITY OPTIONS -->
+        <!-- ============================================ -->
+        <section id="density" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Density Options</p>
+            <p class="text-warm-600 text-sm mb-8">Three density levels to balance information display with readability.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Default Density -->
+                <div>
+                    <h3 class="font-display text-lg mb-2">Default</h3>
+                    <p class="text-sm text-warm-500 mb-4">12px padding. Standard density for most use cases.</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono text-sm">001</td>
+                                    <td>Sarah Chen</td>
+                                    <td>$1,250</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">002</td>
+                                    <td>Marcus J.</td>
+                                    <td>$890</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">003</td>
+                                    <td>Elena R.</td>
+                                    <td>$2,100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Compact Density -->
+                <div>
+                    <h3 class="font-display text-lg mb-2">Compact</h3>
+                    <p class="text-sm text-warm-500 mb-4">8px padding. For dense data displays.</p>
+                    <div class="table-container">
+                        <table class="table-base table-light table-compact">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono text-sm">001</td>
+                                    <td>Sarah Chen</td>
+                                    <td>$1,250</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">002</td>
+                                    <td>Marcus J.</td>
+                                    <td>$890</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">003</td>
+                                    <td>Elena R.</td>
+                                    <td>$2,100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Comfortable Density -->
+                <div>
+                    <h3 class="font-display text-lg mb-2">Comfortable</h3>
+                    <p class="text-sm text-warm-500 mb-4">16px padding. More breathing room.</p>
+                    <div class="table-container">
+                        <table class="table-base table-light table-comfortable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono text-sm">001</td>
+                                    <td>Sarah Chen</td>
+                                    <td>$1,250</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">002</td>
+                                    <td>Marcus J.</td>
+                                    <td>$890</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-sm">003</td>
+                                    <td>Elena R.</td>
+                                    <td>$2,100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Density Specs -->
+            <div class="mt-8 bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="table-base table-light">
+                    <thead>
+                        <tr>
+                            <th>Density</th>
+                            <th>Cell Padding</th>
+                            <th>Row Height (approx)</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Compact</td>
+                            <td><code>8px 12px</code></td>
+                            <td>~36px</td>
+                            <td>Dense data, many rows visible</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Default</td>
+                            <td><code>12px</code></td>
+                            <td>~44px</td>
+                            <td>Standard tables, balanced</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Comfortable</td>
+                            <td><code>16px</code></td>
+                            <td>~52px</td>
+                            <td>Fewer rows, more emphasis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: CODE REFERENCE -->
+        <!-- ============================================ -->
+        <section id="code-reference" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-8">CSS classes for table container and base styles.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Container Styles -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Table Container</h3>
+                    <div class="code-block">
+<pre><span class="comment">/* Light mode container */</span>
+<span class="selector">.table-container</span> {
+  <span class="property">background</span>: <span class="value">white</span>;
+  <span class="property">border</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+  <span class="property">overflow</span>: <span class="value">hidden</span>;
+}
+
+<span class="comment">/* Dark mode container */</span>
+<span class="selector">.table-container-dark</span> {
+  <span class="property">background</span>: <span class="value">hsl(24 28% 12%)</span>;
+  <span class="property">border</span>: <span class="value">1px solid hsl(24 27% 20%)</span>;
+  <span class="property">border-radius</span>: <span class="value">8px</span>;
+  <span class="property">overflow</span>: <span class="value">hidden</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Base Table Styles -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Base Table</h3>
+                    <div class="code-block">
+<pre><span class="selector">.table-base</span> {
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">border-collapse</span>: <span class="value">collapse</span>;
+}
+
+<span class="selector">.table-base th</span> {
+  <span class="property">text-align</span>: <span class="value">left</span>;
+  <span class="property">font-size</span>: <span class="value">12px</span>;
+  <span class="property">font-weight</span>: <span class="value">600</span>;
+  <span class="property">text-transform</span>: <span class="value">uppercase</span>;
+  <span class="property">letter-spacing</span>: <span class="value">0.05em</span>;
+  <span class="property">padding</span>: <span class="value">12px</span>;
+}
+
+<span class="selector">.table-base td</span> {
+  <span class="property">padding</span>: <span class="value">12px</span>;
+  <span class="property">font-size</span>: <span class="value">14px</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Light Mode Colors -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Light Mode Colors</h3>
+                    <div class="code-block">
+<pre><span class="selector">.table-light th</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 5% 97%)</span>;
+  <span class="property">color</span>: <span class="value">hsl(30 6% 46%)</span>;
+  <span class="property">border-bottom</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+}
+
+<span class="selector">.table-light td</span> {
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+  <span class="property">border-bottom</span>: <span class="value">1px solid hsl(30 5% 95%)</span>;
+}
+
+<span class="selector">.table-light tbody tr:hover</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 5% 97%)</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Variant Classes -->
+                <div>
+                    <h3 class="font-display text-lg mb-3">Variant Classes</h3>
+                    <div class="code-block">
+<pre><span class="comment">/* Striped */</span>
+<span class="selector">.table-striped tbody tr:nth-child(even)</span> {
+  <span class="property">background</span>: <span class="value">hsl(30 5% 97%)</span>;
+}
+
+<span class="comment">/* Bordered */</span>
+<span class="selector">.table-bordered th,
+.table-bordered td</span> {
+  <span class="property">border</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+}
+
+<span class="comment">/* Density */</span>
+<span class="selector">.table-compact th, .table-compact td</span> {
+  <span class="property">padding</span>: <span class="value">8px 12px</span>;
+}
+<span class="selector">.table-comfortable th, .table-comfortable td</span> {
+  <span class="property">padding</span>: <span class="value">16px</span>;
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: IMPLEMENTATION CHECKLIST -->
+        <!-- ============================================ -->
+        <section id="checklist" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Verify these specifications when implementing base tables.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Container -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Container</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border radius: 8px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border: 1px solid warm-200 (light) / intaglio-700 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Overflow: hidden (for rounded corners)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Background: white (light) / intaglio-800 (dark)</li>
+                    </ul>
+                </div>
+
+                <!-- Header -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Table Header</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Font size: 12px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Font weight: 600</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Text transform: uppercase</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Letter spacing: 0.05em</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Background: warm-50 (light) / intaglio-900 (dark)</li>
+                    </ul>
+                </div>
+
+                <!-- Body -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Table Body</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Font size: 14px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Cell padding: 12px (default)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Row border: 1px solid warm-100 (light)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Last row: no bottom border</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Hover state: warm-50 background</li>
+                    </ul>
+                </div>
+
+                <!-- Variants -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Variants</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Striped: even rows get warm-50 bg</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Bordered: all cells have visible borders</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Minimal: no container, bottom borders only</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Compact: 8px 12px padding</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Comfortable: 16px padding</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../../partials/nav-loader.js"></script>
+</body>
+</html>

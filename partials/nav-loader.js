@@ -34,21 +34,6 @@
         return normalized;
     }
 
-    // Foundation token pages (at root level)
-    const foundationPages = [
-        'core-colors', 'core-typography', 'core-logos', 'core-threads',
-        'core-gradients', 'core-spacing', 'core-buttons', 'core-inputs',
-        'core-animation', 'core-responsive'
-    ];
-
-    // Component pages (at root level)
-    const componentPages = [
-        'core-states', 'core-tables', 'core-modals', 'core-dropdowns',
-        'core-tabs', 'core-badges', 'core-toasts', 'core-cards',
-        'core-navigation', 'core-avatars', 'core-tooltips', 'core-popovers',
-        'core-progress', 'core-context-switcher'
-    ];
-
     // Product pages (at root level) - includes product-*, marketing-* files
     const productPages = [
         'product-checkout-widget', 'product-components', 'product-shopper-passport', 'product-surfaces',
@@ -63,24 +48,17 @@
         const path = window.location.pathname;
         const filename = path.split('/').pop().replace('.html', '');
 
-        // Check directory-based sections first
+        // Check directory-based sections
         if (path.includes('/foundation/')) return 'foundation';
         if (path.includes('/components/')) return 'components';
         if (path.includes('/products/')) return 'products';
-
-        // Check for split component subdirectories
-        if (path.includes('/core-dropdowns/')) return 'components';
-        if (path.includes('/core-navigation/')) return 'components';
-        if (path.includes('/core-tables/')) return 'components';
 
         // Check product subdirectories (shopper, merchant, marketing, docs)
         for (const dir of productDirectories) {
             if (path.includes(dir)) return 'products';
         }
 
-        // Check filename-based sections for root-level pages
-        if (foundationPages.includes(filename)) return 'foundation';
-        if (componentPages.includes(filename)) return 'components';
+        // Check filename-based sections for root-level product pages
         if (productPages.includes(filename)) return 'products';
 
         return null;

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Select - Dropdowns - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        /* ========================================= */
+        /* DROPDOWN MENU - LIGHT MODE */
+        /* ========================================= */
+        .dropdown-menu {
+            background: white;
+            border: 1px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 4px 0;
+            min-width: 180px;
+            max-width: 320px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: hsl(24 29% 8%);
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+        }
+        .dropdown-item:hover {
+            background: hsl(30 5% 97%);
+        }
+
+        /* ========================================= */
+        /* SELECT TRIGGER STYLES */
+        /* ========================================= */
+        .select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: white;
+            border: 1.5px solid hsl(30 5% 78%);
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 180px;
+        }
+        .select-trigger-open {
+            border-color: hsl(170 100% 40%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 15%);
+        }
+
+        .select-chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(30 6% 55%);
+            transition: transform 0.15s ease;
+            flex-shrink: 0;
+        }
+        .select-trigger-open .select-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* ========================================= */
+        /* MULTI-SELECT STYLES */
+        /* ========================================= */
+        .select-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: hsl(237 100% 95%);
+            border-radius: 4px;
+            font-size: 12px;
+            color: hsl(237 100% 40%);
+        }
+        .select-tag-remove {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            color: hsl(237 100% 50%);
+        }
+        .select-tag-remove:hover {
+            color: hsl(237 100% 35%);
+        }
+
+        /* Checkbox in menu */
+        .dropdown-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid hsl(30 5% 70%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.1s ease;
+        }
+        .dropdown-checkbox-checked {
+            background: hsl(237 100% 65%);
+            border-color: hsl(237 100% 65%);
+        }
+        .dropdown-checkbox-dark {
+            border-color: hsl(30 8% 40%);
+        }
+        .dropdown-checkbox-dark.dropdown-checkbox-checked {
+            background: hsl(237 90% 72%);
+            border-color: hsl(237 90% 72%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="../../sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <a href="index.html" class="hover:text-emerald-600">Dropdowns</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Multi-Select</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Dropdown Variant</p>
+            <h1 class="font-display text-4xl mb-2">Multi-Select Dropdown</h1>
+            <p class="text-warm-600">Select multiple options with checkboxes. Used for filters, bulk selection, and multi-value form fields.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <a href="index.html" class="text-warm-500 hover:text-emerald-600">Overview</a>
+            <a href="select.html" class="text-warm-500 hover:text-emerald-600">Select</a>
+            <a href="action.html" class="text-warm-500 hover:text-emerald-600">Action Menu</a>
+            <a href="combobox.html" class="text-warm-500 hover:text-emerald-600">Combobox</a>
+            <span class="text-emerald-600 font-medium">Multi-Select</span>
+        </nav>
+
+        <!-- Quick Nav -->
+        <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-12">
+            <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide mb-3">On This Page</p>
+            <div class="flex flex-wrap gap-2">
+                <a href="#tags" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Tags Display</a>
+                <a href="#count" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Count Display</a>
+                <a href="#filter" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Filter Example</a>
+                <a href="#styles" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Display Styles</a>
+                <a href="#code" class="text-sm text-warm-600 hover:text-emerald-600 px-3 py-1 bg-white rounded border border-warm-200">Code Reference</a>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: TAGS DISPLAY -->
+        <!-- =========================================== -->
+        <section id="tags" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Tags Display</p>
+            <p class="text-warm-600 text-sm mb-8">Selected items appear as removable tags in the trigger.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div style="width: 300px;">
+                    <div class="select-trigger select-trigger-open mb-1" style="min-height: 44px; flex-wrap: wrap; gap: 4px; padding: 6px 12px;">
+                        <span class="select-tag">
+                            Target Circle
+                            <i data-lucide="x" class="select-tag-remove"></i>
+                        </span>
+                        <span class="select-tag">
+                            AAdvantage
+                            <i data-lucide="x" class="select-tag-remove"></i>
+                        </span>
+                        <i data-lucide="chevron-down" class="select-chevron ml-auto"></i>
+                    </div>
+                    <div class="dropdown-menu" style="position: relative;">
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>Target Circle</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>AAdvantage</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Hilton Honors</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Starbucks Rewards</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: COUNT DISPLAY -->
+        <!-- =========================================== -->
+        <section id="count" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Count Display</p>
+            <p class="text-warm-600 text-sm mb-8">Show a count instead of tags for a more compact trigger.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div style="width: 220px;">
+                    <div class="select-trigger select-trigger-open mb-1">
+                        <span>2 selected</span>
+                        <i data-lucide="chevron-down" class="select-chevron"></i>
+                    </div>
+                    <div class="dropdown-menu" style="position: relative;">
+                        <div class="flex items-center justify-between px-3 py-2 border-b border-warm-100">
+                            <button class="text-xs text-emerald-600 font-medium">Select all</button>
+                            <button class="text-xs text-warm-500">Clear</button>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>Active</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>Pending</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Completed</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Failed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: FILTER EXAMPLE -->
+        <!-- =========================================== -->
+        <section id="filter" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Filter Multi-Select</p>
+            <p class="text-warm-600 text-sm mb-8">Common use case for filtering data tables and lists.</p>
+
+            <div class="bg-warm-100 rounded-lg p-6">
+                <div class="bg-white rounded-lg p-4 inline-block">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-warm-600">Filters:</span>
+                        <div style="width: 180px;">
+                            <div class="select-trigger select-trigger-open" style="padding: 6px 10px; min-width: 0;">
+                                <span class="text-sm">2 selected</span>
+                                <i data-lucide="chevron-down" class="select-chevron"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu mt-2" style="position: relative; width: 180px;">
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>Active</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox dropdown-checkbox-checked">
+                                <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                            </div>
+                            <span>Pending</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Completed</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="dropdown-checkbox"></div>
+                            <span>Failed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: DISPLAY STYLES -->
+        <!-- =========================================== -->
+        <section id="styles" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Display Style Comparison</p>
+            <p class="text-warm-600 text-sm mb-8">Choose the display style based on use case and space constraints.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px">Style</th>
+                            <th>Example</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium">Count</td>
+                            <td>"3 selected"</td>
+                            <td>Compact display, many selections possible</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">Tags</td>
+                            <td>[Apple] [Orange] [+2]</td>
+                            <td>Need to see individual selections, limited count</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">List</td>
+                            <td>"Apple, Orange, Banana" (truncated)</td>
+                            <td>Inline text display, space constraints</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section id="code" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-8">CSS implementation for multi-select components.</p>
+
+            <div class="mb-6">
+                <h4 class="font-semibold mb-3">Selection Tags</h4>
+                <div class="code-block">
+                    <code><span class="property">.select-tag</span> {
+  <span class="property">@apply</span> <span class="value">inline-flex items-center gap-1</span>;
+  <span class="property">@apply</span> <span class="value">px-2 py-0.5 rounded</span>;
+  <span class="property">@apply</span> <span class="value">bg-indigo-100 text-indigo-700</span>;
+  <span class="property">@apply</span> <span class="value">text-xs font-medium</span>;
+}
+
+<span class="property">.select-tag-remove</span> {
+  <span class="property">@apply</span> <span class="value">w-3.5 h-3.5 cursor-pointer</span>;
+  <span class="property">@apply</span> <span class="value">text-indigo-500 hover:text-indigo-700</span>;
+}</code>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-semibold mb-3">Checkbox</h4>
+                <div class="code-block">
+                    <code><span class="property">.dropdown-checkbox</span> {
+  <span class="property">@apply</span> <span class="value">w-4 h-4 rounded</span>;
+  <span class="property">@apply</span> <span class="value">border-[1.5px] border-warm-400</span>;
+  <span class="property">@apply</span> <span class="value">flex items-center justify-center</span>;
+  <span class="property">@apply</span> <span class="value">transition-colors duration-100</span>;
+}
+
+<span class="property">.dropdown-checkbox-checked</span> {
+  <span class="property">@apply</span> <span class="value">bg-indigo-600 border-indigo-600</span>;
+}
+
+<span class="property">.dropdown-checkbox-checked svg</span> {
+  <span class="property">@apply</span> <span class="value">w-3 h-3 text-white</span>;
+}</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Key specifications to verify for multi-select components.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Trigger</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Min height: 44px (with tags)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Tags wrap to new line</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Max visible tags (then "+N")</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Remove tag on X click</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Menu</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Checkbox: 16x16px</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Select All / Clear actions</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Stay open on selection</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Close on click outside</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../../partials/nav-loader.js"></script>
+</body>
+</html>
