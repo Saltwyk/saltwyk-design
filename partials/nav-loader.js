@@ -319,7 +319,7 @@
                 color: hsl(150 100% 27%) !important;
             }
 
-            /* Sidebar link styles - Base Opal treatment */
+            /* Sidebar link styles - Bright Opal treatment */
             .sidebar-link {
                 display: block;
                 padding: 8px 12px;

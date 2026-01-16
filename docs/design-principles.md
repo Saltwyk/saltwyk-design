@@ -42,7 +42,7 @@ The shopper experience should feel like discovering hidden value—the bright fl
 
 The merchant experience evokes the weight of intaglio ink—permanent, trustworthy—with threads burning through the darkness like embedded authentication.
 
-### Base Opal (Documentation)
+### Bright Opal (Documentation)
 
 - **Surface:** Clean, minimal, highly readable
 - **Character:** Clear, functional, quietly confident
@@ -149,7 +149,7 @@ Each opal treatment has a signature thread gradient:
 | Shopper | Bright Opal | Cool | Cyan → Magenta |
 | Merchant | Fire Opal | Fresh | Cyan → Lime |
 | Marketing | Mixed | Full Spectrum | All four thread colors |
-| Docs | Base Opal | Mono | Single color or none |
+| Docs | Bright Opal | Mono | Single color or none |
 
 These families create instant recognition of context while maintaining the core ledger & thread aesthetic.
 
