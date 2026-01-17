@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buying Power Card — Shopper Components — Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--intaglio-900)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 13px; line-height: 1.6; }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Fresh thread gradient header -->
+            <div class="h-[3px] w-full thread-fresh"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>&rarr;</span>
+                    <a href="../../index.html" class="hover:text-emerald-600">Shopper</a>
+                    <span>&rarr;</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Components</a>
+                    <span>&rarr;</span>
+                    <span class="text-ink font-medium">Buying Power Card</span>
+                </nav>
+
+                <!-- Component Header -->
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Shopper Component</p>
+                    <h1 class="font-display text-4xl mb-2">Buying Power Card</h1>
+                    <p class="text-warm-600 max-w-2xl">Hero card displaying the shopper's buying power status with appropriate visual treatment and call-to-action. Shows Low, Building, or Ready states based on connected merchants.</p>
+                </header>
+
+                <!-- ============================================ -->
+                <!-- COMPONENT STATES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Component States</p>
+                    <h2 class="font-display text-2xl mb-6">All Three States</h2>
+
+                    <div class="space-y-8">
+
+                        <!-- STATE: LOW (Default/Primary) -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">State: Low (Default)</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <!-- The actual component -->
+                                <div class="max-w-full shadow-sm">
+                                    <!-- Thread sits on TOP EDGE -->
+                                    <div class="h-[3px] w-full bg-gradient-to-r from-cyan-400 to-lime-400"></div>
+
+                                    <!-- Card body with ONLY bottom corners rounded -->
+                                    <div class="bg-ledger rounded-b-2xl p-6">
+                                        <!-- Status row -->
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <span class="w-2 h-2 rounded-full bg-magenta-500 animate-pulse"></span>
+                                            <span class="serial text-magenta-500">LOW BUYING POWER</span>
+                                        </div>
+
+                                        <!-- Headline with gradient -->
+                                        <h2 class="font-display text-2xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-intaglio-900 to-intaglio-600 bg-clip-text text-transparent">
+                                            Let's build it up
+                                        </h2>
+                                        <p class="text-sm text-warm-600 mb-6">Connect your favorite merchants to start earning.</p>
+                                        <button class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">
+                                            Connect Merchants
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>thread</code>: ON TOP EDGE (square corners above)</li>
+                                                <li><code>card body</code>: bg-ledger rounded-b-2xl</li>
+                                                <li><code>headline</code>: Gradient text (intaglio)</li>
+                                                <li><code>status dot</code>: bg-magenta-500 + pulse</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Actions</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>primary CTA</code>: Emerald button</li>
+                                                <li>This is the ONLY emerald usage</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STATE: BUILDING -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">State: Building</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <!-- The actual component -->
+                                <div class="max-w-full shadow-sm">
+                                    <!-- Thread sits on TOP EDGE -->
+                                    <div class="h-[3px] w-full bg-gradient-to-r from-cyan-400 to-lime-400"></div>
+
+                                    <!-- Card body with gradient background, ONLY bottom corners rounded -->
+                                    <div class="bg-gradient-to-br from-[hsl(170_70%_97%)] to-[hsl(90_70%_97%)] rounded-b-2xl p-6">
+                                        <!-- Status row -->
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                            <span class="serial text-indigo-600">BUILDING BUYING POWER</span>
+                                        </div>
+
+                                        <!-- Headline with gradient -->
+                                        <h2 class="font-display text-2xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-intaglio-900 to-intaglio-600 bg-clip-text text-transparent">
+                                            You're on your way
+                                        </h2>
+                                        <p class="text-sm text-warm-600 mb-6">3 merchants connected. Connect more to increase power.</p>
+                                        <a href="#" class="text-indigo-500 hover:text-indigo-600 underline text-sm font-medium">
+                                            View Merchants &rarr;
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>thread</code>: ON TOP EDGE (square corners above)</li>
+                                                <li><code>card body</code>: Fresh gradient @ 20% rounded-b-2xl</li>
+                                                <li><code>headline</code>: Gradient text (intaglio)</li>
+                                                <li><code>status dot</code>: bg-indigo-500 (no pulse)</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Actions</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>secondary action</code>: Indigo link (NOT emerald)</li>
+                                                <li>No primary CTA in this state</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STATE: READY -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">State: Ready</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <!-- The actual component -->
+                                <div class="max-w-full shadow-sm">
+                                    <!-- Thread sits on TOP EDGE -->
+                                    <div class="h-[3px] w-full bg-gradient-to-r from-cyan-400 to-lime-400"></div>
+
+                                    <!-- Card body with gradient background, ONLY bottom corners rounded -->
+                                    <div class="bg-gradient-to-br from-[hsl(170_70%_92%)] to-[hsl(90_70%_92%)] rounded-b-2xl p-6">
+                                        <!-- Status row -->
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                            <span class="serial text-emerald-600">READY TO SHOP</span>
+                                        </div>
+
+                                        <!-- Headline with gradient -->
+                                        <h2 class="font-display text-2xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-intaglio-900 to-intaglio-600 bg-clip-text text-transparent">
+                                            Your buying power is strong
+                                        </h2>
+                                        <p class="text-sm text-warm-600 mb-6">7 merchants connected &bull; Active</p>
+                                        <a href="#" class="text-indigo-500 hover:text-indigo-600 underline text-sm font-medium">
+                                            Browse Wishlist &rarr;
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>thread</code>: ON TOP EDGE (square corners above)</li>
+                                                <li><code>card body</code>: Fresh gradient @ 40% rounded-b-2xl</li>
+                                                <li><code>headline</code>: Gradient text (intaglio)</li>
+                                                <li><code>status dot</code>: bg-emerald-500 (no pulse)</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Actions</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>secondary action</code>: Indigo link</li>
+                                                <li>Status dot is emerald (decorative, not CTA)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Specifications</p>
+                    <h2 class="font-display text-2xl mb-6">Component Anatomy</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                        <table class="spec-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Classes / Values</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Outer Container</strong></td>
+                                    <td><code>max-w-full shadow-sm</code> (no rounding - thread sits on top edge)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thread Accent</strong></td>
+                                    <td><code>h-[3px] w-full bg-gradient-to-r from-cyan-400 to-lime-400</code> (ON TOP EDGE)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Card Body</strong></td>
+                                    <td><code>[background] rounded-b-2xl p-6</code> (only BOTTOM corners rounded)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Row</strong></td>
+                                    <td><code>flex items-center justify-between mb-3</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Dot</strong></td>
+                                    <td><code>w-2 h-2 rounded-full [state-color]</code> + optional <code>animate-pulse</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Label</strong></td>
+                                    <td><code>serial [state-text-color]</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Headline</strong></td>
+                                    <td><code>font-display text-2xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-intaglio-900 to-intaglio-600 bg-clip-text text-transparent</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Description</strong></td>
+                                    <td><code>text-sm text-warm-600 mb-6</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Primary CTA</strong></td>
+                                    <td><code>bg-emerald-500 hover:bg-emerald-600 text-white</code> (Low state only)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Secondary Link</strong></td>
+                                    <td><code>text-indigo-500 hover:text-indigo-600 underline</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- State-specific backgrounds -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">State-Specific Backgrounds</p>
+                        </div>
+                        <table class="spec-table">
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Background</th>
+                                    <th>Gradient Formula</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Low</strong></td>
+                                    <td><code>bg-ledger</code></td>
+                                    <td>None (solid color)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Building</strong></td>
+                                    <td>Fresh gradient @ 20%</td>
+                                    <td><code>from-[hsl(170_70%_97%)] to-[hsl(90_70%_97%)]</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ready</strong></td>
+                                    <td>Fresh gradient @ 40%</td>
+                                    <td><code>from-[hsl(170_70%_92%)] to-[hsl(90_70%_92%)]</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PROPS API -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Props API</p>
+                    <h2 class="font-display text-2xl mb-6">React Implementation</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">TypeScript Interface</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>interface BuyingPowerCardProps {
+  status: 'low' | 'building' | 'ready';
+  headline: string;
+  description: string;
+  connectedMerchantsCount?: number;
+  sparklineData?: number[]; // Optional custom sparkline points
+  primaryAction?: {
+    label: string;
+    onClick: () => void;
+  };
+  secondaryAction?: {
+    label: string;
+    href: string;
+  };
+}</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- USAGE EXAMPLES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Usage Examples</p>
+                    <h2 class="font-display text-2xl mb-6">HTML Markup</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">Low State Example</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>&lt;div class="max-w-full shadow-sm"&gt;
+  &lt;!-- Thread sits on TOP EDGE (square corners above) --&gt;
+  &lt;div class="h-[3px] w-full bg-gradient-to-r from-cyan-400 to-lime-400"&gt;&lt;/div&gt;
+
+  &lt;!-- Card body with ONLY bottom corners rounded --&gt;
+  &lt;div class="bg-ledger rounded-b-2xl p-6"&gt;
+    &lt;!-- Status row --&gt;
+    &lt;div class="flex items-center gap-2 mb-3"&gt;
+      &lt;span class="w-2 h-2 rounded-full bg-magenta-500 animate-pulse"&gt;&lt;/span&gt;
+      &lt;span class="serial text-magenta-500"&gt;LOW BUYING POWER&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Headline with gradient --&gt;
+    &lt;h2 class="font-display text-2xl lg:text-3xl font-bold mb-2
+               bg-gradient-to-r from-intaglio-900 to-intaglio-600
+               bg-clip-text text-transparent"&gt;
+      Let's build it up
+    &lt;/h2&gt;
+    &lt;p class="text-sm text-warm-600 mb-6"&gt;
+      Connect your favorite merchants to start earning.
+    &lt;/p&gt;
+    &lt;button class="bg-emerald-500 hover:bg-emerald-600 text-white
+                   font-semibold text-sm px-5 py-2.5 rounded-lg"&gt;
+      Connect Merchants
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- COLOR SEMANTICS WARNING -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-magenta-600 mb-4">Color Semantics</p>
+                    <h2 class="font-display text-2xl mb-6">Critical Design Rules</h2>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-emerald-600 mb-4 flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                                Correct Usage
+                            </p>
+                            <ul class="space-y-2 text-sm text-warm-700">
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">&bull;</span>
+                                    Emerald for ONE primary CTA (Low state only)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">&bull;</span>
+                                    Emerald status dot (Ready state - decorative)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">&bull;</span>
+                                    Indigo for all interactive links
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">&bull;</span>
+                                    Cyan ONLY in thread gradient (never standalone)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">&bull;</span>
+                                    Fresh thread at top of ALL states
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-magenta-600 mb-4 flex items-center gap-2">
+                                <i data-lucide="x" class="w-4 h-4"></i>
+                                Never Do This
+                            </p>
+                            <ul class="space-y-2 text-sm text-warm-700">
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">&bull;</span>
+                                    Multiple emerald buttons in same card
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">&bull;</span>
+                                    Emerald links instead of buttons
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">&bull;</span>
+                                    Cyan as standalone color (threads only)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">&bull;</span>
+                                    Primary CTA in Building/Ready states
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">&bull;</span>
+                                    Missing thread accent at top
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- RESPONSIVE BEHAVIOR -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Responsive</p>
+                    <h2 class="font-display text-2xl mb-6">Mobile & Desktop</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <table class="spec-table">
+                            <thead>
+                                <tr>
+                                    <th>Breakpoint</th>
+                                    <th>Headline Size</th>
+                                    <th>Container</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mobile (&lt; 768px)</td>
+                                    <td><code>text-2xl</code> (24px)</td>
+                                    <td>Full width</td>
+                                </tr>
+                                <tr>
+                                    <td>Desktop (&ge; 768px)</td>
+                                    <td><code>text-3xl</code> (30px)</td>
+                                    <td>Max width container</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Related Components -->
+                <section class="mb-12 pt-8 border-t-2 border-warm-200">
+                    <p class="serial text-warm-500 mb-4">Related Components</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="wishlist-item.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Wishlist Item</a>
+                        <a href="merchant-avatar-row.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Merchant Avatar Row</a>
+                        <span class="px-3 py-1.5 bg-indigo-100 border border-indigo-200 rounded text-sm text-indigo-700">Buying Power Card</span>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../../index.html" class="hover:text-indigo-600">Home</a>
+                        <span class="text-warm-300">&middot;</span>
+                        <a href="../../../sitemap.html" class="hover:text-indigo-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="../../../partials/nav-loader.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

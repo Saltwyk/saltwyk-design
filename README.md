@@ -11,19 +11,27 @@ This site uses JavaScript to load navigation components. To view it locally, you
 From the project root directory:
 
 ```bash
-# Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate
+# 1. Set up environment (first time only)
+cp .env.example .env
+# Edit .env and add your LOGO_DEV_TOKEN and LOGO_DEV_SECRET
 
-# Start the server
-python3 -m http.server 8000
+# 2. Start the development server
+python3 serve.py
 ```
 
 Then open [http://localhost:8000](http://localhost:8000) in your browser.
 
-To deactivate the virtual environment when done:
+The `serve.py` script:
+- Reads API keys from `.env`
+- Generates `assets/config/env.js` (gitignored)
+- Starts an HTTP server on port 8000
+
+### Simple Server (no API keys)
+
+If you don't need logo.dev API support:
+
 ```bash
-deactivate
+python3 -m http.server 8000
 ```
 
 ### Alternative Servers

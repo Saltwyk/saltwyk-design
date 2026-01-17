@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Avatar Row — Shopper Components — Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--intaglio-900)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 13px; line-height: 1.6; }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Fresh thread gradient (REQUIRED) -->
+            <div class="h-[3px] w-full thread-fresh"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>&rarr;</span>
+                    <a href="../../index.html" class="hover:text-emerald-600">Shopper</a>
+                    <span>&rarr;</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Components</a>
+                    <span>&rarr;</span>
+                    <span class="text-ink font-medium">Merchant Avatar Row</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Shopper Component</p>
+                    <h1 class="font-display text-4xl mb-2">Merchant Avatar Row</h1>
+                    <p class="text-warm-600">Display row of connected merchant logos with overlap and overflow indicator. Uses logo.dev API with fallback to colored initials.</p>
+                </header>
+
+                <!-- ============================================ -->
+                <!-- COMPONENT STATES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Component States</p>
+                    <p class="text-sm text-warm-600 mb-6">The avatar row displays up to 5 visible merchant logos with an overflow indicator when more merchants are connected.</p>
+
+                    <!-- State: Default (5 avatars + overflow) -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="font-medium text-ink">State: With Overflow</p>
+                                <p class="text-sm text-warm-600">5 visible merchant logos plus overflow indicator showing additional merchants</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded">Default</span>
+                        </div>
+
+                        <!-- Visual Example -->
+                        <div class="mb-6">
+                            <p class="text-xs text-warm-500 mb-3 font-medium">Visual Example</p>
+                            <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                                <!-- ACTUAL COMPONENT -->
+                                <div class="flex items-center -space-x-2">
+                                    <!-- Sephora -->
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Sephora"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-sienna-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            SE
+                                        </div>
+                                    </div>
+
+                                    <!-- Target -->
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/target.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Target"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-sepia-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            TG
+                                        </div>
+                                    </div>
+
+                                    <!-- Barnes & Noble -->
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/barnesandnoble.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Barnes & Noble"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-slate-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            BN
+                                        </div>
+                                    </div>
+
+                                    <!-- United Airlines -->
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/united.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="United Airlines"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-warm-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            UA
+                                        </div>
+                                    </div>
+
+                                    <!-- Whole Foods -->
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/wholefoodsmarket.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Whole Foods"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-sepia-500 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            WF
+                                        </div>
+                                    </div>
+
+                                    <!-- Overflow indicator -->
+                                    <div class="w-12 h-12 rounded-full bg-warm-300 text-warm-700 flex items-center justify-center text-xs font-medium border-2 border-ledger">
+                                        +3
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div class="border-t border-warm-200 pt-4">
+                            <p class="text-xs text-warm-500 mb-3 font-medium">Specifications</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Container</p>
+                                    <code>flex items-center -space-x-2</code>
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Avatar Size</p>
+                                    <code>w-12 h-12</code> (48px)
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Logo Image</p>
+                                    <code>rounded-full object-cover border-2 border-ledger</code>
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Fallback Initials</p>
+                                    <code>text-sm font-semibold text-white</code>
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Overflow Pill</p>
+                                    <code>bg-warm-300 text-warm-700 text-xs font-medium</code>
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Overlap</p>
+                                    <code>-space-x-2</code> (-8px margin)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- State: Few Merchants (no overflow) -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="font-medium text-ink">State: Without Overflow</p>
+                                <p class="text-sm text-warm-600">3 merchants connected, no overflow needed</p>
+                            </div>
+                        </div>
+
+                        <!-- Visual Example -->
+                        <div class="mb-6">
+                            <p class="text-xs text-warm-500 mb-3 font-medium">Visual Example</p>
+                            <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                                <!-- ACTUAL COMPONENT -->
+                                <div class="flex items-center -space-x-2">
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Sephora"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-sienna-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            SE
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/target.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Target"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-sepia-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            TG
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <img
+                                            src="https://img.logo.dev/barnesandnoble.com?token=pk_YOUR_TOKEN&size=48&format=png"
+                                            alt="Barnes & Noble"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                        />
+                                        <div class="w-12 h-12 rounded-full bg-slate-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger" style="display:none">
+                                            BN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div class="border-t border-warm-200 pt-4">
+                            <p class="text-xs text-warm-500 mb-3 font-medium">Specifications</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Max Visible</p>
+                                    <code>5</code> merchants before overflow
+                                </div>
+                                <div>
+                                    <p class="text-warm-500 text-xs mb-1">Min Count</p>
+                                    <code>1</code> merchant minimum
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fallback Example -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="font-medium text-ink">Fallback: Initials Only</p>
+                                <p class="text-sm text-warm-600">When logo.dev fails or for offline use, fallback to colored initials</p>
+                            </div>
+                        </div>
+
+                        <!-- Visual Example -->
+                        <div class="mb-6">
+                            <p class="text-xs text-warm-500 mb-3 font-medium">Visual Example (Fallback)</p>
+                            <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                                <div class="flex items-center -space-x-2">
+                                    <div class="w-12 h-12 rounded-full bg-sienna-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger">
+                                        SE
+                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-sepia-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger">
+                                        TG
+                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-slate-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger">
+                                        BN
+                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-warm-400 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger">
+                                        UA
+                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-sepia-500 text-white flex items-center justify-center text-sm font-semibold border-2 border-ledger">
+                                        WF
+                                    </div>
+                                    <div class="w-12 h-12 rounded-full bg-warm-300 text-warm-700 flex items-center justify-center text-xs font-medium border-2 border-ledger">
+                                        +3
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-warm-500">This is what renders when logo.dev images fail to load or API is unavailable.</p>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- LOGO.DEV INTEGRATION -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Logo.dev Integration</p>
+                    <h2 class="font-display text-2xl mb-6">Merchant Logos</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="text-sm text-warm-600 mb-4">Use logo.dev API for merchant logos with automatic fallback to colored initials:</p>
+
+                        <div class="code-block mb-4">
+                            <code>&lt;div class="relative"&gt;
+  &lt;img
+    src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&amp;size=48&amp;format=png"
+    alt="Sephora"
+    class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+  /&gt;
+  &lt;!-- Fallback --&gt;
+  &lt;div class="w-12 h-12 rounded-full bg-sienna-400 text-white
+              flex items-center justify-center text-sm font-semibold
+              border-2 border-ledger" style="display:none"&gt;
+    SE
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                        </div>
+
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <p class="text-xs text-warm-600"><strong>Logo.dev API:</strong> Token should be loaded from environment variable in production. Placeholder <code>pk_YOUR_TOKEN</code> used in this spec.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Example Merchant Domains</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-sienna-400 text-white flex items-center justify-center text-xs font-semibold">SE</div>
+                                <div>
+                                    <span class="text-ink font-medium">Sephora</span>
+                                    <p class="text-warm-500 text-xs">sephora.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-sepia-400 text-white flex items-center justify-center text-xs font-semibold">TG</div>
+                                <div>
+                                    <span class="text-ink font-medium">Target</span>
+                                    <p class="text-warm-500 text-xs">target.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-400 text-white flex items-center justify-center text-xs font-semibold">BN</div>
+                                <div>
+                                    <span class="text-ink font-medium">Barnes & Noble</span>
+                                    <p class="text-warm-500 text-xs">barnesandnoble.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-warm-400 text-white flex items-center justify-center text-xs font-semibold">UA</div>
+                                <div>
+                                    <span class="text-ink font-medium">United Airlines</span>
+                                    <p class="text-warm-500 text-xs">united.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-sepia-500 text-white flex items-center justify-center text-xs font-semibold">WF</div>
+                                <div>
+                                    <span class="text-ink font-medium">Whole Foods</span>
+                                    <p class="text-warm-500 text-xs">wholefoodsmarket.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- COLOR ASSIGNMENT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Fallback Colors</p>
+                    <h2 class="font-display text-2xl mb-6">Avatar Color Algorithm</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="text-sm text-warm-600 mb-4">Use merchant name to generate consistent avatar colors for fallback initials:</p>
+
+                        <div class="grid grid-cols-4 gap-4 mb-6">
+                            <div class="text-center">
+                                <div class="w-12 h-12 rounded-full bg-sepia-400 flex items-center justify-center mx-auto mb-2 border-2 border-ledger">
+                                    <span class="text-sm font-semibold text-white">AB</span>
+                                </div>
+                                <code class="text-xs">bg-sepia-400</code>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 rounded-full bg-sienna-400 flex items-center justify-center mx-auto mb-2 border-2 border-ledger">
+                                    <span class="text-sm font-semibold text-white">CD</span>
+                                </div>
+                                <code class="text-xs">bg-sienna-400</code>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 rounded-full bg-slate-400 flex items-center justify-center mx-auto mb-2 border-2 border-ledger">
+                                    <span class="text-sm font-semibold text-white">EF</span>
+                                </div>
+                                <code class="text-xs">bg-slate-400</code>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 rounded-full bg-warm-400 flex items-center justify-center mx-auto mb-2 border-2 border-ledger">
+                                    <span class="text-sm font-semibold text-white">GH</span>
+                                </div>
+                                <code class="text-xs">bg-warm-400</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">Color Hash Algorithm</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>function getMerchantColor(name: string): string {
+  const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const colors = ['bg-sepia-400', 'bg-sienna-400', 'bg-slate-400', 'bg-warm-400'];
+  return colors[hash % colors.length];
+}
+
+function getInitials(name: string): string {
+  // Handle numeric prefixes: "1-800-Flowers" → "18"
+  const numericMatch = name.match(/^\d+/);
+  if (numericMatch) return numericMatch[0].slice(0, 2);
+
+  // Standard: first letter of first two words
+  const words = name.split(/[\s-]+/);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+
+  // Single word: first two characters
+  return name.slice(0, 2).toUpperCase();
+}</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PROPS API -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Props API</p>
+                    <h2 class="font-display text-2xl mb-6">React Implementation</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">TypeScript Interface</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>interface MerchantAvatarRowProps {
+  merchants: Array&lt;{
+    id: string;
+    name: string;
+    domain: string; // Used for logo.dev URL
+    initials: string; // Fallback initials
+  }&gt;;
+  maxVisible?: number; // default: 5
+  onOverflowClick?: () => void;
+}
+
+// Usage
+&lt;MerchantAvatarRow
+  merchants={[
+    { id: '1', name: 'Sephora', domain: 'sephora.com', initials: 'SE' },
+    { id: '2', name: 'Target', domain: 'target.com', initials: 'TG' },
+    // ...
+  ]}
+  maxVisible={5}
+  onOverflowClick={() => openMerchantModal()}
+/&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- USAGE GUIDELINES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Usage Guidelines</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <h3 class="font-semibold text-ink mb-3">When to Use</h3>
+                        <ul class="text-sm text-warm-600 space-y-2 mb-6">
+                            <li>&bull; Display connected merchant loyalty accounts</li>
+                            <li>&bull; Show merchant count at a glance in cards/summaries</li>
+                            <li>&bull; Compact representation of multiple merchants</li>
+                            <li>&bull; Use with "View all" link for full list access</li>
+                        </ul>
+
+                        <h3 class="font-semibold text-ink mb-3">Accessibility</h3>
+                        <ul class="text-sm text-warm-600 space-y-2 mb-6">
+                            <li>&bull; Add <code>alt</code> attribute with merchant name to each logo</li>
+                            <li>&bull; Make overflow indicator a <code>&lt;button&gt;</code> element</li>
+                            <li>&bull; Include <code>aria-label="View all X merchants"</code> on overflow</li>
+                            <li>&bull; Ensure fallback initials have sufficient color contrast</li>
+                        </ul>
+
+                        <h3 class="font-semibold text-ink mb-3">Code Example</h3>
+                        <div class="code-block">
+                            <code>&lt;div class="flex items-center -space-x-2"&gt;
+  &lt;!-- Sephora --&gt;
+  &lt;div class="relative"&gt;
+    &lt;img
+      src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&amp;size=48&amp;format=png"
+      alt="Sephora"
+      class="w-12 h-12 rounded-full object-cover border-2 border-ledger"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+    /&gt;
+    &lt;div class="w-12 h-12 rounded-full bg-sienna-400 text-white
+                flex items-center justify-center text-sm font-semibold
+                border-2 border-ledger" style="display:none"&gt;
+      SE
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Repeat for other merchants --&gt;
+
+  &lt;!-- Overflow indicator --&gt;
+  &lt;button class="w-12 h-12 rounded-full bg-warm-300 text-warm-700
+                 flex items-center justify-center text-xs font-medium
+                 border-2 border-ledger"
+          aria-label="View all 8 merchants"&gt;
+    +3
+  &lt;/button&gt;
+&lt;/div&gt;</code>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Related Components -->
+                <section class="mb-12 pt-8 border-t-2 border-warm-200">
+                    <p class="serial text-warm-500 mb-4">Related Components</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="buying-power-card.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Buying Power Card</a>
+                        <a href="wishlist-item.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Wishlist Item</a>
+                        <span class="px-3 py-1.5 bg-indigo-100 border border-indigo-200 rounded text-sm text-indigo-700">Merchant Avatar Row</span>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../../index.html" class="hover:text-indigo-600">Home</a>
+                        <span class="text-warm-300">&middot;</span>
+                        <a href="../../../sitemap.html" class="hover:text-indigo-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../../../partials/nav-loader.js"></script>
+</body>
+</html>

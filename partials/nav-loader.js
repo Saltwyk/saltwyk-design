@@ -8,6 +8,26 @@
 (function() {
     'use strict';
 
+    // Load env.js and logo-dev.js for API key support
+    function loadEnvScripts() {
+        const basePath = getBasePath();
+
+        // Load env.js first (contains window.ENV)
+        const envScript = document.createElement('script');
+        envScript.src = basePath + '/assets/config/env.js';
+        envScript.onerror = function() {
+            // env.js doesn't exist - that's OK, logo fallbacks will be used
+            console.info('env.js not found - logo.dev will use fallback initials');
+        };
+        envScript.onload = function() {
+            // After env.js loads, load logo-dev.js
+            const logoScript = document.createElement('script');
+            logoScript.src = basePath + '/assets/js/logo-dev.js';
+            document.head.appendChild(logoScript);
+        };
+        document.head.appendChild(envScript);
+    }
+
     // Get the base path for loading partials
     // This handles both local file:// and deployed http(s):// environments
     function getBasePath() {
@@ -379,6 +399,9 @@
 
     // Main initialization
     async function init() {
+        // Load environment config and logo.dev helper
+        loadEnvScripts();
+
         // Inject active state styles
         injectActiveStyles();
 

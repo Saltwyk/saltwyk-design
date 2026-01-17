@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist Item — Shopper Components — Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--intaglio-900)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 13px; line-height: 1.6; }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Fresh thread gradient header -->
+            <div class="h-[3px] w-full thread-fresh"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>&rarr;</span>
+                    <a href="../../index.html" class="hover:text-emerald-600">Shopper</a>
+                    <span>&rarr;</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Components</a>
+                    <span>&rarr;</span>
+                    <span class="text-ink font-medium">Wishlist Item</span>
+                </nav>
+
+                <!-- Component Header -->
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Shopper Component</p>
+                    <h1 class="font-display text-4xl mb-2">Wishlist Item</h1>
+                    <p class="text-warm-600 max-w-2xl">Display wishlist item with merchant logo, product title, and progress toward affordability. Shows Ready to Snag or Saving For states based on point balance.</p>
+                </header>
+
+                <!-- ============================================ -->
+                <!-- COMPONENT STATES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Component States</p>
+                    <h2 class="font-display text-2xl mb-6">Ready to Snag & Saving For</h2>
+
+                    <div class="space-y-8">
+
+                        <!-- STATE: READY TO SNAG -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">State: Ready to Snag</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <!-- The actual component -->
+                                <div class="bg-white rounded-xl shadow-sm border border-warm-200 max-w-md p-4">
+                                    <!-- Status badge -->
+                                    <div class="flex items-center gap-1 mb-3">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                                        <span class="serial text-emerald-600 font-bold">READY TO SNAG!</span>
+                                    </div>
+
+                                    <!-- Content row -->
+                                    <div class="flex items-start gap-4">
+                                        <!-- Merchant logo in product position -->
+                                        <div class="w-16 h-16 flex-shrink-0">
+                                            <img
+                                                src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                                alt="Sephora"
+                                                class="w-16 h-16 rounded-full object-cover shadow-sm"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                            />
+                                            <!-- Fallback to initials -->
+                                            <div class="w-16 h-16 rounded-full bg-sepia-400 text-white flex items-center justify-center text-xl font-bold shadow-sm" style="display:none">
+                                                SE
+                                            </div>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div class="flex-1">
+                                            <h3 class="text-base font-semibold text-ink mb-1">Spa Gift Set</h3>
+                                            <span class="text-sm text-warm-600">Sephora</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Outlined indigo CTA button (secondary style) -->
+                                    <button class="mt-3 w-full border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50 font-semibold text-sm px-4 py-2 rounded-lg transition-colors">
+                                        Snag It Now!
+                                    </button>
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>container</code>: bg-white rounded-xl shadow-sm p-4</li>
+                                                <li><code>NO thread</code>: Secondary card, thread reserved for hero</li>
+                                                <li><code>logo</code>: 64px circle in product position</li>
+                                                <li><code>layout</code>: logo left → title/merchant right</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Actions</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>CTA</code>: Outlined indigo button (secondary)</li>
+                                                <li><code>border-2 border-indigo-500 text-indigo-600</code></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STATE: SAVING FOR -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">State: Saving For</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <!-- The actual component -->
+                                <div class="bg-white rounded-xl p-4 border border-warm-200 max-w-md">
+                                    <!-- Progress indicator -->
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <!-- SVG progress ring (75%) -->
+                                        <svg class="w-6 h-6" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10" stroke="hsl(var(--warm-200))" stroke-width="2" fill="none"/>
+                                            <circle
+                                                cx="12" cy="12" r="10"
+                                                stroke="hsl(var(--indigo-500))"
+                                                stroke-width="2"
+                                                fill="none"
+                                                stroke-dasharray="62.83"
+                                                stroke-dashoffset="15.71"
+                                                transform="rotate(-90 12 12)"
+                                                stroke-linecap="round"
+                                            />
+                                        </svg>
+                                        <span class="serial text-indigo-600">75% THERE &bull; SAVING FOR</span>
+                                    </div>
+
+                                    <!-- Content row -->
+                                    <div class="flex items-start gap-4">
+                                        <!-- Merchant logo in product position -->
+                                        <div class="w-16 h-16 flex-shrink-0">
+                                            <img
+                                                src="https://img.logo.dev/1800flowers.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                                alt="1-800-Flowers"
+                                                class="w-16 h-16 rounded-full object-cover shadow-sm"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                            />
+                                            <!-- Fallback to initials -->
+                                            <div class="w-16 h-16 rounded-full bg-sienna-400 text-white flex items-center justify-center text-xl font-bold shadow-sm" style="display:none">
+                                                18
+                                            </div>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div class="flex-1">
+                                            <h3 class="text-base font-semibold text-ink mb-1">Roses Bouquet</h3>
+                                            <span class="text-sm text-warm-600">1-800-Flowers</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- NO price, NO points, NO button -->
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>container</code>: bg-white rounded-xl p-4 border (NO thread)</li>
+                                                <li><code>progress ring</code>: 24px SVG with indigo stroke</li>
+                                                <li><code>logo</code>: 64px circle in product position</li>
+                                                <li><code>layout</code>: logo left → title/merchant right</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Simplified Content</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li>NO price displayed</li>
+                                                <li>NO points needed displayed</li>
+                                                <li>NO action button</li>
+                                                <li>Just progress, logo, title, merchant</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VARIANT: With Product Photo -->
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-3">Variant: With Product Photo</p>
+                            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+
+                                <div class="bg-white rounded-xl shadow-sm border border-warm-200 overflow-hidden max-w-[320px]">
+                                    <!-- Product photo - full bleed at top -->
+                                    <div class="relative w-full h-48 bg-warm-100">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=300&fit=crop"
+                                            alt="Spa Gift Set"
+                                            class="w-full h-full object-cover"
+                                        />
+                                    </div>
+
+                                    <!-- Content area -->
+                                    <div class="p-4">
+                                        <!-- Status badge -->
+                                        <div class="flex items-center gap-1 mb-3">
+                                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                                            <span class="serial text-emerald-600 font-bold">READY TO SNAG!</span>
+                                        </div>
+
+                                        <!-- Title and merchant -->
+                                        <h3 class="text-base font-semibold text-ink mb-2">Spa Gift Set</h3>
+                                        <div class="flex items-center gap-2 mb-4">
+                                            <img
+                                                src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&size=24&format=png"
+                                                alt="Sephora"
+                                                class="w-6 h-6 rounded-full object-cover"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                            />
+                                            <div class="w-6 h-6 rounded-full bg-sepia-400 text-white flex items-center justify-center text-[10px] font-bold" style="display:none">
+                                                SE
+                                            </div>
+                                            <span class="text-sm text-warm-600">Sephora</span>
+                                        </div>
+
+                                        <!-- CTA -->
+                                        <button class="w-full border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50 font-semibold text-sm px-4 py-2 rounded-lg transition-colors">
+                                            Snag It Now!
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- State description -->
+                                <div class="mt-6 pt-4 border-t border-warm-100">
+                                    <div class="grid grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">Visual Treatment</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li><code>photo</code>: Full bleed at top, h-48</li>
+                                                <li><code>container</code>: overflow-hidden for photo bleed</li>
+                                                <li><code>logo</code>: Small 24px circle next to merchant name</li>
+                                                <li><code>layout</code>: Vertical card format</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-ink mb-2">When to Use</p>
+                                            <ul class="text-warm-600 space-y-1">
+                                                <li>Use when <code>productImageUrl</code> is provided</li>
+                                                <li>Falls back to logo variant if no image</li>
+                                                <li>Product photo always at top (never inline)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Specifications</p>
+                    <h2 class="font-display text-2xl mb-6">Component Anatomy</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                        <table class="spec-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Classes / Values</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Container (Logo Variant)</strong></td>
+                                    <td><code>bg-white rounded-xl shadow-sm border border-warm-200 p-4</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Container (Photo Variant)</strong></td>
+                                    <td><code>bg-white rounded-xl shadow-sm border border-warm-200 overflow-hidden</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thread</strong></td>
+                                    <td>NONE - WishlistItem is a secondary card. Threads reserved for hero (BuyingPowerCard).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Badge</strong></td>
+                                    <td><code>flex items-center gap-1 mb-3</code> with check-circle icon</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Progress Ring (Saving)</strong></td>
+                                    <td><code>w-6 h-6</code> SVG circle with indigo stroke</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Merchant Logo (Logo Variant)</strong></td>
+                                    <td><code>w-16 h-16 rounded-full object-cover shadow-sm</code> (64px, in product position)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Merchant Logo (Photo Variant)</strong></td>
+                                    <td><code>w-6 h-6 rounded-full object-cover</code> (24px, next to name)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Merchant Fallback</strong></td>
+                                    <td><code>rounded-full bg-[color] text-white</code> with initials (size matches logo)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Product Photo</strong></td>
+                                    <td><code>w-full h-48 object-cover</code> (full bleed at top, photo variant only)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Product Title</strong></td>
+                                    <td><code>text-base font-semibold text-ink</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Merchant Name</strong></td>
+                                    <td><code>text-sm text-warm-600</code> (below title)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CTA Button (Ready only)</strong></td>
+                                    <td><code>w-full border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50</code> (outlined)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Progress Ring Math -->
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">Progress Ring Calculation</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>// For a 24px ring (viewBox 0 0 24 24)
+// radius = 10, circumference = 2 * PI * 10 = 62.83
+
+const circumference = 62.83;
+const progress = 0.75; // 75%
+const dashoffset = circumference * (1 - progress);
+// dashoffset = 62.83 * 0.25 = 15.71
+
+// SVG attributes:
+// stroke-dasharray="62.83"
+// stroke-dashoffset="15.71"</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- LOGO.DEV INTEGRATION -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Logo.dev Integration</p>
+                    <h2 class="font-display text-2xl mb-6">Merchant Logos</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="text-sm text-warm-600 mb-4">Use logo.dev API for merchant logos with fallback to colored initials. Logo variant uses 64px, photo variant uses 24px:</p>
+
+                        <div class="code-block mb-4">
+                            <code>&lt;!-- Logo Variant: 64px in product position --&gt;
+&lt;div class="w-16 h-16 flex-shrink-0"&gt;
+  &lt;img
+    src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&amp;size=64&amp;format=png"
+    alt="Sephora"
+    class="w-16 h-16 rounded-full object-cover shadow-sm"
+    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+  /&gt;
+  &lt;div class="w-16 h-16 rounded-full bg-sepia-400 text-white
+              flex items-center justify-center text-xl font-bold shadow-sm"
+       style="display:none"&gt;
+    SE
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                        </div>
+
+                        <div class="bg-warm-50 rounded-lg p-4">
+                            <p class="text-xs text-warm-600"><strong>Note:</strong> Token should be loaded from environment variable in production. Placeholder <code>pk_YOUR_TOKEN</code> used in this spec.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Example Merchant Logos (Logo Variant - 64px)</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img
+                                        src="https://img.logo.dev/sephora.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                        alt="Sephora"
+                                        class="w-12 h-12 rounded-full object-cover shadow-sm"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                    />
+                                    <div class="w-12 h-12 rounded-full bg-sepia-400 text-white flex items-center justify-center text-lg font-bold shadow-sm" style="display:none">SE</div>
+                                </div>
+                                <span class="text-warm-600">sephora.com</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img
+                                        src="https://img.logo.dev/target.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                        alt="Target"
+                                        class="w-12 h-12 rounded-full object-cover shadow-sm"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                    />
+                                    <div class="w-12 h-12 rounded-full bg-sienna-400 text-white flex items-center justify-center text-lg font-bold shadow-sm" style="display:none">TG</div>
+                                </div>
+                                <span class="text-warm-600">target.com</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img
+                                        src="https://img.logo.dev/1800flowers.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                        alt="1-800-Flowers"
+                                        class="w-12 h-12 rounded-full object-cover shadow-sm"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                    />
+                                    <div class="w-12 h-12 rounded-full bg-slate-400 text-white flex items-center justify-center text-lg font-bold shadow-sm" style="display:none">18</div>
+                                </div>
+                                <span class="text-warm-600">1800flowers.com</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <img
+                                        src="https://img.logo.dev/barnesandnoble.com?token=pk_YOUR_TOKEN&size=64&format=png"
+                                        alt="Barnes & Noble"
+                                        class="w-12 h-12 rounded-full object-cover shadow-sm"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                    />
+                                    <div class="w-12 h-12 rounded-full bg-warm-400 text-white flex items-center justify-center text-lg font-bold shadow-sm" style="display:none">BN</div>
+                                </div>
+                                <span class="text-warm-600">barnesandnoble.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PROPS API -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Props API</p>
+                    <h2 class="font-display text-2xl mb-6">React Implementation</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">TypeScript Interface</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>interface WishlistItemProps {
+  status: 'ready' | 'saving';
+  title: string;
+  merchantName: string;
+  merchantDomain: string; // e.g., "sephora.com" for logo.dev
+  merchantInitials: string; // Fallback initials
+  productImageUrl?: string; // If provided, use photo variant
+  progress: number; // 0-100 for saving state
+  onSnag?: () => void; // only for ready state
+}
+
+// productImageUrl:
+// - When provided: Renders photo variant (full-bleed image at top)
+// - When null/undefined: Renders logo variant (64px logo in product position)</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- USAGE EXAMPLES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Usage Examples</p>
+                    <h2 class="font-display text-2xl mb-6">HTML Markup</h2>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">Logo Variant (Default)</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>&lt;div class="bg-white rounded-xl shadow-sm border border-warm-200 p-4"&gt;
+  &lt;!-- Status badge --&gt;
+  &lt;div class="flex items-center gap-1 mb-3"&gt;
+    &lt;svg class="w-4 h-4 text-emerald-600"&gt;...&lt;/svg&gt;
+    &lt;span class="serial text-emerald-600 font-bold"&gt;READY TO SNAG!&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class="flex items-start gap-4"&gt;
+    &lt;!-- Merchant logo in product position (64px) --&gt;
+    &lt;div class="w-16 h-16 flex-shrink-0"&gt;
+      &lt;img src="https://img.logo.dev/sephora.com?token=...&amp;size=64"
+           class="w-16 h-16 rounded-full object-cover shadow-sm"
+           onerror="..."/&gt;
+      &lt;div class="w-16 h-16 rounded-full bg-sepia-400 text-white
+                  flex items-center justify-center text-xl font-bold shadow-sm"
+           style="display:none"&gt;SE&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="flex-1"&gt;
+      &lt;h3 class="text-base font-semibold text-ink mb-1"&gt;Product Title&lt;/h3&gt;
+      &lt;span class="text-sm text-warm-600"&gt;Merchant Name&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Outlined indigo CTA (secondary style) --&gt;
+  &lt;button class="mt-3 w-full border-2 border-indigo-500 text-indigo-600
+                 hover:bg-indigo-50 font-semibold text-sm px-4 py-2 rounded-lg"&gt;
+    Snag It Now!
+  &lt;/button&gt;
+&lt;/div&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                        <div class="p-4 bg-warm-50 border-b border-warm-200">
+                            <p class="font-medium text-ink">Photo Variant</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="code-block">
+                                <code>&lt;div class="bg-white rounded-xl shadow-sm border border-warm-200 overflow-hidden"&gt;
+  &lt;!-- Product photo - full bleed at top --&gt;
+  &lt;div class="w-full h-48 bg-warm-100"&gt;
+    &lt;img src="product-image.jpg" class="w-full h-full object-cover"/&gt;
+  &lt;/div&gt;
+
+  &lt;div class="p-4"&gt;
+    &lt;!-- Status badge --&gt;
+    &lt;div class="flex items-center gap-1 mb-3"&gt;
+      &lt;svg class="w-4 h-4 text-emerald-600"&gt;...&lt;/svg&gt;
+      &lt;span class="serial text-emerald-600 font-bold"&gt;READY TO SNAG!&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;h3 class="text-base font-semibold text-ink mb-2"&gt;Product Title&lt;/h3&gt;
+    &lt;div class="flex items-center gap-2 mb-4"&gt;
+      &lt;img src="https://img.logo.dev/sephora.com?token=...&amp;size=24"
+           class="w-6 h-6 rounded-full object-cover"/&gt;
+      &lt;span class="text-sm text-warm-600"&gt;Merchant Name&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;button class="w-full border-2 border-indigo-500 text-indigo-600
+                   hover:bg-indigo-50 font-semibold text-sm px-4 py-2 rounded-lg"&gt;
+      Snag It Now!
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- COLOR SEMANTICS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-magenta-600 mb-4">Color Semantics</p>
+                    <h2 class="font-display text-2xl mb-6">Critical Design Rules</h2>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-indigo-600 mb-4 flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                                Ready to Snag State
+                            </p>
+                            <ul class="space-y-2 text-sm text-warm-700">
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    NO thread (secondary card)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    Emerald check-circle icon + status text
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    Outlined indigo CTA (secondary style)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    64px logo or full-bleed photo
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-indigo-600 mb-4 flex items-center gap-2">
+                                <i data-lucide="loader" class="w-4 h-4"></i>
+                                Saving For State
+                            </p>
+                            <ul class="space-y-2 text-sm text-warm-700">
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    NO thread accent (not ready yet)
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    Indigo progress ring
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    NO CTA button
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-indigo-500">&bull;</span>
+                                    NO price or points (simplified)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Related Components -->
+                <section class="mb-12 pt-8 border-t-2 border-warm-200">
+                    <p class="serial text-warm-500 mb-4">Related Components</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="buying-power-card.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Buying Power Card</a>
+                        <a href="merchant-avatar-row.html" class="px-3 py-1.5 bg-white border border-warm-200 rounded text-sm hover:border-indigo-500 transition-colors">Merchant Avatar Row</a>
+                        <span class="px-3 py-1.5 bg-indigo-100 border border-indigo-200 rounded text-sm text-indigo-700">Wishlist Item</span>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../../index.html" class="hover:text-indigo-600">Home</a>
+                        <span class="text-warm-300">&middot;</span>
+                        <a href="../../../sitemap.html" class="hover:text-indigo-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="../../../partials/nav-loader.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
