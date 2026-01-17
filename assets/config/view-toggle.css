@@ -1,0 +1,204 @@
+/**
+ * Saltwyk Design System - View Toggle Component
+ *
+ * A page-level toggle for switching between mobile and desktop preview variants.
+ * Import alongside design-tokens.css on spec pages requiring view switching.
+ */
+
+/* ===========================================
+   VIEW TOGGLE CONTAINER
+   =========================================== */
+
+.view-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    background: hsl(var(--warm-100));
+    border-radius: 8px;
+}
+
+.view-toggle-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: hsl(var(--background));
+    padding: 12px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid hsl(var(--warm-200));
+}
+
+/* ===========================================
+   TOGGLE BUTTON - LIGHT MODE
+   =========================================== */
+
+.toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: hsl(var(--warm-600));
+    cursor: pointer;
+    transition: all var(--duration-fast) ease-out;
+    position: relative;
+}
+
+.toggle-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.5;
+}
+
+/* Hover state */
+.toggle-btn:hover:not(.active) {
+    color: hsl(var(--indigo-500));
+    background: hsl(var(--warm-50));
+}
+
+/* Active state */
+.toggle-btn.active {
+    color: hsl(var(--indigo-600));
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Active indicator underline */
+.toggle-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 2px;
+    background: hsl(var(--indigo-500));
+    border-radius: 1px;
+}
+
+/* Focus state - double ring pattern */
+.toggle-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
+}
+
+.toggle-btn.active:focus-visible {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 2px white, 0 0 0 4px hsl(170 100% 40%);
+}
+
+/* ===========================================
+   TOGGLE BUTTON - DARK MODE
+   =========================================== */
+
+.dark .view-toggle {
+    background: hsl(var(--intaglio-800));
+}
+
+.dark .view-toggle-header {
+    background: hsl(var(--background));
+    border-bottom-color: hsl(var(--intaglio-700));
+}
+
+.dark .toggle-btn {
+    color: hsl(var(--warm-400));
+}
+
+.dark .toggle-btn:hover:not(.active) {
+    color: hsl(var(--indigo-400));
+    background: hsl(var(--intaglio-700));
+}
+
+.dark .toggle-btn.active {
+    color: hsl(var(--indigo-300));
+    background: hsl(var(--intaglio-900));
+    box-shadow: none;
+}
+
+.dark .toggle-btn.active::after {
+    background: hsl(var(--indigo-400));
+}
+
+.dark .toggle-btn:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(170 100% 45%);
+}
+
+.dark .toggle-btn.active:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--intaglio-900)), 0 0 0 4px hsl(170 100% 45%);
+}
+
+/* ===========================================
+   VIEW CONTENT VISIBILITY
+   =========================================== */
+
+/* Mobile variant - visible by default */
+.mobile-variant {
+    display: block;
+}
+
+.show-desktop .mobile-variant {
+    display: none;
+}
+
+/* Desktop variant - hidden by default */
+.desktop-variant {
+    display: none;
+}
+
+.show-desktop .desktop-variant {
+    display: block;
+}
+
+/* Flex variants */
+.mobile-variant-flex {
+    display: flex;
+}
+
+.show-desktop .mobile-variant-flex {
+    display: none;
+}
+
+.desktop-variant-flex {
+    display: none;
+}
+
+.show-desktop .desktop-variant-flex {
+    display: flex;
+}
+
+/* Grid variants */
+.mobile-variant-grid {
+    display: grid;
+}
+
+.show-desktop .mobile-variant-grid {
+    display: none;
+}
+
+.desktop-variant-grid {
+    display: none;
+}
+
+.show-desktop .desktop-variant-grid {
+    display: grid;
+}
+
+/* Inline variants */
+.mobile-variant-inline {
+    display: inline;
+}
+
+.show-desktop .mobile-variant-inline {
+    display: none;
+}
+
+.desktop-variant-inline {
+    display: none;
+}
+
+.show-desktop .desktop-variant-inline {
+    display: inline;
+}
