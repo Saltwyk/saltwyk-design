@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Card | Shopper Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../../assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* ===========================================
+           SPECTRUM THREAD GRADIENTS
+           =========================================== */
+        .thread-fresh { background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 60%)); }
+        .thread-cool { background: linear-gradient(90deg, hsl(170 100% 50%), hsl(330 100% 50%)); }
+        .thread-flame { background: linear-gradient(90deg, hsl(20 100% 50%), hsl(330 100% 50%)); }
+        .thread-tropic { background: linear-gradient(90deg, hsl(20 100% 50%), hsl(170 100% 50%)); }
+        .thread-volt { background: linear-gradient(90deg, hsl(74 100% 60%), hsl(170 100% 50%)); }
+
+        /* ===========================================
+           OPALESCENT BACKGROUND GRADIENTS - FULL
+           =========================================== */
+        .opal-fresh-full {
+            background: linear-gradient(135deg,
+                hsl(170 70% 65%) 0%,
+                hsl(120 65% 70%) 50%,
+                hsl(74 70% 65%) 100%);
+        }
+        .opal-cool-full {
+            background: linear-gradient(135deg,
+                hsl(170 70% 65%) 0%,
+                hsl(260 60% 70%) 50%,
+                hsl(330 70% 65%) 100%);
+        }
+        .opal-flame-full {
+            background: linear-gradient(135deg,
+                hsl(20 80% 60%) 0%,
+                hsl(350 70% 65%) 50%,
+                hsl(330 80% 60%) 100%);
+        }
+        .opal-tropic-full {
+            background: linear-gradient(135deg,
+                hsl(20 80% 60%) 0%,
+                hsl(45 70% 55%) 50%,
+                hsl(170 70% 55%) 100%);
+        }
+        .opal-volt-full {
+            background: linear-gradient(135deg,
+                hsl(74 80% 60%) 0%,
+                hsl(120 70% 55%) 50%,
+                hsl(170 80% 55%) 100%);
+        }
+
+        /* ===========================================
+           OPALESCENT BACKGROUND GRADIENTS - SURFACE
+           =========================================== */
+        .opal-fresh-surface {
+            background: linear-gradient(135deg,
+                hsl(170 50% 92%) 0%,
+                hsl(120 45% 94%) 50%,
+                hsl(74 50% 92%) 100%);
+        }
+        .opal-cool-surface {
+            background: linear-gradient(135deg,
+                hsl(170 50% 92%) 0%,
+                hsl(260 40% 94%) 50%,
+                hsl(330 50% 92%) 100%);
+        }
+        .opal-flame-surface {
+            background: linear-gradient(135deg,
+                hsl(20 60% 92%) 0%,
+                hsl(350 50% 94%) 50%,
+                hsl(330 60% 92%) 100%);
+        }
+
+        /* ===========================================
+           MARKETING CARD BASE
+           =========================================== */
+        .marketing-card {
+            position: relative;
+            overflow: hidden;
+            /* Thread-bearing: no rounded top corners */
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .marketing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        .marketing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Thread variants */
+        .marketing-card.thread-fresh::before { background: linear-gradient(90deg, hsl(170 100% 50%), hsl(74 100% 60%)); }
+        .marketing-card.thread-cool::before { background: linear-gradient(90deg, hsl(170 100% 50%), hsl(330 100% 50%)); }
+        .marketing-card.thread-flame::before { background: linear-gradient(90deg, hsl(20 100% 50%), hsl(330 100% 50%)); }
+        .marketing-card.thread-tropic::before { background: linear-gradient(90deg, hsl(20 100% 50%), hsl(170 100% 50%)); }
+        .marketing-card.thread-volt::before { background: linear-gradient(90deg, hsl(74 100% 60%), hsl(170 100% 50%)); }
+
+        /* ===========================================
+           GRADIENT TEXT
+           =========================================== */
+        .text-gradient-fresh {
+            background: linear-gradient(90deg, hsl(170 100% 35%), hsl(74 80% 35%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-cool {
+            background: linear-gradient(90deg, hsl(170 100% 40%), hsl(330 80% 50%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-flame {
+            background: linear-gradient(90deg, hsl(20 100% 45%), hsl(330 90% 45%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-tropic {
+            background: linear-gradient(90deg, hsl(20 100% 45%), hsl(170 80% 35%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-volt {
+            background: linear-gradient(90deg, hsl(74 90% 35%), hsl(170 80% 35%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Image overlay for readability */
+        .image-overlay {
+            background: linear-gradient(180deg,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0.4) 60%,
+                rgba(0,0,0,0.7) 100%);
+        }
+
+        /* ===========================================
+           DEEP GRADIENT BACKGROUNDS (Bold Impact)
+           =========================================== */
+        .deep-emerald {
+            background: linear-gradient(135deg,
+                hsl(150 50% 35%) 0%,
+                hsl(170 45% 40%) 100%);
+        }
+        .deep-flame {
+            background: linear-gradient(135deg,
+                hsl(25 50% 35%) 0%,
+                hsl(330 45% 38%) 100%);
+        }
+        .deep-cool {
+            background: linear-gradient(135deg,
+                hsl(200 50% 35%) 0%,
+                hsl(280 45% 40%) 100%);
+        }
+        .deep-tropic {
+            background: linear-gradient(135deg,
+                hsl(30 55% 38%) 0%,
+                hsl(180 50% 35%) 100%);
+        }
+
+        /* ===========================================
+           ADDITIONAL SURFACE GRADIENTS
+           =========================================== */
+        .opal-tropic-surface {
+            background: linear-gradient(135deg,
+                hsl(30 50% 92%) 0%,
+                hsl(90 40% 94%) 50%,
+                hsl(180 50% 92%) 100%);
+        }
+        .opal-volt-surface {
+            background: linear-gradient(135deg,
+                hsl(74 50% 92%) 0%,
+                hsl(120 40% 94%) 50%,
+                hsl(170 50% 92%) 100%);
+        }
+
+        /* ===========================================
+           PHOTO HERO UTILITIES
+           =========================================== */
+        .photo-overlay-bottom {
+            background: linear-gradient(180deg,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0.2) 40%,
+                rgba(0,0,0,0.8) 100%);
+        }
+        .photo-overlay-full {
+            background: linear-gradient(180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.5) 50%,
+                rgba(0,0,0,0.85) 100%);
+        }
+        .photo-overlay-brand {
+            background: linear-gradient(135deg,
+                hsla(170, 50%, 30%, 0.85) 0%,
+                hsla(200, 50%, 25%, 0.9) 100%);
+        }
+
+        /* ===========================================
+           EXPERIMENTAL UTILITIES
+           =========================================== */
+        .split-bg-left {
+            background: linear-gradient(90deg,
+                hsl(170 50% 92%) 0%,
+                hsl(170 50% 92%) 50%,
+                white 50%,
+                white 100%);
+        }
+        .diagonal-gradient-45 {
+            background: linear-gradient(45deg,
+                hsl(170 70% 65%) 0%,
+                hsl(330 70% 65%) 100%);
+        }
+        .texture-noise {
+            position: relative;
+        }
+        .texture-noise::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="../index.html" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <a href="index.html" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Marketing Card</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Shopper Component</p>
+            <h1 class="font-display text-4xl mb-2">Marketing Card</h1>
+            <p class="text-warm-600">High-impact hero promotional spots for dashboard "Drops" campaigns. Showstopper design, not utility.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overview</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    The MarketingCard is the hero promotional spot on the shopper passport dashboard. This is where
+                    <strong>"Drops"</strong> campaigns live — connection bonuses, shopping multipliers, referrals,
+                    partnerships, milestones. These cards should be <em>visually stunning</em> — the moments where
+                    Saltwyk's brand identity really shines.
+                </p>
+                <div class="grid grid-cols-4 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Purpose</p>
+                        <p class="text-warm-600 text-xs">Hero promotional content, limited-time offers, special campaigns</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Location</p>
+                        <p class="text-warm-600 text-xs">Passport dashboard hero section, above the fold</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Thread Rule</p>
+                        <p class="text-warm-600 text-xs">This IS the hero — gets the spectrum thread accent</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Visual Weight</p>
+                        <p class="text-warm-600 text-xs">Maximum impact — larger, bolder, full opalescence</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-cyan-50 via-lime-50 to-orange-50 border-2 border-cyan-200 rounded-lg p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-cyan-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Design Decision: Creative Flexibility, Not Rigid Rules</p>
+                        <p class="text-sm text-warm-700 mb-3">
+                            Marketing cards have <strong>creative flexibility</strong> rather than rigid rules. The surface + matching thread
+                            pattern is reliable and always works, but contrasting gradients, photo heroes, and experimental approaches can
+                            create surprise and emotional impact. Choose the pattern that best serves the campaign's goals.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Pattern Options:</p>
+                                <ul class="text-sm text-warm-600 space-y-1">
+                                    <li>• <strong>Surface + matching thread</strong> — reliable, cohesive</li>
+                                    <li>• <strong>Contrasting gradients</strong> — surprising, energetic</li>
+                                    <li>• <strong>Deep gradient + light text</strong> — bold, premium</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">&nbsp;</p>
+                                <ul class="text-sm text-warm-600 space-y-1">
+                                    <li>• <strong>Photo hero + overlay</strong> — visceral, contextual</li>
+                                    <li>• <strong>Gradient text on solid</strong> — typography focus</li>
+                                    <li>• <strong>Experimental</strong> — push boundaries</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- THREAD OPTIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Thread Options</p>
+            <p class="text-sm text-warm-600 mb-6">Five spectrum thread gradients available for marketing cards. Choose based on campaign mood and season.</p>
+
+            <div class="grid grid-cols-5 gap-4">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-2 thread-fresh rounded-full mb-3"></div>
+                    <p class="font-medium text-ink text-sm">Fresh</p>
+                    <p class="text-xs text-warm-500">Cyan → Lime</p>
+                    <p class="text-xs text-warm-400 mt-1">Spring, growth, new beginnings</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-2 thread-cool rounded-full mb-3"></div>
+                    <p class="font-medium text-ink text-sm">Cool</p>
+                    <p class="text-xs text-warm-500">Cyan → Magenta</p>
+                    <p class="text-xs text-warm-400 mt-1">Premium, luxury, exclusive</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-2 thread-flame rounded-full mb-3"></div>
+                    <p class="font-medium text-ink text-sm">Flame</p>
+                    <p class="text-xs text-warm-500">Orange → Magenta</p>
+                    <p class="text-xs text-warm-400 mt-1">Urgency, hot deals, limited time</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-2 thread-tropic rounded-full mb-3"></div>
+                    <p class="font-medium text-ink text-sm">Tropic</p>
+                    <p class="text-xs text-warm-500">Orange → Cyan</p>
+                    <p class="text-xs text-warm-400 mt-1">Summer, vibrant, adventure</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-2 thread-volt rounded-full mb-3"></div>
+                    <p class="font-medium text-ink text-sm">Volt</p>
+                    <p class="text-xs text-warm-500">Lime → Cyan</p>
+                    <p class="text-xs text-warm-400 mt-1">Energy, tech, innovation</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN OPTIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern Options</p>
+            <p class="text-sm text-warm-600 mb-6">Six approaches for marketing card design. Choose based on campaign goals, not just visual preference.</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 opal-fresh-surface rounded-lg mb-3 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 thread-fresh"></div>
+                    </div>
+                    <p class="font-medium text-ink text-sm">1. Surface + Matching Thread</p>
+                    <p class="text-xs text-warm-500 mt-1">Reliable, cohesive, professional</p>
+                    <p class="text-xs text-warm-400 mt-2">Standard drops, ongoing offers, multiple cards on same page</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 opal-cool-surface rounded-lg mb-3 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 thread-flame"></div>
+                    </div>
+                    <p class="font-medium text-ink text-sm">2. Contrasting Gradients</p>
+                    <p class="text-xs text-warm-500 mt-1">Surprising, energetic, dynamic</p>
+                    <p class="text-xs text-warm-400 mt-2">Create surprise, stand out, energetic campaigns</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 deep-emerald rounded-lg mb-3 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 thread-fresh"></div>
+                    </div>
+                    <p class="font-medium text-ink text-sm">3. Deep Gradient + Light Text</p>
+                    <p class="text-xs text-warm-500 mt-1">Bold, premium, impactful</p>
+                    <p class="text-xs text-warm-400 mt-2">Hero moments, premium announcements, bold impact</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 bg-warm-700 rounded-lg mb-3 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 thread-tropic"></div>
+                        <div class="absolute inset-0 photo-overlay-bottom"></div>
+                    </div>
+                    <p class="font-medium text-ink text-sm">4. Photo Hero + Overlay</p>
+                    <p class="text-xs text-warm-500 mt-1">Visceral, contextual, emotional</p>
+                    <p class="text-xs text-warm-400 mt-2">Product launches, merchant spotlights, lifestyle connection</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 bg-white border border-warm-200 rounded-lg mb-3 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute top-0 left-0 right-0 h-1 thread-cool"></div>
+                        <span class="font-display text-sm font-black text-gradient-cool">Gradient</span>
+                    </div>
+                    <p class="font-medium text-ink text-sm">5. Gradient Text on Solid</p>
+                    <p class="text-xs text-warm-500 mt-1">Typography focus, modern, minimal</p>
+                    <p class="text-xs text-warm-400 mt-2">Let words be hero, minimal aesthetic, referral campaigns</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <div class="h-12 diagonal-gradient-45 rounded-lg mb-3 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-white/50"></div>
+                    </div>
+                    <p class="font-medium text-ink text-sm">6. Experimental</p>
+                    <p class="text-xs text-warm-500 mt-1">Push boundaries, break rules</p>
+                    <p class="text-xs text-warm-400 mt-2">Special occasions, brand moments, creative exploration</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 1: CONNECTION BONUS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Connection Bonus</p>
+            <p class="text-sm text-warm-600 mb-6">Bonus points for linking a new merchant program. Fresh thread, opalescent gradient, bold headline.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Full Gradient Background</p>
+                        <p class="text-sm text-warm-600">Maximum impact with full opalescent gradient and white CTA.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-cyan-100 text-cyan-700 rounded">Hero</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-fresh opal-fresh-full shadow-xl">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                            <i data-lucide="link" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/80">Connection Bonus</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        500 Bonus Points
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        Link your Liquid Death account and get 500 points instantly.
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <button class="flex-1 py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                            Connect Now
+                                        </button>
+                                        <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                            Learn More
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-white/60 mt-4">Ends Jan 31, 2026</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-fresh opal-fresh-full shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                                <i data-lucide="link" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/80">Connection Bonus</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            500 Bonus Points
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            Link your Liquid Death account and get 500 points instantly deposited into your Saltwyk wallet.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Connect Now
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Learn More
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <span class="font-display text-5xl font-black text-white">LD</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-white/60 px-8 pb-4">Ends Jan 31, 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 2: SHOPPING BONUS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Shopping Bonus</p>
+            <p class="text-sm text-warm-600 mb-6">Multiplier campaigns for shopping at specific merchants. Flame thread for urgency, bold numbers.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Flame Gradient with Display Italic</p>
+                        <p class="text-sm text-warm-600">Urgency messaging with italic emphasis and large multiplier.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-700 rounded">Urgent</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-flame opal-flame-full shadow-xl">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                            <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/80">Limited Time</p>
+                                    </div>
+                                    <div class="flex items-baseline gap-2 mb-2">
+                                        <span class="font-display text-5xl font-black text-white">3X</span>
+                                        <span class="font-display text-xl font-bold text-white/80 italic">Points</span>
+                                    </div>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        Shop at Death Wish Coffee this weekend and earn triple points on every purchase.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-orange-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Shop Now
+                                    </button>
+                                    <p class="text-xs text-white/60 mt-4 text-center">Ends Sunday at midnight</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-flame opal-flame-full shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                                <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/80">Limited Time</p>
+                                        </div>
+                                        <div class="flex items-baseline gap-3 mb-2">
+                                            <span class="font-display text-6xl font-black text-white">3X</span>
+                                            <span class="font-display text-2xl font-bold text-white/80 italic">Points</span>
+                                        </div>
+                                        <p class="text-white/90 mb-6">
+                                            Shop at Death Wish Coffee this weekend and earn triple points on every purchase. Maximum 10,000 bonus points.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-orange-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Shop Now
+                                            </button>
+                                            <span class="text-white/60 text-sm">Ends Sunday at midnight</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="coffee" class="w-16 h-16 text-white/80"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 3: REFERRAL CAMPAIGN -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Referral Campaign</p>
+            <p class="text-sm text-warm-600 mb-6">Invite friends campaigns. Cool thread for premium feel, gradient text headline.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Light Background with Gradient Text</p>
+                        <p class="text-sm text-warm-600">Surface gradient with Cool spectrum text for premium positioning.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded">Premium</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-cool opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center">
+                                            <i data-lucide="users" class="w-4 h-4 text-purple-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">Referral Bonus</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black mb-2 headline text-gradient-cool">
+                                        Give $10, Get 1,000
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        Your friends get $10 off their first snag, you get 1,000 points when they join.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Invite Friends
+                                    </button>
+                                    <p class="text-xs text-warm-400 mt-4 text-center">Unlimited referrals</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-cool opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center">
+                                                <i data-lucide="users" class="w-4 h-4 text-purple-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">Referral Bonus</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black mb-2 headline text-gradient-cool">
+                                            Give $10, Get 1,000
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            Your friends get $10 off their first snag, you get 1,000 points when they join and make their first purchase.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Invite Friends
+                                            </button>
+                                            <button class="py-3 px-4 text-indigo-600 font-medium hover:text-indigo-700 transition-colors">
+                                                Share Link
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="gift" class="w-16 h-16 text-purple-400"></i>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-warm-400 px-8 pb-4">Unlimited referrals</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 4: MILESTONE ACHIEVEMENT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Milestone Achievement</p>
+            <p class="text-sm text-warm-600 mb-6">Celebrating user achievements. Volt thread for energy, all-caps headline, celebratory iconography.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Celebratory with All-Caps Bold</p>
+                        <p class="text-sm text-warm-600">Achievement unlocked pattern with Volt energy gradient.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-lime-100 text-lime-700 rounded">Achievement</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-volt opal-volt-full shadow-xl">
+                                <div class="p-6 pt-8 text-center">
+                                    <div class="w-16 h-16 rounded-full bg-white/30 flex items-center justify-center mx-auto mb-4">
+                                        <i data-lucide="trophy" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <p class="serial text-white/80 mb-2">Milestone Unlocked</p>
+                                    <h2 class="font-display text-2xl font-black text-white mb-2 uppercase tracking-wide">
+                                        First Snag Complete
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        You just made your first purchase with Saltwyk points. Here's 250 bonus points to celebrate!
+                                    </p>
+                                    <div class="bg-white/20 rounded-lg p-4 mb-4">
+                                        <p class="font-display text-4xl font-black text-white">+250</p>
+                                        <p class="text-white/70 text-sm">Points Added</p>
+                                    </div>
+                                    <button class="w-full py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        View Your Wallet
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-volt opal-volt-full shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="w-32 h-32 rounded-full bg-white/30 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="trophy" class="w-16 h-16 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="serial text-white/80 mb-2">Milestone Unlocked</p>
+                                        <h2 class="font-display text-3xl font-black text-white mb-2 uppercase tracking-wide">
+                                            First Snag Complete
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            You just made your first purchase with Saltwyk points. Here's 250 bonus points to celebrate your achievement!
+                                        </p>
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-white/20 rounded-lg px-6 py-3">
+                                                <p class="font-display text-3xl font-black text-white">+250</p>
+                                            </div>
+                                            <button class="py-3 px-6 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                View Your Wallet
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 5: PARTNERSHIP ANNOUNCEMENT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Partnership Announcement</p>
+            <p class="text-sm text-warm-600 mb-6">New merchant partner announcements. Tropic thread for adventure, image background option.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Image Background with Overlay</p>
+                        <p class="text-sm text-warm-600">Hero image with gradient overlay for text readability.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-teal-100 text-teal-700 rounded">Announcement</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-tropic shadow-xl relative" style="background: linear-gradient(135deg, hsl(30 30% 40%), hsl(20 40% 30%));">
+                                <!-- Simulated image background -->
+                                <div class="absolute inset-0 image-overlay"></div>
+                                <div class="relative p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                            <i data-lucide="star" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/80">New Partner</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        Princess Polly is Here
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        Your favorite fashion destination just joined the Saltwyk network. Start earning points today.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Connect Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-tropic shadow-xl relative" style="background: linear-gradient(135deg, hsl(30 30% 40%), hsl(20 40% 30%));">
+                                <!-- Simulated image background -->
+                                <div class="absolute inset-0 image-overlay"></div>
+                                <div class="relative p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                                <i data-lucide="star" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/80">New Partner</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            Princess Polly is Here
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            Your favorite fashion destination just joined the Saltwyk network. Link your account and start earning points on every purchase.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Connect Account
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Learn More
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <span class="font-display text-4xl font-black text-white">PP</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DROP TYPE 6: SEASONAL CAMPAIGN -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Drop Type: Seasonal Campaign</p>
+            <p class="text-sm text-warm-600 mb-6">Holiday and seasonal promotions. Mix of threads based on season, festive iconography.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Intaglio Background (Dark Mode)</p>
+                        <p class="text-sm text-warm-600">Dark, premium feel for winter/holiday campaigns with Flame thread.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Seasonal</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-flame shadow-xl" style="background: linear-gradient(135deg, hsl(24 29% 12%), hsl(24 30% 8%));">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-orange-500/30 flex items-center justify-center">
+                                            <i data-lucide="flame" class="w-4 h-4 text-orange-400"></i>
+                                        </div>
+                                        <p class="serial text-warm-400">Winter Sale</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-warm-100 mb-2 headline italic">
+                                        Double Points Weekend
+                                    </h2>
+                                    <p class="text-warm-300 text-sm mb-6">
+                                        Earn 2X points at all Saltwyk merchants this holiday weekend. No limits.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Start Shopping
+                                    </button>
+                                    <p class="text-xs text-warm-500 mt-4 text-center">Dec 20-22 only</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-flame shadow-xl" style="background: linear-gradient(135deg, hsl(24 29% 12%), hsl(24 30% 8%));">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-orange-500/30 flex items-center justify-center">
+                                                <i data-lucide="flame" class="w-4 h-4 text-orange-400"></i>
+                                            </div>
+                                            <p class="serial text-warm-400">Winter Sale</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-warm-100 mb-2 headline italic">
+                                            Double Points Weekend
+                                        </h2>
+                                        <p class="text-warm-300 mb-6">
+                                            Earn 2X points at all Saltwyk merchants this holiday weekend. No limits, no exclusions.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Start Shopping
+                                            </button>
+                                            <span class="text-warm-500 text-sm">Dec 20-22 only</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-display text-6xl font-black text-gradient-flame">2X</span>
+                                        <span class="text-warm-400 text-sm uppercase tracking-wide">Points</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 1: SURFACE + MATCHING THREAD -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 1: Surface + Matching Thread</p>
+            <p class="text-sm text-warm-600 mb-6">The reliable pattern. Surface-level gradient with matching thread creates cohesion and professional consistency.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Cool Surface + Cool Thread</p>
+                        <p class="text-sm text-warm-600">Premium positioning with cyan-to-magenta harmony.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 rounded">Premium</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-cool opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center">
+                                            <i data-lucide="crown" class="w-4 h-4 text-purple-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">Exclusive Access</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-ink mb-2 headline">
+                                        VIP Early Access
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        You've been selected for early access to our new luxury partner collection.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Unlock Access
+                                    </button>
+                                    <p class="text-xs text-warm-400 mt-4 text-center">48 hours early access</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-cool opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center">
+                                                <i data-lucide="crown" class="w-4 h-4 text-purple-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">Exclusive Access</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-ink mb-2 headline">
+                                            VIP Early Access
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            You've been selected for early access to our new luxury partner collection. Shop before anyone else.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Unlock Access
+                                            </button>
+                                            <span class="text-warm-500 text-sm">48 hours early access</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="sparkles" class="w-16 h-16 text-purple-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Volt Surface + Volt Thread</p>
+                        <p class="text-sm text-warm-600">Energetic tech vibe with lime-to-cyan gradient.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-lime-100 text-lime-700 rounded">Tech</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-volt opal-volt-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-lime-100 to-cyan-100 flex items-center justify-center">
+                                            <i data-lucide="cpu" class="w-4 h-4 text-emerald-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">New Integration</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-ink mb-2 headline">
+                                        Auto-Sync Enabled
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        Your purchases now auto-sync. Points appear instantly after every transaction.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        View Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-volt opal-volt-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-lime-100 to-cyan-100 flex items-center justify-center">
+                                                <i data-lucide="cpu" class="w-4 h-4 text-emerald-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">New Integration</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-ink mb-2 headline">
+                                            Auto-Sync Enabled
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            Your purchases now auto-sync with Saltwyk. Points appear instantly after every transaction — no more waiting.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                View Settings
+                                            </button>
+                                            <button class="py-3 px-4 text-emerald-600 font-medium hover:text-emerald-700 transition-colors">
+                                                Learn More
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-lime-100 to-cyan-100 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="refresh-cw" class="w-16 h-16 text-emerald-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 2: CONTRASTING GRADIENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 2: Contrasting Gradients</p>
+            <p class="text-sm text-warm-600 mb-6">Surprising combinations that create visual tension and energy. Background and thread from different gradient families.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Cool Surface + Flame Thread</p>
+                        <p class="text-sm text-warm-600">Cool background meets warm accent for unexpected energy.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-700 rounded">Energetic</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-flame opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-magenta-100 flex items-center justify-center">
+                                            <i data-lucide="rocket" class="w-4 h-4 text-orange-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">Flash Sale</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-ink mb-2 headline">
+                                        4 Hours Only
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        5× points at all electronics partners. Clock is ticking.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Shop Electronics
+                                    </button>
+                                    <p class="text-xs text-warm-400 mt-4 text-center">Expires 6:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-flame opal-cool-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-magenta-100 flex items-center justify-center">
+                                                <i data-lucide="rocket" class="w-4 h-4 text-orange-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">Flash Sale</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-ink mb-2 headline">
+                                            4 Hours Only
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            5× points at all electronics partners. This is not a drill — the clock is ticking on this one.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Shop Electronics
+                                            </button>
+                                            <span class="text-orange-600 font-semibold text-sm">⏱ Expires 6:00 PM</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-display text-6xl font-black text-gradient-flame">5X</span>
+                                        <span class="text-warm-500 text-sm uppercase tracking-wide">Points</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Tropic Surface + Volt Thread</p>
+                        <p class="text-sm text-warm-600">Unexpected but harmonious warm-to-electric combination.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-teal-100 text-teal-700 rounded">Dynamic</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-volt opal-tropic-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-cyan-100 flex items-center justify-center">
+                                            <i data-lucide="plane" class="w-4 h-4 text-teal-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">Travel Bonus</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-ink mb-2 headline">
+                                        Summer Getaway
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        Book through our travel partners and earn 3× points on every trip.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Browse Destinations
+                                    </button>
+                                    <p class="text-xs text-warm-400 mt-4 text-center">Valid through August</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-volt opal-tropic-surface shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-cyan-100 flex items-center justify-center">
+                                                <i data-lucide="plane" class="w-4 h-4 text-teal-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">Travel Bonus</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-ink mb-2 headline">
+                                            Summer Getaway
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            Book through our travel partners and earn 3× points on every trip. Hotels, flights, experiences — it all counts.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Browse Destinations
+                                            </button>
+                                            <button class="py-3 px-4 text-teal-600 font-medium hover:text-teal-700 transition-colors">
+                                                View Partners
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-orange-100 to-cyan-100 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="palmtree" class="w-16 h-16 text-teal-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 3: DEEP GRADIENT + LIGHT TEXT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 3: Deep Gradient + Light Text</p>
+            <p class="text-sm text-warm-600 mb-6">Bold impact with rich, saturated backgrounds and white/light text. For premium moments and hero announcements.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Deep Emerald + Fresh Thread</p>
+                        <p class="text-sm text-warm-600">Rich green creates premium, nature-inspired impact.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded">Premium</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-fresh deep-emerald shadow-xl">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                            <i data-lucide="leaf" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/70">Sustainability Partner</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        Patagonia Joins
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        Shop sustainably and earn points. Every purchase plants a tree.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Explore Collection
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-fresh deep-emerald shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                                <i data-lucide="leaf" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/70">Sustainability Partner</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            Patagonia Joins
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            Shop sustainably and earn points with every purchase. Plus, we'll plant a tree for every order you place.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Explore Collection
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Learn More
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="mountain" class="w-16 h-16 text-white/80"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Deep Flame + Flame Thread</p>
+                        <p class="text-sm text-warm-600">Urgent, warm tones for time-limited high-impact offers.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-red-100 text-red-700 rounded">Urgent</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-flame deep-flame shadow-xl">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                            <i data-lucide="timer" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/70">Ending Soon</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline italic">
+                                        Last Chance
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        10× points on all purchases ends at midnight. Don't miss out.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-orange-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Shop Now
+                                    </button>
+                                    <p class="text-xs text-white/60 mt-4 text-center">Expires tonight</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-flame deep-flame shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                                <i data-lucide="timer" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/70">Ending Soon</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline italic">
+                                            Last Chance
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            10× points on all purchases ends at midnight tonight. This is your final opportunity to maximize your earnings.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-orange-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Shop Now
+                                            </button>
+                                            <span class="text-white/70 text-sm">⏱ Expires tonight</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-display text-6xl font-black text-white">10X</span>
+                                        <span class="text-white/60 text-sm uppercase tracking-wide">Points</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 4: PHOTO HERO + OVERLAY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 4: Photo Hero + Overlay</p>
+            <p class="text-sm text-warm-600 mb-6">Visceral, contextual imagery with gradient overlays for text legibility. Thread sits atop the photo.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Product Photography</p>
+                        <p class="text-sm text-warm-600">Lifestyle shot with product in context, bottom gradient overlay.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded">Lifestyle</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-tropic shadow-xl relative min-h-[320px]" style="background: linear-gradient(135deg, hsl(30 30% 50%), hsl(20 35% 40%));">
+                                <div class="absolute inset-0 photo-overlay-bottom"></div>
+                                <div class="relative p-6 pt-8 h-full flex flex-col justify-end min-h-[320px]">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                            <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/70">Featured Brand</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        Allbirds Collection
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        Earn 2× points on sustainable footwear all month long.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-ink font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Shop Allbirds
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-tropic shadow-xl relative min-h-[280px]" style="background: linear-gradient(135deg, hsl(30 30% 50%), hsl(20 35% 40%));">
+                                <div class="absolute inset-0 photo-overlay-bottom"></div>
+                                <div class="relative p-8 pt-10 flex items-end gap-8 min-h-[280px]">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                                <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/70">Featured Brand</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            Allbirds Collection
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            Earn 2× points on sustainable footwear all month long. Comfort meets conscience.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-ink font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Shop Allbirds
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                View All Styles
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Merchant Brand Spotlight</p>
+                        <p class="text-sm text-warm-600">Brand-colored overlay with logo placement.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded">Partnership</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-cool shadow-xl relative min-h-[320px]" style="background: linear-gradient(135deg, hsl(220 60% 25%), hsl(240 50% 20%));">
+                                <div class="absolute inset-0 photo-overlay-full"></div>
+                                <div class="relative p-6 pt-8 h-full flex flex-col min-h-[320px]">
+                                    <div class="w-16 h-16 rounded-xl bg-white flex items-center justify-center mb-auto">
+                                        <span class="font-display text-2xl font-black text-blue-600">TGT</span>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <p class="serial text-white/70 mb-2">New Partner</p>
+                                        <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                            Target Joins Saltwyk
+                                        </h2>
+                                        <p class="text-white/90 text-sm mb-6">
+                                            Shop with points at America's favorite store. Everything you love, now with rewards.
+                                        </p>
+                                        <button class="w-full py-3 bg-white text-ink font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                            Explore Target
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-cool shadow-xl relative min-h-[280px]" style="background: linear-gradient(135deg, hsl(220 60% 25%), hsl(240 50% 20%));">
+                                <div class="absolute inset-0 photo-overlay-full"></div>
+                                <div class="relative p-8 pt-10 flex items-center gap-8 min-h-[280px]">
+                                    <div class="w-24 h-24 rounded-2xl bg-white flex items-center justify-center flex-shrink-0">
+                                        <span class="font-display text-3xl font-black text-blue-600">TGT</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="serial text-white/70 mb-2">New Partner</p>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            Target Joins Saltwyk
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            Shop with points at America's favorite store. Everything you love — from groceries to home goods — now with rewards.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-ink font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Explore Target
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Connect Account
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Abstract/Geometric Background</p>
+                        <p class="text-sm text-warm-600">Textured pattern with brand-colored overlay for visual interest.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-violet-100 text-violet-700 rounded">Artistic</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-volt shadow-xl relative min-h-[320px] texture-noise" style="background: linear-gradient(135deg, hsl(280 40% 25%), hsl(200 50% 20%));">
+                                <div class="absolute inset-0 photo-overlay-brand"></div>
+                                <div class="relative p-6 pt-8 h-full flex flex-col justify-center text-center min-h-[320px]">
+                                    <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                                        <i data-lucide="party-popper" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <p class="serial text-white/70 mb-2">Celebration</p>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        1 Million Users!
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        We hit a milestone. Here's 500 bonus points to celebrate together.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-violet-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Claim Bonus
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-volt shadow-xl relative min-h-[280px] texture-noise" style="background: linear-gradient(135deg, hsl(280 40% 25%), hsl(200 50% 20%));">
+                                <div class="absolute inset-0 photo-overlay-brand"></div>
+                                <div class="relative p-8 pt-10 flex items-center gap-8 min-h-[280px]">
+                                    <div class="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="party-popper" class="w-16 h-16 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="serial text-white/70 mb-2">Celebration</p>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            1 Million Users!
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            We just hit a huge milestone and we couldn't have done it without you. Here's 500 bonus points to celebrate together.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-violet-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Claim Bonus
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Share the News
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 5: GRADIENT TEXT ON SOLID -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 5: Gradient Text on Solid</p>
+            <p class="text-sm text-warm-600 mb-6">Let typography be the hero. Solid backgrounds with gradient text headlines for a minimal, modern aesthetic.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">White Background + Fresh Gradient Text</p>
+                        <p class="text-sm text-warm-600">Clean, minimal with typography as the focal point.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Minimal</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-fresh bg-white shadow-xl border-2 border-warm-200">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-lime-100 flex items-center justify-center">
+                                            <i data-lucide="gift" class="w-4 h-4 text-emerald-600"></i>
+                                        </div>
+                                        <p class="serial text-warm-500">Referral Reward</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black mb-2 headline text-gradient-fresh">
+                                        Share & Earn
+                                    </h2>
+                                    <p class="text-warm-700 text-sm mb-6">
+                                        Give friends $15, get 1,500 points when they join and make their first purchase.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        Get Your Link
+                                    </button>
+                                    <p class="text-xs text-warm-400 mt-4 text-center">No limits on referrals</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-fresh bg-white shadow-xl border-2 border-warm-200">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-lime-100 flex items-center justify-center">
+                                                <i data-lucide="gift" class="w-4 h-4 text-emerald-600"></i>
+                                            </div>
+                                            <p class="serial text-warm-500">Referral Reward</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black mb-2 headline text-gradient-fresh">
+                                            Share & Earn
+                                        </h2>
+                                        <p class="text-warm-700 mb-6">
+                                            Give friends $15 off their first purchase, get 1,500 points when they join and complete their first transaction.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                Get Your Link
+                                            </button>
+                                            <button class="py-3 px-4 text-emerald-600 font-medium hover:text-emerald-700 transition-colors">
+                                                How It Works
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-cyan-100 to-lime-100 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="share-2" class="w-16 h-16 text-emerald-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Dark Intaglio + Flame Gradient Text</p>
+                        <p class="text-sm text-warm-600">Sophisticated, premium feel with dramatic contrast.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-800 text-warm-200 rounded">Dark</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-flame shadow-xl" style="background: linear-gradient(135deg, hsl(24 29% 12%), hsl(24 30% 8%));">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                            <i data-lucide="percent" class="w-4 h-4 text-orange-400"></i>
+                                        </div>
+                                        <p class="serial text-warm-400">Black Friday</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black mb-2 headline text-gradient-flame">
+                                        Massive Savings
+                                    </h2>
+                                    <p class="text-warm-300 text-sm mb-6">
+                                        Up to 5× points at 50+ participating merchants. The biggest event of the year.
+                                    </p>
+                                    <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                        See All Deals
+                                    </button>
+                                    <p class="text-xs text-warm-500 mt-4 text-center">Nov 24-27</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-flame shadow-xl" style="background: linear-gradient(135deg, hsl(24 29% 12%), hsl(24 30% 8%));">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                                <i data-lucide="percent" class="w-4 h-4 text-orange-400"></i>
+                                            </div>
+                                            <p class="serial text-warm-400">Black Friday</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black mb-2 headline text-gradient-flame">
+                                            Massive Savings
+                                        </h2>
+                                        <p class="text-warm-300 mb-6">
+                                            Up to 5× points at 50+ participating merchants. This is the biggest event of the year — don't miss it.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                See All Deals
+                                            </button>
+                                            <span class="text-warm-500 text-sm">Nov 24-27</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-display text-5xl font-black text-gradient-flame">5X</span>
+                                        <span class="text-warm-500 text-sm uppercase tracking-wide">Max Points</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- PATTERN 6: EXPERIMENTAL -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Pattern 6: Experimental</p>
+            <p class="text-sm text-warm-600 mb-6">Push boundaries with unconventional approaches. Split backgrounds, diagonal gradients, asymmetric layouts.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Diagonal Split Gradient</p>
+                        <p class="text-sm text-warm-600">45° gradient creates dynamic visual tension.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-gradient-to-r from-cyan-100 to-magenta-100 text-purple-700 rounded">Creative</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="marketing-card thread-cool diagonal-gradient-45 shadow-xl">
+                                <div class="p-6 pt-8">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                            <i data-lucide="wand-2" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <p class="serial text-white/80">Something New</p>
+                                    </div>
+                                    <h2 class="font-display text-3xl font-black text-white mb-2 headline">
+                                        Breaking the Mold
+                                    </h2>
+                                    <p class="text-white/90 text-sm mb-6">
+                                        We're trying something different. New features, new experiences, new rewards.
+                                    </p>
+                                    <button class="w-full py-3 bg-white text-purple-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                        Discover What's New
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[640px]">
+                            <div class="marketing-card thread-cool diagonal-gradient-45 shadow-xl">
+                                <div class="p-8 pt-10 flex items-center gap-8">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+                                                <i data-lucide="wand-2" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <p class="serial text-white/80">Something New</p>
+                                        </div>
+                                        <h2 class="font-display text-4xl font-black text-white mb-2 headline">
+                                            Breaking the Mold
+                                        </h2>
+                                        <p class="text-white/90 mb-6">
+                                            We're trying something different. New features, new experiences, new ways to earn and redeem. Come explore what's next.
+                                        </p>
+                                        <div class="flex items-center gap-3">
+                                            <button class="py-3 px-6 bg-white text-purple-700 font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                                                Discover What's New
+                                            </button>
+                                            <button class="py-3 px-4 text-white/80 font-medium hover:text-white transition-colors">
+                                                Learn More
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="w-32 h-32 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="sparkles" class="w-16 h-16 text-white/80"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TYPOGRAPHY TREATMENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Typography Treatments</p>
+            <p class="text-sm text-warm-600 mb-6">Four headline treatments for marketing cards. Choose based on campaign energy and tone.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Heavy Display -->
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Heavy Display</p>
+                        <p class="font-display text-3xl font-black text-ink headline">500 Bonus Points</p>
+                        <p class="text-xs text-warm-400 mt-3"><code>font-display text-3xl font-black</code></p>
+                        <p class="text-xs text-warm-500 mt-2">Best for: Value-focused, straightforward offers</p>
+                    </div>
+
+                    <!-- Display Italic -->
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Display Italic</p>
+                        <p class="font-display text-3xl font-black text-ink headline italic">Double Points Weekend</p>
+                        <p class="text-xs text-warm-400 mt-3"><code>font-display text-3xl font-black italic</code></p>
+                        <p class="text-xs text-warm-500 mt-2">Best for: Premium, elegant campaigns</p>
+                    </div>
+
+                    <!-- All Caps Bold -->
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">All Caps Bold</p>
+                        <p class="font-display text-2xl font-black text-ink uppercase tracking-wide">First Snag Complete</p>
+                        <p class="text-xs text-warm-400 mt-3"><code>font-display text-2xl font-black uppercase tracking-wide</code></p>
+                        <p class="text-xs text-warm-500 mt-2">Best for: Achievements, announcements</p>
+                    </div>
+
+                    <!-- Gradient Text -->
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Gradient Text</p>
+                        <p class="font-display text-3xl font-black headline text-gradient-cool">Give $10, Get 1,000</p>
+                        <p class="text-xs text-warm-400 mt-3"><code>font-display text-3xl font-black text-gradient-*</code></p>
+                        <p class="text-xs text-warm-500 mt-2">Best for: Light backgrounds, referrals</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- CTA RULES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">CTA Button Rules</p>
+            <p class="text-sm text-warm-600 mb-6">Button styling depends on background type. Always ensure high contrast.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- On Gradient Backgrounds -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">On Gradient Backgrounds</p>
+                        <div class="opal-fresh-full rounded-lg p-6">
+                            <button class="w-full py-3 bg-white text-emerald-700 font-semibold rounded-lg">
+                                White Button
+                            </button>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>bg-white text-emerald-700</code></p>
+                    </div>
+
+                    <!-- On Light Backgrounds -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">On Light Backgrounds</p>
+                        <div class="opal-cool-surface rounded-lg p-6 border border-warm-200">
+                            <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg">
+                                Emerald Button
+                            </button>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>bg-emerald-500 text-white</code></p>
+                    </div>
+
+                    <!-- On Dark Backgrounds -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">On Dark Backgrounds</p>
+                        <div class="rounded-lg p-6" style="background: hsl(24 29% 10%);">
+                            <button class="w-full py-3 bg-emerald-500 text-white font-semibold rounded-lg">
+                                Emerald Button
+                            </button>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>bg-emerald-500 text-white</code></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="font-medium text-ink text-sm">Never use black CTAs on marketing cards</p>
+                            <p class="text-xs text-warm-600 mt-1">Primary actions are always <code>bg-emerald-500</code> or <code>bg-white</code>. The intaglio palette is for backgrounds, not buttons.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- INTERACTIVE STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Interactive States</p>
+            <p class="text-sm text-warm-600 mb-6">Marketing cards have subtle hover effects to indicate interactivity.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Default -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Default</p>
+                        <div class="opal-fresh-full rounded-b-xl shadow-xl h-32"></div>
+                        <p class="text-xs text-warm-400 mt-2"><code>shadow-xl</code></p>
+                    </div>
+
+                    <!-- Hover -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Hover</p>
+                        <div class="opal-fresh-full rounded-b-xl h-32" style="transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2);"></div>
+                        <p class="text-xs text-warm-400 mt-2"><code>translateY(-4px), shadow-2xl</code></p>
+                    </div>
+
+                    <!-- Focus -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Focus</p>
+                        <div class="opal-fresh-full rounded-b-xl shadow-xl h-32" style="box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-400)), 0 20px 25px -5px rgba(0, 0, 0, 0.1);"></div>
+                        <p class="text-xs text-warm-400 mt-2"><code>ring-2 ring-indigo-400</code></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Marketing Card Container</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread Height</p>
+                        <code>4px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Top Corners</p>
+                        <code>radius: 0</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Bottom Corners</p>
+                        <code>rounded-b-xl (16px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Shadow</p>
+                        <code>shadow-xl</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Padding (Mobile)</p>
+                        <code>p-6 pt-8</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Padding (Desktop)</p>
+                        <code>p-8 pt-10</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Transform</p>
+                        <code>translateY(-4px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Transition</p>
+                        <code>200ms ease</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Typography Scale</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Headline (Mobile)</p>
+                        <code>text-3xl (30px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Headline (Desktop)</p>
+                        <code>text-4xl (36px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Headline Weight</p>
+                        <code>font-black (900)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Body</p>
+                        <code>text-sm or base</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Label</p>
+                        <code>.serial</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Multiplier</p>
+                        <code>text-5xl to text-6xl</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Color Mappings</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Text on Gradients</p>
+                        <code>text-white, text-white/90, text-white/80</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Text on Surface</p>
+                        <code>text-ink, text-warm-700, text-gradient-*</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Text on Dark</p>
+                        <code>text-warm-100, text-warm-300, text-warm-400</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Icon Containers</p>
+                        <code>bg-white/30 or gradient bg</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Pattern Options Summary</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">1. Surface + Matching</p>
+                        <code>opal-*-surface + thread-*</code>
+                        <p class="text-xs text-warm-400 mt-1">Reliable, cohesive</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">2. Contrasting</p>
+                        <code>opal-A-surface + thread-B</code>
+                        <p class="text-xs text-warm-400 mt-1">Surprising, energetic</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">3. Deep Gradient</p>
+                        <code>deep-* + thread-* + text-white</code>
+                        <p class="text-xs text-warm-400 mt-1">Bold, premium</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">4. Photo Hero</p>
+                        <code>img + photo-overlay-* + thread-*</code>
+                        <p class="text-xs text-warm-400 mt-1">Visceral, contextual</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">5. Gradient Text</p>
+                        <code>bg-white/intaglio + text-gradient-*</code>
+                        <p class="text-xs text-warm-400 mt-1">Typography focus</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">6. Experimental</p>
+                        <code>diagonal-gradient-45, split-bg-*</code>
+                        <p class="text-xs text-warm-400 mt-1">Push boundaries</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Thread Flexibility</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Matching Threads</p>
+                        <p class="text-xs text-warm-600">Thread from same family as background creates cohesion</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Contrasting Threads</p>
+                        <p class="text-xs text-warm-600">Thread from different family creates surprise and energy</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread Height</p>
+                        <code>4px standard (3px also acceptable)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread Families</p>
+                        <code>fresh, cool, flame, tropic, volt</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">When to Use Each Pattern</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Surface + Matching</p>
+                        <p class="text-xs text-warm-600">Standard drops, ongoing offers, multiple cards on same page</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Contrasting</p>
+                        <p class="text-xs text-warm-600">Create surprise, stand out, energetic campaigns</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Deep Gradient</p>
+                        <p class="text-xs text-warm-600">Hero moments, premium announcements, bold impact</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Photo Hero</p>
+                        <p class="text-xs text-warm-600">Product launches, merchant spotlights, lifestyle connection</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Gradient Text</p>
+                        <p class="text-xs text-warm-600">Let words be hero, minimal aesthetic, referral campaigns</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Experimental</p>
+                        <p class="text-xs text-warm-600">Special occasions, brand moments, creative exploration</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- USAGE GUIDELINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Do -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Do</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use full-intensity opalescent gradients
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Match thread color to campaign mood
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use Fraunces 800-900 for headlines
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Keep no rounded top corners with thread
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use white CTAs on gradient backgrounds
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use emerald CTAs on light/dark backgrounds
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Include expiration/limitation info
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Don't</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use muted or surface-level gradients
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use black or intaglio for CTAs
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't round top corners with thread present
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use more than one marketing card per screen
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use thin or light font weights
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't crowd the card with too much text
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't forget to show campaign end date
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="../screens/passport.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Passport</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="history-card.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">History Card</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="../../../index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
