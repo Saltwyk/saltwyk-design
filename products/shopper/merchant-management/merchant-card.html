@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Card | Merchant Management | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Merchant Card Styles */
+        .merchant-card {
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .merchant-card:hover {
+            border-color: hsl(var(--indigo-200));
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .merchant-card[data-variant="disconnected"] {
+            cursor: default;
+        }
+        .merchant-card[data-variant="disconnected"]:hover {
+            border-color: hsl(var(--orange-200));
+            box-shadow: none;
+        }
+
+        /* Favorite Star Animation */
+        .favorite-toggle {
+            transition: all 0.15s ease;
+        }
+        .favorite-toggle:hover {
+            transform: scale(1.1);
+        }
+        .favorite-toggle.favorited {
+            color: hsl(var(--orange-500));
+        }
+
+        /* Battery Icon Styling */
+        .battery-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .battery-icon {
+            position: relative;
+            width: 18px;
+            height: 10px;
+            border: 1.5px solid currentColor;
+            border-radius: 2px;
+        }
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 5px;
+            background: currentColor;
+            border-radius: 0 1px 1px 0;
+        }
+        .battery-fill {
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            bottom: 1px;
+            background: currentColor;
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+        .battery-fill.low { width: 20%; }
+        .battery-fill.medium { width: 60%; }
+        .battery-fill.high { width: calc(100% - 2px); }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="../index.html" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <span class="text-warm-500">Merchant Management</span>
+            <span>→</span>
+            <span class="text-ink font-medium">Merchant Card</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Merchant Management Component</p>
+            <h1 class="font-display text-4xl mb-2">Merchant Card</h1>
+            <p class="text-warm-600">Display merchants with connection status, buying power indicators, and actions. Three variants: Connected, Available, and Disconnected.</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overview</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    The Merchant Card is the primary way shoppers interact with merchants in their passport.
+                    It surfaces connection status, buying power, and enables quick actions like favoriting or reconnecting.
+                </p>
+                <div class="grid grid-cols-4 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Three Variants</p>
+                        <p class="text-warm-600 text-xs">Connected, Available, Disconnected</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Buying Power</p>
+                        <p class="text-warm-600 text-xs">Battery indicator with Low/Medium/High</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Favoriting</p>
+                        <p class="text-warm-600 text-xs">Star toggle protects points from expiry</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Tap Action</p>
+                        <p class="text-warm-600 text-xs">Connected cards open merchant history</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- BUYING POWER INDICATOR -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Buying Power Indicator</p>
+            <p class="text-sm text-warm-600 mb-6">Visual representation of buying power tiers using a battery metaphor. Never show actual point balances.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6 mb-6">
+                    <!-- Low -->
+                    <div class="bg-ledger rounded-lg p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="battery-indicator text-warm-600">
+                                <div class="battery-icon">
+                                    <div class="battery-fill low"></div>
+                                </div>
+                                <span class="text-sm font-medium">Low Buying Power</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-sm font-medium text-ink mb-1">Low</p>
+                            <p class="text-xs text-warm-500">20% fill • text-warm-600</p>
+                        </div>
+                    </div>
+
+                    <!-- Medium -->
+                    <div class="bg-ledger rounded-lg p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="battery-indicator text-indigo-600">
+                                <div class="battery-icon">
+                                    <div class="battery-fill medium"></div>
+                                </div>
+                                <span class="text-sm font-medium">Medium Buying Power</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-sm font-medium text-ink mb-1">Medium</p>
+                            <p class="text-xs text-warm-500">60% fill • text-indigo-600</p>
+                        </div>
+                    </div>
+
+                    <!-- High -->
+                    <div class="bg-ledger rounded-lg p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="battery-indicator text-emerald-600">
+                                <div class="battery-icon">
+                                    <div class="battery-fill high"></div>
+                                </div>
+                                <span class="text-sm font-medium">High Buying Power</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-sm font-medium text-ink mb-1">High</p>
+                            <p class="text-xs text-warm-500">90% fill • text-emerald-600</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 rounded-lg p-4">
+                    <p class="text-sm text-indigo-800"><strong>Design Decision:</strong> The battery metaphor was chosen to communicate buying power intuitively without revealing exact point values. This protects user privacy while still giving useful information about shopping potential.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VARIANT 1: CONNECTED -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Variant 1: Connected</p>
+            <p class="text-sm text-warm-600 mb-6">Shows connected merchants with buying power, favorite toggle, and tap-to-view-history behavior.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Active connection</p>
+                        <p class="text-sm text-warm-600">Tapping the card opens transaction history filtered to this merchant.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded">Connected</span>
+                </div>
+
+                <!-- Preview: High Buying Power -->
+                <div class="bg-ledger rounded-lg p-6 mb-4">
+                    <p class="text-xs text-warm-500 mb-3">High Buying Power (Not Favorited)</p>
+                    <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="connected" data-favorited="false" data-buying-power="high">
+                        <!-- Merchant Logo -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                            <img src="https://img.logo.dev/target.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Target" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Merchant Info -->
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2 mb-1">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-base font-semibold text-ink truncate">Target</h3>
+                                    <p class="text-sm text-warm-500 truncate">target.com</p>
+                                </div>
+                                <!-- Favorite Star -->
+                                <button class="favorite-toggle flex-shrink-0 w-6 h-6 text-warm-300 hover:text-orange-500" aria-label="Add to favorites">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Status & Buying Power -->
+                            <div class="flex items-center gap-3 text-sm">
+                                <!-- Connected Badge -->
+                                <div class="flex items-center gap-1.5 text-emerald-600">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                                    <span class="font-medium">Connected</span>
+                                </div>
+
+                                <!-- Buying Power -->
+                                <div class="battery-indicator text-emerald-600">
+                                    <div class="battery-icon">
+                                        <div class="battery-fill high"></div>
+                                    </div>
+                                    <span class="text-sm">High</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview: Medium Buying Power, Favorited -->
+                <div class="bg-ledger rounded-lg p-6 mb-4">
+                    <p class="text-xs text-warm-500 mb-3">Medium Buying Power (Favorited)</p>
+                    <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="connected" data-favorited="true" data-buying-power="medium">
+                        <!-- Merchant Logo -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                            <img src="https://img.logo.dev/sephora.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Sephora" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Merchant Info -->
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2 mb-1">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-base font-semibold text-ink truncate">Sephora</h3>
+                                    <p class="text-sm text-warm-500 truncate">sephora.com</p>
+                                </div>
+                                <!-- Favorite Star (Favorited) -->
+                                <button class="favorite-toggle favorited flex-shrink-0 w-6 h-6 text-orange-500" aria-label="Remove from favorites">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Status & Buying Power -->
+                            <div class="flex items-center gap-3 text-sm">
+                                <!-- Connected Badge -->
+                                <div class="flex items-center gap-1.5 text-emerald-600">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                                    <span class="font-medium">Connected</span>
+                                </div>
+
+                                <!-- Buying Power -->
+                                <div class="battery-indicator text-indigo-600">
+                                    <div class="battery-icon">
+                                        <div class="battery-fill medium"></div>
+                                    </div>
+                                    <span class="text-sm">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview: Low Buying Power -->
+                <div class="bg-ledger rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-3">Low Buying Power</p>
+                    <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="connected" data-favorited="false" data-buying-power="low">
+                        <!-- Merchant Logo -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                            <img src="https://img.logo.dev/wholefoodsmarket.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Whole Foods Market" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Merchant Info -->
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2 mb-1">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-base font-semibold text-ink truncate">Whole Foods Market</h3>
+                                    <p class="text-sm text-warm-500 truncate">wholefoodsmarket.com</p>
+                                </div>
+                                <!-- Favorite Star -->
+                                <button class="favorite-toggle flex-shrink-0 w-6 h-6 text-warm-300 hover:text-orange-500" aria-label="Add to favorites">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Status & Buying Power -->
+                            <div class="flex items-center gap-3 text-sm">
+                                <!-- Connected Badge -->
+                                <div class="flex items-center gap-1.5 text-emerald-600">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                                    <span class="font-medium">Connected</span>
+                                </div>
+
+                                <!-- Buying Power -->
+                                <div class="battery-indicator text-warm-600">
+                                    <div class="battery-icon">
+                                        <div class="battery-fill low"></div>
+                                    </div>
+                                    <span class="text-sm">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code -->
+                <details class="mt-4">
+                    <summary class="text-sm font-medium text-indigo-600 cursor-pointer hover:text-indigo-700">View Code</summary>
+                    <pre class="mt-2 p-4 bg-warm-50 rounded-lg text-xs overflow-x-auto"><code>&lt;div class="merchant-card" data-variant="connected" data-favorited="false" data-buying-power="high"&gt;
+  &lt;div class="flex items-center gap-4 p-4 bg-white border border-warm-200 rounded-lg hover:border-indigo-200"&gt;
+
+    &lt;!-- Merchant Logo --&gt;
+    &lt;div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100"&gt;
+      &lt;img src="https://img.logo.dev/{domain}?token=pk_..." alt="{merchant_name}" class="w-full h-full object-cover"&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Merchant Info --&gt;
+    &lt;div class="flex-1 min-w-0"&gt;
+      &lt;div class="flex items-start justify-between gap-2 mb-1"&gt;
+        &lt;div class="flex-1 min-w-0"&gt;
+          &lt;h3 class="text-base font-semibold text-ink truncate"&gt;{merchant_name}&lt;/h3&gt;
+          &lt;p class="text-sm text-warm-500 truncate"&gt;{merchant_domain}&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button class="favorite-toggle w-6 h-6 text-warm-300 hover:text-orange-500"&gt;
+          &lt;svg&gt;&lt;!-- Star icon --&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div class="flex items-center gap-3 text-sm"&gt;
+        &lt;div class="flex items-center gap-1.5 text-emerald-600"&gt;
+          &lt;div class="w-2 h-2 rounded-full bg-emerald-600"&gt;&lt;/div&gt;
+          &lt;span class="font-medium"&gt;Connected&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;div class="battery-indicator text-emerald-600"&gt;
+          &lt;div class="battery-icon"&gt;
+            &lt;div class="battery-fill high"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;span&gt;High&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VARIANT 2: AVAILABLE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Variant 2: Available</p>
+            <p class="text-sm text-warm-600 mb-6">Shows merchants on the Saltwyk network that the shopper hasn't connected yet.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Available for connection</p>
+                        <p class="text-sm text-warm-600">Clicking "Connect Account" opens the OTP verification flow.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded">Available</span>
+                </div>
+
+                <!-- Preview -->
+                <div class="bg-ledger rounded-lg p-6 mb-4">
+                    <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="available">
+                        <!-- Merchant Logo -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                            <img src="https://img.logo.dev/nordstrom.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Nordstrom" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Info & CTA -->
+                        <div class="flex-1 min-w-0 flex items-center justify-between gap-4">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-base font-semibold text-ink truncate">Nordstrom</h3>
+                                <p class="text-sm text-warm-500 truncate">nordstrom.com</p>
+                            </div>
+
+                            <!-- Connect CTA -->
+                            <button class="flex-shrink-0 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                                Connect Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview 2 -->
+                <div class="bg-ledger rounded-lg p-6">
+                    <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="available">
+                        <!-- Merchant Logo -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                            <img src="https://img.logo.dev/ulta.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Ulta Beauty" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Info & CTA -->
+                        <div class="flex-1 min-w-0 flex items-center justify-between gap-4">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-base font-semibold text-ink truncate">Ulta Beauty</h3>
+                                <p class="text-sm text-warm-500 truncate">ulta.com</p>
+                            </div>
+
+                            <!-- Connect CTA -->
+                            <button class="flex-shrink-0 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                                Connect Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code -->
+                <details class="mt-4">
+                    <summary class="text-sm font-medium text-indigo-600 cursor-pointer hover:text-indigo-700">View Code</summary>
+                    <pre class="mt-2 p-4 bg-warm-50 rounded-lg text-xs overflow-x-auto"><code>&lt;div class="merchant-card" data-variant="available"&gt;
+  &lt;div class="flex items-center gap-4 p-4 bg-white border border-warm-200 rounded-lg hover:border-indigo-200"&gt;
+
+    &lt;!-- Logo --&gt;
+    &lt;div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100"&gt;
+      &lt;img src="https://img.logo.dev/{domain}?token=pk_..." alt="{merchant_name}"&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Info & CTA --&gt;
+    &lt;div class="flex-1 min-w-0 flex items-center justify-between gap-4"&gt;
+      &lt;div class="flex-1 min-w-0"&gt;
+        &lt;h3 class="text-base font-semibold text-ink truncate"&gt;{merchant_name}&lt;/h3&gt;
+        &lt;p class="text-sm text-warm-500 truncate"&gt;{merchant_domain}&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;button class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg"&gt;
+        Connect Account
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VARIANT 3: DISCONNECTED -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Variant 3: Disconnected</p>
+            <p class="text-sm text-warm-600 mb-6">Shows merchants that were connected but need re-authentication. Uses warning styling.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Requires reconnection</p>
+                        <p class="text-sm text-warm-600">Shown when authentication expires or fraud prevention requires re-verification.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-orange-100 text-orange-700 rounded">Disconnected</span>
+                </div>
+
+                <!-- Preview -->
+                <div class="bg-ledger rounded-lg p-6 mb-4">
+                    <div class="merchant-card bg-white border border-orange-200 rounded-lg p-4 flex items-center gap-4" data-variant="disconnected">
+                        <!-- Merchant Logo (slightly faded) -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100 opacity-75">
+                            <img src="https://img.logo.dev/target.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Target" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Merchant Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-base font-semibold text-ink truncate">Target</h3>
+                            <p class="text-sm text-warm-500 truncate mb-2">target.com</p>
+
+                            <div class="flex items-center justify-between gap-4">
+                                <!-- Warning Badge -->
+                                <div class="flex items-center gap-1.5 text-orange-600 text-sm">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                    <span class="font-medium">Reconnection Required</span>
+                                </div>
+
+                                <!-- Reconnect Button -->
+                                <button class="flex-shrink-0 px-4 py-1.5 border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50 text-sm font-medium rounded-lg transition-colors">
+                                    Reconnect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview 2 -->
+                <div class="bg-ledger rounded-lg p-6">
+                    <div class="merchant-card bg-white border border-orange-200 rounded-lg p-4 flex items-center gap-4" data-variant="disconnected">
+                        <!-- Merchant Logo (slightly faded) -->
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100 opacity-75">
+                            <img src="https://img.logo.dev/homedepot.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Home Depot" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Merchant Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-base font-semibold text-ink truncate">Home Depot</h3>
+                            <p class="text-sm text-warm-500 truncate mb-2">homedepot.com</p>
+
+                            <div class="flex items-center justify-between gap-4">
+                                <!-- Warning Badge -->
+                                <div class="flex items-center gap-1.5 text-orange-600 text-sm">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                    <span class="font-medium">Reconnection Required</span>
+                                </div>
+
+                                <!-- Reconnect Button -->
+                                <button class="flex-shrink-0 px-4 py-1.5 border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50 text-sm font-medium rounded-lg transition-colors">
+                                    Reconnect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code -->
+                <details class="mt-4">
+                    <summary class="text-sm font-medium text-indigo-600 cursor-pointer hover:text-indigo-700">View Code</summary>
+                    <pre class="mt-2 p-4 bg-warm-50 rounded-lg text-xs overflow-x-auto"><code>&lt;div class="merchant-card" data-variant="disconnected"&gt;
+  &lt;div class="flex items-center gap-4 p-4 bg-white border border-orange-200 rounded-lg"&gt;
+
+    &lt;!-- Logo (slightly faded) --&gt;
+    &lt;div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100 opacity-75"&gt;
+      &lt;img src="https://img.logo.dev/{domain}?token=pk_..." alt="{merchant_name}"&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Info & Warning --&gt;
+    &lt;div class="flex-1 min-w-0"&gt;
+      &lt;h3 class="text-base font-semibold text-ink truncate"&gt;{merchant_name}&lt;/h3&gt;
+      &lt;p class="text-sm text-warm-500 truncate mb-2"&gt;{merchant_domain}&lt;/p&gt;
+
+      &lt;div class="flex items-center justify-between gap-4"&gt;
+        &lt;div class="flex items-center gap-1.5 text-orange-600 text-sm"&gt;
+          &lt;svg class="w-4 h-4"&gt;&lt;!-- Alert icon --&gt;&lt;/svg&gt;
+          &lt;span class="font-medium"&gt;Reconnection Required&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;button class="px-4 py-1.5 border-2 border-indigo-500 text-indigo-600 text-sm font-medium rounded-lg"&gt;
+          Reconnect
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- FAVORITE TOGGLE STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Favorite Toggle States</p>
+            <p class="text-sm text-warm-600 mb-6">Favoriting a merchant protects their points from being used, even when expiring. Visual feedback only (no toast).</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Not Favorited -->
+                    <div class="bg-ledger rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-4 text-center">Not Favorited</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <button class="favorite-toggle w-10 h-10 text-warm-300 hover:text-orange-500 flex items-center justify-center rounded-full hover:bg-warm-100 transition-colors" aria-label="Add to favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </button>
+                            <div class="text-sm">
+                                <p class="font-medium text-ink">text-warm-300</p>
+                                <p class="text-warm-500">Hover: text-orange-500</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Favorited -->
+                    <div class="bg-ledger rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-4 text-center">Favorited</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <button class="favorite-toggle favorited w-10 h-10 text-orange-500 flex items-center justify-center rounded-full hover:bg-warm-100 transition-colors" aria-label="Remove from favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </button>
+                            <div class="text-sm">
+                                <p class="font-medium text-ink">text-orange-500</p>
+                                <p class="text-warm-500">fill="currentColor"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 rounded-lg p-4 mt-4">
+                    <p class="text-sm text-orange-800"><strong>Note:</strong> Favoriting does not change buying power logic in the UI. The backend uses favorite status to protect points from expiration-based allocation during checkout.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- IN CONTEXT: MERCHANTS SCREEN -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">In Context: Merchants Screen</p>
+            <p class="text-sm text-warm-600 mb-6">Example showing multiple Merchant Cards within the Merchants screen layout.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <!-- Mock Screen -->
+                <div class="bg-ledger min-h-[600px]">
+                    <!-- Thread -->
+                    <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+                    <!-- Header -->
+                    <div class="px-6 py-6 border-b border-warm-200 bg-white">
+                        <h1 class="text-2xl font-bold text-ink mb-1">My Merchants</h1>
+                        <p class="text-warm-600 text-sm">Connect rewards accounts to unlock buying power</p>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="px-6 py-4">
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-warm-400"></i>
+                            <input type="text" placeholder="Search merchants..." class="w-full pl-10 pr-4 py-3 bg-white border border-warm-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="px-6 flex gap-6 border-b border-warm-200 bg-white">
+                        <button class="py-3 text-sm font-semibold text-indigo-700 border-b-2 border-indigo-500">Connected</button>
+                        <button class="py-3 text-sm font-medium text-warm-600 hover:text-warm-900">Favorites</button>
+                        <button class="py-3 text-sm font-medium text-warm-600 hover:text-warm-900">Available</button>
+                    </div>
+
+                    <!-- Card List -->
+                    <div class="p-6 space-y-3">
+                        <!-- Connected Card -->
+                        <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="connected">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                                <img src="https://img.logo.dev/target.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Target" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-2 mb-1">
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-base font-semibold text-ink truncate">Target</h3>
+                                        <p class="text-sm text-warm-500 truncate">target.com</p>
+                                    </div>
+                                    <button class="favorite-toggle favorited flex-shrink-0 w-6 h-6 text-orange-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <div class="flex items-center gap-1.5 text-emerald-600">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                                        <span class="font-medium">Connected</span>
+                                    </div>
+                                    <div class="battery-indicator text-emerald-600">
+                                        <div class="battery-icon">
+                                            <div class="battery-fill high"></div>
+                                        </div>
+                                        <span class="text-sm">High</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connected Card -->
+                        <div class="merchant-card bg-white border border-warm-200 rounded-lg p-4 flex items-center gap-4" data-variant="connected">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100">
+                                <img src="https://img.logo.dev/sephora.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Sephora" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-2 mb-1">
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-base font-semibold text-ink truncate">Sephora</h3>
+                                        <p class="text-sm text-warm-500 truncate">sephora.com</p>
+                                    </div>
+                                    <button class="favorite-toggle flex-shrink-0 w-6 h-6 text-warm-300 hover:text-orange-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <div class="flex items-center gap-1.5 text-emerald-600">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-600"></div>
+                                        <span class="font-medium">Connected</span>
+                                    </div>
+                                    <div class="battery-indicator text-indigo-600">
+                                        <div class="battery-icon">
+                                            <div class="battery-fill medium"></div>
+                                        </div>
+                                        <span class="text-sm">Medium</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Disconnected Card -->
+                        <div class="merchant-card bg-white border border-orange-200 rounded-lg p-4 flex items-center gap-4" data-variant="disconnected">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-100 opacity-75">
+                                <img src="https://img.logo.dev/wholefoodsmarket.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Whole Foods Market" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-base font-semibold text-ink truncate">Whole Foods Market</h3>
+                                <p class="text-sm text-warm-500 truncate mb-2">wholefoodsmarket.com</p>
+                                <div class="flex items-center justify-between gap-4">
+                                    <div class="flex items-center gap-1.5 text-orange-600 text-sm">
+                                        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                        <span class="font-medium">Reconnection Required</span>
+                                    </div>
+                                    <button class="flex-shrink-0 px-4 py-1.5 border-2 border-indigo-500 text-indigo-600 hover:bg-indigo-50 text-sm font-medium rounded-lg transition-colors">
+                                        Reconnect
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TECHNICAL SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 gap-8">
+                    <!-- Layout Specs -->
+                    <div>
+                        <p class="font-medium text-ink mb-4">Layout</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Card padding</span>
+                                <code>p-4</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Logo size</span>
+                                <code>w-12 h-12</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Logo to content gap</span>
+                                <code>gap-4</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Card stack gap</span>
+                                <code>space-y-3</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Border radius</span>
+                                <code>rounded-lg</code>
+                            </div>
+                            <div class="flex justify-between py-2">
+                                <span class="text-warm-600">Favorite star size</span>
+                                <code>w-6 h-6</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Specs -->
+                    <div>
+                        <p class="font-medium text-ink mb-4">Colors</p>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Default border</span>
+                                <code>border-warm-200</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Hover border</span>
+                                <code>border-indigo-200</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Disconnected border</span>
+                                <code>border-orange-200</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Connected status</span>
+                                <code>text-emerald-600</code>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-warm-100">
+                                <span class="text-warm-600">Warning status</span>
+                                <code>text-orange-600</code>
+                            </div>
+                            <div class="flex justify-between py-2">
+                                <span class="text-warm-600">Favorited star</span>
+                                <code>text-orange-500</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Attributes -->
+                <div class="mt-6 pt-6 border-t border-warm-200">
+                    <p class="font-medium text-ink mb-4">Data Attributes</p>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <pre class="text-xs overflow-x-auto"><code>data-variant="connected|available|disconnected"
+data-favorited="true|false"
+data-buying-power="low|medium|high"
+data-merchant-id="{uuid}"
+data-merchant-name="{name}"
+data-merchant-domain="{domain}"</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- USAGE GUIDELINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Do -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Do</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Show buying power only for connected merchants
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use the battery metaphor consistently
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Always show favorite toggle on connected cards
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Truncate long merchant names with ellipsis
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use merchant initials as logo fallback
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Don't</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Show exact point balances (use tiers only)
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Allow favoriting on disconnected merchants
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Show "Connect" button on connected cards
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Mix variant styles (e.g., warning border with connected status)
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Use toast notifications for favorite toggles
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- INTERACTION BEHAVIORS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Interaction Behaviors</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Connected Behavior -->
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-2">Connected Card Tap</p>
+                        <p class="text-sm text-warm-600 mb-3">Opens history view filtered to this merchant's transactions.</p>
+                        <div class="flex items-center gap-2 text-xs text-warm-500">
+                            <span class="bg-white px-2 py-1 rounded">Mobile</span>
+                            <span>→ New screen</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                            <span class="bg-white px-2 py-1 rounded">Desktop</span>
+                            <span>→ Filtered view or modal</span>
+                        </div>
+                    </div>
+
+                    <!-- Available Behavior -->
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-2">Connect Account Tap</p>
+                        <p class="text-sm text-warm-600 mb-3">Opens OTP verification flow to connect the merchant.</p>
+                        <div class="flex items-center gap-2 text-xs text-warm-500">
+                            <span class="bg-white px-2 py-1 rounded">Mobile</span>
+                            <span>→ Bottom sheet</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                            <span class="bg-white px-2 py-1 rounded">Desktop</span>
+                            <span>→ Modal</span>
+                        </div>
+                    </div>
+
+                    <!-- Reconnect Behavior -->
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-2">Reconnect Tap</p>
+                        <p class="text-sm text-warm-600 mb-3">Same OTP flow, but pre-fills email from existing connection.</p>
+                        <div class="flex items-center gap-2 text-xs text-warm-500">
+                            <span class="bg-white px-2 py-1 rounded">Mobile</span>
+                            <span>→ Bottom sheet</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                            <span class="bg-white px-2 py-1 rounded">Desktop</span>
+                            <span>→ Modal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="empty-state.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Empty State</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="merchants.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors opacity-50 pointer-events-none">
+                    <span class="font-medium">Merchants Screen</span>
+                    <span class="text-warm-400 ml-2">Coming Soon</span>
+                </a>
+                <a href="../components/history-card.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">History Card</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../screens/passport/wishlist.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Wishlist Screen</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="../../../index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>
