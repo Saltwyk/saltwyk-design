@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion Specification - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+
+        /* ========================================= */
+        /* ACCORDION BASE STYLES */
+        /* ========================================= */
+
+        .accordion-item {
+            /* Container for each accordion */
+        }
+
+        .accordion-trigger {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+
+        .accordion-trigger:hover {
+            background-color: hsl(30 10% 98%);
+        }
+
+        .accordion-trigger:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 2px hsl(170 100% 40%);
+            border-radius: 6px;
+        }
+
+        /* Chevron rotation */
+        .accordion-chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(30 6% 46%);
+            transition: transform 200ms ease;
+            flex-shrink: 0;
+        }
+
+        .accordion-trigger[aria-expanded="true"] .accordion-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Content panel */
+        .accordion-content {
+            overflow: hidden;
+            transition: max-height 200ms ease-out;
+        }
+
+        .accordion-content[hidden] {
+            display: none;
+        }
+
+        .accordion-content-inner {
+            padding: 0 16px 16px 44px; /* 44px = 16px padding + 16px icon + 12px gap */
+        }
+
+        /* ========================================= */
+        /* VARIANT: BORDERED */
+        /* ========================================= */
+
+        .accordion-bordered {
+            border: 1px solid hsl(30 5% 78%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-bordered .accordion-trigger {
+            padding: 16px;
+        }
+
+        .accordion-bordered .accordion-content-inner {
+            padding: 12px 16px;
+            border-top: 1px solid hsl(30 5% 88%);
+            margin: 0;
+        }
+
+        /* ========================================= */
+        /* VARIANT: WARNING (Orange) */
+        /* ========================================= */
+
+        .accordion-warning {
+            border: 1px solid hsl(30 100% 80%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-warning .accordion-content-inner {
+            padding: 12px 16px;
+            border-top: 1px solid hsl(30 100% 85%);
+            background: hsl(30 100% 98%);
+        }
+
+        /* ========================================= */
+        /* STATUS BADGES (Preview) */
+        /* ========================================= */
+
+        .badge-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: hsl(160 70% 95%);
+            color: hsl(160 60% 30%);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        .badge-pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: hsl(30 100% 95%);
+            color: hsl(25 90% 40%);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-ledger min-h-screen">
+    <!-- Top Navigation -->
+    <div id="topnav-slot"></div>
+
+    <div class="flex">
+        <!-- Side Navigation -->
+        <div id="sidenav-slot"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <div class="max-w-5xl mx-auto p-8">
+
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Components</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Accordion</span>
+                </nav>
+
+                <!-- Page Header -->
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Component</p>
+                    <h1 class="font-display text-4xl mb-2">Accordion</h1>
+                    <p class="text-warm-600">Collapsible content panels for organizing information into expandable sections. Used for email groups in Settings and other disclosure patterns.</p>
+                </header>
+
+                <!-- ============================================ -->
+                <!-- OVERVIEW -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Overview</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="grid grid-cols-4 gap-4 text-sm">
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Interaction</p>
+                                <p class="text-warm-600 text-xs">Click header to toggle expand/collapse</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Animation</p>
+                                <p class="text-warm-600 text-xs">Chevron rotates 0° → 90° on expand</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Accessibility</p>
+                                <p class="text-warm-600 text-xs">ARIA expanded, controls, keyboard nav</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Default State</p>
+                                <p class="text-warm-600 text-xs">Collapsed by default</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- VARIANT 1: BASIC -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">1 — Basic Accordion</p>
+                    <p class="text-sm text-warm-600 mb-6">Simple expand/collapse with no border styling. Use for inline content disclosure.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="max-w-md">
+                            <!-- Basic Accordion - Collapsed -->
+                            <div class="accordion-item mb-2">
+                                <button class="accordion-trigger"
+                                        aria-expanded="false"
+                                        aria-controls="basic-content-1"
+                                        id="basic-trigger-1">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink">What is Saltwyk?</span>
+                                </button>
+                                <div id="basic-content-1" class="accordion-content" hidden>
+                                    <div class="accordion-content-inner">
+                                        <p class="text-sm text-warm-600">Saltwyk connects shoppers with merchant rewards programs, allowing you to earn and use buying power across a network of retailers.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Accordion - Expanded -->
+                            <div class="accordion-item mb-2">
+                                <button class="accordion-trigger"
+                                        aria-expanded="true"
+                                        aria-controls="basic-content-2"
+                                        id="basic-trigger-2">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink">How do I connect a merchant?</span>
+                                </button>
+                                <div id="basic-content-2" class="accordion-content">
+                                    <div class="accordion-content-inner">
+                                        <p class="text-sm text-warm-600">Navigate to the Merchants screen, search for your retailer, and tap "Connect". You'll verify your rewards account via a one-time code sent to your email.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Accordion - Collapsed -->
+                            <div class="accordion-item">
+                                <button class="accordion-trigger"
+                                        aria-expanded="false"
+                                        aria-controls="basic-content-3"
+                                        id="basic-trigger-3">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink">Is my data secure?</span>
+                                </button>
+                                <div id="basic-content-3" class="accordion-content" hidden>
+                                    <div class="accordion-content-inner">
+                                        <p class="text-sm text-warm-600">Yes. We use industry-standard encryption and never store your merchant passwords. Your data is protected and private.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- VARIANT 2: BORDERED -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">2 — Bordered Accordion</p>
+                    <p class="text-sm text-warm-600 mb-6">Card-style with border and rounded corners. Use for email groups and settings sections.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="max-w-md space-y-3">
+                            <!-- Bordered - Collapsed -->
+                            <div class="accordion-item accordion-bordered">
+                                <button class="accordion-trigger"
+                                        aria-expanded="false"
+                                        aria-controls="bordered-content-1"
+                                        id="bordered-trigger-1">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink flex-1">john@personal.com</span>
+                                    <span class="badge-verified">
+                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                        Verified
+                                    </span>
+                                    <span class="text-sm text-warm-500">(3 merchants)</span>
+                                </button>
+                                <div id="bordered-content-1" class="accordion-content" hidden>
+                                    <div class="accordion-content-inner">
+                                        <ul class="space-y-2 text-sm text-warm-600">
+                                            <li class="flex items-center gap-2">
+                                                <i data-lucide="circle" class="w-2 h-2 fill-current"></i>
+                                                Target
+                                            </li>
+                                            <li class="flex items-center gap-2">
+                                                <i data-lucide="circle" class="w-2 h-2 fill-current"></i>
+                                                Sephora
+                                            </li>
+                                            <li class="flex items-center gap-2">
+                                                <i data-lucide="circle" class="w-2 h-2 fill-current"></i>
+                                                Whole Foods
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bordered - Expanded -->
+                            <div class="accordion-item accordion-bordered">
+                                <button class="accordion-trigger"
+                                        aria-expanded="true"
+                                        aria-controls="bordered-content-2"
+                                        id="bordered-trigger-2">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink flex-1">john@work.com</span>
+                                    <span class="badge-verified">
+                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                        Verified
+                                    </span>
+                                    <span class="text-sm text-warm-500">(2 merchants)</span>
+                                </button>
+                                <div id="bordered-content-2" class="accordion-content">
+                                    <div class="accordion-content-inner">
+                                        <ul class="space-y-2 text-sm text-warm-600">
+                                            <li class="flex items-center gap-2">
+                                                <i data-lucide="circle" class="w-2 h-2 fill-current"></i>
+                                                Best Buy
+                                            </li>
+                                            <li class="flex items-center gap-2">
+                                                <i data-lucide="circle" class="w-2 h-2 fill-current"></i>
+                                                Nordstrom
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- VARIANT 3: WARNING -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">3 — Warning Accordion (Orange)</p>
+                    <p class="text-sm text-warm-600 mb-6">Orange border variant for items requiring attention. Use for pending verification emails.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="max-w-md">
+                            <!-- Warning - Expanded (to show resend action) -->
+                            <div class="accordion-item accordion-warning">
+                                <button class="accordion-trigger"
+                                        aria-expanded="true"
+                                        aria-controls="warning-content-1"
+                                        id="warning-trigger-1">
+                                    <i data-lucide="chevron-right" class="accordion-chevron"></i>
+                                    <span class="font-medium text-ink flex-1">sarah@example.com</span>
+                                    <span class="badge-pending">
+                                        <i data-lucide="clock" class="w-3 h-3"></i>
+                                        Pending
+                                    </span>
+                                    <span class="text-sm text-warm-500">(1 merchant)</span>
+                                </button>
+                                <div id="warning-content-1" class="accordion-content">
+                                    <div class="accordion-content-inner">
+                                        <p class="text-sm text-warm-600 mb-3">This email needs verification before you can use it with merchants.</p>
+                                        <button class="px-3 py-1.5 bg-white border border-warm-200 rounded-md text-sm font-medium text-ink hover:bg-warm-50 transition-colors">
+                                            Resend Verification Email
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Specifications</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-warm-200">
+                                    <th class="text-left py-3 pr-4 font-medium text-ink">Property</th>
+                                    <th class="text-left py-3 pr-4 font-medium text-ink">Value</th>
+                                    <th class="text-left py-3 font-medium text-ink">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-warm-600">
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Chevron size</td>
+                                    <td class="py-3 pr-4"><code>16px</code> (w-4 h-4)</td>
+                                    <td class="py-3">Color: warm-400</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Chevron rotation</td>
+                                    <td class="py-3 pr-4"><code>0° → 90°</code></td>
+                                    <td class="py-3">200ms ease transition</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Trigger padding</td>
+                                    <td class="py-3 pr-4"><code>16px</code></td>
+                                    <td class="py-3">All sides</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Content padding</td>
+                                    <td class="py-3 pr-4"><code>12px 16px</code></td>
+                                    <td class="py-3">Bordered variant</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Border radius</td>
+                                    <td class="py-3 pr-4"><code>8px</code></td>
+                                    <td class="py-3">Bordered/Warning variants</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Border color (default)</td>
+                                    <td class="py-3 pr-4"><code>warm-200</code></td>
+                                    <td class="py-3">hsl(30 5% 78%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4">Border color (warning)</td>
+                                    <td class="py-3 pr-4"><code>orange-200</code></td>
+                                    <td class="py-3">hsl(30 100% 80%)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- ACCESSIBILITY -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Accessibility</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-semibold text-ink mb-3">ARIA Attributes</h3>
+                                <ul class="space-y-2 text-sm text-warm-600">
+                                    <li><code>aria-expanded</code> - true/false on trigger button</li>
+                                    <li><code>aria-controls</code> - ID of content panel</li>
+                                    <li><code>id</code> - Unique ID on content panel</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-ink mb-3">Keyboard Support</h3>
+                                <ul class="space-y-2 text-sm text-warm-600">
+                                    <li><code>Enter</code> / <code>Space</code> - Toggle expand/collapse</li>
+                                    <li><code>Tab</code> - Move focus between triggers</li>
+                                    <li>Focus ring: emerald double-ring pattern</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- USAGE GUIDELINES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Do -->
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                </div>
+                                <p class="font-medium text-ink">Do</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-warm-600">
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">•</span>
+                                    Use bordered variant for grouped list items
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">•</span>
+                                    Use warning variant for items needing action
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">•</span>
+                                    Keep accordion headers concise and scannable
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-emerald-500">•</span>
+                                    Allow multiple items to be open simultaneously
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Don't -->
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                                    <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                                </div>
+                                <p class="font-medium text-ink">Don't</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-warm-600">
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">•</span>
+                                    Nest accordions more than one level deep
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">•</span>
+                                    Use for content that should always be visible
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">•</span>
+                                    Hide critical information in collapsed state
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="text-magenta-500">•</span>
+                                    Use basic variant for card-style layouts
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- CODE EXAMPLE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Code Example</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="code-block">
+                            <code>&lt;div class="accordion-item accordion-bordered"&gt;
+  &lt;button class="accordion-trigger"
+          aria-expanded="false"
+          aria-controls="content-1"&gt;
+    &lt;i data-lucide="chevron-right" class="accordion-chevron"&gt;&lt;/i&gt;
+    &lt;span class="font-medium text-ink flex-1"&gt;Header Text&lt;/span&gt;
+    &lt;span class="badge-verified"&gt;Verified&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div id="content-1" class="accordion-content" hidden&gt;
+    &lt;div class="accordion-content-inner"&gt;
+      &lt;!-- Content here --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-5xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- JavaScript for Accordion Behavior -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Accordion toggle functionality
+        document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                const contentId = this.getAttribute('aria-controls');
+                const content = document.getElementById(contentId);
+
+                // Toggle aria-expanded
+                this.setAttribute('aria-expanded', !expanded);
+
+                // Toggle content visibility
+                if (expanded) {
+                    content.setAttribute('hidden', '');
+                } else {
+                    content.removeAttribute('hidden');
+                }
+            });
+
+            // Keyboard support
+            trigger.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Set initial chevron rotation based on aria-expanded
+        document.querySelectorAll('.accordion-trigger[aria-expanded="true"] .accordion-chevron').forEach(chevron => {
+            chevron.style.transform = 'rotate(90deg)';
+        });
+    </script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>
