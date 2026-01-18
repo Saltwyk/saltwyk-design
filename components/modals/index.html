@@ -1285,10 +1285,126 @@
         </section>
 
         <!-- ============================================ -->
+        <!-- TYPE-TO-CONFIRM PATTERN -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12 — Type-to-Confirm Pattern</p>
+            <p class="text-warm-600 text-sm mb-6">For high-stakes destructive actions like account deletion. User must type exact text to enable the action button.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Empty State -->
+                <div>
+                    <p class="font-medium mb-3">Empty Input (Button Disabled)</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 320px;">
+                        <div class="modal-container modal-md animate-modal">
+                            <div class="modal-header">
+                                <div>
+                                    <h3 class="modal-title" style="color: hsl(330 85% 35%);">Confirm Account Deletion</h3>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-sm text-warm-600 mb-4">
+                                    To confirm, type <strong class="text-ink">DELETE</strong> in the box below:
+                                </p>
+                                <input type="text"
+                                       placeholder="Type DELETE"
+                                       class="form-input mb-2"
+                                       readonly>
+                                <p class="text-xs text-warm-500">This is case-sensitive</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-destructive" disabled>Delete My Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Correct Input -->
+                <div>
+                    <p class="font-medium mb-3">Correct Input (Button Enabled)</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 320px;">
+                        <div class="modal-container modal-md animate-modal">
+                            <div class="modal-header">
+                                <div>
+                                    <h3 class="modal-title" style="color: hsl(330 85% 35%);">Confirm Account Deletion</h3>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-sm text-warm-600 mb-4">
+                                    To confirm, type <strong class="text-ink">DELETE</strong> in the box below:
+                                </p>
+                                <input type="text"
+                                       value="DELETE"
+                                       class="form-input mb-2"
+                                       style="border-color: hsl(160 70% 40%);"
+                                       readonly>
+                                <p class="text-xs text-emerald-600">✓ Text matches</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-destructive">Delete My Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="mt-6">
+                <p class="font-medium mb-3">Interactive Demo</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm text-warm-600 mb-4">
+                        Type <strong class="text-ink">DELETE</strong> to enable the button:
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <input type="text"
+                               placeholder="Type DELETE"
+                               class="form-input"
+                               style="max-width: 200px;"
+                               id="confirm-input"
+                               data-confirm-text="DELETE"
+                               data-confirm-target="#confirm-btn">
+                        <button id="confirm-btn" class="btn btn-destructive" disabled>Delete My Account</button>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-2">Case-sensitive match required</p>
+                </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="mt-6">
+                <p class="font-medium mb-3">Implementation</p>
+                <div class="code-block">
+<pre><span class="comment">// HTML</span>
+&lt;input type="text"
+       id="confirm-input"
+       data-confirm-text="DELETE"
+       data-confirm-target="#confirm-btn"&gt;
+&lt;button id="confirm-btn" disabled&gt;Delete&lt;/button&gt;
+
+<span class="comment">// JavaScript</span>
+<span class="selector">const input</span> = document.querySelector('[data-confirm-text]');
+<span class="selector">const targetBtn</span> = document.querySelector(input.dataset.confirmTarget);
+<span class="selector">const confirmText</span> = input.dataset.confirmText;
+
+input.addEventListener('input', () => {
+  targetBtn.disabled = input.value !== confirmText;
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
         <!-- CODE REFERENCE -->
         <!-- ============================================ -->
         <section class="mb-16">
-            <p class="serial text-emerald-600 mb-4">12 — Code Reference</p>
+            <p class="serial text-emerald-600 mb-4">13 — Code Reference</p>
 
             <div class="space-y-6">
                 <!-- Modal Container -->
@@ -1525,6 +1641,20 @@
     </div>
 
     <script>lucide.createIcons();</script>
+    <script>
+        // Type-to-Confirm Pattern
+        document.querySelectorAll('[data-confirm-text]').forEach(input => {
+            const targetSelector = input.dataset.confirmTarget;
+            const confirmText = input.dataset.confirmText;
+            const targetBtn = document.querySelector(targetSelector);
+
+            if (targetBtn) {
+                input.addEventListener('input', () => {
+                    targetBtn.disabled = input.value !== confirmText;
+                });
+            }
+        });
+    </script>
     <script src="../../partials/nav-loader.js"></script>
 </body>
 </html>
