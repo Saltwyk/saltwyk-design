@@ -155,6 +155,182 @@
             margin: 8px 12px;
         }
 
+        /* Handle Header */
+        .handle-header {
+            padding: 8px 12px;
+        }
+        .handle-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            font-family: ui-monospace, monospace;
+        }
+        .handle-name {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 2px;
+        }
+
+        /* Claim Handle CTA */
+        .claim-cta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 4px 8px;
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 150ms ease;
+        }
+        .claim-cta:hover {
+            background: hsl(var(--indigo-50));
+        }
+
+        /* Context Icon - Sandbox (Purple/Indigo) */
+        .context-icon-sandbox {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+
+        /* Context Card - Sandbox (Light with indigo accent) */
+        .context-card-sandbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: hsl(var(--indigo-50) / 50%);
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 8px;
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: hsl(var(--ink) / 20%);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        /* Modal Container */
+        .merchant-picker-modal {
+            width: 280px;
+            padding: 16px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modal-enter 150ms ease-out;
+        }
+
+        @keyframes modal-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Modal Title */
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 16px;
+        }
+
+        /* Merchant Radio Option */
+        .merchant-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .merchant-option:hover {
+            background: hsl(var(--warm-50));
+        }
+        .merchant-option.selected {
+            background: hsl(var(--indigo-50));
+        }
+
+        /* Radio Circle */
+        .radio-circle {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(var(--warm-300));
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            transition: border-color 150ms ease;
+        }
+        .merchant-option:hover .radio-circle {
+            border-color: hsl(var(--indigo-400));
+        }
+        .merchant-option.selected .radio-circle {
+            border-color: hsl(var(--indigo-600));
+        }
+        .radio-circle-inner {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: hsl(var(--indigo-600));
+            opacity: 0;
+            transform: scale(0);
+            transition: all 150ms ease;
+        }
+        .merchant-option.selected .radio-circle-inner {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Merchant Info */
+        .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .merchant-role {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Modal Button */
+        .modal-button {
+            width: 100%;
+            padding: 10px 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background: hsl(var(--indigo-600));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .modal-button:hover {
+            background: hsl(var(--indigo-700));
+        }
+        .modal-button:disabled {
+            background: hsl(var(--warm-300));
+            cursor: not-allowed;
+        }
+
         /* Desktop dropdown positioning */
         .desktop-dropdown-container {
             position: relative;
@@ -224,18 +400,34 @@
                 <p class="text-warm-700 mb-4">
                     The Profile Dropdown appears when clicking the profile avatar in the top navigation. It adapts based on the user's profile configuration:
                 </p>
-                <ul class="space-y-2 text-warm-600">
+                <ul class="space-y-2 text-warm-600 mb-6">
                     <li class="flex items-start gap-2">
                         <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-2"></span>
                         <span><strong class="text-ink">Shopper Only:</strong> Shows shopping context + CTA to add professional profile</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2"></span>
-                        <span><strong class="text-ink">Professional Only:</strong> Shows work context + CTA to add shopping profile</span>
+                        <span><strong class="text-ink">Professional Only:</strong> Shows work context (with merchant count if multiple) + CTA to add shopping profile</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2"></span>
                         <span><strong class="text-ink">Both Profiles:</strong> Shows current context + switch option (no growth CTA)</span>
+                    </li>
+                </ul>
+
+                <h3 class="font-semibold text-ink mb-3">Key Features</h3>
+                <ul class="space-y-2 text-warm-600">
+                    <li class="flex items-start gap-2">
+                        <span class="text-warm-400">@</span>
+                        <span><strong class="text-ink">Handle-Based Identity:</strong> Shows @firstname_lastname_4digits (unclaimed) or @customhandle (claimed) with "Claim your custom name" CTA</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500">🧪</span>
+                        <span><strong class="text-ink">Sandbox Testing:</strong> Merchant affiliates can switch to sandbox mode to preview shopper experience</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-emerald-500">💼</span>
+                        <span><strong class="text-ink">Multi-Merchant:</strong> Professionals with multiple merchants see "Work (3 merchants)" → click opens Merchant Picker Modal to select which context</span>
                     </li>
                 </ul>
             </div>
@@ -250,12 +442,12 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                <!-- VARIANT 1: SHOPPER ONLY -->
+                <!-- VARIANT 1: SHOPPER ONLY (Unclaimed Handle) -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 1</p>
-                    <h3 class="font-semibold text-ink mb-4">Shopper Only</h3>
+                    <h3 class="font-semibold text-ink mb-4">Shopper Only (Unclaimed Handle)</h3>
 
-                    <div class="bg-warm-100 rounded-lg p-4 pb-[340px] flex justify-center">
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[380px] flex justify-center">
                         <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
                             <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
 
@@ -270,7 +462,16 @@
                                         <!-- Dropdown -->
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Unclaimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@john_doe_4827</div>
+                                                </div>
+                                                <!-- Claim CTA -->
+                                                <button class="claim-cta">
+                                                    <i data-lucide="star" class="w-4 h-4"></i>
+                                                    <span>Claim your custom name</span>
+                                                </button>
+
                                                 <div class="profile-dropdown-label">Current Role</div>
                                                 <div class="context-card-light">
                                                     <div class="context-icon context-icon-shopping">
@@ -309,12 +510,12 @@
                     </div>
                 </div>
 
-                <!-- VARIANT 2: PROFESSIONAL ONLY -->
+                <!-- VARIANT 2: PROFESSIONAL ONLY (Multi-Merchant + Sandbox) -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 2</p>
-                    <h3 class="font-semibold text-ink mb-4">Professional Only</h3>
+                    <h3 class="font-semibold text-ink mb-4">Professional Only (Multi-Merchant)</h3>
 
-                    <div class="bg-warm-100 rounded-lg p-4 pb-[340px] flex justify-center">
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
                         <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
                             <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
 
@@ -327,26 +528,44 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>sarah@liquiddeath.com</div>
-                                                    <div class="text-warm-500">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Role</div>
                                                 <div class="context-card-dark">
                                                     <div class="context-icon context-icon-professional">
-                                                        <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                     </div>
                                                     <div class="flex-1">
-                                                        <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                         <div class="text-xs text-warm-500">Marketing Manager</div>
                                                     </div>
                                                 </div>
+
+                                                <!-- Sandbox Testing Option -->
+                                                <div class="profile-dropdown-label">Testing</div>
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <button class="growth-cta w-full text-left">
                                                     <div class="flex items-start gap-3">
                                                         <i data-lucide="wallet" class="w-5 h-5 text-warm-400 mt-0.5"></i>
                                                         <div class="flex-1">
                                                             <div class="text-sm font-semibold text-ink">Shop with Points</div>
-                                                            <div class="text-xs text-warm-600 mb-1">Use your loyalty rewards</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Pay with your rewards</div>
                                                             <div class="text-xs font-medium text-indigo-600">Connect accounts →</div>
                                                         </div>
                                                     </div>
@@ -369,12 +588,12 @@
                     </div>
                 </div>
 
-                <!-- VARIANT 3a: BOTH (Current: Shopping) -->
+                <!-- VARIANT 3a: BOTH (Current: Shopping) + Sandbox -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3a</p>
-                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Current: Shopping)</h3>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Shopping + Sandbox)</h3>
 
-                    <div class="bg-warm-100 rounded-lg p-4 pb-[380px] flex justify-center">
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
                         <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
                             <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
 
@@ -387,10 +606,12 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>+1 (555) 123-4567</div>
-                                                    <div class="text-warm-500">sarah@liquiddeath.com</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Context</div>
                                                 <div class="context-card-light">
                                                     <div class="context-icon context-icon-shopping">
@@ -401,20 +622,38 @@
                                                         <div class="text-xs text-warm-500">5 merchants connected • $847</div>
                                                     </div>
                                                 </div>
+
                                                 <div class="dropdown-divider"></div>
-                                                <div class="profile-dropdown-label">Switch to Work</div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Work -->
                                                 <button class="switch-card w-full text-left">
                                                     <div class="flex items-center gap-3">
                                                         <div class="context-icon context-icon-professional">
-                                                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                            <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                         </div>
                                                         <div class="flex-1">
-                                                            <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                            <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                             <div class="text-xs text-warm-500">Marketing Manager</div>
-                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Switch Context →</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Choose Merchant →</div>
                                                         </div>
                                                     </div>
                                                 </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a href="#" class="menu-item">
                                                     <i data-lucide="settings" class="menu-item-icon"></i>
@@ -433,12 +672,12 @@
                     </div>
                 </div>
 
-                <!-- VARIANT 3b: BOTH (Current: Professional) -->
+                <!-- VARIANT 3b: BOTH (Current: Work) + Sandbox -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3b</p>
-                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Current: Work)</h3>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Work + Sandbox)</h3>
 
-                    <div class="bg-warm-100 rounded-lg p-4 pb-[380px] flex justify-center">
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
                         <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
                             <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
 
@@ -451,22 +690,27 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>sarah@liquiddeath.com</div>
-                                                    <div class="text-warm-500">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Context</div>
                                                 <div class="context-card-dark">
                                                     <div class="context-icon context-icon-professional">
-                                                        <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                     </div>
                                                     <div class="flex-1">
-                                                        <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                         <div class="text-xs text-warm-500">Marketing Manager</div>
                                                     </div>
                                                 </div>
+
                                                 <div class="dropdown-divider"></div>
-                                                <div class="profile-dropdown-label">Switch to Shopping</div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Shopping -->
                                                 <button class="switch-card w-full text-left">
                                                     <div class="flex items-center gap-3">
                                                         <div class="context-icon context-icon-shopping">
@@ -479,6 +723,21 @@
                                                         </div>
                                                     </div>
                                                 </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a href="#" class="menu-item">
                                                     <i data-lucide="settings" class="menu-item-icon"></i>
@@ -509,10 +768,10 @@
 
             <div class="space-y-8">
 
-                <!-- VARIANT 1: SHOPPER ONLY -->
+                <!-- VARIANT 1: SHOPPER ONLY (Unclaimed Handle) -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 1</p>
-                    <h3 class="font-semibold text-ink mb-4">Shopper Only</h3>
+                    <h3 class="font-semibold text-ink mb-4">Shopper Only (Unclaimed Handle)</h3>
 
                     <div class="bg-warm-100 rounded-lg p-4">
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
@@ -538,7 +797,16 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Unclaimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@john_doe_4827</div>
+                                                </div>
+                                                <!-- Claim CTA -->
+                                                <button class="claim-cta">
+                                                    <i data-lucide="star" class="w-4 h-4"></i>
+                                                    <span>Claim your custom name</span>
+                                                </button>
+
                                                 <div class="profile-dropdown-label">Current Role</div>
                                                 <div class="context-card-light">
                                                     <div class="context-icon context-icon-shopping">
@@ -582,10 +850,10 @@
                     </div>
                 </div>
 
-                <!-- VARIANT 2: PROFESSIONAL ONLY -->
+                <!-- VARIANT 2: PROFESSIONAL ONLY (Multi-Merchant + Sandbox) -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 2</p>
-                    <h3 class="font-semibold text-ink mb-4">Professional Only</h3>
+                    <h3 class="font-semibold text-ink mb-4">Professional Only (Multi-Merchant)</h3>
 
                     <div class="bg-warm-100 rounded-lg p-4">
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
@@ -610,26 +878,44 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>sarah@liquiddeath.com</div>
-                                                    <div class="text-warm-500">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Role</div>
                                                 <div class="context-card-dark">
                                                     <div class="context-icon context-icon-professional">
-                                                        <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                     </div>
                                                     <div class="flex-1">
-                                                        <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                         <div class="text-xs text-warm-500">Marketing Manager</div>
                                                     </div>
                                                 </div>
+
+                                                <!-- Sandbox Testing Option -->
+                                                <div class="profile-dropdown-label">Testing</div>
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <button class="growth-cta w-full text-left">
                                                     <div class="flex items-start gap-3">
                                                         <i data-lucide="wallet" class="w-5 h-5 text-warm-400 mt-0.5"></i>
                                                         <div class="flex-1">
                                                             <div class="text-sm font-semibold text-ink">Shop with Points</div>
-                                                            <div class="text-xs text-warm-600 mb-1">Use your loyalty rewards</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Pay with your rewards</div>
                                                             <div class="text-xs font-medium text-indigo-600">Connect accounts →</div>
                                                         </div>
                                                     </div>
@@ -656,10 +942,10 @@
                     </div>
                 </div>
 
-                <!-- VARIANT 3a: BOTH (Current: Shopping) -->
+                <!-- VARIANT 3a: BOTH (Current: Shopping) + Sandbox -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3a</p>
-                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Current: Shopping)</h3>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Shopping + Sandbox)</h3>
 
                     <div class="bg-warm-100 rounded-lg p-4">
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
@@ -684,10 +970,12 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>+1 (555) 123-4567</div>
-                                                    <div class="text-warm-500">sarah@liquiddeath.com</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Context</div>
                                                 <div class="context-card-light">
                                                     <div class="context-icon context-icon-shopping">
@@ -698,20 +986,38 @@
                                                         <div class="text-xs text-warm-500">5 merchants connected • $847</div>
                                                     </div>
                                                 </div>
+
                                                 <div class="dropdown-divider"></div>
-                                                <div class="profile-dropdown-label">Switch to Work</div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Work -->
                                                 <button class="switch-card w-full text-left">
                                                     <div class="flex items-center gap-3">
                                                         <div class="context-icon context-icon-professional">
-                                                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                            <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                         </div>
                                                         <div class="flex-1">
-                                                            <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                            <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                             <div class="text-xs text-warm-500">Marketing Manager</div>
-                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Switch Context →</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Choose Merchant →</div>
                                                         </div>
                                                     </div>
                                                 </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a href="#" class="menu-item">
                                                     <i data-lucide="settings" class="menu-item-icon"></i>
@@ -736,9 +1042,10 @@
                 </div>
 
                 <!-- VARIANT 3b: BOTH (Current: Professional) -->
+                <!-- VARIANT 3b: BOTH (Current: Work) + Sandbox -->
                 <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                     <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3b</p>
-                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Current: Work)</h3>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Work + Sandbox)</h3>
 
                     <div class="bg-warm-100 rounded-lg p-4">
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
@@ -763,22 +1070,27 @@
                                         </div>
                                         <div class="desktop-dropdown-positioned">
                                             <div class="profile-dropdown">
-                                                <div class="profile-dropdown-header">
-                                                    <div>sarah@liquiddeath.com</div>
-                                                    <div class="text-warm-500">+1 (555) 123-4567</div>
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
                                                 </div>
+
                                                 <div class="profile-dropdown-label">Current Context</div>
                                                 <div class="context-card-dark">
                                                     <div class="context-icon context-icon-professional">
-                                                        <i data-lucide="building-2" class="w-5 h-5"></i>
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
                                                     </div>
                                                     <div class="flex-1">
-                                                        <div class="text-sm font-semibold text-ink">Liquid Death</div>
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
                                                         <div class="text-xs text-warm-500">Marketing Manager</div>
                                                     </div>
                                                 </div>
+
                                                 <div class="dropdown-divider"></div>
-                                                <div class="profile-dropdown-label">Switch to Shopping</div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Shopping -->
                                                 <button class="switch-card w-full text-left">
                                                     <div class="flex items-center gap-3">
                                                         <div class="context-icon context-icon-shopping">
@@ -791,6 +1103,21 @@
                                                         </div>
                                                     </div>
                                                 </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
                                                 <div class="dropdown-divider"></div>
                                                 <a href="#" class="menu-item">
                                                     <i data-lucide="settings" class="menu-item-icon"></i>
@@ -860,6 +1187,18 @@
                             <td class="px-4 py-3"><code>bg-emerald-500/20 text-emerald-400</code></td>
                         </tr>
                         <tr>
+                            <td class="px-4 py-3 text-warm-600">Sandbox Context Icon</td>
+                            <td class="px-4 py-3"><code>bg-indigo-100 text-indigo-600</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Handle Text</td>
+                            <td class="px-4 py-3"><code>font-mono text-sm font-semibold text-ink</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Claim CTA</td>
+                            <td class="px-4 py-3"><code>text-indigo-600</code> with star icon</td>
+                        </tr>
+                        <tr>
                             <td class="px-4 py-3 text-warm-600">Growth CTA Hover</td>
                             <td class="px-4 py-3"><code>border-indigo-200 bg-indigo-50/50</code></td>
                         </tr>
@@ -900,10 +1239,30 @@
                 </div>
 
                 <div class="bg-white border border-warm-200 rounded-lg p-4">
-                    <h3 class="font-semibold text-ink mb-2">Contact Info Priority</h3>
+                    <h3 class="font-semibold text-ink mb-2">Handle-Based Identity</h3>
                     <p class="text-sm text-warm-600">
-                        <strong>Shopping context:</strong> Phone number is primary (OTP login).<br>
-                        <strong>Professional context:</strong> Work email is primary, phone secondary.
+                        <strong>Unclaimed:</strong> Auto-generated as <code>@firstname_lastname_4digits</code> (e.g., @john_doe_4827)<br>
+                        <strong>Claimed:</strong> User chooses custom handle (e.g., @johndoe) with full name shown below<br>
+                        <strong>Claim CTA:</strong> Shows "Claim your custom name" link that opens claiming modal
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Sandbox Testing (Merchant Affiliates)</h3>
+                    <p class="text-sm text-warm-600">
+                        Users with merchant relationships can access Sandbox Testing mode to preview the shopper experience.
+                        Sandbox uses purple/indigo accent colors to clearly differentiate from live contexts.
+                        Navigates to <code>/passport/test</code> or similar sandboxed route.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Multiple Merchant Handling</h3>
+                    <p class="text-sm text-warm-600">
+                        <strong>Single merchant:</strong> Click → Instant context switch (no modal).<br>
+                        <strong>Multiple merchants:</strong> Click "Work (3 merchants)" → Opens Merchant Picker Modal.<br>
+                        User selects a merchant via radio button, then clicks "Switch Context →" to complete the switch.
+                        Modal closes on: selection + button click, backdrop click, or ESC key.
                     </p>
                 </div>
 
@@ -914,6 +1273,223 @@
                         <strong>Professional context:</strong> Emerald avatar (<code>bg-emerald-600</code>) indicating active work mode.
                     </p>
                 </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- MERCHANT PICKER MODAL -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-4">Merchant Picker Modal</h2>
+            <p class="text-warm-600 mb-6">When a user has multiple merchant relationships, clicking "Work (N merchants)" opens this modal to select which merchant context to switch to.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Default State (No Selection) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">State 1</p>
+                    <h3 class="font-semibold text-ink mb-4">Default (No Selection)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-6 flex justify-center">
+                        <!-- Modal Preview -->
+                        <div class="merchant-picker-modal">
+                            <div class="modal-title">Switch to Work</div>
+
+                            <div class="space-y-1">
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Liquid Death</div>
+                                        <div class="merchant-role">Marketing Manager</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Another Brand</div>
+                                        <div class="merchant-role">Ambassador</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Test Merchant</div>
+                                        <div class="merchant-role">Developer</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="modal-button" disabled>Switch Context →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">State 2</p>
+                    <h3 class="font-semibold text-ink mb-4">Merchant Selected</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-6 flex justify-center">
+                        <!-- Modal Preview -->
+                        <div class="merchant-picker-modal">
+                            <div class="modal-title">Switch to Work</div>
+
+                            <div class="space-y-1">
+                                <div class="merchant-option selected">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Liquid Death</div>
+                                        <div class="merchant-role">Marketing Manager</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Another Brand</div>
+                                        <div class="merchant-role">Ambassador</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Test Merchant</div>
+                                        <div class="merchant-role">Developer</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="modal-button">Switch Context →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal with Backdrop Preview -->
+            <div class="mt-8 bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-2 font-medium">Full Context</p>
+                <h3 class="font-semibold text-ink mb-4">Modal with Backdrop</h3>
+
+                <div class="bg-intaglio-900 rounded-lg overflow-hidden" style="height: 400px;">
+                    <!-- Simulated page behind modal -->
+                    <div class="relative h-full">
+                        <!-- Blurred background content -->
+                        <div class="absolute inset-0 opacity-30 p-8">
+                            <div class="h-8 w-32 bg-white/20 rounded mb-4"></div>
+                            <div class="h-4 w-64 bg-white/10 rounded mb-2"></div>
+                            <div class="h-4 w-48 bg-white/10 rounded"></div>
+                        </div>
+
+                        <!-- Modal Backdrop -->
+                        <div class="absolute inset-0 bg-ink/20 backdrop-blur-sm flex items-center justify-center">
+                            <div class="merchant-picker-modal">
+                                <div class="modal-title">Switch to Work</div>
+
+                                <div class="space-y-1">
+                                    <div class="merchant-option selected">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Liquid Death</div>
+                                            <div class="merchant-role">Marketing Manager</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="merchant-option">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Another Brand</div>
+                                            <div class="merchant-role">Ambassador</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="merchant-option">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Test Merchant</div>
+                                            <div class="merchant-role">Developer</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="modal-button">Switch Context →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-sm text-warm-600">
+                    <strong>Interaction:</strong> Modal closes on backdrop click or ESC key. Selection + button click triggers POST to <code>/api/v1/person/switch-context</code> with <code>merchant_id</code>.
+                </div>
+            </div>
+
+            <!-- Modal Specifications -->
+            <div class="mt-8 bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Property</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Modal Width</td>
+                            <td class="px-4 py-3"><code>280px</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Modal Padding</td>
+                            <td class="px-4 py-3"><code>p-4</code> (16px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Border Radius</td>
+                            <td class="px-4 py-3"><code>rounded-2xl</code> (16px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Shadow</td>
+                            <td class="px-4 py-3"><code>shadow-2xl</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Backdrop</td>
+                            <td class="px-4 py-3"><code>bg-ink/20 backdrop-blur-sm</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Animation</td>
+                            <td class="px-4 py-3">Fade in + scale from 95% → 100% (150ms ease-out)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Radio Selected</td>
+                            <td class="px-4 py-3"><code>bg-indigo-50</code> with <code>border-indigo-600</code> ring</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Button Disabled</td>
+                            <td class="px-4 py-3"><code>bg-warm-300</code> (no selection made)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Button Active</td>
+                            <td class="px-4 py-3"><code>bg-indigo-600</code> → <code>bg-indigo-700</code> on hover</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
