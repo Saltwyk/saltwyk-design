@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Showcase | Saltwyk Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwindcss.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        intaglio: {
+                            800: 'hsl(24 29% 12%)',
+                            900: 'hsl(24 29% 8%)'
+                        },
+                        warm: {
+                            50: 'hsl(30 25% 97%)',
+                            100: 'hsl(30 20% 94%)',
+                            200: 'hsl(30 15% 88%)',
+                            400: 'hsl(30 12% 55%)',
+                            500: 'hsl(30 10% 45%)',
+                            600: 'hsl(30 8% 35%)'
+                        },
+                        emerald: {
+                            400: 'hsl(150 100% 35%)',
+                            500: 'hsl(150 100% 27%)',
+                            600: 'hsl(150 100% 22%)'
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['Fraunces', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                        'brand': ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .serial { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; }
+        .font-display { font-family: 'Fraunces', serif; }
+
+        /* Fire Opal - Dark Heroes */
+        .gradient-hero-emerald {
+            background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(150 100% 18%) 50%, hsl(24 29% 8%) 100%);
+        }
+        .gradient-hero-flame {
+            background: linear-gradient(135deg, hsl(25 100% 50%) 0%, hsl(330 100% 50%) 50%, hsl(24 29% 8%) 100%);
+        }
+
+        /* Bright Opal - Light Sections */
+        .gradient-cool-bg {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%);
+        }
+        .gradient-fresh-bg {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(90 40% 95%) 100%);
+        }
+        .gradient-tropic-bg {
+            background: linear-gradient(135deg, hsl(25 40% 95%) 0%, hsl(170 40% 95%) 100%);
+        }
+
+        /* Gradient Text */
+        .gradient-text-emerald {
+            background: linear-gradient(135deg, hsl(150 100% 40%) 0%, hsl(170 100% 45%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-text-flame {
+            background: linear-gradient(135deg, hsl(25 100% 55%) 0%, hsl(330 100% 55%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Thread Lines */
+        .thread-cool { background: linear-gradient(90deg, hsl(170 100% 45%) 0%, hsl(330 100% 55%) 100%); }
+        .thread-emerald { background: linear-gradient(90deg, hsl(150 100% 35%) 0%, hsl(170 100% 45%) 100%); }
+
+        /* CTA Button Gradient */
+        .btn-gradient-emerald {
+            background: linear-gradient(135deg, hsl(150 100% 35%) 0%, hsl(150 100% 27%) 100%);
+        }
+
+        /* Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+
+        /* Composition Frame */
+        .composition-frame {
+            background: hsl(30 5% 96%);
+            border: 1px solid hsl(30 10% 90%);
+        }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
+        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
+        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
+        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-warm-50 text-warm-600">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <!-- Breadcrumb -->
+    <nav class="px-8 py-4 border-b border-warm-200">
+        <ol class="flex items-center gap-2 text-sm">
+            <li><a href="/" class="text-warm-500 hover:text-emerald-500">Design System</a></li>
+            <li class="text-warm-400">/</li>
+            <li><a href="index.html" class="text-warm-500 hover:text-emerald-500">Marketing</a></li>
+            <li class="text-warm-400">/</li>
+            <li class="text-warm-600">Showcase</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header class="px-8 py-12 border-b border-warm-200">
+        <p class="serial text-emerald-500 mb-2">Composition Gallery</p>
+        <h1 class="font-display text-4xl text-intaglio-900 mb-4">Marketing Showcase</h1>
+        <p class="text-lg text-warm-500 max-w-2xl">
+            Real-world compositions showing how marketing pages combine Fire Opal and Bright Opal
+            treatments to create expressive, memorable experiences.
+        </p>
+    </header>
+
+    <main class="px-8 py-12 space-y-16">
+
+        <!-- Composition 1: Hero Dark (Fire Opal) -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 01</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Hero Dark</h2>
+                <p class="text-warm-500 mt-1">Fire Opal treatment for primary landing pages</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="gradient-hero-emerald text-white p-12 min-h-[400px] flex flex-col justify-between">
+                    <!-- Nav -->
+                    <nav class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded bg-white/20"></div>
+                            <span class="font-brand font-semibold">Saltwyk</span>
+                        </div>
+                        <div class="flex gap-6 text-sm text-white/80">
+                            <span>For Shoppers</span>
+                            <span>For Merchants</span>
+                            <span>About</span>
+                        </div>
+                    </nav>
+
+                    <!-- Hero Content -->
+                    <div class="max-w-xl">
+                        <p class="serial text-emerald-400 mb-3">The Payment Network</p>
+                        <h1 class="font-display text-5xl mb-4">Pay with purpose.<br>Save with meaning.</h1>
+                        <p class="text-white/70 text-lg mb-8">Join the payment network that rewards sustainable choices and connects you to merchants who share your values.</p>
+                        <div class="flex gap-4">
+                            <button class="bg-white text-intaglio-900 px-6 py-3 rounded-lg font-medium">Get Started</button>
+                            <button class="border border-white/30 text-white px-6 py-3 rounded-lg font-medium">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Thread Line -->
+                    <div class="thread-emerald h-0.5 w-full mt-8"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 2: Hero Light (Bright Opal) -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 02</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Hero Light</h2>
+                <p class="text-warm-500 mt-1">Bright Opal for softer, approachable landing pages</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="gradient-cool-bg p-12 min-h-[400px] flex flex-col justify-between">
+                    <!-- Nav -->
+                    <nav class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded bg-intaglio-900/10"></div>
+                            <span class="font-brand font-semibold text-intaglio-900">Saltwyk</span>
+                        </div>
+                        <div class="flex gap-6 text-sm text-warm-500">
+                            <span>Features</span>
+                            <span>Pricing</span>
+                            <span>Support</span>
+                        </div>
+                    </nav>
+
+                    <!-- Hero Content -->
+                    <div class="max-w-xl">
+                        <p class="serial text-emerald-500 mb-3">Passport Wallet</p>
+                        <h1 class="font-display text-5xl text-intaglio-900 mb-4">Your purchases,<br>your planet.</h1>
+                        <p class="text-warm-500 text-lg mb-8">Track your spending impact, earn rewards for conscious choices, and watch your savings grow with every purchase.</p>
+                        <div class="flex gap-4">
+                            <button class="btn-gradient-emerald text-white px-6 py-3 rounded-lg font-medium">Download Passport</button>
+                            <button class="border border-warm-300 text-intaglio-900 px-6 py-3 rounded-lg font-medium">See How It Works</button>
+                        </div>
+                    </div>
+
+                    <!-- Thread Line -->
+                    <div class="thread-cool h-0.5 w-full mt-8 opacity-40"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 3: Feature Grid -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 03</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Feature Grid</h2>
+                <p class="text-warm-500 mt-1">Mixed treatments highlight different feature categories</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden p-8">
+                <div class="text-center mb-10">
+                    <p class="serial text-emerald-500 mb-2">Why Saltwyk</p>
+                    <h2 class="font-display text-3xl text-intaglio-900 mb-3">Built for the conscious economy</h2>
+                    <p class="text-warm-500 max-w-lg mx-auto">Every feature designed to make sustainable choices the easy choice.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Feature 1 - Fire Opal -->
+                    <div class="gradient-hero-emerald rounded-xl p-6 text-white">
+                        <div class="w-12 h-12 rounded-lg bg-white/20 mb-4 flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl mb-2">Real-Time Clearing</h3>
+                        <p class="text-white/70 text-sm">Instant settlement means faster access to your funds.</p>
+                    </div>
+
+                    <!-- Feature 2 - Bright Opal -->
+                    <div class="gradient-fresh-bg rounded-xl p-6 border border-warm-200">
+                        <div class="w-12 h-12 rounded-lg bg-emerald-500/10 mb-4 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl text-intaglio-900 mb-2">Impact Rewards</h3>
+                        <p class="text-warm-500 text-sm">Earn more when you shop with sustainable merchants.</p>
+                    </div>
+
+                    <!-- Feature 3 - Bright Opal -->
+                    <div class="gradient-tropic-bg rounded-xl p-6 border border-warm-200">
+                        <div class="w-12 h-12 rounded-lg bg-orange-500/10 mb-4 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl text-intaglio-900 mb-2">Secure by Design</h3>
+                        <p class="text-warm-500 text-sm">Bank-grade security protects every transaction.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 4: Social Proof -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 04</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Social Proof</h2>
+                <p class="text-warm-500 mt-1">Testimonials and stats on Bright Opal background</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="gradient-cool-bg p-12">
+                    <div class="text-center mb-10">
+                        <p class="serial text-emerald-500 mb-2">Trusted By</p>
+                        <h2 class="font-display text-3xl text-intaglio-900">Join thousands of conscious consumers</h2>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="grid grid-cols-4 gap-6 mb-12">
+                        <div class="text-center">
+                            <p class="font-display text-4xl gradient-text-emerald">2.4M</p>
+                            <p class="text-warm-500 text-sm mt-1">Active Users</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-display text-4xl gradient-text-emerald">$840M</p>
+                            <p class="text-warm-500 text-sm mt-1">Processed Monthly</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-display text-4xl gradient-text-emerald">12K</p>
+                            <p class="text-warm-500 text-sm mt-1">Merchant Partners</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-display text-4xl gradient-text-emerald">4.8</p>
+                            <p class="text-warm-500 text-sm mt-1">App Store Rating</p>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial -->
+                    <div class="bg-white rounded-xl p-8 border border-warm-200 max-w-2xl mx-auto">
+                        <blockquote class="font-display text-2xl text-intaglio-900 mb-4">
+                            "Saltwyk made me realize how my daily purchases can support businesses that align with my values."
+                        </blockquote>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600"></div>
+                            <div>
+                                <p class="font-medium text-intaglio-900">Sarah Chen</p>
+                                <p class="text-warm-500 text-sm">Passport User since 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 5: Illustration Frame -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 05</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Illustration Frame</h2>
+                <p class="text-warm-500 mt-1">Sepia-toned frame for spot illustrations</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden p-8">
+                <div class="grid grid-cols-2 gap-12 items-center">
+                    <!-- Illustration Frame -->
+                    <div class="aspect-square rounded-xl p-8 flex items-center justify-center" style="background: hsl(30 25% 92%); border: 2px dashed hsl(30 15% 80%);">
+                        <div class="text-center">
+                            <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-warm-100 to-warm-200 flex items-center justify-center">
+                                <svg class="w-16 h-16 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <p class="serial text-warm-400">Illustration Placeholder</p>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div>
+                        <p class="serial text-emerald-500 mb-3">How It Works</p>
+                        <h2 class="font-display text-3xl text-intaglio-900 mb-4">Simple steps to a better way to pay</h2>
+                        <div class="space-y-4">
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">1</div>
+                                <div>
+                                    <h3 class="font-medium text-intaglio-900">Download Passport</h3>
+                                    <p class="text-warm-500 text-sm">Available on iOS and Android</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">2</div>
+                                <div>
+                                    <h3 class="font-medium text-intaglio-900">Link your accounts</h3>
+                                    <p class="text-warm-500 text-sm">Connect your bank or card</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">3</div>
+                                <div>
+                                    <h3 class="font-medium text-intaglio-900">Shop with impact</h3>
+                                    <p class="text-warm-500 text-sm">Every purchase supports your values</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 6: CTA Section -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 06</p>
+                <h2 class="font-display text-2xl text-intaglio-900">CTA Section</h2>
+                <p class="text-warm-500 mt-1">Fire Opal call-to-action with high visual impact</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <div class="gradient-hero-flame text-white p-12 text-center relative overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute inset-0 opacity-10">
+                        <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-white blur-3xl"></div>
+                        <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-white blur-3xl"></div>
+                    </div>
+
+                    <div class="relative z-10">
+                        <p class="serial text-orange-300 mb-3">Ready to Start?</p>
+                        <h2 class="font-display text-4xl mb-4">Join the payment revolution</h2>
+                        <p class="text-white/70 text-lg mb-8 max-w-md mx-auto">
+                            Whether you're a shopper looking to make an impact or a merchant ready to grow, Saltwyk is your partner.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <button class="bg-white text-intaglio-900 px-8 py-4 rounded-lg font-semibold text-lg">
+                                Get Passport Free
+                            </button>
+                            <button class="border-2 border-white/50 text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                                Become a Merchant
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Composition 7: Footer -->
+        <section>
+            <div class="mb-4">
+                <p class="serial text-emerald-500 mb-1">Composition 07</p>
+                <h2 class="font-display text-2xl text-intaglio-900">Footer</h2>
+                <p class="text-warm-500 mt-1">Dark chrome footer with thread accent</p>
+            </div>
+
+            <div class="composition-frame rounded-xl overflow-hidden">
+                <footer class="bg-intaglio-900 text-white p-12">
+                    <!-- Thread Line Top -->
+                    <div class="thread-emerald h-0.5 w-full mb-12"></div>
+
+                    <div class="grid grid-cols-4 gap-8 mb-12">
+                        <!-- Brand Column -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-8 h-8 rounded bg-emerald-500/20"></div>
+                                <span class="font-brand font-semibold text-lg">Saltwyk</span>
+                            </div>
+                            <p class="text-white/60 text-sm">The payment network for the conscious economy.</p>
+                        </div>
+
+                        <!-- Products -->
+                        <div>
+                            <h4 class="serial text-emerald-400 mb-4">Products</h4>
+                            <ul class="space-y-2 text-white/70 text-sm">
+                                <li>Passport Wallet</li>
+                                <li>Merchant Dashboard</li>
+                                <li>Clearing Network</li>
+                                <li>Developer API</li>
+                            </ul>
+                        </div>
+
+                        <!-- Company -->
+                        <div>
+                            <h4 class="serial text-emerald-400 mb-4">Company</h4>
+                            <ul class="space-y-2 text-white/70 text-sm">
+                                <li>About Us</li>
+                                <li>Careers</li>
+                                <li>Press</li>
+                                <li>Contact</li>
+                            </ul>
+                        </div>
+
+                        <!-- Legal -->
+                        <div>
+                            <h4 class="serial text-emerald-400 mb-4">Legal</h4>
+                            <ul class="space-y-2 text-white/70 text-sm">
+                                <li>Privacy Policy</li>
+                                <li>Terms of Service</li>
+                                <li>Cookie Policy</li>
+                                <li>Security</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Bar -->
+                    <div class="flex justify-between items-center pt-8 border-t border-white/10">
+                        <p class="text-white/50 text-sm">&copy; 2025 Saltwyk Inc. All rights reserved.</p>
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded bg-white/10"></div>
+                            <div class="w-8 h-8 rounded bg-white/10"></div>
+                            <div class="w-8 h-8 rounded bg-white/10"></div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-8 py-6 border-t border-warm-200">
+        <div class="flex justify-between items-center text-sm text-warm-500">
+            <div class="flex items-center gap-4">
+                <a href="/" class="hover:text-emerald-500 transition-colors">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-500 transition-colors">Sitemap</a>
+            </div>
+            <span>v0.6 · January 2026</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

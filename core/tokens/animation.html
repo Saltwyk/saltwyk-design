@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltwyk Core — Motion & Animation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
+
+        /* Demo box base state - hidden until triggered */
+        .demo-box {
+            opacity: 0;
+        }
+        .demo-box.playing {
+            opacity: 1;
+        }
+
+        /* Reduced motion override */
+        @media (prefers-reduced-motion: reduce) {
+            .demo-box,
+            .demo-box.playing {
+                animation: none !important;
+                transition: none !important;
+                opacity: 1;
+            }
+            .reduced-motion-notice {
+                display: block;
+            }
+        }
+        .reduced-motion-notice {
+            display: none;
+        }
+
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Animation</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Core Foundation</p>
+            <h1 class="font-display text-4xl mb-2">Motion & Animation</h1>
+            <p class="text-warm-600">Animation tokens, keyframes, and timing functions for consistent motion across all interfaces.</p>
+
+            <!-- Reduced motion notice -->
+            <div class="reduced-motion-notice mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg text-sm text-orange-700">
+                <i data-lucide="alert-circle" class="w-4 h-4 inline-block mr-1"></i>
+                Reduced motion preference detected. Animations are disabled.
+            </div>
+        </header>
+
+        <!-- ENTRANCE ANIMATIONS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Entrance Animations</p>
+            <p class="text-warm-600 mb-6 text-sm">One-time animations for elements appearing on screen. All use <code>forwards</code> fill mode.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- fade-in -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">fade-in</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1, 0.5s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-fade-in')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="demo-box w-16 h-16 bg-emerald-500 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-fade-in</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Modals, overlays, content reveal</p>
+                    </div>
+                </div>
+
+                <!-- fade-in-up -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">fade-in-up</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1 + translateY(20px) → 0, 0.6s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-fade-in-up')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100 overflow-hidden">
+                        <div class="demo-box w-16 h-16 bg-indigo-500 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-fade-in-up</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Cards, list items, scroll-triggered content</p>
+                    </div>
+                </div>
+
+                <!-- fade-in-down -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">fade-in-down</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1 + translateY(-20px) → 0, 0.6s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-fade-in-down')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100 overflow-hidden">
+                        <div class="demo-box w-16 h-16 bg-lime-500 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-fade-in-down</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Dropdowns, tooltips, notifications from top</p>
+                    </div>
+                </div>
+
+                <!-- slide-in-left -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">slide-in-left</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1 + translateX(-30px) → 0, 0.5s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-slide-in-left')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100 overflow-hidden">
+                        <div class="demo-box w-16 h-16 bg-orange-500 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-slide-in-left</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Sidebar panels, navigation drawers</p>
+                    </div>
+                </div>
+
+                <!-- slide-in-right -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">slide-in-right</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1 + translateX(30px) → 0, 0.5s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-slide-in-right')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100 overflow-hidden">
+                        <div class="demo-box w-16 h-16 bg-magenta-500 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-slide-in-right</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Side panels, page transitions</p>
+                    </div>
+                </div>
+
+                <!-- scale-in -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">scale-in</p>
+                            <p class="text-xs text-warm-500">opacity 0 → 1 + scale(0.95) → 1, 0.3s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-scale-in')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="demo-box w-16 h-16 bg-intaglio-600 rounded-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-scale-in</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Modal dialogs, popovers, context menus</p>
+                    </div>
+                </div>
+
+                <!-- slide-up -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">slide-up</p>
+                            <p class="text-xs text-warm-500">translateY(100%) → 0, 0.3s ease-out</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-slide-up')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-end justify-center border border-warm-100 overflow-hidden">
+                        <div class="demo-box w-full h-12 bg-warm-700 rounded-t-lg"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-slide-up</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: BottomSheet, mobile action sheets</p>
+                    </div>
+                </div>
+
+                <!-- celebrate-pop -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">celebrate-pop</p>
+                            <p class="text-xs text-warm-500">scale 0.8 → 1.05 → 1, 0.5s ease-out-back</p>
+                        </div>
+                        <button onclick="playAnimation(this, 'animate-celebrate-pop')" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                            Play
+                        </button>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="demo-box w-16 h-16 bg-lime-500 rounded-full flex items-center justify-center">
+                            <i data-lucide="check" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-celebrate-pop</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: SuccessState, achievement badges, confirmations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTINUOUS ANIMATIONS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Continuous Animations</p>
+            <p class="text-warm-600 mb-6 text-sm">Looping animations for ongoing states. Use sparingly to avoid distraction.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- spin -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">spin</p>
+                            <p class="text-xs text-warm-500">360° rotation, 1s linear infinite</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">Auto-playing</span>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="w-8 h-8 border-3 border-emerald-200 border-t-emerald-500 rounded-full animate-spin"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-spin</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Spinner, loading indicators</p>
+                    </div>
+                </div>
+
+                <!-- pulse-dot -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">pulse-dot</p>
+                            <p class="text-xs text-warm-500">opacity 1 → 0.4 → 1, 1.5s ease-in-out infinite</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">Auto-playing</span>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center gap-6 border border-warm-100">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-lime-500 rounded-full animate-pulse-dot"></div>
+                            <span class="text-sm text-warm-600">Online</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-orange-500 rounded-full animate-pulse-dot"></div>
+                            <span class="text-sm text-warm-600">Processing</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-pulse-dot</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: StatusIndicator, presence indicators</p>
+                    </div>
+                </div>
+
+                <!-- pulse-glow -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">pulse-glow</p>
+                            <p class="text-xs text-warm-500">box-shadow glow, 2s ease-in-out infinite</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">Auto-playing</span>
+                    </div>
+                    <div class="h-20 bg-intaglio-900 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="w-16 h-16 bg-emerald-500 rounded-lg animate-pulse-glow flex items-center justify-center">
+                            <i data-lucide="gift" class="w-8 h-8 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-pulse-glow</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: MysteryBox, special promotions, attention items</p>
+                    </div>
+                </div>
+
+                <!-- float -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">float</p>
+                            <p class="text-xs text-warm-500">translateY(0) → -10px → 0, 6s ease-in-out infinite</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">Auto-playing</span>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-lg animate-float"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-float</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Hero illustrations, decorative elements</p>
+                    </div>
+                </div>
+
+                <!-- pulse-slow -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-ink">pulse-slow</p>
+                            <p class="text-xs text-warm-500">scale + opacity pulse, 4s ease-in-out infinite</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">Auto-playing</span>
+                    </div>
+                    <div class="h-20 bg-warm-50 rounded-lg flex items-center justify-center border border-warm-100">
+                        <div class="w-12 h-12 bg-warm-300 rounded-full animate-pulse-slow"></div>
+                    </div>
+                    <div class="mt-3">
+                        <code>animate-pulse-slow</code>
+                        <p class="text-xs text-warm-500 mt-1">Use for: Skeleton loaders, placeholder content</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMING FUNCTIONS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Timing Functions (Easing)</p>
+            <p class="text-warm-600 mb-6 text-sm">Custom easing curves for natural-feeling motion.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">ease-out-expo</p>
+                    <p class="text-xs text-warm-500 mb-4">cubic-bezier(0.16, 1, 0.3, 1)</p>
+                    <div class="h-16 bg-warm-50 rounded border border-warm-100 relative overflow-hidden">
+                        <div id="expo-demo" class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-emerald-500 rounded transition-all duration-500 ease-out-expo"></div>
+                    </div>
+                    <button onclick="toggleExpo()" class="mt-3 px-3 py-1.5 bg-warm-200 hover:bg-warm-300 text-warm-700 text-xs font-medium rounded transition-colors">
+                        Toggle
+                    </button>
+                    <div class="mt-2">
+                        <code>ease-out-expo</code>
+                        <p class="text-xs text-warm-500 mt-1">Smooth deceleration. Use for: Page transitions, large movements</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">ease-out-back</p>
+                    <p class="text-xs text-warm-500 mb-4">cubic-bezier(0.34, 1.56, 0.64, 1)</p>
+                    <div class="h-16 bg-warm-50 rounded border border-warm-100 relative overflow-hidden">
+                        <div id="back-demo" class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-500 rounded transition-all duration-500 ease-out-back"></div>
+                    </div>
+                    <button onclick="toggleBack()" class="mt-3 px-3 py-1.5 bg-warm-200 hover:bg-warm-300 text-warm-700 text-xs font-medium rounded transition-colors">
+                        Toggle
+                    </button>
+                    <div class="mt-2">
+                        <code>ease-out-back</code>
+                        <p class="text-xs text-warm-500 mt-1">Slight overshoot. Use for: Playful interactions, celebrate-pop</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSITION DURATIONS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Transition Durations</p>
+            <p class="text-warm-600 mb-6 text-sm">Standardized durations for consistent timing across the interface.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium w-32">Class</th>
+                            <th class="text-left p-4 font-medium w-24">Duration</th>
+                            <th class="text-left p-4 font-medium">Use Cases</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4"><code>duration-75</code></td>
+                            <td class="p-4 text-warm-500">75ms</td>
+                            <td class="p-4 text-warm-600">Micro-interactions: checkbox, toggle, instant feedback</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-100</code></td>
+                            <td class="p-4 text-warm-500">100ms</td>
+                            <td class="p-4 text-warm-600">Button press states, icon changes</td>
+                        </tr>
+                        <tr class="bg-emerald-50">
+                            <td class="p-4"><code>duration-150</code></td>
+                            <td class="p-4 text-warm-500">150ms</td>
+                            <td class="p-4 text-warm-600 font-medium">Default. Hover states, color changes</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-200</code></td>
+                            <td class="p-4 text-warm-500">200ms</td>
+                            <td class="p-4 text-warm-600">Card hover lift, focus rings</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-300</code></td>
+                            <td class="p-4 text-warm-500">300ms</td>
+                            <td class="p-4 text-warm-600">Modals, dropdowns, expanding content</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-400</code></td>
+                            <td class="p-4 text-warm-500">400ms</td>
+                            <td class="p-4 text-warm-600">Page transitions, large movements</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-500</code></td>
+                            <td class="p-4 text-warm-500">500ms</td>
+                            <td class="p-4 text-warm-600">Complex animations, emphasis transitions</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-700</code></td>
+                            <td class="p-4 text-warm-500">700ms</td>
+                            <td class="p-4 text-warm-600">Slow reveals, dramatic entrances</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"><code>duration-1000</code></td>
+                            <td class="p-4 text-warm-500">1000ms</td>
+                            <td class="p-4 text-warm-600">Very slow animations, ambient effects</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- STAGGER PATTERNS -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Stagger Patterns</p>
+            <p class="text-warm-600 mb-6 text-sm">Delay subsequent elements for cascading entrance effects.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Staggered List</p>
+                        <p class="text-xs text-warm-500">100-150ms delay between elements</p>
+                    </div>
+                    <button onclick="playStagger()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded transition-colors">
+                        Play Stagger
+                    </button>
+                </div>
+
+                <div id="stagger-demo" class="grid grid-cols-4 gap-4">
+                    <div class="stagger-item opacity-0 h-20 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-700 font-medium">1</div>
+                    <div class="stagger-item opacity-0 h-20 bg-emerald-200 rounded-lg flex items-center justify-center text-emerald-700 font-medium">2</div>
+                    <div class="stagger-item opacity-0 h-20 bg-emerald-300 rounded-lg flex items-center justify-center text-emerald-700 font-medium">3</div>
+                    <div class="stagger-item opacity-0 h-20 bg-emerald-400 rounded-lg flex items-center justify-center text-emerald-700 font-medium">4</div>
+                </div>
+
+                <div class="mt-6 p-4 bg-warm-50 rounded-lg">
+                    <p class="text-sm font-medium text-ink mb-2">Implementation Pattern</p>
+                    <pre class="text-xs text-warm-600 overflow-x-auto"><code>// JavaScript stagger
+items.forEach((item, i) => {
+  item.style.animationDelay = `${i * 100}ms`;
+  item.classList.add('animate-fade-in-up');
+});
+
+// CSS custom properties
+.item:nth-child(1) { --delay: 0ms; }
+.item:nth-child(2) { --delay: 100ms; }
+.item:nth-child(3) { --delay: 200ms; }
+.item:nth-child(4) { --delay: 300ms; }
+.item { animation-delay: var(--delay); }</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- REDUCED MOTION -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Accessibility: Reduced Motion</p>
+            <p class="text-warm-600 mb-6 text-sm">Respect user preferences for reduced motion to prevent vestibular issues.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">CSS Implementation</p>
+                    <pre class="text-xs text-warm-600 bg-warm-50 p-4 rounded-lg overflow-x-auto"><code>@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}</code></pre>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">JavaScript Detection</p>
+                    <pre class="text-xs text-warm-600 bg-warm-50 p-4 rounded-lg overflow-x-auto"><code>const prefersReduced = window.matchMedia(
+  '(prefers-reduced-motion: reduce)'
+).matches;
+
+if (!prefersReduced) {
+  element.classList.add('animate-fade-in-up');
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                <p class="text-sm text-orange-700">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 inline-block mr-1"></i>
+                    <strong>Best Practice:</strong> Always provide instant state changes as fallback. Essential information should never rely solely on animation.
+                </p>
+            </div>
+        </section>
+
+        <!-- USAGE QUICK REFERENCE -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Quick Reference</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left p-4 font-medium">Component</th>
+                            <th class="text-left p-4 font-medium">Animation</th>
+                            <th class="text-left p-4 font-medium">Class</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4 text-warm-600">Modal / Dialog</td>
+                            <td class="p-4">scale-in</td>
+                            <td class="p-4"><code>animate-scale-in</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">BottomSheet</td>
+                            <td class="p-4">slide-up</td>
+                            <td class="p-4"><code>animate-slide-up</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">Card (scroll-triggered)</td>
+                            <td class="p-4">fade-in-up</td>
+                            <td class="p-4"><code>animate-fade-in-up</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">Dropdown</td>
+                            <td class="p-4">fade-in-down</td>
+                            <td class="p-4"><code>animate-fade-in-down</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">Sidebar</td>
+                            <td class="p-4">slide-in-left</td>
+                            <td class="p-4"><code>animate-slide-in-left</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">Spinner</td>
+                            <td class="p-4">spin</td>
+                            <td class="p-4"><code>animate-spin</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">StatusIndicator</td>
+                            <td class="p-4">pulse-dot</td>
+                            <td class="p-4"><code>animate-pulse-dot</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">MysteryBox</td>
+                            <td class="p-4">pulse-glow</td>
+                            <td class="p-4"><code>animate-pulse-glow</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">SuccessState</td>
+                            <td class="p-4">celebrate-pop</td>
+                            <td class="p-4"><code>animate-celebrate-pop</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-600">Hero illustration</td>
+                            <td class="p-4">float</td>
+                            <td class="p-4"><code>animate-float</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.5.0</p>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Play entrance animation demo
+        function playAnimation(button, animationClass) {
+            const container = button.closest('.bg-white');
+            const demoBox = container.querySelector('.demo-box');
+
+            // Reset
+            demoBox.classList.remove('playing');
+            demoBox.className = demoBox.className.replace(/animate-\S+/g, '');
+
+            // Force reflow
+            void demoBox.offsetWidth;
+
+            // Play
+            demoBox.classList.add('playing', animationClass);
+        }
+
+        // Easing demos
+        let expoState = false;
+        function toggleExpo() {
+            const el = document.getElementById('expo-demo');
+            expoState = !expoState;
+            el.style.left = expoState ? 'calc(100% - 2rem)' : '0';
+        }
+
+        let backState = false;
+        function toggleBack() {
+            const el = document.getElementById('back-demo');
+            backState = !backState;
+            el.style.left = backState ? 'calc(100% - 2rem)' : '0';
+        }
+
+        // Stagger demo
+        function playStagger() {
+            const items = document.querySelectorAll('.stagger-item');
+            items.forEach((item, i) => {
+                item.classList.remove('animate-fade-in-up');
+                item.style.opacity = '0';
+            });
+
+            // Force reflow
+            void document.getElementById('stagger-demo').offsetWidth;
+
+            items.forEach((item, i) => {
+                item.style.animationDelay = `${i * 100}ms`;
+                item.classList.add('animate-fade-in-up');
+            });
+        }
+    </script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

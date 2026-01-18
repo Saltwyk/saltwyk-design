@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; white-space: pre; }
+
+        /* ========================================= */
+        /* BUTTON BASE (from buttons component) */
+        /* ========================================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 150ms ease-out;
+            border: none;
+        }
+
+        .btn-sm {
+            height: 32px;
+            padding: 0 12px;
+            font-size: 13px;
+        }
+
+        .btn-md {
+            height: 40px;
+            padding: 0 16px;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: hsl(24 29% 8%);
+            border: 1px solid hsl(30 5% 78%);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: hsl(30 10% 98%);
+            border-color: hsl(30 6% 62%);
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ========================================= */
+        /* COUNTDOWN BUTTON STYLES */
+        /* ========================================= */
+        .countdown-btn {
+            /* Inherits from btn */
+        }
+
+        .countdown-btn[data-counting="true"] {
+            /* Visual state during countdown */
+        }
+
+        .countdown-text {
+            /* Default text shown when not counting */
+        }
+
+        .countdown-timer {
+            /* Timer text shown during countdown */
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-ledger min-h-screen">
+    <!-- Top Navigation -->
+    <div id="topnav-slot"></div>
+
+    <div class="flex">
+        <!-- Side Navigation -->
+        <div id="sidenav-slot"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <div class="max-w-5xl mx-auto p-8">
+
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="/" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="/" class="hover:text-emerald-600">Components</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Countdown Timer</span>
+                </nav>
+
+                <!-- Page Header -->
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Utility Component</p>
+                    <h1 class="font-display text-4xl mb-2">Countdown Timer</h1>
+                    <p class="text-warm-600">Button with countdown functionality for rate-limited actions like "Resend Verification Email". Disables during countdown and re-enables when complete.</p>
+                </header>
+
+                <!-- ============================================ -->
+                <!-- OVERVIEW -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Overview</p>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="grid grid-cols-4 gap-4 text-sm">
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Purpose</p>
+                                <p class="text-warm-600 text-xs">Rate-limit repeated actions like resend email/SMS</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Default Duration</p>
+                                <p class="text-warm-600 text-xs">60 seconds (configurable)</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Behavior</p>
+                                <p class="text-warm-600 text-xs">Disabled during countdown, enabled at 0</p>
+                            </div>
+                            <div class="bg-warm-50 rounded-lg p-4">
+                                <p class="font-medium text-ink mb-1">Display</p>
+                                <p class="text-warm-600 text-xs">Tabular nums for stable width</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- INTERACTIVE DEMO -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Interactive Demo</p>
+                    <p class="text-sm text-warm-600 mb-6">Click the button to see the countdown in action. Uses 10 seconds for demo purposes.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="flex items-center gap-6">
+                            <button class="btn btn-secondary btn-sm countdown-btn"
+                                    data-countdown="10"
+                                    data-default-text="Resend Verification Email"
+                                    data-counting-text="Resend in {seconds}s"
+                                    id="demo-countdown">
+                                <span class="countdown-text">Resend Verification Email</span>
+                                <span class="countdown-timer hidden"></span>
+                            </button>
+                            <p class="text-sm text-warm-500">← Click to start countdown</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- STATES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Button States</p>
+                    <p class="text-sm text-warm-600 mb-6">Three states during the countdown lifecycle.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="grid grid-cols-3 gap-6">
+                            <!-- Initial State -->
+                            <div class="text-center">
+                                <p class="text-xs text-warm-500 mb-3 font-medium">1. Initial (Enabled)</p>
+                                <button class="btn btn-secondary btn-sm">
+                                    Resend Verification Email
+                                </button>
+                                <p class="text-xs text-warm-500 mt-2">Ready to click</p>
+                            </div>
+
+                            <!-- Counting State -->
+                            <div class="text-center">
+                                <p class="text-xs text-warm-500 mb-3 font-medium">2. Counting (Disabled)</p>
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    <span style="font-variant-numeric: tabular-nums;">Resend in 45s</span>
+                                </button>
+                                <p class="text-xs text-warm-500 mt-2">Counting down...</p>
+                            </div>
+
+                            <!-- Complete State -->
+                            <div class="text-center">
+                                <p class="text-xs text-warm-500 mb-3 font-medium">3. Complete (Enabled)</p>
+                                <button class="btn btn-secondary btn-sm">
+                                    Resend Verification Email
+                                </button>
+                                <p class="text-xs text-warm-500 mt-2">Ready again</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SIZE VARIANTS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Size Variants</p>
+                    <p class="text-sm text-warm-600 mb-6">Works with standard button sizes.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <button class="btn btn-secondary btn-sm countdown-btn"
+                                        data-countdown="60"
+                                        data-default-text="Resend Code"
+                                        data-counting-text="Resend in {seconds}s">
+                                    <span class="countdown-text">Resend Code</span>
+                                    <span class="countdown-timer hidden"></span>
+                                </button>
+                                <p class="text-xs text-warm-500 mt-2">Small (32px)</p>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-secondary btn-md countdown-btn"
+                                        data-countdown="60"
+                                        data-default-text="Resend Verification Email"
+                                        data-counting-text="Resend in {seconds}s">
+                                    <span class="countdown-text">Resend Verification Email</span>
+                                    <span class="countdown-timer hidden"></span>
+                                </button>
+                                <p class="text-xs text-warm-500 mt-2">Medium (40px)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- USAGE IN CONTEXT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Usage in Context</p>
+                    <p class="text-sm text-warm-600 mb-6">Email verification flow in Settings screen.</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <div class="max-w-md border border-orange-200 rounded-lg overflow-hidden">
+                            <!-- Accordion Header -->
+                            <div class="flex items-center gap-3 p-4 bg-white">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-warm-400" style="transform: rotate(90deg);"></i>
+                                <span class="font-medium text-ink flex-1">sarah@example.com</span>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-50 text-orange-700 text-xs font-medium rounded">
+                                    <i data-lucide="clock" class="w-3 h-3"></i>
+                                    Pending
+                                </span>
+                                <span class="text-sm text-warm-500">(1 merchant)</span>
+                            </div>
+                            <!-- Accordion Content -->
+                            <div class="border-t border-orange-200 bg-orange-50/30 px-4 py-3">
+                                <p class="text-sm text-warm-600 mb-3">This email needs verification before you can use it with merchants.</p>
+                                <button class="btn btn-secondary btn-sm countdown-btn"
+                                        data-countdown="60"
+                                        data-default-text="Resend Verification Email"
+                                        data-counting-text="Resend in {seconds}s">
+                                    <span class="countdown-text">Resend Verification Email</span>
+                                    <span class="countdown-timer hidden"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Specifications</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-warm-200">
+                                    <th class="text-left py-3 pr-4 font-medium text-ink">Property</th>
+                                    <th class="text-left py-3 pr-4 font-medium text-ink">Value</th>
+                                    <th class="text-left py-3 font-medium text-ink">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-warm-600">
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Default duration</td>
+                                    <td class="py-3 pr-4"><code>60</code> seconds</td>
+                                    <td class="py-3">Configurable via data-countdown</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Number display</td>
+                                    <td class="py-3 pr-4"><code>font-variant-numeric: tabular-nums</code></td>
+                                    <td class="py-3">Prevents width jitter</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-3 pr-4">Disabled state</td>
+                                    <td class="py-3 pr-4"><code>opacity: 0.5</code></td>
+                                    <td class="py-3">Standard button disabled</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4">Update interval</td>
+                                    <td class="py-3 pr-4"><code>1000ms</code></td>
+                                    <td class="py-3">Updates every second</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- CODE EXAMPLE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Code Example</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="text-sm font-medium text-ink mb-3">HTML Structure</p>
+                        <div class="code-block mb-6">
+                            <code>&lt;button class="btn btn-secondary btn-sm countdown-btn"
+        data-countdown="60"
+        data-default-text="Resend Verification Email"
+        data-counting-text="Resend in {seconds}s"&gt;
+  &lt;span class="countdown-text"&gt;Resend Verification Email&lt;/span&gt;
+  &lt;span class="countdown-timer hidden"&gt;&lt;/span&gt;
+&lt;/button&gt;</code>
+                        </div>
+
+                        <p class="text-sm font-medium text-ink mb-3">Data Attributes</p>
+                        <table class="w-full text-sm">
+                            <tbody class="text-warm-600">
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-2 pr-4 font-medium"><code>data-countdown</code></td>
+                                    <td class="py-2">Duration in seconds (default: 60)</td>
+                                </tr>
+                                <tr class="border-b border-warm-100">
+                                    <td class="py-2 pr-4 font-medium"><code>data-default-text</code></td>
+                                    <td class="py-2">Text shown when not counting</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 pr-4 font-medium"><code>data-counting-text</code></td>
+                                    <td class="py-2">Template with {seconds} placeholder</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-5xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="/" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- JavaScript for Countdown Behavior -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Countdown Timer Functionality
+        class CountdownButton {
+            constructor(button) {
+                this.button = button;
+                this.duration = parseInt(button.dataset.countdown) || 60;
+                this.defaultText = button.dataset.defaultText || 'Resend';
+                this.countingText = button.dataset.countingText || 'Resend in {seconds}s';
+                this.textEl = button.querySelector('.countdown-text');
+                this.timerEl = button.querySelector('.countdown-timer');
+                this.intervalId = null;
+                this.remaining = 0;
+
+                this.button.addEventListener('click', () => this.start());
+            }
+
+            start() {
+                if (this.button.disabled) return;
+
+                this.remaining = this.duration;
+                this.button.disabled = true;
+                this.button.dataset.counting = 'true';
+
+                // Show timer, hide default text
+                if (this.textEl) this.textEl.classList.add('hidden');
+                if (this.timerEl) {
+                    this.timerEl.classList.remove('hidden');
+                    this.timerEl.style.fontVariantNumeric = 'tabular-nums';
+                }
+
+                this.updateDisplay();
+
+                this.intervalId = setInterval(() => {
+                    this.remaining--;
+                    this.updateDisplay();
+
+                    if (this.remaining <= 0) {
+                        this.complete();
+                    }
+                }, 1000);
+            }
+
+            updateDisplay() {
+                if (this.timerEl) {
+                    this.timerEl.textContent = this.countingText.replace('{seconds}', this.remaining);
+                }
+            }
+
+            complete() {
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+
+                this.button.disabled = false;
+                this.button.dataset.counting = 'false';
+
+                // Show default text, hide timer
+                if (this.textEl) this.textEl.classList.remove('hidden');
+                if (this.timerEl) this.timerEl.classList.add('hidden');
+            }
+        }
+
+        // Initialize all countdown buttons
+        document.querySelectorAll('.countdown-btn').forEach(btn => {
+            new CountdownButton(btn);
+        });
+    </script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

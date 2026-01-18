@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopper Compositions - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+
+        .serial {
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* Bright Opal gradients */
+        .gradient-cool-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%); }
+        .gradient-fresh-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 40% 96%) 100%); }
+        .gradient-cool-surface { background: linear-gradient(135deg, hsl(170 50% 82%) 0%, hsl(330 50% 85%) 100%); }
+        .gradient-fresh-surface { background: linear-gradient(135deg, hsl(170 50% 82%) 0%, hsl(74 50% 85%) 100%); }
+        .gradient-cool-accent { background: linear-gradient(135deg, hsl(170 70% 55%) 0%, hsl(330 70% 60%) 100%); }
+        .gradient-fresh-accent { background: linear-gradient(135deg, hsl(170 70% 50%) 0%, hsl(74 70% 55%) 100%); }
+
+        /* Text gradient */
+        .text-gradient-cool {
+            background: linear-gradient(135deg, hsl(170 85% 35%) 0%, hsl(330 85% 40%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-fresh {
+            background: linear-gradient(135deg, hsl(170 85% 32%) 0%, hsl(74 85% 35%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Thread line */
+        .thread-accent-cyan { background: hsl(170 100% 50%); }
+        .thread-accent-lime { background: hsl(74 100% 60%); }
+
+        /* Animations */
+        @keyframes celebrate-pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 12px hsla(150, 100%, 27%, 0.2); }
+            50% { box-shadow: 0 0 24px hsla(150, 100%, 27%, 0.4); }
+        }
+        .animate-celebrate-pop { animation: celebrate-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
+        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
+        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
+        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+
+        /* Mobile container simulation */
+        .mobile-frame {
+            width: 375px;
+            background: hsl(48 29% 95%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px -4px rgba(26, 15, 10, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-[hsl(30_5%_94%)] text-[hsl(24_29%_8%)] min-h-screen">
+
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-[hsl(30_6%_46%)] mb-8">
+            <a href="/" class="hover:text-[hsl(150_100%_27%)] transition-colors">Design System</a>
+            <span class="text-[hsl(30_5%_78%)]">→</span>
+            <a href="index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Shopper</a>
+            <span class="text-[hsl(30_5%_78%)]">→</span>
+            <span class="text-[hsl(24_29%_8%)] font-medium">Showcase</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-[hsl(170_100%_32%)] mb-2">Bright Opal</p>
+            <h1 class="font-display text-4xl mb-3">Shopper Compositions</h1>
+            <p class="text-lg text-[hsl(30_6%_46%)]">Realistic UI scenes demonstrating bright opal treatment in context.</p>
+        </header>
+
+        <!-- Composition Gallery -->
+        <section class="mb-16">
+            <div class="grid grid-cols-2 gap-8">
+
+                <!-- 1. Balance Display -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Balance Display</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Buying power indicator with celebratory feel</p>
+                    </div>
+                    <div class="p-6 bg-[hsl(30_5%_97%)] flex justify-center">
+                        <div class="w-72">
+                            <!-- Card -->
+                            <div class="bg-white rounded-xl border-2 border-[hsl(30_5%_88%)] overflow-hidden">
+                                <div class="h-1.5 gradient-cool-accent"></div>
+                                <div class="p-5">
+                                    <p class="text-xs text-[hsl(30_6%_62%)] mb-1">Available to spend</p>
+                                    <p class="font-display text-3xl text-gradient-cool mb-4">$127.50</p>
+
+                                    <!-- Power level indicator -->
+                                    <div class="mb-4">
+                                        <div class="flex justify-between text-xs text-[hsl(30_6%_62%)] mb-1">
+                                            <span>Buying power</span>
+                                            <span class="text-[hsl(150_100%_27%)] font-medium">High</span>
+                                        </div>
+                                        <div class="h-2 bg-[hsl(30_5%_92%)] rounded-full overflow-hidden">
+                                            <div class="h-full w-4/5 gradient-fresh-accent rounded-full"></div>
+                                        </div>
+                                    </div>
+
+                                    <p class="text-xs text-[hsl(30_6%_46%)]">From 3 connected programs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Checkout Selection -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Checkout Selection</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Payment method with gradient selected state</p>
+                    </div>
+                    <div class="p-6 bg-[hsl(30_5%_97%)] flex justify-center">
+                        <div class="w-72 space-y-3">
+                            <!-- Selected option -->
+                            <div class="gradient-cool-surface rounded-lg p-4 border-2 border-[hsl(170_60%_60%)]">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-[hsl(150_100%_27%)] flex items-center justify-center">
+                                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-medium text-[hsl(24_29%_8%)] text-sm">Pay with Points</p>
+                                        <p class="text-xs text-[hsl(30_6%_46%)]">$47.00 available</p>
+                                    </div>
+                                    <span class="text-xs font-medium text-[hsl(150_100%_27%)]">Selected</span>
+                                </div>
+                            </div>
+
+                            <!-- Unselected option -->
+                            <div class="bg-white rounded-lg p-4 border-2 border-[hsl(30_5%_88%)]">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-5 h-5 rounded-full border-2 border-[hsl(30_5%_78%)]"></div>
+                                    <div class="flex-1">
+                                        <p class="font-medium text-[hsl(24_29%_8%)] text-sm">Credit Card</p>
+                                        <p class="text-xs text-[hsl(30_6%_46%)]">Visa ending 4242</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Success Moment -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Success Moment</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Transaction complete with celebrate-pop animation</p>
+                    </div>
+                    <div class="p-6 gradient-fresh-bg flex justify-center">
+                        <div class="w-72 text-center">
+                            <!-- Success icon with glow -->
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[hsl(150_100%_27%)] flex items-center justify-center animate-pulse-glow">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+
+                            <p class="font-display text-2xl text-gradient-fresh mb-2">Payment Complete</p>
+                            <p class="text-sm text-[hsl(30_6%_46%)] mb-4">You saved $23.50 using points</p>
+
+                            <!-- Program logo reveal -->
+                            <div class="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm animate-float">
+                                <div class="w-6 h-6 rounded-full bg-[hsl(20_90%_55%)]"></div>
+                                <span class="text-sm font-medium text-[hsl(24_29%_8%)]">Target Circle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Program Connection Card -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Program Connection</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Connected loyalty program with thread border</p>
+                    </div>
+                    <div class="p-6 bg-[hsl(30_5%_97%)] flex justify-center">
+                        <div class="w-72">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-sm" style="border: 2px solid transparent; background-image: linear-gradient(white, white), linear-gradient(135deg, hsl(170 70% 70%), hsl(330 70% 75%)); background-origin: border-box; background-clip: padding-box, border-box;">
+                                <div class="p-4">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 rounded-lg bg-[hsl(210_90%_55%)] flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">AA</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-[hsl(24_29%_8%)]">AAdvantage</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">Connected Jan 5</p>
+                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-[hsl(150_100%_40%)]"></div>
+                                    </div>
+
+                                    <div class="flex justify-between items-baseline">
+                                        <div>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">Available</p>
+                                            <p class="font-display text-xl text-[hsl(24_29%_8%)]">24,500 mi</p>
+                                        </div>
+                                        <p class="text-sm text-[hsl(150_100%_27%)] font-medium">≈ $245.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Wallet Overview (Mobile) -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden col-span-2">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Wallet Overview</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Mobile passport container with program cards</p>
+                    </div>
+                    <div class="p-8 bg-[hsl(30_5%_94%)] flex justify-center">
+                        <!-- Mobile frame -->
+                        <div class="mobile-frame">
+                            <!-- Status bar mock -->
+                            <div class="h-6 bg-[hsl(48_29%_93%)]"></div>
+
+                            <!-- Header -->
+                            <div class="gradient-cool-bg px-5 py-4">
+                                <p class="serial text-[hsl(170_100%_32%)] mb-1">Saltwyk Passport</p>
+                                <p class="font-display text-2xl text-[hsl(24_29%_8%)]">Your Points</p>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="px-5 py-4 space-y-3">
+                                <!-- Total card -->
+                                <div class="bg-white rounded-xl p-4 border-2 border-[hsl(30_5%_88%)]">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <p class="text-xs text-[hsl(30_6%_62%)]">Total buying power</p>
+                                        <span class="text-xs text-[hsl(150_100%_27%)] font-medium">3 programs</span>
+                                    </div>
+                                    <p class="font-display text-3xl text-gradient-cool">$312.00</p>
+                                </div>
+
+                                <!-- Program list -->
+                                <div class="space-y-2">
+                                    <div class="bg-white rounded-lg p-3 border border-[hsl(30_5%_88%)] flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[hsl(20_90%_55%)]"></div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium">Target Circle</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">12,340 pts</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(24_29%_8%)]">$123.40</p>
+                                    </div>
+
+                                    <div class="bg-white rounded-lg p-3 border border-[hsl(30_5%_88%)] flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[hsl(210_90%_55%)]"></div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium">AAdvantage</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">14,360 mi</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(24_29%_8%)]">$143.60</p>
+                                    </div>
+
+                                    <div class="bg-white rounded-lg p-3 border border-[hsl(30_5%_88%)] flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[hsl(280_70%_55%)]"></div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium">Hilton Honors</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">45,000 pts</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(24_29%_8%)]">$45.00</p>
+                                    </div>
+                                </div>
+
+                                <!-- CTA -->
+                                <button class="w-full bg-[hsl(150_100%_27%)] text-white rounded-lg py-3 text-sm font-medium">
+                                    Connect Another Program
+                                </button>
+                            </div>
+
+                            <!-- Bottom safe area -->
+                            <div class="h-8 bg-[hsl(48_29%_95%)]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Transaction History -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Transaction History</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Recent activity with program attribution</p>
+                    </div>
+                    <div class="p-6 bg-[hsl(30_5%_97%)] flex justify-center">
+                        <div class="w-80">
+                            <div class="bg-white rounded-xl border-2 border-[hsl(30_5%_88%)] overflow-hidden">
+                                <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                                    <p class="font-medium text-sm text-[hsl(24_29%_8%)]">Recent Activity</p>
+                                </div>
+                                <div class="divide-y divide-[hsl(30_5%_94%)]">
+                                    <div class="p-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full gradient-fresh-surface flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-[hsl(150_100%_27%)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-[hsl(24_29%_8%)]">Target Purchase</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">Jan 12 · Target Circle</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(150_100%_27%)]">-$23.50</p>
+                                    </div>
+                                    <div class="p-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full gradient-cool-surface flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-[hsl(170_100%_35%)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-[hsl(24_29%_8%)]">Points Earned</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">Jan 10 · AAdvantage</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(170_100%_32%)]">+1,250 mi</p>
+                                    </div>
+                                    <div class="p-4 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full gradient-fresh-surface flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-[hsl(150_100%_27%)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-[hsl(24_29%_8%)]">Starbucks Order</p>
+                                            <p class="text-xs text-[hsl(30_6%_62%)]">Jan 8 · Starbucks Rewards</p>
+                                        </div>
+                                        <p class="text-sm font-medium text-[hsl(150_100%_27%)]">-$7.25</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Expiring Points Alert (Flame Family) -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Expiring Points Alert</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Flame family gradient for urgency</p>
+                    </div>
+                    <div class="p-6 bg-[hsl(30_5%_97%)] flex justify-center">
+                        <div class="w-80">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-sm" style="border: 2px solid transparent; background-image: linear-gradient(white, white), linear-gradient(135deg, hsl(20 90% 60%), hsl(330 85% 55%)); background-origin: border-box; background-clip: padding-box, border-box;">
+                                <div class="p-4">
+                                    <div class="flex items-start gap-3 mb-3">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, hsl(20 90% 92%), hsl(330 85% 93%));">
+                                            <svg class="w-5 h-5 text-[hsl(20_90%_45%)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-[hsl(24_29%_8%)]">Points expiring soon</p>
+                                            <p class="text-xs text-[hsl(30_6%_46%)]">2,500 Target Circle points expire in 7 days</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-lg font-display" style="background: linear-gradient(135deg, hsl(20 90% 45%), hsl(330 85% 45%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$25.00</p>
+                                        <button class="px-4 py-2 rounded-lg text-sm font-medium text-white" style="background: linear-gradient(135deg, hsl(20 90% 50%), hsl(330 85% 50%));">Use Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Receipt/Confirmation (Full Width) -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden col-span-2">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Transaction Receipt</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Detailed confirmation with savings breakdown</p>
+                    </div>
+                    <div class="p-8 gradient-fresh-bg flex justify-center">
+                        <div class="w-96 bg-white rounded-xl border-2 border-[hsl(30_5%_88%)] overflow-hidden shadow-lg">
+                            <!-- Header with checkmark -->
+                            <div class="p-6 text-center border-b border-[hsl(30_5%_92%)]">
+                                <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-[hsl(150_100%_27%)] flex items-center justify-center">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <p class="font-display text-2xl text-[hsl(24_29%_8%)] mb-1">Payment Successful</p>
+                                <p class="text-sm text-[hsl(30_6%_62%)]">Jan 12, 2026 at 2:34 PM</p>
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="p-6 border-b border-[hsl(30_5%_92%)]">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-sm text-[hsl(30_6%_62%)]">Order Total</span>
+                                    <span class="text-sm text-[hsl(30_6%_62%)] line-through">$89.99</span>
+                                </div>
+                                <div class="flex justify-between items-baseline">
+                                    <span class="font-medium text-[hsl(24_29%_8%)]">You Paid</span>
+                                    <span class="font-display text-3xl text-gradient-fresh">$66.49</span>
+                                </div>
+                            </div>
+
+                            <!-- Breakdown -->
+                            <div class="p-6 bg-[hsl(150_45%_97%)]">
+                                <p class="text-xs text-[hsl(30_6%_62%)] mb-3 uppercase tracking-wider">Points Used</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded bg-[hsl(20_90%_55%)]"></div>
+                                            <span class="text-sm text-[hsl(24_29%_8%)]">Target Circle</span>
+                                        </div>
+                                        <span class="text-sm font-medium text-[hsl(150_100%_27%)]">-$15.00</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded bg-[hsl(150_60%_45%)]"></div>
+                                            <span class="text-sm text-[hsl(24_29%_8%)]">Starbucks Rewards</span>
+                                        </div>
+                                        <span class="text-sm font-medium text-[hsl(150_100%_27%)]">-$8.50</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-[hsl(150_45%_88%)] flex justify-between items-center">
+                                    <span class="font-medium text-[hsl(24_29%_8%)]">Total Savings</span>
+                                    <span class="font-display text-xl text-[hsl(150_100%_27%)]">$23.50</span>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="p-4 flex gap-3">
+                                <button class="flex-1 px-4 py-2.5 rounded-lg border-2 border-[hsl(30_5%_88%)] text-sm font-medium text-[hsl(30_6%_46%)]">View Details</button>
+                                <button class="flex-1 px-4 py-2.5 rounded-lg bg-[hsl(150_100%_27%)] text-sm font-medium text-white">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Connect Program Flow -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Connect Program Flow</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Onboarding step with Cool gradient</p>
+                    </div>
+                    <div class="p-6 gradient-cool-bg flex justify-center">
+                        <div class="w-72">
+                            <div class="bg-white rounded-xl p-5 border-2 border-[hsl(30_5%_88%)] shadow-sm">
+                                <div class="text-center mb-5">
+                                    <div class="w-16 h-16 mx-auto mb-3 rounded-2xl gradient-cool-surface flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-[hsl(170_100%_35%)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                        </svg>
+                                    </div>
+                                    <p class="font-display text-xl text-[hsl(24_29%_8%)] mb-1">Connect Delta SkyMiles</p>
+                                    <p class="text-sm text-[hsl(30_6%_62%)]">Link your account to start using miles everywhere.</p>
+                                </div>
+
+                                <div class="space-y-3 mb-5">
+                                    <input type="text" placeholder="SkyMiles Number" class="w-full px-4 py-2.5 rounded-lg border-2 border-[hsl(30_5%_88%)] text-sm focus:border-[hsl(170_70%_50%)] focus:outline-none transition-colors">
+                                    <input type="password" placeholder="PIN or Last Name" class="w-full px-4 py-2.5 rounded-lg border-2 border-[hsl(30_5%_88%)] text-sm focus:border-[hsl(170_70%_50%)] focus:outline-none transition-colors">
+                                </div>
+
+                                <button class="w-full py-3 rounded-lg bg-[hsl(150_100%_27%)] text-white font-medium text-sm">
+                                    Connect Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Rewards Celebration -->
+                <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-xl overflow-hidden">
+                    <div class="p-4 border-b border-[hsl(30_5%_92%)]">
+                        <p class="font-medium text-[hsl(24_29%_8%)]">Rewards Celebration</p>
+                        <p class="text-xs text-[hsl(30_6%_62%)]">Milestone achievement with Fresh gradient</p>
+                    </div>
+                    <div class="p-6 gradient-fresh-bg flex justify-center">
+                        <div class="w-72 text-center">
+                            <div class="bg-white rounded-xl p-6 border-2 border-[hsl(30_5%_88%)] shadow-sm">
+                                <!-- Animated badge -->
+                                <div class="w-20 h-20 mx-auto mb-4 rounded-full gradient-fresh-accent flex items-center justify-center animate-pulse-glow">
+                                    <span class="text-3xl">🎉</span>
+                                </div>
+
+                                <p class="font-display text-2xl text-gradient-fresh mb-2">Milestone Reached!</p>
+                                <p class="text-sm text-[hsl(30_6%_62%)] mb-4">You've saved $500 this year using your points.</p>
+
+                                <div class="bg-[hsl(74_45%_95%)] rounded-lg p-3 mb-4">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <span class="text-xs text-[hsl(74_80%_35%)]">Next milestone:</span>
+                                        <span class="text-sm font-medium text-[hsl(74_80%_30%)]">$750</span>
+                                    </div>
+                                    <div class="h-2 bg-[hsl(74_45%_88%)] rounded-full mt-2 overflow-hidden">
+                                        <div class="h-full w-2/3 gradient-fresh-accent rounded-full"></div>
+                                    </div>
+                                </div>
+
+                                <button class="px-6 py-2 rounded-lg text-sm font-medium text-white bg-[hsl(150_100%_27%)]">
+                                    Share Achievement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Usage Guidance -->
+        <section class="mb-12">
+            <p class="serial text-[hsl(150_100%_27%)] mb-4">Usage Guidance</p>
+
+            <div class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <div>
+                        <p class="font-medium text-[hsl(24_29%_8%)] mb-2">Cool Family</p>
+                        <p class="text-sm text-[hsl(30_6%_46%)]">Cyan→Magenta gradients for celebration, delight, and general positive moments. The default shopper thread family.</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-[hsl(24_29%_8%)] mb-2">Fresh Family</p>
+                        <p class="text-sm text-[hsl(30_6%_46%)]">Cyan→Lime gradients for success states, growth, and completion. Use for transaction confirmations and balance increases.</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-[hsl(24_29%_8%)] mb-2">Flame Family</p>
+                        <p class="text-sm text-[hsl(30_6%_46%)]">Orange→Magenta reserved for urgency—expiring points, limited offers. Use sparingly to maintain impact.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-[hsl(30_5%_88%)]">
+            <div class="flex justify-between items-center text-sm text-[hsl(30_6%_46%)]">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-[hsl(150_100%_27%)] transition-colors">Home</a>
+                    <span class="text-[hsl(30_5%_78%)]">·</span>
+                    <a href="/sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+        </main>
+    </div>
+
+<script src="/partials/nav-loader.js"></script>
+</body>
+</html>

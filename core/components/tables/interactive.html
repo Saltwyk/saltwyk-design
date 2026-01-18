@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tables - Tables - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* TABLE BASE STYLES */
+        /* ========================================= */
+        .table-container {
+            background: white;
+            border: 1px solid hsl(30 5% 88%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-container-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-base {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-base th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px;
+        }
+        .table-base td {
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        /* Light mode table */
+        .table-light th {
+            background: hsl(30 5% 97%);
+            color: hsl(30 6% 46%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .table-light td {
+            color: hsl(24 29% 8%);
+            border-bottom: 1px solid hsl(30 5% 95%);
+        }
+        .table-light tr:last-child td {
+            border-bottom: none;
+        }
+        .table-light tbody tr:hover {
+            background: hsl(30 5% 97%);
+        }
+
+        /* Dark mode table */
+        .table-dark th {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 65%);
+            border-bottom: 1px solid hsl(24 27% 20%);
+        }
+        .table-dark td {
+            color: hsl(30 5% 88%);
+            border-bottom: 1px solid hsl(24 27% 18%);
+        }
+        .table-dark tr:last-child td {
+            border-bottom: none;
+        }
+        .table-dark tbody tr:hover {
+            background: hsl(24 27% 20%);
+        }
+
+        /* ========================================= */
+        /* SORTABLE COLUMNS */
+        /* ========================================= */
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+        .sortable:hover {
+            color: hsl(24 29% 8%);
+        }
+        .sort-icon {
+            display: inline-block;
+            margin-left: 4px;
+            opacity: 0.4;
+            vertical-align: middle;
+        }
+        .sortable:hover .sort-icon,
+        .sortable.active .sort-icon {
+            opacity: 1;
+        }
+        .sortable.active {
+            color: hsl(24 29% 8%);
+        }
+        .sortable-dark:hover {
+            color: hsl(30 5% 95%);
+        }
+        .sortable-dark.active {
+            color: hsl(30 5% 88%);
+        }
+
+        /* ========================================= */
+        /* CHECKBOX STYLING */
+        /* ========================================= */
+        .table-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(30 5% 78%);
+            border-radius: 4px;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            vertical-align: middle;
+        }
+        .table-checkbox:checked {
+            background: hsl(230 28% 42%);
+            border-color: hsl(230 28% 42%);
+        }
+        .table-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .table-checkbox:indeterminate {
+            background: hsl(230 28% 42%);
+            border-color: hsl(230 28% 42%);
+        }
+        .table-checkbox:indeterminate::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 6px;
+            width: 8px;
+            height: 2px;
+            background: white;
+        }
+        .table-checkbox-dark {
+            border-color: hsl(24 27% 30%);
+        }
+        .table-checkbox-dark:checked {
+            background: hsl(230 26% 54%);
+            border-color: hsl(230 26% 54%);
+        }
+        .table-checkbox-dark:indeterminate {
+            background: hsl(230 26% 54%);
+            border-color: hsl(230 26% 54%);
+        }
+
+        /* ========================================= */
+        /* ROW SELECTED STATES */
+        /* ========================================= */
+        .row-selected {
+            background: hsl(230 25% 96%) !important;
+            border-left: 3px solid hsl(230 28% 42%);
+        }
+        .row-selected-dark {
+            background: hsl(230 28% 42% / 10%) !important;
+            border-left: 3px solid hsl(230 26% 54%);
+        }
+
+        /* ========================================= */
+        /* EXPAND BUTTON */
+        /* ========================================= */
+        .expand-btn {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: transparent;
+            border: none;
+            color: hsl(30 6% 50%);
+        }
+        .expand-btn:hover {
+            background: hsl(30 5% 93%);
+        }
+        .expand-btn svg {
+            transition: transform 0.15s ease;
+        }
+        .expand-btn.expanded svg {
+            transform: rotate(90deg);
+        }
+        .expand-btn-dark {
+            color: hsl(30 5% 55%);
+        }
+        .expand-btn-dark:hover {
+            background: hsl(24 27% 25%);
+        }
+
+        /* ========================================= */
+        /* EXPANDED CONTENT */
+        /* ========================================= */
+        .expanded-content {
+            background: hsl(30 5% 98%);
+            border-top: 1px solid hsl(30 5% 92%);
+        }
+        .expanded-content-dark {
+            background: hsl(24 29% 8%);
+            border-top: 1px solid hsl(24 27% 18%);
+        }
+
+        /* ========================================= */
+        /* BULK ACTION BAR */
+        /* ========================================= */
+        .bulk-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: hsl(230 25% 96%);
+            border: 1px solid hsl(230 32% 82%);
+            border-radius: 8px;
+        }
+        .bulk-action-bar-dark {
+            background: hsl(230 28% 42% / 15%);
+            border-color: hsl(230 26% 54% / 30%);
+        }
+
+        /* ========================================= */
+        /* SPEC TABLE STYLES */
+        /* ========================================= */
+        .spec-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            border-bottom: 2px solid hsl(30 5% 88%);
+            background: hsl(30 5% 98%);
+        }
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            vertical-align: middle;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&#8594;</span>
+            <a href="/sitemap.html" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <a href="./index.html" class="hover:text-emerald-600">Tables</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Interactive</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Table Pattern</p>
+            <h1 class="font-display text-4xl mb-2">Interactive Tables</h1>
+            <p class="text-warm-600">Interactive features for data tables including sorting, selection, bulk actions, and expandable rows.</p>
+        </header>
+
+        <!-- Sibling Navigation -->
+        <nav class="flex gap-4 mb-8 text-sm border-b border-warm-200 pb-4">
+            <a href="./index.html" class="text-warm-500 hover:text-emerald-600">Overview</a>
+            <a href="base.html" class="text-warm-500 hover:text-emerald-600">Base &amp; Variants</a>
+            <span class="text-emerald-600 font-medium">Interactive</span>
+            <a href="states.html" class="text-warm-500 hover:text-emerald-600">States</a>
+            <a href="responsive.html" class="text-warm-500 hover:text-emerald-600">Responsive</a>
+        </nav>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: SORTABLE COLUMNS -->
+        <!-- =========================================== -->
+        <section id="sortable" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Sortable Columns</p>
+            <p class="text-warm-600 text-sm mb-8">Column headers that enable sorting. Visual indicators show sort direction and active state.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th class="sortable active">
+                                        Name
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-up" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                    <th class="sortable">
+                                        Amount
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                    <th class="sortable">
+                                        Date
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Acme Corp</td>
+                                    <td>$2,450.00</td>
+                                    <td>Jan 15, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>Globex Inc</td>
+                                    <td>$1,280.00</td>
+                                    <td>Jan 12, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>Initech LLC</td>
+                                    <td>$3,890.00</td>
+                                    <td>Jan 10, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th class="sortable sortable-dark active">
+                                        Name
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-down" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                    <th class="sortable sortable-dark">
+                                        Amount
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                    <th class="sortable sortable-dark">
+                                        Date
+                                        <span class="sort-icon">
+                                            <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Initech LLC</td>
+                                    <td>$3,890.00</td>
+                                    <td>Jan 10, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>Globex Inc</td>
+                                    <td>$1,280.00</td>
+                                    <td>Jan 12, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>Acme Corp</td>
+                                    <td>$2,450.00</td>
+                                    <td>Jan 15, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Icon States -->
+            <div class="bg-white border border-warm-200 rounded-lg p-6 mb-6">
+                <h4 class="font-medium mb-4">Sort Icon States</h4>
+                <div class="flex gap-12">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-warm-100 rounded flex items-center justify-center">
+                            <i data-lucide="arrow-up-down" class="w-4 h-4 text-warm-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">Neutral</p>
+                            <p class="text-xs text-warm-500">Sortable, no active sort</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-warm-100 rounded flex items-center justify-center">
+                            <i data-lucide="arrow-up" class="w-4 h-4 text-ink"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">Ascending</p>
+                            <p class="text-xs text-warm-500">Sorted A-Z / Low-High</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-warm-100 rounded flex items-center justify-center">
+                            <i data-lucide="arrow-down" class="w-4 h-4 text-ink"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">Descending</p>
+                            <p class="text-xs text-warm-500">Sorted Z-A / High-Low</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cursor</td>
+                            <td><code>pointer</code></td>
+                            <td>Indicates clickable header</td>
+                        </tr>
+                        <tr>
+                            <td>Hover Color (Light)</td>
+                            <td><code>hsl(24 29% 8%)</code></td>
+                            <td>ink - darkens header text</td>
+                        </tr>
+                        <tr>
+                            <td>Hover Color (Dark)</td>
+                            <td><code>hsl(30 5% 95%)</code></td>
+                            <td>Lightens header text</td>
+                        </tr>
+                        <tr>
+                            <td>Icon Opacity (Default)</td>
+                            <td><code>0.4</code></td>
+                            <td>Subtle when inactive</td>
+                        </tr>
+                        <tr>
+                            <td>Icon Opacity (Hover/Active)</td>
+                            <td><code>1</code></td>
+                            <td>Full visibility on interaction</td>
+                        </tr>
+                        <tr>
+                            <td>Icon Size</td>
+                            <td><code>12px (w-3)</code></td>
+                            <td>Lucide icon at small size</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: SELECTABLE ROWS -->
+        <!-- =========================================== -->
+        <section id="selectable" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Selectable Rows</p>
+            <p class="text-warm-600 text-sm mb-8">Checkbox-based row selection with visual feedback. Supports single, multiple, and indeterminate states.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <input type="checkbox" class="table-checkbox" id="select-all-light">
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-selected">
+                                    <td><input type="checkbox" class="table-checkbox" checked></td>
+                                    <td>Acme Corp</td>
+                                    <td>Active</td>
+                                    <td>$2,450.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox"></td>
+                                    <td>Globex Inc</td>
+                                    <td>Pending</td>
+                                    <td>$1,280.00</td>
+                                </tr>
+                                <tr class="row-selected">
+                                    <td><input type="checkbox" class="table-checkbox" checked></td>
+                                    <td>Initech LLC</td>
+                                    <td>Active</td>
+                                    <td>$3,890.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox"></td>
+                                    <td>Hooli Corp</td>
+                                    <td>Inactive</td>
+                                    <td>$890.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <input type="checkbox" class="table-checkbox table-checkbox-dark" id="select-all-dark">
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-selected-dark">
+                                    <td><input type="checkbox" class="table-checkbox table-checkbox-dark" checked></td>
+                                    <td>Acme Corp</td>
+                                    <td>Active</td>
+                                    <td>$2,450.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox table-checkbox-dark"></td>
+                                    <td>Globex Inc</td>
+                                    <td>Pending</td>
+                                    <td>$1,280.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox table-checkbox-dark"></td>
+                                    <td>Initech LLC</td>
+                                    <td>Active</td>
+                                    <td>$3,890.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox table-checkbox-dark"></td>
+                                    <td>Hooli Corp</td>
+                                    <td>Inactive</td>
+                                    <td>$890.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkbox States -->
+            <div class="bg-white border border-warm-200 rounded-lg p-6 mb-6">
+                <h4 class="font-medium mb-4">Checkbox States</h4>
+                <div class="flex gap-12">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="table-checkbox">
+                        <div>
+                            <p class="text-sm font-medium">Unchecked</p>
+                            <p class="text-xs text-warm-500">Default state</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="table-checkbox" checked>
+                        <div>
+                            <p class="text-sm font-medium">Checked</p>
+                            <p class="text-xs text-warm-500">Row selected</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="table-checkbox" id="indeterminate-demo">
+                        <div>
+                            <p class="text-sm font-medium">Indeterminate</p>
+                            <p class="text-xs text-warm-500">Partial selection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Checkbox Size</td>
+                            <td><code>18px x 18px</code></td>
+                            <td>Touch-friendly target</td>
+                        </tr>
+                        <tr>
+                            <td>Border Width</td>
+                            <td><code>2px</code></td>
+                            <td>Solid visibility</td>
+                        </tr>
+                        <tr>
+                            <td>Border Color (Light)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(30 5% 78%);"></span>
+                                <code>warm-300</code>
+                            </td>
+                            <td>hsl(30 5% 78%)</td>
+                        </tr>
+                        <tr>
+                            <td>Border Radius</td>
+                            <td><code>4px</code></td>
+                            <td>Slight rounding</td>
+                        </tr>
+                        <tr>
+                            <td>Checked Background</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 28% 42%);"></span>
+                                <code>indigo-500</code>
+                            </td>
+                            <td>hsl(230 28% 42%)</td>
+                        </tr>
+                        <tr>
+                            <td>Checked Dark Background</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 26% 54%);"></span>
+                                <code>indigo-400</code>
+                            </td>
+                            <td>hsl(230 26% 54%)</td>
+                        </tr>
+                        <tr>
+                            <td>Checkmark Color</td>
+                            <td><code>white</code></td>
+                            <td>High contrast indicator</td>
+                        </tr>
+                        <tr>
+                            <td>Selected Row BG (Light)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 25% 96%);"></span>
+                                <code>indigo-50</code>
+                            </td>
+                            <td>hsl(230 25% 96%)</td>
+                        </tr>
+                        <tr>
+                            <td>Selected Row Border</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 28% 42%);"></span>
+                                <code>3px indigo-500</code>
+                            </td>
+                            <td>Left accent border</td>
+                        </tr>
+                        <tr>
+                            <td>Selected Row BG (Dark)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 28% 42% / 10%);"></span>
+                                <code>indigo-500/10%</code>
+                            </td>
+                            <td>Transparent overlay</td>
+                        </tr>
+                        <tr>
+                            <td>Selected Row Border (Dark)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 26% 54%);"></span>
+                                <code>3px indigo-400</code>
+                            </td>
+                            <td>Lighter for dark mode</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: BULK ACTION BAR -->
+        <!-- =========================================== -->
+        <section id="bulk-actions" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Bulk Action Bar</p>
+            <p class="text-warm-600 text-sm mb-8">Contextual toolbar that appears when rows are selected. Provides actions for batch operations.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Light Mode</p>
+                    <div class="bulk-action-bar">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-medium text-ink">3 items selected</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium text-ink bg-white border border-warm-300 rounded-md hover:bg-warm-50 transition-colors">
+                                Export
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-ink bg-white border border-warm-300 rounded-md hover:bg-warm-50 transition-colors">
+                                Archive
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Dark Mode</p>
+                    <div class="bulk-action-bar bulk-action-bar-dark">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-medium" style="color: hsl(30 5% 88%);">3 items selected</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium border rounded-md transition-colors" style="color: hsl(30 5% 88%); background: hsl(24 28% 18%); border-color: hsl(24 27% 30%);">
+                                Export
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium border rounded-md transition-colors" style="color: hsl(30 5% 88%); background: hsl(24 28% 18%); border-color: hsl(24 27% 30%);">
+                                Archive
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 25% 96%);"></span>
+                                <code>indigo-50</code>
+                            </td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 28% 42% / 15%);"></span>
+                                <code>indigo-500/15%</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 32% 82%);"></span>
+                                <code>1px indigo-200</code>
+                            </td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(230 26% 54% / 30%);"></span>
+                                <code>indigo-400/30%</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td colspan="2"><code>12px 16px</code></td>
+                        </tr>
+                        <tr>
+                            <td>Border Radius</td>
+                            <td colspan="2"><code>8px</code></td>
+                        </tr>
+                        <tr>
+                            <td>Layout</td>
+                            <td colspan="2"><code>flex, space-between</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: EXPANDABLE ROWS -->
+        <!-- =========================================== -->
+        <section id="expandable" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Expandable Rows</p>
+            <p class="text-warm-600 text-sm mb-8">Rows that reveal additional content when expanded. Useful for showing details without navigating away.</p>
+
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Light Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Light Mode</p>
+                    <div class="table-container">
+                        <table class="table-base table-light">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th>Order</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-001</td>
+                                    <td>John Smith</td>
+                                    <td>$245.00</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn expanded">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-002</td>
+                                    <td>Jane Doe</td>
+                                    <td>$128.50</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="p-0">
+                                        <div class="expanded-content p-4">
+                                            <div class="grid grid-cols-3 gap-4 text-sm">
+                                                <div>
+                                                    <p class="text-warm-500 text-xs uppercase mb-1">Shipping Address</p>
+                                                    <p>123 Main St, Suite 100</p>
+                                                    <p>New York, NY 10001</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-warm-500 text-xs uppercase mb-1">Payment Method</p>
+                                                    <p>Visa ending in 4242</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-warm-500 text-xs uppercase mb-1">Items</p>
+                                                    <p>Widget Pro x 2</p>
+                                                    <p>Gadget Basic x 1</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-003</td>
+                                    <td>Bob Wilson</td>
+                                    <td>$389.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dark Mode -->
+                <div>
+                    <p class="text-xs font-medium text-warm-500 mb-3 uppercase tracking-wide">Dark Mode</p>
+                    <div class="table-container-dark">
+                        <table class="table-base table-dark">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th>Order</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn expand-btn-dark expanded">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-001</td>
+                                    <td>John Smith</td>
+                                    <td>$245.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="p-0">
+                                        <div class="expanded-content-dark p-4">
+                                            <div class="grid grid-cols-3 gap-4 text-sm">
+                                                <div>
+                                                    <p class="text-xs uppercase mb-1" style="color: hsl(30 5% 55%);">Shipping Address</p>
+                                                    <p style="color: hsl(30 5% 80%);">456 Oak Ave</p>
+                                                    <p style="color: hsl(30 5% 80%);">Los Angeles, CA 90210</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs uppercase mb-1" style="color: hsl(30 5% 55%);">Payment Method</p>
+                                                    <p style="color: hsl(30 5% 80%);">Mastercard ending in 8888</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs uppercase mb-1" style="color: hsl(30 5% 55%);">Items</p>
+                                                    <p style="color: hsl(30 5% 80%);">Premium Bundle x 1</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn expand-btn-dark">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-002</td>
+                                    <td>Jane Doe</td>
+                                    <td>$128.50</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="expand-btn expand-btn-dark">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </td>
+                                    <td>#ORD-003</td>
+                                    <td>Bob Wilson</td>
+                                    <td>$389.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specs -->
+            <div class="bg-warm-50 border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Expand Button Size</td>
+                            <td><code>24px x 24px</code></td>
+                            <td>Square touch target</td>
+                        </tr>
+                        <tr>
+                            <td>Expand Icon</td>
+                            <td><code>chevron-right</code></td>
+                            <td>Lucide icon at 16px</td>
+                        </tr>
+                        <tr>
+                            <td>Rotation (Expanded)</td>
+                            <td><code>rotate(90deg)</code></td>
+                            <td>Chevron points down</td>
+                        </tr>
+                        <tr>
+                            <td>Rotation Transition</td>
+                            <td><code>0.15s ease</code></td>
+                            <td>Smooth animation</td>
+                        </tr>
+                        <tr>
+                            <td>Expanded BG (Light)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(30 5% 98%);"></span>
+                                <code>warm-50</code>
+                            </td>
+                            <td>Subtle differentiation</td>
+                        </tr>
+                        <tr>
+                            <td>Expanded BG (Dark)</td>
+                            <td>
+                                <span class="spec-swatch" style="background: hsl(24 29% 8%);"></span>
+                                <code>intaglio-900</code>
+                            </td>
+                            <td>Darker than table body</td>
+                        </tr>
+                        <tr>
+                            <td>Border Top</td>
+                            <td><code>1px solid</code></td>
+                            <td>Separates from main row</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: CODE REFERENCE -->
+        <!-- =========================================== -->
+        <section id="code" class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Code Reference</p>
+            <p class="text-warm-600 text-sm mb-8">CSS implementation for interactive table features.</p>
+
+            <div class="code-block mb-6">
+                <code><span class="comment">/* Sortable Column Headers */</span>
+<span class="property">.sortable</span> {
+  cursor: <span class="value">pointer</span>;
+  user-select: <span class="value">none</span>;
+}
+<span class="property">.sortable:hover</span> { color: <span class="value">hsl(24 29% 8%)</span>; }
+<span class="property">.sort-icon</span> { opacity: <span class="value">0.4</span>; margin-left: <span class="value">4px</span>; }
+<span class="property">.sortable:hover .sort-icon</span>,
+<span class="property">.sortable.active .sort-icon</span> { opacity: <span class="value">1</span>; }
+
+<span class="comment">/* Checkbox Styling */</span>
+<span class="property">.table-checkbox</span> {
+  width: <span class="value">18px</span>;
+  height: <span class="value">18px</span>;
+  border: <span class="value">2px solid hsl(30 5% 78%)</span>;
+  border-radius: <span class="value">4px</span>;
+  appearance: <span class="value">none</span>;
+}
+<span class="property">.table-checkbox:checked</span> {
+  background: <span class="value">hsl(230 28% 42%)</span>; <span class="comment">/* indigo-500 */</span>
+  border-color: <span class="value">hsl(230 28% 42%)</span>;
+}
+
+<span class="comment">/* Selected Row State */</span>
+<span class="property">.row-selected</span> {
+  background: <span class="value">hsl(230 25% 96%)</span>; <span class="comment">/* indigo-50 */</span>
+  border-left: <span class="value">3px solid hsl(230 28% 42%)</span>;
+}
+<span class="property">.row-selected-dark</span> {
+  background: <span class="value">hsl(230 28% 42% / 10%)</span>;
+  border-left: <span class="value">3px solid hsl(230 26% 54%)</span>;
+}
+
+<span class="comment">/* Bulk Action Bar */</span>
+<span class="property">.bulk-action-bar</span> {
+  display: <span class="value">flex</span>;
+  justify-content: <span class="value">space-between</span>;
+  padding: <span class="value">12px 16px</span>;
+  background: <span class="value">hsl(230 25% 96%)</span>;
+  border: <span class="value">1px solid hsl(230 32% 82%)</span>;
+  border-radius: <span class="value">8px</span>;
+}
+
+<span class="comment">/* Expand Button */</span>
+<span class="property">.expand-btn</span> {
+  width: <span class="value">24px</span>;
+  height: <span class="value">24px</span>;
+  border-radius: <span class="value">4px</span>;
+  transition: <span class="value">all 0.15s ease</span>;
+}
+<span class="property">.expand-btn.expanded svg</span> {
+  transform: <span class="value">rotate(90deg)</span>;
+}</code>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: IMPLEMENTATION CHECKLIST -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Implementation Checklist</p>
+            <p class="text-warm-600 text-sm mb-8">Key specifications to verify for interactive table features.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Sortable Columns</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Cursor: pointer on sortable headers</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Icon opacity 0.4 default, 1 on hover/active</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> ARIA: <code>aria-sort</code> attribute</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Correct icon for each state</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Selectable Rows</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Checkbox: 18px, 2px border, 4px radius</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Checked: indigo-500 background</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Row selected: indigo-50 bg, 3px border</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Indeterminate state for header</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Bulk Actions</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Appears when rows selected</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Shows selection count</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> indigo-50 background (light)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> indigo-500/15% background (dark)</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-5">
+                    <h4 class="font-semibold mb-3">Expandable Rows</h4>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Expand button: 24px, chevron-right</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> 90deg rotation when expanded</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Expanded: warm-50 (light), intaglio-900 (dark)</li>
+                        <li class="flex items-start gap-2"><span class="text-warm-400">&#9744;</span> Border-top separates content</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">&middot;</span>
+            <span>v0.5.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>
+        // Set indeterminate state for demo checkbox
+        document.getElementById('indeterminate-demo').indeterminate = true;
+        document.getElementById('select-all-light').indeterminate = true;
+    </script>
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

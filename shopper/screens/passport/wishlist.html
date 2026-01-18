@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist Screen | Shopper Passport | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../../../assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Fresh thread gradient (Cyan → Lime) */
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+
+        /* Wishlist item card hover */
+        .wishlist-item {
+            transition: all 0.15s ease;
+        }
+        .wishlist-item:hover {
+            border-color: hsl(var(--indigo-300));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* History card hover */
+        .history-card {
+            transition: all 0.15s ease;
+        }
+        .history-card:hover {
+            border-color: hsl(var(--indigo-300));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <a href="../passport.html" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Wishlist</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Wishlist Screen</h1>
+            <p class="text-warm-600">The Wishlist screen shows items shoppers want to purchase, organized by buying power status, plus their purchase history of completed transactions.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Default mobile-first layout with single column grid.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- 3px Fresh gradient thread at top edge -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <!-- Back arrow -->
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600 hover:text-indigo-600 transition-colors">
+                                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                    </button>
+
+                                    <!-- Title -->
+                                    <h1 class="font-display text-2xl font-bold text-ink flex-1 text-center">Wishlist</h1>
+
+                                    <!-- Add button -->
+                                    <button class="w-10 h-10 flex items-center justify-center text-indigo-600 hover:text-indigo-700 transition-colors">
+                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                    </button>
+
+                                    <!-- Profile avatar -->
+                                    <div class="w-10 h-10 rounded-full bg-warm-300 text-warm-700 text-sm font-semibold flex items-center justify-center ml-2">
+                                        JD
+                                    </div>
+                                </div>
+
+                                <!-- Filter UI (Mobile) -->
+                                <div class="mb-6">
+                                    <!-- Annotation: This button triggers a drawer with filter options -->
+                                    <button class="flex items-center justify-between w-full px-4 py-3 bg-white border-2 border-warm-200 rounded-lg text-left hover:border-indigo-300 transition-colors">
+                                        <span class="text-sm font-semibold text-ink">Everything</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs text-warm-500">12</span>
+                                            <i data-lucide="chevron-down" class="w-4 h-4 text-warm-400"></i>
+                                        </div>
+                                    </button>
+                                </div>
+
+                                <!-- Wishlist Section -->
+                                <section class="mb-8">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h2 class="font-display text-xl font-bold text-ink">Your Wishlist</h2>
+                                        <span class="px-2 py-1 bg-warm-200 text-warm-700 text-xs font-semibold rounded-full">12</span>
+                                    </div>
+
+                                    <!-- Single column grid on mobile -->
+                                    <div class="space-y-4">
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Ready Now variant) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="coffee" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Stanley Tumbler</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                            <span class="text-[10px] font-semibold text-emerald-600 uppercase">Ready</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Target</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                        <button class="px-3 py-1.5 bg-emerald-500 text-white text-xs font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                            Snag It Now
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Ready Now variant) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="headphones" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-base font-bold text-ink truncate">AirPods Pro</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                            <span class="text-[10px] font-semibold text-emerald-600 uppercase">Ready</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Best Buy</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Kitsch</span> <span class="text-warm-300">+</span> <span class="font-medium text-ink">1 more</span></p>
+                                                        <button class="px-3 py-1.5 bg-emerald-500 text-white text-xs font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                            Snag It Now
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Building variant) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="watch" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Apple Watch SE</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                                            <span class="text-[10px] font-semibold text-amber-600 uppercase">65%</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Amazon</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Death Wish Coffee</span></p>
+                                                        <button class="px-3 py-1.5 text-indigo-600 text-xs font-semibold hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                            Ways to Earn
+                                                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Progress bar -->
+                                            <div class="mt-3 h-1.5 bg-warm-200 rounded-full overflow-hidden">
+                                                <div class="h-full bg-amber-400 rounded-full" style="width: 65%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Building variant) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="gamepad-2" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Nintendo Switch</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-warm-400"></span>
+                                                            <span class="text-[10px] font-semibold text-warm-600 uppercase">28%</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Target</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Princess Polly</span></p>
+                                                        <button class="px-3 py-1.5 text-indigo-600 text-xs font-semibold hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                            Ways to Earn
+                                                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Progress bar -->
+                                            <div class="mt-3 h-1.5 bg-warm-200 rounded-full overflow-hidden">
+                                                <div class="h-full bg-warm-400 rounded-full" style="width: 28%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- History Section (Snagged) -->
+                                <section class="mb-8">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h2 class="font-display text-xl font-bold text-ink">Snagged</h2>
+                                        <!-- Year tabs -->
+                                        <div class="flex items-center gap-4">
+                                            <button class="text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">2026</button>
+                                            <button class="text-sm font-semibold text-warm-500 hover:text-indigo-600 transition-colors">2025</button>
+                                            <button class="text-sm font-semibold text-warm-500 hover:text-indigo-600 transition-colors">2024</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single column list -->
+                                    <div class="space-y-4">
+                                        <!-- Uses: /products/shopper/components/history-card.html (Single Merchant) -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-3 mb-3">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="package" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Liquid Death 12-Pack</p>
+                                                        <p class="text-sm text-warm-600">Target</p>
+                                                        <p class="serial text-warm-500 mt-1">Jan 10, 2026</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                    <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                        View details
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/history-card.html (Multiple Merchants) -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-3 mb-3">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="coffee" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Coffee Lover's Bundle</p>
+                                                        <p class="text-sm text-warm-600">Amazon</p>
+                                                        <p class="serial text-warm-500 mt-1">Dec 28, 2025</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-2 text-xs text-warm-500">
+                                                        <span>via</span>
+                                                        <span class="font-medium text-ink">Death Wish Coffee</span>
+                                                        <span class="text-warm-300">+</span>
+                                                        <span class="font-medium text-ink">Chamberlain Coffee</span>
+                                                    </div>
+                                                    <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                        Details
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/history-card.html (Merchant Context) -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-3 mb-3">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="sparkles" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Self-Care Essentials Kit</p>
+                                                        <p class="text-sm text-warm-600">Sephora</p>
+                                                        <p class="serial text-warm-500 mt-1">Dec 15, 2025</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-2 text-xs text-warm-500">
+                                                        <span>via</span>
+                                                        <span class="font-medium text-ink">Kitsch</span>
+                                                        <span class="text-warm-300">+</span>
+                                                        <span class="font-medium text-ink">Princess Polly</span>
+                                                        <span class="text-warm-300">+</span>
+                                                        <span class="font-medium text-warm-600">1 more</span>
+                                                    </div>
+                                                    <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                        Details
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Bottom Navigation (Mobile) -->
+                                <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-warm-200 px-6 py-3" style="position: relative; margin: 0 -20px -24px;">
+                                    <div class="flex items-center justify-around max-w-[480px] mx-auto">
+                                        <button class="flex flex-col items-center gap-1 text-warm-500">
+                                            <i data-lucide="home" class="w-5 h-5"></i>
+                                            <span class="text-[10px] font-medium">Home</span>
+                                        </button>
+                                        <button class="flex flex-col items-center gap-1 text-indigo-600">
+                                            <i data-lucide="heart" class="w-5 h-5"></i>
+                                            <span class="text-[10px] font-medium">Wishlist</span>
+                                        </button>
+                                        <button class="flex flex-col items-center gap-1 text-warm-500">
+                                            <i data-lucide="wallet" class="w-5 h-5"></i>
+                                            <span class="text-[10px] font-medium">Merchants</span>
+                                        </button>
+                                        <button class="flex flex-col items-center gap-1 text-warm-500">
+                                            <i data-lucide="store" class="w-5 h-5"></i>
+                                            <span class="text-[10px] font-medium">Shop</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- 3px Fresh gradient thread at top edge -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="p-8 max-w-4xl mx-auto">
+                                <!-- Header (Desktop) -->
+                                <div class="flex items-center justify-between mb-8">
+                                    <!-- Back arrow + Title + Add button (left side, grouped) -->
+                                    <div class="flex items-center gap-4">
+                                        <button class="w-10 h-10 flex items-center justify-center text-warm-600 hover:text-indigo-600 transition-colors">
+                                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                        </button>
+                                        <h1 class="font-display text-3xl font-bold text-ink">Wishlist</h1>
+                                        <button class="w-10 h-10 flex items-center justify-center text-indigo-600 hover:text-indigo-700 transition-colors">
+                                            <i data-lucide="plus" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Profile avatar (right side) -->
+                                    <div class="w-12 h-12 rounded-full bg-warm-300 text-warm-700 text-base font-semibold flex items-center justify-center">
+                                        JD
+                                    </div>
+                                </div>
+
+                                <!-- Filter UI (Desktop - Tabs) -->
+                                <div class="mb-6 border-b border-warm-200">
+                                    <div class="flex items-center gap-6">
+                                        <button class="px-4 py-3 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 -mb-px">
+                                            Everything <span class="ml-2 text-xs text-warm-500">12</span>
+                                        </button>
+                                        <button class="px-4 py-3 text-sm font-semibold text-warm-600 hover:text-indigo-600 transition-colors">
+                                            Ready Now <span class="ml-2 text-xs text-warm-500">5</span>
+                                        </button>
+                                        <button class="px-4 py-3 text-sm font-semibold text-warm-600 hover:text-indigo-600 transition-colors">
+                                            Building <span class="ml-2 text-xs text-warm-500">7</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist Section (Desktop) -->
+                                <section class="mb-12">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <h2 class="font-display text-2xl font-bold text-ink">Your Wishlist</h2>
+                                        <span class="px-3 py-1 bg-warm-200 text-warm-700 text-sm font-semibold rounded-full">12</span>
+                                    </div>
+
+                                    <!-- TWO COLUMN GRID on desktop -->
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Ready Now) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-4">
+                                                <div class="w-20 h-20 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="coffee" class="w-10 h-10 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-lg font-bold text-ink">Stanley Tumbler</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                            <span class="text-xs font-semibold text-emerald-600 uppercase">Ready</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Target</p>
+                                                    <p class="text-xs text-warm-500 mb-3">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                    <button class="px-4 py-2 bg-emerald-500 text-white text-sm font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                        Snag It Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Ready Now) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-4">
+                                                <div class="w-20 h-20 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="headphones" class="w-10 h-10 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-lg font-bold text-ink">AirPods Pro</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                            <span class="text-xs font-semibold text-emerald-600 uppercase">Ready</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Best Buy</p>
+                                                    <p class="text-xs text-warm-500 mb-3">via <span class="font-medium text-ink">Kitsch</span> <span class="text-warm-300">+</span> <span class="font-medium text-ink">1 more</span></p>
+                                                    <button class="px-4 py-2 bg-emerald-500 text-white text-sm font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+                                                        Snag It Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Building) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-4">
+                                                <div class="w-20 h-20 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="watch" class="w-10 h-10 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-lg font-bold text-ink">Apple Watch SE</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                                            <span class="text-xs font-semibold text-amber-600 uppercase">65%</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Amazon</p>
+                                                    <p class="text-xs text-warm-500 mb-3">via <span class="font-medium text-ink">Death Wish Coffee</span></p>
+                                                    <div class="h-1.5 bg-warm-200 rounded-full overflow-hidden mb-3">
+                                                        <div class="h-full bg-amber-400 rounded-full" style="width: 65%"></div>
+                                                    </div>
+                                                    <button class="text-indigo-600 text-sm font-semibold hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                        Ways to Earn
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Uses: /products/shopper/components/wishlist-item.html (Building) -->
+                                        <div class="wishlist-item bg-white border-2 border-warm-200 p-4 cursor-pointer">
+                                            <div class="flex gap-4">
+                                                <div class="w-20 h-20 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="gamepad-2" class="w-10 h-10 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-start justify-between mb-1">
+                                                        <p class="font-display text-lg font-bold text-ink">Nintendo Switch</p>
+                                                        <div class="flex items-center gap-1 ml-2">
+                                                            <span class="w-2 h-2 rounded-full bg-warm-400"></span>
+                                                            <span class="text-xs font-semibold text-warm-600 uppercase">28%</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm text-warm-600 mb-2">Target</p>
+                                                    <p class="text-xs text-warm-500 mb-3">via <span class="font-medium text-ink">Princess Polly</span></p>
+                                                    <div class="h-1.5 bg-warm-200 rounded-full overflow-hidden mb-3">
+                                                        <div class="h-full bg-warm-400 rounded-full" style="width: 28%"></div>
+                                                    </div>
+                                                    <button class="text-indigo-600 text-sm font-semibold hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                        Ways to Earn
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- History Section (Desktop) -->
+                                <section class="mb-12">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <h2 class="font-display text-2xl font-bold text-ink">Snagged</h2>
+                                        <!-- Year tabs -->
+                                        <div class="flex items-center gap-6">
+                                            <button class="text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">2026</button>
+                                            <button class="text-sm font-semibold text-warm-500 hover:text-indigo-600 transition-colors">2025</button>
+                                            <button class="text-sm font-semibold text-warm-500 hover:text-indigo-600 transition-colors">2024</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single column with more spacious padding -->
+                                    <div class="space-y-4">
+                                        <!-- Uses: /products/shopper/components/history-card.html -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-4 items-center">
+                                                    <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="package" class="w-8 h-8 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-lg font-bold text-ink">Liquid Death 12-Pack</p>
+                                                        <p class="text-sm text-warm-600">Target</p>
+                                                        <p class="text-xs text-warm-500 mt-1">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                    </div>
+                                                    <div class="text-right flex flex-col items-end gap-2">
+                                                        <p class="serial text-warm-500">Jan 10, 2026</p>
+                                                        <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                            View details
+                                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-4 items-center">
+                                                    <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="coffee" class="w-8 h-8 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-lg font-bold text-ink">Coffee Lover's Bundle</p>
+                                                        <p class="text-sm text-warm-600">Amazon</p>
+                                                        <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                                                            <span>via</span>
+                                                            <span class="font-medium text-ink">Death Wish Coffee</span>
+                                                            <span class="text-warm-300">+</span>
+                                                            <span class="font-medium text-ink">Chamberlain Coffee</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right flex flex-col items-end gap-2">
+                                                        <p class="serial text-warm-500">Dec 28, 2025</p>
+                                                        <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                            View details
+                                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- EMPTY STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Empty State</p>
+            <p class="text-sm text-warm-600 mb-6">Shown when the wishlist has no items.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px] bg-ledger rounded-lg p-8">
+                        <!-- Uses: /foundation/states.html (EmptyState pattern) -->
+                        <div class="text-center py-12">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-warm-100 flex items-center justify-center">
+                                <i data-lucide="heart" class="w-8 h-8 text-warm-400"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-bold text-ink mb-2">No items yet</h3>
+                            <p class="text-sm text-warm-600 mb-6">Start adding items you want to buy with points</p>
+                            <button class="px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+                                Add Your First Item
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- OVERLAYS & MODALS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overlays & Modals</p>
+            <p class="text-sm text-warm-600 mb-6">Overlay examples - not visible by default in the screen.</p>
+
+            <!-- Add Item Flow - Step 1: URL Input (Mobile) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Add Item - Step 1: URL Input (Mobile)</p>
+                        <p class="text-sm text-warm-600">User pastes a product URL to add to wishlist.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Mobile</span>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px]">
+                        <div class="bg-white rounded-t-2xl shadow-2xl p-6">
+                            <div class="w-12 h-1 bg-warm-300 rounded-full mx-auto mb-6"></div>
+                            <h3 class="font-display text-xl font-bold text-ink mb-4">Add to Wishlist</h3>
+
+                            <label class="block text-sm font-semibold text-warm-700 mb-2">
+                                Product URL
+                            </label>
+                            <input type="url"
+                                   class="w-full px-4 py-3 border-2 border-warm-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors"
+                                   placeholder="Paste product link here">
+
+                            <button class="w-full mt-6 px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Item Flow - Step 2: Preview & Confirm (Mobile) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Add Item - Step 2: Preview & Confirm (Mobile)</p>
+                        <p class="text-sm text-warm-600">Product info is fetched and user confirms the item.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Mobile</span>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px]">
+                        <div class="bg-white rounded-t-2xl shadow-2xl p-6">
+                            <div class="w-12 h-1 bg-warm-300 rounded-full mx-auto mb-6"></div>
+                            <h3 class="font-display text-xl font-bold text-ink mb-4">Add to Wishlist</h3>
+
+                            <!-- Product Preview Card -->
+                            <div class="border-2 border-warm-200 rounded-lg p-4 mb-4">
+                                <div class="flex gap-3">
+                                    <div class="w-20 h-20 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="coffee" class="w-10 h-10 text-warm-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-display text-base font-bold text-ink mb-1">Stanley Quencher H2.0</p>
+                                        <p class="text-sm text-warm-600 mb-1">40oz Tumbler - Cream</p>
+                                        <p class="text-xs text-warm-500">target.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buying Power Preview -->
+                            <div class="bg-ledger border border-warm-200 rounded-lg p-4 mb-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="text-sm text-warm-600">Your buying power for this item</p>
+                                    <div class="flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                        <span class="text-xs font-semibold text-amber-600">72%</span>
+                                    </div>
+                                </div>
+                                <div class="h-2 bg-warm-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-amber-400 rounded-full" style="width: 72%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Retailer Selection (if multiple) -->
+                            <div class="mb-4">
+                                <p class="text-sm font-semibold text-warm-700 mb-2">Available at</p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 border-2 border-indigo-500 bg-indigo-50 rounded-lg cursor-pointer">
+                                        <input type="radio" name="retailer" checked class="w-4 h-4 text-indigo-600">
+                                        <span class="text-sm font-medium text-ink">Target</span>
+                                        <span class="text-xs text-warm-500 ml-auto">72% buying power</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 border-2 border-warm-200 rounded-lg cursor-pointer hover:border-indigo-300 transition-colors">
+                                        <input type="radio" name="retailer" class="w-4 h-4 text-indigo-600">
+                                        <span class="text-sm font-medium text-ink">Amazon</span>
+                                        <span class="text-xs text-warm-500 ml-auto">45% buying power</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="w-full px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+                                Add to Wishlist
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Item Flow - Step 3: Success (Mobile) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Add Item - Step 3: Success (Mobile)</p>
+                        <p class="text-sm text-warm-600">Confirmation that item was added successfully.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Mobile</span>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px]">
+                        <div class="bg-white rounded-t-2xl shadow-2xl p-6 text-center">
+                            <div class="w-12 h-1 bg-warm-300 rounded-full mx-auto mb-6"></div>
+
+                            <!-- Success Icon -->
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center">
+                                <i data-lucide="check" class="w-8 h-8 text-emerald-600"></i>
+                            </div>
+
+                            <h3 class="font-display text-xl font-bold text-ink mb-2">Added to Wishlist!</h3>
+                            <p class="text-sm text-warm-600 mb-6">Stanley Quencher H2.0 is now on your list</p>
+
+                            <!-- Quick Status -->
+                            <div class="bg-ledger border border-warm-200 rounded-lg p-4 mb-6 text-left">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-ink">Building buying power</p>
+                                        <p class="text-xs text-warm-500">72% there</p>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                        <span class="text-sm font-bold text-amber-600">72%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <button class="w-full px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+                                    View Wishlist
+                                </button>
+                                <button class="w-full px-6 py-3 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">
+                                    Add Another Item
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Item Flow (Desktop - Modal) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Add Item Modal (Desktop)</p>
+                        <p class="text-sm text-warm-600">Centered modal showing preview and confirmation.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded">Desktop</span>
+                </div>
+
+                <div class="bg-ink/60 rounded-lg p-8 flex items-center justify-center">
+                    <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-display text-2xl font-bold text-ink">Add to Wishlist</h3>
+                            <button class="w-8 h-8 flex items-center justify-center text-warm-500 hover:text-ink transition-colors">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+
+                        <!-- URL Input -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-warm-700 mb-2">
+                                Product URL
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="url"
+                                       class="flex-1 px-4 py-3 border-2 border-warm-200 rounded-lg focus:border-indigo-500 focus:outline-none transition-colors"
+                                       value="https://target.com/stanley-quencher...">
+                                <button class="px-4 py-3 bg-warm-100 text-warm-600 rounded-lg hover:bg-warm-200 transition-colors">
+                                    <i data-lucide="search" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product Preview -->
+                        <div class="border-2 border-warm-200 rounded-lg p-4 mb-6">
+                            <div class="flex gap-4">
+                                <div class="w-24 h-24 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="coffee" class="w-12 h-12 text-warm-400"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-display text-lg font-bold text-ink mb-1">Stanley Quencher H2.0</p>
+                                    <p class="text-sm text-warm-600 mb-2">40oz Tumbler - Cream</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs text-warm-500">target.com</span>
+                                        <span class="w-1 h-1 rounded-full bg-warm-300"></span>
+                                        <div class="flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                            <span class="text-xs font-semibold text-amber-600">72% buying power</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buying Power Bar -->
+                        <div class="bg-ledger border border-warm-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm text-warm-600">Your buying power</p>
+                            </div>
+                            <div class="h-2 bg-warm-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-amber-400 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+
+                        <button class="w-full px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors">
+                            Add to Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earning Pathways Overlay (Mobile - Drawer) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Earning Pathways Drawer (Mobile)</p>
+                        <p class="text-sm text-warm-600">Bottom sheet showing ways to earn more points.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Mobile</span>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px]">
+                        <div class="bg-white rounded-t-2xl shadow-2xl p-6">
+                            <div class="w-12 h-1 bg-warm-300 rounded-full mx-auto mb-6"></div>
+                            <h3 class="font-display text-xl font-bold text-ink mb-4">Ways to Earn More</h3>
+
+                            <!-- Three pathway cards -->
+                            <div class="space-y-4 mb-6">
+                                <!-- Card 1: Connect Accounts -->
+                                <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg">
+                                    <h4 class="font-semibold text-ink mb-1">Connect Accounts</h4>
+                                    <p class="text-sm text-warm-600 mb-3">Link more reward programs to increase your buying power</p>
+                                    <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                        Connect Now
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card 2: Shop & Earn -->
+                                <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg">
+                                    <h4 class="font-semibold text-ink mb-1">Shop & Earn</h4>
+                                    <p class="text-sm text-warm-600 mb-3">Make purchases at Saltwyk network merchants to increase buying power</p>
+                                    <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                        Browse Merchants
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card 3: Invite Friends -->
+                                <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg">
+                                    <h4 class="font-semibold text-ink mb-1">Invite Friends</h4>
+                                    <p class="text-sm text-warm-600 mb-3">Get bonus points when friends join and connect accounts</p>
+                                    <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                        Share Link
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earning Pathways Overlay (Desktop - Modal) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Earning Pathways Modal (Desktop)</p>
+                        <p class="text-sm text-warm-600">Centered modal showing ways to earn more points.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded">Desktop</span>
+                </div>
+
+                <div class="bg-ink/60 rounded-lg p-8 flex items-center justify-center">
+                    <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-display text-2xl font-bold text-ink">Ways to Earn More</h3>
+                            <button class="w-8 h-8 flex items-center justify-center text-warm-500 hover:text-ink transition-colors">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="link" class="w-5 h-5 text-indigo-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-ink mb-1">Connect Accounts</h4>
+                                    <p class="text-sm text-warm-600">Link more reward programs to increase your buying power</p>
+                                </div>
+                                <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                                    Connect
+                                </button>
+                            </div>
+
+                            <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="shopping-bag" class="w-5 h-5 text-emerald-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-ink mb-1">Shop & Earn</h4>
+                                    <p class="text-sm text-warm-600">Make purchases at Saltwyk network merchants to increase buying power</p>
+                                </div>
+                                <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                                    Browse
+                                </button>
+                            </div>
+
+                            <div class="p-4 bg-ledger border-2 border-warm-200 rounded-lg flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="users" class="w-5 h-5 text-amber-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-ink mb-1">Invite Friends</h4>
+                                    <p class="text-sm text-warm-600">Get bonus points when friends join and connect accounts</p>
+                                </div>
+                                <button class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Menu (Mobile Only - Drawer) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Filter Menu Drawer (Mobile Only)</p>
+                        <p class="text-sm text-warm-600">Bottom sheet for filtering wishlist items on mobile.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Mobile</span>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px]">
+                        <div class="bg-white rounded-t-2xl shadow-2xl p-6">
+                            <div class="w-12 h-1 bg-warm-300 rounded-full mx-auto mb-6"></div>
+                            <h3 class="font-display text-lg font-bold text-ink mb-4">Filter Items</h3>
+
+                            <div class="space-y-2">
+                                <button class="w-full px-4 py-3 text-left rounded-lg bg-indigo-50 border-2 border-indigo-500 text-indigo-600 font-semibold flex items-center justify-between">
+                                    Everything
+                                    <span class="text-xs">12</span>
+                                </button>
+                                <button class="w-full px-4 py-3 text-left rounded-lg border-2 border-warm-200 text-warm-700 hover:border-indigo-300 transition-colors flex items-center justify-between">
+                                    Ready Now
+                                    <span class="text-xs">5</span>
+                                </button>
+                                <button class="w-full px-4 py-3 text-left rounded-lg border-2 border-warm-200 text-warm-700 hover:border-indigo-300 transition-colors flex items-center justify-between">
+                                    Building
+                                    <span class="text-xs">7</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Page Container</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Max Width</p>
+                        <code>max-w-[480px]</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Padding</p>
+                        <code>px-5 py-6</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Background</p>
+                        <code>bg-ledger</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread</p>
+                        <code>h-[3px] thread-fresh</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Color Usage</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Snag Button</p>
+                        <code>bg-emerald-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Interactive</p>
+                        <code>text-indigo-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Active Tab</p>
+                        <code>border-indigo-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Ready Status</p>
+                        <code>bg-emerald-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Progress (High)</p>
+                        <code>bg-amber-400</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Progress (Low)</p>
+                        <code>bg-warm-400</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Responsive Breakpoints</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Mobile</p>
+                        <code>Single column, bottom nav</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Desktop</p>
+                        <code>2-column grid, tab filters</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/core/components/history-card.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">History Card</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../passport.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Passport</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../../color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="../../../../index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../../../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
