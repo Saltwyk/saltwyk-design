@@ -55,10 +55,6 @@
         // Legacy support: old paths during migration
         if (path.includes('/foundation/')) return 'foundation';
         if (path.includes('/components/')) return 'components';
-        if (path.includes('/products/shopper/')) return 'shopper';
-        if (path.includes('/products/merchant/')) return 'merchant';
-        if (path.includes('/products/marketing/')) return 'marketing';
-        if (path.includes('/products/docs/')) return 'docs';
 
         return null;
     }
