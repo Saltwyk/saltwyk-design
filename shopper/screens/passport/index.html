@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passport Home | Shopper Dashboard | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../../assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Fresh thread gradient (Cyan → Lime) - ONLY for hero element */
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+
+        /* Hero card styling */
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animation keyframes */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+        /* History card hover */
+        .history-card {
+            transition: all 0.15s ease;
+        }
+        .history-card:hover {
+            border-color: hsl(var(--indigo-300));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Stat card hover */
+        .stat-card {
+            transition: all 0.15s ease;
+        }
+        .stat-card:hover {
+            border-color: hsl(var(--indigo-200));
+        }
+
+        /* Wishlist preview card hover */
+        .wishlist-preview-card {
+            transition: all 0.15s ease;
+        }
+        .wishlist-preview-card:hover {
+            border-color: hsl(var(--indigo-300));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <a href="../passport.html" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Home</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Passport Home</h1>
+            <p class="text-warm-600">The shopper dashboard landing page at /passport. Shows buying power status, recent activity, wishlist preview, and quick actions.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Default mobile-first layout with stacked sections.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- 3px Fresh gradient thread at top edge -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <span class="text-2xl font-extrabold headline text-intaglio-900">saltwyk</span>
+                                    <div class="w-10 h-10 rounded-full bg-intaglio-900 flex items-center justify-center text-ledger text-sm font-bold">
+                                        JD
+                                    </div>
+                                </div>
+
+                                <!-- Hero Card -->
+                                <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-6 mb-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot"></span>
+                                        <span class="serial text-emerald-600 text-[11px]">HIGH BUYING POWER</span>
+                                    </div>
+                                    <h2 class="text-ink text-2xl font-bold headline mb-2">Ready to shop!</h2>
+                                    <p class="text-warm-600 text-sm mb-4">You have <span class="text-ink font-semibold">$847</span> in points across <span class="text-ink font-semibold">5 merchants</span>.</p>
+
+                                    <!-- Merchant Avatars -->
+                                    <div class="flex items-center gap-3 mb-6">
+                                        <div class="flex -space-x-2">
+                                            <div class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">S</div>
+                                            <div class="w-8 h-8 rounded-full bg-green-600 border-2 border-white flex items-center justify-center text-white text-xs font-bold">SB</div>
+                                            <div class="w-8 h-8 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">K</div>
+                                            <div class="w-8 h-8 rounded-full bg-warm-300 border-2 border-white flex items-center justify-center text-warm-700 text-xs font-bold">+2</div>
+                                        </div>
+                                    </div>
+
+                                    <button class="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
+                                        Shop Now
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Quick Stats -->
+                                <div class="space-y-3 mb-6">
+                                    <div class="stat-card bg-white border-2 border-warm-200 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="serial text-warm-500 mb-1">Connected Programs</p>
+                                                <p class="text-2xl font-bold text-ink">5</p>
+                                            </div>
+                                            <a href="#" class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                                Manage
+                                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Snagged Section -->
+                                <section class="mb-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h2 class="serial text-intaglio-500">Snagged</h2>
+                                        <a href="#" class="text-sm text-indigo-600 font-medium">View All</a>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <!-- History Card 1 -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-3 mb-3">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="sparkles" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Self-Care Kit</p>
+                                                        <p class="text-sm text-warm-600">Sephora</p>
+                                                        <p class="serial text-warm-500 mt-1">Jan 5, 2026</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Kitsch</span> <span class="text-warm-300">+</span> <span class="font-medium text-ink">2 more</span></p>
+                                                    <button class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                                        Details
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- History Card 2 -->
+                                        <div class="history-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                            <div class="p-4">
+                                                <div class="flex gap-3 mb-3">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="package" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink truncate">Liquid Death 12-Pack</p>
+                                                        <p class="text-sm text-warm-600">Target</p>
+                                                        <p class="serial text-warm-500 mt-1">Dec 14, 2025</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                    <button class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                                        Details
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Wishlist Preview -->
+                                <section class="mb-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h2 class="serial text-intaglio-500">Wishlist</h2>
+                                        <a href="wishlist.html" class="text-sm text-indigo-600 font-medium">View All</a>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <!-- Wishlist Item 1 - Ready -->
+                                        <div class="wishlist-preview-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                            <div class="p-4 flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="coffee" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="font-display text-sm font-bold text-ink truncate">Stanley Quencher</p>
+                                                    <p class="text-xs text-warm-600 mb-2">Target</p>
+                                                    <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-700 rounded">
+                                                        READY
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Wishlist Item 2 - Building -->
+                                        <div class="wishlist-preview-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                            <div class="p-4 flex gap-3">
+                                                <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="headphones" class="w-8 h-8 text-warm-400"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="font-display text-sm font-bold text-ink truncate">AirPods Pro</p>
+                                                    <p class="text-xs text-warm-600 mb-2">Apple</p>
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="flex-1 h-1.5 bg-warm-200 rounded-full overflow-hidden">
+                                                            <div class="h-full bg-amber-400 rounded-full" style="width: 72%"></div>
+                                                        </div>
+                                                        <span class="text-xs font-semibold text-amber-600">72%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Quick Actions -->
+                                <div class="space-y-3">
+                                    <button class="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                        Connect Programs
+                                    </button>
+                                    <button class="w-full py-3 px-4 bg-white border-2 border-warm-200 hover:border-indigo-300 text-ink text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
+                                        <i data-lucide="compass" class="w-4 h-4"></i>
+                                        Discover Merchants
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- 3px Fresh gradient thread at top edge -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="p-8">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-8">
+                                    <span class="text-3xl font-extrabold headline text-intaglio-900">saltwyk</span>
+                                    <div class="flex items-center gap-4">
+                                        <nav class="flex items-center gap-6">
+                                            <a href="#" class="text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 pb-1">Home</a>
+                                            <a href="wishlist.html" class="text-sm font-medium text-warm-600 hover:text-indigo-600 transition-colors">Wishlist</a>
+                                            <a href="#" class="text-sm font-medium text-warm-600 hover:text-indigo-600 transition-colors">Merchants</a>
+                                        </nav>
+                                        <div class="w-10 h-10 rounded-full bg-intaglio-900 flex items-center justify-center text-ledger text-sm font-bold">
+                                            JD
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hero Card -->
+                                <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-8 mb-8">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-2 mb-3">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot"></span>
+                                                <span class="serial text-emerald-600 text-[11px]">HIGH BUYING POWER</span>
+                                            </div>
+                                            <h2 class="text-ink text-3xl font-bold headline mb-2">Ready to shop!</h2>
+                                            <p class="text-warm-600 text-sm mb-6">You have <span class="text-ink font-semibold">$847</span> in points waiting across <span class="text-ink font-semibold">5 merchants</span>.</p>
+
+                                            <button class="py-3 px-6 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg inline-flex items-center gap-2 transition-colors">
+                                                Shop Now
+                                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Merchant Avatars -->
+                                        <div class="flex flex-col items-end gap-2">
+                                            <div class="flex -space-x-2">
+                                                <div class="w-10 h-10 rounded-full bg-pink-500 border-2 border-white flex items-center justify-center text-white text-sm font-bold">S</div>
+                                                <div class="w-10 h-10 rounded-full bg-green-600 border-2 border-white flex items-center justify-center text-white text-sm font-bold">SB</div>
+                                                <div class="w-10 h-10 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center text-white text-sm font-bold">K</div>
+                                                <div class="w-10 h-10 rounded-full bg-warm-300 border-2 border-white flex items-center justify-center text-warm-700 text-sm font-bold">+2</div>
+                                            </div>
+                                            <span class="text-warm-500 text-xs">5 programs connected</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Stats Row -->
+                                <div class="grid grid-cols-3 gap-4 mb-8">
+                                    <div class="stat-card bg-white border-2 border-warm-200 rounded-lg p-5">
+                                        <p class="serial text-warm-500 mb-2">Connected Programs</p>
+                                        <p class="text-3xl font-bold text-ink mb-3">5</p>
+                                        <a href="#" class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                            Manage
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                    <div class="stat-card bg-white border-2 border-warm-200 rounded-lg p-5">
+                                        <p class="serial text-warm-500 mb-2">Recent Activity</p>
+                                        <p class="text-3xl font-bold text-ink mb-1">3</p>
+                                        <p class="text-sm text-warm-500 mb-2">snags this week</p>
+                                        <a href="#" class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                            View History
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                    <div class="stat-card bg-white border-2 border-warm-200 rounded-lg p-5">
+                                        <p class="serial text-warm-500 mb-2">Wishlist Items</p>
+                                        <p class="text-3xl font-bold text-ink mb-3">8</p>
+                                        <a href="wishlist.html" class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                            View All
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Two Column Layout -->
+                                <div class="grid grid-cols-2 gap-8">
+                                    <!-- Snagged Column -->
+                                    <section>
+                                        <div class="flex items-center justify-between mb-4">
+                                            <h2 class="serial text-intaglio-500">Snagged</h2>
+                                            <a href="#" class="text-sm text-indigo-600 font-medium">View All</a>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                                <div class="p-4">
+                                                    <div class="flex gap-4 items-center">
+                                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <i data-lucide="sparkles" class="w-7 h-7 text-warm-400"></i>
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <p class="font-display text-base font-bold text-ink">Self-Care Kit</p>
+                                                            <p class="text-sm text-warm-600">Sephora</p>
+                                                            <p class="text-xs text-warm-500 mt-1">via <span class="font-medium text-ink">Kitsch</span> + 2 more</p>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <p class="serial text-warm-500">Jan 5</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                                <div class="p-4">
+                                                    <div class="flex gap-4 items-center">
+                                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <i data-lucide="package" class="w-7 h-7 text-warm-400"></i>
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <p class="font-display text-base font-bold text-ink">Liquid Death 12-Pack</p>
+                                                            <p class="text-sm text-warm-600">Target</p>
+                                                            <p class="text-xs text-warm-500 mt-1">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <p class="serial text-warm-500">Dec 14</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <!-- Wishlist Column -->
+                                    <section>
+                                        <div class="flex items-center justify-between mb-4">
+                                            <h2 class="serial text-intaglio-500">Wishlist</h2>
+                                            <a href="wishlist.html" class="text-sm text-indigo-600 font-medium">View All (8)</a>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <div class="wishlist-preview-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                                <div class="p-4 flex gap-4">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="coffee" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink">Stanley Quencher</p>
+                                                        <p class="text-sm text-warm-600 mb-2">Target</p>
+                                                        <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-700 rounded">
+                                                            READY TO SNAG
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="wishlist-preview-card bg-white border-2 border-warm-200 rounded-xl cursor-pointer">
+                                                <div class="p-4 flex gap-4">
+                                                    <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i data-lucide="headphones" class="w-7 h-7 text-warm-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="font-display text-base font-bold text-ink">AirPods Pro</p>
+                                                        <p class="text-sm text-warm-600 mb-2">Apple</p>
+                                                        <div class="flex items-center gap-2">
+                                                            <div class="flex-1 h-1.5 bg-warm-200 rounded-full overflow-hidden">
+                                                                <div class="h-full bg-amber-400 rounded-full" style="width: 72%"></div>
+                                                            </div>
+                                                            <span class="text-xs font-semibold text-amber-600">72%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div class="flex gap-3 mt-8 pt-8 border-t border-warm-200">
+                                    <button class="py-3 px-5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg flex items-center gap-2 transition-colors">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                        Connect Programs
+                                    </button>
+                                    <button class="py-3 px-5 bg-white border-2 border-warm-200 hover:border-indigo-300 text-ink text-sm font-semibold rounded-lg flex items-center gap-2 transition-colors">
+                                        <i data-lucide="compass" class="w-4 h-4"></i>
+                                        Discover Merchants
+                                    </button>
+                                    <button class="py-3 px-5 bg-white border-2 border-warm-200 hover:border-indigo-300 text-ink text-sm font-semibold rounded-lg flex items-center gap-2 transition-colors">
+                                        <i data-lucide="heart" class="w-4 h-4"></i>
+                                        Add to Wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- EMPTY STATE (NEW USER) -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Empty State: New User</p>
+            <p class="text-sm text-warm-600 mb-6">First-time user with no connected programs or activity.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <span class="text-2xl font-extrabold headline text-intaglio-900">saltwyk</span>
+                                    <div class="w-10 h-10 rounded-full bg-intaglio-900 flex items-center justify-center text-ledger text-sm font-bold">
+                                        JD
+                                    </div>
+                                </div>
+
+                                <!-- Hero Card - Empty/New State -->
+                                <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-6 mb-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-magenta-500 animate-pulse-dot"></span>
+                                        <span class="serial text-magenta-600 text-[11px]">GET STARTED</span>
+                                    </div>
+                                    <h2 class="text-ink text-2xl font-bold headline mb-2">Welcome to Saltwyk!</h2>
+                                    <p class="text-warm-600 text-sm mb-6">Connect your rewards programs to start turning points into purchases.</p>
+
+                                    <button class="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                        Connect Your First Program
+                                    </button>
+                                </div>
+
+                                <!-- Empty Stats -->
+                                <div class="stat-card bg-white border-2 border-warm-200 rounded-lg p-4 mb-6">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="serial text-warm-500 mb-1">Connected Programs</p>
+                                            <p class="text-2xl font-bold text-warm-300">0</p>
+                                        </div>
+                                        <a href="#" class="text-sm text-indigo-600 font-medium flex items-center gap-1">
+                                            Connect First
+                                            <i data-lucide="plus" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Empty Transaction State -->
+                                <div class="flex flex-col items-center justify-center py-12 px-6 text-center bg-white border-2 border-warm-200 rounded-xl mb-6">
+                                    <div class="w-16 h-16 rounded-full bg-warm-100 flex items-center justify-center mb-4">
+                                        <i data-lucide="shopping-bag" class="w-8 h-8 text-warm-400"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-ink mb-2">No purchases yet</h3>
+                                    <p class="text-warm-600 mb-6 max-w-sm text-sm">Connect programs to start shopping with your points</p>
+                                    <button class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition-colors">
+                                        Start Shopping
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- HERO CARD VARIANTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Hero Card Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Three status levels based on buying power. Thread appears ONLY on this hero element.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="space-y-6">
+                    <!-- High Status -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Status: High (emerald)</p>
+                        <div class="max-w-[400px]">
+                            <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-6">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot"></span>
+                                    <span class="serial text-emerald-600 text-[11px]">HIGH BUYING POWER</span>
+                                </div>
+                                <h2 class="text-ink text-2xl font-bold headline mb-2">Ready to shop!</h2>
+                                <p class="text-warm-600 text-sm">You have points waiting to be spent across 12 merchants.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Status -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Status: Medium (amber)</p>
+                        <div class="max-w-[400px]">
+                            <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-6">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse-dot"></span>
+                                    <span class="serial text-amber-600 text-[11px]">BUILDING BUYING POWER</span>
+                                </div>
+                                <h2 class="text-ink text-2xl font-bold headline mb-2">Keep building!</h2>
+                                <p class="text-warm-600 text-sm mb-4">A few more purchases and you'll unlock more rewards.</p>
+                                <div class="flex items-center gap-4">
+                                    <svg class="w-16 h-8" viewBox="0 0 64 32">
+                                        <polyline points="0,24 16,20 32,16 48,12 64,8" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span class="text-amber-600 text-xs">Trending up</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Low/New Status -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Status: Low / New (magenta)</p>
+                        <div class="max-w-[400px]">
+                            <div class="hero-card bg-white border-2 border-warm-200 rounded-b-xl p-6">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="w-2 h-2 rounded-full bg-magenta-500 animate-pulse-dot"></span>
+                                    <span class="serial text-magenta-600 text-[11px]">GET STARTED</span>
+                                </div>
+                                <h2 class="text-ink text-2xl font-bold headline mb-2">Welcome to Saltwyk!</h2>
+                                <p class="text-warm-600 text-sm">Connect your rewards programs to start turning points into purchases.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="wishlist.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Wishlist Screen</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../../components/history-card.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">History Card</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../passport.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Passport</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../../color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="../../../index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="../../../partials/nav-loader.js"></script>
+    <script src="../../../partials/view-toggle.js"></script>
+</body>
+</html>
