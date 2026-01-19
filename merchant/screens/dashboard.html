@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merchant Dashboard | Saltwyk Design System</title>
+    <title>Dashboard Home | Merchant Screens | Saltwyk Design System</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/assets/config/tailwind.config.js"></script>
@@ -15,113 +16,439 @@
     <link rel="stylesheet" href="/assets/config/view-toggle.css">
 
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
         .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
 
-        .serial {
-            font-weight: 600;
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        /* Fire Opal - bright threads on dark */
-        .gradient-hero-intaglio { background: linear-gradient(135deg, hsl(24 29% 12%) 0%, hsl(24 28% 18%) 40%, hsl(24 29% 8%) 100%); }
-
-        /* Thread lines at 100% */
-        .thread-line-thin {
-            height: 2px;
-            background: linear-gradient(90deg,
-                hsl(170 100% 50%) 0%,
-                hsl(74 100% 50%) 25%,
-                hsl(20 100% 50%) 50%,
-                hsl(330 100% 50%) 75%,
-                hsl(170 100% 50%) 100%
-            );
-            border-radius: 9999px;
-        }
-
-        /* Badge styles */
-        .badge-coming-soon {
+        /* Button styles */
+        .btn {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.625rem;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            transition: all 150ms ease-out;
+            cursor: pointer;
+        }
+        .btn-sm { padding: 6px 12px; font-size: 13px; }
+        .btn-primary {
+            background-color: hsl(var(--emerald-500));
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: hsl(var(--emerald-600));
+        }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-section-header {
+            font-size: 10px;
             font-weight: 600;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            background: hsl(35 60% 92%);
-            color: hsl(35 60% 35%);
-            border-radius: 4px;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
         }
 
-        /* Placeholder section */
-        .placeholder-section {
-            background: repeating-linear-gradient(
-                45deg,
-                hsl(30 5% 97%),
-                hsl(30 5% 97%) 10px,
-                hsl(30 5% 94%) 10px,
-                hsl(30 5% 94%) 20px
-            );
-            border: 2px dashed hsl(30 5% 82%);
-            border-radius: 8px;
-            min-height: 120px;
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
         }
 
-        /* Navigation dropdown styles */
-        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
-        .nav-dropdown { position: relative; }
-        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
-        .nav-dropdown-menu {
-            position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
-            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
-            opacity: 0; visibility: hidden; transform: translateY(-4px);
-            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
-        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
-            opacity: 1; visibility: visible; transform: translateY(0);
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
         }
-        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
-        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
-        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
-        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 16px;
+        }
+
+        .sidebar-dark .sidebar-user {
+            padding: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-dark .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA STYLES                      */
+        /* ========================================= */
+        .merchant-content {
+            flex: 1;
+            background: hsl(var(--ledger));
+            overflow-y: auto;
+        }
+
+        .merchant-content .page-header {
+            padding: 32px 40px 24px;
+        }
+
+        .merchant-content .page-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .merchant-content .page-header p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        .merchant-content .content-area {
+            padding: 0 40px 32px;
+        }
+
+        /* ========================================= */
+        /* METRIC CARDS                             */
+        /* ========================================= */
+
+        .metric-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.15s ease;
+        }
+
+        .metric-card:hover {
+            border-color: hsl(var(--warm-300));
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-card .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .metric-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+
+        .metric-card .value.positive {
+            color: hsl(var(--emerald-600));
+        }
+
+        .metric-card .subtext {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        /* Mobile Metric Card */
+        .metric-card-mobile,
+        .mobile-metric-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .metric-card-mobile .label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .metric-card-mobile .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+
+        .metric-card-mobile .value.positive {
+            color: hsl(var(--emerald-600));
+        }
+
+        .metric-card-mobile .subtext {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            margin-top: 2px;
+        }
+
+        /* ========================================= */
+        /* SETUP PROGRESS BANNER                    */
+        /* ========================================= */
+
+        .setup-banner {
+            background: linear-gradient(135deg, hsl(var(--indigo-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 1.5px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .setup-banner-mobile {
+            background: linear-gradient(135deg, hsl(var(--indigo-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, hsl(var(--emerald-500)), hsl(var(--cyan-500)));
+            border-radius: 3px;
+        }
+
+        /* ========================================= */
+        /* TRANSACTION LIST PREVIEW                 */
+        /* ========================================= */
+
+        .txn-preview-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 100px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .txn-preview-row:last-child {
+            border-bottom: none;
+        }
+
+        .txn-preview-row:hover {
+            background: hsl(var(--warm-50));
+            margin: 0 -16px;
+            padding: 12px 16px;
+        }
+
+        /* Mobile Transaction Card */
+        .txn-card-mini {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+        }
+
+        /* ========================================= */
+        /* QUICK ACTIONS                            */
+        /* ========================================= */
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .quick-action:hover {
+            border-color: hsl(var(--indigo-300));
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);
+        }
+
+        .quick-action .icon-container {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile Quick Action */
+        .quick-action-mobile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+        }
+
+        .quick-action-mobile .icon-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ========================================= */
+        /* CLEARING BALANCE WIDGET                  */
+        /* ========================================= */
+
+        .balance-widget {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .balance-widget-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .balance-widget-body {
+            padding: 20px;
+        }
+
+        .balance-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .balance-row:not(:last-child) {
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        /* Section Card */
+        .section-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-card-body {
+            padding: 16px 20px;
+        }
     </style>
 </head>
-<body class="bg-[hsl(48_29%_95%)] text-[hsl(24_29%_8%)] min-h-screen">
-
+<body class="bg-ledger text-ink">
     <div id="top-nav"></div>
 
     <div class="flex">
         <div id="side-nav"></div>
         <main class="flex-1">
-            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(330 100% 50%) 100%);"></div>
+            <div class="h-[3px] w-full thread-cool"></div>
 
-    <!-- Fire opal header - thread on dark -->
-    <div class="gradient-hero-intaglio">
-        <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Dashboard Home</span>
+        </nav>
 
-            <!-- Breadcrumb -->
-            <nav class="flex items-center gap-2 text-sm text-[hsl(24_22%_55%)] mb-8">
-                <a href="../../../index.html" class="hover:text-[hsl(170_100%_50%)] transition-colors">Design System</a>
-                <span class="text-[hsl(24_25%_35%)]">→</span>
-                <a href="index.html" class="hover:text-[hsl(170_100%_50%)] transition-colors">Merchant</a>
-                <span class="text-[hsl(24_25%_35%)]">→</span>
-                <span class="text-[hsl(24_20%_75%)] font-medium">Dashboard</span>
-            </nav>
-
-            <!-- Header -->
-            <header class="mb-8">
-                <p class="serial text-[hsl(170_100%_50%)] mb-2">Fire Opal</p>
-                <h1 class="font-display text-4xl text-white mb-3">Merchant Dashboard</h1>
-                <p class="text-lg text-[hsl(24_20%_70%)]">Design patterns for the merchant operational interface.</p>
-            </header>
-        </div>
-    </div>
-
-    <div class="max-w-4xl mx-auto px-6 py-12">
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Design</p>
+            <h1 class="font-display text-4xl mb-2">Dashboard Home</h1>
+            <p class="text-warm-600">The merchant's primary landing screen showing key metrics, recent activity, and quick actions. One of the two primary mobile/desktop screens.</p>
+        </header>
 
         <!-- View Toggle -->
         <div class="view-toggle-header">
@@ -147,134 +474,827 @@
             </div>
         </div>
 
-        <!-- Reference Note -->
-        <section class="mb-12">
-            <div class="bg-[hsl(170_40%_95%)] border-2 border-[hsl(170_50%_80%)] rounded-lg p-6">
-                <p class="font-medium text-[hsl(24_29%_8%)] mb-2">Live Reference</p>
-                <p class="text-sm text-[hsl(30_6%_46%)]">
-                    These patterns are demonstrated in the live product at <code class="font-mono text-[hsl(150_100%_27%)] bg-white px-1.5 py-0.5 rounded">localhost:3000</code>.
-                    Screenshots from the live merchant dashboard are available for reference during implementation.
-                </p>
+        <!-- Overview Callout -->
+        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-12 flex items-start gap-3">
+            <i data-lucide="layout-dashboard" class="w-5 h-5 text-indigo-500 flex-shrink-0 mt-0.5"></i>
+            <div>
+                <p class="font-medium text-indigo-700 mb-1">Dashboard Composition</p>
+                <p class="text-sm text-indigo-600">The dashboard assembles several existing components: <strong>Metric Cards</strong>, <strong>Setup Progress</strong>, and <strong>Transaction Cards</strong>. This screen documents the layout and new dashboard-specific components.</p>
             </div>
-        </section>
+        </div>
 
-        <!-- Dashboard Overview -->
-        <section class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-                <h2 class="font-display text-2xl text-[hsl(24_29%_8%)]">Dashboard Overview</h2>
-                <span class="badge-coming-soon">Coming Soon</span>
-            </div>
-            <p class="text-[hsl(30_6%_46%)] mb-6">
-                The main dashboard view provides merchants with an at-a-glance summary of their business health.
-                Key metrics include today's revenue, pending settlements, and recent transaction activity.
-                The Fire Opal treatment emphasizes data density with clear visual hierarchy.
-            </p>
-            <div class="placeholder-section flex items-center justify-center">
-                <p class="text-sm text-[hsl(30_6%_62%)]">Dashboard overview examples will appear here</p>
-            </div>
-        </section>
+        <!-- =========================================== -->
+        <!-- SECTION 1: FULL DASHBOARD PREVIEW -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Dashboard Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Complete dashboard layout showing all components in context.</p>
 
-        <!-- Clearing Balance -->
-        <section class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-                <h2 class="font-display text-2xl text-[hsl(24_29%_8%)]">Clearing Balance</h2>
-                <span class="badge-coming-soon">In Development</span>
-            </div>
-            <p class="text-[hsl(30_6%_46%)] mb-6">
-                Balance management UI shows available funds, pending settlements, and payout history.
-                Uses lime-thread accents for positive balance indicators and magenta for attention-required states.
-                The clearing cycle timeline provides transparency into fund availability.
-            </p>
-            <div class="placeholder-section flex items-center justify-center">
-                <p class="text-sm text-[hsl(30_6%_62%)]">Balance management patterns will appear here</p>
-            </div>
-        </section>
+            <!-- Mobile Dashboard -->
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Dashboard</p>
 
-        <!-- Transactions -->
-        <section class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-                <h2 class="font-display text-2xl text-[hsl(24_29%_8%)]">Transactions</h2>
-                <span class="badge-coming-soon">In Development</span>
-            </div>
-            <p class="text-[hsl(30_6%_46%)] mb-6">
-                Transaction tables display high-density data with clear status indicators.
-                Filtering, sorting, and export capabilities are integrated into the table header.
-                Thread-colored status dots provide instant visual feedback on transaction state:
-                emerald for cleared, lime for processing, magenta for failed.
-            </p>
-            <div class="placeholder-section flex items-center justify-center">
-                <p class="text-sm text-[hsl(30_6%_62%)]">Transaction table patterns will appear here</p>
-            </div>
-        </section>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[390px] bg-ledger rounded-2xl overflow-hidden shadow-lg">
+                            <!-- Mobile Header -->
+                            <div class="bg-intaglio-900 px-4 py-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                                            <span class="text-white text-xs font-bold">K</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-semibold">Kitsch</p>
+                                            <p class="text-warm-500 text-xs">Good morning</p>
+                                        </div>
+                                    </div>
+                                    <button class="w-8 h-8 rounded-full bg-intaglio-800 flex items-center justify-center">
+                                        <i data-lucide="bell" class="w-4 h-4 text-warm-400"></i>
+                                    </button>
+                                </div>
+                            </div>
 
-        <!-- Onboarding -->
-        <section class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-                <h2 class="font-display text-2xl text-[hsl(24_29%_8%)]">Onboarding</h2>
-                <span class="badge-coming-soon">Coming Soon</span>
-            </div>
-            <p class="text-[hsl(30_6%_46%)] mb-6">
-                The merchant verification flow guides new merchants through identity verification,
-                business documentation, and bank account linking. Progress indicators use thread
-                gradients to show completion state. The flow emphasizes speed—"integrated in minutes, not days."
-            </p>
-            <div class="placeholder-section flex items-center justify-center">
-                <p class="text-sm text-[hsl(30_6%_62%)]">Onboarding flow patterns will appear here</p>
-            </div>
-        </section>
+                            <!-- Mobile Content -->
+                            <div class="px-4 py-4 space-y-4">
+                                <!-- Setup Progress Banner -->
+                                <div class="setup-banner-mobile">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <p class="text-sm font-semibold text-ink">Complete your setup</p>
+                                        <span class="text-xs font-medium text-indigo-600">2 of 4</span>
+                                    </div>
+                                    <div class="progress-bar mb-2">
+                                        <div class="progress-bar-fill" style="width: 50%;"></div>
+                                    </div>
+                                    <p class="text-xs text-warm-500">Verify your identity to start accepting points</p>
+                                </div>
 
-        <!-- Navigation & Chrome -->
-        <section class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-                <h2 class="font-display text-2xl text-[hsl(24_29%_8%)]">Navigation & Chrome</h2>
-                <span class="badge-coming-soon">In Development</span>
-            </div>
-            <p class="text-[hsl(30_6%_46%)] mb-6">
-                Sidebar and header patterns for the merchant dashboard shell. Dark intaglio chrome
-                frames the light content area. Navigation items use emerald accents for active states.
-                The global search and notification patterns are documented here.
-            </p>
-            <div class="placeholder-section flex items-center justify-center">
-                <p class="text-sm text-[hsl(30_6%_62%)]">Navigation chrome patterns will appear here</p>
-            </div>
-        </section>
+                                <!-- Metric Cards -->
+                                <div class="space-y-3">
+                                    <div class="metric-card-mobile">
+                                        <p class="label">Available Balance</p>
+                                        <p class="value positive">$4,287.52</p>
+                                        <p class="subtext">Ready for payout</p>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="metric-card-mobile">
+                                            <p class="label">Pending</p>
+                                            <p class="value" style="font-size: 20px;">$1,245.99</p>
+                                            <p class="subtext">2 days</p>
+                                        </div>
+                                        <div class="metric-card-mobile">
+                                            <p class="label">This Month</p>
+                                            <p class="value" style="font-size: 20px;">$8,432</p>
+                                            <p class="subtext">47 txns</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-        <!-- Related Docs -->
-        <section class="mb-12">
-            <p class="serial text-[hsl(30_6%_46%)] mb-4">Related Documentation</p>
+                                <!-- Quick Actions -->
+                                <div>
+                                    <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide mb-3">Quick Actions</p>
+                                    <div class="space-y-2">
+                                        <div class="quick-action-mobile">
+                                            <div class="icon-container bg-emerald-100">
+                                                <i data-lucide="banknote" class="w-5 h-5 text-emerald-600"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-ink">Settlement</p>
+                                                <p class="text-xs text-warm-500">$4,287.52 available</p>
+                                            </div>
+                                            <i data-lucide="chevron-right" class="w-4 h-4 text-warm-400"></i>
+                                        </div>
+                                        <div class="quick-action-mobile">
+                                            <div class="icon-container bg-indigo-100">
+                                                <i data-lucide="file-text" class="w-5 h-5 text-indigo-600"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-ink">View Reports</p>
+                                                <p class="text-xs text-warm-500">Monthly summary ready</p>
+                                            </div>
+                                            <i data-lucide="chevron-right" class="w-4 h-4 text-warm-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
 
-            <div class="flex gap-3">
-                <a href="index.html" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <span class="font-medium">Merchant Philosophy</span>
-                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
-                </a>
-
-                <a href="../showcase.html" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <span class="font-medium">Merchant Showcase</span>
-                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
-                </a>
-
-                <a href="../../../core-buttons.html" class="bg-white border-2 border-[hsl(30_5%_88%)] rounded-lg px-4 py-3 text-sm hover:border-[hsl(150_100%_27%)] transition-colors">
-                    <span class="font-medium">Buttons</span>
-                    <span class="text-[hsl(30_6%_62%)] ml-2">→</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="pt-6 border-t-2 border-[hsl(30_5%_88%)]">
-            <div class="flex justify-between items-center text-sm text-[hsl(30_6%_46%)]">
-                <div class="flex items-center gap-4">
-                    <a href="../../../index.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Home</a>
-                    <span class="text-[hsl(30_5%_78%)]">·</span>
-                    <a href="../../../sitemap.html" class="hover:text-[hsl(150_100%_27%)] transition-colors">Sitemap</a>
+                                <!-- Recent Transactions -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide">Recent Transactions</p>
+                                        <a href="#" class="text-xs text-indigo-600 font-medium">View All</a>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="txn-card-mini">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                    <i data-lucide="package" class="w-5 h-5 text-warm-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-ink">Satin Pillowcase Set</p>
+                                                    <p class="text-xs text-warm-500">Today, 2:34 PM</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm font-semibold text-ink tabular-nums">$34.99</p>
+                                        </div>
+                                        <div class="txn-card-mini">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                    <i data-lucide="sparkles" class="w-5 h-5 text-warm-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-ink">Hair Towel Wrap</p>
+                                                    <p class="text-xs text-warm-500">Today, 11:22 AM</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm font-semibold text-ink tabular-nums">$24.00</p>
+                                        </div>
+                                        <div class="txn-card-mini">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                    <i data-lucide="gift" class="w-5 h-5 text-warm-400"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-ink">Self-Care Bundle</p>
+                                                    <p class="text-xs text-warm-500">Yesterday</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm font-semibold text-ink tabular-nums">$89.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <span>v0.6 · January 2026</span>
             </div>
-        </footer>
+
+            <!-- Desktop Dashboard -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Dashboard (with sidebar)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="flex" style="height: 700px;">
+                                <!-- Sidebar (Dark Mode - Fire Opal) -->
+                                <aside class="sidebar-dark">
+                                    <div class="sidebar-logo">
+                                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                                        <span class="font-brand font-semibold text-white">Saltwyk</span>
+                                    </div>
+                                    <nav class="sidebar-nav">
+                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <div class="sidebar-item sidebar-item-active">
+                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <span>Home</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <span>Transactions</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                            <span>Clearing Balance</span>
+                                        </div>
+
+                                        <div class="sidebar-divider"></div>
+                                        <div class="sidebar-section-header">Setup</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Get Verified</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
+                                            <span>Integration</span>
+                                        </div>
+                                    </nav>
+                                    <div class="sidebar-user">
+                                        <div class="sidebar-user-avatar">K</div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-warm-200 truncate">Kitsch</p>
+                                            <p class="text-xs text-warm-500 truncate">hello@mykitsch.com</p>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                <!-- Content -->
+                                <div class="merchant-content">
+                                    <div class="page-header">
+                                        <h1>Good morning, Kitsch</h1>
+                                        <p>Here's what's happening with your points today</p>
+                                    </div>
+
+                                    <div class="content-area">
+
+                                <!-- Setup Progress Banner -->
+                                <div class="setup-banner mb-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
+                                                <i data-lucide="shield-check" class="w-6 h-6 text-indigo-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-ink mb-1">Complete your setup — 2 of 4 steps done</p>
+                                                <p class="text-sm text-warm-600">Verify your identity to unlock payouts and full dashboard features.</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-48">
+                                                <div class="progress-bar">
+                                                    <div class="progress-bar-fill" style="width: 50%;"></div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary btn-sm">
+                                                Continue Setup
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Metric Cards Grid -->
+                                <div class="grid grid-cols-4 gap-4 mb-6">
+                                    <div class="metric-card">
+                                        <p class="label">Available Balance</p>
+                                        <p class="value positive">$4,287.52</p>
+                                        <p class="subtext">Ready for payout</p>
+                                    </div>
+                                    <div class="metric-card">
+                                        <p class="label">Pending Settlement</p>
+                                        <p class="value">$1,245.99</p>
+                                        <p class="subtext">Clears in 2 days</p>
+                                    </div>
+                                    <div class="metric-card">
+                                        <p class="label">This Month</p>
+                                        <p class="value">$8,432.00</p>
+                                        <p class="subtext">47 transactions</p>
+                                    </div>
+                                    <div class="metric-card">
+                                        <p class="label">Next Payout</p>
+                                        <p class="value">Jan 22</p>
+                                        <p class="subtext">~$4,287.52 scheduled</p>
+                                    </div>
+                                </div>
+
+                                <!-- Two Column Layout -->
+                                <div class="grid grid-cols-3 gap-6">
+                                    <!-- Recent Transactions (2 columns) -->
+                                    <div class="col-span-2 section-card">
+                                        <div class="section-card-header">
+                                            <p class="font-semibold text-ink">Recent Transactions</p>
+                                            <a href="#" class="text-sm text-indigo-600 font-medium hover:underline">View All →</a>
+                                        </div>
+                                        <div class="section-card-body p-0">
+                                            <div class="px-5">
+                                                <div class="txn-preview-row">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                            <i data-lucide="package" class="w-5 h-5 text-warm-400"></i>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-sm font-medium text-ink">Satin Pillowcase Set</p>
+                                                            <p class="text-xs text-warm-500">Target • j***@email.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$34.99</p>
+                                                    <p class="text-xs text-warm-500 text-right">Today, 2:34 PM</p>
+                                                </div>
+                                                <div class="txn-preview-row">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                            <i data-lucide="sparkles" class="w-5 h-5 text-warm-400"></i>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-sm font-medium text-ink">Hair Towel Wrap</p>
+                                                            <p class="text-xs text-warm-500">Amazon • m***@gmail.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$24.00</p>
+                                                    <p class="text-xs text-warm-500 text-right">Today, 11:22 AM</p>
+                                                </div>
+                                                <div class="txn-preview-row">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                            <i data-lucide="gift" class="w-5 h-5 text-warm-400"></i>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-sm font-medium text-ink">Self-Care Bundle</p>
+                                                            <p class="text-xs text-warm-500">Sephora • a***@yahoo.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$89.00</p>
+                                                    <p class="text-xs text-warm-500 text-right">Yesterday</p>
+                                                </div>
+                                                <div class="txn-preview-row">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                            <i data-lucide="heart" class="w-5 h-5 text-warm-400"></i>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-sm font-medium text-ink">Heatless Curler Set</p>
+                                                            <p class="text-xs text-warm-500">Ulta Beauty • s***@gmail.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$28.00</p>
+                                                    <p class="text-xs text-warm-500 text-right">Jan 17</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Quick Actions (1 column) -->
+                                    <div class="section-card">
+                                        <div class="section-card-header">
+                                            <p class="font-semibold text-ink">Quick Actions</p>
+                                        </div>
+                                        <div class="section-card-body">
+                                            <div class="space-y-3">
+                                                <div class="quick-action">
+                                                    <div class="icon-container bg-emerald-100">
+                                                        <i data-lucide="banknote" class="w-5 h-5 text-emerald-600"></i>
+                                                    </div>
+                                                    <p class="text-sm font-medium text-ink">Settlement</p>
+                                                </div>
+                                                <div class="quick-action">
+                                                    <div class="icon-container bg-indigo-100">
+                                                        <i data-lucide="file-text" class="w-5 h-5 text-indigo-600"></i>
+                                                    </div>
+                                                    <p class="text-sm font-medium text-ink">View Reports</p>
+                                                </div>
+                                                <div class="quick-action">
+                                                    <div class="icon-container bg-cyan-100">
+                                                        <i data-lucide="help-circle" class="w-5 h-5 text-cyan-600"></i>
+                                                    </div>
+                                                    <p class="text-sm font-medium text-ink">Get Support</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    </div><!-- /content-area -->
+                                </div><!-- /merchant-content -->
+                            </div><!-- /flex -->
+                        </div><!-- /bg-ledger -->
+                    </div><!-- /bg-warm-100 -->
+                </div><!-- /bg-white -->
+            </div><!-- /desktop-variant -->
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: CLEARING BALANCE WIDGET -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Clearing Balance Widget</p>
+            <p class="text-sm text-warm-600 mb-6">Summary view of balance states with quick access to full clearing balance screen.</p>
+
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Balance Widget</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[400px]">
+                            <div class="balance-widget">
+                                <div class="balance-widget-header">
+                                    <p class="font-semibold text-ink">Balance Summary</p>
+                                    <a href="#" class="text-sm text-indigo-600 font-medium">View Details →</a>
+                                </div>
+                                <div class="balance-widget-body">
+                                    <div class="balance-row">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-ink">Available</p>
+                                                <p class="text-xs text-warm-500">Ready to withdraw</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-lg font-bold text-emerald-600 tabular-nums">$4,287.52</p>
+                                    </div>
+                                    <div class="balance-row">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-warm-100 flex items-center justify-center">
+                                                <i data-lucide="clock" class="w-4 h-4 text-warm-500"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-ink">Pending</p>
+                                                <p class="text-xs text-warm-500">Clears Jan 21</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-lg font-bold text-ink tabular-nums">$1,245.99</p>
+                                    </div>
+                                    <div class="balance-row">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+                                                <i data-lucide="calendar" class="w-4 h-4 text-indigo-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-ink">Next Payout</p>
+                                                <p class="text-xs text-warm-500">Scheduled</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-lg font-bold text-ink">Jan 22</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-variant mt-4">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Balance Cards</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px] space-y-3">
+                            <div class="metric-card-mobile">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="label">Available Balance</p>
+                                        <p class="value positive">$4,287.52</p>
+                                        <p class="subtext">Ready for payout</p>
+                                    </div>
+                                    <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                                        <i data-lucide="wallet" class="w-5 h-5 text-emerald-600"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="metric-card-mobile">
+                                    <p class="label">Pending</p>
+                                    <p class="value" style="font-size: 20px;">$1,245.99</p>
+                                    <p class="subtext">Clears in 2 days</p>
+                                </div>
+                                <div class="metric-card-mobile">
+                                    <p class="label">Next Payout</p>
+                                    <p class="value" style="font-size: 20px;">Jan 22</p>
+                                    <p class="subtext">~$4,287 scheduled</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: TRANSACTION LIST PREVIEW -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Transaction List Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Simplified transaction list for the dashboard. Shows 3-5 most recent transactions with link to full list.</p>
+
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Transaction Preview</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="section-card max-w-[600px]">
+                            <div class="section-card-header">
+                                <p class="font-semibold text-ink">Recent Transactions</p>
+                                <a href="#" class="text-sm text-indigo-600 font-medium hover:underline">View All →</a>
+                            </div>
+                            <div class="px-5 py-2">
+                                <div class="txn-preview-row">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                            <i data-lucide="package" class="w-5 h-5 text-warm-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-ink">Satin Pillowcase Set</p>
+                                            <p class="text-xs text-warm-500">Target • j***@email.com</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$34.99</p>
+                                    <p class="text-xs text-warm-500 text-right">Today, 2:34 PM</p>
+                                </div>
+                                <div class="txn-preview-row">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                            <i data-lucide="sparkles" class="w-5 h-5 text-warm-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-ink">Hair Towel Wrap</p>
+                                            <p class="text-xs text-warm-500">Amazon • m***@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$24.00</p>
+                                    <p class="text-xs text-warm-500 text-right">Today, 11:22 AM</p>
+                                </div>
+                                <div class="txn-preview-row">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                            <i data-lucide="gift" class="w-5 h-5 text-warm-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-ink">Self-Care Bundle</p>
+                                            <p class="text-xs text-warm-500">Sephora • a***@yahoo.com</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-ink tabular-nums text-right">$89.00</p>
+                                    <p class="text-xs text-warm-500 text-right">Yesterday</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-variant mt-4">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Transaction Cards</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="flex items-center justify-between mb-3">
+                                <p class="text-xs font-semibold text-warm-500 uppercase tracking-wide">Recent Transactions</p>
+                                <a href="#" class="text-xs text-indigo-600 font-medium">View All</a>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="txn-card-mini">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                            <i data-lucide="package" class="w-5 h-5 text-warm-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-ink">Satin Pillowcase Set</p>
+                                            <p class="text-xs text-warm-500">Today, 2:34 PM</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-ink tabular-nums">$34.99</p>
+                                </div>
+                                <div class="txn-card-mini">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-warm-100 flex items-center justify-center">
+                                            <i data-lucide="sparkles" class="w-5 h-5 text-warm-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-ink">Hair Towel Wrap</p>
+                                            <p class="text-xs text-warm-500">Today, 11:22 AM</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-ink tabular-nums">$24.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: QUICK ACTIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Quick Actions</p>
+            <p class="text-sm text-warm-600 mb-6">Primary actions accessible from the dashboard. Contextual based on merchant state.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Desktop -->
+                    <div class="desktop-variant">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Desktop — Grid</p>
+                        <div class="bg-warm-100 rounded-lg p-4">
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="quick-action">
+                                    <div class="icon-container bg-emerald-100">
+                                        <i data-lucide="banknote" class="w-5 h-5 text-emerald-600"></i>
+                                    </div>
+                                    <p class="text-sm font-medium text-ink">Settlement</p>
+                                </div>
+                                <div class="quick-action">
+                                    <div class="icon-container bg-indigo-100">
+                                        <i data-lucide="file-text" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                    <p class="text-sm font-medium text-ink">View Reports</p>
+                                </div>
+                                <div class="quick-action">
+                                    <div class="icon-container bg-cyan-100">
+                                        <i data-lucide="help-circle" class="w-5 h-5 text-cyan-600"></i>
+                                    </div>
+                                    <p class="text-sm font-medium text-ink">Get Support</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="mobile-variant">
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Mobile — List</p>
+                        <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                            <div class="w-full max-w-[280px] space-y-2">
+                                <div class="quick-action-mobile">
+                                    <div class="icon-container bg-emerald-100">
+                                        <i data-lucide="banknote" class="w-5 h-5 text-emerald-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-ink">Settlement</p>
+                                        <p class="text-xs text-warm-500">$4,287.52 available</p>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 text-warm-400"></i>
+                                </div>
+                                <div class="quick-action-mobile">
+                                    <div class="icon-container bg-indigo-100">
+                                        <i data-lucide="file-text" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-ink">View Reports</p>
+                                        <p class="text-xs text-warm-500">Monthly summary</p>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 text-warm-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: SETUP PROGRESS BANNER -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Setup Progress Banner</p>
+            <p class="text-sm text-warm-600 mb-6">Dismissible banner shown when onboarding is incomplete. Links to setup flow.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop Banner</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="setup-banner">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
+                                        <i data-lucide="shield-check" class="w-6 h-6 text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink mb-1">Complete your setup — 2 of 4 steps done</p>
+                                        <p class="text-sm text-warm-600">Verify your identity to unlock payouts and full dashboard features.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-48">
+                                        <div class="progress-bar">
+                                            <div class="progress-bar-fill" style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">
+                                        Continue Setup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-variant mt-4">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile Banner</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="setup-banner-mobile">
+                                <div class="flex items-center justify-between mb-3">
+                                    <p class="text-sm font-semibold text-ink">Complete your setup</p>
+                                    <span class="text-xs font-medium text-indigo-600">2 of 4</span>
+                                </div>
+                                <div class="progress-bar mb-2">
+                                    <div class="progress-bar-fill" style="width: 50%;"></div>
+                                </div>
+                                <p class="text-xs text-warm-500 mb-3">Verify your identity to start accepting points</p>
+                                <button class="btn btn-primary btn-sm w-full">
+                                    Continue Setup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: TECHNICAL SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Element</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Property</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Sidebar (Desktop)</td>
+                            <td class="px-6 py-3 text-warm-600">Width / Background</td>
+                            <td class="px-6 py-3"><code>240px</code> / <code>intaglio-900</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Content Area</td>
+                            <td class="px-6 py-3 text-warm-600">Padding</td>
+                            <td class="px-6 py-3"><code>24px</code> (desktop) / <code>16px</code> (mobile)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Metric Card Grid</td>
+                            <td class="px-6 py-3 text-warm-600">Columns / Gap</td>
+                            <td class="px-6 py-3"><code>4 cols</code> / <code>16px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Section Cards</td>
+                            <td class="px-6 py-3 text-warm-600">Border Radius</td>
+                            <td class="px-6 py-3"><code>12px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Progress Bar</td>
+                            <td class="px-6 py-3 text-warm-600">Height / Fill</td>
+                            <td class="px-6 py-3"><code>6px</code> / emerald→cyan gradient</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 font-medium text-ink">Transaction List</td>
+                            <td class="px-6 py-3 text-warm-600">Max Items</td>
+                            <td class="px-6 py-3"><code>3-5</code> most recent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: DESIGN DECISIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why a dark sidebar?</p>
+                    <p class="text-sm text-warm-600">The dark intaglio sidebar creates visual separation between navigation and content, following the Fire Opal merchant treatment. It provides contrast that helps merchants focus on their data while maintaining brand cohesion.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why show setup progress prominently?</p>
+                    <p class="text-sm text-warm-600">Incomplete onboarding blocks payouts and full features. The prominent banner creates urgency and clear path to completion. Once setup is complete, the banner disappears and metrics take prominence.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why limit transaction preview to 3-5 items?</p>
+                    <p class="text-sm text-warm-600">The dashboard is an overview, not a detailed list. Showing recent activity provides a pulse check without overwhelming. The "View All" link provides clear access to the full transaction screen when needed.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why use different layouts for mobile quick actions?</p>
+                    <p class="text-sm text-warm-600">Desktop uses a grid because there's horizontal space and actions are secondary. Mobile uses a list format with chevrons because it's the expected mobile interaction pattern and provides clearer touch targets.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: RELATED COMPONENTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Related Components</p>
+
+            <div class="grid grid-cols-4 gap-4">
+                <a href="/merchant/components/metric-card.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Metric Card</p>
+                    <p class="text-xs text-warm-500">Financial metrics display.</p>
+                </a>
+                <a href="/merchant/components/setup-progress.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Setup Progress</p>
+                    <p class="text-xs text-warm-500">Onboarding step indicators.</p>
+                </a>
+                <a href="/merchant/components/transaction-detail.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Transaction Detail</p>
+                    <p class="text-xs text-warm-500">Full transaction breakdown.</p>
+                </a>
+                <a href="/merchant/screens/clearing-balance.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Clearing Balance</p>
+                    <p class="text-xs text-warm-500">Full balance management.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
         </main>
     </div>
 
+    <script>lucide.createIcons();</script>
     <script src="/partials/nav-loader.js"></script>
     <script src="/partials/view-toggle.js"></script>
 </body>
