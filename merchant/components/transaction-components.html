@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Components | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Status Badges - Using Design Token Colors */
+        .status-completed {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+        .status-pending {
+            background: hsl(var(--orange-50));
+            color: hsl(var(--orange-700));
+        }
+        .status-failed {
+            background: hsl(var(--magenta-50));
+            color: hsl(var(--magenta-600));
+        }
+
+        /* Filter Tabs - Using Design Tokens */
+        .filter-tab {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 20px;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            transition: all 0.15s ease;
+        }
+        .filter-tab:hover {
+            border-color: hsl(var(--warm-400));
+            background: hsl(var(--warm-50));
+        }
+        .filter-tab.active {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        /* Transaction Row */
+        .txn-row {
+            transition: background-color 0.1s ease;
+        }
+        .txn-row:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        /* Monospace for IDs */
+        .font-mono { font-family: ui-monospace, SFMono-Regular, monospace; }
+
+        /* Tabular numbers for amounts */
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Transaction Components</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Merchant Components</p>
+            <h1 class="font-display text-4xl mb-2">Transaction Components</h1>
+            <p class="text-warm-600">Filter tabs, status badges, and data table patterns used on the Transactions screen.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn" data-view="mobile" aria-label="Mobile view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn active" data-view="desktop" aria-label="Desktop view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overview</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    The Transactions screen displays all rewards redemptions made by shoppers at this merchant.
+                    Each row represents points converted to purchase value. Merchants use this to reconcile
+                    activity and track their Saltwyk performance.
+                </p>
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Purpose</p>
+                        <p class="text-warm-600 text-xs">View, search, and filter redemption history</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Location</p>
+                        <p class="text-warm-600 text-xs">Merchant Dashboard → Transactions</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Data Density</p>
+                        <p class="text-warm-600 text-xs">High — optimized for scanning many rows quickly</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-orange-50 to-rose-50 border-2 border-orange-200 rounded-lg p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <i data-lucide="lightbulb" class="w-5 h-5 text-orange-500"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Design Decision: Emerald for Status, Not Decoration</p>
+                        <p class="text-sm text-warm-700 mb-3">
+                            On merchant screens, <strong>emerald green</strong> is reserved exclusively for
+                            <em>actionable</em> elements (buttons, active nav) and <em>success states</em> (completed badges).
+                            Thread gradients appear only in the page divider — never in data displays.
+                        </p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• <strong>Completed</strong> status uses emerald to signal "money received"</li>
+                            <li>• <strong>Pending</strong> uses warm orange to indicate "waiting for settlement"</li>
+                            <li>• <strong>Failed</strong> uses magenta for clear error visibility</li>
+                            <li>• Table rows stay neutral — no colored backgrounds that compete with badges</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT: FILTER TABS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Component: Filter Tabs</p>
+            <p class="text-sm text-warm-600 mb-6">Pill-style tabs for filtering by transaction status. Active tab uses emerald fill.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Filter Tab States</p>
+                        <p class="text-sm text-warm-600">Each tab shows count. Only one active at a time.</p>
+                    </div>
+                </div>
+
+                <div class="bg-warm-100 rounded-lg p-6 flex justify-center">
+                    <div class="flex gap-2">
+                        <button class="filter-tab active">All (47)</button>
+                        <button class="filter-tab">Completed (42)</button>
+                        <button class="filter-tab">Pending (3)</button>
+                        <button class="filter-tab">Failed (2)</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4 mt-6 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Default</p>
+                        <code>border-warm-300, bg-white</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover</p>
+                        <code>border-warm-400, bg-warm-50</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Active</p>
+                        <code>bg-emerald-500, text-white</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border Radius</p>
+                        <code>rounded-full (20px)</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT: STATUS BADGES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Component: Status Badges</p>
+            <p class="text-sm text-warm-600 mb-6">Semantic color badges indicating transaction state. Small, pill-shaped, lowercase text.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-6">
+                    <div>
+                        <p class="font-medium text-ink">Status Badge Variants</p>
+                        <p class="text-sm text-warm-600">Three states covering the transaction lifecycle.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Completed -->
+                    <div class="text-center">
+                        <div class="bg-warm-100 rounded-lg p-6 flex justify-center mb-3">
+                            <span class="status-completed inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full">
+                                completed
+                            </span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Completed</p>
+                        <p class="text-xs text-warm-500">Points redeemed, funds settled</p>
+                        <div class="mt-2 space-y-1 text-left">
+                            <p class="text-xs"><code>bg: hsl(150 45% 92%)</code></p>
+                            <p class="text-xs"><code>text: hsl(150 60% 25%)</code></p>
+                        </div>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="text-center">
+                        <div class="bg-warm-100 rounded-lg p-6 flex justify-center mb-3">
+                            <span class="status-pending inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full">
+                                pending
+                            </span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Pending</p>
+                        <p class="text-xs text-warm-500">Awaiting settlement or processing</p>
+                        <div class="mt-2 space-y-1 text-left">
+                            <p class="text-xs"><code>bg: hsl(35 60% 92%)</code></p>
+                            <p class="text-xs"><code>text: hsl(35 60% 30%)</code></p>
+                        </div>
+                    </div>
+
+                    <!-- Failed -->
+                    <div class="text-center">
+                        <div class="bg-warm-100 rounded-lg p-6 flex justify-center mb-3">
+                            <span class="status-failed inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full">
+                                failed
+                            </span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Failed</p>
+                        <p class="text-xs text-warm-500">Declined, reversed, or errored</p>
+                        <div class="mt-2 space-y-1 text-left">
+                            <p class="text-xs"><code>bg: hsl(330 50% 94%)</code></p>
+                            <p class="text-xs"><code>text: hsl(330 60% 40%)</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT: TRANSACTION TABLE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Component: Transaction Table</p>
+            <p class="text-sm text-warm-600 mb-6">High-density data table optimized for scanning. Monospace IDs, tabular numbers for amounts.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Table with Sample Data</p>
+                        <p class="text-sm text-warm-600">Shows column structure, typography, and row hover state.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Desktop</span>
+                </div>
+
+                <div class="border border-warm-200 rounded-lg overflow-hidden">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-warm-50 border-b border-warm-200">
+                                <th class="text-left px-4 py-3 font-semibold text-warm-600 text-xs uppercase tracking-wide">ID</th>
+                                <th class="text-left px-4 py-3 font-semibold text-warm-600 text-xs uppercase tracking-wide">Amount</th>
+                                <th class="text-left px-4 py-3 font-semibold text-warm-600 text-xs uppercase tracking-wide">Points Used</th>
+                                <th class="text-left px-4 py-3 font-semibold text-warm-600 text-xs uppercase tracking-wide">Status</th>
+                                <th class="text-left px-4 py-3 font-semibold text-warm-600 text-xs uppercase tracking-wide">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="txn-row border-b border-warm-100">
+                                <td class="px-4 py-3 font-mono text-xs text-warm-600">txn_8f7d2a1c</td>
+                                <td class="px-4 py-3 font-semibold tabular-nums">$110.57</td>
+                                <td class="px-4 py-3 text-warm-600 tabular-nums">16,586 pts</td>
+                                <td class="px-4 py-3">
+                                    <span class="status-completed inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full">completed</span>
+                                </td>
+                                <td class="px-4 py-3 text-warm-500 text-xs">Jan 18, 9:59 AM</td>
+                            </tr>
+                            <tr class="txn-row border-b border-warm-100">
+                                <td class="px-4 py-3 font-mono text-xs text-warm-600">txn_3e9b5f2d</td>
+                                <td class="px-4 py-3 font-semibold tabular-nums">$245.99</td>
+                                <td class="px-4 py-3 text-warm-600 tabular-nums">36,899 pts</td>
+                                <td class="px-4 py-3">
+                                    <span class="status-completed inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full">completed</span>
+                                </td>
+                                <td class="px-4 py-3 text-warm-500 text-xs">Jan 18, 9:29 AM</td>
+                            </tr>
+                            <tr class="txn-row border-b border-warm-100 bg-warm-50">
+                                <td class="px-4 py-3 font-mono text-xs text-warm-600">txn_7c4a8d9e</td>
+                                <td class="px-4 py-3 font-semibold tabular-nums">$89.00</td>
+                                <td class="px-4 py-3 text-warm-600 tabular-nums">13,350 pts</td>
+                                <td class="px-4 py-3">
+                                    <span class="status-pending inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full">pending</span>
+                                </td>
+                                <td class="px-4 py-3 text-warm-500 text-xs">Jan 18, 8:15 AM</td>
+                            </tr>
+                            <tr class="txn-row">
+                                <td class="px-4 py-3 font-mono text-xs text-warm-600">txn_2b5f1e8a</td>
+                                <td class="px-4 py-3 font-semibold tabular-nums">$52.30</td>
+                                <td class="px-4 py-3 text-warm-600 tabular-nums">7,845 pts</td>
+                                <td class="px-4 py-3">
+                                    <span class="status-failed inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full">failed</span>
+                                </td>
+                                <td class="px-4 py-3 text-warm-500 text-xs">Jan 17, 4:22 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Header Background</p>
+                        <code>bg-warm-50</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Row Hover</p>
+                        <code>bg-warm-50</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>border-warm-200</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Row Divider</p>
+                        <code>border-warm-100</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Screen States</p>
+            <p class="text-sm text-warm-600 mb-6">The Transactions screen handles four key states based on data availability.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Empty State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Empty</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-warm-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="receipt" class="w-8 h-8 text-warm-400"></i>
+                        </div>
+                        <p class="font-medium text-ink mb-1">No transactions yet</p>
+                        <p class="text-sm text-warm-500 mb-4">Transactions will appear here once shoppers redeem points at your store.</p>
+                        <button class="text-sm text-emerald-600 font-medium hover:text-emerald-700">Learn about redemptions →</button>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Shown when merchant has zero transactions</p>
+                </div>
+
+                <!-- Filtered Empty -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Filtered Empty</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-warm-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="filter-x" class="w-8 h-8 text-warm-400"></i>
+                        </div>
+                        <p class="font-medium text-ink mb-1">No pending transactions</p>
+                        <p class="text-sm text-warm-500 mb-4">All your transactions have been settled.</p>
+                        <button class="text-sm text-emerald-600 font-medium hover:text-emerald-700">View all transactions</button>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Shown when filter returns no results</p>
+                </div>
+
+                <!-- Loading State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Loading</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <div class="space-y-3">
+                            <div class="flex gap-4 items-center">
+                                <div class="h-4 w-24 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-16 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-20 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-5 w-16 bg-warm-200 rounded-full animate-pulse"></div>
+                                <div class="h-4 w-28 bg-warm-200 rounded animate-pulse"></div>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <div class="h-4 w-24 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-16 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-20 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-5 w-16 bg-warm-200 rounded-full animate-pulse"></div>
+                                <div class="h-4 w-28 bg-warm-200 rounded animate-pulse"></div>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <div class="h-4 w-24 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-16 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-4 w-20 bg-warm-200 rounded animate-pulse"></div>
+                                <div class="h-5 w-16 bg-warm-200 rounded-full animate-pulse"></div>
+                                <div class="h-4 w-28 bg-warm-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Skeleton rows while fetching data</p>
+                </div>
+
+                <!-- Error State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-magenta-100 text-magenta-700 rounded">Error</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-magenta-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="wifi-off" class="w-8 h-8 text-magenta-500"></i>
+                        </div>
+                        <p class="font-medium text-ink mb-1">Unable to load transactions</p>
+                        <p class="text-sm text-warm-500 mb-4">Check your connection and try again.</p>
+                        <button class="px-4 py-2 bg-ink text-white text-sm font-medium rounded-lg hover:bg-intaglio-800">
+                            Retry
+                        </button>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Shown on network or server error</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Layout & Spacing</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Content Max Width</p>
+                        <code>max-w-6xl (1152px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Content Padding</p>
+                        <code>p-8 (32px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Card Border Radius</p>
+                        <code>rounded-lg (8px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Table Border Radius</p>
+                        <code>rounded-lg (8px)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Typography</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Page Title</p>
+                        <code>font-display text-4xl</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Table Header</p>
+                        <code>text-xs uppercase tracking-wide</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Transaction ID</p>
+                        <code>font-mono text-xs</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Amount</p>
+                        <code>font-semibold tabular-nums</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Date/Time</p>
+                        <code>text-xs text-warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Status Badge</p>
+                        <code>text-xs font-semibold</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Data Formatting</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Transaction ID</p>
+                        <code>txn_ + 8 hex chars</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Currency</p>
+                        <code>$X,XXX.XX</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Points</p>
+                        <code>XX,XXX pts</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Date Format</p>
+                        <code>Mon DD, H:MM AM/PM</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Points Conversion</p>
+                        <code>150 pts = $1.00</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Status Values</p>
+                        <code>completed | pending | failed</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- USAGE GUIDELINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Do -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Do</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use monospace font for transaction IDs
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use tabular-nums for currency alignment
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Show count in filter tabs
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Keep status badges lowercase
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Provide clear empty states with next action
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Don't</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use colored row backgrounds
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't show thread gradients in table cells
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use emerald for non-success states
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't truncate transaction IDs
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't hide filter counts
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/clearing-balance.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                    <span class="font-medium">Clearing Balance</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/tables/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                    <span class="font-medium">Table Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/badges/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                    <span class="font-medium">Badges</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                    <span class="font-medium">Fire Opal Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

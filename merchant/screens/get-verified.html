@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Verified | Merchant Dashboard | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-section-header {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
+        }
+
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 16px;
+        }
+
+        .sidebar-dark .sidebar-user {
+            padding: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-dark .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA STYLES                      */
+        /* ========================================= */
+        .merchant-content {
+            flex: 1;
+            background: hsl(var(--ledger));
+            overflow-y: auto;
+        }
+
+        .merchant-content .page-header {
+            padding: 32px 40px 24px;
+        }
+
+        .merchant-content .page-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .merchant-content .page-header p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        .merchant-content .content-area {
+            padding: 0 40px 32px;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: hsl(var(--warm-300));
+        }
+
+        .step-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .step-dot.active {
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-100));
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: hsl(var(--warm-200));
+        }
+
+        .step-line.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 520px;
+        }
+
+        .form-card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .form-card .description {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 24px;
+        }
+
+        /* Form Fields */
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--ink));
+            margin-bottom: 6px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            transition: border-color 0.15s ease;
+        }
+
+        .form-field input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .form-field input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        /* Button */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--emerald-600));
+        }
+
+        /* Mobile Step Card */
+        .mobile-step-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Get Verified</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Get Verified</h1>
+            <p class="text-warm-600">Multi-step onboarding flow for merchant verification. Collects business information, banking details, and identity verification.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Simplified single-column form with progress indicator at top.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600">
+                                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                    </button>
+                                    <h1 class="font-display text-lg font-bold text-ink">Get Verified</h1>
+                                    <div class="w-10 h-10"></div>
+                                </div>
+
+                                <!-- Progress Steps -->
+                                <div class="progress-steps mb-6">
+                                    <div class="step-dot completed"></div>
+                                    <div class="step-line completed"></div>
+                                    <div class="step-dot completed"></div>
+                                    <div class="step-line completed"></div>
+                                    <div class="step-dot active"></div>
+                                    <div class="step-line"></div>
+                                    <div class="step-dot"></div>
+                                    <div class="step-line"></div>
+                                    <div class="step-dot"></div>
+                                    <div class="step-line"></div>
+                                    <div class="step-dot"></div>
+                                </div>
+
+                                <!-- Step Content -->
+                                <div class="mobile-step-card">
+                                    <p class="text-xs text-warm-500 mb-1">Step 3 of 6</p>
+                                    <h2 class="text-lg font-semibold text-ink mb-2">Banking Details</h2>
+                                    <p class="text-sm text-warm-500 mb-6">Add your bank account for payouts.</p>
+
+                                    <div class="form-field">
+                                        <label>Account Holder Name</label>
+                                        <input type="text" placeholder="Business name or your name">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label>Routing Number</label>
+                                        <input type="text" placeholder="9 digits">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label>Account Number</label>
+                                        <input type="text" placeholder="Your account number">
+                                    </div>
+
+                                    <button class="btn-primary w-full mt-4">
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview (with sidebar)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="flex" style="height: 600px;">
+                                <!-- Sidebar (Dark Mode - Fire Opal) -->
+                                <aside class="sidebar-dark">
+                                    <div class="sidebar-logo">
+                                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                                        <span class="font-brand font-semibold text-white">Saltwyk</span>
+                                    </div>
+                                    <nav class="sidebar-nav">
+                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <span>Home</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <span>Transactions</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                            <span>Clearing Balance</span>
+                                        </div>
+
+                                        <div class="sidebar-divider"></div>
+                                        <div class="sidebar-section-header">Setup</div>
+                                        <div class="sidebar-item sidebar-item-active">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Get Verified</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
+                                            <span>Integration</span>
+                                        </div>
+                                    </nav>
+                                    <div class="sidebar-user">
+                                        <div class="sidebar-user-avatar">AC</div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-warm-200 truncate">Acme Coffee</p>
+                                            <p class="text-xs text-warm-500 truncate">tela@acme.coffee</p>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                <!-- Content -->
+                                <div class="merchant-content">
+                                    <div class="page-header">
+                                        <h1>Get Verified</h1>
+                                        <p>Complete verification to accept Saltwyk payments</p>
+                                    </div>
+
+                                    <div class="content-area">
+                                        <!-- Progress Steps -->
+                                        <div class="progress-steps mb-8" style="max-width: 520px;">
+                                            <div class="step-dot completed"></div>
+                                            <div class="step-line completed"></div>
+                                            <div class="step-dot completed"></div>
+                                            <div class="step-line completed"></div>
+                                            <div class="step-dot active"></div>
+                                            <div class="step-line"></div>
+                                            <div class="step-dot"></div>
+                                            <div class="step-line"></div>
+                                            <div class="step-dot"></div>
+                                            <div class="step-line"></div>
+                                            <div class="step-dot"></div>
+                                        </div>
+
+                                        <!-- Form Card -->
+                                        <div class="form-card">
+                                            <p class="text-xs text-warm-500 mb-1">Step 3 of 6</p>
+                                            <h2>Banking Details</h2>
+                                            <p class="description">Add your bank account for payouts. We'll send earnings here.</p>
+
+                                            <div class="form-field">
+                                                <label>Account Holder Name</label>
+                                                <input type="text" placeholder="Business name or your name">
+                                            </div>
+
+                                            <div class="form-field">
+                                                <label>Routing Number</label>
+                                                <input type="text" placeholder="9 digits">
+                                            </div>
+
+                                            <div class="form-field">
+                                                <label>Account Number</label>
+                                                <input type="text" placeholder="Your account number">
+                                            </div>
+
+                                            <div class="flex items-center justify-between mt-8">
+                                                <button class="text-warm-500 hover:text-ink font-medium text-sm">
+                                                    ← Back
+                                                </button>
+                                                <button class="btn-primary">
+                                                    Continue
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VERIFICATION STEPS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Verification Steps</p>
+            <p class="text-sm text-warm-600 mb-6">The 6-step onboarding flow for merchant verification.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center">1</div>
+                            <p class="font-medium text-ink text-sm">Business Info</p>
+                        </div>
+                        <p class="text-xs text-warm-600">Legal name, address, business type</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center">2</div>
+                            <p class="font-medium text-ink text-sm">Representative</p>
+                        </div>
+                        <p class="text-xs text-warm-600">Owner or authorized contact</p>
+                    </div>
+                    <div class="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-indigo-500 text-white text-xs font-semibold flex items-center justify-center">3</div>
+                            <p class="font-medium text-ink text-sm">Banking Details</p>
+                        </div>
+                        <p class="text-xs text-warm-600">Payout destination account</p>
+                    </div>
+                    <div class="p-4 bg-warm-50 border border-warm-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-warm-300 text-white text-xs font-semibold flex items-center justify-center">4</div>
+                            <p class="font-medium text-ink text-sm">Identity</p>
+                        </div>
+                        <p class="text-xs text-warm-600">ID verification (if required)</p>
+                    </div>
+                    <div class="p-4 bg-warm-50 border border-warm-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-warm-300 text-white text-xs font-semibold flex items-center justify-center">5</div>
+                            <p class="font-medium text-ink text-sm">Terms</p>
+                        </div>
+                        <p class="text-xs text-warm-600">Accept merchant agreement</p>
+                    </div>
+                    <div class="p-4 bg-warm-50 border border-warm-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-6 h-6 rounded-full bg-warm-300 text-white text-xs font-semibold flex items-center justify-center">6</div>
+                            <p class="font-medium text-ink text-sm">Review</p>
+                        </div>
+                        <p class="text-xs text-warm-600">Final review and submit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS (at bottom) -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Progress Indicator</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Completed Step</p>
+                        <code>emerald-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Active Step</p>
+                        <code>indigo-500 + ring</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Pending Step</p>
+                        <code>warm-300</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Dot Size</p>
+                        <code>10px diameter</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Form Elements</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Input Border</p>
+                        <code>warm-200, indigo-500 on focus</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Input Padding</p>
+                        <code>12px 16px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Primary Button</p>
+                        <code>emerald-500 bg</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Design Decisions</p>
+
+            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
+                <p class="text-sm text-indigo-700"><strong>Step Indicator:</strong> Completed steps use emerald (success), active step uses indigo (selection), and pending steps use warm-300 (neutral). The active step has a subtle ring to draw attention.</p>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                <p class="text-sm text-emerald-700"><strong>Primary Action:</strong> The "Continue" button uses emerald-500 because it represents a positive action (progressing toward verification). This is consistent with the "completed" semantic throughout the flow.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/transactions.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Transactions</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/inputs/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Input Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/buttons/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Buttons</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/progress/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Progress</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions Screen | Merchant Dashboard | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* Uses classes from sidebar.html component */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-section-header {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
+        }
+
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+
+        .sidebar-dark .sidebar-item:hover .sidebar-item-icon {
+            color: hsl(var(--warm-300));
+        }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        /* Active state - uses INDIGO (selection color) */
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 16px;
+        }
+
+        .sidebar-dark .sidebar-user {
+            padding: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-dark .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA STYLES                      */
+        /* ========================================= */
+        .merchant-content {
+            flex: 1;
+            background: hsl(var(--ledger));
+            overflow-y: auto;
+        }
+
+        .merchant-content .page-header {
+            padding: 32px 40px 24px;
+        }
+
+        .merchant-content .page-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .merchant-content .page-header p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        .merchant-content .content-area {
+            padding: 0 40px 32px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 340px;
+            padding: 10px 16px 10px 44px;
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            transition: border-color 0.15s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .search-bar .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: hsl(var(--warm-400));
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 20px;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .filter-tab:hover {
+            border-color: hsl(var(--warm-400));
+            background: hsl(var(--warm-50));
+        }
+
+        .filter-tab.active {
+            background: hsl(var(--indigo-500));
+            border-color: hsl(var(--indigo-500));
+            color: white;
+        }
+
+        /* Data Card */
+        .data-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-card-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 2px;
+        }
+
+        .data-card-header p {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: hsl(var(--warm-500));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-table tr:hover td {
+            background: hsl(var(--warm-50));
+        }
+
+        .data-table .txn-id {
+            font-family: ui-monospace, monospace;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .data-table .amount {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .data-table .points {
+            color: hsl(var(--warm-500));
+            font-variant-numeric: tabular-nums;
+        }
+
+        .data-table .date {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        .status-badge.completed {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+
+        .status-badge.pending {
+            background: hsl(var(--orange-50));
+            color: hsl(var(--orange-700));
+        }
+
+        .status-badge.failed {
+            background: hsl(var(--magenta-50));
+            color: hsl(var(--magenta-600));
+        }
+
+        /* Mobile-specific styles */
+        .mobile-search input {
+            width: 100%;
+        }
+
+        .mobile-filter-tabs {
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Transactions</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Transactions Screen</h1>
+            <p class="text-warm-600">View and filter all rewards redemptions processed through your Saltwyk integration. The primary data view for daily merchant operations.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Responsive mobile layout with full-width search and horizontally scrollable filter tabs.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- Cool thread at top -->
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600 hover:text-indigo-600 transition-colors">
+                                        <i data-lucide="menu" class="w-5 h-5"></i>
+                                    </button>
+                                    <h1 class="font-display text-xl font-bold text-ink">Transactions</h1>
+                                    <div class="w-10 h-10 rounded-full bg-intaglio-700 text-warm-300 text-sm font-semibold flex items-center justify-center">
+                                        AC
+                                    </div>
+                                </div>
+
+                                <!-- Search (Full Width on Mobile) -->
+                                <div class="search-bar mobile-search mb-4">
+                                    <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+                                    <input type="text" placeholder="Search transactions...">
+                                </div>
+
+                                <!-- Filter Tabs (Scrollable on Mobile) -->
+                                <div class="filter-tabs mobile-filter-tabs mb-6">
+                                    <button class="filter-tab active">All (47)</button>
+                                    <button class="filter-tab">Completed</button>
+                                    <button class="filter-tab">Pending</button>
+                                    <button class="filter-tab">Failed</button>
+                                </div>
+
+                                <!-- Transaction Cards (Mobile Stack) -->
+                                <div class="space-y-3">
+                                    <div class="bg-white border border-warm-200 rounded-lg p-4">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <p class="font-semibold text-ink">$110.57</p>
+                                                <p class="text-xs text-warm-500 font-mono">txn_8f7d2a1c</p>
+                                            </div>
+                                            <span class="status-badge completed">completed</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-warm-500">16,586 pts</span>
+                                            <span class="text-warm-400 text-xs">Jan 18, 9:59 AM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white border border-warm-200 rounded-lg p-4">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <p class="font-semibold text-ink">$245.99</p>
+                                                <p class="text-xs text-warm-500 font-mono">txn_3e9b5f2d</p>
+                                            </div>
+                                            <span class="status-badge completed">completed</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-warm-500">36,899 pts</span>
+                                            <span class="text-warm-400 text-xs">Jan 18, 9:29 AM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white border border-warm-200 rounded-lg p-4">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <p class="font-semibold text-ink">$89.00</p>
+                                                <p class="text-xs text-warm-500 font-mono">txn_7c4a8d9e</p>
+                                            </div>
+                                            <span class="status-badge pending">pending</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-warm-500">13,350 pts</span>
+                                            <span class="text-warm-400 text-xs">Jan 18, 8:15 AM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white border border-warm-200 rounded-lg p-4">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <p class="font-semibold text-ink">$52.30</p>
+                                                <p class="text-xs text-warm-500 font-mono">txn_2b5f1e8a</p>
+                                            </div>
+                                            <span class="status-badge failed">failed</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-warm-500">7,845 pts</span>
+                                            <span class="text-warm-400 text-xs">Jan 17, 4:22 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview (with sidebar)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <!-- Cool thread at top -->
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="flex" style="height: 600px;">
+                                <!-- Sidebar (Dark Mode - Fire Opal) -->
+                                <aside class="sidebar-dark">
+                                    <div class="sidebar-logo">
+                                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                                        <span class="font-brand font-semibold text-white">Saltwyk</span>
+                                    </div>
+                                    <nav class="sidebar-nav">
+                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <span>Home</span>
+                                        </div>
+                                        <div class="sidebar-item sidebar-item-active">
+                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <span>Transactions</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                            <span>Clearing Balance</span>
+                                        </div>
+
+                                        <div class="sidebar-divider"></div>
+                                        <div class="sidebar-section-header">Setup</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Get Verified</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
+                                            <span>Integration</span>
+                                        </div>
+                                    </nav>
+                                    <div class="sidebar-user">
+                                        <div class="sidebar-user-avatar">AC</div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-warm-200 truncate">Acme Coffee</p>
+                                            <p class="text-xs text-warm-500 truncate">tela@acme.coffee</p>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                <!-- Content -->
+                                <div class="merchant-content">
+                                    <div class="page-header">
+                                        <h1>Transactions</h1>
+                                        <p>View all rewards redemptions</p>
+                                    </div>
+
+                                    <div class="content-area">
+                                        <!-- Search & Filters -->
+                                        <div class="search-bar">
+                                            <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+                                            <input type="text" placeholder="Search by ID, amount, or date...">
+                                        </div>
+
+                                        <div class="filter-tabs">
+                                            <button class="filter-tab active">All (47)</button>
+                                            <button class="filter-tab">Completed (42)</button>
+                                            <button class="filter-tab">Pending (3)</button>
+                                            <button class="filter-tab">Failed (2)</button>
+                                        </div>
+
+                                        <!-- Data Table -->
+                                        <div class="data-card">
+                                            <div class="data-card-header">
+                                                <h2>All Transactions</h2>
+                                                <p>47 transactions found</p>
+                                            </div>
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Amount</th>
+                                                        <th>Points Used</th>
+                                                        <th>Status</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="txn-id">txn_8f7d2a1c</td>
+                                                        <td class="amount">$110.57</td>
+                                                        <td class="points">16,586 pts</td>
+                                                        <td><span class="status-badge completed">completed</span></td>
+                                                        <td class="date">Jan 18, 9:59 AM</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="txn-id">txn_3e9b5f2d</td>
+                                                        <td class="amount">$245.99</td>
+                                                        <td class="points">36,899 pts</td>
+                                                        <td><span class="status-badge completed">completed</span></td>
+                                                        <td class="date">Jan 18, 9:29 AM</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="txn-id">txn_7c4a8d9e</td>
+                                                        <td class="amount">$89.00</td>
+                                                        <td class="points">13,350 pts</td>
+                                                        <td><span class="status-badge pending">pending</span></td>
+                                                        <td class="date">Jan 18, 8:15 AM</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="txn-id">txn_2b5f1e8a</td>
+                                                        <td class="amount">$52.30</td>
+                                                        <td class="points">7,845 pts</td>
+                                                        <td><span class="status-badge failed">failed</span></td>
+                                                        <td class="date">Jan 17, 4:22 PM</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="txn-id">txn_9d3c7f6e</td>
+                                                        <td class="amount">$178.25</td>
+                                                        <td class="points">26,738 pts</td>
+                                                        <td><span class="status-badge completed">completed</span></td>
+                                                        <td class="date">Jan 17, 2:45 PM</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- EMPTY STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Empty State</p>
+            <p class="text-sm text-warm-600 mb-6">Shown when no transactions match the current filter or search.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[500px] bg-ledger rounded-lg p-8">
+                        <div class="text-center py-12">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-warm-100 flex items-center justify-center">
+                                <i data-lucide="receipt" class="w-8 h-8 text-warm-400"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-bold text-ink mb-2">No transactions yet</h3>
+                            <p class="text-sm text-warm-600 mb-6">Transactions will appear here once shoppers start redeeming points at your store.</p>
+                            <button class="px-6 py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-colors">
+                                View Integration Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS (at bottom) -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Layout Dimensions</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Sidebar Width</p>
+                        <code>240px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Content Padding</p>
+                        <code>32px top, 40px sides</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Search Input Width</p>
+                        <code>340px (desktop)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Card Border Radius</p>
+                        <code>12px (rounded-xl)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Color Usage</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Sidebar Background</p>
+                        <code>intaglio-900</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Active Nav Item</p>
+                        <code>indigo-500/15% bg, indigo-300 text</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Active Filter Tab</p>
+                        <code>indigo-500 bg</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Completed Badge</p>
+                        <code>emerald-50 bg, emerald-700 text</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Pending Badge</p>
+                        <code>orange-50 bg, orange-700 text</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Failed Badge</p>
+                        <code>magenta-50 bg, magenta-600 text</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Responsive Breakpoints</p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Mobile</p>
+                        <code>Card-based list, hamburger menu, full-width search</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Desktop</p>
+                        <code>Table layout, persistent sidebar, 340px search</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Design Decisions</p>
+
+            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
+                <p class="text-sm text-indigo-700"><strong>Selection Color:</strong> Navigation and filter active states use indigo (selection color) rather than emerald (action/success color). This maintains consistency with other selection patterns. Emerald is reserved for success states like the "completed" badge.</p>
+            </div>
+
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                <p class="text-sm text-warm-700"><strong>Fire Opal Treatment:</strong> The merchant dashboard uses the dark "Fire Opal" sidebar (intaglio-900) against the light "ledger" content area. The Cool thread gradient (cyan-thread → magenta-thread) provides professional authority for merchant identity.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/components/transaction-components.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Transaction Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/navigation/sidebar.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Sidebar Navigation</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/tables/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Tables</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/screens/clearing-balance.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Clearing Balance</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearing Balance | Merchant Dashboard | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-section-header {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
+        }
+
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 16px;
+        }
+
+        .sidebar-dark .sidebar-user {
+            padding: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-dark .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA STYLES                      */
+        /* ========================================= */
+        .merchant-content {
+            flex: 1;
+            background: hsl(var(--ledger));
+            overflow-y: auto;
+        }
+
+        .merchant-content .page-header {
+            padding: 32px 40px 24px;
+        }
+
+        .merchant-content .page-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .merchant-content .page-header p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        .merchant-content .content-area {
+            padding: 0 40px 32px;
+        }
+
+        /* Metric Cards */
+        .metric-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .metric-card .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .metric-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-card .value.positive {
+            color: hsl(var(--emerald-600));
+        }
+
+        .metric-card .subtext {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: hsl(var(--warm-200));
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, hsl(var(--emerald-500)), hsl(var(--lime-thread)));
+            border-radius: 4px;
+        }
+
+        /* Data Card */
+        .data-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-card-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: hsl(var(--warm-500));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .data-table tr:hover td {
+            background: hsl(var(--warm-50));
+        }
+
+        .data-table .amount {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        .status-badge.settled {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+
+        .status-badge.scheduled {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* Mobile Metric Cards */
+        .mobile-metric-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Clearing Balance</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Clearing Balance</h1>
+            <p class="text-warm-600">Track available funds, pending settlements, and payout history. Merchants use this to reconcile earnings and plan cash flow.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Stacked metric cards and simplified payout history for mobile view.</p>
+
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="px-5 py-6">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600">
+                                        <i data-lucide="menu" class="w-5 h-5"></i>
+                                    </button>
+                                    <h1 class="font-display text-xl font-bold text-ink">Clearing Balance</h1>
+                                    <div class="w-10 h-10 rounded-full bg-intaglio-700 text-warm-300 text-sm font-semibold flex items-center justify-center">
+                                        AC
+                                    </div>
+                                </div>
+
+                                <!-- Metric Cards (Stacked on Mobile) -->
+                                <div class="space-y-3 mb-6">
+                                    <div class="mobile-metric-card">
+                                        <p class="text-xs text-warm-500 mb-1">Available Balance</p>
+                                        <p class="text-2xl font-bold text-emerald-600">$4,287.52</p>
+                                        <p class="text-xs text-warm-400">Ready for payout</p>
+                                    </div>
+
+                                    <div class="mobile-metric-card">
+                                        <p class="text-xs text-warm-500 mb-1">Pending Settlement</p>
+                                        <p class="text-2xl font-bold text-ink">$1,245.99</p>
+                                        <p class="text-xs text-warm-400">Clears in 2 days</p>
+                                    </div>
+
+                                    <div class="mobile-metric-card">
+                                        <p class="text-xs text-warm-500 mb-1">Next Payout</p>
+                                        <p class="text-2xl font-bold text-ink">Jan 22</p>
+                                        <p class="text-xs text-warm-400">~$4,287.52 scheduled</p>
+                                    </div>
+                                </div>
+
+                                <!-- Progress -->
+                                <div class="mobile-metric-card mb-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <p class="text-sm font-medium text-ink">Clearing Cycle</p>
+                                        <p class="text-sm text-emerald-600 font-medium">65%</p>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Payout History (Simplified) -->
+                                <div class="mobile-metric-card">
+                                    <p class="text-sm font-medium text-ink mb-3">Recent Payouts</p>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-semibold text-ink">$3,892.10</p>
+                                                <p class="text-xs text-warm-500">Jan 15, 2026</p>
+                                            </div>
+                                            <span class="status-badge settled">settled</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-semibold text-ink">$2,156.75</p>
+                                                <p class="text-xs text-warm-500">Jan 8, 2026</p>
+                                            </div>
+                                            <span class="status-badge settled">settled</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview (with sidebar)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="flex" style="height: 640px;">
+                                <!-- Sidebar (Dark Mode - Fire Opal) -->
+                                <aside class="sidebar-dark">
+                                    <div class="sidebar-logo">
+                                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                                        <span class="font-brand font-semibold text-white">Saltwyk</span>
+                                    </div>
+                                    <nav class="sidebar-nav">
+                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <span>Home</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <span>Transactions</span>
+                                        </div>
+                                        <div class="sidebar-item sidebar-item-active">
+                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
+                                            <span>Clearing Balance</span>
+                                        </div>
+
+                                        <div class="sidebar-divider"></div>
+                                        <div class="sidebar-section-header">Setup</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Get Verified</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
+                                            <span>Integration</span>
+                                        </div>
+                                    </nav>
+                                    <div class="sidebar-user">
+                                        <div class="sidebar-user-avatar">AC</div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-warm-200 truncate">Acme Coffee</p>
+                                            <p class="text-xs text-warm-500 truncate">tela@acme.coffee</p>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                <!-- Content -->
+                                <div class="merchant-content">
+                                    <div class="page-header">
+                                        <h1>Clearing Balance</h1>
+                                        <p>Track your available funds and payout schedule</p>
+                                    </div>
+
+                                    <div class="content-area">
+                                        <!-- Metric Cards -->
+                                        <div class="grid grid-cols-3 gap-4 mb-6">
+                                            <div class="metric-card">
+                                                <p class="label">Available Balance</p>
+                                                <p class="value positive">$4,287.52</p>
+                                                <p class="subtext">Ready for payout</p>
+                                            </div>
+                                            <div class="metric-card">
+                                                <p class="label">Pending Settlement</p>
+                                                <p class="value">$1,245.99</p>
+                                                <p class="subtext">Clears in 2 days</p>
+                                            </div>
+                                            <div class="metric-card">
+                                                <p class="label">Next Payout</p>
+                                                <p class="value">Jan 22</p>
+                                                <p class="subtext">~$4,287.52 scheduled</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Progress Bar -->
+                                        <div class="progress-container mb-6">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <div>
+                                                    <p class="font-medium text-ink text-sm">Current Clearing Cycle</p>
+                                                    <p class="text-xs text-warm-500">$1,245.99 processing</p>
+                                                </div>
+                                                <p class="text-sm font-medium text-emerald-600">65% complete</p>
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 65%;"></div>
+                                            </div>
+                                            <div class="flex justify-between mt-2 text-xs text-warm-500">
+                                                <span>Received</span>
+                                                <span>Verification</span>
+                                                <span>Settlement</span>
+                                                <span>Available</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Payout History -->
+                                        <div class="data-card">
+                                            <div class="data-card-header">
+                                                <h2>Payout History</h2>
+                                            </div>
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Transactions</th>
+                                                        <th>Status</th>
+                                                        <th>Bank Account</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-warm-500 text-xs">Jan 22, 2026</td>
+                                                        <td class="amount">$4,287.52</td>
+                                                        <td>23 txns</td>
+                                                        <td><span class="status-badge scheduled">scheduled</span></td>
+                                                        <td class="text-warm-500">****4892</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-warm-500 text-xs">Jan 15, 2026</td>
+                                                        <td class="amount">$3,892.10</td>
+                                                        <td>19 txns</td>
+                                                        <td><span class="status-badge settled">settled</span></td>
+                                                        <td class="text-warm-500">****4892</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-warm-500 text-xs">Jan 8, 2026</td>
+                                                        <td class="amount">$2,156.75</td>
+                                                        <td>14 txns</td>
+                                                        <td><span class="status-badge settled">settled</span></td>
+                                                        <td class="text-warm-500">****4892</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS (at bottom) -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Color Usage</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Positive Value</p>
+                        <code>emerald-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Progress Fill</p>
+                        <code>emerald-500 → lime-thread</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Scheduled Badge</p>
+                        <code>indigo-50 bg, indigo-700 text</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Settled Badge</p>
+                        <code>emerald-50 bg, emerald-700 text</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Metric Card</p>
+                        <code>white bg, warm-200 border</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Label Text</p>
+                        <code>warm-500</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Typography</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Metric Value</p>
+                        <code>text-3xl font-bold tabular-nums</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Metric Label</p>
+                        <code>text-xs font-medium warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Table Amount</p>
+                        <code>font-semibold tabular-nums</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Design Decisions</p>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-4">
+                <p class="text-sm text-emerald-700"><strong>Positive Values:</strong> Available balance uses emerald-600 to indicate funds ready for withdrawal. This provides immediate visual confirmation of available money, while neutral values (pending, dates) use default ink color.</p>
+            </div>
+
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                <p class="text-sm text-warm-700"><strong>Progress Gradient:</strong> The clearing cycle progress bar uses an emerald-500 → lime-thread gradient to indicate growth/progress. This provides subtle visual interest while maintaining the emerald success association.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/transactions.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Transactions</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/navigation/sidebar.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Sidebar Navigation</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/progress/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Progress</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/screens/get-verified.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Get Verified</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
