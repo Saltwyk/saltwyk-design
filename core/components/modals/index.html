@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modals - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Code block styles */
+        .code-block {
+            background: hsl(24 29% 8%);
+            color: hsl(30 5% 88%);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        .code-block .comment { color: hsl(30 5% 50%); }
+        .code-block .property { color: hsl(170 100% 60%); }
+        .code-block .value { color: hsl(74 100% 65%); }
+        .code-block .selector { color: hsl(330 100% 70%); }
+
+        /* Modal backdrop */
+        .modal-backdrop {
+            background: hsla(24 29% 8% / 60%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            min-height: 300px;
+        }
+        .modal-backdrop-dark {
+            background: hsla(24 30% 5% / 80%);
+        }
+
+        /* Modal container */
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-container-dark {
+            background: hsl(24 28% 12%);
+            border: 1px solid hsl(24 27% 20%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal sizes */
+        .modal-sm { width: 400px; }
+        .modal-md { width: 500px; }
+        .modal-lg { width: 640px; }
+        .modal-xl { width: 800px; }
+        .modal-full { width: 90vw; max-width: 1000px; }
+
+        /* Modal header */
+        .modal-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .modal-header-dark {
+            color: hsl(30 5% 95%);
+        }
+
+        /* Modal title */
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(24 29% 8%);
+        }
+        .modal-title-dark {
+            color: hsl(30 5% 95%);
+        }
+        .modal-subtitle {
+            font-size: 14px;
+            color: hsl(30 6% 46%);
+            margin-top: 4px;
+        }
+        .modal-subtitle-dark {
+            color: hsl(30 5% 55%);
+        }
+
+        /* Modal body */
+        .modal-body {
+            padding: 0 24px 20px;
+        }
+        .modal-body-scrollable {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Modal footer */
+        .modal-footer {
+            padding: 16px 24px;
+            background: hsl(30 5% 97%);
+            border-top: 1px solid hsl(30 5% 88%);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .modal-footer-dark {
+            background: hsl(24 29% 8%);
+            border-top: 1px solid hsl(24 27% 20%);
+        }
+
+        /* Close button */
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(30 6% 46%);
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+        .modal-close:hover {
+            background: hsl(30 5% 93%);
+            color: hsl(24 29% 8%);
+        }
+        .modal-close-dark {
+            color: hsl(30 5% 50%);
+        }
+        .modal-close-dark:hover {
+            background: hsl(24 27% 20%);
+            color: hsl(30 5% 88%);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: hsl(150 100% 27%);
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover { background: hsl(150 100% 22%); }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: white;
+            color: hsl(24 29% 8%);
+            border: 1.5px solid hsl(30 5% 78%);
+        }
+        .btn-secondary:hover { background: hsl(30 5% 97%); border-color: hsl(30 5% 68%); }
+        .btn-destructive {
+            background: hsl(330 85% 50%);
+            color: white;
+            border: none;
+        }
+        .btn-destructive:hover { background: hsl(330 85% 45%); }
+        .btn-ghost {
+            background: transparent;
+            color: hsl(30 6% 46%);
+            border: none;
+        }
+        .btn-ghost:hover { background: hsl(30 5% 95%); color: hsl(24 29% 8%); }
+
+        /* Dark mode buttons */
+        .btn-ghost-dark {
+            color: hsl(30 5% 55%);
+        }
+        .btn-ghost-dark:hover {
+            background: hsl(24 27% 20%);
+            color: hsl(30 5% 88%);
+        }
+        .btn-secondary-dark {
+            background: hsl(24 27% 15%);
+            color: hsl(30 5% 80%);
+            border: 1px solid hsl(24 27% 25%);
+        }
+        .btn-secondary-dark:hover {
+            background: hsl(24 27% 20%);
+        }
+
+        /* Alert icon */
+        .alert-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .alert-icon-sm {
+            width: 40px;
+            height: 40px;
+        }
+        .alert-icon-warning { background: hsl(20 50% 92%); color: hsl(20 90% 45%); }
+        .alert-icon-error { background: hsl(330 50% 93%); color: hsl(330 85% 45%); }
+        .alert-icon-success { background: hsl(150 45% 92%); color: hsl(150 100% 27%); }
+        .alert-icon-info { background: hsl(170 45% 92%); color: hsl(170 100% 30%); }
+
+        /* Dark alert icons */
+        .alert-icon-warning-dark { background: hsl(20 100% 50% / 15%); color: hsl(20 90% 60%); }
+        .alert-icon-error-dark { background: hsl(330 100% 50% / 15%); color: hsl(330 85% 60%); }
+        .alert-icon-success-dark { background: hsl(150 100% 40% / 15%); color: hsl(150 80% 55%); }
+        .alert-icon-info-dark { background: hsl(170 100% 50% / 15%); color: hsl(170 80% 55%); }
+
+        /* Form elements */
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(24 29% 8%);
+            margin-bottom: 6px;
+        }
+        .form-label-dark {
+            color: hsl(30 5% 80%);
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid hsl(30 5% 78%);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            background: white;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(170 100% 40%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 15%);
+        }
+        .form-input::placeholder { color: hsl(30 5% 60%); }
+        .form-input-error {
+            border-color: hsl(330 85% 50%);
+        }
+        .form-input-error:focus {
+            border-color: hsl(330 85% 50%);
+            box-shadow: 0 0 0 3px hsla(330 85% 50% / 15%);
+        }
+        .form-error {
+            font-size: 12px;
+            color: hsl(330 85% 45%);
+            margin-top: 4px;
+        }
+
+        /* Dark form inputs */
+        .form-input-dark {
+            background: hsl(24 29% 8%);
+            border-color: hsl(24 27% 25%);
+            color: hsl(30 5% 88%);
+        }
+        .form-input-dark:focus {
+            border-color: hsl(170 100% 45%);
+            box-shadow: 0 0 0 3px hsla(170 100% 45% / 15%);
+        }
+        .form-input-dark::placeholder {
+            color: hsl(30 5% 45%);
+        }
+
+        /* Toggle switch */
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: hsl(30 5% 80%);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle.active {
+            background: hsl(237 100% 65%);
+        }
+        .toggle.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Animation keyframes */
+        @keyframes modal-enter {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes modal-exit {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+        @keyframes backdrop-enter {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-modal { animation: modal-enter 200ms ease-out; }
+        .animate-backdrop { animation: backdrop-enter 150ms ease-out; }
+
+        /* Spinner */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Table styles for specs */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .spec-table th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px;
+            background: hsl(30 5% 97%);
+            color: hsl(30 6% 46%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .spec-table td {
+            padding: 12px;
+            font-size: 14px;
+            color: hsl(24 29% 8%);
+            border-bottom: 1px solid hsl(30 5% 92%);
+        }
+        .spec-table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Modals</span>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Component</p>
+            <h1 class="font-display text-4xl mb-2">Modals & Dialogs</h1>
+            <p class="text-warm-600 max-w-2xl">Modal patterns for confirmations, forms, alerts, and focused interactions. Interrupt the user flow only when necessary.</p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">01 — Philosophy</p>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="focus" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Intentional Interruption</h3>
+                    <p class="text-sm text-warm-600">Modals interrupt the user to focus attention on a specific task or decision. Use sparingly.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="minimize-2" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Context Switching</h3>
+                    <p class="text-sm text-warm-600">Only use modals when context switching is truly necessary—not for inline content that could stay in flow.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="door-open" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Clear Exit Path</h3>
+                    <p class="text-sm text-warm-600">Every modal needs a clear way out: close button, cancel action, or backdrop click.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- ANATOMY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">02 — Anatomy</p>
+            <div class="bg-white border border-warm-200 rounded-lg p-8">
+                <div class="grid grid-cols-5 gap-4 text-center mb-8">
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-16 bg-warm-800/20 rounded mb-2"></div>
+                        <p class="text-xs text-warm-500">Backdrop</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-16 bg-white border border-warm-200 rounded shadow-lg mb-2"></div>
+                        <p class="text-xs text-warm-500">Container</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-8 bg-warm-100 rounded mb-2"></div>
+                        <p class="text-xs text-warm-500">Header</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="space-y-1">
+                            <div class="w-full h-4 bg-warm-100 rounded"></div>
+                            <div class="w-3/4 h-4 bg-warm-50 rounded"></div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2">Body</p>
+                    </div>
+                    <div class="p-4 border border-dashed border-warm-300 rounded-lg">
+                        <div class="w-full h-8 bg-warm-50 rounded border border-warm-200 mb-2"></div>
+                        <p class="text-xs text-warm-500">Footer</p>
+                    </div>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-4 text-sm">
+                    <ul class="grid grid-cols-2 gap-2 text-warm-600">
+                        <li><strong>Backdrop:</strong> Overlay that dims page content</li>
+                        <li><strong>Container:</strong> The modal box with shadow and border-radius</li>
+                        <li><strong>Header:</strong> Title, optional subtitle, close button</li>
+                        <li><strong>Body:</strong> Content area (forms, text, etc.)</li>
+                        <li><strong>Footer:</strong> Action buttons, right-aligned</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- BASE SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">03 — Base Specifications</p>
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Light Mode</th>
+                            <th>Dark Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Backdrop color</td>
+                            <td><code>intaglio-900</code> at 60% opacity</td>
+                            <td><code>intaglio-950</code> at 80% opacity</td>
+                        </tr>
+                        <tr>
+                            <td>Container background</td>
+                            <td><code>white</code></td>
+                            <td><code>intaglio-800</code></td>
+                        </tr>
+                        <tr>
+                            <td>Container border</td>
+                            <td>none (shadow provides edge)</td>
+                            <td>1px <code>intaglio-700</code></td>
+                        </tr>
+                        <tr>
+                            <td>Container border radius</td>
+                            <td colspan="2">12px</td>
+                        </tr>
+                        <tr>
+                            <td>Container shadow</td>
+                            <td><code>0 25px 50px -12px rgba(0,0,0,0.25)</code></td>
+                            <td><code>0 25px 50px -12px rgba(0,0,0,0.5)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Header padding</td>
+                            <td colspan="2">20px 24px</td>
+                        </tr>
+                        <tr>
+                            <td>Body padding</td>
+                            <td colspan="2">0 24px 20px</td>
+                        </tr>
+                        <tr>
+                            <td>Footer padding</td>
+                            <td colspan="2">16px 24px</td>
+                        </tr>
+                        <tr>
+                            <td>Footer background</td>
+                            <td><code>warm-100</code></td>
+                            <td><code>intaglio-900</code></td>
+                        </tr>
+                        <tr>
+                            <td>Footer border</td>
+                            <td>1px <code>warm-200</code> top</td>
+                            <td>1px <code>intaglio-700</code> top</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Size Scale -->
+            <p class="font-medium mb-3">Size Scale</p>
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Width</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Small</strong></td>
+                            <td>400px</td>
+                            <td>Simple confirmations, alerts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Default</strong></td>
+                            <td>500px</td>
+                            <td>Standard dialogs, forms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Large</strong></td>
+                            <td>640px</td>
+                            <td>Complex forms, detail views</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XLarge</strong></td>
+                            <td>800px</td>
+                            <td>Tables, rich content</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Full</strong></td>
+                            <td>90vw (max 1000px)</td>
+                            <td>Full-page-like content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-warm-500 mt-3">Max height: 90vh with scrollable body</p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- MODAL TYPES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">04 — Modal Types</p>
+
+            <div class="space-y-8">
+                <!-- Alert Modal -->
+                <div>
+                    <p class="font-medium mb-3">Alert Modal</p>
+                    <p class="text-sm text-warm-600 mb-4">Simple message with single action. Icon optional, centered layout.</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="modal-backdrop rounded-xl" style="min-height: 300px;">
+                            <div class="modal-container modal-sm animate-modal">
+                                <div class="modal-body text-center py-8">
+                                    <div class="alert-icon alert-icon-success">
+                                        <i data-lucide="check" class="w-6 h-6"></i>
+                                    </div>
+                                    <h3 class="modal-title mb-2">Payment Complete</h3>
+                                    <p class="text-sm text-warm-600 mb-6">Your payment of $127.50 has been processed successfully.</p>
+                                    <button class="btn btn-primary w-full">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-5">
+                            <p class="font-medium text-sm mb-3">Specifications</p>
+                            <ul class="text-sm text-warm-600 space-y-2">
+                                <li><strong>Size:</strong> Small (400px)</li>
+                                <li><strong>Icon:</strong> Optional, centered above title (40-48px)</li>
+                                <li><strong>Title:</strong> Centered, 18px, font-weight 600</li>
+                                <li><strong>Message:</strong> Centered, 14px, <code>warm-600</code></li>
+                                <li><strong>Actions:</strong> Single centered button</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmation Modal -->
+                <div>
+                    <p class="font-medium mb-3">Confirmation Modal</p>
+                    <p class="text-sm text-warm-600 mb-4">Decision requiring explicit choice. Shows consequences clearly.</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="modal-backdrop rounded-xl" style="min-height: 280px;">
+                            <div class="modal-container modal-sm animate-modal">
+                                <div class="modal-header">
+                                    <div>
+                                        <h3 class="modal-title">Delete Transaction?</h3>
+                                    </div>
+                                    <button class="modal-close">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-sm text-warm-600">This will permanently delete transaction <strong>#TXN-2024-0847</strong>. This action cannot be undone.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-ghost">Cancel</button>
+                                    <button class="btn btn-destructive">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-5">
+                            <p class="font-medium text-sm mb-3">Specifications</p>
+                            <ul class="text-sm text-warm-600 space-y-2">
+                                <li><strong>Size:</strong> Small (400px)</li>
+                                <li><strong>Title:</strong> Left-aligned, 18px</li>
+                                <li><strong>Message:</strong> Description of consequences</li>
+                                <li><strong>Actions:</strong> Ghost cancel + Primary/Destructive confirm</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Modal -->
+                <div>
+                    <p class="font-medium mb-3">Form Modal</p>
+                    <p class="text-sm text-warm-600 mb-4">Input collection in modal context. Inline validation, submit disabled until valid.</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="modal-backdrop rounded-xl" style="min-height: 380px;">
+                            <div class="modal-container modal-md animate-modal">
+                                <div class="modal-header">
+                                    <div>
+                                        <h3 class="modal-title">Add New Program</h3>
+                                        <p class="modal-subtitle">Connect a loyalty program to your wallet</p>
+                                    </div>
+                                    <button class="modal-close">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body space-y-4">
+                                    <div>
+                                        <label class="form-label">Program Name</label>
+                                        <input type="text" class="form-input" placeholder="e.g., Target Circle" value="Target Circle">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Account Number</label>
+                                        <input type="text" class="form-input form-input-error" placeholder="Enter your account number">
+                                        <p class="form-error">Account number is required</p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-ghost">Cancel</button>
+                                    <button class="btn btn-primary" disabled>Connect Program</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-5">
+                            <p class="font-medium text-sm mb-3">Specifications</p>
+                            <ul class="text-sm text-warm-600 space-y-2">
+                                <li><strong>Size:</strong> Default (500px) or Large (640px)</li>
+                                <li><strong>Body:</strong> Form fields with standard input styling</li>
+                                <li><strong>Actions:</strong> Ghost cancel + Primary submit</li>
+                                <li><strong>Validation:</strong> Inline errors, submit disabled until valid</li>
+                                <li><strong>Error state:</strong> <code>magenta-500</code> border + error text</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Modal -->
+                <div>
+                    <p class="font-medium mb-3">Information Modal</p>
+                    <p class="text-sm text-warm-600 mb-4">Content display without required action. Rich content support.</p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="modal-backdrop rounded-xl" style="min-height: 300px;">
+                            <div class="modal-container modal-md animate-modal">
+                                <div class="modal-header">
+                                    <div>
+                                        <h3 class="modal-title">How Points Work</h3>
+                                    </div>
+                                    <button class="modal-close">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-sm text-warm-600 mb-4">Points are converted to dollars at checkout. The exchange rate varies by program:</p>
+                                    <ul class="text-sm text-warm-600 space-y-2 mb-4">
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                            Target Circle: 100 points = $1.00
+                                        </li>
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                            AAdvantage: 100 miles = $1.50
+                                        </li>
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                                            Hilton Honors: 200 points = $1.00
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary">Got It</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-warm-50 rounded-lg p-5">
+                            <p class="font-medium text-sm mb-3">Specifications</p>
+                            <ul class="text-sm text-warm-600 space-y-2">
+                                <li><strong>Size:</strong> Default or Large</li>
+                                <li><strong>Body:</strong> Rich content (text, images, lists)</li>
+                                <li><strong>Actions:</strong> Single "Close" or "Got it" button</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- HEADER PATTERNS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">05 — Header Patterns</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Simple Header -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="modal-header border-b border-warm-100">
+                        <h3 class="modal-title">Simple Header</h3>
+                        <button class="modal-close">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 bg-warm-50 text-sm text-warm-600">
+                        Title only, close button right-aligned
+                    </div>
+                </div>
+
+                <!-- Header with Subtitle -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="modal-header border-b border-warm-100">
+                        <div>
+                            <h3 class="modal-title">Header with Subtitle</h3>
+                            <p class="modal-subtitle">Supporting context goes here</p>
+                        </div>
+                        <button class="modal-close">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 bg-warm-50 text-sm text-warm-600">
+                        Title + subtitle (14px, muted), close button
+                    </div>
+                </div>
+
+                <!-- Header with Icon -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="modal-header border-b border-warm-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="credit-card" class="w-5 h-5 text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="modal-title">Header with Icon</h3>
+                                <p class="modal-subtitle">Icon left of title</p>
+                            </div>
+                        </div>
+                        <button class="modal-close">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 bg-warm-50 text-sm text-warm-600">
+                        Icon (24px) left of title + optional subtitle
+                    </div>
+                </div>
+
+                <!-- Destructive Header -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="modal-header border-b border-warm-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-magenta-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-magenta-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="modal-title" style="color: hsl(330 85% 35%);">Destructive Header</h3>
+                                <p class="modal-subtitle">This action is irreversible</p>
+                            </div>
+                        </div>
+                        <button class="modal-close">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 bg-warm-50 text-sm text-warm-600">
+                        Warning icon in <code>magenta-500</code>, title in <code>magenta-700</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- FOOTER PATTERNS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">06 — Footer Patterns</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Single Action -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Single Action</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+
+                <!-- Two Actions -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Two Actions (Standard)</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost">Cancel</button>
+                        <button class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+
+                <!-- Three Actions -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Three Actions</div>
+                    <div class="modal-footer" style="justify-content: space-between;">
+                        <button class="btn btn-ghost">Cancel</button>
+                        <div class="flex gap-3">
+                            <button class="btn btn-secondary">Save Draft</button>
+                            <button class="btn btn-primary">Publish</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destructive Actions -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Destructive Actions</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost">Cancel</button>
+                        <button class="btn btn-destructive">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Loading State</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" disabled style="opacity: 0.5;">Cancel</button>
+                        <button class="btn btn-primary" disabled style="opacity: 0.8;">
+                            <span class="spinner"></span>
+                            Saving...
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dark Footer -->
+                <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 text-sm text-warm-500">Dark Mode Footer</div>
+                    <div class="modal-footer modal-footer-dark">
+                        <button class="btn btn-ghost-dark">Cancel</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DARK MODE (FIRE OPAL) -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">07 — Dark Mode (Fire Opal)</p>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Alert Dark -->
+                <div>
+                    <p class="font-medium mb-3">Alert (Dark)</p>
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="modal-backdrop modal-backdrop-dark rounded-xl" style="min-height: 300px;">
+                            <div class="modal-container modal-container-dark modal-sm animate-modal">
+                                <div class="modal-body text-center py-8">
+                                    <div class="alert-icon alert-icon-success-dark">
+                                        <i data-lucide="check" class="w-6 h-6"></i>
+                                    </div>
+                                    <h3 class="modal-title-dark mb-2">Payment Complete</h3>
+                                    <p class="text-sm mb-6" style="color: hsl(30 5% 55%);">Your payment of $127.50 has been processed successfully.</p>
+                                    <button class="btn btn-primary w-full">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmation Dark -->
+                <div>
+                    <p class="font-medium mb-3">Confirmation (Dark)</p>
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="modal-backdrop modal-backdrop-dark rounded-xl" style="min-height: 300px;">
+                            <div class="modal-container modal-container-dark modal-sm animate-modal">
+                                <div class="modal-header">
+                                    <div class="flex items-center gap-3">
+                                        <div class="alert-icon alert-icon-sm alert-icon-error-dark" style="margin: 0;">
+                                            <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                        </div>
+                                        <h3 class="modal-title-dark">Delete Program?</h3>
+                                    </div>
+                                    <button class="modal-close modal-close-dark">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-sm" style="color: hsl(30 5% 55%);">This will disconnect Target Circle from your wallet. You'll need to reconnect to use points again.</p>
+                                </div>
+                                <div class="modal-footer modal-footer-dark">
+                                    <button class="btn btn-ghost-dark">Cancel</button>
+                                    <button class="btn btn-destructive">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Mode Token Reference -->
+            <div class="mt-6 bg-warm-50 rounded-lg p-4">
+                <p class="font-medium mb-3">Fire Opal Modal Tokens</p>
+                <div class="grid grid-cols-2 gap-4 text-sm text-warm-600">
+                    <ul class="space-y-1">
+                        <li><strong>Backdrop:</strong> <code>intaglio-950/80</code></li>
+                        <li><strong>Container:</strong> <code>bg-intaglio-800</code></li>
+                        <li><strong>Border:</strong> <code>1px intaglio-700</code></li>
+                        <li><strong>Shadow:</strong> <code>0 25px 50px -12px rgba(0,0,0,0.5)</code></li>
+                    </ul>
+                    <ul class="space-y-1">
+                        <li><strong>Title:</strong> <code>warm-100</code>, 18px, font-weight 600</li>
+                        <li><strong>Subtitle:</strong> <code>warm-400</code>, 14px</li>
+                        <li><strong>Body text:</strong> <code>warm-400</code></li>
+                        <li><strong>Footer:</strong> <code>bg-intaglio-900</code>, <code>border-intaglio-700</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- ANIMATION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">08 — Animation</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="log-in" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Opening</h3>
+                    <ol class="text-sm text-warm-600 space-y-2 list-decimal list-inside">
+                        <li>Backdrop fades in (150ms, ease-out)</li>
+                        <li>Modal scales up from 95% and fades in (200ms, ease-out)</li>
+                    </ol>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-4">
+                        <i data-lucide="log-out" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-medium mb-2">Closing</h3>
+                    <ol class="text-sm text-warm-600 space-y-2 list-decimal list-inside">
+                        <li>Modal scales down to 95% and fades out (150ms, ease-in)</li>
+                        <li>Backdrop fades out (150ms, ease-in)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="code-block">
+<pre><span class="selector">@keyframes modal-enter</span> {
+  <span class="property">from</span> {
+    <span class="property">opacity</span>: <span class="value">0</span>;
+    <span class="property">transform</span>: <span class="value">scale(0.95)</span>;
+  }
+  <span class="property">to</span> {
+    <span class="property">opacity</span>: <span class="value">1</span>;
+    <span class="property">transform</span>: <span class="value">scale(1)</span>;
+  }
+}
+
+<span class="selector">@keyframes modal-exit</span> {
+  <span class="property">from</span> {
+    <span class="property">opacity</span>: <span class="value">1</span>;
+    <span class="property">transform</span>: <span class="value">scale(1)</span>;
+  }
+  <span class="property">to</span> {
+    <span class="property">opacity</span>: <span class="value">0</span>;
+    <span class="property">transform</span>: <span class="value">scale(0.95)</span>;
+  }
+}</pre>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SCROLLING BEHAVIOR -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">09 — Scrolling Behavior</p>
+
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-2">Short Content</h3>
+                    <p class="text-sm text-warm-600">Modal height fits content. No scrolling needed.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-2">Tall Content</h3>
+                    <p class="text-sm text-warm-600">Modal max-height: 90vh. Header/footer fixed, body scrolls with <code>overflow-y: auto</code>.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-2">Scroll Indicators</h3>
+                    <p class="text-sm text-warm-600">Subtle shadow at body top when scrolled down, shadow at bottom when more content below.</p>
+                </div>
+            </div>
+
+            <!-- Scrolling Example -->
+            <div class="modal-backdrop rounded-xl" style="min-height: 400px;">
+                <div class="modal-container modal-md animate-modal" style="max-height: 350px;">
+                    <div class="modal-header" style="border-bottom: 1px solid hsl(30 5% 88%);">
+                        <h3 class="modal-title">Terms of Service</h3>
+                        <button class="modal-close">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body modal-body-scrollable" style="box-shadow: inset 0 8px 8px -8px rgba(0,0,0,0.1);">
+                        <div class="space-y-4 text-sm text-warm-600">
+                            <p>By using Saltwyk services, you agree to these terms...</p>
+                            <p><strong>1. Acceptance of Terms</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p><strong>2. Privacy Policy</strong><br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p><strong>3. User Responsibilities</strong><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            <p><strong>4. Limitation of Liability</strong><br>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p><strong>5. Changes to Terms</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost">Decline</button>
+                        <button class="btn btn-primary">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- FOCUS & ACCESSIBILITY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10 — Focus & Accessibility</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">Focus Management</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center text-xs text-emerald-700 font-medium flex-shrink-0">1</span>
+                            <span><strong>On open:</strong> Focus moves to first focusable element (or close button)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center text-xs text-emerald-700 font-medium flex-shrink-0">2</span>
+                            <span><strong>Tab trapping:</strong> Tab cycles through modal elements only</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center text-xs text-emerald-700 font-medium flex-shrink-0">3</span>
+                            <span><strong>On close:</strong> Focus returns to element that triggered modal</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center text-xs text-emerald-700 font-medium flex-shrink-0">4</span>
+                            <span><strong>Escape key:</strong> Closes modal (unless during critical operation)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <h3 class="font-medium mb-4">ARIA Requirements</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li><code>role="dialog"</code> on container</li>
+                        <li><code>aria-modal="true"</code> on container</li>
+                        <li><code>aria-labelledby</code> referencing title ID</li>
+                        <li><code>aria-describedby</code> for description (optional)</li>
+                        <li>Modal announced when opened</li>
+                        <li>Content readable in logical order</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-warm-50 rounded-lg p-6">
+                <p class="font-medium mb-3">Backdrop Behavior</p>
+                <div class="grid grid-cols-2 gap-6 text-sm text-warm-600">
+                    <div>
+                        <p class="font-medium text-ink mb-2">Click to close</p>
+                        <p>Default behavior: clicking backdrop closes modal. Can be disabled for important forms.</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Visual state</p>
+                        <p>Backdrop dims page content. Page content should not be interactive while modal is open.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- CONTEXTUAL EXAMPLES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">11 — Contextual Examples</p>
+
+            <div class="space-y-8">
+                <!-- Delete Confirmation -->
+                <div>
+                    <p class="font-medium mb-3">Delete Confirmation</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 280px;">
+                        <div class="modal-container modal-sm animate-modal">
+                            <div class="modal-header">
+                                <div class="flex items-center gap-3">
+                                    <div class="alert-icon alert-icon-sm alert-icon-error" style="margin: 0;">
+                                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="modal-title" style="color: hsl(330 85% 35%);">Delete Transaction</h3>
+                                    </div>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-sm text-warm-600">Are you sure you want to delete transaction <strong>#TXN-2024-0847</strong>?</p>
+                                <p class="text-sm text-warm-500 mt-2">This will permanently remove the $127.50 purchase from Target. This action cannot be undone.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-destructive">Delete Transaction</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Form -->
+                <div>
+                    <p class="font-medium mb-3">Create Form with Validation</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 420px;">
+                        <div class="modal-container modal-md animate-modal">
+                            <div class="modal-header">
+                                <div>
+                                    <h3 class="modal-title">Create New Program</h3>
+                                    <p class="modal-subtitle">Connect a loyalty program to your Saltwyk wallet</p>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body space-y-4">
+                                <div>
+                                    <label class="form-label">Program Name <span class="text-magenta-500">*</span></label>
+                                    <input type="text" class="form-input" value="Target Circle">
+                                </div>
+                                <div>
+                                    <label class="form-label">Account Number <span class="text-magenta-500">*</span></label>
+                                    <input type="text" class="form-input form-input-error" placeholder="Enter your account number">
+                                    <p class="form-error">Please enter a valid account number</p>
+                                </div>
+                                <div>
+                                    <label class="form-label">Account Nickname (optional)</label>
+                                    <input type="text" class="form-input" placeholder="e.g., My Target Card">
+                                </div>
+                                <div>
+                                    <label class="form-label">Default for this merchant?</label>
+                                    <div class="flex items-center gap-3 mt-2">
+                                        <div class="toggle active"></div>
+                                        <span class="text-sm text-warm-600">Use this program automatically at Target</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-primary" disabled>Create Program</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Form (Dark) -->
+                <div>
+                    <p class="font-medium mb-3">Settings Form (Dark Mode)</p>
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="modal-backdrop modal-backdrop-dark rounded-xl" style="min-height: 400px;">
+                            <div class="modal-container modal-container-dark modal-md animate-modal">
+                                <div class="modal-header">
+                                    <div>
+                                        <h3 class="modal-title-dark">Notification Settings</h3>
+                                        <p class="modal-subtitle-dark">Customize how you receive updates</p>
+                                    </div>
+                                    <button class="modal-close modal-close-dark">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body space-y-4">
+                                    <div class="flex items-center justify-between py-2">
+                                        <div>
+                                            <p class="text-sm font-medium" style="color: hsl(30 5% 88%);">Push notifications</p>
+                                            <p class="text-xs" style="color: hsl(30 5% 50%);">Get notified on your device</p>
+                                        </div>
+                                        <div class="toggle active"></div>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2" style="border-top: 1px solid hsl(24 27% 20%);">
+                                        <div>
+                                            <p class="text-sm font-medium" style="color: hsl(30 5% 88%);">Email notifications</p>
+                                            <p class="text-xs" style="color: hsl(30 5% 50%);">Receive updates via email</p>
+                                        </div>
+                                        <div class="toggle active"></div>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2" style="border-top: 1px solid hsl(24 27% 20%);">
+                                        <div>
+                                            <p class="text-sm font-medium" style="color: hsl(30 5% 88%);">Weekly summary</p>
+                                            <p class="text-xs" style="color: hsl(30 5% 50%);">Get a weekly digest of activity</p>
+                                        </div>
+                                        <div class="toggle"></div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label form-label-dark">Email address</label>
+                                        <input type="email" class="form-input form-input-dark" value="user@example.com">
+                                    </div>
+                                </div>
+                                <div class="modal-footer modal-footer-dark">
+                                    <button class="btn btn-ghost-dark">Cancel</button>
+                                    <button class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TYPE-TO-CONFIRM PATTERN -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">12 — Type-to-Confirm Pattern</p>
+            <p class="text-warm-600 text-sm mb-6">For high-stakes destructive actions like account deletion. User must type exact text to enable the action button.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Empty State -->
+                <div>
+                    <p class="font-medium mb-3">Empty Input (Button Disabled)</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 320px;">
+                        <div class="modal-container modal-md animate-modal">
+                            <div class="modal-header">
+                                <div>
+                                    <h3 class="modal-title" style="color: hsl(330 85% 35%);">Confirm Account Deletion</h3>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-sm text-warm-600 mb-4">
+                                    To confirm, type <strong class="text-ink">DELETE</strong> in the box below:
+                                </p>
+                                <input type="text"
+                                       placeholder="Type DELETE"
+                                       class="form-input mb-2"
+                                       readonly>
+                                <p class="text-xs text-warm-500">This is case-sensitive</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-destructive" disabled>Delete My Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Correct Input -->
+                <div>
+                    <p class="font-medium mb-3">Correct Input (Button Enabled)</p>
+                    <div class="modal-backdrop rounded-xl" style="min-height: 320px;">
+                        <div class="modal-container modal-md animate-modal">
+                            <div class="modal-header">
+                                <div>
+                                    <h3 class="modal-title" style="color: hsl(330 85% 35%);">Confirm Account Deletion</h3>
+                                </div>
+                                <button class="modal-close">
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-sm text-warm-600 mb-4">
+                                    To confirm, type <strong class="text-ink">DELETE</strong> in the box below:
+                                </p>
+                                <input type="text"
+                                       value="DELETE"
+                                       class="form-input mb-2"
+                                       style="border-color: hsl(160 70% 40%);"
+                                       readonly>
+                                <p class="text-xs text-emerald-600">✓ Text matches</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-ghost">Cancel</button>
+                                <button class="btn btn-destructive">Delete My Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="mt-6">
+                <p class="font-medium mb-3">Interactive Demo</p>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm text-warm-600 mb-4">
+                        Type <strong class="text-ink">DELETE</strong> to enable the button:
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <input type="text"
+                               placeholder="Type DELETE"
+                               class="form-input"
+                               style="max-width: 200px;"
+                               id="confirm-input"
+                               data-confirm-text="DELETE"
+                               data-confirm-target="#confirm-btn">
+                        <button id="confirm-btn" class="btn btn-destructive" disabled>Delete My Account</button>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-2">Case-sensitive match required</p>
+                </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="mt-6">
+                <p class="font-medium mb-3">Implementation</p>
+                <div class="code-block">
+<pre><span class="comment">// HTML</span>
+&lt;input type="text"
+       id="confirm-input"
+       data-confirm-text="DELETE"
+       data-confirm-target="#confirm-btn"&gt;
+&lt;button id="confirm-btn" disabled&gt;Delete&lt;/button&gt;
+
+<span class="comment">// JavaScript</span>
+<span class="selector">const input</span> = document.querySelector('[data-confirm-text]');
+<span class="selector">const targetBtn</span> = document.querySelector(input.dataset.confirmTarget);
+<span class="selector">const confirmText</span> = input.dataset.confirmText;
+
+input.addEventListener('input', () => {
+  targetBtn.disabled = input.value !== confirmText;
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- CODE REFERENCE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">13 — Code Reference</p>
+
+            <div class="space-y-6">
+                <!-- Modal Container -->
+                <div>
+                    <p class="font-medium mb-3">Modal Container (Light)</p>
+                    <div class="code-block">
+<pre><span class="selector">.modal-backdrop</span> {
+  <span class="property">position</span>: <span class="value">fixed</span>;
+  <span class="property">inset</span>: <span class="value">0</span>;
+  <span class="property">background</span>: <span class="value">hsl(24 29% 8% / 60%)</span>;
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">justify-content</span>: <span class="value">center</span>;
+}
+
+<span class="selector">.modal</span> {
+  <span class="property">background</span>: <span class="value">white</span>;
+  <span class="property">border-radius</span>: <span class="value">12px</span>;
+  <span class="property">box-shadow</span>: <span class="value">0 25px 50px -12px rgba(0,0,0,0.25)</span>;
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">max-width</span>: <span class="value">500px</span>;
+  <span class="property">max-height</span>: <span class="value">90vh</span>;
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">flex-direction</span>: <span class="value">column</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Dark Container -->
+                <div>
+                    <p class="font-medium mb-3">Modal Container (Dark)</p>
+                    <div class="code-block">
+<pre><span class="selector">.modal-backdrop-dark</span> {
+  <span class="property">background</span>: <span class="value">hsl(24 30% 5% / 80%)</span>;
+}
+
+<span class="selector">.modal-dark</span> {
+  <span class="property">background</span>: <span class="value">hsl(24 28% 12%)</span>;
+  <span class="property">border</span>: <span class="value">1px solid hsl(24 27% 20%)</span>;
+  <span class="property">box-shadow</span>: <span class="value">0 25px 50px -12px rgba(0,0,0,0.5)</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Header/Footer -->
+                <div>
+                    <p class="font-medium mb-3">Header & Footer</p>
+                    <div class="code-block">
+<pre><span class="selector">.modal-header</span> {
+  <span class="property">padding</span>: <span class="value">20px 24px</span>;
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">flex-start</span>;
+  <span class="property">justify-content</span>: <span class="value">space-between</span>;
+}
+
+<span class="selector">.modal-title</span> {
+  <span class="property">font-size</span>: <span class="value">18px</span>;
+  <span class="property">font-weight</span>: <span class="value">600</span>;
+  <span class="property">color</span>: <span class="value">hsl(24 29% 8%)</span>;
+}
+
+<span class="selector">.modal-body</span> {
+  <span class="property">padding</span>: <span class="value">0 24px 20px</span>;
+  <span class="property">overflow-y</span>: <span class="value">auto</span>;
+}
+
+<span class="selector">.modal-footer</span> {
+  <span class="property">padding</span>: <span class="value">16px 24px</span>;
+  <span class="property">background</span>: <span class="value">hsl(30 5% 97%)</span>;
+  <span class="property">border-top</span>: <span class="value">1px solid hsl(30 5% 88%)</span>;
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">justify-content</span>: <span class="value">flex-end</span>;
+  <span class="property">gap</span>: <span class="value">12px</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Animation -->
+                <div>
+                    <p class="font-medium mb-3">Animation</p>
+                    <div class="code-block">
+<pre><span class="selector">.modal-enter</span> {
+  <span class="property">animation</span>: <span class="value">modal-enter 200ms ease-out</span>;
+}
+
+<span class="selector">.modal-exit</span> {
+  <span class="property">animation</span>: <span class="value">modal-exit 150ms ease-in forwards</span>;
+}
+
+<span class="selector">@keyframes modal-enter</span> {
+  <span class="property">from</span> { <span class="property">opacity</span>: <span class="value">0</span>; <span class="property">transform</span>: <span class="value">scale(0.95)</span>; }
+  <span class="property">to</span> { <span class="property">opacity</span>: <span class="value">1</span>; <span class="property">transform</span>: <span class="value">scale(1)</span>; }
+}
+
+<span class="selector">@keyframes modal-exit</span> {
+  <span class="property">from</span> { <span class="property">opacity</span>: <span class="value">1</span>; <span class="property">transform</span>: <span class="value">scale(1)</span>; }
+  <span class="property">to</span> { <span class="property">opacity</span>: <span class="value">0</span>; <span class="property">transform</span>: <span class="value">scale(0.95)</span>; }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- IMPLEMENTATION CHECKLIST -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">13 — Implementation Checklist</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Container</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Border radius: 12px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Shadow: <code>0 25px 50px -12px rgba(0,0,0,0.25)</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Max height: 90vh</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Sizes: 400px, 500px, 640px, 800px, 90vw</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Backdrop</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Color: <code>intaglio-900/60</code> (light) / <code>intaglio-950/80</code> (dark)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Click to close (default behavior)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Header</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Padding: 20px 24px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Title: 18px, font-weight 600</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Close button: top-right corner</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Footer</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Padding: 16px 24px</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Border-top: 1px <code>warm-200</code> (light) / <code>intaglio-700</code> (dark)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Buttons: right-aligned, 12px gap</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Animation</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Enter: 200ms scale + fade</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Exit: 150ms scale + fade</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-6">
+                    <p class="font-medium mb-4">Accessibility</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Focus trap within modal</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>ESC closes modal</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span><code>aria-modal="true"</code></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="w-4 h-4 border border-warm-300 rounded mt-0.5"></span>
+                            <span>Focus returns to trigger on close</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-8 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                </div>
+                <p>Saltwyk Design System v0.6</p>
+            </div>
+        </footer>
+    </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script>
+        // Type-to-Confirm Pattern
+        document.querySelectorAll('[data-confirm-text]').forEach(input => {
+            const targetSelector = input.dataset.confirmTarget;
+            const confirmText = input.dataset.confirmText;
+            const targetBtn = document.querySelector(targetSelector);
+
+            if (targetBtn) {
+                input.addEventListener('input', () => {
+                    targetBtn.disabled = input.value !== confirmText;
+                });
+            }
+        });
+    </script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

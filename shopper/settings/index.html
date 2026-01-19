@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Screen | Shopper | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Fresh thread gradient (Cyan → Lime) */
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+
+        /* Settings Tab Styles - Mobile (Horizontal) */
+        .settings-tabs-mobile {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid hsl(var(--warm-200));
+        }
+        .settings-tab-mobile {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.15s ease;
+        }
+        .settings-tab-mobile:hover {
+            color: hsl(var(--ink));
+        }
+        .settings-tab-mobile.active {
+            color: hsl(var(--indigo-600));
+            border-bottom-color: hsl(var(--indigo-600));
+        }
+
+        /* Settings Tab Styles - Desktop (Vertical Sidebar) */
+        .settings-sidebar {
+            width: 200px;
+            border-right: 1px solid hsl(var(--warm-200));
+            padding: 24px 16px;
+        }
+        .settings-tab-desktop {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            text-align: left;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            transition: all 0.15s ease;
+        }
+        .settings-tab-desktop:hover {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--ink));
+        }
+        .settings-tab-desktop.active {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-600));
+        }
+
+        /* Content sections */
+        .settings-section {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        /* Danger zone styling */
+        .danger-zone {
+            border: 2px solid hsl(var(--magenta-200));
+        }
+        .danger-zone-header {
+            color: hsl(var(--magenta-600));
+        }
+
+        /* Accordion styles */
+        .accordion-trigger[aria-expanded="true"] .accordion-chevron {
+            transform: rotate(90deg);
+        }
+        .accordion-content[hidden] {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Settings</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Settings Screen</h1>
+            <p class="text-warm-600">Account management, security settings, email addresses, and notification preferences for Shopper users.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT - Account Tab -->
+        <!-- ============================================ -->
+        <section class="mb-16 mobile-variant">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout - Account Tab</p>
+            <p class="text-sm text-warm-600 mb-6">Horizontal tabs above content on mobile.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                        <!-- 3px Fresh gradient thread at top edge -->
+                        <div class="h-[3px] w-full thread-fresh"></div>
+
+                        <div class="px-5 py-6">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between mb-6">
+                                <button class="w-10 h-10 flex items-center justify-center text-warm-600 hover:text-indigo-600 transition-colors">
+                                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                </button>
+                                <h1 class="font-display text-2xl font-bold text-ink flex-1 text-center">Settings</h1>
+                                <div class="w-10 h-10 rounded-full bg-warm-300 text-warm-700 text-sm font-semibold flex items-center justify-center">
+                                    JD
+                                </div>
+                            </div>
+
+                            <!-- Mobile Tabs -->
+                            <div class="settings-tabs-mobile mb-6">
+                                <button class="settings-tab-mobile active">Account</button>
+                                <button class="settings-tab-mobile">Communication</button>
+                            </div>
+
+                            <!-- Account Tab Content -->
+                            <div class="space-y-4" id="mobile-account-content">
+                                <!-- Profile Information Section -->
+                                <div class="settings-section">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i data-lucide="user" class="w-5 h-5 text-warm-400"></i>
+                                        <h2 class="text-lg font-semibold text-ink">Profile Information</h2>
+                                    </div>
+                                    <p class="text-warm-600 text-sm mb-4">Update your personal details</p>
+
+                                    <div class="space-y-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-ink mb-2">First Name</label>
+                                            <input type="text" value="John" class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-ink mb-2">Last Name</label>
+                                            <input type="text" value="Doe" class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                        </div>
+                                    </div>
+
+                                    <button class="w-full px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                        Save Changes
+                                    </button>
+                                </div>
+
+                                <!-- Security Section -->
+                                <div class="settings-section">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i data-lucide="lock" class="w-5 h-5 text-warm-400"></i>
+                                        <h2 class="text-lg font-semibold text-ink">Security</h2>
+                                    </div>
+                                    <p class="text-warm-600 text-sm mb-4">Manage your login and authentication</p>
+
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-ink mb-2">Phone Number</label>
+                                        <div class="flex items-center justify-between p-3 bg-warm-50 border border-warm-200 rounded-lg">
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-ink">+1 (555) 123-4567</span>
+                                                <span class="badge badge-sm badge-success">
+                                                    <i data-lucide="check" class="w-3 h-3"></i>
+                                                    Verified
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p class="text-xs text-warm-500 mt-1">Used for login and verification codes</p>
+                                    </div>
+
+                                    <button class="w-full px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                        Change Phone Number
+                                    </button>
+                                </div>
+
+                                <!-- Danger Zone Section -->
+                                <div class="settings-section danger-zone">
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-magenta-600"></i>
+                                        <h2 class="text-lg font-semibold danger-zone-header">Danger Zone</h2>
+                                    </div>
+
+                                    <!-- Delete Account -->
+                                    <div class="mb-4 pb-4 border-b border-warm-200">
+                                        <h3 class="font-semibold text-ink mb-2">Delete Account</h3>
+                                        <p class="text-sm text-warm-600 mb-3">
+                                            Permanently delete your account and all data. This cannot be undone.
+                                        </p>
+                                        <button class="w-full px-4 py-2 bg-magenta-600 text-white font-medium rounded-lg hover:bg-magenta-700 transition-colors">
+                                            Delete Account
+                                        </button>
+                                    </div>
+
+                                    <!-- Sign Out -->
+                                    <div>
+                                        <h3 class="font-semibold text-ink mb-2">Sign Out</h3>
+                                        <p class="text-sm text-warm-600 mb-3">
+                                            Sign out of your Saltwyk account on this device.
+                                        </p>
+                                        <button class="w-full px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Navigation -->
+                        <div class="border-t border-warm-200 bg-white px-6 py-3">
+                            <div class="flex items-center justify-around">
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Dashboard</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="store" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Merchants</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="heart" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Wishlist</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-indigo-600">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Profile</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESKTOP LAYOUT - Account Tab -->
+        <!-- ============================================ -->
+        <section class="mb-16 desktop-variant">
+            <p class="serial text-intaglio-500 mb-4">Desktop Layout - Account Tab</p>
+            <p class="text-sm text-warm-600 mb-6">Vertical sidebar tabs on desktop.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview</p>
+
+                <div class="bg-warm-100 rounded-lg p-4">
+                    <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                        <!-- 3px Fresh gradient thread at top edge -->
+                        <div class="h-[3px] w-full thread-fresh"></div>
+
+                        <!-- Desktop Top Nav -->
+                        <div class="border-b border-warm-200 bg-white px-6 py-3">
+                            <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                <div class="flex items-center gap-8">
+                                    <span class="font-display text-xl font-bold text-emerald-600">S</span>
+                                    <nav class="flex items-center gap-6 text-sm">
+                                        <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                        <a href="#" class="text-warm-600 hover:text-ink">Merchants</a>
+                                        <a href="#" class="text-warm-600 hover:text-ink">Wishlist</a>
+                                    </nav>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm text-warm-600">John Doe</span>
+                                    <div class="w-8 h-8 rounded-full bg-warm-300 text-warm-700 text-xs font-semibold flex items-center justify-center">
+                                        JD
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Content with Sidebar -->
+                        <div class="flex max-w-5xl mx-auto">
+                            <!-- Vertical Sidebar Tabs -->
+                            <div class="settings-sidebar">
+                                <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3 px-3">Settings</h2>
+                                <button class="settings-tab-desktop active">Account</button>
+                                <button class="settings-tab-desktop">Communication</button>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div class="flex-1 p-6">
+                                <h1 class="font-display text-3xl font-bold text-ink mb-6">Account</h1>
+
+                                <!-- Account Tab Content -->
+                                <div class="space-y-6" id="desktop-account-content">
+                                    <!-- Profile Information Section -->
+                                    <div class="settings-section">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <i data-lucide="user" class="w-5 h-5 text-warm-400"></i>
+                                            <h2 class="text-xl font-semibold text-ink">Profile Information</h2>
+                                        </div>
+                                        <p class="text-warm-600 text-sm mb-6">Update your personal details</p>
+
+                                        <div class="grid grid-cols-2 gap-4 mb-6">
+                                            <div>
+                                                <label class="block text-sm font-medium text-ink mb-2">First Name</label>
+                                                <input type="text" value="John" class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-ink mb-2">Last Name</label>
+                                                <input type="text" value="Doe" class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                            </div>
+                                        </div>
+
+                                        <button class="px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                            Save Changes
+                                        </button>
+                                    </div>
+
+                                    <!-- Security Section -->
+                                    <div class="settings-section">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <i data-lucide="lock" class="w-5 h-5 text-warm-400"></i>
+                                            <h2 class="text-xl font-semibold text-ink">Security</h2>
+                                        </div>
+                                        <p class="text-warm-600 text-sm mb-6">Manage your login and authentication</p>
+
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-ink mb-2">Phone Number</label>
+                                            <div class="flex items-center justify-between p-3 bg-warm-50 border border-warm-200 rounded-lg">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-ink">+1 (555) 123-4567</span>
+                                                    <span class="badge badge-sm badge-success">
+                                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                                        Verified
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p class="text-xs text-warm-500 mt-1">Used for login and verification codes</p>
+                                        </div>
+
+                                        <button class="px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                            Change Phone Number
+                                        </button>
+                                    </div>
+
+                                    <!-- Danger Zone Section -->
+                                    <div class="settings-section danger-zone">
+                                        <div class="flex items-center gap-2 mb-6">
+                                            <i data-lucide="alert-triangle" class="w-5 h-5 text-magenta-600"></i>
+                                            <h2 class="text-xl font-semibold danger-zone-header">Danger Zone</h2>
+                                        </div>
+
+                                        <!-- Delete Account -->
+                                        <div class="mb-6 pb-6 border-b border-warm-200">
+                                            <h3 class="font-semibold text-ink mb-2">Delete Account</h3>
+                                            <p class="text-sm text-warm-600 mb-4">
+                                                Permanently delete your account and all data. This cannot be undone.
+                                            </p>
+                                            <button class="px-4 py-2 bg-magenta-600 text-white font-medium rounded-lg hover:bg-magenta-700 transition-colors">
+                                                Delete Account
+                                            </button>
+                                        </div>
+
+                                        <!-- Sign Out -->
+                                        <div>
+                                            <h3 class="font-semibold text-ink mb-2">Sign Out</h3>
+                                            <p class="text-sm text-warm-600 mb-4">
+                                                Sign out of your Saltwyk account on this device.
+                                            </p>
+                                            <button class="px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                                Sign Out
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DELETE CONFIRMATION MODALS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Delete Account Flow - Modal Steps</p>
+            <p class="text-sm text-warm-600 mb-6">Three-step confirmation flow for account deletion.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Step 1: Warning Modal -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Step 1: Warning</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-white rounded-lg shadow-lg border border-warm-200 overflow-hidden max-w-sm mx-auto">
+                            <div class="p-6">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-magenta-100 flex items-center justify-center">
+                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-magenta-600"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-magenta-600">Delete Account?</h3>
+                                </div>
+                                <p class="text-warm-600 mb-4">This will permanently delete:</p>
+                                <ul class="space-y-2 text-warm-600 mb-4 text-sm">
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                        All connected merchant accounts
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                        Your transaction history
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                        All buying power access
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                        Your wishlist
+                                    </li>
+                                </ul>
+                                <p class="text-sm text-warm-600">
+                                    <strong class="text-ink">This cannot be undone</strong>, but you can sign up again in the future.
+                                </p>
+                            </div>
+                            <div class="flex gap-3 p-4 border-t border-warm-200 bg-warm-50">
+                                <button class="flex-1 px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg">Cancel</button>
+                                <button class="flex-1 px-4 py-2 bg-magenta-600 text-white font-medium rounded-lg">Continue to Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Type-to-Confirm Modal -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Step 2: Type to Confirm</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-white rounded-lg shadow-lg border border-warm-200 overflow-hidden max-w-sm mx-auto">
+                            <div class="p-6">
+                                <h3 class="text-lg font-semibold text-magenta-600 mb-4">Confirm Account Deletion</h3>
+                                <p class="text-warm-600 mb-4">
+                                    To confirm, type <strong class="text-ink">DELETE</strong> below:
+                                </p>
+                                <input type="text" placeholder="Type DELETE" class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink mb-2 focus:outline-none focus:ring-2 focus:ring-magenta-500 focus:border-transparent">
+                                <p class="text-xs text-warm-500">Case-sensitive</p>
+                            </div>
+                            <div class="flex gap-3 p-4 border-t border-warm-200 bg-warm-50">
+                                <button class="flex-1 px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg">Cancel</button>
+                                <button class="flex-1 px-4 py-2 bg-magenta-400 text-white font-medium rounded-lg opacity-50 cursor-not-allowed" disabled>Delete My Account</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3 text-center">Button enabled when input matches "DELETE"</p>
+                </div>
+
+                <!-- Step 3: Feedback Modal (Optional) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Step 3: Feedback (Optional)</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-white rounded-lg shadow-lg border border-warm-200 overflow-hidden max-w-sm mx-auto">
+                            <div class="p-6">
+                                <h3 class="text-lg font-semibold text-ink mb-4">Help us improve (optional)</h3>
+                                <p class="text-warm-600 mb-4">Why are you leaving Saltwyk?</p>
+                                <textarea rows="3" placeholder="Your feedback helps us..." class="w-full px-3 py-2 border border-warm-300 rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
+                            </div>
+                            <div class="flex gap-3 p-4 border-t border-warm-200 bg-warm-50">
+                                <button class="flex-1 px-4 py-2 bg-white border border-warm-300 text-ink font-medium rounded-lg">Skip</button>
+                                <button class="flex-1 px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg">Submit & Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT - Communication Tab -->
+        <!-- ============================================ -->
+        <section class="mb-16 mobile-variant">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout - Communication Tab</p>
+            <p class="text-sm text-warm-600 mb-6">Communication preferences on mobile.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                        <div class="h-[3px] w-full thread-fresh"></div>
+
+                        <div class="px-5 py-6">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between mb-6">
+                                <button class="w-10 h-10 flex items-center justify-center text-warm-600 hover:text-indigo-600 transition-colors">
+                                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                </button>
+                                <h1 class="font-display text-2xl font-bold text-ink flex-1 text-center">Settings</h1>
+                                <div class="w-10 h-10 rounded-full bg-warm-300 text-warm-700 text-sm font-semibold flex items-center justify-center">
+                                    JD
+                                </div>
+                            </div>
+
+                            <!-- Mobile Tabs - Communication Active -->
+                            <div class="settings-tabs-mobile mb-6">
+                                <button class="settings-tab-mobile">Account</button>
+                                <button class="settings-tab-mobile active">Communication</button>
+                            </div>
+
+                            <!-- Communication Tab Content -->
+                            <div class="space-y-4" id="mobile-communication-content">
+                                <!-- Primary Email Section -->
+                                <div class="settings-section">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i data-lucide="mail" class="w-5 h-5 text-warm-400"></i>
+                                        <h2 class="text-lg font-semibold text-ink">Primary Email</h2>
+                                    </div>
+                                    <p class="text-warm-600 text-sm mb-4">Choose which email we use to contact you</p>
+
+                                    <p class="text-sm font-medium text-ink mb-3">Your Primary Email</p>
+
+                                    <div class="space-y-3 mb-4">
+                                        <!-- Option 1 -->
+                                        <label class="flex items-start gap-3 p-3 border border-warm-200 rounded-lg cursor-pointer hover:border-indigo-200">
+                                            <input type="radio" name="primary-email-mobile" class="mt-1 w-4 h-4 text-indigo-600">
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                                                    <span class="font-medium text-ink">john@personal.com</span>
+                                                    <span class="badge badge-sm badge-success">
+                                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                                        Verified
+                                                    </span>
+                                                </div>
+                                                <p class="text-xs text-warm-500">Used for Target, Sephora, Whole Foods</p>
+                                            </div>
+                                        </label>
+
+                                        <!-- Option 2 (SELECTED) -->
+                                        <label class="flex items-start gap-3 p-3 border-2 border-indigo-500 bg-indigo-50 rounded-lg cursor-pointer">
+                                            <input type="radio" name="primary-email-mobile" class="mt-1 w-4 h-4 text-indigo-600" checked>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                                                    <span class="font-medium text-ink">john@work.com</span>
+                                                    <span class="badge badge-sm badge-success">
+                                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                                        Verified
+                                                    </span>
+                                                </div>
+                                                <p class="text-xs text-warm-500">Used for Best Buy, Nordstrom</p>
+                                            </div>
+                                        </label>
+
+                                        <!-- Option 3: Add New -->
+                                        <label class="flex items-start gap-3 p-3 border border-warm-200 rounded-lg cursor-pointer hover:border-indigo-200">
+                                            <input type="radio" name="primary-email-mobile" class="mt-1 w-4 h-4 text-indigo-600">
+                                            <div class="flex-1">
+                                                <span class="font-medium text-ink">Add a new email address</span>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <button class="w-full px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                        Save Changes
+                                    </button>
+                                </div>
+
+                                <!-- Email Addresses Section -->
+                                <div class="settings-section">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i data-lucide="list" class="w-5 h-5 text-warm-400"></i>
+                                        <h2 class="text-lg font-semibold text-ink">Email Addresses</h2>
+                                    </div>
+                                    <p class="text-warm-600 text-sm mb-4">Manage emails used for merchant connections</p>
+
+                                    <p class="text-sm text-warm-600 mb-4">
+                                        You're using <strong class="text-ink">2 email addresses</strong> across <strong class="text-ink">5 merchants</strong>
+                                    </p>
+
+                                    <div class="space-y-3">
+                                        <!-- Email Group 1 (Verified, Collapsed) -->
+                                        <div class="border border-warm-200 rounded-lg overflow-hidden">
+                                            <button class="accordion-trigger w-full flex items-center gap-3 p-3 hover:bg-warm-50 text-left" aria-expanded="false" aria-controls="email-1-mobile">
+                                                <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform"></i>
+                                                <span class="font-medium text-ink flex-1 text-sm">john@personal.com</span>
+                                                <span class="badge badge-sm badge-success">
+                                                    <i data-lucide="check" class="w-3 h-3"></i>
+                                                    Verified
+                                                </span>
+                                                <span class="text-xs text-warm-500">(3)</span>
+                                            </button>
+                                            <div id="email-1-mobile" class="accordion-content border-t border-warm-200 px-4 py-3" hidden>
+                                                <ul class="space-y-2 text-sm text-warm-600">
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                        Target
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                        Sephora
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                        Whole Foods
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email Group 2 (Verified, Collapsed) -->
+                                        <div class="border border-warm-200 rounded-lg overflow-hidden">
+                                            <button class="accordion-trigger w-full flex items-center gap-3 p-3 hover:bg-warm-50 text-left" aria-expanded="false" aria-controls="email-2-mobile">
+                                                <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform"></i>
+                                                <span class="font-medium text-ink flex-1 text-sm">john@work.com</span>
+                                                <span class="badge badge-sm badge-success">
+                                                    <i data-lucide="check" class="w-3 h-3"></i>
+                                                    Verified
+                                                </span>
+                                                <span class="text-xs text-warm-500">(2)</span>
+                                            </button>
+                                            <div id="email-2-mobile" class="accordion-content border-t border-warm-200 px-4 py-3" hidden>
+                                                <ul class="space-y-2 text-sm text-warm-600">
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                        Best Buy
+                                                    </li>
+                                                    <li class="flex items-center gap-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                        Nordstrom
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email Group 3 (Pending, Expanded) -->
+                                        <div class="border border-orange-200 rounded-lg overflow-hidden">
+                                            <button class="accordion-trigger w-full flex items-center gap-3 p-3 hover:bg-warm-50 text-left" aria-expanded="true" aria-controls="email-3-mobile">
+                                                <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform rotate-90"></i>
+                                                <span class="font-medium text-ink flex-1 text-sm">sarah@example.com</span>
+                                                <span class="badge badge-sm badge-warning">
+                                                    <i data-lucide="clock" class="w-3 h-3"></i>
+                                                    Pending
+                                                </span>
+                                                <span class="text-xs text-warm-500">(1)</span>
+                                            </button>
+                                            <div id="email-3-mobile" class="accordion-content border-t border-orange-200 px-4 py-3">
+                                                <p class="text-sm text-warm-600 mb-3">This email needs verification before you can use it.</p>
+                                                <button class="px-3 py-1.5 bg-white border border-warm-300 text-ink text-sm font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                                    Resend Verification Email
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Notification Preferences Section -->
+                                <div class="settings-section">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i data-lucide="bell" class="w-5 h-5 text-warm-400"></i>
+                                        <h2 class="text-lg font-semibold text-ink">Notification Preferences</h2>
+                                    </div>
+                                    <p class="text-warm-600 text-sm mb-4">Control what we send and how we send it</p>
+
+                                    <!-- Email Notifications -->
+                                    <div class="mb-5">
+                                        <h3 class="font-semibold text-ink mb-3 text-sm">Email Notifications</h3>
+                                        <div class="space-y-3">
+                                            <!-- Required (disabled) -->
+                                            <label class="flex items-start gap-3 opacity-50 cursor-not-allowed">
+                                                <input type="checkbox" checked disabled class="mt-0.5 w-4 h-4 rounded border-warm-300">
+                                                <div class="flex-1">
+                                                    <div class="font-medium text-ink text-sm">Connection issues</div>
+                                                    <div class="text-xs text-warm-500">When a merchant requires reconnection (required)</div>
+                                                </div>
+                                            </label>
+                                            <!-- Optional -->
+                                            <label class="flex items-start gap-3 cursor-pointer">
+                                                <input type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                <div class="flex-1">
+                                                    <div class="font-medium text-ink text-sm">New merchant announcements</div>
+                                                    <div class="text-xs text-warm-500">When new merchants join the network</div>
+                                                </div>
+                                            </label>
+                                            <label class="flex items-start gap-3 cursor-pointer">
+                                                <input type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                <div class="flex-1">
+                                                    <div class="font-medium text-ink text-sm">Point promotions</div>
+                                                    <div class="text-xs text-warm-500">Special offers and bonus opportunities</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- SMS Notifications -->
+                                    <div class="mb-4">
+                                        <h3 class="font-semibold text-ink mb-3 text-sm">SMS Notifications</h3>
+                                        <div class="space-y-3">
+                                            <!-- Required (disabled) -->
+                                            <label class="flex items-start gap-3 opacity-50 cursor-not-allowed">
+                                                <input type="checkbox" checked disabled class="mt-0.5 w-4 h-4 rounded border-warm-300">
+                                                <div class="flex-1">
+                                                    <div class="font-medium text-ink text-sm">Verification codes</div>
+                                                    <div class="text-xs text-warm-500">Required for login and security (required)</div>
+                                                </div>
+                                            </label>
+                                            <!-- Optional -->
+                                            <label class="flex items-start gap-3 cursor-pointer">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                <div class="flex-1">
+                                                    <div class="font-medium text-ink text-sm">Point promotions</div>
+                                                    <div class="text-xs text-warm-500">Special offers via text message</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button class="w-full px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                        Save Preferences
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Navigation -->
+                        <div class="border-t border-warm-200 bg-white px-6 py-3">
+                            <div class="flex items-center justify-around">
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Dashboard</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="store" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Merchants</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-warm-400">
+                                    <i data-lucide="heart" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Wishlist</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1 text-indigo-600">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                    <span class="text-[10px] font-medium">Profile</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESKTOP LAYOUT - Communication Tab -->
+        <!-- ============================================ -->
+        <section class="mb-16 desktop-variant">
+            <p class="serial text-intaglio-500 mb-4">Desktop Layout - Communication Tab</p>
+            <p class="text-sm text-warm-600 mb-6">Communication preferences on desktop.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview</p>
+
+                <div class="bg-warm-100 rounded-lg p-4">
+                    <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                        <div class="h-[3px] w-full thread-fresh"></div>
+
+                        <!-- Desktop Top Nav -->
+                        <div class="border-b border-warm-200 bg-white px-6 py-3">
+                            <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                <div class="flex items-center gap-8">
+                                    <span class="font-display text-xl font-bold text-emerald-600">S</span>
+                                    <nav class="flex items-center gap-6 text-sm">
+                                        <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                        <a href="#" class="text-warm-600 hover:text-ink">Merchants</a>
+                                        <a href="#" class="text-warm-600 hover:text-ink">Wishlist</a>
+                                    </nav>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm text-warm-600">John Doe</span>
+                                    <div class="w-8 h-8 rounded-full bg-warm-300 text-warm-700 text-xs font-semibold flex items-center justify-center">
+                                        JD
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Content with Sidebar -->
+                        <div class="flex max-w-5xl mx-auto">
+                            <!-- Vertical Sidebar Tabs - Communication Active -->
+                            <div class="settings-sidebar">
+                                <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3 px-3">Settings</h2>
+                                <button class="settings-tab-desktop">Account</button>
+                                <button class="settings-tab-desktop active">Communication</button>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div class="flex-1 p-6">
+                                <h1 class="font-display text-3xl font-bold text-ink mb-6">Communication</h1>
+
+                                <!-- Communication Tab Content -->
+                                <div class="space-y-6" id="desktop-communication-content">
+                                    <!-- Primary Email Section -->
+                                    <div class="settings-section">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <i data-lucide="mail" class="w-5 h-5 text-warm-400"></i>
+                                            <h2 class="text-xl font-semibold text-ink">Primary Email</h2>
+                                        </div>
+                                        <p class="text-warm-600 text-sm mb-6">Choose which email we use to contact you</p>
+
+                                        <p class="text-sm font-medium text-ink mb-3">Your Primary Email</p>
+
+                                        <div class="space-y-3 mb-6">
+                                            <!-- Option 1 -->
+                                            <label class="flex items-start gap-3 p-3 border border-warm-200 rounded-lg cursor-pointer hover:border-indigo-200 transition-colors">
+                                                <input type="radio" name="primary-email-desktop" class="mt-1 w-4 h-4 text-indigo-600">
+                                                <div class="flex-1">
+                                                    <div class="flex items-center gap-2 mb-1">
+                                                        <span class="font-medium text-ink">john@personal.com</span>
+                                                        <span class="badge badge-sm badge-success">
+                                                            <i data-lucide="check" class="w-3 h-3"></i>
+                                                            Verified
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-xs text-warm-500">Used for Target, Sephora, Whole Foods</p>
+                                                </div>
+                                            </label>
+
+                                            <!-- Option 2 (SELECTED) -->
+                                            <label class="flex items-start gap-3 p-3 border-2 border-indigo-500 bg-indigo-50 rounded-lg cursor-pointer">
+                                                <input type="radio" name="primary-email-desktop" class="mt-1 w-4 h-4 text-indigo-600" checked>
+                                                <div class="flex-1">
+                                                    <div class="flex items-center gap-2 mb-1">
+                                                        <span class="font-medium text-ink">john@work.com</span>
+                                                        <span class="badge badge-sm badge-success">
+                                                            <i data-lucide="check" class="w-3 h-3"></i>
+                                                            Verified
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-xs text-warm-500">Used for Best Buy, Nordstrom</p>
+                                                </div>
+                                            </label>
+
+                                            <!-- Option 3: Add New -->
+                                            <label class="flex items-start gap-3 p-3 border border-warm-200 rounded-lg cursor-pointer hover:border-indigo-200 transition-colors">
+                                                <input type="radio" name="primary-email-desktop" class="mt-1 w-4 h-4 text-indigo-600">
+                                                <div class="flex-1">
+                                                    <span class="font-medium text-ink">Add a new email address</span>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <button class="px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                            Save Changes
+                                        </button>
+                                    </div>
+
+                                    <!-- Email Addresses Section -->
+                                    <div class="settings-section">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <i data-lucide="list" class="w-5 h-5 text-warm-400"></i>
+                                            <h2 class="text-xl font-semibold text-ink">Email Addresses</h2>
+                                        </div>
+                                        <p class="text-warm-600 text-sm mb-6">Manage emails used for merchant connections</p>
+
+                                        <p class="text-sm text-warm-600 mb-4">
+                                            You're using <strong class="text-ink">2 email addresses</strong> across <strong class="text-ink">5 merchants</strong>
+                                        </p>
+
+                                        <div class="space-y-3">
+                                            <!-- Email Group 1 (Verified, Collapsed) -->
+                                            <div class="border border-warm-200 rounded-lg overflow-hidden">
+                                                <button class="accordion-trigger w-full flex items-center gap-3 p-4 hover:bg-warm-50 text-left" aria-expanded="false" aria-controls="email-1-desktop">
+                                                    <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform"></i>
+                                                    <span class="font-medium text-ink flex-1">john@personal.com</span>
+                                                    <span class="badge badge-sm badge-success">
+                                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                                        Verified
+                                                    </span>
+                                                    <span class="text-sm text-warm-500">(3 merchants)</span>
+                                                </button>
+                                                <div id="email-1-desktop" class="accordion-content border-t border-warm-200 px-4 py-3" hidden>
+                                                    <ul class="space-y-2 text-sm text-warm-600">
+                                                        <li class="flex items-center gap-2">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                            Target
+                                                        </li>
+                                                        <li class="flex items-center gap-2">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                            Sephora
+                                                        </li>
+                                                        <li class="flex items-center gap-2">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                            Whole Foods
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <!-- Email Group 2 (Verified, Collapsed) -->
+                                            <div class="border border-warm-200 rounded-lg overflow-hidden">
+                                                <button class="accordion-trigger w-full flex items-center gap-3 p-4 hover:bg-warm-50 text-left" aria-expanded="false" aria-controls="email-2-desktop">
+                                                    <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform"></i>
+                                                    <span class="font-medium text-ink flex-1">john@work.com</span>
+                                                    <span class="badge badge-sm badge-success">
+                                                        <i data-lucide="check" class="w-3 h-3"></i>
+                                                        Verified
+                                                    </span>
+                                                    <span class="text-sm text-warm-500">(2 merchants)</span>
+                                                </button>
+                                                <div id="email-2-desktop" class="accordion-content border-t border-warm-200 px-4 py-3" hidden>
+                                                    <ul class="space-y-2 text-sm text-warm-600">
+                                                        <li class="flex items-center gap-2">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                            Best Buy
+                                                        </li>
+                                                        <li class="flex items-center gap-2">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-warm-400"></span>
+                                                            Nordstrom
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <!-- Email Group 3 (Pending, Expanded) -->
+                                            <div class="border border-orange-200 rounded-lg overflow-hidden">
+                                                <button class="accordion-trigger w-full flex items-center gap-3 p-4 hover:bg-warm-50 text-left" aria-expanded="true" aria-controls="email-3-desktop">
+                                                    <i data-lucide="chevron-right" class="accordion-chevron w-4 h-4 text-warm-400 transition-transform rotate-90"></i>
+                                                    <span class="font-medium text-ink flex-1">sarah@example.com</span>
+                                                    <span class="badge badge-sm badge-warning">
+                                                        <i data-lucide="clock" class="w-3 h-3"></i>
+                                                        Pending
+                                                    </span>
+                                                    <span class="text-sm text-warm-500">(1 merchant)</span>
+                                                </button>
+                                                <div id="email-3-desktop" class="accordion-content border-t border-orange-200 px-4 py-3">
+                                                    <p class="text-sm text-warm-600 mb-3">This email needs verification before you can use it.</p>
+                                                    <button class="px-4 py-2 bg-white border border-warm-300 text-ink text-sm font-medium rounded-lg hover:bg-warm-50 transition-colors">
+                                                        Resend Verification Email
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Notification Preferences Section -->
+                                    <div class="settings-section">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <i data-lucide="bell" class="w-5 h-5 text-warm-400"></i>
+                                            <h2 class="text-xl font-semibold text-ink">Notification Preferences</h2>
+                                        </div>
+                                        <p class="text-warm-600 text-sm mb-6">Control what we send and how we send it</p>
+
+                                        <!-- Email Notifications -->
+                                        <div class="mb-6">
+                                            <h3 class="font-semibold text-ink mb-3">Email Notifications</h3>
+                                            <div class="space-y-3">
+                                                <!-- Required (disabled) -->
+                                                <label class="flex items-start gap-3 opacity-50 cursor-not-allowed">
+                                                    <input type="checkbox" checked disabled class="mt-0.5 w-4 h-4 rounded border-warm-300">
+                                                    <div class="flex-1">
+                                                        <div class="font-medium text-ink">Connection issues</div>
+                                                        <div class="text-sm text-warm-500">When a merchant requires reconnection (required)</div>
+                                                    </div>
+                                                </label>
+                                                <!-- Optional -->
+                                                <label class="flex items-start gap-3 cursor-pointer">
+                                                    <input type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                    <div class="flex-1">
+                                                        <div class="font-medium text-ink">New merchant announcements</div>
+                                                        <div class="text-sm text-warm-500">When new merchants join the network</div>
+                                                    </div>
+                                                </label>
+                                                <label class="flex items-start gap-3 cursor-pointer">
+                                                    <input type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                    <div class="flex-1">
+                                                        <div class="font-medium text-ink">Point promotions</div>
+                                                        <div class="text-sm text-warm-500">Special offers and bonus opportunities</div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- SMS Notifications -->
+                                        <div class="mb-6">
+                                            <h3 class="font-semibold text-ink mb-3">SMS Notifications</h3>
+                                            <div class="space-y-3">
+                                                <!-- Required (disabled) -->
+                                                <label class="flex items-start gap-3 opacity-50 cursor-not-allowed">
+                                                    <input type="checkbox" checked disabled class="mt-0.5 w-4 h-4 rounded border-warm-300">
+                                                    <div class="flex-1">
+                                                        <div class="font-medium text-ink">Verification codes</div>
+                                                        <div class="text-sm text-warm-500">Required for login and security (required)</div>
+                                                    </div>
+                                                </label>
+                                                <!-- Optional -->
+                                                <label class="flex items-start gap-3 cursor-pointer">
+                                                    <input type="checkbox" class="mt-0.5 w-4 h-4 rounded border-warm-300 text-indigo-600">
+                                                    <div class="flex-1">
+                                                        <div class="font-medium text-ink">Point promotions</div>
+                                                        <div class="text-sm text-warm-500">Special offers via text message</div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <button class="px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition-colors">
+                                            Save Preferences
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Property</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Mobile</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Desktop</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-200">
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Tab Navigation</td>
+                            <td class="px-4 py-3"><code>Horizontal tabs</code></td>
+                            <td class="px-4 py-3"><code>Vertical sidebar (200px)</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Content Max Width</td>
+                            <td class="px-4 py-3"><code>100%</code></td>
+                            <td class="px-4 py-3"><code>max-w-5xl</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Section Padding</td>
+                            <td class="px-4 py-3"><code>p-4</code></td>
+                            <td class="px-4 py-3"><code>p-6</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Section Gap</td>
+                            <td class="px-4 py-3"><code>space-y-4</code></td>
+                            <td class="px-4 py-3"><code>space-y-6</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Active Tab Color</td>
+                            <td class="px-4 py-3"><code>indigo-600</code></td>
+                            <td class="px-4 py-3"><code>indigo-600 + bg-indigo-50</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Danger Zone Border</td>
+                            <td class="px-4 py-3" colspan="2"><code>border-2 border-magenta-200</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Verified Badge</td>
+                            <td class="px-4 py-3" colspan="2"><code>bg-emerald-50 text-emerald-700</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Pending Badge</td>
+                            <td class="px-4 py-3" colspan="2"><code>bg-orange-50 text-orange-700</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Related Components -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="../../../components/accordion/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Accordion</h3>
+                    <p class="text-xs text-warm-500">Collapsible content panels</p>
+                </a>
+                <a href="../../../components/tabs/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Tabs</h3>
+                    <p class="text-xs text-warm-500">Content organization</p>
+                </a>
+                <a href="../../../components/modals/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Modals</h3>
+                    <p class="text-xs text-warm-500">Dialogs and confirmations</p>
+                </a>
+                <a href="../../../components/utilities/countdown-timer.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Countdown Timer</h3>
+                    <p class="text-xs text-warm-500">Rate-limited actions</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="../../../index.html" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="../../../sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+    </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

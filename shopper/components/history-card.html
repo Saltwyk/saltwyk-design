@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Card | Shopper Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .headline { letter-spacing: -0.02em; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* Fresh thread gradient (Cyan → Lime) - ONLY for hero/modal elements */
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+
+        /* History card - simple, no thread (one thread per screen rule) */
+        .history-card {
+            transition: all 0.15s ease;
+        }
+        .history-card:hover {
+            border-color: hsl(var(--indigo-300));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Transaction Detail Modal - the hero element, gets the thread */
+        /* No rounded top corners when thread is present */
+        .transaction-modal {
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .transaction-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <a href="index.html" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">History Card</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Shopper Component</p>
+            <h1 class="font-display text-4xl mb-2">History Card</h1>
+            <p class="text-warm-600">Celebratory cards showing completed purchases where shoppers successfully used their points.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- COMPONENT OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overview</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    The History Card shows completed transactions where shoppers used their accumulated points.
+                    Cards are intentionally simple — just the product and which merchants contributed.
+                    Detailed breakdowns live in the Transaction Detail Modal, which serves as the hero element.
+                </p>
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Purpose</p>
+                        <p class="text-warm-600 text-xs">Show completed purchases, list contributing merchants</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Location</p>
+                        <p class="text-warm-600 text-xs">Passport "Snagged" section, transaction history</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Thread Rule</p>
+                        <p class="text-warm-600 text-xs">One thread per screen — only on the modal hero</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-cyan-50 to-lime-50 border-2 border-cyan-200 rounded-lg p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <i data-lucide="lightbulb" class="w-5 h-5 text-cyan-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Design Decision: One Thread Per Screen</p>
+                        <p class="text-sm text-warm-700 mb-3">
+                            The <strong>Fresh thread accent</strong> (Cyan → Lime) appears <em>only</em> on the
+                            Transaction Detail Modal — the hero element of the history view. Individual cards
+                            stay simple and thread-free to maintain visual hierarchy.
+                        </p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• Cards show <strong>what</strong> was purchased and <strong>which merchants</strong> contributed</li>
+                            <li>• The modal shows the <strong>detailed breakdown</strong> with per-merchant line items</li>
+                            <li>• Thread-bearing elements have <strong>no rounded top corners</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VISUAL EXAMPLES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Visual Examples</p>
+            <p class="text-sm text-warm-600 mb-6">Simple cards showing completed purchases. Details live in the modal.</p>
+
+            <!-- Single Merchant Variant -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Single Merchant</p>
+                        <p class="text-sm text-warm-600">Purchase using points from one merchant program.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Default</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-3 mb-3">
+                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="package" class="w-7 h-7 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-base font-bold text-ink truncate">Liquid Death 12-Pack</p>
+                                            <p class="text-sm text-warm-600">Target</p>
+                                            <p class="serial text-warm-500 mt-1">Dec 14, 2025</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs text-warm-500">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                        <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                            View details
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[520px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="package" class="w-8 h-8 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-lg font-bold text-ink">Liquid Death 12-Pack</p>
+                                            <p class="text-sm text-warm-600">Target</p>
+                                            <p class="text-xs text-warm-500 mt-1">via <span class="font-medium text-ink">Liquid Death</span></p>
+                                        </div>
+                                        <div class="text-right flex flex-col items-end gap-2">
+                                            <p class="serial text-warm-500">Dec 14, 2025</p>
+                                            <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                View details
+                                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Merchants Variant -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Multiple Merchants</p>
+                        <p class="text-sm text-warm-600">Purchase combining points from multiple merchant programs.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-700 rounded">Combined</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-3 mb-3">
+                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="coffee" class="w-7 h-7 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-base font-bold text-ink truncate">Coffee Lover's Bundle</p>
+                                            <p class="text-sm text-warm-600">Amazon</p>
+                                            <p class="serial text-warm-500 mt-1">Nov 28, 2025</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2 text-xs text-warm-500">
+                                            <span>via</span>
+                                            <span class="font-medium text-ink">Death Wish Coffee</span>
+                                            <span class="text-warm-300">+</span>
+                                            <span class="font-medium text-ink">Chamberlain Coffee</span>
+                                        </div>
+                                        <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                            Details
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[560px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="coffee" class="w-8 h-8 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-lg font-bold text-ink">Coffee Lover's Bundle</p>
+                                            <p class="text-sm text-warm-600">Amazon</p>
+                                            <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                                                <span>via</span>
+                                                <span class="font-medium text-ink">Death Wish Coffee</span>
+                                                <span class="text-warm-300">+</span>
+                                                <span class="font-medium text-ink">Chamberlain Coffee</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right flex flex-col items-end gap-2">
+                                            <p class="serial text-warm-500">Nov 28, 2025</p>
+                                            <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                View details
+                                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three+ Merchants Variant -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Three+ Merchants</p>
+                        <p class="text-sm text-warm-600">Shows count when more than 2 merchants contributed.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Overflow</span>
+                </div>
+
+                <!-- Mobile Preview -->
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-3 mb-3">
+                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="sparkles" class="w-7 h-7 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-base font-bold text-ink truncate">Self-Care Essentials Kit</p>
+                                            <p class="text-sm text-warm-600">Sephora</p>
+                                            <p class="serial text-warm-500 mt-1">Jan 5, 2026</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2 text-xs text-warm-500">
+                                            <span>via</span>
+                                            <span class="font-medium text-ink">Kitsch</span>
+                                            <span class="text-warm-300">+</span>
+                                            <span class="font-medium text-ink">Princess Polly</span>
+                                            <span class="text-warm-300">+</span>
+                                            <span class="font-medium text-warm-600">1 more</span>
+                                        </div>
+                                        <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                            Details
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Preview -->
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[560px]">
+                            <div class="history-card bg-white border-2 border-warm-200 rounded-xl shadow-md cursor-pointer">
+                                <div class="p-4">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="sparkles" class="w-8 h-8 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-lg font-bold text-ink">Self-Care Essentials Kit</p>
+                                            <p class="text-sm text-warm-600">Sephora</p>
+                                            <div class="flex items-center gap-2 text-xs text-warm-500 mt-1">
+                                                <span>via</span>
+                                                <span class="font-medium text-ink">Kitsch</span>
+                                                <span class="text-warm-300">+</span>
+                                                <span class="font-medium text-ink">Princess Polly</span>
+                                                <span class="text-warm-300">+</span>
+                                                <span class="font-medium text-warm-600">1 more</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right flex flex-col items-end gap-2">
+                                            <p class="serial text-warm-500">Jan 5, 2026</p>
+                                            <button class="text-sm text-indigo-600 font-medium hover:text-indigo-700 transition-colors flex items-center gap-1">
+                                                View details
+                                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Interactive States</p>
+            <p class="text-sm text-warm-600 mb-6">Hover and focus states emphasize interactivity. Cards are simple with no thread accent.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Default -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Default</p>
+                        <div class="bg-white border-2 border-warm-200 rounded-xl p-4 shadow-md">
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 bg-warm-100 rounded-lg"></div>
+                                <div class="flex-1">
+                                    <div class="h-4 bg-warm-200 rounded w-3/4 mb-2"></div>
+                                    <div class="h-3 bg-warm-100 rounded w-1/2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>border-warm-200</code></p>
+                    </div>
+
+                    <!-- Hover -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Hover</p>
+                        <div class="bg-white border-2 border-indigo-300 rounded-xl p-4 shadow-lg" style="transform: translateY(-2px);">
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 bg-warm-100 rounded-lg"></div>
+                                <div class="flex-1">
+                                    <div class="h-4 bg-warm-200 rounded w-3/4 mb-2"></div>
+                                    <div class="h-3 bg-warm-100 rounded w-1/2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>border-indigo-300, translateY(-2px)</code></p>
+                    </div>
+
+                    <!-- Focus -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Focus</p>
+                        <div class="bg-white border-2 border-indigo-400 rounded-xl p-4 shadow-md" style="box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-400));">
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 bg-warm-100 rounded-lg"></div>
+                                <div class="flex-1">
+                                    <div class="h-4 bg-warm-200 rounded w-3/4 mb-2"></div>
+                                    <div class="h-3 bg-warm-100 rounded w-1/2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>ring-indigo-400</code></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TRANSACTION DETAIL MODAL -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Transaction Detail Modal</p>
+            <p class="text-sm text-warm-600 mb-6">
+                The hero element for the history view. Shows the Fresh thread accent at top (no rounded top corners)
+                and detailed per-merchant line items with metadata for support purposes.
+            </p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Transaction Receipt</p>
+                        <p class="text-sm text-warm-600">Per-merchant breakdown with line item details for support.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-cyan-100 text-cyan-700 rounded">Hero</span>
+                </div>
+
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile (480px)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <!-- Transaction Detail Modal - the hero with Fresh thread -->
+                            <div class="transaction-modal bg-white border-2 border-warm-200 rounded-b-xl shadow-lg">
+                                <div class="p-4 pt-5">
+                                    <!-- Product Summary -->
+                                    <div class="flex gap-3 mb-4">
+                                        <div class="w-14 h-14 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="sparkles" class="w-7 h-7 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-display text-base font-bold text-ink truncate">Self-Care Essentials Kit</p>
+                                            <p class="text-sm text-warm-600">Sephora • Online</p>
+                                            <p class="serial text-warm-500 mt-1">Jan 5, 2026 at 3:42 PM</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Per-Merchant Line Items -->
+                                    <div class="border-t border-warm-200 pt-4">
+                                        <p class="serial text-warm-500 mb-3">Points Used</p>
+
+                                        <!-- Kitsch Line Item -->
+                                        <div class="bg-warm-50 rounded-lg p-3 mb-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="w-6 h-6 rounded bg-pink-100 flex items-center justify-center flex-shrink-0">
+                                                        <span class="text-[10px] font-bold text-pink-600">K</span>
+                                                    </div>
+                                                    <span class="text-sm font-semibold text-ink">Kitsch</span>
+                                                </div>
+                                                <span class="text-sm font-bold text-ink">2,500 pts</span>
+                                            </div>
+                                            <div class="text-xs text-warm-500 space-y-1 pl-8">
+                                                <div class="flex justify-between">
+                                                    <span>Reference</span>
+                                                    <span class="font-mono text-warm-600">KIT-84729</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span>Support</span>
+                                                    <a href="#" class="text-indigo-600">rewards@kitsch.com</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Princess Polly Line Item -->
+                                        <div class="bg-warm-50 rounded-lg p-3 mb-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="w-6 h-6 rounded bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                                        <span class="text-[10px] font-bold text-purple-600">P</span>
+                                                    </div>
+                                                    <span class="text-sm font-semibold text-ink">Princess Polly</span>
+                                                </div>
+                                                <span class="text-sm font-bold text-ink">1,800 pts</span>
+                                            </div>
+                                            <div class="text-xs text-warm-500 space-y-1 pl-8">
+                                                <div class="flex justify-between">
+                                                    <span>Reference</span>
+                                                    <span class="font-mono text-warm-600">PP-39201</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span>Support</span>
+                                                    <a href="#" class="text-indigo-600">help@princesspolly.com</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Chamberlain Coffee Line Item -->
+                                        <div class="bg-warm-50 rounded-lg p-3 mb-4">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="w-6 h-6 rounded bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                                        <span class="text-[10px] font-bold text-amber-600">C</span>
+                                                    </div>
+                                                    <span class="text-sm font-semibold text-ink">Chamberlain Coffee</span>
+                                                </div>
+                                                <span class="text-sm font-bold text-ink">700 pts</span>
+                                            </div>
+                                            <div class="text-xs text-warm-500 space-y-1 pl-8">
+                                                <div class="flex justify-between">
+                                                    <span>Reference</span>
+                                                    <span class="font-mono text-warm-600">CC-11847</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span>Support</span>
+                                                    <a href="#" class="text-indigo-600">rewards@chamberlaincoffee.com</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Total -->
+                                        <div class="flex items-center justify-between py-3 border-t border-warm-200">
+                                            <span class="text-sm font-medium text-ink">Total Points Used</span>
+                                            <span class="text-lg font-bold text-ink">5,000</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Path to Snagging (Future Feature) -->
+                                    <div class="border-t border-warm-200 pt-4 mt-2">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <p class="serial text-warm-500">Your Path to This Snag</p>
+                                            <span class="text-[10px] font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Future</span>
+                                        </div>
+                                        <div class="bg-warm-50 rounded-lg p-3 border border-dashed border-warm-300">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-100 to-lime-100 flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="route" class="w-4 h-4 text-cyan-600"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm text-warm-700 mb-1">Timeline visualization showing how you accumulated these points</p>
+                                                    <p class="text-xs text-warm-500">e.g., "3 purchases at Kitsch over 4 months → 2,500 pts"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Transaction Metadata -->
+                                    <div class="border-t border-warm-200 pt-4 mt-4">
+                                        <p class="serial text-warm-500 mb-3">Transaction Info</p>
+                                        <div class="space-y-2 text-sm mb-4">
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-600">Saltwyk ID</span>
+                                                <span class="font-mono text-xs text-ink">#SW-2026-0105-7B3E</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-600">Completed</span>
+                                                <span class="text-ink">Jan 5, 2026 at 3:42 PM</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div class="flex gap-2">
+                                            <button class="flex-1 py-2 px-3 bg-warm-100 text-warm-700 text-sm font-medium rounded-lg hover:bg-warm-200 transition-colors flex items-center justify-center gap-2">
+                                                <i data-lucide="download" class="w-4 h-4"></i>
+                                                Download
+                                            </button>
+                                            <button class="flex-1 py-2 px-3 bg-warm-100 text-warm-700 text-sm font-medium rounded-lg hover:bg-warm-200 transition-colors flex items-center justify-center gap-2">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                                Email
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[520px]">
+                            <!-- Transaction Detail Modal - desktop -->
+                            <div class="transaction-modal bg-white border-2 border-warm-200 rounded-b-xl shadow-lg">
+                                <div class="p-5 pt-6">
+                                    <!-- Product Summary Row -->
+                                    <div class="flex gap-4 items-start mb-5">
+                                        <div class="w-16 h-16 bg-warm-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="sparkles" class="w-8 h-8 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-display text-lg font-bold text-ink">Self-Care Essentials Kit</p>
+                                            <p class="text-sm text-warm-600">Sephora • Online</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="serial text-warm-500">Jan 5, 2026</p>
+                                            <p class="text-xs text-warm-500">3:42 PM</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Per-Merchant Line Items -->
+                                    <div class="border-t border-warm-200 pt-4">
+                                        <p class="serial text-warm-500 mb-3">Points Breakdown</p>
+
+                                        <div class="space-y-3 mb-4">
+                                            <!-- Kitsch -->
+                                            <div class="bg-warm-50 rounded-lg p-3 flex items-center gap-4">
+                                                <div class="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center flex-shrink-0">
+                                                    <span class="text-xs font-bold text-pink-600">K</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-semibold text-ink">Kitsch</p>
+                                                    <p class="text-xs text-warm-500">Ref: <span class="font-mono">KIT-84729</span></p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-sm font-bold text-ink">2,500 pts</p>
+                                                    <a href="#" class="text-xs text-indigo-600">Get support</a>
+                                                </div>
+                                            </div>
+
+                                            <!-- Princess Polly -->
+                                            <div class="bg-warm-50 rounded-lg p-3 flex items-center gap-4">
+                                                <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                                    <span class="text-xs font-bold text-purple-600">P</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-semibold text-ink">Princess Polly</p>
+                                                    <p class="text-xs text-warm-500">Ref: <span class="font-mono">PP-39201</span></p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-sm font-bold text-ink">1,800 pts</p>
+                                                    <a href="#" class="text-xs text-indigo-600">Get support</a>
+                                                </div>
+                                            </div>
+
+                                            <!-- Chamberlain Coffee -->
+                                            <div class="bg-warm-50 rounded-lg p-3 flex items-center gap-4">
+                                                <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                                    <span class="text-xs font-bold text-amber-600">C</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-semibold text-ink">Chamberlain Coffee</p>
+                                                    <p class="text-xs text-warm-500">Ref: <span class="font-mono">CC-11847</span></p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-sm font-bold text-ink">700 pts</p>
+                                                    <a href="#" class="text-xs text-indigo-600">Get support</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Total -->
+                                        <div class="flex items-center justify-between py-3 border-t border-warm-200">
+                                            <span class="text-sm font-medium text-ink">Total Points Used</span>
+                                            <span class="text-lg font-bold text-ink">5,000</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Path to Snagging (Future Feature) -->
+                                    <div class="border-t border-warm-200 pt-4 mt-2">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <p class="serial text-warm-500">Your Path to This Snag</p>
+                                            <span class="text-[10px] font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Future</span>
+                                        </div>
+                                        <div class="bg-warm-50 rounded-lg p-4 border border-dashed border-warm-300">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-100 to-lime-100 flex items-center justify-center flex-shrink-0">
+                                                    <i data-lucide="route" class="w-5 h-5 text-cyan-600"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm text-warm-700">Timeline visualization showing how you accumulated these points</p>
+                                                    <p class="text-xs text-warm-500 mt-1">e.g., "3 purchases at Kitsch over 4 months → 2,500 pts"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="border-t border-warm-200 pt-4 mt-4 flex items-center justify-between">
+                                        <div class="text-xs text-warm-500">
+                                            <span>Saltwyk ID: </span>
+                                            <span class="font-mono text-warm-600">#SW-2026-0105-7B3E</span>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button class="py-2 px-3 bg-warm-100 text-warm-700 text-sm font-medium rounded-lg hover:bg-warm-200 transition-colors flex items-center gap-2">
+                                                <i data-lucide="download" class="w-4 h-4"></i>
+                                                Download
+                                            </button>
+                                            <button class="py-2 px-3 bg-warm-100 text-warm-700 text-sm font-medium rounded-lg hover:bg-warm-200 transition-colors flex items-center gap-2">
+                                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                                Email
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">History Card (List Item)</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Background</p>
+                        <code>bg-white</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>border-2 border-warm-200</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border Radius</p>
+                        <code>rounded-xl</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Shadow</p>
+                        <code>shadow-md</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Border</p>
+                        <code>border-indigo-300</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Transform</p>
+                        <code>translateY(-2px)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Shadow</p>
+                        <code>shadow-lg</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Focus Ring</p>
+                        <code>ring-indigo-400</code>
+                    </div>
+                </div>
+                <p class="text-xs text-warm-500 mt-4 italic">Cards do NOT have thread accent — one thread per screen rule.</p>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Transaction Detail Modal (Hero)</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread</p>
+                        <code>Fresh (Cyan → Lime)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Thread Height</p>
+                        <code>3px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Top Corners</p>
+                        <code>radius: 0</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Bottom Corners</p>
+                        <code>rounded-b-xl</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Shadow</p>
+                        <code>shadow-lg</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>border-2 border-warm-200</code>
+                    </div>
+                </div>
+                <div class="mt-4 h-[3px] thread-fresh"></div>
+                <p class="text-xs text-warm-500 mt-2 italic">Thread-bearing elements have no rounded top corners.</p>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Merchant Line Item (Receipt)</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Container</p>
+                        <code>bg-warm-50 rounded-lg p-3</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Logo</p>
+                        <code>w-6 h-6 or w-8 h-8</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Reference</p>
+                        <code>font-mono text-xs</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Support Link</p>
+                        <code>text-indigo-600</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Typography</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Product Name (Card)</p>
+                        <code>font-display text-base font-bold</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Product Name (Modal)</p>
+                        <code>font-display text-lg font-bold</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Retailer</p>
+                        <code>text-sm text-warm-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Date</p>
+                        <code>.serial text-warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Merchant Attribution</p>
+                        <code>text-xs, "via" prefix</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Points Total</p>
+                        <code>text-lg font-bold text-ink</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- USAGE GUIDELINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Do -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Do</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Keep cards simple — product, retailer, merchant names
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Reserve thread for the modal (hero) only
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Include per-merchant reference IDs on receipt
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Provide support contact for each merchant
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Remove top corners on thread-bearing elements
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Don't</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't put thread on cards (one thread per screen)
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't show points breakdown on cards
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use credit card programs as examples
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't round top corners with thread present
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't omit support metadata on receipts
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="../screens/passport.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Passport</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Shopper Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="../../../components/cards/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Card Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="../../../index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="../../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

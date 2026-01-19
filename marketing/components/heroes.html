@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltwyk Marketing - Hero Variants</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN + Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        code { font-size: 12px; background: #e8e6e3; padding: 2px 6px; border-radius: 4px; }
+
+        /* Dark Heroes (Merchant) */
+        .gradient-hero-emerald {
+            background: linear-gradient(135deg, hsl(var(--emerald-500)) 0%, hsl(var(--emerald-700)) 50%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-hero-intaglio {
+            background: linear-gradient(135deg, hsl(var(--intaglio-800)) 0%, hsl(var(--intaglio-700)) 40%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-hero-emerald-cyan {
+            background: linear-gradient(135deg, hsl(var(--emerald-500)) 0%, hsl(var(--cyan-600)) 50%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-hero-deep {
+            background: linear-gradient(180deg, hsl(var(--intaglio-950)) 0%, hsl(var(--intaglio-800)) 50%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-hero-emerald-vertical {
+            background: linear-gradient(180deg, hsl(var(--emerald-600)) 0%, hsl(var(--emerald-800)) 60%, hsl(var(--intaglio-900)) 100%);
+        }
+        .gradient-hero-warm-dark {
+            background: linear-gradient(135deg, hsl(var(--intaglio-500)) 0%, hsl(var(--intaglio-700)) 50%, hsl(var(--intaglio-950)) 100%);
+        }
+
+        /* Light Heroes (Shopper) */
+        .gradient-hero-ledger {
+            background: linear-gradient(180deg, hsl(var(--ledger)) 0%, hsl(var(--warm-100)) 100%);
+        }
+        .gradient-hero-warm-light {
+            background: linear-gradient(180deg, hsl(var(--warm-50)) 0%, hsl(var(--ledger)) 50%, hsl(var(--warm-100)) 100%);
+        }
+        .gradient-hero-emerald-tint {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--emerald-100)) 50%, hsl(var(--ledger)) 100%);
+        }
+        .gradient-hero-cyan-tint {
+            background: linear-gradient(135deg, hsl(var(--cyan-50)) 0%, hsl(var(--cyan-100)) 50%, hsl(var(--ledger)) 100%);
+        }
+        .gradient-hero-thread-whisper {
+            background: linear-gradient(135deg, hsl(var(--cyan-50)) 0%, hsl(var(--lime-50)) 33%, hsl(var(--orange-50)) 66%, hsl(var(--magenta-50)) 100%);
+        }
+        .gradient-hero-white-warm {
+            background: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(48 29% 97%) 100%);
+        }
+
+        /* Docs Headers */
+        .gradient-docs-subtle {
+            background: linear-gradient(180deg, hsl(var(--warm-50)) 0%, hsl(var(--warm-100)) 100%);
+        }
+        .gradient-docs-brand-whisper {
+            background: linear-gradient(180deg, hsl(var(--emerald-50)) 0%, hsl(var(--warm-100)) 100%);
+        }
+        .gradient-docs-intaglio-accent {
+            background: linear-gradient(180deg, hsl(var(--intaglio-50)) 0%, hsl(var(--warm-100)) 100%);
+        }
+
+        /* Thread Family Gradients */
+        /* Cool (Cyan -> Magenta) */
+        .thread-cool { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--magenta-thread)) 100%); }
+        .text-gradient-cool { background: linear-gradient(135deg, hsl(170 85% 35%) 0%, hsl(330 85% 40%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-cool-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%); }
+
+        /* Fresh (Cyan -> Lime) */
+        .thread-fresh { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 100%); }
+        .text-gradient-fresh { background: linear-gradient(135deg, hsl(170 85% 32%) 0%, hsl(74 85% 35%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-fresh-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 40% 96%) 100%); }
+
+        /* Flame (Orange -> Magenta) */
+        .thread-flame { background: linear-gradient(90deg, hsl(var(--orange-thread)) 0%, hsl(var(--magenta-thread)) 100%); }
+        .text-gradient-flame { background: linear-gradient(135deg, hsl(20 85% 40%) 0%, hsl(330 85% 40%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-flame-bg { background: linear-gradient(135deg, hsl(20 40% 96%) 0%, hsl(330 40% 97%) 100%); }
+
+        /* Tropic (Orange -> Cyan) */
+        .thread-tropic { background: linear-gradient(90deg, hsl(var(--orange-thread)) 0%, hsl(var(--cyan-thread)) 100%); }
+        .text-gradient-tropic { background: linear-gradient(135deg, hsl(20 85% 40%) 0%, hsl(170 85% 35%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .gradient-tropic-bg { background: linear-gradient(135deg, hsl(20 40% 96%) 0%, hsl(170 40% 95%) 100%); }
+
+        /* Full Spectrum */
+        .thread-spectrum { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); }
+        .gradient-spectrum-bg { background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(74 35% 96%) 33%, hsl(20 40% 96%) 66%, hsl(330 40% 97%) 100%); }
+
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="marketing/" class="hover:text-emerald-600">Marketing</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Heroes</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Marketing Website</p>
+            <h1 class="font-display text-4xl mb-2">Hero Variants</h1>
+            <p class="text-warm-600">Background gradients for hero sections across all audience contexts.</p>
+        </header>
+
+        <!-- DARK HEROES -->
+        <section class="mb-16">
+            <div class="mb-6">
+                <p class="serial text-emerald-500 mb-1">Merchant Context</p>
+                <h2 class="font-display text-2xl mb-2">Dark Heroes</h2>
+                <p class="text-warm-500 text-sm">Infrastructure credibility, financial gravitas. Thread colors appear as sparks.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <div class="gradient-hero-emerald rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-emerald-300 mb-2">01</p>
+                            <p class="font-display text-2xl text-white">Emerald Dominant</p>
+                        </div>
+                        <p class="text-sm text-intaglio-200">emerald-500 -> emerald-700 -> intaglio-900</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-emerald</code> - Primary merchant hero</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-intaglio rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-intaglio-300 mb-2">02</p>
+                            <p class="font-display text-2xl text-white">Intaglio Pure</p>
+                        </div>
+                        <p class="text-sm text-intaglio-300">intaglio-800 -> intaglio-700 -> intaglio-900</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-intaglio</code> - Maximum gravitas</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-emerald-cyan rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-indigo-300 mb-2">03</p>
+                            <p class="font-display text-2xl text-white">Emerald -> Cyan</p>
+                        </div>
+                        <p class="text-sm text-intaglio-200">emerald-500 -> cyan-600 -> intaglio-900</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-emerald-cyan</code> - More energy</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-deep rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-warm-400 mb-2">04</p>
+                            <p class="font-display text-2xl text-white">Deep Dark</p>
+                        </div>
+                        <p class="text-sm text-intaglio-400">intaglio-950 -> intaglio-800 -> intaglio-900</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-deep</code> - Vertical, very dark</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-emerald-vertical rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-emerald-200 mb-2">05</p>
+                            <p class="font-display text-2xl text-white">Emerald Vertical</p>
+                        </div>
+                        <p class="text-sm text-intaglio-200">emerald-600 -> emerald-800 -> intaglio-900</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-emerald-vertical</code> - Top-down</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-warm-dark rounded-lg p-8 min-h-[180px] flex flex-col justify-between">
+                        <div>
+                            <p class="serial text-intaglio-200 mb-2">06</p>
+                            <p class="font-display text-2xl text-white">Warm Dark</p>
+                        </div>
+                        <p class="text-sm text-intaglio-300">intaglio-500 -> intaglio-700 -> intaglio-950</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-warm-dark</code> - Warmer browns</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIGHT HEROES -->
+        <section class="mb-16">
+            <div class="mb-6">
+                <p class="serial text-emerald-500 mb-1">Shopper Context</p>
+                <h2 class="font-display text-2xl mb-2">Light Heroes</h2>
+                <p class="text-warm-500 text-sm">Delight, warmth, "found money" energy. Thread colors appear more prominently.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <div class="gradient-hero-ledger rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-warm-200">
+                        <div>
+                            <p class="serial text-warm-500 mb-2">01</p>
+                            <p class="font-display text-2xl text-ink">Ledger Warm</p>
+                        </div>
+                        <p class="text-sm text-warm-500">ledger -> warm-100</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-ledger</code> - Classic warm paper</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-warm-light rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-warm-200">
+                        <div>
+                            <p class="serial text-warm-500 mb-2">02</p>
+                            <p class="font-display text-2xl text-ink">Warm Light</p>
+                        </div>
+                        <p class="text-sm text-warm-500">warm-50 -> ledger -> warm-100</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-warm-light</code> - Three-stop depth</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-emerald-tint rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-emerald-200">
+                        <div>
+                            <p class="serial text-emerald-600 mb-2">03</p>
+                            <p class="font-display text-2xl text-ink">Emerald Tint</p>
+                        </div>
+                        <p class="text-sm text-warm-500">emerald-50 -> emerald-100/50 -> ledger</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-emerald-tint</code> - Fresh, optimistic</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-cyan-tint rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-warm-200">
+                        <div>
+                            <p class="serial text-indigo-600 mb-2">04</p>
+                            <p class="font-display text-2xl text-ink">Cyan Tint</p>
+                        </div>
+                        <p class="text-sm text-warm-500">cyan-50 -> cyan-100/50 -> ledger</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-cyan-tint</code> - Modern, digital</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-thread-whisper rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-warm-200">
+                        <div>
+                            <p class="serial text-warm-500 mb-2">05</p>
+                            <p class="font-display text-2xl text-ink">Thread Whisper</p>
+                        </div>
+                        <p class="text-sm text-warm-500">cyan-50 -> lime-50 -> orange-50 -> magenta-50</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-thread-whisper</code> - Playful energy</p>
+                </div>
+
+                <div>
+                    <div class="gradient-hero-white-warm rounded-lg p-8 min-h-[180px] flex flex-col justify-between border border-warm-200">
+                        <div>
+                            <p class="serial text-warm-500 mb-2">06</p>
+                            <p class="font-display text-2xl text-ink">White Warm</p>
+                        </div>
+                        <p class="text-sm text-warm-500">white -> ledger-97%</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-hero-white-warm</code> - Clean modern</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOCS HEADERS -->
+        <section class="mb-16">
+            <div class="mb-6">
+                <p class="serial text-emerald-500 mb-1">Docs Context</p>
+                <h2 class="font-display text-2xl mb-2">Docs Headers</h2>
+                <p class="text-warm-500 text-sm">Minimal gradients. Clarity and utility first.</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div>
+                    <div class="gradient-docs-subtle rounded-lg p-6 min-h-[120px] flex flex-col justify-between border border-warm-200">
+                        <p class="serial text-warm-400 mb-2">01</p>
+                        <p class="font-display text-xl text-ink">Subtle Gray</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-docs-subtle</code></p>
+                </div>
+
+                <div>
+                    <div class="gradient-docs-brand-whisper rounded-lg p-6 min-h-[120px] flex flex-col justify-between border border-emerald-200">
+                        <p class="serial text-emerald-600 mb-2">02</p>
+                        <p class="font-display text-xl text-ink">Brand Whisper</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-docs-brand-whisper</code></p>
+                </div>
+
+                <div>
+                    <div class="gradient-docs-intaglio-accent rounded-lg p-6 min-h-[120px] flex flex-col justify-between border border-warm-200">
+                        <p class="serial text-intaglio-400 mb-2">03</p>
+                        <p class="font-display text-xl text-ink">Intaglio Accent</p>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>gradient-docs-intaglio-accent</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- THREAD GRADIENT HEROES -->
+        <section class="mb-16">
+            <div class="mb-6">
+                <p class="serial text-emerald-500 mb-1">Thread Family Heroes</p>
+                <h2 class="font-display text-2xl mb-2">Gradient Surface Variants</h2>
+                <p class="text-warm-500 text-sm">Light heroes using thread family background tints. Thread line at full power, background at 8% saturation, headline at 65%.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Cool Hero (Cyan -> Magenta) -->
+                <div>
+                    <div class="rounded-lg overflow-hidden border border-warm-200">
+                        <div class="h-3 thread-cool"></div>
+                        <div class="gradient-cool-bg p-8">
+                            <p class="serial text-indigo-600 mb-3">Shopper Delight</p>
+                            <p class="font-display text-3xl text-gradient-cool mb-3">Your points, everywhere</p>
+                            <p class="text-warm-600 text-sm mb-4">Spend rewards like cash at millions of merchants.</p>
+                            <button class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-md transition-colors text-sm">Get Started</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>thread-cool</code> + <code>gradient-cool-bg</code> + <code>text-gradient-cool</code></p>
+                </div>
+
+                <!-- Fresh Hero (Cyan -> Lime) -->
+                <div>
+                    <div class="rounded-lg overflow-hidden border border-warm-200">
+                        <div class="h-3 thread-fresh"></div>
+                        <div class="gradient-fresh-bg p-8">
+                            <p class="serial text-emerald-600 mb-3">Growth & Success</p>
+                            <p class="font-display text-3xl text-gradient-fresh mb-3">Watch your points grow</p>
+                            <p class="text-warm-600 text-sm mb-4">Earn on every purchase. Redeem anywhere.</p>
+                            <button class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-md transition-colors text-sm">Start Earning</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>thread-fresh</code> + <code>gradient-fresh-bg</code> + <code>text-gradient-fresh</code></p>
+                </div>
+
+                <!-- Flame Hero (Orange -> Magenta) -->
+                <div>
+                    <div class="rounded-lg overflow-hidden border border-warm-200">
+                        <div class="h-3 thread-flame"></div>
+                        <div class="gradient-flame-bg p-8">
+                            <p class="serial text-orange-600 mb-3">Found Money</p>
+                            <p class="font-display text-3xl text-gradient-flame mb-3">That found money feeling</p>
+                            <p class="text-warm-600 text-sm mb-4">Unlock value you didn't know you had.</p>
+                            <button class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-md transition-colors text-sm">Discover More</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>thread-flame</code> + <code>gradient-flame-bg</code> + <code>text-gradient-flame</code></p>
+                </div>
+
+                <!-- Tropic Hero (Orange -> Cyan) -->
+                <div>
+                    <div class="rounded-lg overflow-hidden border border-warm-200">
+                        <div class="h-3 thread-tropic"></div>
+                        <div class="gradient-tropic-bg p-8">
+                            <p class="serial text-orange-500 mb-3">Bold & Vibrant</p>
+                            <p class="font-display text-3xl text-gradient-tropic mb-3">Points without limits</p>
+                            <p class="text-warm-600 text-sm mb-4">Maximum flexibility. Maximum value.</p>
+                            <button class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-md transition-colors text-sm">Learn More</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-400 mt-2"><code>thread-tropic</code> + <code>gradient-tropic-bg</code> + <code>text-gradient-tropic</code></p>
+                </div>
+            </div>
+
+            <!-- Full Spectrum Hero -->
+            <div class="mt-6">
+                <div class="rounded-lg overflow-hidden border border-warm-200">
+                    <div class="h-3 thread-spectrum"></div>
+                    <div class="gradient-spectrum-bg p-10">
+                        <div class="max-w-2xl">
+                            <p class="serial text-warm-500 mb-3">Full Spectrum</p>
+                            <p class="font-display text-4xl text-ink mb-4">The complete rewards experience</p>
+                            <p class="text-warm-600 mb-6">All four thread colors working together. Use sparingly for maximum impact on key landing pages.</p>
+                            <div class="flex gap-3">
+                                <button class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-md transition-colors">Get Started</button>
+                                <button class="px-6 py-3 bg-white hover:bg-warm-50 text-ink font-medium rounded-md transition-colors border border-warm-300">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-warm-400 mt-2"><code>thread-spectrum</code> + <code>gradient-spectrum-bg</code> — Reserve for hero moments</p>
+            </div>
+        </section>
+
+        <!-- MARKETING EXAMPLE -->
+        <section class="mb-16">
+            <div class="mb-6">
+                <p class="serial text-emerald-500 mb-1">Live Example</p>
+                <h2 class="font-display text-2xl mb-2">Marketing Hero Section</h2>
+                <p class="text-warm-500 text-sm">A complete hero implementation showing gradient, typography, thread line, and CTAs working together.</p>
+            </div>
+
+            <div class="rounded-lg overflow-hidden">
+                <div class="thread-line"></div>
+                <div class="gradient-hero p-12">
+                    <div class="max-w-3xl">
+                        <p class="serial text-emerald-300 mb-4">The Category: Rewards Commerce</p>
+                        <h1 class="font-display text-7xl text-white mb-6">Universal Rewards Commerce</h1>
+                        <p class="text-xl text-intaglio-200 mb-8">Pay with reward points anywhere. Real payment infrastructure. Real-time settlement. Real commerce, powered by points.</p>
+                        <div class="flex gap-4">
+                            <button class="px-8 py-4 bg-white hover:bg-warm-50 text-ink font-semibold rounded-md transition-colors">Get Started</button>
+                            <button class="px-8 py-4 bg-transparent hover:bg-white/10 text-white font-semibold rounded-md transition-colors" style="border: 1.5px solid rgba(255,255,255,0.3);">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-3 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-indigo-100 flex items-center justify-center">
+                        <i data-lucide="zap" class="w-6 h-6 text-indigo-600"></i>
+                    </div>
+                    <p class="font-display text-xl mb-2">Instant Settlement</p>
+                    <p class="text-sm text-warm-600">Real-time transaction clearing across the network.</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-lime-100 flex items-center justify-center">
+                        <i data-lucide="trending-up" class="w-6 h-6 text-lime-600"></i>
+                    </div>
+                    <p class="font-display text-xl mb-2">Higher Margins</p>
+                    <p class="text-sm text-warm-600">Replace discounting with rewards-funded purchases.</p>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
+                        <i data-lucide="users" class="w-6 h-6 text-orange-600"></i>
+                    </div>
+                    <p class="font-display text-xl mb-2">Network Effects</p>
+                    <p class="text-sm text-warm-600">More merchants = more value = more merchants.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.5.0</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

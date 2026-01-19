@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dropdown | Shopper | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Fresh thread gradient (Cyan → Lime) */
+        .thread-fresh {
+            background: linear-gradient(90deg, hsl(170 70% 65%), hsl(90 70% 65%));
+        }
+
+        /* Profile Dropdown Container */
+        .profile-dropdown {
+            width: 280px;
+            padding: 8px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact Info Header */
+        .profile-dropdown-header {
+            padding: 8px 12px;
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+        }
+
+        /* Section Labels */
+        .profile-dropdown-label {
+            padding: 4px 12px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Context Card - Light (Shopping) */
+        .context-card-light {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+        }
+
+        /* Context Card - Dark (Professional) */
+        .context-card-dark {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: hsl(var(--intaglio-900) / 50%);
+            border: 1px solid hsl(var(--intaglio-700));
+            border-radius: 8px;
+        }
+
+        /* Context Icon */
+        .context-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .context-icon-shopping {
+            background: hsl(var(--cyan-100));
+            color: hsl(var(--cyan-600));
+        }
+        .context-icon-professional {
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
+        }
+
+        /* Growth CTA Card */
+        .growth-cta {
+            display: block;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 150ms ease, background-color 150ms ease;
+        }
+        .growth-cta:hover {
+            border-color: hsl(var(--indigo-200));
+            background: hsl(var(--indigo-50) / 50%);
+        }
+
+        /* Switch Context Card */
+        .switch-card {
+            display: block;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .switch-card:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        /* Menu Items */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            margin: 0 4px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .menu-item:hover {
+            background: hsl(var(--warm-50));
+        }
+        .menu-item-icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+        }
+
+        /* Divider */
+        .dropdown-divider {
+            height: 1px;
+            background: hsl(var(--warm-200));
+            margin: 8px 12px;
+        }
+
+        /* Handle Header */
+        .handle-header {
+            padding: 8px 12px;
+        }
+        .handle-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            font-family: ui-monospace, monospace;
+        }
+        .handle-name {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 2px;
+        }
+
+        /* Claim Handle CTA */
+        .claim-cta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 4px 8px;
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 150ms ease;
+        }
+        .claim-cta:hover {
+            background: hsl(var(--indigo-50));
+        }
+
+        /* Context Icon - Sandbox (Purple/Indigo) */
+        .context-icon-sandbox {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+
+        /* Context Card - Sandbox (Light with indigo accent) */
+        .context-card-sandbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin: 0 4px 8px;
+            background: hsl(var(--indigo-50) / 50%);
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 8px;
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: hsl(var(--ink) / 20%);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        /* Modal Container */
+        .merchant-picker-modal {
+            width: 280px;
+            padding: 16px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modal-enter 150ms ease-out;
+        }
+
+        @keyframes modal-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Modal Title */
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 16px;
+        }
+
+        /* Merchant Radio Option */
+        .merchant-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .merchant-option:hover {
+            background: hsl(var(--warm-50));
+        }
+        .merchant-option.selected {
+            background: hsl(var(--indigo-50));
+        }
+
+        /* Radio Circle */
+        .radio-circle {
+            width: 18px;
+            height: 18px;
+            border: 2px solid hsl(var(--warm-300));
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            transition: border-color 150ms ease;
+        }
+        .merchant-option:hover .radio-circle {
+            border-color: hsl(var(--indigo-400));
+        }
+        .merchant-option.selected .radio-circle {
+            border-color: hsl(var(--indigo-600));
+        }
+        .radio-circle-inner {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: hsl(var(--indigo-600));
+            opacity: 0;
+            transform: scale(0);
+            transition: all 150ms ease;
+        }
+        .merchant-option.selected .radio-circle-inner {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Merchant Info */
+        .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .merchant-role {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Modal Button */
+        .modal-button {
+            width: 100%;
+            padding: 10px 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background: hsl(var(--indigo-600));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 150ms ease;
+        }
+        .modal-button:hover {
+            background: hsl(var(--indigo-700));
+        }
+        .modal-button:disabled {
+            background: hsl(var(--warm-300));
+            cursor: not-allowed;
+        }
+
+        /* Desktop dropdown positioning */
+        .desktop-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+        .desktop-dropdown-positioned {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="../../../index.html" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/" class="hover:text-emerald-600">Shopper</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Profile Dropdown</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Profile Dropdown</h1>
+            <p class="text-warm-600">Context-aware dropdown menu for profile avatar. Shows current role, growth CTAs, and context switching for dual-role users.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-4">Overview</h2>
+            <div class="bg-white border border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    The Profile Dropdown appears when clicking the profile avatar in the top navigation. It adapts based on the user's profile configuration:
+                </p>
+                <ul class="space-y-2 text-warm-600 mb-6">
+                    <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-2"></span>
+                        <span><strong class="text-ink">Shopper Only:</strong> Shows shopping context + CTA to add professional profile</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2"></span>
+                        <span><strong class="text-ink">Professional Only:</strong> Shows work context (with merchant count if multiple) + CTA to add shopping profile</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2"></span>
+                        <span><strong class="text-ink">Both Profiles:</strong> Shows current context + switch option (no growth CTA)</span>
+                    </li>
+                </ul>
+
+                <h3 class="font-semibold text-ink mb-3">Key Features</h3>
+                <ul class="space-y-2 text-warm-600">
+                    <li class="flex items-start gap-2">
+                        <span class="text-warm-400">@</span>
+                        <span><strong class="text-ink">Handle-Based Identity:</strong> Shows @firstname_lastname_4digits (unclaimed) or @customhandle (claimed) with "Claim your custom name" CTA</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500">🧪</span>
+                        <span><strong class="text-ink">Sandbox Testing:</strong> Merchant affiliates can switch to sandbox mode to preview shopper experience</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-emerald-500">💼</span>
+                        <span><strong class="text-ink">Multi-Merchant:</strong> Professionals with multiple merchants see "Work (3 merchants)" → click opens Merchant Picker Modal to select which context</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- MOBILE LAYOUT - All Variants -->
+        <!-- ============================================ -->
+        <section class="mb-16 mobile-variant">
+            <p class="serial text-intaglio-500 mb-4">Mobile Layout - All Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Dropdown width is 280px on mobile with 8px padding. Positioned below the profile avatar.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- VARIANT 1: SHOPPER ONLY (Unclaimed Handle) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 1</p>
+                    <h3 class="font-semibold text-ink mb-4">Shopper Only (Unclaimed Handle)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[380px] flex justify-center">
+                        <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <!-- Simulated Top Nav -->
+                            <div class="border-b border-warm-200 bg-white px-4 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-display text-lg font-bold text-emerald-600">Saltwyk</span>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="w-9 h-9 rounded-full bg-warm-300 text-warm-700 text-sm font-semibold flex items-center justify-center cursor-pointer">
+                                            JD
+                                        </div>
+                                        <!-- Dropdown -->
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Unclaimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@john_doe_4827</div>
+                                                </div>
+                                                <!-- Claim CTA -->
+                                                <button class="claim-cta">
+                                                    <i data-lucide="star" class="w-4 h-4"></i>
+                                                    <span>Claim your custom name</span>
+                                                </button>
+
+                                                <div class="profile-dropdown-label">Current Role</div>
+                                                <div class="context-card-light">
+                                                    <div class="context-icon context-icon-shopping">
+                                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                        <div class="text-xs text-warm-500">5 merchants connected</div>
+                                                    </div>
+                                                </div>
+                                                <button class="growth-cta w-full text-left">
+                                                    <div class="flex items-start gap-3">
+                                                        <i data-lucide="briefcase" class="w-5 h-5 text-warm-400 mt-0.5"></i>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Use Saltwyk for Business</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Manage merchant accounts</div>
+                                                            <div class="text-xs font-medium text-indigo-600">Learn more →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 2: PROFESSIONAL ONLY (Multi-Merchant + Sandbox) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 2</p>
+                    <h3 class="font-semibold text-ink mb-4">Professional Only (Multi-Merchant)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
+                        <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-4 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-display text-lg font-bold text-emerald-600">Saltwyk</span>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="w-9 h-9 rounded-full bg-emerald-600 text-white text-sm font-semibold flex items-center justify-center cursor-pointer">
+                                            SM
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Role</div>
+                                                <div class="context-card-dark">
+                                                    <div class="context-icon context-icon-professional">
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                        <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Sandbox Testing Option -->
+                                                <div class="profile-dropdown-label">Testing</div>
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <button class="growth-cta w-full text-left">
+                                                    <div class="flex items-start gap-3">
+                                                        <i data-lucide="wallet" class="w-5 h-5 text-warm-400 mt-0.5"></i>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Shop with Points</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Pay with your rewards</div>
+                                                            <div class="text-xs font-medium text-indigo-600">Connect accounts →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 3a: BOTH (Current: Shopping) + Sandbox -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3a</p>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Shopping + Sandbox)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
+                        <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-4 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-display text-lg font-bold text-emerald-600">Saltwyk</span>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="w-9 h-9 rounded-full bg-warm-300 text-warm-700 text-sm font-semibold flex items-center justify-center cursor-pointer">
+                                            SM
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Context</div>
+                                                <div class="context-card-light">
+                                                    <div class="context-icon context-icon-shopping">
+                                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                        <div class="text-xs text-warm-500">5 merchants connected • $847</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Work -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-professional">
+                                                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                            <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Choose Merchant →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 3b: BOTH (Current: Work) + Sandbox -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3b</p>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Work + Sandbox)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4 pb-[480px] flex justify-center">
+                        <div class="w-full max-w-[360px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-4 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-display text-lg font-bold text-emerald-600">Saltwyk</span>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="w-9 h-9 rounded-full bg-emerald-600 text-white text-sm font-semibold flex items-center justify-center cursor-pointer">
+                                            SM
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Context</div>
+                                                <div class="context-card-dark">
+                                                    <div class="context-icon context-icon-professional">
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                        <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Shopping -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-shopping">
+                                                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                            <div class="text-xs text-warm-500">5 merchants connected • $847</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Switch Context →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESKTOP LAYOUT - All Variants -->
+        <!-- ============================================ -->
+        <section class="mb-16 desktop-variant">
+            <p class="serial text-intaglio-500 mb-4">Desktop Layout - All Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Same 280px dropdown width, positioned below profile avatar in top navigation.</p>
+
+            <div class="space-y-8">
+
+                <!-- VARIANT 1: SHOPPER ONLY (Unclaimed Handle) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 1</p>
+                    <h3 class="font-semibold text-ink mb-4">Shopper Only (Unclaimed Handle)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <!-- Desktop Top Nav -->
+                            <div class="border-b border-warm-200 bg-white px-6 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                    <div class="flex items-center gap-8">
+                                        <span class="font-display text-xl font-bold text-emerald-600">Saltwyk</span>
+                                        <nav class="flex items-center gap-6 text-sm">
+                                            <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Merchants</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Wishlist</a>
+                                        </nav>
+                                    </div>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="flex items-center gap-3 cursor-pointer">
+                                            <span class="text-sm text-warm-600">John Doe</span>
+                                            <div class="w-8 h-8 rounded-full bg-warm-300 text-warm-700 text-xs font-semibold flex items-center justify-center">
+                                                JD
+                                            </div>
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Unclaimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@john_doe_4827</div>
+                                                </div>
+                                                <!-- Claim CTA -->
+                                                <button class="claim-cta">
+                                                    <i data-lucide="star" class="w-4 h-4"></i>
+                                                    <span>Claim your custom name</span>
+                                                </button>
+
+                                                <div class="profile-dropdown-label">Current Role</div>
+                                                <div class="context-card-light">
+                                                    <div class="context-icon context-icon-shopping">
+                                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                        <div class="text-xs text-warm-500">5 merchants connected</div>
+                                                    </div>
+                                                </div>
+                                                <button class="growth-cta w-full text-left">
+                                                    <div class="flex items-start gap-3">
+                                                        <i data-lucide="briefcase" class="w-5 h-5 text-warm-400 mt-0.5"></i>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Use Saltwyk for Business</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Manage merchant accounts</div>
+                                                            <div class="text-xs font-medium text-indigo-600">Learn more →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Placeholder content area -->
+                            <div class="h-80 flex items-center justify-center text-warm-400">
+                                <p class="text-sm">Page content area</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 2: PROFESSIONAL ONLY (Multi-Merchant + Sandbox) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 2</p>
+                    <h3 class="font-semibold text-ink mb-4">Professional Only (Multi-Merchant)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-6 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                    <div class="flex items-center gap-8">
+                                        <span class="font-display text-xl font-bold text-emerald-600">Saltwyk</span>
+                                        <nav class="flex items-center gap-6 text-sm">
+                                            <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Campaigns</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Analytics</a>
+                                        </nav>
+                                    </div>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="flex items-center gap-3 cursor-pointer">
+                                            <span class="text-sm text-warm-600">Sarah Miller</span>
+                                            <div class="w-8 h-8 rounded-full bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center">
+                                                SM
+                                            </div>
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Role</div>
+                                                <div class="context-card-dark">
+                                                    <div class="context-icon context-icon-professional">
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                        <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Sandbox Testing Option -->
+                                                <div class="profile-dropdown-label">Testing</div>
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <button class="growth-cta w-full text-left">
+                                                    <div class="flex items-start gap-3">
+                                                        <i data-lucide="wallet" class="w-5 h-5 text-warm-400 mt-0.5"></i>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Shop with Points</div>
+                                                            <div class="text-xs text-warm-600 mb-1">Pay with your rewards</div>
+                                                            <div class="text-xs font-medium text-indigo-600">Connect accounts →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="h-80 flex items-center justify-center text-warm-400">
+                                <p class="text-sm">Page content area</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 3a: BOTH (Current: Shopping) + Sandbox -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3a</p>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Shopping + Sandbox)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-6 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                    <div class="flex items-center gap-8">
+                                        <span class="font-display text-xl font-bold text-emerald-600">Saltwyk</span>
+                                        <nav class="flex items-center gap-6 text-sm">
+                                            <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Merchants</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Wishlist</a>
+                                        </nav>
+                                    </div>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="flex items-center gap-3 cursor-pointer">
+                                            <span class="text-sm text-warm-600">Sarah Miller</span>
+                                            <div class="w-8 h-8 rounded-full bg-warm-300 text-warm-700 text-xs font-semibold flex items-center justify-center">
+                                                SM
+                                            </div>
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Context</div>
+                                                <div class="context-card-light">
+                                                    <div class="context-icon context-icon-shopping">
+                                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                        <div class="text-xs text-warm-500">5 merchants connected • $847</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Work -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-professional">
+                                                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                            <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Choose Merchant →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Placeholder content area -->
+                            <div class="h-80 flex items-center justify-center text-warm-400">
+                                <p class="text-sm">Page content area</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VARIANT 3b: BOTH (Current: Professional) -->
+                <!-- VARIANT 3b: BOTH (Current: Work) + Sandbox -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Variant 3b</p>
+                    <h3 class="font-semibold text-ink mb-4">Both Profiles (Work + Sandbox)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-visible">
+                            <div class="h-[3px] w-full thread-fresh rounded-t-lg"></div>
+
+                            <div class="border-b border-warm-200 bg-white px-6 py-3 rounded-t-lg">
+                                <div class="flex items-center justify-between max-w-5xl mx-auto">
+                                    <div class="flex items-center gap-8">
+                                        <span class="font-display text-xl font-bold text-emerald-600">Saltwyk</span>
+                                        <nav class="flex items-center gap-6 text-sm">
+                                            <a href="#" class="text-warm-600 hover:text-ink">Dashboard</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Campaigns</a>
+                                            <a href="#" class="text-warm-600 hover:text-ink">Analytics</a>
+                                        </nav>
+                                    </div>
+                                    <div class="desktop-dropdown-container">
+                                        <div class="flex items-center gap-3 cursor-pointer">
+                                            <span class="text-sm text-warm-600">Sarah Miller</span>
+                                            <div class="w-8 h-8 rounded-full bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center">
+                                                SM
+                                            </div>
+                                        </div>
+                                        <div class="desktop-dropdown-positioned">
+                                            <div class="profile-dropdown">
+                                                <!-- Handle Header (Claimed) -->
+                                                <div class="handle-header">
+                                                    <div class="handle-text">@sarahmiller</div>
+                                                    <div class="handle-name">Sarah Miller</div>
+                                                </div>
+
+                                                <div class="profile-dropdown-label">Current Context</div>
+                                                <div class="context-card-dark">
+                                                    <div class="context-icon context-icon-professional">
+                                                        <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="text-sm font-semibold text-ink">Work (3 merchants)</div>
+                                                        <div class="text-xs text-warm-500">Marketing Manager</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropdown-divider"></div>
+                                                <div class="profile-dropdown-label">Switch Context</div>
+
+                                                <!-- Switch to Shopping -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-shopping">
+                                                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Shopping</div>
+                                                            <div class="text-xs text-warm-500">5 merchants connected • $847</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Switch Context →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <!-- Sandbox Testing -->
+                                                <button class="switch-card w-full text-left">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="context-icon context-icon-sandbox">
+                                                            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <div class="text-sm font-semibold text-ink">Sandbox Testing</div>
+                                                            <div class="text-xs text-warm-500">Preview shopper experience</div>
+                                                            <div class="text-xs font-medium text-indigo-600 mt-1">Enter Sandbox →</div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="menu-item">
+                                                    <i data-lucide="settings" class="menu-item-icon"></i>
+                                                    Personal Settings
+                                                </a>
+                                                <button class="menu-item w-full">
+                                                    <i data-lucide="log-out" class="menu-item-icon"></i>
+                                                    Sign Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="h-80 flex items-center justify-center text-warm-400">
+                                <p class="text-sm">Page content area</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-6">Specifications</h2>
+
+            <div class="bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Property</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Container Width</td>
+                            <td class="px-4 py-3"><code>280px</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Container Padding</td>
+                            <td class="px-4 py-3"><code>p-2</code> (8px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Border Radius</td>
+                            <td class="px-4 py-3"><code>rounded-xl</code> (12px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Shadow</td>
+                            <td class="px-4 py-3"><code>shadow-lg</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Card Padding</td>
+                            <td class="px-4 py-3"><code>p-3</code> (12px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Shopping Context Icon</td>
+                            <td class="px-4 py-3"><code>bg-cyan-100 text-cyan-600</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Professional Context Icon</td>
+                            <td class="px-4 py-3"><code>bg-emerald-500/20 text-emerald-400</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Sandbox Context Icon</td>
+                            <td class="px-4 py-3"><code>bg-indigo-100 text-indigo-600</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Handle Text</td>
+                            <td class="px-4 py-3"><code>font-mono text-sm font-semibold text-ink</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Claim CTA</td>
+                            <td class="px-4 py-3"><code>text-indigo-600</code> with star icon</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Growth CTA Hover</td>
+                            <td class="px-4 py-3"><code>border-indigo-200 bg-indigo-50/50</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Switch Card Hover</td>
+                            <td class="px-4 py-3"><code>bg-warm-50</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Menu Item Hover</td>
+                            <td class="px-4 py-3"><code>bg-warm-50</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- BEHAVIOR NOTES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-6">Behavior Notes</h2>
+
+            <div class="space-y-4">
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Growth CTA Removal</h3>
+                    <p class="text-sm text-warm-600">
+                        The "Use Saltwyk for Business" / "Shop with Points" CTA only appears when the user has a single profile type.
+                        Once they activate both profiles, the growth CTA is replaced by the context switch UI.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Context Switch Behavior</h3>
+                    <p class="text-sm text-warm-600">
+                        Clicking the switch card triggers an instant context change. No modal, no loading spinner.
+                        The sidebar theme transitions (light ↔ dark), URL updates, and content loads seamlessly.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Handle-Based Identity</h3>
+                    <p class="text-sm text-warm-600">
+                        <strong>Unclaimed:</strong> Auto-generated as <code>@firstname_lastname_4digits</code> (e.g., @john_doe_4827)<br>
+                        <strong>Claimed:</strong> User chooses custom handle (e.g., @johndoe) with full name shown below<br>
+                        <strong>Claim CTA:</strong> Shows "Claim your custom name" link that opens claiming modal
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Sandbox Testing (Merchant Affiliates)</h3>
+                    <p class="text-sm text-warm-600">
+                        Users with merchant relationships can access Sandbox Testing mode to preview the shopper experience.
+                        Sandbox uses purple/indigo accent colors to clearly differentiate from live contexts.
+                        Navigates to <code>/passport/test</code> or similar sandboxed route.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Multiple Merchant Handling</h3>
+                    <p class="text-sm text-warm-600">
+                        <strong>Single merchant:</strong> Click → Instant context switch (no modal).<br>
+                        <strong>Multiple merchants:</strong> Click "Work (3 merchants)" → Opens Merchant Picker Modal.<br>
+                        User selects a merchant via radio button, then clicks "Switch Context →" to complete the switch.
+                        Modal closes on: selection + button click, backdrop click, or ESC key.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-ink mb-2">Avatar Color</h3>
+                    <p class="text-sm text-warm-600">
+                        <strong>Shopping context:</strong> Warm gray avatar (<code>bg-warm-300</code>).<br>
+                        <strong>Professional context:</strong> Emerald avatar (<code>bg-emerald-600</code>) indicating active work mode.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- MERCHANT PICKER MODAL -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-4">Merchant Picker Modal</h2>
+            <p class="text-warm-600 mb-6">When a user has multiple merchant relationships, clicking "Work (N merchants)" opens this modal to select which merchant context to switch to.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Default State (No Selection) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">State 1</p>
+                    <h3 class="font-semibold text-ink mb-4">Default (No Selection)</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-6 flex justify-center">
+                        <!-- Modal Preview -->
+                        <div class="merchant-picker-modal">
+                            <div class="modal-title">Switch to Work</div>
+
+                            <div class="space-y-1">
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Liquid Death</div>
+                                        <div class="merchant-role">Marketing Manager</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Another Brand</div>
+                                        <div class="merchant-role">Ambassador</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Test Merchant</div>
+                                        <div class="merchant-role">Developer</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="modal-button" disabled>Switch Context →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">State 2</p>
+                    <h3 class="font-semibold text-ink mb-4">Merchant Selected</h3>
+
+                    <div class="bg-warm-100 rounded-lg p-6 flex justify-center">
+                        <!-- Modal Preview -->
+                        <div class="merchant-picker-modal">
+                            <div class="modal-title">Switch to Work</div>
+
+                            <div class="space-y-1">
+                                <div class="merchant-option selected">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Liquid Death</div>
+                                        <div class="merchant-role">Marketing Manager</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Another Brand</div>
+                                        <div class="merchant-role">Ambassador</div>
+                                    </div>
+                                </div>
+
+                                <div class="merchant-option">
+                                    <div class="radio-circle">
+                                        <div class="radio-circle-inner"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="merchant-name">Test Merchant</div>
+                                        <div class="merchant-role">Developer</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="modal-button">Switch Context →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal with Backdrop Preview -->
+            <div class="mt-8 bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-2 font-medium">Full Context</p>
+                <h3 class="font-semibold text-ink mb-4">Modal with Backdrop</h3>
+
+                <div class="bg-intaglio-900 rounded-lg overflow-hidden" style="height: 400px;">
+                    <!-- Simulated page behind modal -->
+                    <div class="relative h-full">
+                        <!-- Blurred background content -->
+                        <div class="absolute inset-0 opacity-30 p-8">
+                            <div class="h-8 w-32 bg-white/20 rounded mb-4"></div>
+                            <div class="h-4 w-64 bg-white/10 rounded mb-2"></div>
+                            <div class="h-4 w-48 bg-white/10 rounded"></div>
+                        </div>
+
+                        <!-- Modal Backdrop -->
+                        <div class="absolute inset-0 bg-ink/20 backdrop-blur-sm flex items-center justify-center">
+                            <div class="merchant-picker-modal">
+                                <div class="modal-title">Switch to Work</div>
+
+                                <div class="space-y-1">
+                                    <div class="merchant-option selected">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Liquid Death</div>
+                                            <div class="merchant-role">Marketing Manager</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="merchant-option">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Another Brand</div>
+                                            <div class="merchant-role">Ambassador</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="merchant-option">
+                                        <div class="radio-circle">
+                                            <div class="radio-circle-inner"></div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="merchant-name">Test Merchant</div>
+                                            <div class="merchant-role">Developer</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="modal-button">Switch Context →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-sm text-warm-600">
+                    <strong>Interaction:</strong> Modal closes on backdrop click or ESC key. Selection + button click triggers POST to <code>/api/v1/person/switch-context</code> with <code>merchant_id</code>.
+                </div>
+            </div>
+
+            <!-- Modal Specifications -->
+            <div class="mt-8 bg-white border border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Property</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Modal Width</td>
+                            <td class="px-4 py-3"><code>280px</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Modal Padding</td>
+                            <td class="px-4 py-3"><code>p-4</code> (16px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Border Radius</td>
+                            <td class="px-4 py-3"><code>rounded-2xl</code> (16px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Shadow</td>
+                            <td class="px-4 py-3"><code>shadow-2xl</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Backdrop</td>
+                            <td class="px-4 py-3"><code>bg-ink/20 backdrop-blur-sm</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Animation</td>
+                            <td class="px-4 py-3">Fade in + scale from 95% → 100% (150ms ease-out)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Radio Selected</td>
+                            <td class="px-4 py-3"><code>bg-indigo-50</code> with <code>border-indigo-600</code> ring</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Button Disabled</td>
+                            <td class="px-4 py-3"><code>bg-warm-300</code> (no selection made)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-warm-600">Button Active</td>
+                            <td class="px-4 py-3"><code>bg-indigo-600</code> → <code>bg-indigo-700</code> on hover</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-6">Related Components</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="../../../components/context-switcher/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Context Switcher</h3>
+                    <p class="text-xs text-warm-500">Account/workspace selection</p>
+                </a>
+                <a href="../../../components/dropdowns/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Dropdowns</h3>
+                    <p class="text-xs text-warm-500">Menus and selection</p>
+                </a>
+                <a href="../../../components/avatars/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Avatars</h3>
+                    <p class="text-xs text-warm-500">User representation</p>
+                </a>
+                <a href="../settings/index.html" class="bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-emerald-500 transition-colors">
+                    <h3 class="font-semibold text-ink mb-1">Settings Screen</h3>
+                    <p class="text-xs text-warm-500">Account preferences</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="../../../index.html" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="../../../sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+    </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

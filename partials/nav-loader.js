@@ -2,30 +2,32 @@
  * Saltwyk Design System - Navigation Loader
  *
  * Handles dynamic loading of navigation partials and active state management.
- * This script should be included at the end of the body in all HTML files.
+ * Uses a unified sidebar with section filtering based on current URL path.
+ *
+ * Sections:
+ * - core: /core/* pages (tokens, components, brand)
+ * - shopper: /shopper/* pages
+ * - merchant: /merchant/* pages
+ * - marketing: /marketing/* pages
+ * - docs: /docs/* pages
  */
 
 (function() {
     'use strict';
 
     // Get the base path for loading partials
-    // This handles both local file:// and deployed http(s):// environments
     function getBasePath() {
         const path = window.location.pathname;
-
-        // For GitHub Pages or similar deployments with a base path
-        // e.g., https://saltwyk.github.io/saltwyk-design/
         const match = path.match(/^(\/[^\/]+)/);
         if (window.location.hostname.includes('github.io') && match) {
             return match[1];
         }
-
         return '';
     }
 
     const basePath = getBasePath();
 
-    // Normalize path for comparison (remove trailing slashes, handle index.html)
+    // Normalize path for comparison
     function normalizePath(path) {
         let normalized = path
             .replace(/\/index\.html$/, '/')
@@ -34,32 +36,29 @@
         return normalized;
     }
 
-    // Product pages (at root level) - includes product-*, marketing-* files
-    const productPages = [
-        'product-checkout-widget', 'product-components', 'product-shopper-passport', 'product-surfaces',
-        'marketing-components', 'marketing-heroes', 'marketing-illustration-system', 'marketing-illustrations'
-    ];
-
-    // Product subdirectories
-    const productDirectories = ['/shopper/', '/merchant/', '/marketing/', '/docs/'];
-
     // Determine which section we're in based on path
     function getCurrentSection() {
         const path = window.location.pathname;
-        const filename = path.split('/').pop().replace('.html', '');
 
-        // Check directory-based sections
+        // Check path-based sections (new structure)
+        // Split /core/ into foundation (tokens, brand) and components
+        if (path.includes('/core/components/')) return 'components';
+        if (path.includes('/core/tokens/')) return 'foundation';
+        if (path.includes('/core/brand/')) return 'foundation';
+        if (path.includes('/core/')) return 'foundation'; // fallback for /core/index.html
+
+        if (path.includes('/shopper/')) return 'shopper';
+        if (path.includes('/merchant/')) return 'merchant';
+        if (path.includes('/marketing/')) return 'marketing';
+        if (path.includes('/docs/')) return 'docs';
+
+        // Legacy support: old paths during migration
         if (path.includes('/foundation/')) return 'foundation';
         if (path.includes('/components/')) return 'components';
-        if (path.includes('/products/')) return 'products';
-
-        // Check product subdirectories (shopper, merchant, marketing, docs)
-        for (const dir of productDirectories) {
-            if (path.includes(dir)) return 'products';
-        }
-
-        // Check filename-based sections for root-level product pages
-        if (productPages.includes(filename)) return 'products';
+        if (path.includes('/products/shopper/')) return 'shopper';
+        if (path.includes('/products/merchant/')) return 'merchant';
+        if (path.includes('/products/marketing/')) return 'marketing';
+        if (path.includes('/products/docs/')) return 'docs';
 
         return null;
     }
@@ -81,40 +80,68 @@
         }
     }
 
-    // Highlight active item in top navigation
-    function highlightTopNav() {
-        const currentPath = normalizePath(window.location.pathname.replace(basePath, ''));
+    // Show only the relevant section in the unified sidebar
+    function showCurrentSection() {
         const currentSection = getCurrentSection();
+        if (!currentSection) return;
 
-        // Handle section links (Foundation, Components, Products)
-        const sectionLinks = ['foundation', 'components', 'products'];
-        sectionLinks.forEach(section => {
-            const link = document.querySelector(`#top-nav a[data-nav="${section}"]`);
-            if (link && currentSection === section) {
-                link.classList.add('nav-link-active');
-                link.classList.remove('text-warm-600');
-                link.classList.add('text-ink', 'font-medium');
-            }
+        // Hide all sections first
+        const allSections = document.querySelectorAll('#side-nav [data-section]');
+        allSections.forEach(section => {
+            section.classList.add('hidden');
         });
 
-        // Handle dropdown menu items
+        // Show the current section
+        const activeSection = document.querySelector(`#side-nav [data-section="${currentSection}"]`);
+        if (activeSection) {
+            activeSection.classList.remove('hidden');
+        }
+    }
+
+    // Highlight active item in top navigation
+    function highlightTopNav() {
+        const currentSection = getCurrentSection();
+
+        // Handle Foundation dropdown activation
+        if (currentSection === 'foundation') {
+            const foundationDropdown = document.querySelector('#top-nav [data-dropdown="foundation"]');
+            if (foundationDropdown) {
+                const trigger = foundationDropdown.querySelector('.nav-dropdown-trigger');
+                if (trigger) {
+                    trigger.classList.add('text-ink', 'font-medium');
+                    trigger.classList.remove('text-warm-600');
+                }
+            }
+        }
+
+        // Handle Components link activation
+        if (currentSection === 'components') {
+            const componentsLink = document.querySelector('#top-nav [data-nav="components"]');
+            if (componentsLink) {
+                componentsLink.classList.add('text-ink', 'font-medium');
+                componentsLink.classList.remove('text-warm-600');
+            }
+        }
+
+        // Handle Products dropdown activation
+        if (['shopper', 'merchant', 'marketing', 'docs'].includes(currentSection)) {
+            const productsDropdown = document.querySelector('#top-nav [data-dropdown="products"]');
+            if (productsDropdown) {
+                const trigger = productsDropdown.querySelector('.nav-dropdown-trigger');
+                if (trigger) {
+                    trigger.classList.add('text-ink', 'font-medium');
+                    trigger.classList.remove('text-warm-600');
+                }
+            }
+        }
+
+        // Highlight specific dropdown menu items
+        const currentPath = normalizePath(window.location.pathname.replace(basePath, ''));
         const navLinks = document.querySelectorAll('#top-nav .nav-dropdown-menu a');
         navLinks.forEach(link => {
             const linkPath = normalizePath(link.getAttribute('href'));
-
-            // Check for exact match
-            if (currentPath === linkPath) {
+            if (currentPath === linkPath || currentPath.startsWith(linkPath.replace(/\/$/, '') + '/')) {
                 link.classList.add('nav-active');
-
-                // Also highlight the parent dropdown trigger
-                const dropdown = link.closest('.nav-dropdown');
-                if (dropdown) {
-                    const trigger = dropdown.querySelector('.nav-dropdown-trigger');
-                    if (trigger) {
-                        trigger.classList.add('text-ink', 'font-medium');
-                        trigger.classList.remove('text-warm-600');
-                    }
-                }
             }
         });
     }
@@ -128,11 +155,10 @@
             const linkPath = normalizePath(link.getAttribute('href'));
 
             if (currentPath === linkPath) {
-                // Don't activate disabled links
                 if (!link.classList.contains('sidebar-link-disabled')) {
                     link.classList.add('sidebar-link-active');
 
-                    // If this link is inside a nav-group, expand the group and highlight parent
+                    // If inside a nav-group, expand it
                     const navGroup = link.closest('.nav-group');
                     if (navGroup) {
                         navGroup.classList.add('expanded');
@@ -145,11 +171,11 @@
             }
         });
 
-        // Also check if we're on a nav-group index page (expand that group)
+        // Also expand nav-groups if we're on the header page (only for link headers)
         const navGroups = document.querySelectorAll('#side-nav .nav-group');
         navGroups.forEach(group => {
             const header = group.querySelector('.nav-group-header');
-            if (header) {
+            if (header && header.getAttribute('href')) {
                 const headerPath = normalizePath(header.getAttribute('href'));
                 if (currentPath === headerPath) {
                     group.classList.add('expanded');
@@ -167,24 +193,30 @@
             const header = group.querySelector('.nav-group-header');
             if (!header) return;
 
-            // Add click handler to toggle expansion (but allow navigation)
-            const chevron = header.querySelector('.nav-group-chevron');
-            if (chevron) {
-                chevron.addEventListener('click', (e) => {
+            // If header is a span (not a link), make the whole header toggle the group
+            if (header.tagName === 'SPAN') {
+                header.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     group.classList.toggle('expanded');
                 });
-
-                // Make chevron area larger for easier clicking
-                chevron.style.cursor = 'pointer';
-                chevron.style.padding = '4px';
-                chevron.style.margin = '-4px';
+            } else {
+                // For link headers, only the chevron toggles
+                const chevron = header.querySelector('.nav-group-chevron');
+                if (chevron) {
+                    chevron.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        group.classList.toggle('expanded');
+                    });
+                    chevron.style.cursor = 'pointer';
+                    chevron.style.padding = '4px';
+                    chevron.style.margin = '-4px';
+                }
             }
         });
     }
 
-    // Initialize dropdown behavior (CSS handles most, but we add keyboard support)
+    // Initialize dropdown behavior
     function initDropdowns() {
         const dropdowns = document.querySelectorAll('.nav-dropdown');
 
@@ -192,10 +224,8 @@
             const trigger = dropdown.querySelector('.nav-dropdown-trigger');
             if (!trigger) return;
 
-            // Make trigger focusable
             trigger.setAttribute('tabindex', '0');
 
-            // Handle keyboard navigation
             trigger.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -206,8 +236,6 @@
                         menu.style.opacity = '1';
                         menu.style.visibility = 'visible';
                         menu.style.transform = 'translateY(0)';
-
-                        // Focus first link
                         const firstLink = menu.querySelector('a');
                         if (firstLink) firstLink.focus();
                     }
@@ -224,7 +252,7 @@
         });
     }
 
-    // Add CSS styles for navigation, active states, and sidebar
+    // Inject CSS styles for navigation
     function injectActiveStyles() {
         const style = document.createElement('style');
         style.textContent = `
@@ -277,6 +305,14 @@
                 background: hsl(30 5% 90%);
                 margin: 0.5rem 0;
             }
+            .nav-dropdown-menu .menu-label {
+                padding: 0.5rem 1rem 0.25rem;
+                font-size: 0.6875rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: hsl(30 5% 55%);
+            }
             .nav-dropdown-trigger svg {
                 transition: transform 0.15s ease;
                 flex-shrink: 0;
@@ -285,19 +321,14 @@
                 transform: rotate(180deg);
             }
 
-            /* Active state for top nav dropdown items */
+            /* Active state for dropdown items */
             .nav-active {
                 background-color: hsl(150 45% 97%) !important;
                 color: hsl(150 100% 27%) !important;
                 font-weight: 500;
             }
 
-            /* Active state for top nav link */
-            .nav-link-active {
-                color: hsl(150 100% 27%) !important;
-            }
-
-            /* Sidebar link styles - Bright Opal treatment */
+            /* Sidebar link styles */
             .sidebar-link {
                 display: block;
                 padding: 8px 12px;
@@ -322,7 +353,7 @@
                 pointer-events: none;
             }
 
-            /* Nav group styles for expandable sections */
+            /* Nav group styles */
             .nav-group {
                 list-style: none;
             }
@@ -360,26 +391,21 @@
                 padding: 6px 12px;
             }
 
-            /* Active parent when child is active */
             .nav-group-header.has-active-child {
                 color: hsl(150 100% 27%);
+            }
+
+            /* Section visibility */
+            .nav-section.hidden {
+                display: none;
             }
         `;
         document.head.appendChild(style);
     }
 
-    // Get the sidebar partial URL for the current section
-    function getSidebarUrl() {
-        const section = getCurrentSection();
-        if (section === 'foundation') return '/partials/side-nav-foundation.html';
-        if (section === 'components') return '/partials/side-nav-components.html';
-        if (section === 'products') return '/partials/side-nav-products.html';
-        return null;
-    }
-
     // Main initialization
     async function init() {
-        // Inject active state styles
+        // Inject styles
         injectActiveStyles();
 
         // Load top navigation
@@ -387,15 +413,13 @@
         highlightTopNav();
         initDropdowns();
 
-        // Load side navigation based on current section
-        const sidebarUrl = getSidebarUrl();
-        if (sidebarUrl) {
-            const sideNavContainer = document.getElementById('side-nav');
-            if (sideNavContainer) {
-                await loadPartial(sidebarUrl, 'side-nav');
-                highlightSideNav();
-                initNavGroups();
-            }
+        // Load unified side navigation
+        const sideNavContainer = document.getElementById('side-nav');
+        if (sideNavContainer) {
+            await loadPartial('/partials/side-nav.html', 'side-nav');
+            showCurrentSection();
+            highlightSideNav();
+            initNavGroups();
         }
     }
 

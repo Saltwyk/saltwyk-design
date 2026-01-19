@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component States - Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
+
+        /* State toggle buttons */
+        .state-toggle {
+            display: inline-flex;
+            padding: 6px 12px;
+            border: 1.5px solid hsl(30 5% 85%);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(30 6% 46%);
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .state-toggle:hover {
+            border-color: hsl(30 5% 75%);
+            color: hsl(24 29% 8%);
+        }
+        .state-toggle.active {
+            background: hsl(24 29% 15%);
+            border-color: hsl(24 29% 15%);
+            color: white;
+        }
+
+        /* Demo buttons */
+        .demo-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: hsl(150 100% 27%);
+            color: white;
+            border: none;
+        }
+        .demo-btn.state-hover {
+            background: hsl(150 100% 22%);
+        }
+        .demo-btn.state-active {
+            background: hsl(150 100% 18%);
+            transform: scale(0.98);
+        }
+        .demo-btn.state-focused {
+            background: hsl(150 100% 27%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 35%);
+        }
+        .demo-btn.state-disabled {
+            background: hsl(30 5% 82%);
+            color: hsl(30 5% 60%);
+            cursor: not-allowed;
+        }
+        .demo-btn.state-loading {
+            position: relative;
+            color: transparent;
+        }
+        .demo-btn.state-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid hsla(0 0% 100% / 30%);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* Demo inputs */
+        .demo-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid hsl(30 5% 85%);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            background: white;
+        }
+        .demo-input::placeholder { color: hsl(30 5% 65%); }
+        .demo-input.state-hover {
+            border-color: hsl(30 5% 75%);
+        }
+        .demo-input.state-focused {
+            border-color: hsl(170 100% 40%);
+            box-shadow: 0 0 0 3px hsla(170 100% 40% / 15%);
+            outline: none;
+        }
+        .demo-input.state-disabled {
+            background: hsl(30 5% 96%);
+            color: hsl(30 5% 60%);
+            cursor: not-allowed;
+        }
+        .demo-input.state-error {
+            border-color: hsl(330 85% 50%);
+            background: hsl(330 50% 98%);
+        }
+        .demo-input.state-error.state-focused {
+            box-shadow: 0 0 0 3px hsla(330 85% 50% / 15%);
+        }
+        .demo-input.state-success {
+            border-color: hsl(150 100% 27%);
+            background: hsl(150 45% 97%);
+        }
+
+        /* Demo cards */
+        .demo-card {
+            background: white;
+            border: 1.5px solid hsl(30 5% 90%);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.15s ease;
+        }
+        .demo-card.state-hover {
+            border-color: hsl(30 5% 80%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .demo-card.state-active {
+            border-color: hsl(30 8% 50%);
+            box-shadow: 0 0 0 2px hsla(30 8% 50% / 15%);
+        }
+        .demo-card.state-selected {
+            border-color: hsl(30 8% 60%);
+            background: hsl(30 10% 97%);
+        }
+        .demo-card.state-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Demo links — emerald is brand color for actionable text */
+        .demo-link {
+            color: hsl(150 100% 27%);
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+        .demo-link.state-hover {
+            text-decoration: underline;
+            color: hsl(150 100% 22%);
+        }
+        .demo-link.state-active {
+            color: hsl(150 100% 18%);
+        }
+        .demo-link.state-focused {
+            outline: 2px solid hsla(170 100% 40% / 30%);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+        .demo-link.state-visited {
+            color: hsl(270 50% 45%);
+        }
+
+        /* Demo table row */
+        .demo-row {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(30 5% 92%);
+            transition: all 0.15s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .demo-row.state-hover {
+            background: hsl(30 10% 98%);
+        }
+        .demo-row.state-selected {
+            background: hsl(30 15% 95%);
+        }
+        .demo-row.state-active {
+            background: hsl(30 15% 93%);
+        }
+
+        /* Demo list item */
+        .demo-list-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .demo-list-item.state-hover {
+            background: hsl(30 10% 97%);
+        }
+        .demo-list-item.state-selected {
+            background: hsl(30 15% 94%);
+            color: hsl(24 29% 15%);
+            font-weight: 500;
+        }
+        .demo-list-item.state-active {
+            background: hsl(30 15% 91%);
+        }
+
+        /* Loading spinner */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid hsl(30 5% 85%);
+            border-top-color: hsl(24 29% 20%);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        .spinner-lg {
+            width: 32px;
+            height: 32px;
+            border-width: 3px;
+        }
+
+        /* Skeleton loading */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, hsl(30 5% 93%) 25%, hsl(30 5% 88%) 50%, hsl(30 5% 93%) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        .skeleton-text { height: 14px; margin-bottom: 8px; }
+        .skeleton-heading { height: 24px; width: 60%; margin-bottom: 12px; }
+        .skeleton-avatar { width: 40px; height: 40px; border-radius: 50%; }
+        .skeleton-button { height: 40px; width: 120px; border-radius: 8px; }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 6px;
+            background: hsl(30 5% 92%);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: hsl(30 8% 45%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        .progress-fill.complete {
+            background: hsl(150 100% 27%);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: hsl(30 5% 95%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(30 5% 60%);
+        }
+
+        /* Error states */
+        .error-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: hsl(330 85% 45%);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        .error-banner {
+            padding: 12px 16px;
+            background: hsl(330 50% 97%);
+            border: 1px solid hsl(330 50% 85%);
+            border-radius: 8px;
+            color: hsl(330 85% 35%);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .error-page {
+            text-align: center;
+            padding: 64px 24px;
+        }
+        .error-page-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: hsl(330 50% 95%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(330 85% 50%);
+        }
+
+        /* Success states */
+        .success-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: hsl(150 100% 27%);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        .success-banner {
+            padding: 12px 16px;
+            background: hsl(150 45% 96%);
+            border: 1px solid hsl(150 45% 82%);
+            border-radius: 8px;
+            color: hsl(150 100% 22%);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        /* Fire Opal variants */
+        .demo-btn-dark {
+            background: hsl(170 100% 45%);
+            color: hsl(24 29% 8%);
+        }
+        .demo-btn-dark.state-hover {
+            background: hsl(170 100% 50%);
+        }
+        .demo-btn-dark.state-disabled {
+            background: hsl(24 20% 25%);
+            color: hsl(24 20% 45%);
+        }
+        .demo-input-dark {
+            background: hsl(24 28% 14%);
+            border-color: hsl(24 27% 22%);
+            color: hsl(30 5% 88%);
+        }
+        .demo-input-dark::placeholder { color: hsl(30 8% 45%); }
+        .demo-input-dark.state-focused {
+            border-color: hsl(170 100% 45%);
+            box-shadow: 0 0 0 3px hsla(170 100% 45% / 20%);
+        }
+        .demo-input-dark.state-error {
+            border-color: hsl(330 100% 60%);
+            background: hsla(330 100% 60% / 10%);
+        }
+
+        /* Overlay spinner */
+        .overlay-spinner {
+            position: absolute;
+            inset: 0;
+            background: hsla(0 0% 100% / 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: inherit;
+        }
+        .overlay-spinner .spinner,
+        .overlay-spinner .spinner-lg {
+            border-color: hsl(30 5% 80%);
+            border-top-color: hsl(24 29% 20%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Spectrum thread at top -->
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            <span>→</span>
+            <span class="text-ink font-medium">States</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Foundation Token</p>
+            <h1 class="font-display text-4xl mb-2">Component States</h1>
+            <p class="text-warm-600">Interactive states, loading patterns, empty states, and error handling across the design system.</p>
+        </header>
+
+        <!-- State Definitions -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">State Definitions</h2>
+            <p class="text-warm-600 mb-8">Core interactive states that apply across all components.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Default -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-warm-300"></div>
+                        <h3 class="font-semibold">Default</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">The resting state of a component before any user interaction.</p>
+                    <code class="text-xs">No modifier class</code>
+                </div>
+
+                <!-- Hover -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-warm-400"></div>
+                        <h3 class="font-semibold">Hover</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Visual feedback when the cursor hovers over an interactive element.</p>
+                    <code class="text-xs">:hover</code>
+                </div>
+
+                <!-- Active/Pressed -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-warm-600"></div>
+                        <h3 class="font-semibold">Active / Pressed</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">The moment of activation, typically while mouse is pressed down.</p>
+                    <code class="text-xs">:active</code>
+                </div>
+
+                <!-- Focused -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+                        <h3 class="font-semibold">Focused</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Keyboard focus indicator, essential for accessibility.</p>
+                    <code class="text-xs">:focus, :focus-visible</code>
+                </div>
+
+                <!-- Disabled -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-warm-200"></div>
+                        <h3 class="font-semibold">Disabled</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Non-interactive state indicating unavailable action.</p>
+                    <code class="text-xs">:disabled, [aria-disabled]</code>
+                </div>
+
+                <!-- Loading -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-lime-400 animate-pulse"></div>
+                        <h3 class="font-semibold">Loading</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Processing state while waiting for a response.</p>
+                    <code class="text-xs">.loading, [aria-busy]</code>
+                </div>
+
+                <!-- Error -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-magenta-500"></div>
+                        <h3 class="font-semibold">Error</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Validation failed or action resulted in an error.</p>
+                    <code class="text-xs">[aria-invalid], .error</code>
+                </div>
+
+                <!-- Success -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                        <h3 class="font-semibold">Success</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">Validation passed or action completed successfully.</p>
+                    <code class="text-xs">.success, [aria-valid]</code>
+                </div>
+
+                <!-- Empty -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-3 h-3 rounded-full border-2 border-warm-300"></div>
+                        <h3 class="font-semibold">Empty</h3>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-4">No content available, with guidance for next steps.</p>
+                    <code class="text-xs">.empty-state</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- State Color Semantics -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">State Color Semantics</h2>
+            <p class="text-warm-600 mb-8">Colors have meaning. Use them consistently.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-emerald-700">Emerald = Action or Success</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use emerald green ONLY for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Primary buttons and CTAs</li>
+                        <li>• Success validation states</li>
+                        <li>• Completed operations</li>
+                        <li>• Actionable text links</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Emerald means "do this" or "you did it correctly"</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4" style="color: hsl(237 100% 65%);">Indigo = Focus &amp; Info</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use indigo for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Keyboard focus indicators</li>
+                        <li>• Focus rings on inputs and buttons</li>
+                        <li>• Info badges and callouts</li>
+                        <li>• Selection states</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Indigo is distinct from success — focus ≠ correct</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4 text-warm-600">Neutral = Feedback</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use warm grays and ink for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Hover states</li>
+                        <li>• Active/pressed states</li>
+                        <li>• Selected items (not "correct", just "chosen")</li>
+                        <li>• Loading spinners and progress bars</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Neutral means "something is happening" — no judgment</p>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4" style="color: hsl(330 85% 45%);">Magenta = Error</h3>
+                    <p class="text-sm text-warm-600 mb-4">Use magenta ONLY for:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Validation errors</li>
+                        <li>• Failed operations</li>
+                        <li>• Destructive action warnings</li>
+                    </ul>
+                    <p class="text-sm text-warm-500 mt-4 italic">Magenta means "something is wrong"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- State Application by Component -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">State Application by Component</h2>
+            <p class="text-warm-600 mb-8">Interactive demonstrations of state transitions for each component type.</p>
+
+            <!-- Buttons -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8 mb-6">
+                <h3 class="font-semibold text-lg mb-6">Buttons</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="btn-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="btn-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="btn-demo" data-state="state-active">Active</button>
+                    <button class="state-toggle" data-target="btn-demo" data-state="state-focused">Focused</button>
+                    <button class="state-toggle" data-target="btn-demo" data-state="state-disabled">Disabled</button>
+                    <button class="state-toggle" data-target="btn-demo" data-state="state-loading">Loading</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-8 flex items-center justify-center">
+                    <button id="btn-demo" class="demo-btn">Submit Order</button>
+                </div>
+
+                <!-- Static Button State Examples -->
+                <div class="mt-6 pt-6 border-t border-warm-200">
+                    <h4 class="text-sm font-medium text-warm-600 mb-4">All States (Static Reference)</h4>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="text-center">
+                            <button class="demo-btn">Default</button>
+                            <p class="text-xs text-warm-500 mt-2">Default</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-hover">Hover</button>
+                            <p class="text-xs text-warm-500 mt-2">Hover</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-active">Active</button>
+                            <p class="text-xs text-warm-500 mt-2">Active</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-focused">Focused</button>
+                            <p class="text-xs text-warm-500 mt-2">Focused</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-disabled" disabled>Disabled</button>
+                            <p class="text-xs text-warm-500 mt-2">Disabled</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="demo-btn state-loading" aria-busy="true">Loading</button>
+                            <p class="text-xs text-warm-500 mt-2">Loading</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Button with Text -->
+                <div class="mt-6 pt-6 border-t border-warm-200">
+                    <h4 class="text-sm font-medium text-warm-600 mb-4">Loading Button with Text</h4>
+                    <p class="text-sm text-warm-500 mb-4">For longer operations, show loading text alongside the spinner.</p>
+                    <div class="flex items-center gap-6">
+                        <button class="demo-btn flex items-center gap-2" style="color: white;">
+                            <span class="spinner" style="width: 14px; height: 14px; border-width: 2px; border-color: hsla(0 0% 100% / 30%); border-top-color: white;"></span>
+                            <span>Processing...</span>
+                        </button>
+                        <button class="demo-btn flex items-center gap-2" style="color: white;">
+                            <span class="spinner" style="width: 14px; height: 14px; border-width: 2px; border-color: hsla(0 0% 100% / 30%); border-top-color: white;"></span>
+                            <span>Saving changes</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inputs -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8 mb-6">
+                <h3 class="font-semibold text-lg mb-6">Inputs</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="input-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="input-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="input-demo" data-state="state-focused">Focused</button>
+                    <button class="state-toggle" data-target="input-demo" data-state="state-disabled">Disabled</button>
+                    <button class="state-toggle" data-target="input-demo" data-state="state-error">Error</button>
+                    <button class="state-toggle" data-target="input-demo" data-state="state-success">Success</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-8">
+                    <div class="max-w-md">
+                        <label class="block text-sm font-medium text-ink mb-2">Email Address</label>
+                        <input id="input-demo" type="email" class="demo-input" placeholder="Enter your email">
+                        <div id="input-message" class="hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8 mb-6">
+                <h3 class="font-semibold text-lg mb-6">Cards</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="card-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="card-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="card-demo" data-state="state-active">Active</button>
+                    <button class="state-toggle" data-target="card-demo" data-state="state-selected">Selected</button>
+                    <button class="state-toggle" data-target="card-demo" data-state="state-disabled">Disabled</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-8 flex items-center justify-center">
+                    <div id="card-demo" class="demo-card w-72">
+                        <h4 class="font-semibold mb-2">Payment Method</h4>
+                        <p class="text-sm text-warm-600">Visa ending in 4242</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Rows -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8 mb-6">
+                <h3 class="font-semibold text-lg mb-6">Table Rows</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="row-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="row-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="row-demo" data-state="state-selected">Selected</button>
+                    <button class="state-toggle" data-target="row-demo" data-state="state-active">Active</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg overflow-hidden">
+                    <div id="row-demo" class="demo-row bg-white">
+                        <span class="font-medium">Transaction #1234</span>
+                        <span class="text-warm-600">$127.50</span>
+                    </div>
+                    <div class="demo-row bg-white opacity-50">
+                        <span class="font-medium">Transaction #1235</span>
+                        <span class="text-warm-600">$85.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List Items -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8 mb-6">
+                <h3 class="font-semibold text-lg mb-6">List Items</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="list-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="list-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="list-demo" data-state="state-selected">Selected</button>
+                    <button class="state-toggle" data-target="list-demo" data-state="state-active">Active</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <div id="list-demo" class="demo-list-item">
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="demo-list-item opacity-50">
+                        <span>Transactions</span>
+                    </div>
+                    <div class="demo-list-item opacity-50">
+                        <span>Settings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="bg-white border border-warm-200 rounded-xl p-8">
+                <h3 class="font-semibold text-lg mb-6">Links</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <button class="state-toggle active" data-target="link-demo" data-state="">Default</button>
+                    <button class="state-toggle" data-target="link-demo" data-state="state-hover">Hover</button>
+                    <button class="state-toggle" data-target="link-demo" data-state="state-active">Active</button>
+                    <button class="state-toggle" data-target="link-demo" data-state="state-focused">Focused</button>
+                    <button class="state-toggle" data-target="link-demo" data-state="state-visited">Visited</button>
+                </div>
+                <div class="bg-warm-50 rounded-lg p-8 flex items-center justify-center">
+                    <a href="#" id="link-demo" class="demo-link text-lg">View transaction details</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Patterns -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Loading Patterns</h2>
+            <p class="text-warm-600 mb-8">Visual indicators for asynchronous operations and data fetching.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Inline Spinner -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Inline Spinner</h3>
+                    <p class="text-sm text-warm-600 mb-6">Use within buttons or alongside text to indicate processing.</p>
+                    <div class="flex items-center gap-4">
+                        <div class="spinner"></div>
+                        <span class="text-sm text-warm-600">Processing payment...</span>
+                    </div>
+                </div>
+
+                <!-- Overlay Spinner -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Overlay Spinner</h3>
+                    <p class="text-sm text-warm-600 mb-6">Use to block interaction while loading section content.</p>
+                    <div class="relative bg-warm-50 rounded-lg p-6 min-h-[120px]">
+                        <div class="opacity-30">
+                            <div class="font-medium mb-2">Account Balance</div>
+                            <div class="text-2xl font-semibold">$1,234.56</div>
+                        </div>
+                        <div class="overlay-spinner">
+                            <div class="spinner spinner-lg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skeleton Screens -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Skeleton Screens</h3>
+                    <p class="text-sm text-warm-600 mb-6">Placeholder shapes that match final content layout.</p>
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="skeleton skeleton-avatar flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <div class="skeleton skeleton-heading"></div>
+                                <div class="skeleton skeleton-text w-full"></div>
+                                <div class="skeleton skeleton-text w-3/4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Progress Bar</h3>
+                    <p class="text-sm text-warm-600 mb-6">Determinate progress for file uploads or multi-step processes.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-warm-600">Uploading document...</span>
+                                <span class="font-medium">67%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 67%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thread Gradient Restriction Note -->
+            <div class="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div class="flex gap-3">
+                    <svg width="20" height="20" fill="none" stroke="hsl(45 93% 47%)" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0 mt-0.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+                    </svg>
+                    <div>
+                        <p class="font-medium text-amber-800 text-sm mb-1">Thread Gradient Restriction</p>
+                        <p class="text-sm text-amber-700">Security thread gradients are <strong>not used</strong> for progress bars, focus rings, or state indicators. Thread gradients are reserved for page-level wayfinding and high-impact brand moments only. State indicators use solid Emerald <code class="bg-amber-100 text-amber-800">hsl(150 100% 27%)</code> or appropriate semantic colors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty States -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Empty States</h2>
+            <p class="text-warm-600 mb-6">Helpful guidance when no content is available.</p>
+
+            <div class="bg-warm-100 rounded-lg px-4 py-3 mb-8 text-sm text-warm-700">
+                <strong>Illustration style:</strong> Empty state icons use monochromatic <code>warm-500</code> stroke on a <code>warm-50</code> background. Avoid colored or branded icons in empty states—keep the focus on the guidance text and action.
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Basic Empty State -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">No transactions yet</h3>
+                        <p class="text-warm-600 text-sm mb-6 max-w-xs mx-auto">Your transaction history will appear here once you make your first purchase.</p>
+                        <button class="demo-btn text-sm">Make a Purchase</button>
+                    </div>
+                </div>
+
+                <!-- Search Empty State -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">No results found</h3>
+                        <p class="text-warm-600 text-sm mb-6 max-w-xs mx-auto">We couldn't find any transactions matching "refund". Try adjusting your search terms.</p>
+                        <button class="demo-btn text-sm" style="background: hsl(30 5% 95%); color: hsl(24 29% 8%); border: 1.5px solid hsl(30 5% 85%);">Clear Search</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error States -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Error States</h2>
+            <p class="text-warm-600 mb-8">Clear communication when something goes wrong.</p>
+
+            <div class="space-y-6">
+                <!-- Inline Validation -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Inline Validation</h3>
+                    <p class="text-sm text-warm-600 mb-6">Immediate feedback as users complete form fields.</p>
+                    <div class="max-w-md">
+                        <label class="block text-sm font-medium text-ink mb-2">Email Address</label>
+                        <input type="email" class="demo-input state-error" value="invalid-email">
+                        <div class="error-inline">
+                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Please enter a valid email address</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form-Level Error -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Form-Level Error</h3>
+                    <p class="text-sm text-warm-600 mb-6">Summary of all validation errors at the form level.</p>
+                    <div class="error-banner">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" class="flex-shrink-0 mt-0.5">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="font-medium mb-1">Please correct the following errors:</p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Email address is required</li>
+                                <li>• Password must be at least 8 characters</li>
+                                <li>• Phone number format is invalid</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page-Level Error -->
+                <div class="bg-white border border-warm-200 rounded-xl overflow-hidden">
+                    <h3 class="font-semibold p-6 pb-0 mb-4">Page-Level Error</h3>
+                    <p class="text-sm text-warm-600 px-6 mb-6">Full-page error states for critical failures.</p>
+                    <div class="bg-warm-50 border-t border-warm-200">
+                        <div class="error-page py-12">
+                            <div class="error-page-icon">
+                                <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-xl mb-2">Something went wrong</h3>
+                            <p class="text-warm-600 mb-6 max-w-sm mx-auto">We're having trouble loading your transactions. Please try again in a few moments.</p>
+                            <button class="demo-btn">Try Again</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success States -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Success States</h2>
+            <p class="text-warm-600 mb-8">Positive feedback for completed actions.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Inline Success -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Inline Success</h3>
+                    <p class="text-sm text-warm-600 mb-6">Field-level confirmation of valid input.</p>
+                    <div class="max-w-md">
+                        <label class="block text-sm font-medium text-ink mb-2">Email Address</label>
+                        <input type="email" class="demo-input state-success" value="valid@email.com">
+                        <div class="success-inline">
+                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Email address is valid</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Banner -->
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Success Banner</h3>
+                    <p class="text-sm text-warm-600 mb-6">Confirmation of completed operations.</p>
+                    <div class="success-banner">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" class="flex-shrink-0 mt-0.5">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="font-medium">Payment successful!</p>
+                            <p class="text-sm mt-1">Your order #12345 has been confirmed and will ship within 2 business days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Opal Dark States -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Fire Opal Treatment</h2>
+            <p class="text-warm-600 mb-8">States on dark backgrounds use full-saturation thread colors for maximum contrast.</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-8">
+                <div class="grid grid-cols-2 gap-8">
+                    <!-- Dark Buttons -->
+                    <div>
+                        <h3 class="text-warm-100 font-semibold mb-4">Buttons on Dark</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="demo-btn-dark">Default</button>
+                            <button class="demo-btn-dark state-hover">Hover</button>
+                            <button class="demo-btn-dark state-disabled">Disabled</button>
+                        </div>
+                    </div>
+
+                    <!-- Dark Inputs -->
+                    <div>
+                        <h3 class="text-warm-100 font-semibold mb-4">Inputs on Dark</h3>
+                        <div class="space-y-3">
+                            <input type="text" class="demo-input demo-input-dark" placeholder="Default input">
+                            <input type="text" class="demo-input demo-input-dark state-focused" placeholder="Focused input">
+                            <input type="text" class="demo-input demo-input-dark state-error" value="Error state">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark Loading -->
+                <div class="mt-8 pt-8 border-t border-intaglio-700">
+                    <h3 class="text-warm-100 font-semibold mb-4">Loading on Dark</h3>
+                    <div class="flex items-center gap-4">
+                        <div class="spinner" style="border-color: hsl(24 27% 25%); border-top-color: hsl(30 10% 70%);"></div>
+                        <span class="text-warm-300">Processing transaction...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl mb-2">Accessibility</h2>
+            <p class="text-warm-600 mb-8">Essential requirements for accessible state communication.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Focus Indicators</h3>
+                    <ul class="text-sm text-warm-600 space-y-2 mb-6">
+                        <li>• Never remove focus outlines without providing alternatives</li>
+                        <li>• Focus rings must have 3:1 contrast against backgrounds</li>
+                        <li>• Use <code>:focus-visible</code> to show focus only for keyboard navigation</li>
+                    </ul>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">Focus ring examples:</p>
+                        <div class="flex items-center gap-4">
+                            <button class="demo-btn state-focused">Button</button>
+                            <a href="#" class="demo-link state-focused">Link</a>
+                            <input type="text" class="demo-input state-focused w-32" value="Input" style="width: 120px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">ARIA Attributes</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Use <code>aria-disabled="true"</code> for disabled states</li>
+                        <li>• Use <code>aria-invalid="true"</code> for error states</li>
+                        <li>• Use <code>aria-busy="true"</code> for loading states</li>
+                        <li>• Use <code>aria-describedby</code> to link error messages</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Color Independence</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Never rely solely on color to communicate state</li>
+                        <li>• Combine color with icons, text, or patterns</li>
+                        <li>• Error states must include text explanation</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-warm-200 rounded-xl p-6">
+                    <h3 class="font-semibold mb-4">Screen Reader Announcements</h3>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li>• Use <code>aria-live="polite"</code> for status updates</li>
+                        <li>• Use <code>aria-live="assertive"</code> for errors</li>
+                        <li>• Include loading state announcements</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 text-sm text-warm-500">
+            <span>Saltwyk Design System</span>
+            <span class="mx-2">·</span>
+            <span>v0.6.0</span>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>
+        // State toggle functionality
+        document.querySelectorAll('.state-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const targetId = toggle.dataset.target;
+                const targetState = toggle.dataset.state;
+                const target = document.getElementById(targetId);
+
+                // Update toggle buttons
+                const siblings = toggle.parentElement.querySelectorAll('.state-toggle');
+                siblings.forEach(s => s.classList.remove('active'));
+                toggle.classList.add('active');
+
+                // Remove all state classes
+                target.className = target.className.replace(/state-\w+/g, '').trim();
+
+                // Add new state class
+                if (targetState) {
+                    target.classList.add(targetState);
+                }
+
+                // Handle input error/success messages
+                if (targetId === 'input-demo') {
+                    const message = document.getElementById('input-message');
+                    message.className = 'hidden';
+
+                    if (targetState === 'state-error') {
+                        message.className = 'error-inline';
+                        message.innerHTML = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg><span>Please enter a valid email address</span>';
+                    } else if (targetState === 'state-success') {
+                        message.className = 'success-inline';
+                        message.innerHTML = '<svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span>Email address is valid</span>';
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>
