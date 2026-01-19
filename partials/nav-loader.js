@@ -171,11 +171,11 @@
             }
         });
 
-        // Also expand nav-groups if we're on the header page
+        // Also expand nav-groups if we're on the header page (only for link headers)
         const navGroups = document.querySelectorAll('#side-nav .nav-group');
         navGroups.forEach(group => {
             const header = group.querySelector('.nav-group-header');
-            if (header) {
+            if (header && header.getAttribute('href')) {
                 const headerPath = normalizePath(header.getAttribute('href'));
                 if (currentPath === headerPath) {
                     group.classList.add('expanded');
@@ -193,16 +193,25 @@
             const header = group.querySelector('.nav-group-header');
             if (!header) return;
 
-            const chevron = header.querySelector('.nav-group-chevron');
-            if (chevron) {
-                chevron.addEventListener('click', (e) => {
+            // If header is a span (not a link), make the whole header toggle the group
+            if (header.tagName === 'SPAN') {
+                header.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     group.classList.toggle('expanded');
                 });
-                chevron.style.cursor = 'pointer';
-                chevron.style.padding = '4px';
-                chevron.style.margin = '-4px';
+            } else {
+                // For link headers, only the chevron toggles
+                const chevron = header.querySelector('.nav-group-chevron');
+                if (chevron) {
+                    chevron.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        group.classList.toggle('expanded');
+                    });
+                    chevron.style.cursor = 'pointer';
+                    chevron.style.padding = '4px';
+                    chevron.style.margin = '-4px';
+                }
             }
         });
     }
@@ -311,19 +320,6 @@
             .nav-dropdown:hover .nav-dropdown-trigger svg {
                 transform: rotate(180deg);
             }
-
-            /* Product surface indicators in dropdown */
-            .nav-dropdown-menu .surface-indicator {
-                display: inline-block;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                margin-right: 8px;
-            }
-            .nav-dropdown-menu .surface-indicator.shopper { background: hsl(150 100% 27%); }
-            .nav-dropdown-menu .surface-indicator.merchant { background: hsl(20 100% 50%); }
-            .nav-dropdown-menu .surface-indicator.marketing { background: hsl(280 80% 50%); }
-            .nav-dropdown-menu .surface-indicator.docs { background: hsl(30 5% 55%); }
 
             /* Active state for dropdown items */
             .nav-active {
