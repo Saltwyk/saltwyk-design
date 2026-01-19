@@ -41,15 +41,20 @@
         const path = window.location.pathname;
 
         // Check path-based sections (new structure)
-        if (path.includes('/core/')) return 'core';
+        // Split /core/ into foundation (tokens, brand) and components
+        if (path.includes('/core/components/')) return 'components';
+        if (path.includes('/core/tokens/')) return 'foundation';
+        if (path.includes('/core/brand/')) return 'foundation';
+        if (path.includes('/core/')) return 'foundation'; // fallback for /core/index.html
+
         if (path.includes('/shopper/')) return 'shopper';
         if (path.includes('/merchant/')) return 'merchant';
         if (path.includes('/marketing/')) return 'marketing';
         if (path.includes('/docs/')) return 'docs';
 
         // Legacy support: old paths during migration
-        if (path.includes('/foundation/')) return 'core';
-        if (path.includes('/components/')) return 'core';
+        if (path.includes('/foundation/')) return 'foundation';
+        if (path.includes('/components/')) return 'components';
         if (path.includes('/products/shopper/')) return 'shopper';
         if (path.includes('/products/merchant/')) return 'merchant';
         if (path.includes('/products/marketing/')) return 'marketing';
@@ -97,15 +102,24 @@
     function highlightTopNav() {
         const currentSection = getCurrentSection();
 
-        // Handle Core dropdown activation
-        if (currentSection === 'core') {
-            const coreDropdown = document.querySelector('#top-nav [data-dropdown="core"]');
-            if (coreDropdown) {
-                const trigger = coreDropdown.querySelector('.nav-dropdown-trigger');
+        // Handle Foundation dropdown activation
+        if (currentSection === 'foundation') {
+            const foundationDropdown = document.querySelector('#top-nav [data-dropdown="foundation"]');
+            if (foundationDropdown) {
+                const trigger = foundationDropdown.querySelector('.nav-dropdown-trigger');
                 if (trigger) {
                     trigger.classList.add('text-ink', 'font-medium');
                     trigger.classList.remove('text-warm-600');
                 }
+            }
+        }
+
+        // Handle Components link activation
+        if (currentSection === 'components') {
+            const componentsLink = document.querySelector('#top-nav [data-nav="components"]');
+            if (componentsLink) {
+                componentsLink.classList.add('text-ink', 'font-medium');
+                componentsLink.classList.remove('text-warm-600');
             }
         }
 
