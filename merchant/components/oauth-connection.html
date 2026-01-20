@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Connection | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* OAuth Connection Card Styles */
+        .oauth-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .oauth-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .oauth-card-description {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 16px;
+        }
+
+        .oauth-card-divider {
+            height: 1px;
+            background: hsl(var(--warm-200));
+            margin: 16px 0;
+        }
+
+        /* Platform Row */
+        .platform-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .platform-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .platform-icon.shopify {
+            background: #96bf48;
+        }
+
+        .platform-icon.woocommerce {
+            background: #96588a;
+        }
+
+        .platform-icon.bigcommerce {
+            background: #121118;
+        }
+
+        .platform-icon.placeholder {
+            background: hsl(var(--warm-200));
+            border: 2px dashed hsl(var(--warm-400));
+        }
+
+        .platform-info {
+            flex: 1;
+        }
+
+        .platform-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .platform-url {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+        }
+
+        .platform-meta {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 2px;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+        }
+
+        .status-badge.connected {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+
+        .status-badge.not-connected {
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-600));
+        }
+
+        .status-badge.connecting {
+            background: hsl(var(--amber-50));
+            color: hsl(var(--amber-700));
+        }
+
+        .status-badge.error {
+            background: hsl(var(--rose-50));
+            color: hsl(var(--rose-700));
+        }
+
+        .status-badge.expired {
+            background: hsl(var(--orange-50));
+            color: hsl(var(--orange-700));
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background: hsl(var(--emerald-600));
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 150ms;
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--ink));
+            background: white;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--rose-600));
+            background: white;
+            border: 1px solid hsl(var(--rose-300));
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+
+        .btn-danger:hover {
+            background: hsl(var(--rose-50));
+            border-color: hsl(var(--rose-400));
+        }
+
+        /* Error/Warning boxes */
+        .error-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--rose-50));
+            border: 1px solid hsl(var(--rose-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--rose-700));
+        }
+
+        .error-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--rose-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .warning-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--orange-700));
+        }
+
+        .warning-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--warm-700));
+        }
+
+        .info-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid hsl(var(--amber-200));
+            border-top-color: hsl(var(--amber-600));
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Platform selector */
+        .platform-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+
+        .platform-option:hover {
+            border-color: hsl(var(--emerald-400));
+            background: hsl(var(--emerald-50));
+        }
+
+        .platform-option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-option-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .platform-option-arrow {
+            margin-left: auto;
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">OAuth Connection</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-2">OAuth Connection</h1>
+            <p class="text-warm-600">A reusable component for connecting external platforms via OAuth. Used in Settings → Apps for commerce platform integrations.</p>
+        </header>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Overview</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Purpose</p>
+                <p class="text-sm text-warm-700 mb-4">The OAuth Connection component handles the complete lifecycle of connecting third-party platforms via OAuth 2.0. It manages all connection states from initial setup through ongoing maintenance.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Location</p>
+                        <p class="text-ink">Settings → Apps</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Use Case</p>
+                        <p class="text-ink">Commerce platforms</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Auth Method</p>
+                        <p class="text-ink">OAuth 2.0</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">States</p>
+                        <p class="text-ink">5 states</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Connection States</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="status-badge not-connected">
+                        <i data-lucide="circle" class="w-3 h-3"></i>
+                        Not Connected
+                    </span>
+                    <span class="status-badge connecting">
+                        <div class="spinner"></div>
+                        Connecting
+                    </span>
+                    <span class="status-badge connected">
+                        <i data-lucide="check" class="w-3 h-3"></i>
+                        Connected
+                    </span>
+                    <span class="status-badge error">
+                        <i data-lucide="x" class="w-3 h-3"></i>
+                        Error
+                    </span>
+                    <span class="status-badge expired">
+                        <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                        Expired
+                    </span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: NOT CONNECTED STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Not Connected State</p>
+            <p class="text-sm text-warm-600 mb-6">Initial state when no commerce platform is connected. Shows platform selection options.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Not Connected - Platform Selection</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="oauth-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="oauth-card-title">Commerce Platform</p>
+                                <p class="oauth-card-description">Connect your e-commerce store</p>
+                            </div>
+                            <span class="status-badge not-connected">
+                                <i data-lucide="circle" class="w-3 h-3"></i>
+                                Not Connected
+                            </span>
+                        </div>
+                        <div class="oauth-card-divider"></div>
+
+                        <p class="text-sm font-medium text-ink mb-4">Select your platform</p>
+
+                        <div class="space-y-3">
+                            <div class="platform-option">
+                                <div class="platform-option-icon bg-[#96bf48]">
+                                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                    </svg>
+                                </div>
+                                <span class="platform-option-name">Shopify</span>
+                                <i data-lucide="chevron-right" class="platform-option-arrow"></i>
+                            </div>
+
+                            <div class="platform-option">
+                                <div class="platform-option-icon bg-[#96588a]">
+                                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                                    </svg>
+                                </div>
+                                <span class="platform-option-name">WooCommerce</span>
+                                <i data-lucide="chevron-right" class="platform-option-arrow"></i>
+                            </div>
+
+                            <div class="platform-option">
+                                <div class="platform-option-icon bg-[#121118]">
+                                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                                    </svg>
+                                </div>
+                                <span class="platform-option-name">BigCommerce</span>
+                                <i data-lucide="chevron-right" class="platform-option-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: CONNECTING STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Connecting State</p>
+            <p class="text-sm text-warm-600 mb-6">Shown while OAuth flow is in progress. User has been redirected to the platform and we're waiting for the callback.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Connecting - Awaiting OAuth Callback</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="oauth-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="oauth-card-title">Commerce Platform</p>
+                                <p class="oauth-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="status-badge connecting">
+                                <div class="spinner"></div>
+                                Connecting
+                            </span>
+                        </div>
+                        <div class="oauth-card-divider"></div>
+
+                        <div class="platform-row mb-4">
+                            <div class="platform-icon shopify">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div class="platform-info">
+                                <p class="platform-name">Shopify</p>
+                                <p class="platform-meta">Waiting for authorization...</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box mb-4">
+                            <i data-lucide="external-link"></i>
+                            <div>
+                                <p class="font-medium">Complete authorization in Shopify</p>
+                                <p class="text-warm-600 mt-1">A new window should have opened. Please complete the authorization process there.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Shopify Again
+                            </button>
+                            <button class="btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: CONNECTED STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Connected State</p>
+            <p class="text-sm text-warm-600 mb-6">Successfully connected. Shows platform details, sync status, and management actions.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Connected - Active Integration</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="oauth-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="oauth-card-title">Commerce Platform</p>
+                                <p class="oauth-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="status-badge connected">
+                                <i data-lucide="check" class="w-3 h-3"></i>
+                                Connected
+                            </span>
+                        </div>
+                        <div class="oauth-card-divider"></div>
+
+                        <div class="platform-row mb-4">
+                            <div class="platform-icon shopify">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div class="platform-info">
+                                <p class="platform-name">Shopify</p>
+                                <p class="platform-url">kitsch.myshopify.com</p>
+                                <p class="platform-meta">Connected via OAuth · Last synced: 2 minutes ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Test Connection
+                            </button>
+                            <button class="btn-danger">Disconnect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: ERROR STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Error State</p>
+            <p class="text-sm text-warm-600 mb-6">Connection failed during OAuth flow. Shows error message and retry option.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Error - Connection Failed</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="oauth-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="oauth-card-title">Commerce Platform</p>
+                                <p class="oauth-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="status-badge error">
+                                <i data-lucide="x" class="w-3 h-3"></i>
+                                Error
+                            </span>
+                        </div>
+                        <div class="oauth-card-divider"></div>
+
+                        <div class="platform-row mb-4">
+                            <div class="platform-icon shopify">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div class="platform-info">
+                                <p class="platform-name">Shopify</p>
+                                <p class="platform-meta text-rose-600">Connection failed</p>
+                            </div>
+                        </div>
+
+                        <div class="error-box mb-4">
+                            <i data-lucide="alert-circle"></i>
+                            <div>
+                                <p class="font-medium">Authorization was denied</p>
+                                <p class="text-rose-600 mt-1">The connection request was cancelled or denied. Please try again and make sure to approve all requested permissions.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-primary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Try Again
+                            </button>
+                            <button class="btn-secondary">Choose Different Platform</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: EXPIRED STATE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Expired State</p>
+            <p class="text-sm text-warm-600 mb-6">OAuth token has expired and needs to be refreshed. Prompts user to reconnect.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Expired - Token Needs Refresh</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="oauth-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="oauth-card-title">Commerce Platform</p>
+                                <p class="oauth-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="status-badge expired">
+                                <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                                Expired
+                            </span>
+                        </div>
+                        <div class="oauth-card-divider"></div>
+
+                        <div class="platform-row mb-4">
+                            <div class="platform-icon shopify">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div class="platform-info">
+                                <p class="platform-name">Shopify</p>
+                                <p class="platform-url">kitsch.myshopify.com</p>
+                                <p class="platform-meta text-orange-600">Authorization expired · Last synced: 7 days ago</p>
+                            </div>
+                        </div>
+
+                        <div class="warning-box mb-4">
+                            <i data-lucide="alert-triangle"></i>
+                            <div>
+                                <p class="font-medium">Reconnection required</p>
+                                <p class="text-orange-600 mt-1">Your authorization has expired. Please reconnect to continue syncing data from your Shopify store.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-primary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Reconnect
+                            </button>
+                            <button class="btn-danger">Disconnect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: TECHNICAL SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-warm-200">
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Element</th>
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Property</th>
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Platform Icon</td>
+                            <td class="p-4 text-warm-600">Size</td>
+                            <td class="p-4"><code>48px × 48px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border Radius</td>
+                            <td class="p-4"><code>12px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Status Badge</td>
+                            <td class="p-4 text-warm-600">Padding</td>
+                            <td class="p-4"><code>6px 12px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Font</td>
+                            <td class="p-4"><code>12px / 600 weight</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border Radius</td>
+                            <td class="p-4"><code>20px (pill)</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Connected</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>emerald-50</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Text</td>
+                            <td class="p-4"><code>emerald-700</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Connecting</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>amber-50</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Text</td>
+                            <td class="p-4"><code>amber-700</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Error</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>rose-50</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Text</td>
+                            <td class="p-4"><code>rose-700</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Expired</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>orange-50</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Text</td>
+                            <td class="p-4"><code>orange-700</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Spinner Animation</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Size</p>
+                        <code>16px × 16px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>2px solid</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Animation</p>
+                        <code>spin 0.8s linear infinite</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Colors</p>
+                        <code>amber-200 / amber-600</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 8: OAUTH FLOW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. OAuth Flow</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">State Transitions</p>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 font-mono text-sm text-warm-700">
+                    <pre class="whitespace-pre-wrap">
+Not Connected
+    ↓ [User selects platform]
+Connecting
+    ↓ [OAuth callback success] → Connected
+    ↓ [OAuth callback error]  → Error
+    ↓ [User cancels]          → Not Connected
+
+Connected
+    ↓ [Token expires]         → Expired
+    ↓ [User disconnects]      → Not Connected
+    ↓ [Test connection fails] → Error
+
+Error
+    ↓ [User retries]          → Connecting
+    ↓ [User changes platform] → Not Connected
+
+Expired
+    ↓ [User reconnects]       → Connecting
+    ↓ [User disconnects]      → Not Connected</pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 9: DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">9. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                    <p class="text-sm text-emerald-700"><strong>Platform Icons:</strong> Large 48px icons with brand colors help users quickly identify their connected platform. The rounded corners (12px) match the card design language.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="text-sm text-warm-700"><strong>Status Badges:</strong> Pill-shaped badges with semantic colors provide instant visual feedback. Connected (emerald), Connecting (amber), Error (rose), Expired (orange).</p>
+                </div>
+
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                    <p class="text-sm text-indigo-700"><strong>Error Messaging:</strong> Errors use prominent rose-colored boxes with clear explanations and actionable next steps. Users should never be left wondering what went wrong.</p>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <p class="text-sm text-amber-700"><strong>Disconnect Action:</strong> Uses danger button styling (rose border) to indicate the destructive nature of disconnecting, requiring intentional action.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 10: RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">10. Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/settings.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Settings Screen</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/badges/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Badges</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/buttons/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Buttons</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

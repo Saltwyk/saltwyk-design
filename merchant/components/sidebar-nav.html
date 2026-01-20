@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Navigation | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        /* ========================================= */
+        /* STATUS BADGE                             */
+        /* ========================================= */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 28px;
+            padding: 0 12px;
+            margin: 12px 12px 12px;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .status-badge-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+        .status-badge-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Trial state (onboarding incomplete) */
+        .status-badge.trial {
+            background: hsl(var(--orange-500) / 10%);
+            border: 1px solid hsl(var(--orange-500) / 20%);
+        }
+        .status-badge.trial .status-badge-icon,
+        .status-badge.trial .status-badge-label {
+            color: hsl(var(--orange-400));
+        }
+
+        /* Sandbox state (testing environment) */
+        .status-badge.sandbox {
+            background: hsl(45 90% 50% / 10%);
+            border: 1px solid hsl(45 90% 50% / 20%);
+        }
+        .status-badge.sandbox .status-badge-icon,
+        .status-badge.sandbox .status-badge-label {
+            color: hsl(45 90% 55%);
+        }
+
+        /* Live state (production, onboarding complete) */
+        .status-badge.live {
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 20%);
+        }
+        .status-badge.live .status-badge-icon,
+        .status-badge.live .status-badge-label {
+            color: hsl(var(--emerald-400));
+        }
+
+        /* Thread line below logo/status */
+        .thread-line-cool {
+            height: 2px;
+            margin: 0 12px 12px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--magenta-thread)) 100%
+            );
+            border-radius: 9999px;
+        }
+
+        /* Navigation section labels */
+        .nav-section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+        .nav-section-label:first-child {
+            margin-top: 0;
+        }
+
+        /* Bottom nav divider */
+        .sidebar-bottom-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 16px 12px;
+        }
+
+        /* Bottom nav items */
+        .sidebar-bottom-nav {
+            padding: 0 8px 16px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Thread line at top -->
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto px-8 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Home</a>
+            <span>&#8594;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&#8594;</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Sidebar Navigation</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Merchant Component</p>
+            <h1 class="font-display text-4xl mb-3">Sidebar Navigation</h1>
+            <p class="text-warm-600 text-lg">The merchant dashboard sidebar with status badge, navigation sections, and environment indicators.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: OVERVIEW -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Overview</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">The merchant sidebar is the primary navigation for the dashboard.</strong>
+                    It uses the Fire Opal dark theme (intaglio-900 background) to create clear visual distinction from the light content area and reinforce the "work" context.
+                </p>
+                <p class="text-warm-600 text-sm mb-4">
+                    The sidebar includes a status badge showing the current environment (Trial, Sandbox, or Live),
+                    conditional setup navigation for onboarding, and the main dashboard navigation items.
+                </p>
+                <div class="flex gap-4 text-sm">
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full">Fire Opal Theme</span>
+                    <span class="px-3 py-1 bg-warm-100 text-warm-600 rounded-full">240px Width</span>
+                    <span class="px-3 py-1 bg-warm-100 text-warm-600 rounded-full">Dark Background</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: STATUS BADGE VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Status Badge Variants</p>
+
+            <p class="text-warm-600 mb-6">The status badge indicates the current environment state. Each variant uses semantic colors to communicate status at a glance.</p>
+
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <!-- Trial -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Trial</p>
+                    <p class="text-sm text-warm-600 mb-4">Onboarding incomplete. Shows when SETUP section is visible.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="status-badge trial">
+                            <i data-lucide="clock" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Trial</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sandbox -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Sandbox</p>
+                    <p class="text-sm text-warm-600 mb-4">Testing environment. For development and QA.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="status-badge sandbox">
+                            <i data-lucide="flask-conical" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Sandbox</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Live</p>
+                    <p class="text-sm text-warm-600 mb-4">Production environment. Onboarding complete.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="status-badge live">
+                            <i data-lucide="arrow-up-right" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Live</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Badge Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Status Badge Specifications</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Variant</th>
+                            <th>Background</th>
+                            <th>Border</th>
+                            <th>Text Color</th>
+                            <th>Icon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Trial</strong></td>
+                            <td><code>hsl(var(--orange-500) / 10%)</code></td>
+                            <td><code>hsl(var(--orange-500) / 20%)</code></td>
+                            <td><code>hsl(var(--orange-400))</code></td>
+                            <td><code>clock</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sandbox</strong></td>
+                            <td><code>hsl(45 90% 50% / 10%)</code></td>
+                            <td><code>hsl(45 90% 50% / 20%)</code></td>
+                            <td><code>hsl(45 90% 55%)</code></td>
+                            <td><code>flask-conical</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Live</strong></td>
+                            <td><code>hsl(var(--emerald-500) / 10%)</code></td>
+                            <td><code>hsl(var(--emerald-500) / 20%)</code></td>
+                            <td><code>hsl(var(--emerald-400))</code></td>
+                            <td><code>arrow-up-right</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: NAVIGATION STRUCTURE -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Navigation Structure</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Structure Diagram -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Sidebar Structure</p>
+                    <div class="font-mono text-sm text-warm-700 space-y-1">
+                        <p class="text-ink font-semibold">┌─ Sidebar (240px) ─────────────┐</p>
+                        <p>│  [Logo - 64px height]         │</p>
+                        <p>│  [Status Badge]               │</p>
+                        <p>│  ────── (thread line)         │</p>
+                        <p>│                               │</p>
+                        <p>│  <span class="text-orange-500">SETUP</span> <span class="text-warm-400">(conditional)</span>         │</p>
+                        <p>│  🛡️ Join Saltwyk              │</p>
+                        <p>│                               │</p>
+                        <p>│  <span class="text-emerald-500">DASHBOARD</span>                    │</p>
+                        <p>│  🏠 Home                      │</p>
+                        <p>│  🧱 Apps                      │</p>
+                        <p>│  📊 Transactions              │</p>
+                        <p>│  💰 Finance                   │</p>
+                        <p>│                               │</p>
+                        <p>│  [Spacer - flex-grow]         │</p>
+                        <p>│                               │</p>
+                        <p>│  ────── (divider)             │</p>
+                        <p>│  ⚙️ Settings                  │</p>
+                        <p>│  🆘 Support                   │</p>
+                        <p class="text-ink font-semibold">└───────────────────────────────┘</p>
+                    </div>
+                </div>
+
+                <!-- Spacing Specs -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Spacing & Sizing</p>
+                    </div>
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Element</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sidebar width</td>
+                                <td>240px</td>
+                            </tr>
+                            <tr>
+                                <td>Logo area height</td>
+                                <td>64px</td>
+                            </tr>
+                            <tr>
+                                <td>Status badge padding</td>
+                                <td>6px 12px</td>
+                            </tr>
+                            <tr>
+                                <td>Status badge margin</td>
+                                <td>0 12px 12px</td>
+                            </tr>
+                            <tr>
+                                <td>Thread line height</td>
+                                <td>2px</td>
+                            </tr>
+                            <tr>
+                                <td>Thread line margin</td>
+                                <td>0 12px 12px</td>
+                            </tr>
+                            <tr>
+                                <td>Section label padding</td>
+                                <td>8px 12px 4px</td>
+                            </tr>
+                            <tr>
+                                <td>Nav item padding</td>
+                                <td>10px 16px</td>
+                            </tr>
+                            <tr>
+                                <td>Bottom divider margin</td>
+                                <td>16px 12px</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: NAV ITEM STATES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Nav Item States</p>
+
+            <div class="grid grid-cols-3 gap-6 mb-6">
+                <!-- Default -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Default</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="sidebar-dark" style="width: 100%; background: transparent;">
+                            <div class="sidebar-item" style="margin: 0;">
+                                <i data-lucide="home" class="sidebar-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Text: <code>warm-400</code></p>
+                </div>
+
+                <!-- Hover -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Hover</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="sidebar-dark" style="width: 100%; background: transparent;">
+                            <div class="sidebar-item" style="margin: 0; background: hsl(var(--intaglio-800)); color: hsl(var(--warm-200));">
+                                <i data-lucide="home" class="sidebar-item-icon" style="color: hsl(var(--warm-200));"></i>
+                                <span>Home</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Background: <code>intaglio-800</code></p>
+                </div>
+
+                <!-- Active -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Active</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="sidebar-dark" style="width: 100%; background: transparent;">
+                            <div class="sidebar-item sidebar-item-active" style="margin: 0;">
+                                <i data-lucide="home" class="sidebar-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3">Accent: <code>indigo-400</code> left border</p>
+                </div>
+            </div>
+
+            <!-- Nav Item Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Nav Item Specifications</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Background</th>
+                            <th>Text Color</th>
+                            <th>Border</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Default</strong></td>
+                            <td>transparent</td>
+                            <td><code>hsl(var(--warm-400))</code></td>
+                            <td>none</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hover</strong></td>
+                            <td><code>hsl(var(--intaglio-800))</code></td>
+                            <td><code>hsl(var(--warm-200))</code></td>
+                            <td>none</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Active</strong></td>
+                            <td><code>hsl(var(--indigo-500) / 15%)</code></td>
+                            <td><code>hsl(var(--indigo-300))</code></td>
+                            <td>3px left <code>indigo-400</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: FULL SIDEBAR PREVIEWS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Full Sidebar Previews</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Trial State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Trial State (with SETUP)</p>
+                    <div class="sidebar-dark rounded-lg overflow-hidden" style="height: 480px;">
+                        <div class="sidebar-logo">
+                            <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-white">Saltwyk</span>
+                        </div>
+
+                        <div class="status-badge trial">
+                            <i data-lucide="clock" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Trial</span>
+                        </div>
+
+                        <div class="thread-line-cool"></div>
+
+                        <nav class="sidebar-nav">
+                            <div class="nav-section-label">Setup</div>
+                            <div class="sidebar-item">
+                                <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                <span>Join Saltwyk</span>
+                            </div>
+
+                            <div class="nav-section-label">Dashboard</div>
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="home" class="sidebar-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                <span>Apps</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                <span>Finance</span>
+                            </div>
+                        </nav>
+
+                        <div class="flex-1"></div>
+
+                        <div class="sidebar-bottom-divider"></div>
+                        <div class="sidebar-bottom-nav">
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                <span>Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sandbox State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Sandbox State (testing)</p>
+                    <div class="sidebar-dark rounded-lg overflow-hidden" style="height: 480px;">
+                        <div class="sidebar-logo">
+                            <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-white">Saltwyk</span>
+                        </div>
+
+                        <div class="status-badge sandbox">
+                            <i data-lucide="flask-conical" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Sandbox</span>
+                        </div>
+
+                        <div class="thread-line-cool"></div>
+
+                        <nav class="sidebar-nav">
+                            <div class="nav-section-label">Dashboard</div>
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="home" class="sidebar-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                <span>Apps</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                <span>Finance</span>
+                            </div>
+                        </nav>
+
+                        <div class="flex-1"></div>
+
+                        <div class="sidebar-bottom-divider"></div>
+                        <div class="sidebar-bottom-nav">
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                <span>Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Live State (production)</p>
+                    <div class="sidebar-dark rounded-lg overflow-hidden" style="height: 480px;">
+                        <div class="sidebar-logo">
+                            <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-white">Saltwyk</span>
+                        </div>
+
+                        <div class="status-badge live">
+                            <i data-lucide="arrow-up-right" class="status-badge-icon"></i>
+                            <span class="status-badge-label">Live</span>
+                        </div>
+
+                        <div class="thread-line-cool"></div>
+
+                        <nav class="sidebar-nav">
+                            <div class="nav-section-label">Dashboard</div>
+                            <div class="sidebar-item sidebar-item-active">
+                                <i data-lucide="home" class="sidebar-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                <span>Apps</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                <span>Finance</span>
+                            </div>
+                        </nav>
+
+                        <div class="flex-1"></div>
+
+                        <div class="sidebar-bottom-divider"></div>
+                        <div class="sidebar-bottom-nav">
+                            <div class="sidebar-item">
+                                <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                <span>Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: CONDITIONAL RENDERING -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. Conditional Rendering</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">SETUP Section Logic</p>
+                    <div class="bg-warm-50 rounded-lg p-4 font-mono text-sm mb-4">
+                        <p class="text-warm-500">// Pseudocode</p>
+                        <p class="text-ink">if (merchant.onboarding_complete === false) {</p>
+                        <p class="text-ink pl-4">showSetupSection();</p>
+                        <p class="text-ink pl-4">showStatusBadge('trial');</p>
+                        <p class="text-ink">} else {</p>
+                        <p class="text-ink pl-4">hideSetupSection();</p>
+                        <p class="text-ink pl-4">showStatusBadge('live');</p>
+                        <p class="text-ink">}</p>
+                    </div>
+                    <p class="text-sm text-warm-600">
+                        The SETUP section should be removed from the DOM entirely when onboarding is complete, not just hidden. This prevents empty space and confusion.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Environment Detection</p>
+                    <div class="bg-warm-50 rounded-lg p-4 font-mono text-sm mb-4">
+                        <p class="text-warm-500">// Pseudocode</p>
+                        <p class="text-ink">switch (environment) {</p>
+                        <p class="text-ink pl-4">case 'sandbox':</p>
+                        <p class="text-ink pl-8">showStatusBadge('sandbox');</p>
+                        <p class="text-ink pl-8">break;</p>
+                        <p class="text-ink pl-4">case 'production':</p>
+                        <p class="text-ink pl-8">showStatusBadge('live');</p>
+                        <p class="text-ink pl-8">break;</p>
+                        <p class="text-ink pl-4">default:</p>
+                        <p class="text-ink pl-8">showStatusBadge('trial');</p>
+                        <p class="text-ink">}</p>
+                    </div>
+                    <p class="text-sm text-warm-600">
+                        Sandbox overrides the Trial/Live state. A merchant in sandbox mode always sees the sandbox badge regardless of onboarding status.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: ICONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Icon Reference</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Nav Item</th>
+                            <th>Lucide Icon</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-warm-400 italic" colspan="3">Status Badges</td>
+                        </tr>
+                        <tr>
+                            <td>Trial Badge</td>
+                            <td><code>clock</code></td>
+                            <td><i data-lucide="clock" class="w-4 h-4 text-orange-400"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Sandbox Badge</td>
+                            <td><code>flask-conical</code></td>
+                            <td><i data-lucide="flask-conical" class="w-4 h-4 text-amber-400"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Live Badge</td>
+                            <td><code>arrow-up-right</code></td>
+                            <td><i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warm-400 italic" colspan="3">Navigation Items</td>
+                        </tr>
+                        <tr>
+                            <td>Join Saltwyk</td>
+                            <td><code>shield-check</code></td>
+                            <td><i data-lucide="shield-check" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Home</td>
+                            <td><code>home</code></td>
+                            <td><i data-lucide="home" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Apps</td>
+                            <td><code>blocks</code></td>
+                            <td><i data-lucide="blocks" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Transactions</td>
+                            <td><code>bar-chart-3</code></td>
+                            <td><i data-lucide="bar-chart-3" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Finance</td>
+                            <td><code>dollar-sign</code></td>
+                            <td><i data-lucide="dollar-sign" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Settings</td>
+                            <td><code>settings</code></td>
+                            <td><i data-lucide="settings" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Support</td>
+                            <td><code>life-buoy</code></td>
+                            <td><i data-lucide="life-buoy" class="w-4 h-4 text-warm-500"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: DESIGN DECISIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Design Decisions</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Dark Theme?</p>
+                    <p class="text-sm text-warm-600">
+                        The merchant dashboard uses Fire Opal (dark intaglio) to create clear visual distinction
+                        from the shopper experience (Bright Opal). This reinforces that the user is in a "work"
+                        context, not a personal shopping context.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Status Badge at Top?</p>
+                    <p class="text-sm text-warm-600">
+                        Environment awareness is critical for merchants. Placing the badge prominently below the
+                        logo ensures users always know whether they're working in Trial, Sandbox, or Live mode
+                        before taking any actions.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why SETUP Before DASHBOARD?</p>
+                    <p class="text-sm text-warm-600">
+                        For new merchants, completing setup is the priority. Placing SETUP first guides them
+                        through onboarding before they explore dashboard features. Once complete, this section
+                        disappears entirely.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Indigo Active State?</p>
+                    <p class="text-sm text-warm-600">
+                        Indigo provides strong contrast against the dark intaglio background while being distinct
+                        from emerald (used for positive states) and orange (used for warnings/trial). The left
+                        border creates a clear visual anchor.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: RELATED COMPONENTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/dashboard.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Dashboard Screen</p>
+                    <p class="text-xs text-warm-500">Full dashboard with sidebar integration.</p>
+                </a>
+                <a href="/merchant/screens/transactions.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Transactions Screen</p>
+                    <p class="text-xs text-warm-500">Transaction list with sidebar.</p>
+                </a>
+                <a href="/merchant/screens/clearing-balance.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Finance Screen</p>
+                    <p class="text-xs text-warm-500">Clearing balance with sidebar.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

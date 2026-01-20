@@ -60,7 +60,6 @@
         .sidebar-dark .sidebar-nav {
             flex: 1;
             padding: 8px;
-            overflow-y: auto;
         }
 
         .sidebar-dark .sidebar-item {
@@ -133,6 +132,82 @@
         }
 
         /* ========================================= */
+        /* STATUS BADGE & NAV STRUCTURE             */
+        /* ========================================= */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 12px 12px;
+            border-radius: 6px;
+        }
+        .status-badge-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+        .status-badge-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .status-badge.trial {
+            background: hsl(var(--orange-500) / 10%);
+            border: 1px solid hsl(var(--orange-500) / 20%);
+        }
+        .status-badge.trial .status-badge-label {
+            color: hsl(var(--orange-400));
+        }
+        .status-badge.sandbox {
+            background: hsl(45 90% 50% / 10%);
+            border: 1px solid hsl(45 90% 50% / 20%);
+        }
+        .status-badge.sandbox .status-badge-label {
+            color: hsl(45 90% 55%);
+        }
+        .status-badge.live {
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 20%);
+        }
+        .status-badge.live .status-badge-label {
+            color: hsl(var(--emerald-400));
+        }
+
+        .thread-line-cool {
+            height: 2px;
+            margin: 0 12px 12px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--magenta-thread)) 100%
+            );
+            border-radius: 9999px;
+        }
+
+        .nav-section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+        .nav-section-label:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar-bottom-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 16px 12px;
+        }
+
+        .sidebar-bottom-nav {
+            padding: 0 8px 16px;
+        }
+
+        /* ========================================= */
         /* CONTENT AREA STYLES                      */
         /* ========================================= */
         .merchant-content {
@@ -160,6 +235,45 @@
 
         .merchant-content .content-area {
             padding: 0 40px 32px;
+        }
+
+        /* ========================================= */
+        /* TOP-RIGHT CONTEXT SWITCHER               */
+        /* ========================================= */
+        .merchant-header {
+            height: 64px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            background: transparent;
+        }
+        .context-trigger {
+            height: 40px;
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-trigger:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+        .context-trigger .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .context-trigger .chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
         }
 
         /* Search Bar */
@@ -500,50 +614,80 @@
                             <!-- Cool thread at top -->
                             <div class="h-[3px] w-full thread-cool"></div>
 
-                            <div class="flex" style="height: 600px;">
+                            <div class="flex" style="height: 540px;">
                                 <!-- Sidebar (Dark Mode - Fire Opal) -->
                                 <aside class="sidebar-dark">
+                                    <!-- Logo -->
                                     <div class="sidebar-logo">
                                         <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
                                         <span class="font-brand font-semibold text-white">Saltwyk</span>
                                     </div>
+
+                                    <!-- Status Badge -->
+                                    <div class="status-badge trial">
+                                        <span class="status-badge-icon">⏱</span>
+                                        <span class="status-badge-label">Trial</span>
+                                    </div>
+
+                                    <!-- Thread line -->
+                                    <div class="thread-line-cool"></div>
+
+                                    <!-- Main Navigation -->
                                     <nav class="sidebar-nav">
-                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <!-- SETUP Section -->
+                                        <div class="nav-section-label">Setup</div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Join Saltwyk</span>
+                                        </div>
+
+                                        <!-- DASHBOARD Section -->
+                                        <div class="nav-section-label">Dashboard</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="home" class="sidebar-item-icon"></i>
                                             <span>Home</span>
                                         </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                            <span>Apps</span>
+                                        </div>
                                         <div class="sidebar-item sidebar-item-active">
-                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
                                             <span>Transactions</span>
                                         </div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
-                                            <span>Clearing Balance</span>
-                                        </div>
-
-                                        <div class="sidebar-divider"></div>
-                                        <div class="sidebar-section-header">Setup</div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
-                                            <span>Get Verified</span>
-                                        </div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
-                                            <span>Integration</span>
+                                            <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                            <span>Finance</span>
                                         </div>
                                     </nav>
-                                    <div class="sidebar-user">
-                                        <div class="sidebar-user-avatar">AC</div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-warm-200 truncate">Acme Coffee</p>
-                                            <p class="text-xs text-warm-500 truncate">tela@acme.coffee</p>
+
+                                    <!-- Spacer -->
+                                    <div class="flex-1"></div>
+
+                                    <!-- Bottom Navigation -->
+                                    <div class="sidebar-bottom-divider"></div>
+                                    <div class="sidebar-bottom-nav">
+                                        <div class="sidebar-item">
+                                            <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                            <span>Settings</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                            <span>Support</span>
                                         </div>
                                     </div>
                                 </aside>
 
                                 <!-- Content -->
                                 <div class="merchant-content">
+                                    <!-- Top-right context switcher -->
+                                    <header class="merchant-header">
+                                        <button class="context-trigger" aria-label="Switch merchant account" aria-expanded="false">
+                                            <span class="merchant-name">Kitsch</span>
+                                            <i data-lucide="chevron-down" class="chevron"></i>
+                                        </button>
+                                    </header>
+
                                     <div class="page-header">
                                         <h1>Transactions</h1>
                                         <p>View all rewards redemptions</p>

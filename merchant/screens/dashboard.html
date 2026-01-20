@@ -81,7 +81,6 @@
         .sidebar-dark .sidebar-nav {
             flex: 1;
             padding: 8px;
-            overflow-y: auto;
         }
 
         .sidebar-dark .sidebar-item {
@@ -149,6 +148,96 @@
         }
 
         /* ========================================= */
+        /* STATUS BADGE                             */
+        /* ========================================= */
+        /* STATUS BADGE: Shows current environment
+           - Live: Emerald accent (production, onboarding complete)
+           - Trial: Orange accent (trial period, onboarding incomplete)
+           - Sandbox: Amber/Yellow accent (testing environment) */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 12px 12px;
+            border-radius: 6px;
+        }
+        .status-badge-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+        .status-badge-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Trial state (onboarding incomplete) */
+        .status-badge.trial {
+            background: hsl(var(--orange-500) / 10%);
+            border: 1px solid hsl(var(--orange-500) / 20%);
+        }
+        .status-badge.trial .status-badge-label {
+            color: hsl(var(--orange-400));
+        }
+
+        /* Sandbox state (testing environment) */
+        .status-badge.sandbox {
+            background: hsl(45 90% 50% / 10%);
+            border: 1px solid hsl(45 90% 50% / 20%);
+        }
+        .status-badge.sandbox .status-badge-label {
+            color: hsl(45 90% 55%);
+        }
+
+        /* Live state (production, onboarding complete) */
+        .status-badge.live {
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 20%);
+        }
+        .status-badge.live .status-badge-label {
+            color: hsl(var(--emerald-400));
+        }
+
+        /* Thread line below logo/status */
+        .thread-line-cool {
+            height: 2px;
+            margin: 0 12px 12px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--magenta-thread)) 100%
+            );
+            border-radius: 9999px;
+        }
+
+        /* Navigation section labels */
+        .nav-section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+        .nav-section-label:first-child {
+            margin-top: 0;
+        }
+
+        /* Bottom nav divider */
+        .sidebar-bottom-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 16px 12px;
+        }
+
+        /* Bottom nav items */
+        .sidebar-bottom-nav {
+            padding: 0 8px 16px;
+        }
+
+        /* ========================================= */
         /* CONTENT AREA STYLES                      */
         /* ========================================= */
         .merchant-content {
@@ -176,6 +265,281 @@
 
         .merchant-content .content-area {
             padding: 0 40px 32px;
+        }
+
+        /* ========================================= */
+        /* TOP-RIGHT CONTEXT SWITCHER               */
+        /* ========================================= */
+        .merchant-header {
+            height: 64px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            background: transparent;
+        }
+
+        /* Context Switcher Trigger */
+        .context-trigger {
+            height: 40px;
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-trigger:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+        .context-trigger .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .context-trigger .chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+            transition: transform 150ms ease;
+        }
+        .context-trigger[aria-expanded="true"] .chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Context Dropdown (Fire Opal Dark Theme) */
+        .context-dropdown {
+            position: absolute;
+            top: 48px;
+            right: 0;
+            width: 280px;
+            background: hsl(var(--intaglio-900));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            padding: 8px;
+            z-index: 1000;
+            animation: dropdownOpen 150ms ease-out;
+        }
+        @keyframes dropdownOpen {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Current Context Card */
+        .current-context {
+            padding: 8px 12px 4px;
+        }
+        .current-context .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+            display: block;
+        }
+        .context-card {
+            background: hsl(var(--intaglio-800));
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .context-card .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+        }
+        .context-card .merchant-role {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Dropdown Divider */
+        .context-dropdown .divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 0;
+        }
+
+        /* Section Labels */
+        .context-dropdown .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            display: block;
+        }
+
+        /* Merchant/Action Items */
+        .merchant-item,
+        .action-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+            background: transparent;
+            border: none;
+            text-align: left;
+        }
+        .merchant-item:hover,
+        .action-item:hover {
+            background: hsl(var(--intaglio-800));
+        }
+
+        /* Merchant Icon */
+        .merchant-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .merchant-icon i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Action Icon (Shopping) */
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-icon.shopping {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+        .action-icon i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Simple Action Icon (Settings, Sign Out) */
+        .action-icon-simple {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-400));
+        }
+
+        /* Merchant/Action Info */
+        .merchant-info,
+        .action-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .merchant-info .merchant-name,
+        .action-info .action-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+        }
+        .action-item .action-label {
+            font-size: 14px;
+            color: hsl(var(--warm-200));
+        }
+        .action-item:hover .action-label {
+            color: hsl(var(--warm-100));
+        }
+        .action-info .action-sublabel {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Role Badges */
+        .role-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .role-badge.admin { background: hsl(var(--indigo-100)); color: hsl(var(--indigo-600)); }
+        .role-badge.user { background: hsl(var(--warm-200)); color: hsl(var(--warm-600)); }
+        .role-badge.consultant { background: hsl(var(--cyan-100)); color: hsl(var(--cyan-600)); }
+        .role-badge.developer { background: hsl(var(--magenta-100)); color: hsl(var(--magenta-600)); }
+        .role-badge.employee { background: hsl(var(--warm-200)); color: hsl(var(--warm-600)); }
+
+        /* Arrow Icon */
+        .merchant-item .arrow,
+        .action-item .arrow {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Go Live CTA (Trial State) */
+        .go-live-cta {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 30%);
+            text-align: left;
+        }
+        .go-live-cta:hover {
+            background: hsl(var(--emerald-500) / 15%);
+        }
+        .go-live-cta .cta-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: hsl(var(--emerald-500) / 30%);
+            color: hsl(var(--emerald-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .go-live-cta .cta-icon i {
+            width: 16px;
+            height: 16px;
+        }
+        .go-live-cta .cta-info {
+            flex: 1;
+        }
+        .go-live-cta .cta-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--emerald-300));
+        }
+        .go-live-cta .cta-sublabel {
+            font-size: 12px;
+            color: hsl(var(--emerald-400) / 70%);
+        }
+        .go-live-cta .arrow {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--emerald-400));
+        }
+
+        /* Context Switcher Wrapper (for positioning dropdown) */
+        .context-switcher-wrapper {
+            position: relative;
         }
 
         /* ========================================= */
@@ -637,50 +1001,145 @@
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
                             <div class="h-[3px] w-full thread-cool"></div>
 
-                            <div class="flex" style="height: 700px;">
+                            <div class="flex" style="height: 540px;">
                                 <!-- Sidebar (Dark Mode - Fire Opal) -->
                                 <aside class="sidebar-dark">
+                                    <!-- Logo -->
                                     <div class="sidebar-logo">
                                         <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
                                         <span class="font-brand font-semibold text-white">Saltwyk</span>
                                     </div>
+
+                                    <!-- STATUS BADGE: Shows current environment (Live/Trial/Sandbox)
+                                         - Live: Emerald accent (production)
+                                         - Trial: Orange accent (trial period)
+                                         - Sandbox: Amber accent (testing environment)
+                                         Currently only Live is implemented -->
+                                    <div class="status-badge trial">
+                                        <span class="status-badge-icon">⏱</span>
+                                        <span class="status-badge-label">Trial</span>
+                                    </div>
+
+                                    <!-- Thread line (cool gradient) -->
+                                    <div class="thread-line-cool"></div>
+
+                                    <!-- Main Navigation -->
                                     <nav class="sidebar-nav">
-                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <!-- SETUP SECTION: Only visible when merchant.onboarding_complete === false
+                                             Guides merchant through initial setup steps
+                                             Remove this section from DOM when complete (don't just hide) -->
+                                        <div class="nav-section-label">Setup</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Join Saltwyk</span>
+                                        </div>
+
+                                        <!-- DASHBOARD Section (always visible) -->
+                                        <div class="nav-section-label">Dashboard</div>
                                         <div class="sidebar-item sidebar-item-active">
-                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <i data-lucide="home" class="sidebar-item-icon"></i>
                                             <span>Home</span>
                                         </div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                            <span>Apps</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
                                             <span>Transactions</span>
                                         </div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
-                                            <span>Clearing Balance</span>
-                                        </div>
-
-                                        <div class="sidebar-divider"></div>
-                                        <div class="sidebar-section-header">Setup</div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
-                                            <span>Get Verified</span>
-                                        </div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
-                                            <span>Integration</span>
+                                            <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                            <span>Finance</span>
                                         </div>
                                     </nav>
-                                    <div class="sidebar-user">
-                                        <div class="sidebar-user-avatar">K</div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-warm-200 truncate">Kitsch</p>
-                                            <p class="text-xs text-warm-500 truncate">hello@mykitsch.com</p>
+
+                                    <!-- Spacer -->
+                                    <div class="flex-1"></div>
+
+                                    <!-- Bottom Navigation -->
+                                    <div class="sidebar-bottom-divider"></div>
+                                    <div class="sidebar-bottom-nav">
+                                        <div class="sidebar-item">
+                                            <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                            <span>Settings</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                            <span>Support</span>
                                         </div>
                                     </div>
                                 </aside>
 
                                 <!-- Content -->
                                 <div class="merchant-content">
+                                    <!-- TOP-RIGHT CONTEXT SWITCHER: Allows switching between
+                                         - Multiple merchant accounts (if multi-merchant user)
+                                         - Shopper profile (my.saltwyk.com)
+                                         - Settings and Sign Out -->
+                                    <header class="merchant-header">
+                                        <div class="context-switcher-wrapper">
+                                            <button class="context-trigger" aria-label="Switch merchant account" aria-expanded="true" aria-haspopup="menu">
+                                                <span class="merchant-name">Kitsch</span>
+                                                <i data-lucide="chevron-down" class="chevron"></i>
+                                            </button>
+
+                                            <!-- Context Dropdown (Fire Opal Dark Theme) -->
+                                            <div class="context-dropdown" role="menu" aria-label="Account switcher">
+                                                <!-- Current Context -->
+                                                <div class="current-context" role="group" aria-label="Current context">
+                                                    <span class="section-label">Current Context</span>
+                                                    <div class="context-card">
+                                                        <div class="merchant-name">Kitsch</div>
+                                                        <div class="merchant-role">Employee</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="divider"></div>
+
+                                                <!-- Go Live CTA (Trial State) -->
+                                                <button class="go-live-cta" role="menuitem">
+                                                    <div class="cta-icon">
+                                                        <i data-lucide="rocket"></i>
+                                                    </div>
+                                                    <div class="cta-info">
+                                                        <div class="cta-label">Go Live</div>
+                                                        <div class="cta-sublabel">Complete setup</div>
+                                                    </div>
+                                                    <i data-lucide="chevron-right" class="arrow"></i>
+                                                </button>
+
+                                                <div class="divider"></div>
+
+                                                <!-- Back to Shopping -->
+                                                <button class="action-item" role="menuitem">
+                                                    <div class="action-icon shopping">
+                                                        <i data-lucide="wallet"></i>
+                                                    </div>
+                                                    <div class="action-info">
+                                                        <div class="action-label">Back to Shopping</div>
+                                                        <div class="action-sublabel">My points passport</div>
+                                                    </div>
+                                                    <i data-lucide="chevron-right" class="arrow"></i>
+                                                </button>
+
+                                                <div class="divider"></div>
+
+                                                <!-- Settings -->
+                                                <button class="action-item" role="menuitem">
+                                                    <i data-lucide="settings" class="action-icon-simple"></i>
+                                                    <span class="action-label">Settings</span>
+                                                </button>
+
+                                                <!-- Sign Out -->
+                                                <button class="action-item" role="menuitem">
+                                                    <i data-lucide="log-out" class="action-icon-simple"></i>
+                                                    <span class="action-label">Sign Out</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </header>
+
                                     <div class="page-header">
                                         <h1>Good morning, Kitsch</h1>
                                         <p>Here's what's happening with your points today</p>

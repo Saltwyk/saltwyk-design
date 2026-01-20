@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Indicator | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Spec table */
+        .spec-table { width: 100%; border-collapse: collapse; }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--warm-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-100)); color: hsl(var(--ink)); }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        /* ========================================= */
+        /* CONTEXT INDICATOR - DARK (FIRE OPAL)     */
+        /* ========================================= */
+        .context-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: hsl(var(--intaglio-800));
+            border: 1px solid hsl(var(--intaglio-700));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            min-height: 56px;
+        }
+        .context-indicator:hover {
+            background: hsl(var(--intaglio-750));
+        }
+        .context-indicator.active,
+        .context-indicator[aria-expanded="true"] {
+            border-color: hsl(var(--emerald-400));
+            border-width: 2px;
+        }
+
+        .context-indicator-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
+        }
+
+        .context-indicator-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .context-indicator-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .context-indicator-role {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .context-indicator-chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+            transition: transform 150ms ease;
+        }
+        .context-indicator[aria-expanded="true"] .context-indicator-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Single merchant (no chevron) */
+        .context-indicator-single {
+            cursor: pointer;
+        }
+
+        /* ========================================= */
+        /* ORGANIZATION PICKER DROPDOWN             */
+        /* ========================================= */
+        .org-picker {
+            width: 280px;
+            padding: 8px;
+            background: hsl(var(--intaglio-900));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .org-picker-section {
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-500));
+        }
+
+        .org-picker-current {
+            padding: 12px;
+            background: hsl(var(--intaglio-800));
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .org-picker-current-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+        }
+        .org-picker-current-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+        }
+        .org-picker-current-role {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .org-picker-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 0;
+        }
+
+        .org-picker-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+            color: hsl(var(--warm-100));
+        }
+        .org-picker-item:hover {
+            background: hsl(var(--intaglio-800));
+        }
+
+        .org-picker-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .org-picker-item-icon.merchant {
+            background: hsl(var(--emerald-500) / 20%);
+            color: hsl(var(--emerald-400));
+        }
+        .org-picker-item-icon.shopper {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+
+        .org-picker-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .org-picker-item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-100));
+        }
+        .org-picker-item-desc {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .org-picker-item-arrow {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        /* Role badges */
+        .role-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .role-badge.admin {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-600));
+        }
+        .role-badge.user {
+            background: hsl(var(--warm-200));
+            color: hsl(var(--warm-600));
+        }
+        .role-badge.consultant {
+            background: hsl(var(--cyan-100));
+            color: hsl(var(--cyan-600));
+        }
+        .role-badge.developer {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-600));
+        }
+
+        /* Action items (Settings, Sign Out) */
+        .org-picker-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 150ms ease;
+            color: hsl(var(--warm-200));
+        }
+        .org-picker-action:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-100));
+        }
+        .org-picker-action-icon {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-400));
+        }
+        .org-picker-action span {
+            font-size: 14px;
+        }
+
+        /* ========================================= */
+        /* MOBILE BOTTOM SHEET                      */
+        /* ========================================= */
+        .mobile-sheet {
+            background: hsl(var(--intaglio-900));
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+        }
+        .mobile-sheet-handle {
+            width: 32px;
+            height: 4px;
+            background: hsl(var(--warm-300));
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+
+        /* ========================================= */
+        /* SIDEBAR DEMO CONTEXT                     */
+        /* ========================================= */
+        .sidebar-demo {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .sidebar-demo-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+        .sidebar-demo-context {
+            padding: 12px;
+        }
+        .sidebar-demo-section {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
+        }
+        .sidebar-demo-nav {
+            padding: 0 8px 8px;
+        }
+        .sidebar-demo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .sidebar-demo-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+        .sidebar-demo-item.active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+        .sidebar-demo-item-icon {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Thread line at top -->
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto px-8 py-12">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Home</a>
+            <span>&#8594;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&#8594;</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>&#8594;</span>
+            <span class="text-ink font-medium">Context Indicator</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Merchant Component</p>
+            <h1 class="font-display text-4xl mb-3">Context Indicator</h1>
+            <p class="text-warm-600 text-lg">Shows the current merchant context and enables switching between organizations.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: OVERVIEW -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">1. Overview</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 leading-relaxed mb-4">
+                    <strong class="text-ink">The Context Indicator answers "Where am I?" for merchant users.</strong>
+                    It sits at the top of the sidebar, showing the current merchant organization and the user's role within it.
+                </p>
+                <p class="text-warm-600 text-sm mb-4">
+                    For users with access to multiple merchants (agencies, consultants), clicking the indicator opens an organization picker.
+                    For single-merchant users, it provides quick access to Shopping context, Settings, and Sign Out.
+                </p>
+                <div class="flex gap-4 text-sm">
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full">Fire Opal Theme</span>
+                    <span class="px-3 py-1 bg-warm-100 text-warm-600 rounded-full">Dark Sidebar</span>
+                    <span class="px-3 py-1 bg-warm-100 text-warm-600 rounded-full">Top Placement</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: CONTEXT INDICATOR COMPONENT -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">2. Context Indicator Component</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Default State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Default State (Multi-Merchant)</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="context-indicator" style="width: 216px;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Joe Coffee</div>
+                                <div class="context-indicator-role">Employee</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-indicator-chevron"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hover State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Hover State</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="context-indicator" style="width: 216px; background: hsl(var(--intaglio-750));">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Joe Coffee</div>
+                                <div class="context-indicator-role">Employee</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-indicator-chevron"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active/Open State -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Active/Open State</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="context-indicator active" style="width: 216px;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Joe Coffee</div>
+                                <div class="context-indicator-role">Employee</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-indicator-chevron" style="transform: rotate(180deg);"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Merchant (No Chevron) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Single Merchant (No Chevron)</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4">
+                        <div class="context-indicator context-indicator-single" style="width: 216px;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Joe Coffee</div>
+                                <div class="context-indicator-role">Employee</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications Table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Context Indicator Specifications</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Container</td>
+                            <td>Width</td>
+                            <td>216px (240px sidebar - 24px padding)</td>
+                        </tr>
+                        <tr>
+                            <td>Container</td>
+                            <td>Height</td>
+                            <td>min-height 56px</td>
+                        </tr>
+                        <tr>
+                            <td>Container</td>
+                            <td>Background</td>
+                            <td><code>hsl(var(--intaglio-800))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Container</td>
+                            <td>Border</td>
+                            <td>1px solid <code>hsl(var(--intaglio-700))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Container</td>
+                            <td>Border-radius</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Container</td>
+                            <td>Padding</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Size</td>
+                            <td>32px &times; 32px</td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Background</td>
+                            <td><code>hsl(var(--emerald-500) / 20%)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td>Color</td>
+                            <td><code>hsl(var(--emerald-400))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Company Name</td>
+                            <td>Font-size</td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>Company Name</td>
+                            <td>Font-weight</td>
+                            <td>600</td>
+                        </tr>
+                        <tr>
+                            <td>Company Name</td>
+                            <td>Color</td>
+                            <td><code>hsl(var(--warm-100))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Role</td>
+                            <td>Font-size</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Role</td>
+                            <td>Color</td>
+                            <td><code>hsl(var(--warm-500))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Chevron</td>
+                            <td>Size</td>
+                            <td>16px &times; 16px</td>
+                        </tr>
+                        <tr>
+                            <td>Chevron</td>
+                            <td>Color</td>
+                            <td><code>hsl(var(--warm-500))</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: ORGANIZATION PICKER DROPDOWN -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">3. Organization Picker Dropdown</p>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Multi-Merchant Picker -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Multi-Merchant Picker</p>
+                    <div class="org-picker">
+                        <!-- Current Context -->
+                        <div class="org-picker-current">
+                            <div class="org-picker-current-label">Current Context</div>
+                            <div class="org-picker-current-name">Joe Coffee</div>
+                            <div class="org-picker-current-role">Employee</div>
+                        </div>
+
+                        <div class="org-picker-divider"></div>
+
+                        <!-- Switch To -->
+                        <div class="org-picker-section">Switch To</div>
+
+                        <div class="org-picker-item">
+                            <div class="org-picker-item-icon merchant">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="org-picker-item-info">
+                                <div class="org-picker-item-name">Liquid Death</div>
+                                <span class="role-badge consultant">Consultant</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                        </div>
+
+                        <div class="org-picker-item">
+                            <div class="org-picker-item-icon merchant">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="org-picker-item-info">
+                                <div class="org-picker-item-name">Test Merchant</div>
+                                <span class="role-badge developer">Developer</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                        </div>
+
+                        <div class="org-picker-divider"></div>
+
+                        <!-- Back to Shopping -->
+                        <div class="org-picker-item">
+                            <div class="org-picker-item-icon shopper">
+                                <i data-lucide="wallet" class="w-5 h-5"></i>
+                            </div>
+                            <div class="org-picker-item-info">
+                                <div class="org-picker-item-name">Back to Shopping</div>
+                                <div class="org-picker-item-desc">My points passport</div>
+                            </div>
+                            <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                        </div>
+
+                        <div class="org-picker-divider"></div>
+
+                        <!-- Actions -->
+                        <div class="org-picker-action">
+                            <i data-lucide="settings" class="org-picker-action-icon"></i>
+                            <span>Settings</span>
+                        </div>
+                        <div class="org-picker-action">
+                            <i data-lucide="log-out" class="org-picker-action-icon"></i>
+                            <span>Sign Out</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Merchant Menu -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Single Merchant Menu</p>
+                    <div class="org-picker">
+                        <!-- Current Context -->
+                        <div class="org-picker-current">
+                            <div class="org-picker-current-label">Current Context</div>
+                            <div class="org-picker-current-name">Joe Coffee</div>
+                            <div class="org-picker-current-role">Employee</div>
+                        </div>
+
+                        <div class="org-picker-divider"></div>
+
+                        <!-- Back to Shopping -->
+                        <div class="org-picker-item">
+                            <div class="org-picker-item-icon shopper">
+                                <i data-lucide="wallet" class="w-5 h-5"></i>
+                            </div>
+                            <div class="org-picker-item-info">
+                                <div class="org-picker-item-name">Back to Shopping</div>
+                                <div class="org-picker-item-desc">My points passport</div>
+                            </div>
+                            <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                        </div>
+
+                        <div class="org-picker-divider"></div>
+
+                        <!-- Actions -->
+                        <div class="org-picker-action">
+                            <i data-lucide="settings" class="org-picker-action-icon"></i>
+                            <span>Settings</span>
+                        </div>
+                        <div class="org-picker-action">
+                            <i data-lucide="log-out" class="org-picker-action-icon"></i>
+                            <span>Sign Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Dropdown Specifications</p>
+                </div>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dropdown</td>
+                            <td>Width</td>
+                            <td>280px</td>
+                        </tr>
+                        <tr>
+                            <td>Dropdown</td>
+                            <td>Background</td>
+                            <td><code>hsl(var(--intaglio-900))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Dropdown</td>
+                            <td>Border</td>
+                            <td>2px solid <code>hsl(var(--intaglio-700))</code></td>
+                        </tr>
+                        <tr>
+                            <td>Dropdown</td>
+                            <td>Border-radius</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Dropdown</td>
+                            <td>Shadow</td>
+                            <td><code>0 4px 12px rgba(0, 0, 0, 0.4)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Section Label</td>
+                            <td>Font-size</td>
+                            <td>11px, uppercase</td>
+                        </tr>
+                        <tr>
+                            <td>Section Label</td>
+                            <td>Letter-spacing</td>
+                            <td>0.08em</td>
+                        </tr>
+                        <tr>
+                            <td>Item</td>
+                            <td>Padding</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Item</td>
+                            <td>Border-radius</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Item Hover</td>
+                            <td>Background</td>
+                            <td><code>hsl(var(--intaglio-800))</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: ROLE BADGES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">4. Role Badges</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-sm text-warm-600 mb-4">Role badges provide at-a-glance permission awareness. Users know what they can do in each merchant context without trial and error.</p>
+
+                <div class="flex gap-4 items-center">
+                    <span class="role-badge admin">Admin</span>
+                    <span class="role-badge user">User</span>
+                    <span class="role-badge consultant">Consultant</span>
+                    <span class="role-badge developer">Developer</span>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Background</th>
+                            <th>Text Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Admin</td>
+                            <td><code>indigo-100</code></td>
+                            <td><code>indigo-600</code></td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td><code>warm-200</code></td>
+                            <td><code>warm-600</code></td>
+                        </tr>
+                        <tr>
+                            <td>Consultant</td>
+                            <td><code>cyan-100</code></td>
+                            <td><code>cyan-600</code></td>
+                        </tr>
+                        <tr>
+                            <td>Developer</td>
+                            <td><code>orange-100</code></td>
+                            <td><code>orange-600</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: SIDEBAR INTEGRATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">5. Sidebar Integration</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Full Sidebar Demo -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Context Indicator Position</p>
+                    <div class="sidebar-demo">
+                        <div class="sidebar-demo-logo">
+                            <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                            <span class="font-brand font-semibold text-white">Saltwyk</span>
+                        </div>
+
+                        <!-- Context Indicator -->
+                        <div class="sidebar-demo-context">
+                            <div class="context-indicator" style="width: 100%;">
+                                <div class="context-indicator-icon">
+                                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                                </div>
+                                <div class="context-indicator-info">
+                                    <div class="context-indicator-name">Joe Coffee</div>
+                                    <div class="context-indicator-role">Employee</div>
+                                </div>
+                                <i data-lucide="chevron-down" class="context-indicator-chevron"></i>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-demo-section">Dashboard</div>
+                        <div class="sidebar-demo-nav">
+                            <div class="sidebar-demo-item active">
+                                <i data-lucide="layout-dashboard" class="sidebar-demo-item-icon"></i>
+                                <span>Home</span>
+                            </div>
+                            <div class="sidebar-demo-item">
+                                <i data-lucide="receipt" class="sidebar-demo-item-icon"></i>
+                                <span>Transactions</span>
+                            </div>
+                            <div class="sidebar-demo-item">
+                                <i data-lucide="wallet" class="sidebar-demo-item-icon"></i>
+                                <span>Clearing Balance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placement Description -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Placement Guidelines</p>
+                    <div class="space-y-4 text-sm text-warm-700">
+                        <div class="flex items-start gap-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-ink">Below logo area</strong>
+                                <span> &mdash; Thread line separates branding from context</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-ink">Above navigation</strong>
+                                <span> &mdash; Context is primary wayfinding info</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-ink">12px padding</strong>
+                                <span> &mdash; Matches sidebar section padding</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-ink">Full width within padding</strong>
+                                <span> &mdash; 216px (240px - 24px padding)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: EXAMPLES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">6. User Examples</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Example 1: Single Merchant -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Example 1</p>
+                    <p class="font-medium text-ink mb-4">Single Merchant User</p>
+                    <p class="text-sm text-warm-600 mb-4">Sarah is an employee at Joe Coffee with no other merchant access.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-3 mb-4">
+                        <div class="context-indicator context-indicator-single" style="width: 100%;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Joe Coffee</div>
+                                <div class="context-indicator-role">Employee</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Click opens: Shopping, Settings, Sign Out</p>
+                </div>
+
+                <!-- Example 2: Multi-Merchant -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Example 2</p>
+                    <p class="font-medium text-ink mb-4">Multi-Merchant User</p>
+                    <p class="text-sm text-warm-600 mb-4">Alex is a consultant with access to 3 merchants.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-3 mb-4">
+                        <div class="context-indicator" style="width: 100%;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Liquid Death</div>
+                                <div class="context-indicator-role">Consultant</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-indicator-chevron"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Click opens: Org picker with 3 merchants</p>
+                </div>
+
+                <!-- Example 3: Agency Manager -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-2 font-medium">Example 3</p>
+                    <p class="font-medium text-ink mb-4">Agency Manager (10+ merchants)</p>
+                    <p class="text-sm text-warm-600 mb-4">Jordan manages 12 client merchants.</p>
+                    <div class="bg-intaglio-900 rounded-lg p-3 mb-4">
+                        <div class="context-indicator" style="width: 100%;">
+                            <div class="context-indicator-icon">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div class="context-indicator-info">
+                                <div class="context-indicator-name">Client A</div>
+                                <div class="context-indicator-role">Admin</div>
+                            </div>
+                            <i data-lucide="chevron-down" class="context-indicator-chevron"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500">Click opens: Org picker with search field</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: MOBILE ADAPTATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">7. Mobile Adaptation</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Mobile Bottom Sheet -->
+                <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Bottom Sheet</p>
+                    <div class="relative" style="height: 360px;">
+                        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-72">
+                            <div class="mobile-sheet">
+                                <div class="mobile-sheet-handle"></div>
+                                <div class="p-4">
+                                    <!-- Current Context -->
+                                    <div class="org-picker-current mb-4">
+                                        <div class="org-picker-current-label">Current Context</div>
+                                        <div class="org-picker-current-name">Joe Coffee</div>
+                                        <div class="org-picker-current-role">Employee</div>
+                                    </div>
+
+                                    <div class="org-picker-divider"></div>
+
+                                    <!-- Switch To -->
+                                    <div class="org-picker-section">Switch To</div>
+
+                                    <div class="org-picker-item" style="min-height: 48px;">
+                                        <div class="org-picker-item-icon merchant">
+                                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="org-picker-item-info">
+                                            <div class="org-picker-item-name">Liquid Death</div>
+                                            <span class="role-badge consultant">Consultant</span>
+                                        </div>
+                                        <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                                    </div>
+
+                                    <div class="org-picker-divider"></div>
+
+                                    <div class="org-picker-item" style="min-height: 48px;">
+                                        <div class="org-picker-item-icon shopper">
+                                            <i data-lucide="wallet" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="org-picker-item-info">
+                                            <div class="org-picker-item-name">Back to Shopping</div>
+                                        </div>
+                                        <i data-lucide="chevron-right" class="org-picker-item-arrow"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Specs -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Mobile Specifications</p>
+                    </div>
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Breakpoint</td>
+                                <td>&lt; 768px</td>
+                            </tr>
+                            <tr>
+                                <td>Presentation</td>
+                                <td>Bottom sheet (slide up)</td>
+                            </tr>
+                            <tr>
+                                <td>Max height</td>
+                                <td>60vh</td>
+                            </tr>
+                            <tr>
+                                <td>Handle</td>
+                                <td>4px &times; 32px, <code>warm-300</code></td>
+                            </tr>
+                            <tr>
+                                <td>Touch targets</td>
+                                <td>48px minimum height</td>
+                            </tr>
+                            <tr>
+                                <td>Animation</td>
+                                <td>Slide up, 300ms ease</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: ACCESSIBILITY -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">8. Accessibility</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- ARIA Structure -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">ARIA Structure</p>
+                    <div class="bg-intaglio-900 rounded-lg p-4 text-xs font-mono text-warm-300 overflow-x-auto">
+                        <pre><span class="text-warm-500">&lt;!-- Context Indicator --&gt;</span>
+&lt;button
+  <span class="text-cyan-400">role</span>=<span class="text-orange-300">"button"</span>
+  <span class="text-cyan-400">aria-expanded</span>=<span class="text-orange-300">"false"</span>
+  <span class="text-cyan-400">aria-haspopup</span>=<span class="text-orange-300">"menu"</span>
+  <span class="text-cyan-400">aria-label</span>=<span class="text-orange-300">"Switch organization,
+    currently Joe Coffee"</span>
+&gt;
+  ...
+&lt;/button&gt;
+
+<span class="text-warm-500">&lt;!-- Organization Picker --&gt;</span>
+&lt;div <span class="text-cyan-400">role</span>=<span class="text-orange-300">"menu"</span>&gt;
+  &lt;div <span class="text-cyan-400">role</span>=<span class="text-orange-300">"menuitem"</span>&gt;
+    Liquid Death
+  &lt;/div&gt;
+  &lt;div <span class="text-cyan-400">role</span>=<span class="text-orange-300">"menuitem"</span>&gt;
+    Back to Shopping
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                    </div>
+                </div>
+
+                <!-- Keyboard Navigation -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Keyboard Navigation</p>
+                    </div>
+                    <table class="spec-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Enter</code> / <code>Space</code></td>
+                                <td>Open menu, select item</td>
+                            </tr>
+                            <tr>
+                                <td><code>Arrow Up/Down</code></td>
+                                <td>Navigate options</td>
+                            </tr>
+                            <tr>
+                                <td><code>Escape</code></td>
+                                <td>Close menu, return focus</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tab</code></td>
+                                <td>Move to next focusable</td>
+                            </tr>
+                            <tr>
+                                <td><code>Home</code></td>
+                                <td>First option</td>
+                            </tr>
+                            <tr>
+                                <td><code>End</code></td>
+                                <td>Last option</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: DESIGN DECISIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">9. Design Decisions</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Dark Theme for Merchant Context?</p>
+                    <p class="text-sm text-warm-600">
+                        The merchant dashboard uses Fire Opal (dark intaglio) while shopper uses Bright Opal (light).
+                        This creates clear visual distinction between work and personal contexts. The context indicator
+                        inherits the theme of WHERE the user is, not where they came from.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Top of Sidebar (Not Bottom)?</p>
+                    <p class="text-sm text-warm-600">
+                        Context is the most important piece of information &mdash; "Where am I?" should be immediately visible.
+                        Bottom placement would bury it below navigation. Top placement (below logo) gives it prominence
+                        while keeping Settings/Sign Out at the bottom for consistency.
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why No User Avatar in Merchant Context?</p>
+                    <p class="text-sm text-warm-600">
+                        The merchant context is about the BUSINESS, not the person. The context indicator shows business
+                        identity (company + role). Personal identity appears in Settings (accessed from bottom nav).
+                    </p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-3">Why Include "Back to Shopping"?</p>
+                    <p class="text-sm text-warm-600">
+                        Users with both profiles need quick context switching. Placing "Back to Shopping" in the
+                        organization picker keeps all context-switching in one place rather than scattered across the UI.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: RELATED COMPONENTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">10. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/core/components/context-switcher/" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Context Switcher Spec</p>
+                    <p class="text-xs text-warm-500">Full specification for context switching.</p>
+                </a>
+                <a href="/shopper/profile/profile-dropdown.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Shopper Profile Dropdown</p>
+                    <p class="text-xs text-warm-500">Light theme context switcher.</p>
+                </a>
+                <a href="/merchant/screens/dashboard.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Merchant Dashboard</p>
+                    <p class="text-xs text-warm-500">Dashboard with context indicator.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
