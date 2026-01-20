@@ -1,0 +1,3370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Merchant Screens | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SIDEBAR STYLES - DARK MODE (Fire Opal)   */
+        /* ========================================= */
+        .sidebar-dark {
+            width: 240px;
+            background: hsl(var(--intaglio-900));
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-logo {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+        }
+
+        .sidebar-dark .sidebar-section-header {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--intaglio-500));
+            padding: 16px 16px 8px;
+        }
+
+        .sidebar-dark .sidebar-nav {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .sidebar-dark .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 0 0 2px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-dark .sidebar-item:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-200));
+        }
+
+        .sidebar-dark .sidebar-item-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+        }
+
+        .sidebar-dark .sidebar-item-active {
+            background: hsl(var(--indigo-500) / 15%);
+            color: hsl(var(--indigo-300));
+            border-left: 3px solid hsl(var(--indigo-400));
+            margin-left: -3px;
+        }
+
+        .sidebar-dark .sidebar-item-active .sidebar-item-icon {
+            color: hsl(var(--indigo-300));
+        }
+
+        .sidebar-dark .sidebar-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 8px 16px;
+        }
+
+        .sidebar-dark .sidebar-user {
+            padding: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-dark .sidebar-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--intaglio-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* STATUS BADGE & NAV STRUCTURE             */
+        /* ========================================= */
+        .status-badge-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 12px 12px;
+            border-radius: 6px;
+        }
+        .status-badge-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+        .status-badge-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .status-badge-nav.live {
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 20%);
+        }
+        .status-badge-nav.live .status-badge-label {
+            color: hsl(var(--emerald-400));
+        }
+
+        .thread-line-cool {
+            height: 2px;
+            margin: 0 12px 12px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--magenta-thread)) 100%
+            );
+            border-radius: 9999px;
+        }
+
+        .nav-section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+        .nav-section-label:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar-bottom-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 16px 12px;
+        }
+
+        .sidebar-bottom-nav {
+            padding: 0 8px 16px;
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA STYLES                      */
+        /* ========================================= */
+        .merchant-content {
+            flex: 1;
+            background: hsl(var(--ledger));
+            overflow-y: auto;
+        }
+
+        .merchant-content .page-header {
+            padding: 32px 40px 24px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .merchant-content .page-header h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .merchant-content .page-header p {
+            font-size: 16px;
+            color: hsl(var(--warm-600));
+        }
+
+        .merchant-content .content-area {
+            padding: 0 40px 32px;
+        }
+
+        /* ========================================= */
+        /* TOP-RIGHT CONTEXT SWITCHER               */
+        /* ========================================= */
+        .merchant-header {
+            height: 64px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            background: transparent;
+        }
+        .context-trigger {
+            height: 40px;
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-trigger:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+        .context-trigger .merchant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+        .context-trigger .chevron {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* SETTINGS TAB NAVIGATION                  */
+        /* ========================================= */
+        .settings-tabs {
+            display: flex;
+            padding: 0 40px;
+            border-bottom: 2px solid hsl(var(--warm-200));
+            background: hsl(var(--ledger));
+        }
+
+        .settings-tabs .tab-btn {
+            height: 48px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 150ms, border-color 150ms;
+            margin-bottom: -2px;
+        }
+
+        .settings-tabs .tab-btn:hover {
+            color: hsl(var(--ink));
+        }
+
+        .settings-tabs .tab-btn.active {
+            color: hsl(var(--ink));
+            font-weight: 600;
+            border-bottom: 2px solid hsl(var(--emerald-500));
+        }
+
+        /* ========================================= */
+        /* SETTINGS CONTENT                         */
+        /* ========================================= */
+        .settings-content {
+            padding: 40px;
+        }
+
+        .settings-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .settings-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .settings-card-description {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 16px;
+        }
+
+        .settings-card-divider {
+            height: 1px;
+            background: hsl(var(--warm-200));
+            margin: 16px 0;
+        }
+
+        /* Form elements */
+        .form-field {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--ink));
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            background: white;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            transition: border-color 150ms, box-shadow 150ms;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--emerald-500));
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 15%);
+        }
+
+        .form-input[readonly] {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-600));
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        /* Radio buttons */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid hsl(var(--warm-300));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 150ms;
+        }
+
+        .radio-item.selected .radio-circle {
+            border-color: hsl(var(--emerald-500));
+        }
+
+        .radio-circle-inner {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            opacity: 0;
+            transition: opacity 150ms;
+        }
+
+        .radio-item.selected .radio-circle-inner {
+            opacity: 1;
+        }
+
+        .radio-label {
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .radio-description {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Checkbox */
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid hsl(var(--warm-300));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 150ms;
+        }
+
+        .checkbox-item.checked .checkbox-box {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+        }
+
+        .checkbox-box svg {
+            width: 12px;
+            height: 12px;
+            color: white;
+            opacity: 0;
+        }
+
+        .checkbox-item.checked .checkbox-box svg {
+            opacity: 1;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background: hsl(var(--emerald-600));
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 150ms;
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--ink));
+            background: white;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--emerald-600));
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-text:hover {
+            color: hsl(var(--emerald-700));
+            text-decoration: underline;
+        }
+
+        /* Status badges */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--emerald-600));
+        }
+
+        .verified-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .connected-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(var(--emerald-700));
+            background: hsl(var(--emerald-50));
+            border-radius: 12px;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        .role-badge.admin {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-700));
+        }
+
+        .role-badge.user {
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-600));
+        }
+
+        /* Info box */
+        .info-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--warm-700));
+        }
+
+        .info-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Warning box */
+        .warning-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--orange-700));
+        }
+
+        .warning-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Warning badge */
+        .warning-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(var(--orange-700));
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            border-radius: 12px;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px 24px 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 8px;
+            background: hsl(var(--warm-200));
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, hsl(var(--emerald-500)), hsl(var(--emerald-400)));
+            border-radius: 4px;
+            transition: width 300ms ease;
+        }
+
+        .progress-bar-fill.amber {
+            background: linear-gradient(90deg, hsl(var(--amber-500)), hsl(var(--amber-400)));
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid hsl(var(--warm-200));
+            border-top-color: hsl(var(--emerald-500));
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .spinner.amber {
+            border-top-color: hsl(var(--amber-500));
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Orange primary button variant */
+        .btn-primary-orange {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background: hsl(var(--orange-500));
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 150ms;
+        }
+
+        .btn-primary-orange:hover {
+            background: hsl(var(--orange-600));
+        }
+
+        /* Toast notification */
+        .toast {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: hsl(var(--ink));
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toast.success {
+            background: hsl(var(--emerald-600));
+        }
+
+        .toast svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Error box */
+        .error-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: hsl(var(--rose-50));
+            border: 1px solid hsl(var(--rose-200));
+            border-radius: 8px;
+            font-size: 13px;
+            color: hsl(var(--rose-700));
+        }
+
+        .error-box svg {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--rose-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Bullet list */
+        .bullet-list {
+            list-style: disc;
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .bullet-list li {
+            margin-bottom: 4px;
+            color: hsl(var(--warm-600));
+            font-size: 13px;
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-flex;
+            height: 24px;
+            width: 44px;
+            align-items: center;
+            border-radius: 9999px;
+            background: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: background 150ms;
+        }
+
+        .toggle-switch.active {
+            background: hsl(var(--emerald-500));
+        }
+
+        .toggle-switch-knob {
+            display: inline-block;
+            height: 18px;
+            width: 18px;
+            transform: translateX(3px);
+            border-radius: 9999px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: transform 150ms;
+        }
+
+        .toggle-switch.active .toggle-switch-knob {
+            transform: translateX(23px);
+        }
+
+        /* Radio card (styled radio buttons) */
+        .radio-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+
+        .radio-card:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        .radio-card.selected {
+            border: 2px solid hsl(var(--emerald-500));
+            background: hsl(var(--emerald-50));
+        }
+
+        .radio-card input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: hsl(var(--emerald-500));
+        }
+
+        /* Dollar input */
+        .dollar-input-wrapper {
+            position: relative;
+        }
+
+        .dollar-input-wrapper .dollar-symbol {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: hsl(var(--warm-500));
+            font-size: 14px;
+        }
+
+        .dollar-input-wrapper input {
+            padding-left: 28px;
+        }
+
+        /* Statement card */
+        .statement-card {
+            padding: 16px;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            transition: border-color 150ms;
+        }
+
+        .statement-card:hover {
+            border-color: hsl(var(--warm-300));
+        }
+
+        .statement-badge {
+            display: inline-flex;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+        }
+
+        .statement-badge.current {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* Cross-link card */
+        .cross-link-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 8px;
+            transition: border-color 150ms;
+            text-decoration: none;
+        }
+
+        .cross-link-card:hover {
+            border-color: hsl(var(--indigo-300));
+        }
+
+        /* Team member row */
+        .team-member-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .team-member-row:last-child {
+            border-bottom: none;
+        }
+
+        .team-member-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .team-member-email {
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--ink));
+        }
+
+        .team-member-meta {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Support card */
+        .support-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .support-card-icon {
+            width: 40px;
+            height: 40px;
+            background: hsl(var(--warm-100));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .support-card-icon svg {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-600));
+        }
+
+        .support-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .support-card-description {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 12px;
+        }
+
+        /* Mobile styles */
+        .mobile-settings-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .mobile-tabs-scroll {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 16px;
+            border-bottom: 2px solid hsl(var(--warm-200));
+        }
+
+        .mobile-tabs-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-tab {
+            flex-shrink: 0;
+            height: 44px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .mobile-tab.active {
+            color: hsl(var(--ink));
+            font-weight: 600;
+            border-bottom-color: hsl(var(--emerald-500));
+        }
+
+        .mobile-settings-content {
+            padding: 20px;
+        }
+
+        .mobile-settings-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Settings</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Settings</h1>
+            <p class="text-warm-600">Comprehensive account management for merchants. Access via "Settings" in the left navigation (bottom area). URL pattern: <code>app.saltwyk.com/settings</code> or <code>app.saltwyk.com/settings/[section]</code></p>
+        </header>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Overview</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Purpose</p>
+                <p class="text-sm text-warm-700 mb-4">The Settings screen provides comprehensive account management for merchants, enabling them to manage their business identity, financial configuration, platform integrations, team members, preferences, and support access.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Access</p>
+                        <p class="text-ink">Left navigation (bottom area)</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">URL Pattern</p>
+                        <code>/settings</code> or <code>/settings/[section]</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Sections</p>
+                        <p class="text-ink">6 tabbed sections</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Settings Sections</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="font-medium text-ink">Account</p>
+                        <p class="text-warm-500 text-xs">Business identity, verification</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink">Finance</p>
+                        <p class="text-warm-500 text-xs">Settlement config, banking</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink">Apps</p>
+                        <p class="text-warm-500 text-xs">Platform integrations, sandbox</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink">Team</p>
+                        <p class="text-warm-500 text-xs">Multi-user management</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink">Preferences</p>
+                        <p class="text-warm-500 text-xs">Notifications, communication</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink">Support</p>
+                        <p class="text-warm-500 text-xs">Help resources, contact</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: FULL PAGE LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Full Page Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Settings uses a full-page layout with the left navigation visible and Settings active. Horizontal tab navigation provides access to all sections.</p>
+
+            <!-- View Toggle -->
+            <div class="view-toggle-header">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-warm-500">Preview Mode</p>
+                    <div class="view-toggle" role="group" aria-label="View mode toggle">
+                        <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                                <line x1="10" y1="19" x2="14" y2="19"/>
+                            </svg>
+                        </button>
+                        <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <line x1="2" y1="14" x2="22" y2="14"/>
+                                <line x1="12" y1="17" x2="12" y2="20"/>
+                                <line x1="8" y1="20" x2="16" y2="20"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Layout -->
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Preview (480px)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[480px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <!-- Mobile Header -->
+                            <div class="mobile-settings-header">
+                                <div class="flex items-center justify-between mb-4">
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600">
+                                        <i data-lucide="menu" class="w-5 h-5"></i>
+                                    </button>
+                                    <h1 class="font-display text-xl font-bold text-ink">Settings</h1>
+                                    <div class="w-10 h-10 rounded-full bg-intaglio-700 text-warm-300 text-sm font-semibold flex items-center justify-center">
+                                        KI
+                                    </div>
+                                </div>
+                                <p class="text-sm text-warm-600 text-center">Manage your merchant account</p>
+                            </div>
+
+                            <!-- Mobile Tabs (Scrollable) -->
+                            <div class="mobile-tabs-scroll">
+                                <button class="mobile-tab active">Account</button>
+                                <button class="mobile-tab">Finance</button>
+                                <button class="mobile-tab">Apps</button>
+                                <button class="mobile-tab">Team</button>
+                                <button class="mobile-tab">Preferences</button>
+                                <button class="mobile-tab">Support</button>
+                            </div>
+
+                            <!-- Mobile Content -->
+                            <div class="mobile-settings-content">
+                                <div class="mobile-settings-card">
+                                    <p class="font-semibold text-ink mb-1">Business Profile</p>
+                                    <p class="text-xs text-warm-500 mb-3">Your verified business information</p>
+                                    <div class="h-px bg-warm-200 mb-3"></div>
+                                    <div class="mb-3">
+                                        <p class="text-xs text-warm-500">Business Name</p>
+                                        <div class="flex items-center gap-2">
+                                            <p class="text-sm font-medium text-ink">Kitsch</p>
+                                            <span class="verified-badge">
+                                                <i data-lucide="check-circle-2" class="w-3 h-3"></i>
+                                                Verified
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-500">Business Address</p>
+                                        <p class="text-sm text-ink">123 Main St, Los Angeles, CA 90012</p>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-settings-card">
+                                    <p class="font-semibold text-ink mb-1">Contact Information</p>
+                                    <p class="text-xs text-warm-500 mb-3">How we reach you</p>
+                                    <div class="h-px bg-warm-200 mb-3"></div>
+                                    <div class="mb-3">
+                                        <p class="text-xs text-warm-500 mb-1">Business Email</p>
+                                        <input type="text" value="contact@kitsch.com" class="form-input text-sm" readonly style="height: 36px;">
+                                    </div>
+                                    <button class="btn-primary w-full" style="height: 36px; font-size: 13px;">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Preview (with sidebar)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                            <div class="h-[3px] w-full thread-cool"></div>
+
+                            <div class="flex" style="height: 580px;">
+                                <!-- Sidebar (Dark Mode - Fire Opal) -->
+                                <aside class="sidebar-dark">
+                                    <!-- Logo -->
+                                    <div class="sidebar-logo">
+                                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
+                                        <span class="font-brand font-semibold text-white">Saltwyk</span>
+                                    </div>
+
+                                    <!-- Status Badge (Live - no SETUP section) -->
+                                    <div class="status-badge-nav live">
+                                        <span class="status-badge-icon">✓</span>
+                                        <span class="status-badge-label">Live</span>
+                                    </div>
+
+                                    <!-- Thread line -->
+                                    <div class="thread-line-cool"></div>
+
+                                    <!-- Main Navigation -->
+                                    <nav class="sidebar-nav">
+                                        <!-- DASHBOARD Section -->
+                                        <div class="nav-section-label">Dashboard</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="home" class="sidebar-item-icon"></i>
+                                            <span>Home</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                            <span>Apps</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
+                                            <span>Transactions</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                            <span>Finance</span>
+                                        </div>
+                                    </nav>
+
+                                    <!-- Spacer -->
+                                    <div class="flex-1"></div>
+
+                                    <!-- Bottom Navigation -->
+                                    <div class="sidebar-bottom-divider"></div>
+                                    <div class="sidebar-bottom-nav">
+                                        <div class="sidebar-item sidebar-item-active">
+                                            <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                            <span>Settings</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                            <span>Support</span>
+                                        </div>
+                                    </div>
+                                </aside>
+
+                                <!-- Content -->
+                                <div class="merchant-content">
+                                    <!-- Top-right context switcher -->
+                                    <header class="merchant-header">
+                                        <button class="context-trigger" aria-label="Switch merchant account" aria-expanded="false">
+                                            <span class="merchant-name">Kitsch</span>
+                                            <i data-lucide="chevron-down" class="chevron"></i>
+                                        </button>
+                                    </header>
+
+                                    <!-- Page Header -->
+                                    <div class="page-header">
+                                        <h1>Settings</h1>
+                                        <p>Manage your merchant account</p>
+                                    </div>
+
+                                    <!-- Tab Navigation -->
+                                    <nav class="settings-tabs" role="tablist">
+                                        <button class="tab-btn active" role="tab" aria-selected="true">Account</button>
+                                        <button class="tab-btn" role="tab" aria-selected="false">Finance</button>
+                                        <button class="tab-btn" role="tab" aria-selected="false">Apps</button>
+                                        <button class="tab-btn" role="tab" aria-selected="false">Team</button>
+                                        <button class="tab-btn" role="tab" aria-selected="false">Preferences</button>
+                                        <button class="tab-btn" role="tab" aria-selected="false">Support</button>
+                                    </nav>
+
+                                    <!-- Settings Content -->
+                                    <div class="settings-content overflow-y-auto" style="height: calc(100% - 200px);">
+                                        <!-- Business Profile Card -->
+                                        <div class="settings-card">
+                                            <p class="settings-card-title">Business Profile</p>
+                                            <p class="settings-card-description">Your verified business information</p>
+                                            <div class="settings-card-divider"></div>
+
+                                            <div class="grid grid-cols-2 gap-6">
+                                                <div>
+                                                    <p class="text-xs text-warm-500 mb-1">Business Name</p>
+                                                    <div class="flex items-center gap-2">
+                                                        <p class="font-medium text-ink">Kitsch</p>
+                                                        <span class="verified-badge">
+                                                            <i data-lucide="check-circle-2"></i>
+                                                            Verified
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-warm-500 mb-1">Business Address</p>
+                                                    <p class="text-ink">123 Main St, Los Angeles, CA 90012</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-warm-500 mb-1">Tax ID (EIN)</p>
+                                                    <p class="text-ink">••-•••4567</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="info-box mt-4">
+                                                <i data-lucide="info"></i>
+                                                <span>To update business information, contact support</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Information Card -->
+                                        <div class="settings-card">
+                                            <p class="settings-card-title">Contact Information</p>
+                                            <p class="settings-card-description">How we reach you</p>
+                                            <div class="settings-card-divider"></div>
+
+                                            <div class="grid grid-cols-2 gap-6">
+                                                <div class="form-field">
+                                                    <label class="form-label">Business Email</label>
+                                                    <input type="email" class="form-input" value="contact@kitsch.com">
+                                                </div>
+                                                <div class="form-field">
+                                                    <label class="form-label">Business Phone</label>
+                                                    <div class="flex items-center gap-2">
+                                                        <input type="tel" class="form-input" value="+1 (555) 123-4567">
+                                                        <span class="verified-badge whitespace-nowrap">
+                                                            <i data-lucide="check-circle-2"></i>
+                                                            Verified
+                                                        </span>
+                                                    </div>
+                                                    <button class="btn-text mt-2">Change Phone Number</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <button class="btn-primary">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: TAB NAVIGATION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Tab Navigation</p>
+            <p class="text-sm text-warm-600 mb-6">Horizontal tabs provide navigation between the six settings sections. Active tab has an emerald bottom border.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Tab States</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg overflow-hidden">
+                    <!-- Default state -->
+                    <div class="p-4 border-b border-warm-100">
+                        <p class="text-xs text-warm-500 mb-2">Default</p>
+                        <div class="inline-flex border-b-2 border-warm-200">
+                            <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Account</button>
+                        </div>
+                    </div>
+
+                    <!-- Hover state -->
+                    <div class="p-4 border-b border-warm-100">
+                        <p class="text-xs text-warm-500 mb-2">Hover</p>
+                        <div class="inline-flex border-b-2 border-warm-200">
+                            <button class="h-12 px-5 text-sm font-medium text-ink border-b-2 border-transparent -mb-0.5">Account</button>
+                        </div>
+                    </div>
+
+                    <!-- Active state -->
+                    <div class="p-4">
+                        <p class="text-xs text-warm-500 mb-2">Active</p>
+                        <div class="inline-flex border-b-2 border-warm-200">
+                            <button class="h-12 px-5 text-sm font-semibold text-ink border-b-2 border-emerald-500 -mb-0.5">Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Tab Bar -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Full Tab Bar</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg overflow-hidden p-4">
+                    <div class="flex border-b-2 border-warm-200">
+                        <button class="h-12 px-5 text-sm font-semibold text-ink border-b-2 border-emerald-500 -mb-0.5">Account</button>
+                        <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Finance</button>
+                        <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Apps</button>
+                        <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Team</button>
+                        <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Preferences</button>
+                        <button class="h-12 px-5 text-sm font-medium text-warm-600 border-b-2 border-transparent -mb-0.5">Support</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specs Table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-warm-200">
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Property</th>
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Container Padding</td>
+                            <td class="p-4"><code>0 40px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Container Border</td>
+                            <td class="p-4"><code>2px solid warm-200</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Tab Height</td>
+                            <td class="p-4"><code>48px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Tab Padding</td>
+                            <td class="p-4"><code>0 20px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Tab Font</td>
+                            <td class="p-4"><code>14px / 500 weight</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Active Tab Font</td>
+                            <td class="p-4"><code>14px / 600 weight</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Inactive Color</td>
+                            <td class="p-4"><code>warm-600</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink">Active Color</td>
+                            <td class="p-4"><code>ink</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-ink">Active Indicator</td>
+                            <td class="p-4"><code>2px solid emerald-500</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: ACCOUNT TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Account Section</p>
+            <p class="text-sm text-warm-600 mb-6">Business identity and verification status. Contains read-only business profile and editable contact information.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Account Section Content</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <!-- Business Profile Card -->
+                    <div class="settings-card">
+                        <p class="settings-card-title">Business Profile</p>
+                        <p class="settings-card-description">Your verified business information</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Business Name</p>
+                                <div class="flex items-center gap-2">
+                                    <p class="font-medium text-ink">Kitsch</p>
+                                    <span class="verified-badge">
+                                        <i data-lucide="check-circle-2"></i>
+                                        Verified
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Business Address</p>
+                                <p class="text-ink">123 Main St, Los Angeles, CA 90012</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Tax ID (EIN)</p>
+                                <p class="text-ink">••-•••4567</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <i data-lucide="info"></i>
+                            <span>To update business information, contact support</span>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information Card -->
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Contact Information</p>
+                        <p class="settings-card-description">How we reach you</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-field mb-0">
+                                <label class="form-label">Business Email</label>
+                                <input type="email" class="form-input" value="contact@kitsch.com">
+                            </div>
+                            <div class="form-field mb-0">
+                                <label class="form-label">Business Phone</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="tel" class="form-input" value="+1 (555) 123-4567">
+                                    <span class="verified-badge whitespace-nowrap">
+                                        <i data-lucide="check-circle-2"></i>
+                                        Verified
+                                    </span>
+                                </div>
+                                <button class="btn-text mt-2">Change Phone Number</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: FINANCE TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Finance Section</p>
+            <p class="text-sm text-warm-600 mb-6">Complete financial configuration including settlement account, external banking, auto-fund settings, payout schedule, and statements. Reflects Saltwyk's two-account architecture.</p>
+
+            <!-- 5.1 Settlement Account (Stripe) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.1 Settlement Account (Stripe) - Read Only</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="mb-4">
+                            <p class="settings-card-title">Settlement Account</p>
+                            <p class="settings-card-description">Your Saltwyk rewards settlement account</p>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-baseline justify-between">
+                                <p class="text-sm text-warm-600">Current Balance</p>
+                                <p class="text-2xl font-bold text-ink">$4,287.52</p>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-warm-600">Account ID</p>
+                                <p class="text-sm text-ink font-mono">acct_1KxyzABC123</p>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-warm-600">Status</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                    <p class="text-sm text-emerald-700 font-medium">Active</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-warm-600">Protection</p>
+                                <p class="text-sm text-ink">FDIC-insured via Stripe</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex items-start gap-3 bg-indigo-50 rounded-lg p-4">
+                            <i data-lucide="info" class="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5"></i>
+                            <div class="text-xs text-indigo-700">
+                                <p class="font-medium mb-1">What is this account?</p>
+                                <p>This Stripe-hosted account holds your clearing balance and receives settlements from cross-merchant transactions. Funds flow between merchant accounts on Stripe's platform.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-1">
+                                View in Finance Dashboard
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.2 External Bank Account -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.2 External Bank Account</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="mb-4">
+                            <p class="settings-card-title">Bank Account</p>
+                            <p class="settings-card-description">Where payouts are sent and auto-fund sources from</p>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+                                    <i data-lucide="building-2" class="w-5 h-5 text-indigo-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-base font-semibold text-ink">Bank of America</p>
+                                    <p class="text-sm text-warm-600">Account ending in 4892</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-warm-600">Added</p>
+                                <p class="text-sm text-ink">January 15, 2026</p>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-warm-600">Verification</p>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                                    <p class="text-sm text-emerald-700 font-medium">Verified</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-3 bg-warm-50 rounded-lg">
+                            <p class="text-xs font-medium text-warm-700 mb-2">Used for:</p>
+                            <ul class="text-xs text-warm-600 space-y-1">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle" class="w-2 h-2 mt-1.5 flex-shrink-0"></i>
+                                    <span>Funding clearing balance (auto-fund source)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle" class="w-2 h-2 mt-1.5 flex-shrink-0"></i>
+                                    <span>Receiving scheduled payouts</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-6">
+                            <button class="btn-secondary">Update Bank Account</button>
+                        </div>
+
+                        <div class="mt-4 warning-box">
+                            <i data-lucide="alert-triangle"></i>
+                            <span>Updating your bank account will pause settlements and payouts during verification (1-2 business days).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.3 Auto-Fund Settings -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.3 Auto-Fund Settings</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="mb-4">
+                            <p class="settings-card-title">Auto-Fund</p>
+                            <p class="settings-card-description">Automatically maintain your clearing balance</p>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <!-- Toggle -->
+                        <div class="mb-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <button class="toggle-switch active">
+                                    <span class="toggle-switch-knob"></span>
+                                </button>
+                                <span class="text-sm font-medium text-ink">Auto-fund enabled</span>
+                            </div>
+                            <p class="text-xs text-warm-600 ml-14">Automatically add funds when clearing balance drops below threshold</p>
+                        </div>
+
+                        <!-- Configuration (when enabled) -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-warm-700 mb-2">
+                                    When balance drops below
+                                </label>
+                                <div class="dollar-input-wrapper">
+                                    <span class="dollar-symbol">$</span>
+                                    <input type="text" value="2,000" class="form-input w-full">
+                                </div>
+                                <p class="text-xs text-warm-600 mt-1">Trigger threshold</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-warm-700 mb-2">
+                                    Add this amount
+                                </label>
+                                <div class="dollar-input-wrapper">
+                                    <span class="dollar-symbol">$</span>
+                                    <input type="text" value="3,000" class="form-input w-full">
+                                </div>
+                                <p class="text-xs text-warm-600 mt-1">Replenishment amount</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-warm-700 mb-2">
+                                    Payment method
+                                </label>
+                                <div class="flex items-center gap-3 p-3 bg-warm-50 rounded-lg">
+                                    <i data-lucide="building-2" class="w-5 h-5 text-warm-500"></i>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-ink">ACH Transfer</p>
+                                        <p class="text-xs text-warm-600">From Bank of America ****4892</p>
+                                    </div>
+                                    <p class="text-xs text-emerald-700 font-medium">Free · 1-2 days</p>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-indigo-50 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <i data-lucide="info" class="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5"></i>
+                                    <div class="text-xs text-indigo-700">
+                                        <p class="font-medium mb-1">Estimated frequency</p>
+                                        <p>Based on current transaction volume: ~1x per week</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button class="btn-primary">Save Auto-Fund Settings</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disabled State Example -->
+                <div class="mt-6 bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Auto-Fund Disabled State</p>
+                    <div class="flex items-center gap-3">
+                        <button class="toggle-switch">
+                            <span class="toggle-switch-knob"></span>
+                        </button>
+                        <span class="text-sm font-medium text-warm-600">Auto-fund disabled</span>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-2 ml-14">You'll need to manually add funds when your clearing balance is low</p>
+                </div>
+            </div>
+
+            <!-- 5.4 Payout Schedule -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.4 Payout Schedule</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="mb-4">
+                            <p class="settings-card-title">Payout Schedule</p>
+                            <p class="settings-card-description">How often funds transfer from Settlement Account to your bank</p>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="space-y-3">
+                            <!-- Radio option: Daily -->
+                            <label class="radio-card">
+                                <input type="radio" name="payout-demo">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-ink mb-0.5">Daily</p>
+                                    <p class="text-xs text-warm-600">Every night at 11 PM EST</p>
+                                </div>
+                            </label>
+
+                            <!-- Radio option: Weekly (selected) -->
+                            <label class="radio-card selected">
+                                <input type="radio" name="payout-demo" checked>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-ink mb-0.5">Weekly</p>
+                                    <p class="text-xs text-warm-600">Every Monday at 11 PM EST</p>
+                                </div>
+                            </label>
+
+                            <!-- Radio option: Minimum Amount -->
+                            <label class="radio-card">
+                                <input type="radio" name="payout-demo">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-ink mb-0.5">Minimum Amount</p>
+                                    <p class="text-xs text-warm-600 mb-2">When balance reaches threshold</p>
+                                    <div class="dollar-input-wrapper" style="width: 120px;">
+                                        <span class="dollar-symbol text-sm">$</span>
+                                        <input type="text" placeholder="1,000" class="form-input text-sm" style="height: 32px;">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Next payout info -->
+                        <div class="mt-6 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-medium text-indigo-700">Next payout</p>
+                                <p class="text-sm text-indigo-600">Monday, January 27</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-indigo-600">Estimated amount</p>
+                                <p class="text-base font-semibold text-indigo-700">$1,245.99</p>
+                            </div>
+                        </div>
+
+                        <!-- Warning about clearing balance impact -->
+                        <div class="mt-4 warning-box">
+                            <i data-lucide="alert-triangle"></i>
+                            <div>
+                                <p class="font-medium mb-1">Impact on clearing balance</p>
+                                <p>More frequent payouts mean you'll need a higher clearing balance to maintain transaction capacity. Weekly or minimum amount payouts allow settlements to build up your balance.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button class="btn-primary">Save Payout Schedule</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.5 Statements -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.5 Statements</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="mb-4">
+                            <p class="settings-card-title">Monthly Statements</p>
+                            <p class="settings-card-description">Settlement and fee reports for accounting</p>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="space-y-3">
+                            <!-- Statement: January 2026 (current) -->
+                            <div class="statement-card">
+                                <div class="flex items-center justify-between mb-3">
+                                    <p class="text-base font-semibold text-ink">January 2026</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="statement-badge current">Current</span>
+                                        <button class="p-1.5 hover:bg-warm-50 rounded transition-colors">
+                                            <i data-lucide="download" class="w-4 h-4 text-warm-600"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Settlements</p>
+                                        <p class="font-semibold text-ink">$12,430.00</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Fees</p>
+                                        <p class="font-semibold text-magenta-600">-$372.90</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Net</p>
+                                        <p class="font-semibold text-emerald-600">$12,057.10</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Statement: December 2025 -->
+                            <div class="statement-card">
+                                <div class="flex items-center justify-between mb-3">
+                                    <p class="text-base font-semibold text-ink">December 2025</p>
+                                    <button class="p-1.5 hover:bg-warm-50 rounded transition-colors">
+                                        <i data-lucide="download" class="w-4 h-4 text-warm-600"></i>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Settlements</p>
+                                        <p class="font-semibold text-ink">$8,234.50</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Fees</p>
+                                        <p class="font-semibold text-magenta-600">-$247.04</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Net</p>
+                                        <p class="font-semibold text-emerald-600">$7,987.46</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Statement: November 2025 -->
+                            <div class="statement-card">
+                                <div class="flex items-center justify-between mb-3">
+                                    <p class="text-base font-semibold text-ink">November 2025</p>
+                                    <button class="p-1.5 hover:bg-warm-50 rounded transition-colors">
+                                        <i data-lucide="download" class="w-4 h-4 text-warm-600"></i>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Settlements</p>
+                                        <p class="font-semibold text-ink">$6,123.25</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Fees</p>
+                                        <p class="font-semibold text-magenta-600">-$183.70</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-warm-600 mb-1">Net</p>
+                                        <p class="font-semibold text-emerald-600">$5,939.55</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-3 bg-warm-50 rounded-lg">
+                            <div class="flex items-start gap-2">
+                                <i data-lucide="file-text" class="w-4 h-4 text-warm-600 flex-shrink-0 mt-0.5"></i>
+                                <div class="text-xs text-warm-600">
+                                    <p class="font-medium mb-1">Statement Format</p>
+                                    <p>Download as CSV with per-transaction fee details for accounting and tax purposes.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-1">
+                                View All Statements
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.6 Cross-Links -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">5.6 Cross-Links</p>
+
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-indigo-700 mb-4">Related Pages</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <a href="#" class="cross-link-card">
+                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600"></i>
+                            <div>
+                                <p class="text-sm font-medium text-ink">Finance Dashboard</p>
+                                <p class="text-xs text-warm-600">View balance and activity</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="cross-link-card">
+                            <i data-lucide="list" class="w-5 h-5 text-indigo-600"></i>
+                            <div>
+                                <p class="text-sm font-medium text-ink">Transactions</p>
+                                <p class="text-xs text-warm-600">View transaction history</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: APPS TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Apps Section</p>
+            <p class="text-sm text-warm-600 mb-6">Platform integrations and sandbox access. Contains rewards platform, commerce platform, and developer sandbox settings.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Apps Section Content</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <!-- Rewards Platform Card -->
+                    <div class="settings-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Rewards Platform</p>
+                                <p class="settings-card-description">Your loyalty program integration</p>
+                            </div>
+                            <span class="connected-badge">
+                                <i data-lucide="check" class="w-3 h-3"></i>
+                                Connected
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="mb-4">
+                            <p class="font-medium text-ink">Smile.io Enterprise</p>
+                            <p class="text-sm text-warm-600">API key verified</p>
+                            <p class="text-xs text-warm-500 mt-1">Last synced: 5 minutes ago</p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary">Test Connection</button>
+                            <button class="btn-secondary">Reconnect</button>
+                            <button class="btn-text">Change</button>
+                        </div>
+                    </div>
+
+                    <!-- Commerce Platform Card - Connected State -->
+                    <div class="settings-card">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Commerce Platform</p>
+                                <p class="settings-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="connected-badge">
+                                <i data-lucide="check" class="w-3 h-3"></i>
+                                Connected
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-10 h-10 bg-[#96bf48] rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-ink">Shopify</p>
+                                <p class="text-sm text-warm-600">kitsch.myshopify.com</p>
+                                <p class="text-xs text-warm-500 mt-1">Connected via OAuth · Last synced: 2 minutes ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary">Test Connection</button>
+                            <button class="btn-secondary">Disconnect</button>
+                        </div>
+                    </div>
+
+                    <!-- Commerce Platform - All States Reference -->
+                    <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-6">
+                        <p class="text-xs font-medium text-warm-600 mb-3">Commerce Platform OAuth States</p>
+                        <p class="text-xs text-warm-500 mb-3">See <a href="/merchant/components/oauth-connection.html" class="text-emerald-600 hover:underline">OAuth Connection Component</a> for full documentation</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 text-xs bg-warm-200 text-warm-700 rounded">Not Connected</span>
+                            <span class="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded">Connecting</span>
+                            <span class="px-2 py-1 text-xs bg-emerald-100 text-emerald-700 rounded">Connected</span>
+                            <span class="px-2 py-1 text-xs bg-rose-100 text-rose-700 rounded">Error</span>
+                            <span class="px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded">Expired</span>
+                        </div>
+                    </div>
+
+                    <!-- Sandbox Environment Card -->
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Sandbox Environment</p>
+                        <p class="settings-card-description">Test your integration safely</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Status</p>
+                                <p class="font-medium text-emerald-600">Active</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Last data refresh</p>
+                                <p class="text-ink">2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="text-xs text-warm-500 mb-1">Sandbox URL</p>
+                            <code class="text-sm">try.saltwyk.com</code>
+                        </div>
+
+                        <div class="flex gap-2 mb-4">
+                            <button class="btn-primary">Open Sandbox</button>
+                            <button class="btn-secondary">Refresh from Production</button>
+                        </div>
+
+                        <div class="info-box">
+                            <i data-lucide="info"></i>
+                            <span>Sandbox environment has no real settlements or customer emails</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 6a: API KEY RECONNECTION FLOW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6a. API Key Reconnection Flow</p>
+            <p class="text-sm text-warm-600 mb-6">Rewards platforms use API keys. When keys expire or need rotation, users see a warning and can reconnect.</p>
+
+            <!-- Warning State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Warning State - API Key Expiring</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Rewards Platform</p>
+                                <p class="settings-card-description">Your loyalty program integration</p>
+                            </div>
+                            <span class="warning-badge">
+                                <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                                Attention Required
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="mb-4">
+                            <p class="font-medium text-ink">Smile.io Enterprise</p>
+                            <p class="text-sm text-warm-600">API key verified</p>
+                            <p class="text-xs text-orange-600 mt-1">API key expires in 3 days</p>
+                        </div>
+
+                        <div class="warning-box mb-4">
+                            <i data-lucide="alert-triangle"></i>
+                            <div>
+                                <p class="font-medium">API key expiring soon</p>
+                                <p class="text-orange-600 mt-1">Your Smile.io API key will expire on January 23, 2026. Reconnect now to avoid service interruption.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-primary-orange">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Reconnect Now
+                            </button>
+                            <button class="btn-secondary">Test Connection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reconnection Modal -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Reconnection Confirmation Modal</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="modal-content" style="position: relative;">
+                        <div class="modal-header">
+                            <p class="modal-title">Reconnect Smile.io?</p>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-sm text-warm-600 mb-3">This will open Smile.io in a new window to enter your new API key.</p>
+                            <p class="text-sm text-warm-600">Your integration will continue working during this process.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary">Cancel</button>
+                            <button class="btn-primary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Smile.io
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Loading State - Reconnecting</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Rewards Platform</p>
+                                <p class="settings-card-description">Your loyalty program integration</p>
+                            </div>
+                            <span class="connected-badge" style="background: hsl(var(--amber-50)); color: hsl(var(--amber-700));">
+                                <div class="spinner amber"></div>
+                                Reconnecting
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="mb-4">
+                            <p class="font-medium text-ink">Smile.io Enterprise</p>
+                            <p class="text-sm text-amber-600">Verifying new API key...</p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;">Test Connection</button>
+                            <button class="btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;">Reconnect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Toast -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Success Toast</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="toast success">
+                        <i data-lucide="check-circle"></i>
+                        Smile.io reconnected successfully
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error States -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Error States</p>
+
+                <div class="space-y-4">
+                    <!-- Connection Cancelled -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">API key validation failed</p>
+                        <div class="error-box">
+                            <i data-lucide="x-circle"></i>
+                            <div>
+                                <p class="font-medium">Invalid API key</p>
+                                <p class="text-rose-600 mt-1">The API key you entered is not valid. Please check your Smile.io dashboard for the correct key.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeout -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">Connection timeout</p>
+                        <div class="error-box">
+                            <i data-lucide="clock"></i>
+                            <div>
+                                <p class="font-medium">Connection timed out</p>
+                                <p class="text-rose-600 mt-1">The connection attempt took too long. Please try again.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Unavailable -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">Service unavailable</p>
+                        <div class="error-box">
+                            <i data-lucide="server-off"></i>
+                            <div>
+                                <p class="font-medium">Unable to connect</p>
+                                <p class="text-rose-600 mt-1">Smile.io may be temporarily unavailable. Please try again later.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 6b: OAUTH RECONNECTION FLOW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6b. OAuth Reconnection Flow</p>
+            <p class="text-sm text-warm-600 mb-6">Commerce platforms use OAuth. When tokens expire, users see a warning and must reauthorize.</p>
+
+            <!-- Warning State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Warning State - OAuth Token Expiring</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Commerce Platform</p>
+                                <p class="settings-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="warning-badge">
+                                <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                                Attention Required
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-10 h-10 bg-[#96bf48] rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-ink">Shopify</p>
+                                <p class="text-sm text-warm-600">kitsch.myshopify.com</p>
+                                <p class="text-xs text-orange-600 mt-1">OAuth token expires in 3 days</p>
+                            </div>
+                        </div>
+
+                        <div class="warning-box mb-4">
+                            <i data-lucide="alert-triangle"></i>
+                            <div>
+                                <p class="font-medium">Authorization expiring soon</p>
+                                <p class="text-orange-600 mt-1">Your Shopify authorization will expire on January 23, 2026. Reconnect now to avoid service interruption.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-primary-orange">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Reconnect Now
+                            </button>
+                            <button class="btn-secondary">Test Connection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reconnection Modal -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">OAuth Reconnection Confirmation Modal</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="modal-content" style="position: relative;">
+                        <div class="modal-header">
+                            <p class="modal-title">Reconnect Shopify?</p>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-sm text-warm-600 mb-3">This will open Shopify in a new window to reauthorize Saltwyk's access.</p>
+                            <p class="text-sm text-warm-600">Your integration will continue working during this process.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary">Cancel</button>
+                            <button class="btn-primary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Shopify
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Loading State - Reconnecting</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <p class="settings-card-title">Commerce Platform</p>
+                                <p class="settings-card-description">Your e-commerce store integration</p>
+                            </div>
+                            <span class="connected-badge" style="background: hsl(var(--amber-50)); color: hsl(var(--amber-700));">
+                                <div class="spinner amber"></div>
+                                Reconnecting
+                            </span>
+                        </div>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-10 h-10 bg-[#96bf48] rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.337 3.415c-.193-.016-.42.01-.67.07-.345.08-.598.264-.724.375a.858.858 0 00-.137.149l-.586 1.028-.15-.916c-.068-.419-.317-.803-.624-1.012-.31-.21-.687-.262-1.028-.209l-.084.014-3.13.62-.312-1.52a.524.524 0 00-.514-.436.524.524 0 00-.106.01l-3.646.746a.524.524 0 00-.406.62l2.693 13.16a.524.524 0 00.62.405l7.18-1.47a.524.524 0 00.406-.62l-.826-4.034a.856.856 0 01.163.007c.267.03.509.162.696.314.34.275.54.704.54 1.166v.002l.001 2.834a.524.524 0 00.524.523h3.066a.524.524 0 00.523-.524v-2.834c0-1.312-.572-2.489-1.5-3.24-.463-.374-1.025-.647-1.636-.776l.802-1.407c.128-.225.169-.49.11-.747a.867.867 0 00-.395-.534c-.228-.14-.514-.195-.854-.166z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-ink">Shopify</p>
+                                <p class="text-sm text-amber-600">Waiting for authorization...</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box mb-4">
+                            <i data-lucide="external-link"></i>
+                            <div>
+                                <p class="font-medium">Complete authorization in Shopify</p>
+                                <p class="text-warm-600 mt-1">A new window should have opened. Please complete the authorization process there.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-secondary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Shopify Again
+                            </button>
+                            <button class="btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Toast -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Success Toast</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="toast success">
+                        <i data-lucide="check-circle"></i>
+                        Shopify reconnected successfully
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error States -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Error States</p>
+
+                <div class="space-y-4">
+                    <!-- OAuth Denied -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">OAuth denied / cancelled</p>
+                        <div class="info-box">
+                            <i data-lucide="x-circle"></i>
+                            <div>
+                                <p class="font-medium">Connection cancelled</p>
+                                <p class="text-warm-600 mt-1">The authorization was cancelled. You can try again when you're ready.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeout -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">OAuth timeout</p>
+                        <div class="error-box">
+                            <i data-lucide="clock"></i>
+                            <div>
+                                <p class="font-medium">Connection timed out</p>
+                                <p class="text-rose-600 mt-1">The authorization process took too long. Please try again.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Error -->
+                    <div class="bg-ledger border border-warm-200 rounded-lg p-4">
+                        <p class="text-xs text-warm-500 mb-3">API error</p>
+                        <div class="error-box">
+                            <i data-lucide="server-off"></i>
+                            <div>
+                                <p class="font-medium">Unable to connect</p>
+                                <p class="text-rose-600 mt-1">Shopify may be temporarily unavailable. Please try again later.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 6c: SANDBOX ACCESS FLOW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6c. Sandbox Access Flow</p>
+            <p class="text-sm text-warm-600 mb-6">Detailed flows for opening sandbox and refreshing data from production.</p>
+
+            <!-- Initial State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Initial State - Sandbox Active</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Sandbox Environment</p>
+                        <p class="settings-card-description">Test your integration safely</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Status</p>
+                                <p class="font-medium text-emerald-600">Active</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Last data refresh</p>
+                                <p class="text-ink">2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="text-xs text-warm-500 mb-1">Sandbox URL</p>
+                            <div class="flex items-center gap-2">
+                                <code class="text-sm">try.saltwyk.com</code>
+                                <button class="text-warm-400 hover:text-warm-600">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 mb-4">
+                            <button class="btn-primary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Sandbox
+                            </button>
+                            <button class="btn-secondary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Refresh from Production
+                            </button>
+                        </div>
+
+                        <div class="info-box">
+                            <i data-lucide="info"></i>
+                            <span>Sandbox environment has no real settlements or customer emails</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Sandbox Flow -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Open Sandbox Flow</p>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="text-sm font-medium text-ink mb-3">User clicks "Open Sandbox"</p>
+                    <div class="space-y-2 text-sm text-warm-600">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-medium">1</span>
+                            <span>Button clicked → New tab opens</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-medium">2</span>
+                            <span>Redirects to <code>try.saltwyk.com/dashboard</code></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-medium">3</span>
+                            <span>User lands in sandbox with amber theme + "Sandbox" banner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refresh Confirmation Modal -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Refresh from Production - Confirmation Modal</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="modal-content" style="position: relative;">
+                        <div class="modal-header">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i>
+                                <p class="modal-title">Refresh Sandbox Data?</p>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-sm text-warm-600 mb-3">This will:</p>
+                            <ul class="bullet-list">
+                                <li>Copy current production data to sandbox</li>
+                                <li>Overwrite existing sandbox data</li>
+                                <li>Take approximately 2-5 minutes</li>
+                            </ul>
+                            <div class="warning-box mt-4">
+                                <i data-lucide="alert-triangle"></i>
+                                <span>Sandbox will be temporarily unavailable during refresh.</span>
+                            </div>
+                            <p class="text-xs text-warm-500 mt-4">Last refresh: 2 hours ago</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary">Cancel</button>
+                            <button class="btn-primary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Refresh Sandbox
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refreshing State with Progress -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Refreshing State - With Progress</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Sandbox Environment</p>
+                        <p class="settings-card-description">Test your integration safely</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Status</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="spinner amber"></div>
+                                    <p class="font-medium text-amber-600">Refreshing...</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Time remaining</p>
+                                <p class="text-ink">~2 minutes</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm text-warm-600">Copying production data...</p>
+                                <p class="text-sm font-medium text-amber-600">65%</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill amber" style="width: 65%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button class="btn-primary" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Sandbox
+                            </button>
+                            <button class="btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Refresh from Production
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Progress State -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Modal - Refresh In Progress</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="modal-content" style="position: relative;">
+                        <div class="modal-header">
+                            <p class="modal-title">Refreshing Sandbox...</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="flex items-center justify-center mb-6">
+                                <div class="w-16 h-16 border-4 border-warm-200 border-t-emerald-500 rounded-full animate-spin" style="animation: spin 1s linear infinite;"></div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <p class="text-lg font-medium text-ink">2 minutes remaining</p>
+                                <p class="text-sm text-warm-500">Copying production data to sandbox...</p>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                            <p class="text-xs text-warm-500 text-center mt-2">65% complete</p>
+                        </div>
+                        <div class="modal-footer justify-center">
+                            <p class="text-xs text-warm-500">You can close this modal. Refresh will continue in background.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success States -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Success Toast</p>
+
+                <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                    <div class="toast success">
+                        <i data-lucide="check-circle"></i>
+                        Sandbox refreshed successfully
+                    </div>
+                </div>
+            </div>
+
+            <!-- Updated Card After Refresh -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Updated State - After Refresh</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Sandbox Environment</p>
+                        <p class="settings-card-description">Test your integration safely</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Status</p>
+                                <p class="font-medium text-emerald-600">Active</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-warm-500 mb-1">Last data refresh</p>
+                                <p class="text-ink font-medium text-emerald-600">Just now</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="text-xs text-warm-500 mb-1">Sandbox URL</p>
+                            <code class="text-sm">try.saltwyk.com</code>
+                        </div>
+
+                        <div class="flex gap-2 mb-4">
+                            <button class="btn-primary">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                Open Sandbox
+                            </button>
+                            <button class="btn-secondary">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                Refresh from Production
+                            </button>
+                        </div>
+
+                        <div class="info-box">
+                            <i data-lucide="info"></i>
+                            <span>Sandbox environment has no real settlements or customer emails</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: TEAM TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Team Section</p>
+            <p class="text-sm text-warm-600 mb-6">Multi-user account management. List and manage team members with roles and access levels.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Team Section Content</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <!-- Team Members Card -->
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Team Members</p>
+                        <p class="settings-card-description">Manage who has access to this account</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="team-member-row">
+                            <div class="team-member-info">
+                                <p class="team-member-email">sarah@kitsch.com</p>
+                                <p class="team-member-meta">Owner · Joined Jan 15, 2026</p>
+                            </div>
+                            <span class="role-badge admin">Admin</span>
+                        </div>
+
+                        <div class="team-member-row">
+                            <div class="team-member-info">
+                                <p class="team-member-email">john@kitsch.com</p>
+                                <p class="team-member-meta">Team Member · Joined Jan 18, 2026</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="role-badge user">User</span>
+                                <button class="btn-text text-rose-600 hover:text-rose-700">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="team-member-row border-none">
+                            <div class="team-member-info">
+                                <p class="team-member-email">mike@kitsch.com</p>
+                                <p class="team-member-meta">Team Member · Joined Jan 20, 2026</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="role-badge user">User</span>
+                                <button class="btn-text text-rose-600 hover:text-rose-700">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-warm-100">
+                            <button class="btn-primary">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                Invite Team Member
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 8: PREFERENCES TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Preferences Section</p>
+            <p class="text-sm text-warm-600 mb-6">Notification and communication settings. Control email notifications for various events.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Preferences Section Content</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <!-- Email Notifications Card -->
+                    <div class="settings-card mb-0">
+                        <p class="settings-card-title">Email Notifications</p>
+                        <p class="settings-card-description">Control what emails you receive</p>
+                        <div class="settings-card-divider"></div>
+
+                        <div class="space-y-1">
+                            <label class="checkbox-item checked">
+                                <div class="checkbox-box">
+                                    <i data-lucide="check"></i>
+                                </div>
+                                <div>
+                                    <p class="checkbox-label">Transaction Alerts</p>
+                                    <p class="text-xs text-warm-500">Email me when transactions complete</p>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-item checked">
+                                <div class="checkbox-box">
+                                    <i data-lucide="check"></i>
+                                </div>
+                                <div>
+                                    <p class="checkbox-label">Balance Warnings</p>
+                                    <p class="text-xs text-warm-500">Email me when clearing balance is low</p>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-item checked">
+                                <div class="checkbox-box">
+                                    <i data-lucide="check"></i>
+                                </div>
+                                <div>
+                                    <p class="checkbox-label">Settlement Receipts</p>
+                                    <p class="text-xs text-warm-500">Email me when settlements process</p>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-item">
+                                <div class="checkbox-box">
+                                    <i data-lucide="check"></i>
+                                </div>
+                                <div>
+                                    <p class="checkbox-label">Product & Marketing</p>
+                                    <p class="text-xs text-warm-500">Email me about new features and tips</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="mt-6">
+                            <button class="btn-primary">Save Preferences</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 9: SUPPORT TAB -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">9. Support Section</p>
+            <p class="text-sm text-warm-600 mb-6">Help resources and contact options. Contains support contact and help documentation links.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Support Section Content</p>
+
+                <div class="bg-ledger border border-warm-200 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contact Support Card -->
+                        <div class="settings-card mb-0">
+                            <p class="settings-card-title">Contact Support</p>
+                            <p class="settings-card-description">Get help from the Saltwyk team</p>
+                            <div class="settings-card-divider"></div>
+
+                            <div class="space-y-4">
+                                <div class="support-card">
+                                    <div class="support-card-icon">
+                                        <i data-lucide="mail"></i>
+                                    </div>
+                                    <p class="support-card-title">Email Support</p>
+                                    <p class="support-card-description">support@saltwyk.com<br>Response time: 1 business day</p>
+                                    <button class="btn-primary">Send Email</button>
+                                </div>
+
+                                <div class="support-card mb-0">
+                                    <div class="support-card-icon">
+                                        <i data-lucide="message-circle"></i>
+                                    </div>
+                                    <p class="support-card-title">Live Chat</p>
+                                    <p class="support-card-description">Chat with our support team</p>
+                                    <span class="text-xs text-warm-500 font-medium">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Help Resources Card -->
+                        <div class="settings-card mb-0">
+                            <p class="settings-card-title">Help Resources</p>
+                            <p class="settings-card-description">Documentation and guides</p>
+                            <div class="settings-card-divider"></div>
+
+                            <div class="space-y-3">
+                                <a href="#" class="support-card block hover:border-emerald-300 transition-colors">
+                                    <div class="support-card-icon">
+                                        <i data-lucide="book-open"></i>
+                                    </div>
+                                    <p class="support-card-title">Documentation</p>
+                                    <p class="support-card-description mb-0">View Help Center</p>
+                                </a>
+
+                                <a href="#" class="support-card block hover:border-emerald-300 transition-colors">
+                                    <div class="support-card-icon">
+                                        <i data-lucide="code-2"></i>
+                                    </div>
+                                    <p class="support-card-title">API Documentation</p>
+                                    <p class="support-card-description mb-0">View API Docs</p>
+                                </a>
+
+                                <a href="#" class="support-card block hover:border-emerald-300 transition-colors mb-0">
+                                    <div class="support-card-icon">
+                                        <i data-lucide="help-circle"></i>
+                                    </div>
+                                    <p class="support-card-title">FAQs</p>
+                                    <p class="support-card-description mb-0">Browse FAQs</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 10: FORM PATTERNS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">10. Form Patterns</p>
+            <p class="text-sm text-warm-600 mb-6">Standard form elements used throughout the settings screen.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Text Input -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Text Input</p>
+                    <div class="form-field mb-0">
+                        <label class="form-label">Business Email</label>
+                        <input type="email" class="form-input" value="contact@kitsch.com">
+                        <p class="form-hint">We'll use this for account notifications</p>
+                    </div>
+                </div>
+
+                <!-- Read-only Input -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Read-only Input</p>
+                    <div class="form-field mb-0">
+                        <label class="form-label">Business Name</label>
+                        <input type="text" class="form-input" value="Kitsch" readonly>
+                        <p class="form-hint">Contact support to update</p>
+                    </div>
+                </div>
+
+                <!-- Radio Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Radio Group</p>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <div class="radio-circle">
+                                <div class="radio-circle-inner"></div>
+                            </div>
+                            <div>
+                                <p class="radio-label">Daily</p>
+                                <p class="radio-description">Every night at 11 PM EST</p>
+                            </div>
+                        </label>
+                        <label class="radio-item selected">
+                            <div class="radio-circle">
+                                <div class="radio-circle-inner"></div>
+                            </div>
+                            <div>
+                                <p class="radio-label">Weekly</p>
+                                <p class="radio-description">Every Monday at 11 PM EST</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Checkbox Group -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Checkbox Group</p>
+                    <div>
+                        <label class="checkbox-item checked">
+                            <div class="checkbox-box">
+                                <i data-lucide="check"></i>
+                            </div>
+                            <div>
+                                <p class="checkbox-label">Transaction Alerts</p>
+                                <p class="text-xs text-warm-500">Email me when transactions complete</p>
+                            </div>
+                        </label>
+                        <label class="checkbox-item mb-0">
+                            <div class="checkbox-box">
+                                <i data-lucide="check"></i>
+                            </div>
+                            <div>
+                                <p class="checkbox-label">Product & Marketing</p>
+                                <p class="text-xs text-warm-500">Email me about new features</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mt-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Button Variants</p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <button class="btn-primary">Primary Action</button>
+                    <button class="btn-secondary">Secondary Action</button>
+                    <button class="btn-text">Text Link</button>
+                    <button class="btn-text text-rose-600 hover:text-rose-700">Destructive</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 11: TECHNICAL SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">11. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-warm-200">
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Element</th>
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Property</th>
+                            <th class="text-left p-4 font-medium text-warm-500 text-xs uppercase tracking-wide">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Page Header</td>
+                            <td class="p-4 text-warm-600">Title</td>
+                            <td class="p-4"><code>Fraunces 36px/700</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Subtitle</td>
+                            <td class="p-4"><code>Inter 16px/400 warm-600</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Padding</td>
+                            <td class="p-4"><code>32px 40px 24px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Settings Card</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>white</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border</td>
+                            <td class="p-4"><code>1px solid warm-200</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border Radius</td>
+                            <td class="p-4"><code>12px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Padding</td>
+                            <td class="p-4"><code>24px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Margin Bottom</td>
+                            <td class="p-4"><code>24px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Card Title</td>
+                            <td class="p-4 text-warm-600">Font</td>
+                            <td class="p-4"><code>Inter 18px/600 ink</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Card Description</td>
+                            <td class="p-4 text-warm-600">Font</td>
+                            <td class="p-4"><code>Inter 14px/400 warm-600</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Form Input</td>
+                            <td class="p-4 text-warm-600">Height</td>
+                            <td class="p-4"><code>40px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border</td>
+                            <td class="p-4"><code>1px solid warm-300</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Focus Ring</td>
+                            <td class="p-4"><code>emerald-500 / 15% opacity</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Primary Button</td>
+                            <td class="p-4 text-warm-600">Background</td>
+                            <td class="p-4"><code>emerald-600</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Height</td>
+                            <td class="p-4"><code>40px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Content Padding</td>
+                            <td class="p-4 text-warm-600">Settings Area</td>
+                            <td class="p-4"><code>40px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100 bg-emerald-50/50">
+                            <td colspan="3" class="p-3 text-xs font-medium text-emerald-700 uppercase tracking-wide">Finance Section Components</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Toggle Switch</td>
+                            <td class="p-4 text-warm-600">Dimensions</td>
+                            <td class="p-4"><code>44px × 24px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Knob Size</td>
+                            <td class="p-4"><code>20px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Active BG</td>
+                            <td class="p-4"><code>emerald-500</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Inactive BG</td>
+                            <td class="p-4"><code>warm-300</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Radio Card</td>
+                            <td class="p-4 text-warm-600">Padding</td>
+                            <td class="p-4"><code>16px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Border</td>
+                            <td class="p-4"><code>1px solid warm-200</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Selected Border</td>
+                            <td class="p-4"><code>2px solid emerald-500</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Selected BG</td>
+                            <td class="p-4"><code>emerald-50</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Dollar Input</td>
+                            <td class="p-4 text-warm-600">Prefix BG</td>
+                            <td class="p-4"><code>warm-100</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Prefix Padding</td>
+                            <td class="p-4"><code>0 12px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Input Width</td>
+                            <td class="p-4"><code>120px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4 text-ink font-medium">Statement Card</td>
+                            <td class="p-4 text-warm-600">Padding</td>
+                            <td class="p-4"><code>16px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Fees Color</td>
+                            <td class="p-4"><code>magenta-600</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4"></td>
+                            <td class="p-4 text-warm-600">Net Color</td>
+                            <td class="p-4"><code>emerald-600</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Mobile Breakpoint (<768px)</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Tab Behavior</p>
+                        <p class="text-ink">Horizontal scroll</p>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Tab Height</p>
+                        <code>44px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Content Padding</p>
+                        <code>20px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Card Padding</p>
+                        <code>16px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Card Grid</p>
+                        <p class="text-ink">Single column</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 12: ACCESSIBILITY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">12. Accessibility</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">ARIA Requirements</p>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start gap-3">
+                        <span class="text-emerald-600 mt-0.5">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </span>
+                        <div>
+                            <p class="font-medium text-ink">Tab Navigation</p>
+                            <p class="text-warm-600">Use <code>role="tablist"</code>, <code>role="tab"</code>, <code>aria-selected</code>, <code>aria-controls</code></p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-emerald-600 mt-0.5">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </span>
+                        <div>
+                            <p class="font-medium text-ink">Tab Panels</p>
+                            <p class="text-warm-600">Use <code>role="tabpanel"</code>, <code>aria-labelledby</code></p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-emerald-600 mt-0.5">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </span>
+                        <div>
+                            <p class="font-medium text-ink">Form Labels</p>
+                            <p class="text-warm-600">All inputs must have associated <code>&lt;label&gt;</code> elements</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-emerald-600 mt-0.5">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </span>
+                        <div>
+                            <p class="font-medium text-ink">Focus Management</p>
+                            <p class="text-warm-600">Tab switches should move focus to panel content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Keyboard Navigation</p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-4">
+                        <code class="bg-warm-100 px-2 py-1 rounded text-xs">Tab</code>
+                        <span class="text-warm-600">Move between interactive elements</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <code class="bg-warm-100 px-2 py-1 rounded text-xs">← →</code>
+                        <span class="text-warm-600">Navigate between tabs</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <code class="bg-warm-100 px-2 py-1 rounded text-xs">Enter/Space</code>
+                        <span class="text-warm-600">Activate focused tab or button</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <code class="bg-warm-100 px-2 py-1 rounded text-xs">Home/End</code>
+                        <span class="text-warm-600">Jump to first/last tab</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 13: DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">13. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                    <p class="text-sm text-emerald-700"><strong>Horizontal Tabs:</strong> Tab navigation is horizontal rather than vertical to maximize content width for forms and data display. This follows common SaaS patterns where settings contain dense information.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="text-sm text-warm-700"><strong>Card-based Layout:</strong> Each subsection uses a card container to visually group related settings. This provides clear boundaries between different types of information and makes scanning easier.</p>
+                </div>
+
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                    <p class="text-sm text-indigo-700"><strong>Read-only Business Profile:</strong> Critical business information (name, address, EIN) is read-only to prevent accidental changes. Users must contact support for updates, ensuring compliance and audit trails.</p>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <p class="text-sm text-amber-700"><strong>URL-based Tab State:</strong> Each tab has its own URL (<code>/settings/finance</code>) for deep linking and browser history support. This allows bookmarking specific settings sections.</p>
+                </div>
+
+                <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
+                    <p class="text-sm text-cyan-700"><strong>Emerald Primary Actions:</strong> Save and primary action buttons use emerald-600 to maintain consistency with the Saltwyk brand while providing clear visual hierarchy over secondary actions.</p>
+                </div>
+
+                <div class="bg-rose-50 border border-rose-200 rounded-lg p-4">
+                    <p class="text-sm text-rose-700"><strong>Two-Account Financial Architecture:</strong> The Finance section separates Settlement Account (Stripe-managed, read-only) from External Bank Account (merchant-owned, editable). This reflects the actual money flow: funds settle to Stripe first, then transfer to the merchant's bank. This separation provides FDIC protection on held funds and clear audit trails.</p>
+                </div>
+
+                <div class="bg-violet-50 border border-violet-200 rounded-lg p-4">
+                    <p class="text-sm text-violet-700"><strong>Auto-Fund with Clearing Balance Integration:</strong> Auto-fund settings use toggle + threshold pattern because merchants need granular control over when their clearing balance is replenished. The frequency estimate provides transparency about actual fund transfer cadence based on typical transaction volume.</p>
+                </div>
+
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <p class="text-sm text-orange-700"><strong>Statement Cards with Color-Coded Amounts:</strong> Monthly statements use magenta-600 for fees (deductions) and emerald-600 for net amounts (positive) to provide at-a-glance financial health indicators. This color coding matches the Transactions screen for consistency.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================ -->
+        <!-- SECTION 14: RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">14. Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/dashboard.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Dashboard Home</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/components/sidebar-nav.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Sidebar Navigation</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/components/context-switcher.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Context Switcher</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/components/oauth-connection.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">OAuth Connection</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/forms/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Form Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/screens/get-verified.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Get Verified</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
