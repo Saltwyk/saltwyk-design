@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Detail | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Code block */
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 12px; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* TRANSACTION CARD (Mobile List Item)      */
+        /* ========================================= */
+
+        .txn-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .txn-card:hover {
+            border-color: hsl(var(--warm-300));
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);
+        }
+
+        .txn-card .amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+        }
+
+        .txn-card .txn-id {
+            font-family: ui-monospace, monospace;
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Status Badge - INTERNAL ONLY */
+        .status-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-transform: lowercase;
+        }
+
+        .status-badge.completed {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+
+        .status-badge.pending {
+            background: hsl(var(--orange-50));
+            color: hsl(var(--orange-700));
+        }
+
+        .status-badge.failed {
+            background: hsl(var(--magenta-50));
+            color: hsl(var(--magenta-600));
+        }
+
+        /* Merchant Logo (logo.dev) */
+        .merchant-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+        }
+
+        .merchant-logo-sm {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+
+        .merchant-logo-lg {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        /* Logo Stack (multiple merchants) */
+        .logo-stack {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-stack .merchant-logo {
+            margin-left: -8px;
+            border: 2px solid white;
+        }
+
+        .logo-stack .merchant-logo:first-child {
+            margin-left: 0;
+        }
+
+        /* ========================================= */
+        /* PRODUCT THUMBNAIL                        */
+        /* ========================================= */
+
+        .product-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: hsl(var(--warm-100));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-thumb-sm {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+        }
+
+        /* ========================================= */
+        /* EXPANDED DETAIL VIEW                     */
+        /* ========================================= */
+
+        .detail-section {
+            padding: 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+        }
+
+        .detail-section-header {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: hsl(var(--warm-500));
+            margin-bottom: 12px;
+        }
+
+        /* Merchant Contribution Row */
+        .contribution-row {
+            background: hsl(var(--warm-50));
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .contribution-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Wishlist Badge */
+        .wishlist-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-600));
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-500));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: hsl(var(--warm-200));
+            color: hsl(var(--warm-600));
+        }
+
+        /* Desktop Table Row */
+        .txn-table-row {
+            display: grid;
+            grid-template-columns: 1fr 140px 120px 100px 100px;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+        }
+
+        .txn-table-row:hover {
+            background: hsl(var(--warm-50));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Transaction Detail</span>
+        </nav>
+
+        <header class="mb-12">
+            <div class="flex items-center gap-3 mb-2">
+                <p class="serial text-intaglio-500">Component Specification</p>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded">Partnership Tier</span>
+            </div>
+            <h1 class="font-display text-4xl mb-2">Transaction Detail</h1>
+            <p class="text-warm-600">Displays individual transaction information including product, currency amount, and multi-merchant point contributions. One of the primary mobile/desktop screens for merchants.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Important callouts -->
+        <div class="space-y-4 mb-12">
+            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 flex items-start gap-3">
+                <i data-lucide="info" class="w-5 h-5 text-indigo-500 flex-shrink-0 mt-0.5"></i>
+                <div>
+                    <p class="font-medium text-indigo-700 mb-1">Currency Display Context</p>
+                    <p class="text-sm text-indigo-600">This component (along with reports) is one of the <strong>only places in the merchant app showing actual currency amounts</strong>. Points are the primary value display elsewhere.</p>
+                </div>
+            </div>
+
+            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 flex items-start gap-3">
+                <i data-lucide="eye-off" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"></i>
+                <div>
+                    <p class="font-medium text-orange-700 mb-1">Internal-Only Status States</p>
+                    <p class="text-sm text-orange-600">Status badges (completed, pending, failed) are <strong>only visible to internal Saltwyk team members</strong>. Merchants see transactions without status indicators.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: TRANSACTION CARD -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Transaction Card</p>
+            <p class="text-sm text-warm-600 mb-6">List item showing transaction summary with product, amount, and contributing merchant logos.</p>
+
+            <!-- Mobile Card -->
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Cards</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px] space-y-3">
+                            <!-- Single Merchant -->
+                            <div class="txn-card">
+                                <div class="flex gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="package" class="w-6 h-6 text-warm-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-start justify-between gap-2 mb-1">
+                                            <p class="font-semibold text-ink truncate">Liquid Death 12-Pack</p>
+                                            <p class="amount flex-shrink-0">$24.99</p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <img src="https://img.logo.dev/liquiddeath.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Liquid Death" class="merchant-logo-sm">
+                                                <span class="text-xs text-warm-500">3,749 pts</span>
+                                            </div>
+                                            <span class="text-xs text-warm-400">Jan 18, 9:59 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Multi-Merchant (2) -->
+                            <div class="txn-card">
+                                <div class="flex gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="coffee" class="w-6 h-6 text-warm-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-start justify-between gap-2 mb-1">
+                                            <p class="font-semibold text-ink truncate">Coffee Lover's Bundle</p>
+                                            <p class="amount flex-shrink-0">$89.00</p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <div class="logo-stack">
+                                                    <img src="https://img.logo.dev/deathwishcoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Death Wish Coffee" class="merchant-logo-sm">
+                                                    <img src="https://img.logo.dev/chamberlaincoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Chamberlain Coffee" class="merchant-logo-sm">
+                                                </div>
+                                                <span class="text-xs text-warm-500">13,350 pts</span>
+                                            </div>
+                                            <span class="text-xs text-warm-400">Jan 17, 2:30 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Multi-Merchant (3+) -->
+                            <div class="txn-card">
+                                <div class="flex gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="sparkles" class="w-6 h-6 text-warm-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-start justify-between gap-2 mb-1">
+                                            <p class="font-semibold text-ink truncate">Self-Care Essentials Kit</p>
+                                            <p class="amount flex-shrink-0">$156.00</p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <div class="logo-stack">
+                                                    <img src="https://img.logo.dev/mykitsch.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kitsch" class="merchant-logo-sm">
+                                                    <img src="https://img.logo.dev/princesspolly.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Princess Polly" class="merchant-logo-sm">
+                                                    <div class="merchant-logo-sm bg-warm-200 flex items-center justify-center text-[10px] font-semibold text-warm-600" style="margin-left: -8px; border: 2px solid white;">+1</div>
+                                                </div>
+                                                <span class="text-xs text-warm-500">23,400 pts</span>
+                                            </div>
+                                            <span class="text-xs text-warm-400">Jan 16, 11:15 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Table Row -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Table Rows</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="bg-white rounded-lg border border-warm-200 overflow-hidden">
+                            <!-- Header -->
+                            <div class="grid grid-cols-[1fr_140px_120px_100px_100px] px-5 py-3 bg-warm-50 border-b border-warm-200 text-xs font-semibold uppercase tracking-wide text-warm-500">
+                                <span>Product</span>
+                                <span>Merchants</span>
+                                <span>Points</span>
+                                <span class="text-right">Amount</span>
+                                <span class="text-right">Date</span>
+                            </div>
+
+                            <!-- Row 1 - Single Merchant -->
+                            <div class="txn-table-row">
+                                <div class="flex items-center gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="package" class="w-5 h-5 text-warm-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink text-sm">Liquid Death 12-Pack</p>
+                                        <p class="text-xs text-warm-500">Target • Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <img src="https://img.logo.dev/liquiddeath.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Liquid Death" class="merchant-logo-sm">
+                                    <span class="text-sm text-warm-600">Liquid Death</span>
+                                </div>
+                                <span class="text-sm text-warm-600 tabular-nums">3,749 pts</span>
+                                <span class="text-sm font-semibold text-ink text-right tabular-nums">$24.99</span>
+                                <span class="text-xs text-warm-500 text-right">Jan 18, 9:59 AM</span>
+                            </div>
+
+                            <!-- Row 2 - Multi Merchant -->
+                            <div class="txn-table-row">
+                                <div class="flex items-center gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="coffee" class="w-5 h-5 text-warm-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink text-sm">Coffee Lover's Bundle</p>
+                                        <p class="text-xs text-warm-500">Amazon • Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="logo-stack">
+                                        <img src="https://img.logo.dev/deathwishcoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Death Wish Coffee" class="merchant-logo-sm">
+                                        <img src="https://img.logo.dev/chamberlaincoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Chamberlain Coffee" class="merchant-logo-sm">
+                                    </div>
+                                    <span class="text-xs text-warm-500">2 merchants</span>
+                                </div>
+                                <span class="text-sm text-warm-600 tabular-nums">13,350 pts</span>
+                                <span class="text-sm font-semibold text-ink text-right tabular-nums">$89.00</span>
+                                <span class="text-xs text-warm-500 text-right">Jan 17, 2:30 PM</span>
+                            </div>
+
+                            <!-- Row 3 - With Wishlist indicator -->
+                            <div class="txn-table-row border-b-0">
+                                <div class="flex items-center gap-3">
+                                    <div class="product-thumb-sm bg-warm-100 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="sparkles" class="w-5 h-5 text-warm-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-ink text-sm">Self-Care Essentials Kit</p>
+                                        <p class="text-xs text-warm-500">Sephora • Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="logo-stack">
+                                        <img src="https://img.logo.dev/mykitsch.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kitsch" class="merchant-logo-sm">
+                                        <img src="https://img.logo.dev/princesspolly.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Princess Polly" class="merchant-logo-sm">
+                                        <div class="merchant-logo-sm bg-warm-200 flex items-center justify-center text-[10px] font-semibold text-warm-600" style="margin-left: -8px; border: 2px solid white;">+1</div>
+                                    </div>
+                                    <span class="text-xs text-warm-500">3 merchants</span>
+                                </div>
+                                <span class="text-sm text-warm-600 tabular-nums">23,400 pts</span>
+                                <span class="text-sm font-semibold text-ink text-right tabular-nums">$156.00</span>
+                                <span class="text-xs text-warm-500 text-right">Jan 16, 11:15 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: EXPANDED DETAIL VIEW -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Expanded Detail View</p>
+            <p class="text-sm text-warm-600 mb-6">Full transaction details showing product, multi-merchant contributions with individual UUIDs, and wishlist metadata.</p>
+
+            <!-- Mobile Expanded View -->
+            <div class="mobile-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Expanded View</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[400px]">
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                <!-- Header with back button -->
+                                <div class="flex items-center justify-between p-4 border-b border-warm-100">
+                                    <button class="w-10 h-10 flex items-center justify-center text-warm-600">
+                                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                    </button>
+                                    <span class="font-semibold text-ink">Transaction Details</span>
+                                    <div class="w-10"></div>
+                                </div>
+
+                                <!-- Product Section -->
+                                <div class="detail-section">
+                                    <div class="flex gap-4">
+                                        <div class="product-thumb">
+                                            <i data-lucide="sparkles" class="w-8 h-8 text-warm-400"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-display text-lg font-bold text-ink">Self-Care Essentials Kit</p>
+                                            <p class="text-sm text-warm-500">Sephora • Online</p>
+                                            <div class="mt-2">
+                                                <span class="wishlist-badge">
+                                                    <i data-lucide="heart" class="w-3 h-3"></i>
+                                                    On wishlist 47 days
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Amount -->
+                                    <div class="mt-4 pt-4 border-t border-warm-100 flex items-center justify-between">
+                                        <span class="text-sm text-warm-500">Total Value</span>
+                                        <span class="text-2xl font-bold text-ink tabular-nums">$156.00</span>
+                                    </div>
+                                </div>
+
+                                <!-- Merchant Contributions -->
+                                <div class="detail-section">
+                                    <p class="detail-section-header">Point Contributions (3 merchants)</p>
+
+                                    <!-- Kitsch -->
+                                    <div class="contribution-row">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://img.logo.dev/mykitsch.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kitsch" class="merchant-logo">
+                                                <div>
+                                                    <p class="font-semibold text-ink text-sm">Kitsch</p>
+                                                    <p class="text-xs text-warm-500 font-mono">contrib_8f7d2a1c</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-ink">12,000 pts</p>
+                                                <p class="text-xs text-warm-500">≈ $80.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Princess Polly -->
+                                    <div class="contribution-row">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://img.logo.dev/princesspolly.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Princess Polly" class="merchant-logo">
+                                                <div>
+                                                    <p class="font-semibold text-ink text-sm">Princess Polly</p>
+                                                    <p class="text-xs text-warm-500 font-mono">contrib_3e9b5f2d</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-ink">8,400 pts</p>
+                                                <p class="text-xs text-warm-500">≈ $56.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chamberlain Coffee -->
+                                    <div class="contribution-row">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://img.logo.dev/chamberlaincoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Chamberlain Coffee" class="merchant-logo">
+                                                <div>
+                                                    <p class="font-semibold text-ink text-sm">Chamberlain Coffee</p>
+                                                    <p class="text-xs text-warm-500 font-mono">contrib_7c4a8d9e</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-ink">3,000 pts</p>
+                                                <p class="text-xs text-warm-500">≈ $20.00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Total -->
+                                    <div class="flex items-center justify-between pt-3 mt-2 border-t border-warm-200">
+                                        <span class="font-medium text-ink">Total Points</span>
+                                        <span class="text-lg font-bold text-ink">23,400 pts</span>
+                                    </div>
+                                </div>
+
+                                <!-- Fees & Settlement -->
+                                <div class="detail-section">
+                                    <p class="detail-section-header">Settlement</p>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Transaction Value</span>
+                                            <span class="text-ink font-medium tabular-nums">$156.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Saltwyk Fee (2.9%)</span>
+                                            <span class="text-magenta-600 font-medium tabular-nums">-$4.52</span>
+                                        </div>
+                                        <div class="flex justify-between pt-2 border-t border-warm-200">
+                                            <span class="font-medium text-ink">Net to Merchants</span>
+                                            <span class="text-lg font-bold text-emerald-600 tabular-nums">$151.48</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist Metadata -->
+                                <div class="detail-section bg-indigo-50">
+                                    <p class="detail-section-header" style="color: hsl(var(--indigo-600));">Wishlist Info</p>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Added to list</span>
+                                            <span class="text-ink font-medium">Nov 30, 2025</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Time on list</span>
+                                            <span class="text-ink font-medium">47 days</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Price at addition</span>
+                                            <span class="text-ink font-medium">$156.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-600">Goal progress</span>
+                                            <span class="text-emerald-600 font-medium">100% funded</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Transaction Metadata -->
+                                <div class="detail-section">
+                                    <p class="detail-section-header">Transaction Info</p>
+                                    <div class="space-y-3 text-sm">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-warm-500">Transaction ID</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="font-mono text-xs text-warm-600">txn_9d3c7f6e</span>
+                                                <button class="copy-btn" style="width: 24px; height: 24px;">
+                                                    <i data-lucide="copy" class="w-3 h-3"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-500">Completed</span>
+                                            <span class="text-ink">Jan 16, 2026 at 11:15 AM</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-warm-500">Shopper</span>
+                                            <span class="text-ink">j***@email.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Expanded View -->
+            <div class="desktop-variant">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Desktop Expanded View (Side Panel)</p>
+
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="flex gap-4">
+                            <!-- Main content area (placeholder) -->
+                            <div class="flex-1 bg-warm-200 rounded-lg h-[600px] flex items-center justify-center">
+                                <span class="text-warm-400 text-sm">Transaction List</span>
+                            </div>
+
+                            <!-- Side Panel -->
+                            <div class="w-[400px] bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-[600px]">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between p-4 border-b border-warm-100 flex-shrink-0">
+                                    <span class="font-semibold text-ink">Transaction Details</span>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-warm-100 text-warm-500">
+                                        <i data-lucide="x" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Scrollable Content -->
+                                <div class="flex-1 overflow-y-auto">
+                                    <!-- Product Section -->
+                                    <div class="detail-section">
+                                        <div class="flex gap-4">
+                                            <div class="product-thumb">
+                                                <i data-lucide="sparkles" class="w-8 h-8 text-warm-400"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="font-display text-lg font-bold text-ink">Self-Care Essentials Kit</p>
+                                                <p class="text-sm text-warm-500">Sephora • Online</p>
+                                                <div class="mt-2">
+                                                    <span class="wishlist-badge">
+                                                        <i data-lucide="heart" class="w-3 h-3"></i>
+                                                        On wishlist 47 days
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 pt-4 border-t border-warm-100 flex items-center justify-between">
+                                            <span class="text-sm text-warm-500">Total Value</span>
+                                            <span class="text-2xl font-bold text-ink tabular-nums">$156.00</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Merchant Contributions -->
+                                    <div class="detail-section">
+                                        <p class="detail-section-header">Point Contributions (3 merchants)</p>
+
+                                        <div class="contribution-row">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-3">
+                                                    <img src="https://img.logo.dev/mykitsch.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kitsch" class="merchant-logo">
+                                                    <div>
+                                                        <p class="font-semibold text-ink text-sm">Kitsch</p>
+                                                        <p class="text-xs text-warm-500 font-mono">contrib_8f7d2a1c</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-bold text-ink">12,000 pts</p>
+                                                    <p class="text-xs text-warm-500">≈ $80.00</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="contribution-row">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-3">
+                                                    <img src="https://img.logo.dev/princesspolly.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Princess Polly" class="merchant-logo">
+                                                    <div>
+                                                        <p class="font-semibold text-ink text-sm">Princess Polly</p>
+                                                        <p class="text-xs text-warm-500 font-mono">contrib_3e9b5f2d</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-bold text-ink">8,400 pts</p>
+                                                    <p class="text-xs text-warm-500">≈ $56.00</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="contribution-row">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-3">
+                                                    <img src="https://img.logo.dev/chamberlaincoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Chamberlain Coffee" class="merchant-logo">
+                                                    <div>
+                                                        <p class="font-semibold text-ink text-sm">Chamberlain Coffee</p>
+                                                        <p class="text-xs text-warm-500 font-mono">contrib_7c4a8d9e</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-bold text-ink">3,000 pts</p>
+                                                    <p class="text-xs text-warm-500">≈ $20.00</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between pt-3 mt-2 border-t border-warm-200">
+                                            <span class="font-medium text-ink">Total Points</span>
+                                            <span class="text-lg font-bold text-ink">23,400 pts</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fees & Settlement -->
+                                    <div class="detail-section">
+                                        <p class="detail-section-header">Settlement</p>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-600">Transaction Value</span>
+                                                <span class="text-ink font-medium tabular-nums">$156.00</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-600">Saltwyk Fee (2.9%)</span>
+                                                <span class="text-magenta-600 font-medium tabular-nums">-$4.52</span>
+                                            </div>
+                                            <div class="flex justify-between pt-2 border-t border-warm-200">
+                                                <span class="font-medium text-ink">Net to Merchants</span>
+                                                <span class="text-lg font-bold text-emerald-600 tabular-nums">$151.48</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Wishlist Metadata -->
+                                    <div class="detail-section bg-indigo-50">
+                                        <p class="detail-section-header" style="color: hsl(var(--indigo-600));">Wishlist Info</p>
+                                        <div class="grid grid-cols-2 gap-3 text-sm">
+                                            <div>
+                                                <span class="text-warm-500 text-xs">Added</span>
+                                                <p class="text-ink font-medium">Nov 30, 2025</p>
+                                            </div>
+                                            <div>
+                                                <span class="text-warm-500 text-xs">Time on list</span>
+                                                <p class="text-ink font-medium">47 days</p>
+                                            </div>
+                                            <div>
+                                                <span class="text-warm-500 text-xs">Price at addition</span>
+                                                <p class="text-ink font-medium">$156.00</p>
+                                            </div>
+                                            <div>
+                                                <span class="text-warm-500 text-xs">Goal progress</span>
+                                                <p class="text-emerald-600 font-medium">100% funded</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Transaction Metadata -->
+                                    <div class="detail-section">
+                                        <p class="detail-section-header">Transaction Info</p>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-warm-500">Transaction ID</span>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="font-mono text-xs text-warm-600">txn_9d3c7f6e</span>
+                                                    <button class="copy-btn" style="width: 24px; height: 24px;">
+                                                        <i data-lucide="copy" class="w-3 h-3"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-500">Completed</span>
+                                                <span class="text-ink">Jan 16, 2026 at 11:15 AM</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-warm-500">Shopper</span>
+                                                <span class="text-ink">j***@email.com</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: INTERNAL STATUS STATES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Internal Status States</p>
+
+            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6 flex items-start gap-3">
+                <i data-lucide="shield" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"></i>
+                <div>
+                    <p class="font-medium text-orange-700 mb-1">Saltwyk Internal Only</p>
+                    <p class="text-sm text-orange-600">These status badges are <strong>never shown to merchants</strong>. They're used only in internal admin tools for Saltwyk team members to monitor transaction states.</p>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Completed -->
+                    <div class="text-center">
+                        <div class="bg-warm-50 rounded-lg p-4 mb-3 flex items-center justify-center">
+                            <span class="status-badge completed">completed</span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Completed</p>
+                        <p class="text-xs text-warm-500">Points settled, funds transferred</p>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="text-center">
+                        <div class="bg-warm-50 rounded-lg p-4 mb-3 flex items-center justify-center">
+                            <span class="status-badge pending">pending</span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Pending</p>
+                        <p class="text-xs text-warm-500">Awaiting settlement</p>
+                    </div>
+
+                    <!-- Failed -->
+                    <div class="text-center">
+                        <div class="bg-warm-50 rounded-lg p-4 mb-3 flex items-center justify-center">
+                            <span class="status-badge failed">failed</span>
+                        </div>
+                        <p class="text-xs font-medium text-ink mb-1">Failed</p>
+                        <p class="text-xs text-warm-500">Transaction declined/reversed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: LOGO.DEV INTEGRATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Logo.dev Integration</p>
+            <p class="text-sm text-warm-600 mb-6">Merchant logos are fetched dynamically from logo.dev using the merchant's domain.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    <div class="text-center">
+                        <img src="https://img.logo.dev/liquiddeath.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Liquid Death" class="merchant-logo-lg mx-auto mb-2">
+                        <p class="text-xs text-warm-600">liquiddeath.com</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.logo.dev/deathwishcoffee.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Death Wish Coffee" class="merchant-logo-lg mx-auto mb-2">
+                        <p class="text-xs text-warm-600">deathwishcoffee.com</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.logo.dev/mykitsch.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kitsch" class="merchant-logo-lg mx-auto mb-2">
+                        <p class="text-xs text-warm-600">mykitsch.com</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.logo.dev/princesspolly.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Princess Polly" class="merchant-logo-lg mx-auto mb-2">
+                        <p class="text-xs text-warm-600">princesspolly.com</p>
+                    </div>
+                </div>
+
+                <div class="bg-warm-50 rounded-lg p-4">
+                    <p class="text-sm font-medium text-ink mb-2">URL Pattern</p>
+                    <code class="text-xs">https://img.logo.dev/{domain}?token={api_token}</code>
+
+                    <p class="text-sm font-medium text-ink mt-4 mb-2">Logo Sizes</p>
+                    <div class="flex items-end gap-4">
+                        <div class="text-center">
+                            <div class="merchant-logo-sm bg-warm-200 mb-1"></div>
+                            <code class="text-[10px]">24px (sm)</code>
+                        </div>
+                        <div class="text-center">
+                            <div class="merchant-logo bg-warm-200 mb-1"></div>
+                            <code class="text-[10px]">32px (default)</code>
+                        </div>
+                        <div class="text-center">
+                            <div class="merchant-logo-lg bg-warm-200 mb-1"></div>
+                            <code class="text-[10px]">40px (lg)</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: TECHNICAL SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Element</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Property</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Transaction ID</td>
+                            <td class="px-6 py-3 text-warm-600">Format</td>
+                            <td class="px-6 py-3"><code>txn_ + 8 hex chars</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Contribution ID</td>
+                            <td class="px-6 py-3 text-warm-600">Format</td>
+                            <td class="px-6 py-3"><code>contrib_ + 8 hex chars</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Currency</td>
+                            <td class="px-6 py-3 text-warm-600">Format</td>
+                            <td class="px-6 py-3"><code>$X,XXX.XX</code> (2 decimals always)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Points Rate</td>
+                            <td class="px-6 py-3 text-warm-600">Conversion</td>
+                            <td class="px-6 py-3"><code>150 pts = $1.00</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Saltwyk Fee</td>
+                            <td class="px-6 py-3 text-warm-600">Percentage</td>
+                            <td class="px-6 py-3"><code>2.9%</code> of transaction value</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Product Thumbnail</td>
+                            <td class="px-6 py-3 text-warm-600">Size</td>
+                            <td class="px-6 py-3"><code>64×64px</code> (48px small)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 font-medium text-ink">Merchant Logo</td>
+                            <td class="px-6 py-3 text-warm-600">Sizes</td>
+                            <td class="px-6 py-3"><code>24px, 32px, 40px</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 font-medium text-ink">Logo Stack</td>
+                            <td class="px-6 py-3 text-warm-600">Overlap</td>
+                            <td class="px-6 py-3"><code>-8px margin-left</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: DESIGN DECISIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why show each contribution's UUID?</p>
+                    <p class="text-sm text-warm-600">Each merchant contribution is a separate ledger entry with its own UUID. This enables precise debugging when merchants have questions about specific point deductions and provides an audit trail for each contribution.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why include wishlist metadata?</p>
+                    <p class="text-sm text-warm-600">Merchants benefit from understanding shopper intent. Knowing an item was on a wishlist for 47 days shows deliberate purchase planning vs. impulse buying. This data informs merchant decisions about inventory, pricing, and point incentives.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why hide status from merchants?</p>
+                    <p class="text-sm text-warm-600">Merchants don't need to see pending/failed states — they only care about completed transactions. Status visibility adds complexity without value. Internal teams need status for operations; merchants just need their transaction history.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why use logo.dev instead of stored logos?</p>
+                    <p class="text-sm text-warm-600">Logo.dev provides always-current brand logos without storage/maintenance overhead. Logos update automatically when brands rebrand. The API token ensures proper licensing and CDN-backed performance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: USAGE GUIDELINES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-emerald-600 mb-3 flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        Do
+                    </p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Show product name and retailer prominently</li>
+                        <li>• Display all contributing merchants with logos</li>
+                        <li>• Include individual contribution UUIDs</li>
+                        <li>• Show wishlist metadata when available</li>
+                        <li>• Use tabular-nums for all currency/point values</li>
+                        <li>• Provide copy buttons for all UUIDs</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-magenta-600 mb-3 flex items-center gap-2">
+                        <i data-lucide="x-circle" class="w-4 h-4"></i>
+                        Don't
+                    </p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Show status badges to merchants</li>
+                        <li>• Truncate contribution UUIDs in detail view</li>
+                        <li>• Use placeholder logos when logo.dev fails (show letter fallback)</li>
+                        <li>• Hide multi-merchant attribution</li>
+                        <li>• Round or truncate currency amounts</li>
+                        <li>• Omit wishlist metadata when available</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: RELATED COMPONENTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Related Components</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <a href="/merchant/components/transaction-detail-basic.html" class="block bg-warm-50 border-2 border-warm-300 rounded-lg p-4 hover:border-warm-400 transition-colors">
+                    <div class="flex items-center gap-2 mb-1">
+                        <p class="font-medium text-ink">Transaction Detail (Basic)</p>
+                        <span class="inline-flex items-center px-2 py-0.5 bg-warm-200 text-warm-600 text-[10px] font-semibold rounded">Transaction Tier</span>
+                    </div>
+                    <p class="text-xs text-warm-500">Simplified view with primary contributor only. For Transaction Tier merchants.</p>
+                </a>
+                <a href="/merchant/components/transaction-components.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Transaction Components</p>
+                    <p class="text-xs text-warm-500">Filter tabs, status badges, table patterns.</p>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="/merchant/screens/transactions.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Transactions Screen</p>
+                    <p class="text-xs text-warm-500">Full screen layout context.</p>
+                </a>
+                <a href="/shopper/components/history-card.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Shopper History Card</p>
+                    <p class="text-xs text-warm-500">Shopper-facing transaction receipt.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
