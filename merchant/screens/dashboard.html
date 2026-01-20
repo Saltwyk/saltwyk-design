@@ -81,7 +81,6 @@
         .sidebar-dark .sidebar-nav {
             flex: 1;
             padding: 8px;
-            overflow-y: auto;
         }
 
         .sidebar-dark .sidebar-item {
@@ -146,6 +145,96 @@
             font-size: 13px;
             font-weight: 600;
             color: hsl(var(--warm-300));
+        }
+
+        /* ========================================= */
+        /* STATUS BADGE                             */
+        /* ========================================= */
+        /* STATUS BADGE: Shows current environment
+           - Live: Emerald accent (production, onboarding complete)
+           - Trial: Orange accent (trial period, onboarding incomplete)
+           - Sandbox: Amber/Yellow accent (testing environment) */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            margin: 0 12px 12px;
+            border-radius: 6px;
+        }
+        .status-badge-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+        .status-badge-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Trial state (onboarding incomplete) */
+        .status-badge.trial {
+            background: hsl(var(--orange-500) / 10%);
+            border: 1px solid hsl(var(--orange-500) / 20%);
+        }
+        .status-badge.trial .status-badge-label {
+            color: hsl(var(--orange-400));
+        }
+
+        /* Sandbox state (testing environment) */
+        .status-badge.sandbox {
+            background: hsl(45 90% 50% / 10%);
+            border: 1px solid hsl(45 90% 50% / 20%);
+        }
+        .status-badge.sandbox .status-badge-label {
+            color: hsl(45 90% 55%);
+        }
+
+        /* Live state (production, onboarding complete) */
+        .status-badge.live {
+            background: hsl(var(--emerald-500) / 10%);
+            border: 1px solid hsl(var(--emerald-500) / 20%);
+        }
+        .status-badge.live .status-badge-label {
+            color: hsl(var(--emerald-400));
+        }
+
+        /* Thread line below logo/status */
+        .thread-line-cool {
+            height: 2px;
+            margin: 0 12px 12px;
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--magenta-thread)) 100%
+            );
+            border-radius: 9999px;
+        }
+
+        /* Navigation section labels */
+        .nav-section-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: hsl(var(--warm-500));
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+        .nav-section-label:first-child {
+            margin-top: 0;
+        }
+
+        /* Bottom nav divider */
+        .sidebar-bottom-divider {
+            height: 1px;
+            background: hsl(var(--intaglio-700));
+            margin: 16px 12px;
+        }
+
+        /* Bottom nav items */
+        .sidebar-bottom-nav {
+            padding: 0 8px 16px;
         }
 
         /* ========================================= */
@@ -637,44 +726,72 @@
                         <div class="bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
                             <div class="h-[3px] w-full thread-cool"></div>
 
-                            <div class="flex" style="height: 700px;">
+                            <div class="flex" style="height: 540px;">
                                 <!-- Sidebar (Dark Mode - Fire Opal) -->
                                 <aside class="sidebar-dark">
+                                    <!-- Logo -->
                                     <div class="sidebar-logo">
                                         <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk" class="h-7 w-auto">
                                         <span class="font-brand font-semibold text-white">Saltwyk</span>
                                     </div>
+
+                                    <!-- STATUS BADGE: Shows current environment (Live/Trial/Sandbox)
+                                         - Live: Emerald accent (production)
+                                         - Trial: Orange accent (trial period)
+                                         - Sandbox: Amber accent (testing environment)
+                                         Currently only Live is implemented -->
+                                    <div class="status-badge trial">
+                                        <span class="status-badge-icon">⏱</span>
+                                        <span class="status-badge-label">Trial</span>
+                                    </div>
+
+                                    <!-- Thread line (cool gradient) -->
+                                    <div class="thread-line-cool"></div>
+
+                                    <!-- Main Navigation -->
                                     <nav class="sidebar-nav">
-                                        <div class="sidebar-section-header">Dashboard</div>
+                                        <!-- SETUP SECTION: Only visible when merchant.onboarding_complete === false
+                                             Guides merchant through initial setup steps
+                                             Remove this section from DOM when complete (don't just hide) -->
+                                        <div class="nav-section-label">Setup</div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
+                                            <span>Join Saltwyk</span>
+                                        </div>
+
+                                        <!-- DASHBOARD Section (always visible) -->
+                                        <div class="nav-section-label">Dashboard</div>
                                         <div class="sidebar-item sidebar-item-active">
-                                            <i data-lucide="layout-dashboard" class="sidebar-item-icon"></i>
+                                            <i data-lucide="home" class="sidebar-item-icon"></i>
                                             <span>Home</span>
                                         </div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="receipt" class="sidebar-item-icon"></i>
+                                            <i data-lucide="blocks" class="sidebar-item-icon"></i>
+                                            <span>Apps</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="bar-chart-3" class="sidebar-item-icon"></i>
                                             <span>Transactions</span>
                                         </div>
                                         <div class="sidebar-item">
-                                            <i data-lucide="wallet" class="sidebar-item-icon"></i>
-                                            <span>Clearing Balance</span>
-                                        </div>
-
-                                        <div class="sidebar-divider"></div>
-                                        <div class="sidebar-section-header">Setup</div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="shield-check" class="sidebar-item-icon"></i>
-                                            <span>Get Verified</span>
-                                        </div>
-                                        <div class="sidebar-item">
-                                            <i data-lucide="plug" class="sidebar-item-icon"></i>
-                                            <span>Integration</span>
+                                            <i data-lucide="dollar-sign" class="sidebar-item-icon"></i>
+                                            <span>Finance</span>
                                         </div>
                                     </nav>
-                                    <div class="sidebar-user">
-                                        <div class="sidebar-user-avatar">K</div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-warm-200 truncate">Kitsch</p>
-                                            <p class="text-xs text-warm-500 truncate">hello@mykitsch.com</p>
+
+                                    <!-- Spacer -->
+                                    <div class="flex-1"></div>
+
+                                    <!-- Bottom Navigation -->
+                                    <div class="sidebar-bottom-divider"></div>
+                                    <div class="sidebar-bottom-nav">
+                                        <div class="sidebar-item">
+                                            <i data-lucide="settings" class="sidebar-item-icon"></i>
+                                            <span>Settings</span>
+                                        </div>
+                                        <div class="sidebar-item">
+                                            <i data-lucide="life-buoy" class="sidebar-item-icon"></i>
+                                            <span>Support</span>
                                         </div>
                                     </div>
                                 </aside>
