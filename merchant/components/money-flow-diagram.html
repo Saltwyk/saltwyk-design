@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Flow Diagram | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* MONEY FLOW DIAGRAM STYLES                */
+        /* ========================================= */
+
+        .money-flow-diagram {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .diagram-container {
+            background: hsl(var(--warm-50));
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px auto;
+            max-width: 650px;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Text alternative styling */
+        .diagram-text-alt {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .diagram-text-alt summary {
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+        }
+
+        .diagram-text-alt summary:hover {
+            color: hsl(var(--warm-700));
+        }
+
+        .diagram-text-alt ol {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+
+        .diagram-text-alt li {
+            font-size: 13px;
+            color: hsl(var(--warm-700));
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .diagram-container {
+                padding: 16px;
+                margin: 16px auto;
+            }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Money Flow Diagram</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-2">Money Flow Diagram</h1>
+            <p class="text-warm-600">Static educational illustrations explaining how money flows through Saltwyk's system. Used in onboarding Phase 3 (Banking) and Phase 5 (Clearing Balance).</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: OVERVIEW                        -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Overview</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Purpose</p>
+                    <p class="text-sm text-warm-600">Visually explain how money flows from merchant funding through shopper transactions to settlements.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Format</p>
+                    <p class="text-sm text-warm-600">Static SVG illustrations. No animations or interactivity for MVP.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Usage</p>
+                    <p class="text-sm text-warm-600">Onboarding Phase 3 & 5, Settings help sections, documentation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: VARIANT A - DUAL PURPOSE        -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Variant A: Dual-Purpose Bank Account</p>
+            <p class="text-sm text-warm-600 mb-6">Shows how one bank account serves two purposes: funding the clearing balance and receiving settlements. Use in <strong>Phase 3 (Banking)</strong> to explain why we need bank account info.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <figure role="img" aria-labelledby="diagram-a-desc">
+                    <figcaption id="diagram-a-desc" class="sr-only">
+                        Diagram showing how one bank account serves two purposes: funding your clearing balance and receiving settlements from completed transactions.
+                    </figcaption>
+
+                    <div class="diagram-container">
+                        <svg class="money-flow-diagram" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background already provided by container -->
+
+                            <!-- Bank Account Box (Top) -->
+                            <rect x="175" y="20" width="250" height="80" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+
+                            <!-- Bank Icon -->
+                            <g transform="translate(288, 35)">
+                                <rect x="0" y="8" width="24" height="14" fill="none" stroke="#6B5E52" stroke-width="1.5" rx="1"/>
+                                <path d="M2 8 L12 2 L22 8" fill="none" stroke="#6B5E52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="6" y1="12" x2="6" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                                <line x1="12" y1="12" x2="12" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                                <line x1="18" y1="12" x2="18" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                            </g>
+
+                            <text x="300" y="72" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1F1A15">Your Bank Account</text>
+                            <text x="300" y="90" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6B5E52">Bank of America (•••• 4567)</text>
+
+                            <!-- Funding Arrow (Down, Left Side) -->
+                            <line x1="240" y1="100" x2="240" y2="180" stroke="#10B981" stroke-width="2"/>
+                            <polygon points="240,185 235,175 245,175" fill="#10B981"/>
+
+                            <!-- Funding Label -->
+                            <rect x="168" y="130" width="60" height="20" fill="#FEFCF9" rx="2"/>
+                            <text x="198" y="144" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#047857">Funding</text>
+
+                            <!-- Settlement Arrow (Up, Right Side) -->
+                            <line x1="360" y1="180" x2="360" y2="100" stroke="#6366F1" stroke-width="2"/>
+                            <polygon points="360,95 355,105 365,105" fill="#6366F1"/>
+
+                            <!-- Settlement Label -->
+                            <rect x="370" y="130" width="80" height="20" fill="#FEFCF9" rx="2"/>
+                            <text x="410" y="144" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#4338CA">Settlements</text>
+
+                            <!-- Clearing Balance Box (Bottom) -->
+                            <rect x="125" y="200" width="350" height="110" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+
+                            <text x="300" y="235" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1F1A15">Your Clearing Balance</text>
+
+                            <!-- Stripe Badge -->
+                            <rect x="215" y="248" width="170" height="22" fill="#EEF2FF" rx="4"/>
+                            <text x="300" y="263" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#4338CA">Stripe Connected Account</text>
+
+                            <!-- FDIC Badge -->
+                            <rect x="245" y="280" width="110" height="22" fill="#D1FAE5" rx="4"/>
+                            <!-- Shield Icon -->
+                            <g transform="translate(254, 285)">
+                                <path d="M6 1 L11 3 L11 7 C11 10 6 12 6 12 C6 12 1 10 1 7 L1 3 Z" fill="none" stroke="#047857" stroke-width="1.2"/>
+                                <path d="M4 6 L5.5 7.5 L8 5" fill="none" stroke="#047857" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <text x="305" y="295" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#047857">FDIC Insured</text>
+
+                            <!-- Tagline -->
+                            <text x="300" y="350" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#6B5E52">One account. Two purposes. Complete transparency.</text>
+                        </svg>
+                    </div>
+
+                    <!-- Text Alternative -->
+                    <details class="diagram-text-alt">
+                        <summary>View text description</summary>
+                        <ol>
+                            <li><strong>Your Bank Account</strong> (top) connects to your Clearing Balance in two ways:</li>
+                            <li><strong>Funding (green arrow down):</strong> You transfer money from your bank to fund your clearing balance.</li>
+                            <li><strong>Settlements (purple arrow up):</strong> Completed transaction funds settle back to your bank.</li>
+                            <li><strong>Your Clearing Balance</strong> (bottom) is a Stripe Connected Account that is FDIC insured.</li>
+                        </ol>
+                    </details>
+                </figure>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: VARIANT B - TRANSACTION FLOW    -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Variant B: Full Transaction Flow</p>
+            <p class="text-sm text-warm-600 mb-6">Shows the complete lifecycle from funding through shopper purchase to settlement. Use in <strong>Phase 5 (Clearing Balance)</strong> before asking for initial funding.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <figure role="img" aria-labelledby="diagram-b-desc">
+                    <figcaption id="diagram-b-desc" class="sr-only">
+                        Three-step transaction flow showing funding, shopper purchase, and settlement process.
+                    </figcaption>
+
+                    <div class="diagram-container">
+                        <svg class="money-flow-diagram" viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg">
+
+                            <!-- Step 1: You Fund -->
+                            <g id="step-1">
+                                <!-- Step Circle -->
+                                <circle cx="80" cy="30" r="14" fill="#D1FAE5"/>
+                                <text x="80" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="#047857">1</text>
+
+                                <!-- Step Title -->
+                                <text x="100" y="35" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1F1A15">You Fund</text>
+
+                                <!-- Bank Box -->
+                                <rect x="50" y="55" width="140" height="70" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+                                <text x="120" y="80" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6B5E52">Your Bank</text>
+                                <text x="120" y="105" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#1F1A15">$5,000</text>
+
+                                <!-- Arrow Down -->
+                                <line x1="120" y1="125" x2="120" y2="185" stroke="#10B981" stroke-width="2"/>
+                                <polygon points="120,190 115,180 125,180" fill="#10B981"/>
+
+                                <!-- ACH Label -->
+                                <text x="135" y="160" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#6B5E52" font-style="italic">ACH (1-2 days)</text>
+                            </g>
+
+                            <!-- Step 2: Shopper Buys -->
+                            <g id="step-2">
+                                <!-- Step Circle -->
+                                <circle cx="320" cy="30" r="14" fill="#D1FAE5"/>
+                                <text x="320" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="#047857">2</text>
+
+                                <!-- Step Title -->
+                                <text x="340" y="35" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1F1A15">Shopper Buys</text>
+
+                                <!-- Points Box -->
+                                <rect x="290" y="55" width="140" height="70" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+                                <text x="360" y="80" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6B5E52">Shopper's Points</text>
+                                <text x="360" y="105" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#1F1A15">100,000</text>
+
+                                <!-- Arrow Down -->
+                                <line x1="360" y1="125" x2="360" y2="185" stroke="#F59E0B" stroke-width="2"/>
+                                <polygon points="360,190 355,180 365,180" fill="#F59E0B"/>
+
+                                <!-- Redeem Label -->
+                                <text x="375" y="160" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#6B5E52" font-style="italic">Points redeemed</text>
+                            </g>
+
+                            <!-- Clearing Balance (Center) -->
+                            <g id="clearing-balance">
+                                <rect x="75" y="200" width="370" height="100" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1.5" rx="8"/>
+
+                                <text x="260" y="230" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1F1A15">Your Clearing Balance</text>
+
+                                <!-- Balance Change -->
+                                <text x="260" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#1F1A15">$5,000</text>
+                                <text x="305" y="255" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#6B5E52">→</text>
+                                <text x="350" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#047857">$4,900</text>
+
+                                <!-- Explanation -->
+                                <text x="260" y="280" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#6B5E52">$100 used to clear shopper transaction</text>
+                            </g>
+
+                            <!-- Step 3: Settlement -->
+                            <g id="step-3">
+                                <!-- Step Circle -->
+                                <circle cx="500" cy="230" r="14" fill="#D1FAE5"/>
+                                <text x="500" y="235" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700" fill="#047857">3</text>
+
+                                <!-- Step Title -->
+                                <text x="500" y="260" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1F1A15">Settlement</text>
+                                <text x="500" y="278" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6B5E52">Daily</text>
+
+                                <!-- Arrow Down -->
+                                <line x1="500" y1="290" x2="500" y2="340" stroke="#6366F1" stroke-width="2"/>
+                                <polygon points="500,345 495,335 505,335" fill="#6366F1"/>
+                            </g>
+
+                            <!-- Settlement Bank Box -->
+                            <rect x="430" y="355" width="140" height="70" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+                            <text x="500" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6B5E52">Your Bank</text>
+                            <text x="500" y="405" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#4338CA">$4,900</text>
+
+                            <!-- Tagline -->
+                            <text x="300" y="460" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#6B5E52">You fund it → Shoppers use it → You get settled</text>
+                        </svg>
+                    </div>
+
+                    <!-- Text Alternative -->
+                    <details class="diagram-text-alt">
+                        <summary>View text description</summary>
+                        <ol>
+                            <li><strong>Step 1 - You Fund:</strong> Transfer $5,000 from your bank to your clearing balance via ACH (1-2 business days).</li>
+                            <li><strong>Step 2 - Shopper Buys:</strong> A shopper redeems 100,000 points ($100 value) at your store.</li>
+                            <li><strong>Clearing Balance:</strong> Saltwyk uses $100 from your clearing balance to facilitate the transaction. Balance goes from $5,000 to $4,900.</li>
+                            <li><strong>Step 3 - Settlement:</strong> Funds settle back to your bank daily. You receive $4,900.</li>
+                        </ol>
+                    </details>
+                </figure>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: WHEN TO USE                     -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. When to Use Each Variant</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <span class="text-emerald-700 font-bold text-sm">A</span>
+                        </div>
+                        <p class="font-medium text-ink">Dual-Purpose Bank Account</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li><strong>Phase 3 (Banking):</strong> Before bank account input</li>
+                        <li><strong>Question answered:</strong> "Why do you need my bank account?"</li>
+                        <li><strong>Focus:</strong> One account serves funding + settlements</li>
+                        <li><strong>Settings:</strong> Finance help section</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <span class="text-emerald-700 font-bold text-sm">B</span>
+                        </div>
+                        <p class="font-medium text-ink">Full Transaction Flow</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li><strong>Phase 5 (Clearing Balance):</strong> Before funding calculator</li>
+                        <li><strong>Question answered:</strong> "What is a clearing balance?"</li>
+                        <li><strong>Focus:</strong> Complete money lifecycle</li>
+                        <li><strong>Settings:</strong> "How it works" explanations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: VISUAL SPECIFICATIONS           -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Visual Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Element</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Funding Arrow</td>
+                            <td class="px-6 py-3"><code>emerald-500</code> (#10B981), 2px stroke</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Settlement Arrow</td>
+                            <td class="px-6 py-3"><code>indigo-500</code> (#6366F1), 2px stroke</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Transaction Arrow</td>
+                            <td class="px-6 py-3"><code>amber-500</code> (#F59E0B), 2px stroke</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Box Background</td>
+                            <td class="px-6 py-3"><code>white</code>, <code>warm-200</code> border, 8px radius</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Container Background</td>
+                            <td class="px-6 py-3"><code>warm-50</code> (#FEFCF9), 12px radius</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Step Numbers</td>
+                            <td class="px-6 py-3"><code>emerald-100</code> circle, <code>emerald-700</code> text, 14px bold</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">FDIC Badge</td>
+                            <td class="px-6 py-3"><code>emerald-100</code> bg, <code>emerald-700</code> text</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-warm-600">Stripe Badge</td>
+                            <td class="px-6 py-3"><code>indigo-50</code> bg, <code>indigo-700</code> text</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: ACCESSIBILITY                   -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Accessibility</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Required Elements</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• <code>role="img"</code> on figure element</li>
+                        <li>• <code>aria-labelledby</code> pointing to description</li>
+                        <li>• Screen reader description in <code>figcaption</code></li>
+                        <li>• Expandable text alternative below diagram</li>
+                        <li>• Sufficient color contrast (4.5:1 minimum)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Implementation Pattern</p>
+                    <div class="bg-warm-50 rounded p-3 text-xs font-mono overflow-x-auto">
+                        <pre>&lt;figure role="img" aria-labelledby="desc"&gt;
+  &lt;figcaption id="desc" class="sr-only"&gt;
+    Description for screen readers...
+  &lt;/figcaption&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+  &lt;details&gt;
+    &lt;summary&gt;View text description&lt;/summary&gt;
+    &lt;ol&gt;...text alternative...&lt;/ol&gt;
+  &lt;/details&gt;
+&lt;/figure&gt;</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: RESPONSIVE BEHAVIOR             -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Responsive Behavior</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div>
+                        <p class="font-medium text-ink mb-2">Desktop (≥768px)</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• Full 600px width</li>
+                            <li>• 24px container padding</li>
+                            <li>• All text at specified sizes</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Tablet (640-768px)</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• Scales proportionally</li>
+                            <li>• SVG viewBox maintains aspect ratio</li>
+                            <li>• Container adjusts to fit</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-medium text-ink mb-2">Mobile (&lt;640px)</p>
+                        <ul class="text-sm text-warm-600 space-y-1">
+                            <li>• 100% width with 16px padding</li>
+                            <li>• SVG scales down automatically</li>
+                            <li>• Text remains readable</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: DESIGN DECISIONS                -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why static SVG (not animated)?</p>
+                    <p class="text-sm text-warm-600">MVP simplicity, works everywhere without JS dependencies, easier to provide text alternatives, instant load with small file size.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why two variants?</p>
+                    <p class="text-sm text-warm-600">Different contexts need different focus. Dual-purpose answers "Why do you need my bank?" while full flow answers "What is clearing balance?"</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why emerald and indigo colors?</p>
+                    <p class="text-sm text-warm-600">Emerald = merchant's action (funding). Indigo = system action (settlements). Clear visual distinction that matches Fire Opal design system.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why include FDIC and Stripe badges?</p>
+                    <p class="text-sm text-warm-600">Addresses merchant anxiety about fund safety. Builds trust through credibility signals and transparency about who holds their money.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: RELATED COMPONENTS              -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">9. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/components/fee-structure-display.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Fee Structure Display</p>
+                    <p class="text-xs text-warm-500">Pricing transparency component.</p>
+                </a>
+                <a href="/merchant/screens/settings.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Settings Screen</p>
+                    <p class="text-xs text-warm-500">Finance section context.</p>
+                </a>
+                <a href="/merchant/components/setup-progress.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Setup Progress</p>
+                    <p class="text-xs text-warm-500">Onboarding flow context.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>
