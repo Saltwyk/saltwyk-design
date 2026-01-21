@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Progress | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Code block */
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 12px; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* SETUP PROGRESS COMPONENT                 */
+        /* ========================================= */
+
+        /* Progress Steps Container */
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Step Dot - Base */
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: hsl(var(--warm-300));
+            flex-shrink: 0;
+        }
+
+        /* Step Dot - Completed */
+        .step-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* Step Dot - Active */
+        .step-dot.active {
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-100));
+        }
+
+        /* Step Dot - Error */
+        .step-dot.error {
+            background: hsl(var(--magenta-500));
+            box-shadow: 0 0 0 4px hsl(var(--magenta-100));
+        }
+
+        /* Step Line - Base */
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: hsl(var(--warm-200));
+        }
+
+        /* Step Line - Completed */
+        .step-line.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ========================================= */
+        /* LABELED VARIANT                          */
+        /* ========================================= */
+
+        .progress-steps-labeled {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps-labeled::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: hsl(var(--warm-200));
+            z-index: 0;
+        }
+
+        .step-labeled {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 1;
+        }
+
+        .step-labeled .step-dot {
+            position: relative;
+        }
+
+        .step-labeled .step-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            text-align: center;
+        }
+
+        .step-labeled.completed .step-label {
+            color: hsl(var(--emerald-600));
+        }
+
+        .step-labeled.active .step-label {
+            color: hsl(var(--indigo-600));
+            font-weight: 600;
+        }
+
+        /* ========================================= */
+        /* VERTICAL VARIANT                         */
+        /* ========================================= */
+
+        .progress-steps-vertical {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-vertical {
+            display: flex;
+            gap: 12px;
+            position: relative;
+        }
+
+        .step-vertical .step-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step-vertical .step-line-vertical {
+            width: 2px;
+            flex: 1;
+            min-height: 24px;
+            background: hsl(var(--warm-200));
+            margin: 4px 0;
+        }
+
+        .step-vertical .step-line-vertical.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .step-vertical .step-content {
+            padding-bottom: 20px;
+        }
+
+        .step-vertical:last-child .step-content {
+            padding-bottom: 0;
+        }
+
+        .step-vertical:last-child .step-line-vertical {
+            display: none;
+        }
+
+        .step-vertical .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 2px;
+        }
+
+        .step-vertical .step-description {
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+        }
+
+        .step-vertical.completed .step-title {
+            color: hsl(var(--emerald-600));
+        }
+
+        .step-vertical.pending .step-title {
+            color: hsl(var(--warm-400));
+        }
+
+        /* ========================================= */
+        /* MOBILE STEP CARD                         */
+        /* ========================================= */
+
+        .mobile-step-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .mobile-step-card .step-counter {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .mobile-step-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .mobile-step-card p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Setup Progress</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-2">Setup Progress</h1>
+            <p class="text-warm-600">A compact progress indicator used in merchant onboarding flows. Shows completion status through dots and connecting lines, optimized for multi-step setup wizards.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: VARIANTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Variants</p>
+
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Inline Dots (Default) -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Inline Dots (Default)</p>
+                    <p class="text-xs text-warm-500 mb-6">Compact horizontal indicator showing step completion without labels. Ideal for mobile headers.</p>
+
+                    <div class="bg-warm-50 rounded-lg p-6 max-w-md">
+                        <div class="progress-steps">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot active"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Labeled Steps -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Labeled Steps</p>
+                    <p class="text-xs text-warm-500 mb-6">Dots with labels below, showing step names. Best for desktop layouts with more horizontal space.</p>
+
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <div class="progress-steps-labeled max-w-lg">
+                            <div class="step-labeled completed">
+                                <div class="step-dot completed"></div>
+                                <span class="step-label">Account</span>
+                            </div>
+                            <div class="step-labeled completed">
+                                <div class="step-dot completed"></div>
+                                <span class="step-label">Business</span>
+                            </div>
+                            <div class="step-labeled active">
+                                <div class="step-dot active"></div>
+                                <span class="step-label">Banking</span>
+                            </div>
+                            <div class="step-labeled">
+                                <div class="step-dot"></div>
+                                <span class="step-label">Identity</span>
+                            </div>
+                            <div class="step-labeled">
+                                <div class="step-dot"></div>
+                                <span class="step-label">Review</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vertical Steps -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Vertical Steps</p>
+                    <p class="text-xs text-warm-500 mb-6">Stacked vertically with descriptions. Used in sidebars or when showing detailed step information.</p>
+
+                    <div class="bg-warm-50 rounded-lg p-6">
+                        <div class="progress-steps-vertical max-w-sm">
+                            <div class="step-vertical completed">
+                                <div class="step-indicator">
+                                    <div class="step-dot completed"></div>
+                                    <div class="step-line-vertical completed"></div>
+                                </div>
+                                <div class="step-content">
+                                    <p class="step-title">Create Account</p>
+                                    <p class="step-description">Email and password setup</p>
+                                </div>
+                            </div>
+                            <div class="step-vertical completed">
+                                <div class="step-indicator">
+                                    <div class="step-dot completed"></div>
+                                    <div class="step-line-vertical completed"></div>
+                                </div>
+                                <div class="step-content">
+                                    <p class="step-title">Business Details</p>
+                                    <p class="step-description">Company name and address</p>
+                                </div>
+                            </div>
+                            <div class="step-vertical">
+                                <div class="step-indicator">
+                                    <div class="step-dot active"></div>
+                                    <div class="step-line-vertical"></div>
+                                </div>
+                                <div class="step-content">
+                                    <p class="step-title">Banking Information</p>
+                                    <p class="step-description">Connect your bank account</p>
+                                </div>
+                            </div>
+                            <div class="step-vertical pending">
+                                <div class="step-indicator">
+                                    <div class="step-dot"></div>
+                                </div>
+                                <div class="step-content">
+                                    <p class="step-title">Identity Verification</p>
+                                    <p class="step-description">Upload ID documents</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: STATES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. States</p>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Pending -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Pending</p>
+                    <p class="text-xs text-warm-500 mb-4">Not yet reached</p>
+                    <div class="flex items-center justify-center h-16">
+                        <div class="step-dot"></div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center mt-2"><code>warm-300</code></p>
+                </div>
+
+                <!-- Active -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Active</p>
+                    <p class="text-xs text-warm-500 mb-4">Current step</p>
+                    <div class="flex items-center justify-center h-16">
+                        <div class="step-dot active"></div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center mt-2"><code>indigo-500</code> + ring</p>
+                </div>
+
+                <!-- Completed -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Completed</p>
+                    <p class="text-xs text-warm-500 mb-4">Step finished</p>
+                    <div class="flex items-center justify-center h-16">
+                        <div class="step-dot completed"></div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center mt-2"><code>emerald-500</code></p>
+                </div>
+
+                <!-- Error -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Error</p>
+                    <p class="text-xs text-warm-500 mb-4">Needs attention</p>
+                    <div class="flex items-center justify-center h-16">
+                        <div class="step-dot error"></div>
+                    </div>
+                    <p class="text-xs text-warm-400 text-center mt-2"><code>magenta-500</code> + ring</p>
+                </div>
+            </div>
+
+            <!-- Line States -->
+            <div class="mt-6">
+                <p class="text-sm font-medium text-ink mb-4">Connector Line States</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-4">Pending Line</p>
+                        <div class="flex items-center gap-4">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line flex-1"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-4"><code>warm-200</code> — connects to pending step</p>
+                    </div>
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="text-xs text-warm-500 mb-4">Completed Line</p>
+                        <div class="flex items-center gap-4">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed flex-1"></div>
+                            <div class="step-dot completed"></div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-4"><code>emerald-500</code> — connects completed steps</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: MOBILE INTEGRATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Mobile Integration</p>
+            <p class="text-sm text-warm-600 mb-6">On mobile, the progress dots appear in the header above a step card that shows current step details.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-xs text-warm-500 mb-4 font-medium">Mobile Layout Preview</p>
+
+                <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                    <div class="w-full max-w-[400px] bg-ledger rounded-lg shadow-sm border border-warm-200 overflow-hidden">
+                        <div class="h-[3px] w-full thread-cool"></div>
+
+                        <div class="px-5 py-6">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between mb-6">
+                                <button class="w-10 h-10 flex items-center justify-center text-warm-600">
+                                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                </button>
+                                <h1 class="font-display text-lg font-bold text-ink">Get Verified</h1>
+                                <div class="w-10 h-10"></div>
+                            </div>
+
+                            <!-- Progress Steps -->
+                            <div class="progress-steps mb-6">
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot active"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                            </div>
+
+                            <!-- Step Content Card -->
+                            <div class="mobile-step-card">
+                                <p class="step-counter">Step 3 of 6</p>
+                                <h3>Banking Details</h3>
+                                <p>Add your bank account for payouts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: CONTEXTUAL EXAMPLES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Contextual Examples</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Early Stage -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Early Stage (Step 1 of 6)</p>
+                    <p class="text-xs text-warm-500 mb-4">User just started onboarding</p>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <div class="progress-steps">
+                            <div class="step-dot active"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mid Stage -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Mid Stage (Step 3 of 6)</p>
+                    <p class="text-xs text-warm-500 mb-4">Halfway through the process</p>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <div class="progress-steps">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot active"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Near Complete -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Near Complete (Step 5 of 6)</p>
+                    <p class="text-xs text-warm-500 mb-4">Almost finished</p>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <div class="progress-steps">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot active"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- With Error -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">With Error State</p>
+                    <p class="text-xs text-warm-500 mb-4">Previous step needs correction</p>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <div class="progress-steps">
+                            <div class="step-dot completed"></div>
+                            <div class="step-line completed"></div>
+                            <div class="step-dot error"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                            <div class="step-line"></div>
+                            <div class="step-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: TECHNICAL SPECIFICATIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Property</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Value</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Dot Size</td>
+                            <td class="px-6 py-3"><code>10px × 10px</code></td>
+                            <td class="px-6 py-3 text-warm-500">Smaller than core stepper (32px)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Active Ring</td>
+                            <td class="px-6 py-3"><code>4px</code></td>
+                            <td class="px-6 py-3 text-warm-500">Box-shadow spread for focus ring</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Line Height</td>
+                            <td class="px-6 py-3"><code>2px</code></td>
+                            <td class="px-6 py-3 text-warm-500">Thin connecting line</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Gap</td>
+                            <td class="px-6 py-3"><code>8px</code></td>
+                            <td class="px-6 py-3 text-warm-500">Between dots and lines</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Pending Color</td>
+                            <td class="px-6 py-3"><code>warm-300</code></td>
+                            <td class="px-6 py-3 text-warm-500">Neutral, unobtrusive</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Active Color</td>
+                            <td class="px-6 py-3"><code>indigo-500</code></td>
+                            <td class="px-6 py-3 text-warm-500">Selection/focus color</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Completed Color</td>
+                            <td class="px-6 py-3"><code>emerald-500</code></td>
+                            <td class="px-6 py-3 text-warm-500">Success/positive</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-warm-600">Error Color</td>
+                            <td class="px-6 py-3"><code>magenta-500</code></td>
+                            <td class="px-6 py-3 text-warm-500">Attention needed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: DESIGN DECISIONS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why 10px dots instead of 32px step indicators?</p>
+                    <p class="text-sm text-warm-600">Merchant onboarding often has 5-7 steps. At 32px per indicator, the stepper would dominate the mobile header. The 10px dot pattern stays compact while still clearly communicating progress. For desktop layouts requiring more detail, use the labeled or vertical variants.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why indigo for active (not emerald border)?</p>
+                    <p class="text-sm text-warm-600">The core stepper uses emerald border for "current" state. Setup Progress uses indigo-500 with a ring to better distinguish the active step from completed steps at small sizes. The ring adds visual weight and draws focus to the current position.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">When to use each variant?</p>
+                    <p class="text-sm text-warm-600"><strong>Inline Dots:</strong> Mobile headers, compact spaces. <strong>Labeled:</strong> Desktop forms where step names add clarity. <strong>Vertical:</strong> Sidebars, summary views, or when step descriptions are needed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: USAGE GUIDELINES -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-emerald-600 mb-3 flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        Do
+                    </p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Use for linear, sequential flows (onboarding, checkout)</li>
+                        <li>• Show all steps upfront so users know the full scope</li>
+                        <li>• Allow navigation back to completed steps</li>
+                        <li>• Pair with a step card showing current step details</li>
+                        <li>• Use error state when a step requires attention</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-magenta-600 mb-3 flex items-center gap-2">
+                        <i data-lucide="x-circle" class="w-4 h-4"></i>
+                        Don't
+                    </p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Use for non-linear or branching flows</li>
+                        <li>• Show more than 7 steps (consider grouping)</li>
+                        <li>• Use without additional context (add step card or labels)</li>
+                        <li>• Mix with other progress indicators on the same screen</li>
+                        <li>• Skip steps or allow jumping ahead to incomplete ones</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: IMPLEMENTATION -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Implementation</p>
+
+            <div class="space-y-6">
+                <!-- CSS -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">CSS Classes</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="code-block">
+                            <code><span class="comment">/* Container */</span>
+<span class="property">.progress-steps</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">gap</span>: <span class="value">8px</span>;
+}
+
+<span class="comment">/* Step Dot */</span>
+<span class="property">.step-dot</span> {
+  <span class="property">width</span>: <span class="value">10px</span>;
+  <span class="property">height</span>: <span class="value">10px</span>;
+  <span class="property">border-radius</span>: <span class="value">50%</span>;
+  <span class="property">background</span>: <span class="value">hsl(var(--warm-300))</span>;
+}
+
+<span class="property">.step-dot.completed</span> {
+  <span class="property">background</span>: <span class="value">hsl(var(--emerald-500))</span>;
+}
+
+<span class="property">.step-dot.active</span> {
+  <span class="property">background</span>: <span class="value">hsl(var(--indigo-500))</span>;
+  <span class="property">box-shadow</span>: <span class="value">0 0 0 4px hsl(var(--indigo-100))</span>;
+}
+
+<span class="comment">/* Step Line */</span>
+<span class="property">.step-line</span> {
+  <span class="property">flex</span>: <span class="value">1</span>;
+  <span class="property">height</span>: <span class="value">2px</span>;
+  <span class="property">background</span>: <span class="value">hsl(var(--warm-200))</span>;
+}
+
+<span class="property">.step-line.completed</span> {
+  <span class="property">background</span>: <span class="value">hsl(var(--emerald-500))</span>;
+}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HTML -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="p-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">HTML Structure</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="code-block">
+                            <code><span class="comment">&lt;!-- 6-step progress at step 3 --&gt;</span>
+&lt;<span class="property">div</span> class="<span class="value">progress-steps</span>"&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot completed</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-line completed</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot completed</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-line completed</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot active</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-line</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-line</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-line</span>"&gt;&lt;/<span class="property">div</span>&gt;
+  &lt;<span class="property">div</span> class="<span class="value">step-dot</span>"&gt;&lt;/<span class="property">div</span>&gt;
+&lt;/<span class="property">div</span>&gt;</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: RELATED COMPONENTS -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">9. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/core/components/progress/index.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Core Progress</p>
+                    <p class="text-xs text-warm-500">Full-featured progress components including stepper, bars, and spinners.</p>
+                </a>
+                <a href="/merchant/screens/get-verified.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Get Verified Screen</p>
+                    <p class="text-xs text-warm-500">Setup Progress in context within the merchant onboarding flow.</p>
+                </a>
+                <a href="/merchant/components/metric-card.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Metric Card</p>
+                    <p class="text-xs text-warm-500">Dashboard metrics component for merchant surfaces.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

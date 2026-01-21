@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Phase 1: Platform Connection | Merchant Screens | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* SETUP PROGRESS COMPONENT                 */
+        /* ========================================= */
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: hsl(var(--warm-300));
+            flex-shrink: 0;
+        }
+
+        .step-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .step-dot.active {
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-100));
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: hsl(var(--warm-200));
+        }
+
+        .step-line.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* Mobile Step Card */
+        .mobile-step-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .mobile-step-card .step-counter {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .mobile-step-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .mobile-step-card p {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* PLATFORM LIST WITH SEARCH COMPONENT      */
+        /* ========================================= */
+
+        .platform-list-container {
+            max-width: 600px;
+        }
+
+        /* Search Input */
+        .platform-search-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .platform-search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+            pointer-events: none;
+        }
+
+        .platform-search-input {
+            width: 100%;
+            padding: 12px 44px 12px 44px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 16px;
+            color: hsl(var(--warm-900));
+            background: white;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .platform-search-input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        .platform-search-input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+            border-width: 2px;
+            padding: 11px 43px 11px 43px;
+            box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%);
+        }
+
+        .platform-search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: hsl(var(--warm-200));
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(var(--warm-500));
+            transition: background 0.15s ease;
+        }
+
+        .platform-search-clear:hover {
+            background: hsl(var(--warm-300));
+        }
+
+        .platform-search-clear svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Section Labels */
+        .platform-section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            margin-top: 32px;
+        }
+
+        .platform-section-label:first-of-type {
+            margin-top: 0;
+        }
+
+        .platform-section {
+            margin-bottom: 8px;
+        }
+
+        /* Platform Card Base */
+        .platform-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        /* Supported Platform Card */
+        .platform-card.supported {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+        }
+
+        .platform-card.supported:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        /* Tier Required Platform Card */
+        .platform-card.tier-required {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+        }
+
+        /* Coming Soon Platform Card */
+        .platform-card.coming-soon {
+            background: hsl(var(--warm-50));
+            border: 1px dashed hsl(var(--warm-300));
+        }
+
+        /* Connected Platform Card */
+        .platform-card.connected {
+            background: hsl(var(--emerald-50));
+            border: 2px solid hsl(var(--emerald-200));
+        }
+
+        .connected-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .connected-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .last-synced {
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Commerce Platform Section */
+        .commerce-platform-section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .commerce-card {
+            margin-bottom: 0;
+        }
+
+        /* Rewards Platform Section */
+        .rewards-platform-section {
+            /* Contains all rewards platform content */
+        }
+
+        .rewards-platform-section .platform-section-label:first-child {
+            margin-top: 0;
+        }
+
+        /* Continue Button Section */
+        .continue-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid hsl(var(--warm-200));
+            text-align: center;
+        }
+
+        .continue-helper {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 16px;
+        }
+
+        .btn-continue {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
+        }
+
+        .btn-continue:not(.btn-disabled) {
+            background: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .btn-continue:not(.btn-disabled):hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        .btn-continue.btn-disabled {
+            background: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .btn-continue svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Platform Logo */
+        .platform-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: hsl(var(--warm-50));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .platform-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Platform Content */
+        .platform-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .platform-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--warm-900));
+        }
+
+        .platform-tier-badge {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            background: hsl(var(--warm-100));
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .platform-description {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 16px;
+        }
+
+        /* Platform Actions */
+        .platform-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn-connect {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-connect:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        .btn-connect svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: white;
+            color: hsl(var(--ink));
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .btn-secondary svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: transparent;
+            color: hsl(var(--warm-600));
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        .btn-text:hover {
+            color: hsl(var(--warm-700));
+        }
+
+        .btn-vote {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-500));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-vote:hover {
+            background: hsl(var(--indigo-600));
+        }
+
+        .btn-vote.voted {
+            background: hsl(var(--indigo-300));
+            cursor: default;
+        }
+
+        .btn-vote svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Status Indicators */
+        .warning-icon {
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+        }
+
+        .warning-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .vote-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+        }
+
+        .vote-count svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Footer Link */
+        .platform-footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .platform-footer-text {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 8px;
+        }
+
+        .platform-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .platform-footer-link:hover {
+            color: hsl(var(--indigo-700));
+            text-decoration: underline;
+        }
+
+        .platform-footer-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* No Results State */
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+
+        .no-results-icon {
+            width: 48px;
+            height: 48px;
+            color: hsl(var(--warm-300));
+            margin: 0 auto 16px;
+        }
+
+        .no-results-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            margin-bottom: 8px;
+        }
+
+        .no-results-text {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* ========================================= */
+        /* MODAL STYLES                             */
+        /* ========================================= */
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: hsl(var(--warm-500));
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .modal-close:hover {
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid hsl(var(--warm-200));
+            background: hsl(var(--warm-50));
+        }
+
+        /* Form Fields */
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .form-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-700));
+            margin-bottom: 6px;
+        }
+
+        .form-field input,
+        .form-field textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            transition: border-color 0.15s ease;
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%);
+        }
+
+        .form-field textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Info List */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list .info-icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-list .info-text {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+        }
+
+        /* ========================================= */
+        /* ONBOARDING SCREEN LAYOUT                 */
+        /* ========================================= */
+
+        .onboarding-screen {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .onboarding-header {
+            margin-bottom: 32px;
+        }
+
+        .onboarding-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+
+        .onboarding-back:hover {
+            color: hsl(var(--warm-700));
+        }
+
+        .onboarding-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .onboarding-subtitle {
+            font-size: 16px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .platform-card { padding: 16px; }
+            .platform-logo { width: 40px; height: 40px; }
+            .platform-name { font-size: 16px; }
+            .platform-section-label { font-size: 12px; }
+            .platform-actions { flex-direction: column; align-items: stretch; }
+            .platform-actions button { width: 100%; justify-content: center; }
+            .platform-header { flex-wrap: wrap; }
+            .onboarding-screen { padding: 24px 16px; }
+            .onboarding-title { font-size: 24px; }
+            .modal-footer { flex-direction: column; }
+            .modal-footer button { width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Onboarding Phase 1</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Phase 1: Rewards Platform Connection</h1>
+            <p class="text-warm-600">The first screen in the 9-phase merchant onboarding flow. Merchants connect their rewards platform to enable Saltwyk integration.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: FULL SCREEN PREVIEW             -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Screen Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Complete onboarding screen with Setup Progress and Platform List components. All interactions are functional.</p>
+
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-ledger rounded-lg shadow-lg overflow-hidden">
+                    <div class="h-[3px] w-full thread-cool"></div>
+
+                    <div class="onboarding-screen" id="onboarding-container">
+                        <!-- Back Link -->
+                        <a href="#" class="onboarding-back">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Back
+                        </a>
+
+                        <!-- Setup Progress -->
+                        <div class="mb-8">
+                            <div class="progress-steps mb-4">
+                                <div class="step-dot active"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                            <div class="mobile-step-card">
+                                <p class="step-counter">Step 1 of 9</p>
+                                <h3>Connect Your Platforms</h3>
+                                <p>Connect your commerce and rewards platforms to enable cross-merchant shopping.</p>
+                            </div>
+                        </div>
+
+                        <!-- Page Header -->
+                        <div class="onboarding-header">
+                            <h1 class="onboarding-title">Connect Your Platforms</h1>
+                            <p class="onboarding-subtitle">Connect your commerce platform and rewards platform to enable cross-merchant shopping for your customers.</p>
+                        </div>
+
+                        <!-- Platform Sections Container -->
+                        <div class="platform-list-container" id="platform-list">
+
+                            <!-- ======================================== -->
+                            <!-- COMMERCE PLATFORM SECTION                -->
+                            <!-- ======================================== -->
+                            <div class="commerce-platform-section">
+                                <p class="platform-section-label" style="margin-top: 0;">Your Commerce Platform</p>
+
+                                <!-- Shopify - Connected State -->
+                                <div class="platform-card connected commerce-card">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/shopify.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Shopify" onerror="this.parentElement.innerHTML='<span style=\'font-weight:600;color:hsl(var(--warm-600))\'>S</span>'">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">Shopify</span>
+                                            <span class="connected-badge"><i data-lucide="check"></i> Connected</span>
+                                        </div>
+                                        <p class="platform-description" style="margin-bottom: 0;">Shopify Plus &bull; Full custom app support</p>
+                                    </div>
+                                </div>
+
+                                <!-- Alternative: Shopify Tier Required State (commented for reference)
+                                <div class="platform-card tier-required commerce-card">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/shopify.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Shopify">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">Shopify</span>
+                                            <span class="platform-tier-badge">Basic / Shopify / Advanced</span>
+                                            <span class="warning-icon"><i data-lucide="alert-triangle"></i></span>
+                                        </div>
+                                        <p class="platform-description">Shopify Plus required for custom apps</p>
+                                        <div class="platform-actions">
+                                            <button class="btn-secondary" onclick="openTierModal('Shopify', 'Basic/Shopify/Advanced', 'Plus', 'https://www.shopify.com/plus')">
+                                                Learn About Tiers
+                                                <i data-lucide="external-link"></i>
+                                            </button>
+                                            <button class="btn-text" onclick="commerceContinueAnyway()">Continue Setup Anyway</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+
+                            <!-- ======================================== -->
+                            <!-- REWARDS PLATFORM SECTION                 -->
+                            <!-- ======================================== -->
+                            <div class="rewards-platform-section">
+                                <p class="platform-section-label">Your Rewards Platform</p>
+
+                                <!-- Search Input -->
+                                <div class="platform-search-wrapper">
+                                    <i data-lucide="search" class="platform-search-icon"></i>
+                                    <input
+                                        type="search"
+                                        id="platform-search"
+                                        class="platform-search-input"
+                                        placeholder="Search rewards platforms..."
+                                        aria-label="Search rewards platforms"
+                                    >
+                                    <button class="platform-search-clear" id="search-clear" style="display: none;" aria-label="Clear search">
+                                        <i data-lucide="x"></i>
+                                    </button>
+                                </div>
+
+                            <!-- Supported Platforms Section -->
+                            <div class="platform-section" data-section="supported">
+                                <p class="platform-section-label">Supported Platforms</p>
+
+                                <!-- Smile.io Enterprise -->
+                                <div class="platform-card supported" data-name="Smile.io" data-description="Full API access with Enterprise tier" data-search="smile,smile.io,rewards,enterprise">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io" onerror="this.parentElement.innerHTML='<span style=\'font-weight:600;color:hsl(var(--warm-600))\'>S</span>'">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">Smile.io</span>
+                                            <span class="platform-tier-badge">Enterprise</span>
+                                        </div>
+                                        <p class="platform-description">Full API access with Enterprise tier</p>
+                                        <div class="platform-actions">
+                                            <button class="btn-connect" onclick="connectPlatform('smile-enterprise')">
+                                                Connect
+                                                <i data-lucide="arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tier Required Section -->
+                            <div class="platform-section" data-section="tier-required">
+                                <p class="platform-section-label">Tier Required</p>
+
+                                <!-- Smile.io Starter/Growth -->
+                                <div class="platform-card tier-required" data-name="Smile.io" data-description="Enterprise tier required for API access" data-search="smile,smile.io,starter,growth">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io" onerror="this.parentElement.innerHTML='<span style=\'font-weight:600;color:hsl(var(--warm-600))\'>S</span>'">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">Smile.io</span>
+                                            <span class="platform-tier-badge">Starter / Growth</span>
+                                            <span class="warning-icon"><i data-lucide="alert-triangle"></i></span>
+                                        </div>
+                                        <p class="platform-description">Enterprise tier required for API access</p>
+                                        <div class="platform-actions">
+                                            <button class="btn-secondary" onclick="openTierModal('Smile.io', 'Starter/Growth', 'Enterprise', 'https://smile.io/pricing')">
+                                                Learn About Tiers
+                                                <i data-lucide="external-link"></i>
+                                            </button>
+                                            <button class="btn-text" onclick="continueAnyway('smile-growth')">Continue Setup Anyway</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Coming Soon Section -->
+                            <div class="platform-section" data-section="coming-soon">
+                                <p class="platform-section-label">Coming Soon</p>
+
+                                <!-- LoyaltyLion -->
+                                <div class="platform-card coming-soon" data-name="LoyaltyLion" data-description="Launching Q1 2026" data-search="loyalty lion,loyaltylion,lion">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/loyaltylion.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="LoyaltyLion" onerror="this.parentElement.innerHTML='<span style=\'font-weight:600;color:hsl(var(--warm-600))\'>L</span>'">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">LoyaltyLion</span>
+                                            <span class="vote-count" id="loyaltylion-votes">
+                                                <i data-lucide="thumbs-up"></i>
+                                                <span>23</span>
+                                            </span>
+                                        </div>
+                                        <p class="platform-description">Launching Q1 2026</p>
+                                        <div class="platform-actions">
+                                            <button class="btn-vote" id="vote-loyaltylion" onclick="votePlatform('loyaltylion', this)">
+                                                Vote for This Platform
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kangaroo -->
+                                <div class="platform-card coming-soon" data-name="Kangaroo Rewards" data-description="Under consideration" data-search="kangaroo,kangaroo rewards">
+                                    <div class="platform-logo">
+                                        <img src="https://img.logo.dev/kangaroorewards.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kangaroo Rewards" onerror="this.parentElement.innerHTML='<span style=\'font-weight:600;color:hsl(var(--warm-600))\'>K</span>'">
+                                    </div>
+                                    <div class="platform-content">
+                                        <div class="platform-header">
+                                            <span class="platform-name">Kangaroo Rewards</span>
+                                            <span class="vote-count" id="kangaroo-votes">
+                                                <i data-lucide="thumbs-up"></i>
+                                                <span>18</span>
+                                            </span>
+                                        </div>
+                                        <p class="platform-description">Under consideration</p>
+                                        <div class="platform-actions">
+                                            <button class="btn-vote" id="vote-kangaroo" onclick="votePlatform('kangaroo', this)">
+                                                Vote for This Platform
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- No Results (hidden by default) -->
+                            <div class="no-results" id="no-results">
+                                <i data-lucide="search-x" class="no-results-icon"></i>
+                                <p class="no-results-title">No platforms found for "<span id="search-query-display"></span>"</p>
+                                <p class="no-results-text">Don't see your platform? <a href="#" class="text-indigo-600 hover:underline" onclick="openRequestModal(); return false;">Request platform support</a></p>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="platform-footer" id="platform-footer">
+                                <p class="platform-footer-text">Don't see your platform?</p>
+                                <a class="platform-footer-link" onclick="openRequestModal()">
+                                    Request Platform Support
+                                    <i data-lucide="arrow-right"></i>
+                                </a>
+                            </div>
+
+                            </div><!-- End rewards-platform-section -->
+                        </div><!-- End platform-list-container -->
+
+                        <!-- Continue Button Section -->
+                        <div class="continue-section">
+                            <p class="continue-helper" id="continue-helper">Select a rewards platform to continue</p>
+                            <button class="btn-continue btn-disabled" id="continue-btn" disabled>
+                                Continue to API Configuration
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: COMPONENT BREAKDOWN             -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Component Breakdown</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Commerce Platform Section</p>
+                    <p class="text-xs text-warm-500 mb-4">Auto-detected from OAuth, shows connection status</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Shopify detected automatically</li>
+                        <li>• Shows Connected badge (Plus tier)</li>
+                        <li>• Or Tier Required warning (Basic/Advanced)</li>
+                        <li>• Not searchable - single platform display</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Rewards Platform Section</p>
+                    <p class="text-xs text-warm-500 mb-4">Searchable list of rewards platforms</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Live search filtering with debounce</li>
+                        <li>• Sections: Supported, Tier Required, Coming Soon</li>
+                        <li>• Click Connect to select platform</li>
+                        <li>• Component: <code>platform-list-search.html</code></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Continue Button</p>
+                    <p class="text-xs text-warm-500 mb-4">Requires both platforms addressed</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Disabled until rewards platform selected</li>
+                        <li>• Shows helper text with selection status</li>
+                        <li>• Enabled when both platforms ready</li>
+                        <li>• Navigates to Phase 2: API Configuration</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Tier Requirement Modal</p>
+                    <p class="text-xs text-warm-500 mb-4">Explains tier upgrade requirements</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Opens when "Learn About Tiers" clicked</li>
+                        <li>• Shows current vs required tier</li>
+                        <li>• Link to platform pricing page</li>
+                        <li>• "Continue Setup Anyway" option</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: STATES                          -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. States</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Default</p>
+                    <p class="text-xs text-warm-500 mb-4">Initial page load</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Commerce: Shopify connected</li>
+                        <li>• Rewards: All platforms visible</li>
+                        <li>• Continue button disabled</li>
+                        <li>• Helper: "Select a rewards platform"</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Platform Selected</p>
+                    <p class="text-xs text-warm-500 mb-4">Rewards platform chosen</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Selected card highlighted</li>
+                        <li>• Continue button enabled</li>
+                        <li>• Helper shows platform name</li>
+                        <li>• Ready to proceed</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Search Active</p>
+                    <p class="text-xs text-warm-500 mb-4">Filtering rewards platforms</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Commerce section unchanged</li>
+                        <li>• Rewards filtered by query</li>
+                        <li>• Clear button visible</li>
+                        <li>• Empty sections hidden</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Commerce Tier Required</p>
+                    <p class="text-xs text-warm-500 mb-4">Shopify not on Plus</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Warning icon on commerce</li>
+                        <li>• "Learn About Tiers" button</li>
+                        <li>• "Continue Anyway" option</li>
+                        <li>• Blocks continue until addressed</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: PLATFORM CARDS                  -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Platform Card Variants</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Supported</p>
+                    <div class="platform-card supported" style="margin-bottom: 0;">
+                        <div class="platform-logo">
+                            <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io">
+                        </div>
+                        <div class="platform-content">
+                            <div class="platform-header">
+                                <span class="platform-name">Smile.io</span>
+                            </div>
+                            <p class="platform-description" style="margin-bottom: 12px;">Full API access</p>
+                            <button class="btn-connect">Connect <i data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">White background, warm border. Primary action: Connect.</p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Tier Required</p>
+                    <div class="platform-card tier-required" style="margin-bottom: 0;">
+                        <div class="platform-logo">
+                            <img src="https://img.logo.dev/shopify.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Shopify">
+                        </div>
+                        <div class="platform-content">
+                            <div class="platform-header">
+                                <span class="platform-name">Shopify</span>
+                                <span class="warning-icon"><i data-lucide="alert-triangle"></i></span>
+                            </div>
+                            <p class="platform-description" style="margin-bottom: 12px;">Plus required</p>
+                            <button class="btn-secondary">Learn About Tiers</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Orange background. Warning icon. Secondary action.</p>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-sm font-medium text-ink mb-2">Coming Soon</p>
+                    <div class="platform-card coming-soon" style="margin-bottom: 0;">
+                        <div class="platform-logo">
+                            <img src="https://img.logo.dev/loyaltylion.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="LoyaltyLion">
+                        </div>
+                        <div class="platform-content">
+                            <div class="platform-header">
+                                <span class="platform-name">LoyaltyLion</span>
+                                <span class="vote-count"><i data-lucide="thumbs-up"></i> 23</span>
+                            </div>
+                            <p class="platform-description" style="margin-bottom: 12px;">Q1 2026</p>
+                            <button class="btn-vote">Vote</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-4">Dashed border. Vote count. Indigo vote button.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: INTERACTIONS                    -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Interactions</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Action</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Trigger</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Select Rewards Platform</td>
+                            <td class="px-6 py-3">Click "Connect" button</td>
+                            <td class="px-6 py-3 text-warm-500">Highlight card, enable Continue button</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Continue to Next Phase</td>
+                            <td class="px-6 py-3">Click Continue button</td>
+                            <td class="px-6 py-3 text-warm-500">Navigate to Phase 2: API Configuration</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Search Rewards</td>
+                            <td class="px-6 py-3">Type in search input</td>
+                            <td class="px-6 py-3 text-warm-500">Filter rewards platforms (150ms debounce)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Clear Search</td>
+                            <td class="px-6 py-3">Click X or press Escape</td>
+                            <td class="px-6 py-3 text-warm-500">Reset to show all rewards platforms</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Learn About Tiers</td>
+                            <td class="px-6 py-3">Click secondary button</td>
+                            <td class="px-6 py-3 text-warm-500">Open tier requirement modal</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Continue Anyway</td>
+                            <td class="px-6 py-3">Click text button on tier card</td>
+                            <td class="px-6 py-3 text-warm-500">Select platform despite tier warning</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Vote</td>
+                            <td class="px-6 py-3">Click vote button</td>
+                            <td class="px-6 py-3 text-warm-500">Increment count, disable button</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-warm-600">Request Platform</td>
+                            <td class="px-6 py-3">Click footer link</td>
+                            <td class="px-6 py-3 text-warm-500">Open request form modal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: ACCESSIBILITY                   -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Accessibility</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Keyboard Navigation</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• <code>Tab</code>: Move through interactive elements</li>
+                        <li>• <code>Enter/Space</code>: Activate buttons</li>
+                        <li>• <code>Escape</code>: Clear search / close modals</li>
+                        <li>• Focus indicators on all interactive elements</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Screen Reader</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Search input has <code>aria-label</code></li>
+                        <li>• Sections use <code>aria-labelledby</code></li>
+                        <li>• Modal focus trap when open</li>
+                        <li>• Live region for search results count</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: RELATED                         -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/components/setup-progress.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Setup Progress</p>
+                    <p class="text-xs text-warm-500">Component documentation.</p>
+                </a>
+                <a href="/merchant/components/platform-list-search.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Platform List with Search</p>
+                    <p class="text-xs text-warm-500">Component documentation.</p>
+                </a>
+                <a href="/merchant/screens/get-verified.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Get Verified Screen</p>
+                    <p class="text-xs text-warm-500">Related onboarding screen.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <!-- Tier Requirement Modal -->
+    <div class="modal-overlay" id="tier-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="tier-modal-title">Upgrade Required</h2>
+                <button class="modal-close" onclick="closeTierModal()" aria-label="Close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-warm-600 mb-4">To connect <strong id="tier-platform-name">Smile.io</strong> with Saltwyk, you need to upgrade to the <strong id="tier-required-tier">Enterprise</strong> tier.</p>
+
+                <ul class="info-list">
+                    <li>
+                        <i data-lucide="key" class="info-icon"></i>
+                        <span class="info-text">The <span id="tier-required-tier-2">Enterprise</span> tier provides API access required for Saltwyk integration.</span>
+                    </li>
+                    <li>
+                        <i data-lucide="zap" class="info-icon"></i>
+                        <span class="info-text">Your current <span id="tier-current-tier">Starter/Growth</span> tier does not include the necessary API endpoints.</span>
+                    </li>
+                    <li>
+                        <i data-lucide="help-circle" class="info-icon"></i>
+                        <span class="info-text">Contact the platform's support team to discuss upgrade options and pricing.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeTierModal()">Cancel</button>
+                <button class="btn-text" onclick="continueAnywayFromModal()">Continue Setup Anyway</button>
+                <a href="#" id="tier-pricing-link" target="_blank" class="btn-connect">
+                    View Pricing
+                    <i data-lucide="external-link"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Request Modal -->
+    <div class="modal-overlay" id="request-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request Platform Support</h2>
+                <button class="modal-close" onclick="closeRequestModal()" aria-label="Close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-warm-600 mb-6">Tell us about your rewards platform and we'll prioritize adding support for it.</p>
+
+                <form id="platform-request-form">
+                    <div class="form-field">
+                        <label for="request-platform-name">Platform Name *</label>
+                        <input type="text" id="request-platform-name" required placeholder="e.g., Stamped.io">
+                    </div>
+                    <div class="form-field">
+                        <label for="request-platform-website">Platform Website</label>
+                        <input type="url" id="request-platform-website" placeholder="https://example.com">
+                    </div>
+                    <div class="form-field">
+                        <label for="request-platform-reason">Why do you need this platform?</label>
+                        <textarea id="request-platform-reason" placeholder="Tell us about your use case..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeRequestModal()">Cancel</button>
+                <button class="btn-connect" onclick="submitPlatformRequest()">
+                    Submit Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <!-- Search Functionality -->
+    <script>
+        (function() {
+            const searchInput = document.getElementById('platform-search');
+            const clearBtn = document.getElementById('search-clear');
+            const noResults = document.getElementById('no-results');
+            const platformList = document.getElementById('platform-list');
+            const footer = document.getElementById('platform-footer');
+            const queryDisplay = document.getElementById('search-query-display');
+
+            if (!searchInput || !platformList) return;
+
+            const sections = platformList.querySelectorAll('.platform-section');
+            const cards = platformList.querySelectorAll('.platform-card');
+
+            let debounceTimer;
+
+            function filterPlatforms(query) {
+                const lowerQuery = query.toLowerCase().trim();
+
+                // Show/hide clear button
+                if (clearBtn) {
+                    clearBtn.style.display = lowerQuery ? 'flex' : 'none';
+                }
+
+                if (!lowerQuery) {
+                    // Show all
+                    cards.forEach(card => card.style.display = '');
+                    sections.forEach(section => section.style.display = '');
+                    if (noResults) noResults.style.display = 'none';
+                    if (footer) footer.style.display = '';
+                    return;
+                }
+
+                let anyVisible = false;
+
+                sections.forEach(section => {
+                    const sectionCards = section.querySelectorAll('.platform-card');
+                    let sectionHasVisible = false;
+
+                    sectionCards.forEach(card => {
+                        const name = (card.dataset.name || '').toLowerCase();
+                        const description = (card.dataset.description || '').toLowerCase();
+                        const searchTerms = (card.dataset.search || '').toLowerCase();
+
+                        const matches = name.includes(lowerQuery) ||
+                                       description.includes(lowerQuery) ||
+                                       searchTerms.includes(lowerQuery);
+
+                        card.style.display = matches ? '' : 'none';
+                        if (matches) {
+                            sectionHasVisible = true;
+                            anyVisible = true;
+                        }
+                    });
+
+                    section.style.display = sectionHasVisible ? '' : 'none';
+                });
+
+                // Show/hide no results and footer
+                if (noResults) {
+                    noResults.style.display = anyVisible ? 'none' : 'block';
+                    if (queryDisplay) queryDisplay.textContent = query;
+                }
+                if (footer) {
+                    footer.style.display = anyVisible ? '' : 'none';
+                }
+            }
+
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    filterPlatforms(e.target.value);
+                }, 150);
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    filterPlatforms('');
+                    searchInput.blur();
+                }
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    filterPlatforms('');
+                    searchInput.focus();
+                });
+            }
+        })();
+
+        // Platform selection state
+        let commercePlatformOk = true; // Shopify is connected in this demo
+        let rewardsPlatformSelected = false;
+        let selectedRewardsPlatform = null;
+
+        function updateContinueButton() {
+            const continueBtn = document.getElementById('continue-btn');
+            const helper = document.getElementById('continue-helper');
+
+            if (commercePlatformOk && rewardsPlatformSelected) {
+                continueBtn.disabled = false;
+                continueBtn.classList.remove('btn-disabled');
+                helper.textContent = `${selectedRewardsPlatform} selected`;
+                helper.style.color = 'hsl(var(--emerald-600))';
+            } else {
+                continueBtn.disabled = true;
+                continueBtn.classList.add('btn-disabled');
+                helper.textContent = 'Select a rewards platform to continue';
+                helper.style.color = '';
+            }
+        }
+
+        // Platform connection
+        function connectPlatform(platformId) {
+            console.log('Connecting to platform:', platformId);
+            rewardsPlatformSelected = true;
+            selectedRewardsPlatform = platformId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            updateContinueButton();
+
+            // Visual feedback - highlight the selected card
+            document.querySelectorAll('.rewards-platform-section .platform-card').forEach(card => {
+                card.style.outline = '';
+            });
+            event.target.closest('.platform-card').style.outline = '2px solid hsl(var(--emerald-500))';
+        }
+
+        // Continue anyway (for tier-required rewards platforms)
+        function continueAnyway(platformId) {
+            console.log('Continuing setup for:', platformId);
+            rewardsPlatformSelected = true;
+            selectedRewardsPlatform = platformId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) + ' (tier pending)';
+            updateContinueButton();
+
+            // Visual feedback
+            document.querySelectorAll('.rewards-platform-section .platform-card').forEach(card => {
+                card.style.outline = '';
+            });
+            event.target.closest('.platform-card').style.outline = '2px solid hsl(var(--orange-400))';
+        }
+
+        // Commerce platform continue anyway (if tier required)
+        function commerceContinueAnyway() {
+            commercePlatformOk = true;
+            updateContinueButton();
+        }
+
+        // Tier modal
+        let currentTierPlatform = null;
+
+        function openTierModal(platformName, currentTier, requiredTier, pricingUrl) {
+            currentTierPlatform = platformName;
+            document.getElementById('tier-modal-title').textContent = `Upgrade to ${requiredTier}`;
+            document.getElementById('tier-platform-name').textContent = platformName;
+            document.getElementById('tier-required-tier').textContent = requiredTier;
+            document.getElementById('tier-required-tier-2').textContent = requiredTier;
+            document.getElementById('tier-current-tier').textContent = currentTier;
+            document.getElementById('tier-pricing-link').href = pricingUrl;
+            document.getElementById('tier-modal').classList.add('active');
+        }
+
+        function closeTierModal() {
+            document.getElementById('tier-modal').classList.remove('active');
+            currentTierPlatform = null;
+        }
+
+        function continueAnywayFromModal() {
+            closeTierModal();
+            if (currentTierPlatform) {
+                continueAnyway(currentTierPlatform.toLowerCase().replace(/\s/g, '-'));
+            }
+        }
+
+        // Request modal
+        function openRequestModal() {
+            document.getElementById('request-modal').classList.add('active');
+        }
+
+        function closeRequestModal() {
+            document.getElementById('request-modal').classList.remove('active');
+            document.getElementById('platform-request-form').reset();
+        }
+
+        function submitPlatformRequest() {
+            const form = document.getElementById('platform-request-form');
+            const platformName = document.getElementById('request-platform-name').value;
+
+            if (!platformName.trim()) {
+                document.getElementById('request-platform-name').focus();
+                return;
+            }
+
+            console.log('Platform request submitted:', {
+                name: platformName,
+                website: document.getElementById('request-platform-website').value,
+                reason: document.getElementById('request-platform-reason').value
+            });
+
+            closeRequestModal();
+            alert(`Thank you! Your request for "${platformName}" has been submitted.\n\nWe'll notify you when support is added.`);
+        }
+
+        // Vote functionality
+        const votedPlatforms = new Set();
+
+        function votePlatform(platformId, button) {
+            if (votedPlatforms.has(platformId)) return;
+
+            votedPlatforms.add(platformId);
+
+            // Update vote count
+            const voteCountEl = document.getElementById(platformId + '-votes');
+            if (voteCountEl) {
+                const countSpan = voteCountEl.querySelector('span');
+                if (countSpan) {
+                    const count = parseInt(countSpan.textContent) || 0;
+                    countSpan.textContent = count + 1;
+                }
+            }
+
+            // Update button
+            button.classList.add('voted');
+            button.disabled = true;
+            button.innerHTML = '<i data-lucide="check"></i> Voted';
+            lucide.createIcons();
+
+            console.log('Voted for platform:', platformId);
+        }
+
+        // Modal close on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

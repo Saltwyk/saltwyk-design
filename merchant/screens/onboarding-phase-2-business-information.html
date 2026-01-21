@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Phase 2: Business Information | Merchant Screens | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Setup Progress */
+        .progress-steps { display: flex; align-items: center; gap: 8px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--warm-300)); flex-shrink: 0; }
+        .step-dot.completed { background: hsl(var(--emerald-500)); }
+        .step-dot.active { background: hsl(var(--indigo-500)); box-shadow: 0 0 0 4px hsl(var(--indigo-100)); }
+        .step-line { flex: 1; height: 2px; background: hsl(var(--warm-200)); }
+        .step-line.completed { background: hsl(var(--emerald-500)); }
+
+        .mobile-step-card { background: white; border: 1px solid hsl(var(--warm-200)); border-radius: 12px; padding: 20px; }
+        .mobile-step-card .step-counter { font-size: 12px; color: hsl(var(--warm-500)); margin-bottom: 4px; }
+        .mobile-step-card h3 { font-size: 18px; font-weight: 600; color: hsl(var(--ink)); margin-bottom: 4px; }
+        .mobile-step-card p { font-size: 14px; color: hsl(var(--warm-500)); }
+
+        /* Onboarding Layout */
+        .onboarding-screen { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+        .onboarding-header { margin-bottom: 32px; }
+        .onboarding-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: hsl(var(--warm-500)); text-decoration: none; margin-bottom: 16px; }
+        .onboarding-back:hover { color: hsl(var(--warm-700)); }
+        .onboarding-title { font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 700; color: hsl(var(--ink)); margin-bottom: 8px; }
+        .onboarding-subtitle { font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.5; }
+
+        /* Info Box */
+        .info-box { background: hsl(var(--indigo-50)); border: 1px solid hsl(var(--indigo-200)); border-radius: 8px; padding: 20px; margin-bottom: 32px; }
+        .info-box h4 { font-size: 14px; font-weight: 600; color: hsl(var(--indigo-700)); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .info-box ul { list-style: none; padding: 0; margin: 0; }
+        .info-box li { font-size: 14px; color: hsl(var(--indigo-600)); padding: 4px 0; padding-left: 20px; position: relative; }
+        .info-box li::before { content: "•"; position: absolute; left: 0; color: hsl(var(--indigo-400)); }
+
+        /* Form Styles */
+        .form-container { background: white; border: 1px solid hsl(var(--warm-200)); border-radius: 12px; padding: 24px; }
+        .form-field { margin-bottom: 20px; }
+        .form-field:last-child { margin-bottom: 0; }
+        .form-label { display: block; font-size: 14px; font-weight: 500; color: hsl(var(--ink)); margin-bottom: 6px; }
+        .form-label .required { color: hsl(var(--magenta-500)); }
+        .form-input { width: 100%; height: 44px; padding: 0 14px; border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; color: hsl(var(--ink)); transition: all 0.15s ease; }
+        .form-input:focus { outline: none; border-color: hsl(var(--indigo-500)); box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%); }
+        .form-input.error { border-color: hsl(var(--magenta-500)); }
+        .form-input.error:focus { box-shadow: 0 0 0 3px hsl(var(--magenta-500) / 10%); }
+        .form-hint { font-size: 12px; color: hsl(var(--warm-500)); margin-top: 6px; }
+        .form-error { font-size: 12px; color: hsl(var(--magenta-600)); margin-top: 6px; display: none; }
+        .form-error.visible { display: block; }
+
+        .form-select { width: 100%; height: 44px; padding: 0 14px; border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; color: hsl(var(--ink)); background: white; cursor: pointer; transition: all 0.15s ease; }
+        .form-select:focus { outline: none; border-color: hsl(var(--indigo-500)); box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+
+        /* Section Divider */
+        .form-section-label { font-size: 12px; font-weight: 600; color: hsl(var(--warm-500)); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; margin-top: 24px; padding-top: 24px; border-top: 1px solid hsl(var(--warm-200)); }
+        .form-section-label:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+        /* Form Actions */
+        .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid hsl(var(--warm-200)); }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: white; color: hsl(var(--warm-600)); border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+        .btn-back:hover { background: hsl(var(--warm-50)); border-color: hsl(var(--warm-400)); color: hsl(var(--warm-700)); }
+
+        .btn-submit { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: hsl(var(--emerald-600)); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+        .btn-submit:hover:not(:disabled) { background: hsl(var(--emerald-700)); }
+        .btn-submit:disabled { background: hsl(var(--warm-300)); color: hsl(var(--warm-500)); cursor: not-allowed; }
+
+        /* Success Message */
+        .success-banner { display: none; background: hsl(var(--emerald-50)); border: 1px solid hsl(var(--emerald-200)); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; }
+        .success-banner.visible { display: flex; align-items: center; gap: 12px; }
+        .success-banner-icon { color: hsl(var(--emerald-500)); flex-shrink: 0; }
+        .success-banner-text { font-size: 14px; color: hsl(var(--emerald-700)); }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .onboarding-screen { padding: 24px 16px; }
+            .onboarding-title { font-size: 24px; }
+            .form-row, .form-row-3 { grid-template-columns: 1fr; }
+            .form-actions { flex-direction: column; gap: 12px; }
+            .form-actions button { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Onboarding Phase 2</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Phase 2: Business Information</h1>
+            <p class="text-warm-600">Step 2 of 9 in merchant onboarding. Collect business details for KYB verification and settlements.</p>
+        </header>
+
+        <!-- Full Screen Preview -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Screen Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Complete business information form with validation. All interactions are functional.</p>
+
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-ledger rounded-lg shadow-lg overflow-hidden">
+                    <div class="h-[3px] w-full thread-cool"></div>
+
+                    <div class="onboarding-screen" id="onboarding-container">
+                        <!-- Back Link -->
+                        <a href="/merchant/screens/onboarding-phase-1-platform-connection.html" class="onboarding-back">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Back
+                        </a>
+
+                        <!-- Setup Progress - Step 2 of 9 -->
+                        <div class="mb-8">
+                            <div class="progress-steps mb-4">
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot active"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                            <div class="mobile-step-card">
+                                <p class="step-counter">Step 2 of 9</p>
+                                <h3>Business Information</h3>
+                                <p>Provide your business details for verification and settlements.</p>
+                            </div>
+                        </div>
+
+                        <!-- Page Header -->
+                        <div class="onboarding-header">
+                            <h1 class="onboarding-title">Business Information</h1>
+                            <p class="onboarding-subtitle">Help us verify your business identity. This enables settlements and compliance.</p>
+                        </div>
+
+                        <!-- Success Banner (hidden by default) -->
+                        <div class="success-banner" id="success-banner">
+                            <i data-lucide="check-circle" class="success-banner-icon w-5 h-5"></i>
+                            <span class="success-banner-text">Business information submitted! Verification in progress.</span>
+                        </div>
+
+                        <!-- Info Box -->
+                        <div class="info-box">
+                            <h4><i data-lucide="info" class="w-4 h-4"></i> Why we need this</h4>
+                            <ul>
+                                <li>Enables settlement to your bank account</li>
+                                <li>Regulatory compliance (one-time process)</li>
+                                <li>Verification takes 1-2 business days</li>
+                            </ul>
+                        </div>
+
+                        <!-- Form -->
+                        <form id="business-form" class="form-container">
+                            <!-- Legal Business Name -->
+                            <div class="form-field">
+                                <label for="business-name" class="form-label">
+                                    Legal Business Name <span class="required">*</span>
+                                </label>
+                                <input type="text" id="business-name" class="form-input" required placeholder="Acme Corporation LLC">
+                                <p class="form-hint">Must match your legal registration documents</p>
+                                <p class="form-error" id="business-name-error">Please enter your legal business name</p>
+                            </div>
+
+                            <!-- Business Address Section -->
+                            <p class="form-section-label">Business Address</p>
+
+                            <!-- Street Address -->
+                            <div class="form-field">
+                                <label for="street-address" class="form-label">
+                                    Street Address <span class="required">*</span>
+                                </label>
+                                <input type="text" id="street-address" class="form-input" required placeholder="123 Main Street">
+                                <p class="form-error" id="street-address-error">Please enter your street address</p>
+                            </div>
+
+                            <!-- Address Line 2 -->
+                            <div class="form-field">
+                                <label for="address-line-2" class="form-label">
+                                    Address Line 2 <span style="color: hsl(var(--warm-400));">(optional)</span>
+                                </label>
+                                <input type="text" id="address-line-2" class="form-input" placeholder="Suite 100, Floor 2, etc.">
+                            </div>
+
+                            <!-- City, State, ZIP -->
+                            <div class="form-row-3">
+                                <div class="form-field">
+                                    <label for="city" class="form-label">
+                                        City <span class="required">*</span>
+                                    </label>
+                                    <input type="text" id="city" class="form-input" required placeholder="San Francisco">
+                                    <p class="form-error" id="city-error">Please enter your city</p>
+                                </div>
+                                <div class="form-field">
+                                    <label for="state" class="form-label">
+                                        State <span class="required">*</span>
+                                    </label>
+                                    <select id="state" class="form-select" required>
+                                        <option value="">Select</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AK">AK</option>
+                                        <option value="AZ">AZ</option>
+                                        <option value="AR">AR</option>
+                                        <option value="CA">CA</option>
+                                        <option value="CO">CO</option>
+                                        <option value="CT">CT</option>
+                                        <option value="DE">DE</option>
+                                        <option value="DC">DC</option>
+                                        <option value="FL">FL</option>
+                                        <option value="GA">GA</option>
+                                        <option value="HI">HI</option>
+                                        <option value="ID">ID</option>
+                                        <option value="IL">IL</option>
+                                        <option value="IN">IN</option>
+                                        <option value="IA">IA</option>
+                                        <option value="KS">KS</option>
+                                        <option value="KY">KY</option>
+                                        <option value="LA">LA</option>
+                                        <option value="ME">ME</option>
+                                        <option value="MD">MD</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MI">MI</option>
+                                        <option value="MN">MN</option>
+                                        <option value="MS">MS</option>
+                                        <option value="MO">MO</option>
+                                        <option value="MT">MT</option>
+                                        <option value="NE">NE</option>
+                                        <option value="NV">NV</option>
+                                        <option value="NH">NH</option>
+                                        <option value="NJ">NJ</option>
+                                        <option value="NM">NM</option>
+                                        <option value="NY">NY</option>
+                                        <option value="NC">NC</option>
+                                        <option value="ND">ND</option>
+                                        <option value="OH">OH</option>
+                                        <option value="OK">OK</option>
+                                        <option value="OR">OR</option>
+                                        <option value="PA">PA</option>
+                                        <option value="RI">RI</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SD">SD</option>
+                                        <option value="TN">TN</option>
+                                        <option value="TX">TX</option>
+                                        <option value="UT">UT</option>
+                                        <option value="VT">VT</option>
+                                        <option value="VA">VA</option>
+                                        <option value="WA">WA</option>
+                                        <option value="WV">WV</option>
+                                        <option value="WI">WI</option>
+                                        <option value="WY">WY</option>
+                                    </select>
+                                    <p class="form-error" id="state-error">Please select a state</p>
+                                </div>
+                                <div class="form-field">
+                                    <label for="zip" class="form-label">
+                                        ZIP Code <span class="required">*</span>
+                                    </label>
+                                    <input type="text" id="zip" class="form-input" required placeholder="94105" maxlength="5" pattern="[0-9]{5}">
+                                    <p class="form-error" id="zip-error">Enter a valid 5-digit ZIP</p>
+                                </div>
+                            </div>
+
+                            <!-- Tax Information Section -->
+                            <p class="form-section-label">Tax Information</p>
+
+                            <!-- EIN -->
+                            <div class="form-field">
+                                <label for="ein" class="form-label">
+                                    Employer Identification Number (EIN) <span class="required">*</span>
+                                </label>
+                                <input type="text" id="ein" class="form-input" required placeholder="12-3456789" maxlength="10">
+                                <p class="form-hint">Format: XX-XXXXXXX (9 digits)</p>
+                                <p class="form-error" id="ein-error">EIN must be in format: 12-3456789</p>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions">
+                                <button type="button" class="btn-back" onclick="window.history.back()">
+                                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                    Back
+                                </button>
+                                <button type="submit" class="btn-submit" id="submit-btn" disabled>
+                                    Submit
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Component Breakdown -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Component Breakdown</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Setup Progress</p>
+                    <p class="text-xs text-warm-500 mb-4">Step 2 of 9 indicator</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Step 1 shown as completed (emerald)</li>
+                        <li>Step 2 shown as active (indigo with ring)</li>
+                        <li>Steps 3-9 shown as pending (warm gray)</li>
+                        <li>Progress: 22% (2/9 steps)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Info Box</p>
+                    <p class="text-xs text-warm-500 mb-4">Explains why information is needed</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Indigo-50 background for trust</li>
+                        <li>3 bullet points: settlements, compliance, timeline</li>
+                        <li>Reduces form abandonment</li>
+                        <li>Sets expectations for verification time</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Form Fields</p>
+                    <p class="text-xs text-warm-500 mb-4">Business details collection</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Legal Business Name (required)</li>
+                        <li>Address: Street, Line 2, City, State, ZIP</li>
+                        <li>EIN with format validation (XX-XXXXXXX)</li>
+                        <li>All required fields marked with asterisk</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Validation</p>
+                    <p class="text-xs text-warm-500 mb-4">Client-side form validation</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Validates on blur (field exit)</li>
+                        <li>EIN format: XX-XXXXXXX pattern</li>
+                        <li>ZIP: 5 digits only</li>
+                        <li>Submit disabled until all valid</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- States -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. States</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Default</p>
+                    <p class="text-xs text-warm-500 mb-4">Initial page load</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>All fields empty</li>
+                        <li>Submit button disabled</li>
+                        <li>No error messages</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Partial Entry</p>
+                    <p class="text-xs text-warm-500 mb-4">Some fields filled</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Submit still disabled</li>
+                        <li>Validated fields show success</li>
+                        <li>Invalid fields show error on blur</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Valid</p>
+                    <p class="text-xs text-warm-500 mb-4">All required fields complete</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Submit button enabled</li>
+                        <li>Emerald button color</li>
+                        <li>Ready to proceed</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Submitted</p>
+                    <p class="text-xs text-warm-500 mb-4">After successful submit</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Success banner appears</li>
+                        <li>Form data preserved</li>
+                        <li>Navigate to Phase 3</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/onboarding-phase-1-platform-connection.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Phase 1: Platform Connection</p>
+                    <p class="text-xs text-warm-500">Previous onboarding step.</p>
+                </a>
+                <a href="/merchant/components/setup-progress.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Setup Progress</p>
+                    <p class="text-xs text-warm-500">Component documentation.</p>
+                </a>
+                <a href="/merchant/screens/settings.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Settings</p>
+                    <p class="text-xs text-warm-500">Where business info displays later.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <script>
+        (function() {
+            const form = document.getElementById('business-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const successBanner = document.getElementById('success-banner');
+
+            const fields = {
+                'business-name': { required: true, validate: v => v.trim().length >= 2 },
+                'street-address': { required: true, validate: v => v.trim().length >= 2 },
+                'city': { required: true, validate: v => v.trim().length >= 2 },
+                'state': { required: true, validate: v => v !== '' },
+                'zip': { required: true, validate: v => /^\d{5}$/.test(v) },
+                'ein': { required: true, validate: v => /^\d{2}-\d{7}$/.test(v) }
+            };
+
+            function validateField(id) {
+                const input = document.getElementById(id);
+                const error = document.getElementById(id + '-error');
+                const config = fields[id];
+
+                if (!config) return true;
+
+                const isValid = config.validate(input.value);
+
+                if (error) {
+                    error.classList.toggle('visible', !isValid && input.value !== '');
+                }
+                input.classList.toggle('error', !isValid && input.value !== '');
+
+                return isValid;
+            }
+
+            function validateForm() {
+                let allValid = true;
+                for (const id in fields) {
+                    const input = document.getElementById(id);
+                    if (fields[id].required && !fields[id].validate(input.value)) {
+                        allValid = false;
+                    }
+                }
+                submitBtn.disabled = !allValid;
+                return allValid;
+            }
+
+            // EIN auto-format
+            const einInput = document.getElementById('ein');
+            einInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 2) {
+                    value = value.slice(0, 2) + '-' + value.slice(2, 9);
+                }
+                e.target.value = value;
+                validateForm();
+            });
+
+            // ZIP validation
+            const zipInput = document.getElementById('zip');
+            zipInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                validateForm();
+            });
+
+            // Add blur validation to all fields
+            for (const id in fields) {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('blur', () => validateField(id));
+                    input.addEventListener('input', validateForm);
+                    input.addEventListener('change', validateForm);
+                }
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (!validateForm()) return;
+
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Submitting...</span>';
+
+                // Simulate API call
+                setTimeout(() => {
+                    successBanner.classList.add('visible');
+                    submitBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Submitted';
+                    lucide.createIcons();
+
+                    // Log form data
+                    console.log('Business Information Submitted:', {
+                        business_name: document.getElementById('business-name').value,
+                        address: {
+                            street_1: document.getElementById('street-address').value,
+                            street_2: document.getElementById('address-line-2').value,
+                            city: document.getElementById('city').value,
+                            state: document.getElementById('state').value,
+                            zip: document.getElementById('zip').value
+                        },
+                        ein: document.getElementById('ein').value
+                    });
+                }, 1000);
+            });
+
+            // Initial validation
+            validateForm();
+        })();
+    </script>
+</body>
+</html>
