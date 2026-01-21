@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearing Balance Calculator | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Code block */
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 12px; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* CLEARING BALANCE CALCULATOR STYLES       */
+        /* ========================================= */
+
+        .calculator-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .calculator-header {
+            margin-bottom: 24px;
+        }
+
+        .calculator-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: hsl(var(--warm-900));
+            margin-bottom: 8px;
+        }
+
+        .calculator-description {
+            font-size: 16px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+        }
+
+        /* Recommendation Box */
+        .recommendation-box {
+            background: hsl(var(--emerald-50));
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .recommendation-box.warning {
+            border-color: hsl(var(--orange-300));
+        }
+
+        .recommendation-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            margin-bottom: 16px;
+        }
+
+        .amount-display {
+            font-size: 48px;
+            font-weight: 700;
+            color: hsl(var(--emerald-600));
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            transition: color 0.15s ease;
+        }
+
+        .amount-display.warning {
+            color: hsl(var(--orange-500));
+        }
+
+        /* Slider */
+        .slider-container {
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
+
+        .slider-track {
+            position: relative;
+            width: 100%;
+        }
+
+        .balance-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .balance-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transition: background 0.15s ease, transform 0.1s ease;
+        }
+
+        .balance-slider::-webkit-slider-thumb:hover {
+            background: hsl(var(--emerald-600));
+            transform: scale(1.1);
+        }
+
+        .balance-slider::-webkit-slider-thumb:active {
+            background: hsl(var(--emerald-700));
+        }
+
+        .balance-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .balance-slider::-moz-range-thumb:hover {
+            background: hsl(var(--emerald-600));
+        }
+
+        .balance-slider:focus {
+            outline: none;
+        }
+
+        .balance-slider:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 30%), 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .slider-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Custom Input */
+        .custom-input-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .custom-input-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-700));
+            white-space: nowrap;
+        }
+
+        .custom-input-wrapper {
+            position: relative;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .custom-input-prefix {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            pointer-events: none;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 12px 16px 12px 32px;
+            font-size: 16px;
+            font-weight: 500;
+            color: hsl(var(--warm-900));
+            background: white;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: hsl(var(--emerald-500));
+            border-width: 2px;
+            padding: 11px 15px 11px 31px;
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 10%);
+        }
+
+        .custom-input.error {
+            border-color: hsl(var(--orange-400));
+        }
+
+        /* Coverage Box */
+        .coverage-box {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .coverage-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--warm-900));
+            margin-bottom: 16px;
+        }
+
+        .coverage-section {
+            margin-bottom: 20px;
+        }
+
+        .coverage-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .coverage-section-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-900));
+            margin-bottom: 8px;
+        }
+
+        .coverage-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .coverage-list li {
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+            line-height: 1.6;
+            padding-left: 16px;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .coverage-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: hsl(var(--warm-400));
+        }
+
+        .coverage-list .highlight {
+            color: hsl(var(--emerald-600));
+            font-weight: 500;
+        }
+
+        .coverage-divider {
+            border-top: 1px solid hsl(var(--warm-200));
+            margin: 16px 0;
+        }
+
+        /* Validation Messages */
+        .validation-warning {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 16px;
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .validation-warning-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .validation-warning-text {
+            font-size: 13px;
+            color: hsl(var(--orange-700));
+            line-height: 1.4;
+        }
+
+        .validation-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 16px;
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .validation-info-icon {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--indigo-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .validation-info-text {
+            font-size: 13px;
+            color: hsl(var(--indigo-700));
+            line-height: 1.4;
+        }
+
+        /* Info Notice */
+        .info-notice {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 24px;
+        }
+
+        .info-notice-icon {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Continue Button */
+        .btn-continue {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-continue:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        /* Settings Context Specific */
+        .current-balance-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .current-balance-label {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+        }
+
+        .current-balance-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: hsl(var(--warm-900));
+        }
+
+        .runway-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .runway-indicator.low {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-700));
+        }
+
+        .runway-indicator.good {
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-700));
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .recommendation-box { padding: 24px 16px; }
+            .amount-display { font-size: 40px; }
+            .coverage-box { padding: 16px; }
+            .custom-input-container { flex-direction: column; align-items: stretch; }
+            .custom-input-wrapper { max-width: none; }
+            .balance-slider::-webkit-slider-thumb { width: 32px; height: 32px; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Clearing Balance Calculator</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-2">Clearing Balance Calculator</h1>
+            <p class="text-warm-600">Interactive calculator helping merchants determine the appropriate clearing balance funding amount. Used in Onboarding Phase 5 and Settings &gt; Finance.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: OVERVIEW                        -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Overview</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">MVP Approach</p>
+                    <p class="text-sm text-warm-600">Single clear recommendation with adjustment capability. Not multiple scenarios.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Two Contexts</p>
+                    <p class="text-sm text-warm-600"><strong>Onboarding:</strong> Uses category benchmarks. <strong>Settings:</strong> Uses actual transaction history.</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-5">
+                    <p class="font-medium text-ink mb-2">Core Features</p>
+                    <p class="text-sm text-warm-600">Interactive slider, custom input, real-time coverage estimates, validation warnings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: ONBOARDING CONTEXT DEMO         -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Interactive Demo: Onboarding Context</p>
+            <p class="text-sm text-warm-600 mb-6">First-time merchant funding. Uses category benchmarks since there's no transaction history yet.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <!-- Category selector for demo -->
+                <div class="mb-6 p-4 bg-warm-50 rounded-lg">
+                    <label class="text-sm font-medium text-warm-700 mb-2 block">Demo: Select category</label>
+                    <select id="demo-category" class="px-4 py-2 border border-warm-300 rounded-md text-sm">
+                        <option value="home-garden">Home & Garden ($50K/mo)</option>
+                        <option value="apparel">Apparel ($75K/mo)</option>
+                        <option value="beauty">Beauty ($40K/mo)</option>
+                        <option value="food-beverage">Food & Beverage ($30K/mo)</option>
+                    </select>
+                </div>
+
+                <div class="calculator-container" id="onboarding-calculator">
+                    <div class="calculator-header">
+                        <h2 class="calculator-title">Calculate Your Clearing Balance</h2>
+                        <p class="calculator-description">Based on your business profile and category, we recommend starting with the amount below. You can adjust as needed.</p>
+                    </div>
+
+                    <!-- Recommendation Box -->
+                    <div class="recommendation-box" id="onboarding-rec-box">
+                        <p class="recommendation-label">Recommended Amount</p>
+                        <div class="amount-display" id="onboarding-amount">$5,000</div>
+
+                        <!-- Slider -->
+                        <div class="slider-container">
+                            <div class="slider-track">
+                                <input
+                                    type="range"
+                                    id="onboarding-slider"
+                                    class="balance-slider"
+                                    min="500"
+                                    max="10000"
+                                    step="100"
+                                    value="5000"
+                                    aria-valuemin="500"
+                                    aria-valuemax="10000"
+                                    aria-valuenow="5000"
+                                    aria-valuetext="$5,000"
+                                    aria-label="Clearing balance amount"
+                                >
+                            </div>
+                            <div class="slider-labels">
+                                <span class="slider-label">$500</span>
+                                <span class="slider-label">$10,000</span>
+                            </div>
+                        </div>
+
+                        <!-- Custom Input -->
+                        <div class="custom-input-container">
+                            <label for="onboarding-input" class="custom-input-label">Or enter custom amount:</label>
+                            <div class="custom-input-wrapper">
+                                <span class="custom-input-prefix">$</span>
+                                <input
+                                    type="text"
+                                    id="onboarding-input"
+                                    class="custom-input"
+                                    value="5,000"
+                                    inputmode="numeric"
+                                    aria-describedby="onboarding-input-hint"
+                                >
+                            </div>
+                        </div>
+                        <span id="onboarding-input-hint" class="sr-only">Enter amount in dollars, minimum $500</span>
+                    </div>
+
+                    <!-- Validation Messages (hidden by default) -->
+                    <div class="validation-warning" id="onboarding-warning-low" style="display: none;">
+                        <i data-lucide="alert-triangle" class="validation-warning-icon"></i>
+                        <p class="validation-warning-text">This amount may not support many transactions. Minimum $500 recommended for adequate coverage.</p>
+                    </div>
+
+                    <div class="validation-info" id="onboarding-warning-high" style="display: none;">
+                        <i data-lucide="info" class="validation-info-icon"></i>
+                        <p class="validation-info-text">Large clearing balance. Most merchants start with $5,000-$10,000. You can always add more later in Settings.</p>
+                    </div>
+
+                    <!-- Coverage Box -->
+                    <div class="coverage-box">
+                        <p class="coverage-title">What this amount covers:</p>
+
+                        <div class="coverage-section">
+                            <p class="coverage-section-header">Transaction Capacity</p>
+                            <ul class="coverage-list">
+                                <li><span class="highlight" id="onboarding-tx-count">50-100</span> transactions (at <span id="onboarding-tx-avg">$50-$100</span> average)</li>
+                                <li>Approximately <span class="highlight" id="onboarding-days">10-15 days</span> at expected volume</li>
+                            </ul>
+                        </div>
+
+                        <div class="coverage-divider"></div>
+
+                        <div class="coverage-section">
+                            <p class="coverage-section-header">Penetration Assumption</p>
+                            <ul class="coverage-list">
+                                <li><span id="onboarding-penetration">10%</span> of your customers will use rewards commerce</li>
+                                <li>Based on <span id="onboarding-category-name">Home & Garden</span> category benchmark</li>
+                            </ul>
+                        </div>
+
+                        <div class="coverage-divider"></div>
+
+                        <div class="coverage-section">
+                            <p class="coverage-section-header">Risk Buffer</p>
+                            <ul class="coverage-list">
+                                <li>Includes 25% buffer for variability</li>
+                                <li>Reduces chance of running out</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Info Notice -->
+                    <div class="info-notice">
+                        <i data-lucide="info" class="info-notice-icon"></i>
+                        <span>You can add more funds anytime in Settings > Finance</span>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <button class="btn-continue" id="onboarding-btn">
+                        Continue with <span id="onboarding-btn-amount">$5,000</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: SETTINGS CONTEXT DEMO           -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Interactive Demo: Settings Context</p>
+            <p class="text-sm text-warm-600 mb-6">Existing merchant with transaction history. Recommends top-up amount based on actual usage patterns.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="calculator-container" id="settings-calculator">
+                    <div class="calculator-header">
+                        <h2 class="calculator-title">Clearing Balance Planning Calculator</h2>
+                        <p class="calculator-description">Based on your recent transaction history, we recommend the following top-up:</p>
+                    </div>
+
+                    <!-- Current Balance Display -->
+                    <div class="current-balance-display">
+                        <div>
+                            <p class="current-balance-label">Current Balance</p>
+                            <p class="current-balance-value">$1,900</p>
+                        </div>
+                        <div class="runway-indicator low">
+                            <i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i>
+                            8 days runway
+                        </div>
+                    </div>
+
+                    <!-- Recommendation Box -->
+                    <div class="recommendation-box" id="settings-rec-box">
+                        <p class="recommendation-label">Recommended Top-Up</p>
+                        <div class="amount-display" id="settings-amount">$5,500</div>
+
+                        <!-- Slider -->
+                        <div class="slider-container">
+                            <div class="slider-track">
+                                <input
+                                    type="range"
+                                    id="settings-slider"
+                                    class="balance-slider"
+                                    min="500"
+                                    max="20000"
+                                    step="100"
+                                    value="5500"
+                                    aria-valuemin="500"
+                                    aria-valuemax="20000"
+                                    aria-valuenow="5500"
+                                    aria-valuetext="$5,500"
+                                    aria-label="Top-up amount"
+                                >
+                            </div>
+                            <div class="slider-labels">
+                                <span class="slider-label">$500</span>
+                                <span class="slider-label">$20,000</span>
+                            </div>
+                        </div>
+
+                        <!-- Custom Input -->
+                        <div class="custom-input-container">
+                            <label for="settings-input" class="custom-input-label">Or enter custom amount:</label>
+                            <div class="custom-input-wrapper">
+                                <span class="custom-input-prefix">$</span>
+                                <input
+                                    type="text"
+                                    id="settings-input"
+                                    class="custom-input"
+                                    value="5,500"
+                                    inputmode="numeric"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Validation Messages -->
+                    <div class="validation-warning" id="settings-warning-low" style="display: none;">
+                        <i data-lucide="alert-triangle" class="validation-warning-icon"></i>
+                        <p class="validation-warning-text">This top-up may not provide adequate runway based on your current usage.</p>
+                    </div>
+
+                    <!-- Coverage Box (Settings) -->
+                    <div class="coverage-box">
+                        <p class="coverage-title">Based on your actual usage:</p>
+
+                        <div class="coverage-section">
+                            <p class="coverage-section-header">Recent Activity (Last 30 Days)</p>
+                            <ul class="coverage-list">
+                                <li>Average daily usage: <span class="highlight">$238</span></li>
+                                <li>Current runway: <span class="highlight">8 days</span> at this rate</li>
+                                <li>With top-up: <span class="highlight" id="settings-new-runway">31 days</span> runway</li>
+                            </ul>
+                        </div>
+
+                        <div class="coverage-divider"></div>
+
+                        <div class="coverage-section">
+                            <p class="coverage-section-header">Transaction Pattern</p>
+                            <ul class="coverage-list">
+                                <li>12% of customers use rewards commerce</li>
+                                <li>Average reward transaction: $87</li>
+                                <li style="color: hsl(var(--emerald-600));">Higher than category benchmark (good!)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <button class="btn-continue" id="settings-btn">
+                        Add <span id="settings-btn-amount">$5,500</span> to Clearing Balance
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: VALIDATION STATES               -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Validation States</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Amount Too Low (&lt;$500)</p>
+                    <div class="validation-warning" style="margin-bottom: 0;">
+                        <i data-lucide="alert-triangle" class="validation-warning-icon"></i>
+                        <p class="validation-warning-text">This amount may not support many transactions. Minimum $500 recommended for adequate coverage.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Amount Very High (&gt;$50,000)</p>
+                    <div class="validation-info" style="margin-bottom: 0;">
+                        <i data-lucide="info" class="validation-info-icon"></i>
+                        <p class="validation-info-text">Large clearing balance. Most merchants start with $5,000-$10,000. You can always add more later in Settings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: CALCULATION LOGIC               -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Calculation Logic</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Onboarding (No History)</p>
+                    <ol class="space-y-2 text-sm text-warm-600">
+                        <li>1. Get monthly revenue from profile</li>
+                        <li>2. Apply category penetration rate (8-15%)</li>
+                        <li>3. Add 25% risk buffer</li>
+                        <li>4. Round to nearest $500</li>
+                        <li>5. Enforce min $500, max $50,000</li>
+                    </ol>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Settings (With History)</p>
+                    <ol class="space-y-2 text-sm text-warm-600">
+                        <li>1. Calculate daily average usage (30 days)</li>
+                        <li>2. Target: 30 days runway</li>
+                        <li>3. Top-up = (daily × 30) - current balance</li>
+                        <li>4. Round to nearest $500</li>
+                        <li>5. Minimum $500 top-up</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Category Benchmarks</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Category</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Penetration Rate</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Avg Transaction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-700">Home & Garden</td>
+                            <td class="px-6 py-3 text-warm-600">10%</td>
+                            <td class="px-6 py-3 text-warm-600">$75</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-700">Apparel</td>
+                            <td class="px-6 py-3 text-warm-600">15%</td>
+                            <td class="px-6 py-3 text-warm-600">$60</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-700">Beauty</td>
+                            <td class="px-6 py-3 text-warm-600">12%</td>
+                            <td class="px-6 py-3 text-warm-600">$50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-warm-700">Food & Beverage</td>
+                            <td class="px-6 py-3 text-warm-600">8%</td>
+                            <td class="px-6 py-3 text-warm-600">$40</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: ACCESSIBILITY                   -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Accessibility</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">ARIA & Keyboard</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Slider: <code>aria-valuemin</code>, <code>aria-valuemax</code>, <code>aria-valuenow</code>, <code>aria-valuetext</code></li>
+                        <li>• Tab order: Slider → Input → Button</li>
+                        <li>• Arrow keys: ±$100</li>
+                        <li>• Page Up/Down: ±$1,000</li>
+                        <li>• Home/End: Min/Max</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Screen Reader</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Announces value changes: "$5,500"</li>
+                        <li>• Input has descriptive hint</li>
+                        <li>• Validation warnings announced via live region</li>
+                        <li>• Coverage updates debounced (300ms)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: DESIGN DECISIONS                -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why single recommendation (not multiple scenarios)?</p>
+                    <p class="text-sm text-warm-600">MVP simplicity. Merchant just wants to know "how much?" - not evaluate 3 options. Single strong recommendation with adjustment capability is clearer.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why include slider AND custom input?</p>
+                    <p class="text-sm text-warm-600">Flexibility. Slider is intuitive for browsing ranges, custom input for precision. Some merchants know exactly what they want, others want guidance.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why 25% risk buffer?</p>
+                    <p class="text-sm text-warm-600">Safety. Merchants shouldn't run out of balance. Better to start slightly high than run dry and create anxiety.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why round to nearest $500?</p>
+                    <p class="text-sm text-warm-600">Cleaner numbers. $5,000 feels better than $4,847.32. Psychological preference for round numbers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: RELATED COMPONENTS              -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/components/money-flow-diagram.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Money Flow Diagram</p>
+                    <p class="text-xs text-warm-500">Shows before calculator in Phase 5.</p>
+                </a>
+                <a href="/merchant/components/fee-structure-display.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Fee Structure Display</p>
+                    <p class="text-xs text-warm-500">Pricing context for Phase 4.</p>
+                </a>
+                <a href="/merchant/screens/settings.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Settings Screen</p>
+                    <p class="text-xs text-warm-500">Finance tab context.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <!-- Calculator Logic -->
+    <script>
+    (function() {
+        // =========================================
+        // CATEGORY BENCHMARKS
+        // =========================================
+        const categoryBenchmarks = {
+            'home-garden': { penetration: 0.10, avgTransaction: 75, monthlyRevenue: 50000, name: 'Home & Garden' },
+            'apparel': { penetration: 0.15, avgTransaction: 60, monthlyRevenue: 75000, name: 'Apparel' },
+            'beauty': { penetration: 0.12, avgTransaction: 50, monthlyRevenue: 40000, name: 'Beauty' },
+            'food-beverage': { penetration: 0.08, avgTransaction: 40, monthlyRevenue: 30000, name: 'Food & Beverage' }
+        };
+
+        // =========================================
+        // UTILITY FUNCTIONS
+        // =========================================
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString('en-US');
+        }
+
+        function parseCurrency(str) {
+            return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0;
+        }
+
+        function roundToNearest(amount, nearest) {
+            return Math.round(amount / nearest) * nearest;
+        }
+
+        // =========================================
+        // ONBOARDING CALCULATOR
+        // =========================================
+        function calculateOnboardingRecommendation(category) {
+            const benchmark = categoryBenchmarks[category];
+            const monthlyRewardsVolume = benchmark.monthlyRevenue * benchmark.penetration;
+            const withBuffer = monthlyRewardsVolume * 1.25;
+            const rounded = roundToNearest(withBuffer, 500);
+            return Math.max(500, Math.min(50000, rounded));
+        }
+
+        function calculateOnboardingCoverage(amount, category) {
+            const benchmark = categoryBenchmarks[category];
+            const avgTx = benchmark.avgTransaction;
+            const estimatedTxCount = Math.floor(amount / avgTx);
+            const minTx = Math.max(1, Math.floor(estimatedTxCount * 0.5));
+            const maxTx = Math.ceil(estimatedTxCount * 1.5);
+
+            // Days calculation
+            const dailyVolume = (benchmark.monthlyRevenue * benchmark.penetration) / 30;
+            const daysMin = Math.max(1, Math.floor(amount / dailyVolume * 0.7));
+            const daysMax = Math.ceil(amount / dailyVolume * 1.3);
+
+            return {
+                txCount: `${minTx}-${maxTx}`,
+                txAvg: `$${avgTx}-$${Math.round(avgTx * 1.5)}`,
+                days: `${daysMin}-${daysMax} days`,
+                penetration: `${Math.round(benchmark.penetration * 100)}%`,
+                categoryName: benchmark.name
+            };
+        }
+
+        function updateOnboardingCalculator(amount) {
+            const category = document.getElementById('demo-category').value;
+            const benchmark = categoryBenchmarks[category];
+
+            // Update amount display
+            document.getElementById('onboarding-amount').textContent = formatCurrency(amount);
+            document.getElementById('onboarding-btn-amount').textContent = formatCurrency(amount);
+
+            // Update slider aria
+            const slider = document.getElementById('onboarding-slider');
+            slider.setAttribute('aria-valuenow', amount);
+            slider.setAttribute('aria-valuetext', formatCurrency(amount));
+
+            // Update coverage
+            const coverage = calculateOnboardingCoverage(amount, category);
+            document.getElementById('onboarding-tx-count').textContent = coverage.txCount;
+            document.getElementById('onboarding-tx-avg').textContent = coverage.txAvg;
+            document.getElementById('onboarding-days').textContent = coverage.days;
+            document.getElementById('onboarding-penetration').textContent = coverage.penetration;
+            document.getElementById('onboarding-category-name').textContent = coverage.categoryName;
+
+            // Validation warnings
+            const warningLow = document.getElementById('onboarding-warning-low');
+            const warningHigh = document.getElementById('onboarding-warning-high');
+            const recBox = document.getElementById('onboarding-rec-box');
+            const amountDisplay = document.getElementById('onboarding-amount');
+
+            warningLow.style.display = amount < 500 ? 'flex' : 'none';
+            warningHigh.style.display = amount > 50000 ? 'flex' : 'none';
+
+            if (amount < 500) {
+                recBox.classList.add('warning');
+                amountDisplay.classList.add('warning');
+            } else {
+                recBox.classList.remove('warning');
+                amountDisplay.classList.remove('warning');
+            }
+        }
+
+        // Onboarding: Slider event
+        const onboardingSlider = document.getElementById('onboarding-slider');
+        const onboardingInput = document.getElementById('onboarding-input');
+
+        onboardingSlider.addEventListener('input', function() {
+            const amount = parseInt(this.value, 10);
+            onboardingInput.value = amount.toLocaleString('en-US');
+            updateOnboardingCalculator(amount);
+        });
+
+        // Onboarding: Input event
+        onboardingInput.addEventListener('input', function() {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value) {
+                const amount = parseInt(value, 10);
+                this.value = amount.toLocaleString('en-US');
+
+                // Sync slider (within bounds)
+                const sliderVal = Math.min(10000, Math.max(500, amount));
+                onboardingSlider.value = sliderVal;
+
+                updateOnboardingCalculator(amount);
+            }
+        });
+
+        onboardingInput.addEventListener('blur', function() {
+            const amount = parseCurrency(this.value);
+            if (amount < 500) {
+                this.value = '500';
+                onboardingSlider.value = 500;
+                updateOnboardingCalculator(500);
+            }
+        });
+
+        // Category change
+        document.getElementById('demo-category').addEventListener('change', function() {
+            const rec = calculateOnboardingRecommendation(this.value);
+            onboardingSlider.value = rec;
+            onboardingInput.value = rec.toLocaleString('en-US');
+            updateOnboardingCalculator(rec);
+        });
+
+        // =========================================
+        // SETTINGS CALCULATOR
+        // =========================================
+        const settingsData = {
+            currentBalance: 1900,
+            dailyUsage: 238
+        };
+
+        function calculateSettingsRecommendation() {
+            const targetRunwayDays = 30;
+            const targetBalance = settingsData.dailyUsage * targetRunwayDays;
+            const topUp = targetBalance - settingsData.currentBalance;
+            return Math.max(500, roundToNearest(topUp, 500));
+        }
+
+        function calculateNewRunway(topUpAmount) {
+            const newBalance = settingsData.currentBalance + topUpAmount;
+            return Math.floor(newBalance / settingsData.dailyUsage);
+        }
+
+        function updateSettingsCalculator(amount) {
+            // Update amount display
+            document.getElementById('settings-amount').textContent = formatCurrency(amount);
+            document.getElementById('settings-btn-amount').textContent = formatCurrency(amount);
+
+            // Update slider aria
+            const slider = document.getElementById('settings-slider');
+            slider.setAttribute('aria-valuenow', amount);
+            slider.setAttribute('aria-valuetext', formatCurrency(amount));
+
+            // Update runway
+            const newRunway = calculateNewRunway(amount);
+            document.getElementById('settings-new-runway').textContent = newRunway + ' days';
+
+            // Validation
+            const warningLow = document.getElementById('settings-warning-low');
+            warningLow.style.display = newRunway < 14 ? 'flex' : 'none';
+        }
+
+        // Settings: Slider event
+        const settingsSlider = document.getElementById('settings-slider');
+        const settingsInput = document.getElementById('settings-input');
+
+        settingsSlider.addEventListener('input', function() {
+            const amount = parseInt(this.value, 10);
+            settingsInput.value = amount.toLocaleString('en-US');
+            updateSettingsCalculator(amount);
+        });
+
+        // Settings: Input event
+        settingsInput.addEventListener('input', function() {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value) {
+                const amount = parseInt(value, 10);
+                this.value = amount.toLocaleString('en-US');
+
+                // Sync slider (within bounds)
+                const sliderVal = Math.min(20000, Math.max(500, amount));
+                settingsSlider.value = sliderVal;
+
+                updateSettingsCalculator(amount);
+            }
+        });
+
+        settingsInput.addEventListener('blur', function() {
+            const amount = parseCurrency(this.value);
+            if (amount < 500) {
+                this.value = '500';
+                settingsSlider.value = 500;
+                updateSettingsCalculator(500);
+            }
+        });
+
+        // =========================================
+        // INITIALIZE
+        // =========================================
+        // Set initial values
+        const initialOnboardingRec = calculateOnboardingRecommendation('home-garden');
+        onboardingSlider.value = initialOnboardingRec;
+        onboardingInput.value = initialOnboardingRec.toLocaleString('en-US');
+        updateOnboardingCalculator(initialOnboardingRec);
+
+        const initialSettingsRec = calculateSettingsRecommendation();
+        settingsSlider.value = initialSettingsRec;
+        settingsInput.value = initialSettingsRec.toLocaleString('en-US');
+        updateSettingsCalculator(initialSettingsRec);
+    })();
+    </script>
+</body>
+</html>

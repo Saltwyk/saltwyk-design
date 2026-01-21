@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Phase 7: Payout Schedule | Merchant Screens | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Setup Progress */
+        .progress-steps { display: flex; align-items: center; gap: 8px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--warm-300)); flex-shrink: 0; }
+        .step-dot.completed { background: hsl(var(--emerald-500)); }
+        .step-dot.active { background: hsl(var(--indigo-500)); box-shadow: 0 0 0 4px hsl(var(--indigo-100)); }
+        .step-line { flex: 1; height: 2px; background: hsl(var(--warm-200)); }
+        .step-line.completed { background: hsl(var(--emerald-500)); }
+
+        .mobile-step-card { background: white; border: 1px solid hsl(var(--warm-200)); border-radius: 12px; padding: 20px; }
+        .mobile-step-card .step-counter { font-size: 12px; color: hsl(var(--warm-500)); margin-bottom: 4px; }
+        .mobile-step-card h3 { font-size: 18px; font-weight: 600; color: hsl(var(--ink)); margin-bottom: 4px; }
+        .mobile-step-card p { font-size: 14px; color: hsl(var(--warm-500)); }
+
+        /* Onboarding Layout */
+        .onboarding-screen { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+        .onboarding-header { margin-bottom: 32px; }
+        .onboarding-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: hsl(var(--warm-500)); text-decoration: none; margin-bottom: 16px; }
+        .onboarding-back:hover { color: hsl(var(--warm-700)); }
+        .onboarding-title { font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 700; color: hsl(var(--ink)); margin-bottom: 8px; }
+        .onboarding-subtitle { font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.5; }
+
+        /* Info Box */
+        .info-box { background: hsl(var(--indigo-50)); border: 1px solid hsl(var(--indigo-200)); border-radius: 8px; padding: 20px; margin-bottom: 32px; }
+        .info-box-title { font-size: 16px; font-weight: 600; color: hsl(var(--ink)); margin-bottom: 8px; }
+        .info-box-text { font-size: 14px; color: hsl(var(--warm-700)); line-height: 1.6; }
+        .info-box-bank { margin-top: 16px; padding-top: 16px; border-top: 1px solid hsl(var(--indigo-200)); }
+        .info-box-bank strong { color: hsl(var(--ink)); }
+
+        /* Radio Cards */
+        .radio-card { display: block; background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px; padding: 20px; margin-bottom: 16px; cursor: pointer; transition: all 0.15s ease; }
+        .radio-card:hover { border-color: hsl(var(--warm-300)); background: hsl(var(--warm-50)); }
+        .radio-card.selected { border-color: hsl(var(--indigo-500)); background: hsl(var(--indigo-50)); }
+        .radio-card input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+        .radio-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .radio-card-title { font-size: 16px; font-weight: 600; color: hsl(var(--ink)); }
+        .radio-card-badge { display: inline-flex; padding: 4px 10px; background: hsl(var(--emerald-100)); color: hsl(var(--emerald-700)); font-size: 12px; font-weight: 500; border-radius: 12px; }
+        .radio-card-description { font-size: 14px; color: hsl(var(--warm-600)); margin-bottom: 12px; }
+        .radio-card-benefits { list-style: none; padding: 0; margin: 0; }
+        .radio-card-benefits li { font-size: 14px; color: hsl(var(--warm-600)); padding-left: 20px; position: relative; margin-bottom: 6px; }
+        .radio-card-benefits li::before { content: "•"; position: absolute; left: 0; color: hsl(var(--emerald-500)); font-weight: bold; }
+
+        /* Minimum Amount Config */
+        .minimum-amount-config { margin: 16px 0; padding: 16px; background: white; border: 1px solid hsl(var(--indigo-200)); border-radius: 6px; }
+        .dollar-input { position: relative; max-width: 180px; }
+        .dollar-prefix { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; font-weight: 500; color: hsl(var(--warm-500)); pointer-events: none; }
+        .dollar-input input { width: 100%; padding: 12px 16px 12px 32px; font-size: 16px; font-weight: 500; color: hsl(var(--warm-900)); background: white; border: 1px solid hsl(var(--warm-300)); border-radius: 6px; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+        .dollar-input input:focus { outline: none; border-color: hsl(var(--indigo-500)); box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%); }
+        .dollar-input input.error { border-color: hsl(var(--magenta-500)); }
+        .form-hint { font-size: 12px; color: hsl(var(--warm-500)); margin-top: 6px; }
+        .form-error { font-size: 12px; color: hsl(var(--magenta-600)); margin-top: 6px; display: none; }
+        .form-error.visible { display: block; }
+
+        /* Notice Box */
+        .notice-box { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border-radius: 6px; margin-top: 24px; }
+        .notice-box--warning { background: hsl(var(--orange-50)); border: 1px solid hsl(var(--orange-200)); border-left: 4px solid hsl(var(--orange-400)); }
+        .notice-box-icon { color: hsl(var(--orange-500)); flex-shrink: 0; }
+        .notice-box-text { font-size: 14px; color: hsl(var(--warm-700)); line-height: 1.5; }
+
+        /* Form Actions */
+        .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid hsl(var(--warm-200)); }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: white; color: hsl(var(--warm-600)); border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+        .btn-back:hover { background: hsl(var(--warm-50)); border-color: hsl(var(--warm-400)); color: hsl(var(--warm-700)); }
+
+        .btn-continue { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: hsl(var(--emerald-600)); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+        .btn-continue:hover { background: hsl(var(--emerald-700)); }
+        .btn-continue:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Success Message */
+        .success-banner { display: none; background: hsl(var(--emerald-50)); border: 1px solid hsl(var(--emerald-200)); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; }
+        .success-banner.visible { display: flex; align-items: center; gap: 12px; }
+        .success-banner-icon { color: hsl(var(--emerald-500)); flex-shrink: 0; }
+        .success-banner-text { font-size: 14px; color: hsl(var(--emerald-700)); }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .onboarding-screen { padding: 24px 16px; }
+            .onboarding-title { font-size: 24px; }
+            .radio-card { padding: 16px; }
+            .form-actions { flex-direction: column; gap: 12px; }
+            .form-actions button { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Onboarding Phase 7</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Phase 7: Payout Schedule</h1>
+            <p class="text-warm-600">Step 7 of 9 in merchant onboarding. Configure how often to receive earned funds from settlements.</p>
+        </header>
+
+        <!-- Full Screen Preview -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Screen Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Complete payout schedule configuration with radio cards and conditional input.</p>
+
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-ledger rounded-lg shadow-lg overflow-hidden">
+                    <div class="h-[3px] w-full thread-cool"></div>
+
+                    <div class="onboarding-screen">
+                        <!-- Back Link -->
+                        <a href="/merchant/screens/onboarding-phase-6-auto-fund.html" class="onboarding-back">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Back
+                        </a>
+
+                        <!-- Setup Progress - Step 7 of 9 -->
+                        <div class="mb-8">
+                            <div class="progress-steps mb-4">
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot active"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                            <div class="mobile-step-card">
+                                <p class="step-counter">Step 7 of 9</p>
+                                <h3>Payout Schedule</h3>
+                                <p>Choose how often you receive earned funds.</p>
+                            </div>
+                        </div>
+
+                        <!-- Page Header -->
+                        <div class="onboarding-header">
+                            <h1 class="onboarding-title">Payout Schedule</h1>
+                            <p class="onboarding-subtitle">Choose how often you receive earned funds from settlements.</p>
+                        </div>
+
+                        <!-- Success Banner (hidden by default) -->
+                        <div class="success-banner" id="success-banner">
+                            <i data-lucide="check-circle" class="success-banner-icon w-5 h-5"></i>
+                            <span class="success-banner-text" id="success-text">Payout schedule saved successfully.</span>
+                        </div>
+
+                        <!-- Info Box: How Payouts Work -->
+                        <div class="info-box">
+                            <h3 class="info-box-title">How payouts work</h3>
+                            <p class="info-box-text">
+                                When you receive settlements from other merchants, funds accumulate in your Stripe account.
+                                You can withdraw them to your bank on your chosen schedule.
+                            </p>
+                            <div class="info-box-bank">
+                                <p class="info-box-text">
+                                    <strong>Your Bank:</strong> Bank of America (...4567)
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Schedule Options -->
+                        <div class="schedule-options">
+                            <!-- Option 1: Daily (Recommended) -->
+                            <label class="radio-card selected" id="daily-card">
+                                <input type="radio" name="payout-schedule" value="daily" checked>
+                                <div class="radio-card-header">
+                                    <span class="radio-card-title">Daily</span>
+                                    <span class="radio-card-badge">Recommended</span>
+                                </div>
+                                <p class="radio-card-description">
+                                    Receive payouts every day at 11 PM UTC
+                                </p>
+                                <ul class="radio-card-benefits">
+                                    <li>Best cash flow</li>
+                                    <li>Funds available in 1-2 business days</li>
+                                </ul>
+                            </label>
+
+                            <!-- Option 2: Weekly -->
+                            <label class="radio-card" id="weekly-card">
+                                <input type="radio" name="payout-schedule" value="weekly">
+                                <div class="radio-card-header">
+                                    <span class="radio-card-title">Weekly</span>
+                                </div>
+                                <p class="radio-card-description">
+                                    Receive payouts every Monday at 11 PM UTC
+                                </p>
+                                <ul class="radio-card-benefits">
+                                    <li>Fewer transactions</li>
+                                    <li>Funds stay in Stripe longer</li>
+                                </ul>
+                            </label>
+
+                            <!-- Option 3: Minimum Amount -->
+                            <label class="radio-card" id="minimum-card">
+                                <input type="radio" name="payout-schedule" value="minimum">
+                                <div class="radio-card-header">
+                                    <span class="radio-card-title">Minimum Amount</span>
+                                </div>
+                                <p class="radio-card-description">
+                                    Receive payout when balance reaches:
+                                </p>
+
+                                <!-- Conditional minimum amount input -->
+                                <div class="minimum-amount-config" id="minimum-config" style="display: none;">
+                                    <div class="dollar-input">
+                                        <span class="dollar-prefix">$</span>
+                                        <input
+                                            type="number"
+                                            id="minimum-amount"
+                                            value="1000"
+                                            min="100"
+                                            max="50000"
+                                            step="100"
+                                            aria-label="Minimum payout amount"
+                                            aria-describedby="minimum-hint minimum-error"
+                                        >
+                                    </div>
+                                    <p class="form-hint" id="minimum-hint">Minimum: $100</p>
+                                    <p class="form-error" id="minimum-error">Minimum amount must be at least $100</p>
+                                </div>
+
+                                <ul class="radio-card-benefits">
+                                    <li>Full control over frequency</li>
+                                    <li>May delay payouts if volume is low</li>
+                                </ul>
+                            </label>
+                        </div>
+
+                        <!-- Fee Notice -->
+                        <div class="notice-box notice-box--warning">
+                            <i data-lucide="alert-circle" class="notice-box-icon w-5 h-5"></i>
+                            <p class="notice-box-text">
+                                <strong>Note:</strong> Saltwyk fees are deducted before payouts.
+                            </p>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-back" onclick="window.history.back()">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                Back
+                            </button>
+                            <button type="button" class="btn-continue" id="continue-btn">
+                                Continue
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Component Breakdown -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Component Breakdown</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Info Box: How Payouts Work</p>
+                    <p class="text-xs text-warm-500 mb-4">Educational explanation</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Explains settlement → payout flow</li>
+                        <li>Shows bank account from Phase 3</li>
+                        <li>Indigo styling (informational)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Radio Cards</p>
+                    <p class="text-xs text-warm-500 mb-4">Three schedule options</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Daily (Recommended badge)</li>
+                        <li>Weekly</li>
+                        <li>Minimum Amount (with input)</li>
+                        <li>Selection highlighting</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Minimum Amount Input</p>
+                    <p class="text-xs text-warm-500 mb-4">Conditional field</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Shows only when "Minimum" selected</li>
+                        <li>Dollar input with $ prefix</li>
+                        <li>Min $100, Max $50,000</li>
+                        <li>Validation on submit</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Fee Notice</p>
+                    <p class="text-xs text-warm-500 mb-4">Warning callout</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Orange warning styling</li>
+                        <li>Alert icon</li>
+                        <li>Saltwyk fees deducted note</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/onboarding-phase-6-auto-fund.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Phase 6: Auto-Fund</p>
+                    <p class="text-xs text-warm-500">Previous onboarding step.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-phase-8-exclude-merchants.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Phase 8: Exclude Merchants</p>
+                    <p class="text-xs text-warm-500">Next onboarding step.</p>
+                </a>
+                <a href="/merchant/screens/settings.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Settings Screen</p>
+                    <p class="text-xs text-warm-500">Post-onboarding management.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <script>
+        (function() {
+            // Elements
+            const dailyCard = document.getElementById('daily-card');
+            const weeklyCard = document.getElementById('weekly-card');
+            const minimumCard = document.getElementById('minimum-card');
+            const minimumConfig = document.getElementById('minimum-config');
+            const minimumInput = document.getElementById('minimum-amount');
+            const minimumError = document.getElementById('minimum-error');
+            const continueBtn = document.getElementById('continue-btn');
+            const successBanner = document.getElementById('success-banner');
+
+            const radioCards = [dailyCard, weeklyCard, minimumCard];
+            const radios = document.querySelectorAll('input[name="payout-schedule"]');
+
+            // Update card selection state
+            function updateSelection() {
+                radioCards.forEach(card => {
+                    const radio = card.querySelector('input[type="radio"]');
+                    card.classList.toggle('selected', radio.checked);
+                });
+
+                // Show/hide minimum amount config
+                const minimumRadio = minimumCard.querySelector('input[type="radio"]');
+                minimumConfig.style.display = minimumRadio.checked ? 'block' : 'none';
+            }
+
+            // Handle radio card clicks
+            radioCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking the input field
+                    if (e.target.tagName === 'INPUT' && e.target.type === 'number') return;
+
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    updateSelection();
+                    clearError();
+                });
+            });
+
+            // Handle radio change events
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateSelection();
+                    clearError();
+                });
+            });
+
+            // Validation
+            function clearError() {
+                minimumInput.classList.remove('error');
+                minimumError.classList.remove('visible');
+            }
+
+            function showError(message) {
+                minimumInput.classList.add('error');
+                minimumError.textContent = message;
+                minimumError.classList.add('visible');
+            }
+
+            function validateMinimumAmount() {
+                const minimumRadio = minimumCard.querySelector('input[type="radio"]');
+                if (!minimumRadio.checked) return true;
+
+                const value = parseInt(minimumInput.value);
+
+                if (isNaN(value) || value < 100) {
+                    showError('Minimum amount must be at least $100');
+                    return false;
+                }
+
+                if (value > 50000) {
+                    showError('Maximum amount is $50,000');
+                    return false;
+                }
+
+                clearError();
+                return true;
+            }
+
+            // Input validation on blur
+            minimumInput.addEventListener('blur', function() {
+                if (minimumCard.querySelector('input[type="radio"]').checked) {
+                    validateMinimumAmount();
+                }
+            });
+
+            // Submit handler
+            continueBtn.addEventListener('click', function() {
+                if (!validateMinimumAmount()) {
+                    minimumInput.focus();
+                    return;
+                }
+
+                const selectedSchedule = document.querySelector('input[name="payout-schedule"]:checked').value;
+
+                this.disabled = true;
+                this.innerHTML = '<span>Saving...</span>';
+
+                // Simulate API call
+                setTimeout(() => {
+                    const data = {
+                        payout_schedule: selectedSchedule,
+                        payout_time: '23:00:00',
+                        payout_timezone: 'UTC'
+                    };
+
+                    if (selectedSchedule === 'weekly') {
+                        data.payout_day = 'monday';
+                    }
+
+                    if (selectedSchedule === 'minimum') {
+                        data.payout_minimum_amount = parseInt(minimumInput.value);
+                    }
+
+                    console.log('Payout schedule saved:', data);
+
+                    successBanner.classList.add('visible');
+                    this.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Saved';
+                    lucide.createIcons();
+
+                    // In production: navigate to Phase 8
+                    // window.location.href = '/merchant/screens/onboarding-phase-8-exclude-merchants.html';
+                }, 1000);
+            });
+
+            // Initial state
+            updateSelection();
+        })();
+    </script>
+</body>
+</html>

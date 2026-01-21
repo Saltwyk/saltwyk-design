@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform List with Search | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Code block */
+        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; font-size: 12px; }
+        .code-block .comment { color: hsl(30 10% 50%); }
+        .code-block .property { color: hsl(170 70% 60%); }
+        .code-block .value { color: hsl(40 80% 70%); }
+
+        /* ========================================= */
+        /* PLATFORM LIST WITH SEARCH COMPONENT      */
+        /* ========================================= */
+
+        /* Container */
+        .platform-list-container {
+            max-width: 600px;
+        }
+
+        /* Search Input */
+        .platform-search-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .platform-search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+            pointer-events: none;
+        }
+
+        .platform-search-input {
+            width: 100%;
+            padding: 12px 44px 12px 44px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 16px;
+            color: hsl(var(--warm-900));
+            background: white;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .platform-search-input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        .platform-search-input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+            border-width: 2px;
+            padding: 11px 43px 11px 43px;
+            box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%);
+        }
+
+        .platform-search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: hsl(var(--warm-200));
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(var(--warm-500));
+            transition: background 0.15s ease;
+        }
+
+        .platform-search-clear:hover {
+            background: hsl(var(--warm-300));
+        }
+
+        .platform-search-clear svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Section Labels */
+        .platform-section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            margin-top: 32px;
+        }
+
+        .platform-section-label:first-of-type {
+            margin-top: 0;
+        }
+
+        .platform-section {
+            margin-bottom: 8px;
+        }
+
+        /* Platform Card Base */
+        .platform-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        /* Supported Platform Card */
+        .platform-card.supported {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+        }
+
+        .platform-card.supported:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        /* Tier Required Platform Card */
+        .platform-card.tier-required {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+        }
+
+        /* Coming Soon Platform Card */
+        .platform-card.coming-soon {
+            background: hsl(var(--warm-50));
+            border: 1px dashed hsl(var(--warm-300));
+        }
+
+        /* Connected Platform Card (Settings) */
+        .platform-card.connected {
+            background: hsl(var(--emerald-50));
+            border: 2px solid hsl(var(--emerald-200));
+        }
+
+        /* Platform Logo */
+        .platform-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: hsl(var(--warm-50));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .platform-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+        }
+
+        .platform-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Fallback initials (when logo unavailable) */
+        .platform-logo-initials {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--warm-600));
+        }
+
+        /* Platform Content */
+        .platform-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .platform-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--warm-900));
+        }
+
+        .platform-tier-badge {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            background: hsl(var(--warm-100));
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .platform-description {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 16px;
+        }
+
+        /* Platform Actions */
+        .platform-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn-connect {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-connect:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        .btn-connect svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: white;
+            color: hsl(var(--ink));
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .btn-secondary svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: transparent;
+            color: hsl(var(--warm-600));
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        .btn-text:hover {
+            color: hsl(var(--warm-700));
+        }
+
+        .btn-vote {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-500));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-vote:hover {
+            background: hsl(var(--indigo-600));
+        }
+
+        .btn-vote.voted {
+            background: hsl(var(--indigo-300));
+            cursor: default;
+        }
+
+        .btn-vote svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Status Indicators */
+        .warning-icon {
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+        }
+
+        .warning-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .vote-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+        }
+
+        .vote-count svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .connected-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .connected-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .last-synced {
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        /* Footer Link */
+        .platform-footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .platform-footer-text {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 8px;
+        }
+
+        .platform-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            text-decoration: none;
+        }
+
+        .platform-footer-link:hover {
+            color: hsl(var(--indigo-700));
+            text-decoration: underline;
+        }
+
+        .platform-footer-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* No Results State */
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+
+        .no-results-icon {
+            width: 48px;
+            height: 48px;
+            color: hsl(var(--warm-300));
+            margin: 0 auto 16px;
+        }
+
+        .no-results-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            margin-bottom: 8px;
+        }
+
+        .no-results-text {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+        }
+
+        .error-state-icon {
+            width: 48px;
+            height: 48px;
+            color: hsl(var(--orange-400));
+            margin: 0 auto 16px;
+        }
+
+        .error-state-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--warm-700));
+            margin-bottom: 8px;
+        }
+
+        .error-state-text {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 16px;
+        }
+
+        /* Settings Warning (No Platform Connected) */
+        .warning-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .warning-box-icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--orange-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .warning-box-content {
+            flex: 1;
+        }
+
+        .warning-box-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(var(--orange-700));
+            margin-bottom: 4px;
+        }
+
+        .warning-box-text {
+            font-size: 13px;
+            color: hsl(var(--orange-600));
+        }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .platform-card { padding: 16px; }
+            .platform-logo { width: 40px; height: 40px; }
+            .platform-logo-initials { font-size: 14px; } /* fallback */
+            .platform-name { font-size: 16px; }
+            .platform-section-label { font-size: 12px; }
+            .platform-actions { flex-direction: column; align-items: stretch; }
+            .platform-actions button { width: 100%; justify-content: center; }
+            .platform-header { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Platform List with Search</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Component Specification</p>
+            <h1 class="font-display text-4xl mb-2">Platform List with Search</h1>
+            <p class="text-warm-600">Enable merchants to discover, search, and select their rewards platform during onboarding and manage connections in Settings &gt; Apps.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: ONBOARDING CONTEXT (FULL LIST)  -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Onboarding Context (Full List)</p>
+            <p class="text-sm text-warm-600 mb-6">Initial platform selection during onboarding. Shows all platforms grouped by status: Supported, Tier Required, Coming Soon.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="platform-list-container mx-auto" id="demo-platform-list">
+                    <!-- Header -->
+                    <h2 class="text-2xl font-bold text-warm-900 mb-2">Connect Your Rewards Platform</h2>
+                    <p class="text-base text-warm-600 mb-6">Saltwyk integrates with your existing rewards platform to enable cross-merchant shopping.</p>
+
+                    <!-- Search Input -->
+                    <div class="platform-search-wrapper">
+                        <i data-lucide="search" class="platform-search-icon"></i>
+                        <input
+                            type="search"
+                            id="demo-search"
+                            class="platform-search-input"
+                            placeholder="Search platforms..."
+                            aria-label="Search rewards platforms"
+                        >
+                        <button class="platform-search-clear" id="demo-clear" style="display: none;" aria-label="Clear search">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <!-- Supported Platforms Section -->
+                    <div class="platform-section" data-section="supported">
+                        <p class="platform-section-label">Supported Platforms</p>
+
+                        <!-- Smile.io Enterprise -->
+                        <div class="platform-card supported" data-name="Smile.io" data-description="Full API access with Enterprise tier" data-search="smile,smile.io,rewards">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Smile.io</span>
+                                    <span class="platform-tier-badge">Enterprise</span>
+                                </div>
+                                <p class="platform-description">Full API access with Enterprise tier</p>
+                                <div class="platform-actions">
+                                    <button class="btn-connect">
+                                        Connect
+                                        <i data-lucide="arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Yotpo -->
+                        <div class="platform-card supported" data-name="Yotpo Loyalty & Referrals" data-description="Complete rewards program integration" data-search="yotpo,loyalty,referrals">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/yotpo.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Yotpo">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Yotpo Loyalty & Referrals</span>
+                                </div>
+                                <p class="platform-description">Complete rewards program integration</p>
+                                <div class="platform-actions">
+                                    <button class="btn-connect">
+                                        Connect
+                                        <i data-lucide="arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Required Section -->
+                    <div class="platform-section" data-section="tier-required">
+                        <p class="platform-section-label">Tier Required</p>
+
+                        <!-- Smile.io Starter/Growth -->
+                        <div class="platform-card tier-required" data-name="Smile.io" data-description="Enterprise tier required for API access" data-search="smile,smile.io,starter,growth">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Smile.io</span>
+                                    <span class="platform-tier-badge">Starter / Growth</span>
+                                    <span class="warning-icon"><i data-lucide="alert-triangle"></i></span>
+                                </div>
+                                <p class="platform-description">Enterprise tier required for API access</p>
+                                <div class="platform-actions">
+                                    <button class="btn-secondary">
+                                        Learn About Tiers
+                                        <i data-lucide="external-link"></i>
+                                    </button>
+                                    <button class="btn-text">Continue Setup Anyway</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shopify Basic -->
+                        <div class="platform-card tier-required" data-name="Shopify" data-description="Shopify Plus required for custom apps" data-search="shopify,commerce,basic,advanced">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/shopify.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Shopify">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Shopify</span>
+                                    <span class="platform-tier-badge">Basic / Shopify / Advanced</span>
+                                    <span class="warning-icon"><i data-lucide="alert-triangle"></i></span>
+                                </div>
+                                <p class="platform-description">Shopify Plus required for custom apps</p>
+                                <div class="platform-actions">
+                                    <button class="btn-secondary">
+                                        Learn About Tiers
+                                        <i data-lucide="external-link"></i>
+                                    </button>
+                                    <button class="btn-text">Continue Setup Anyway</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coming Soon Section -->
+                    <div class="platform-section" data-section="coming-soon">
+                        <p class="platform-section-label">Coming Soon</p>
+
+                        <!-- LoyaltyLion -->
+                        <div class="platform-card coming-soon" data-name="LoyaltyLion" data-description="Launching Q1 2026" data-search="loyalty lion,loyaltylion,lion">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/loyaltylion.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="LoyaltyLion">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">LoyaltyLion</span>
+                                    <span class="vote-count">
+                                        <i data-lucide="vote"></i>
+                                        23
+                                    </span>
+                                </div>
+                                <p class="platform-description">Launching Q1 2026</p>
+                                <div class="platform-actions">
+                                    <button class="btn-vote">
+                                        Vote for This Platform
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kangaroo -->
+                        <div class="platform-card coming-soon" data-name="Kangaroo Rewards" data-description="Under consideration" data-search="kangaroo,kangaroo rewards">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/kangaroorewards.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Kangaroo Rewards">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Kangaroo Rewards</span>
+                                    <span class="vote-count">
+                                        <i data-lucide="vote"></i>
+                                        18
+                                    </span>
+                                </div>
+                                <p class="platform-description">Under consideration</p>
+                                <div class="platform-actions">
+                                    <button class="btn-vote">
+                                        Vote for This Platform
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- No Results (hidden by default) -->
+                    <div class="no-results" id="demo-no-results">
+                        <i data-lucide="search-x" class="no-results-icon"></i>
+                        <p class="no-results-title">No platforms found</p>
+                        <p class="no-results-text">Try a different search term</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="platform-footer">
+                        <p class="platform-footer-text">Don't see your platform?</p>
+                        <a href="#" class="platform-footer-link">
+                            Request Platform Support
+                            <i data-lucide="arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: SEARCH BEHAVIOR                 -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Search Behavior</p>
+            <p class="text-sm text-warm-600 mb-6">Live filtering demo. Type in the search box above to see filtering in action. Search matches platform name, description, and search terms.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Search: "smile"</p>
+                    <div class="platform-list-container">
+                        <div class="platform-search-wrapper">
+                            <i data-lucide="search" class="platform-search-icon"></i>
+                            <input type="text" class="platform-search-input" value="smile" readonly>
+                            <button class="platform-search-clear"><i data-lucide="x"></i></button>
+                        </div>
+                        <p class="platform-section-label" style="margin-top: 0;">Supported Platforms</p>
+                        <div class="platform-card supported" style="margin-bottom: 8px;">
+                            <div class="platform-logo"><img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io"></div>
+                            <div class="platform-content">
+                                <div class="platform-header"><span class="platform-name">Smile.io</span><span class="platform-tier-badge">Enterprise</span></div>
+                                <p class="platform-description" style="margin-bottom: 0;">Full API access with Enterprise tier</p>
+                            </div>
+                        </div>
+                        <p class="platform-section-label">Tier Required</p>
+                        <div class="platform-card tier-required">
+                            <div class="platform-logo"><img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io"></div>
+                            <div class="platform-content">
+                                <div class="platform-header"><span class="platform-name">Smile.io</span><span class="platform-tier-badge">Starter / Growth</span></div>
+                                <p class="platform-description" style="margin-bottom: 0;">Enterprise tier required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Search: "salesforce" (No Results)</p>
+                    <div class="platform-list-container">
+                        <div class="platform-search-wrapper">
+                            <i data-lucide="search" class="platform-search-icon"></i>
+                            <input type="text" class="platform-search-input" value="salesforce" readonly>
+                            <button class="platform-search-clear"><i data-lucide="x"></i></button>
+                        </div>
+                        <div class="no-results" style="display: block;">
+                            <i data-lucide="search-x" class="no-results-icon"></i>
+                            <p class="no-results-title">No platforms found for "salesforce"</p>
+                            <p class="no-results-text">Don't see your platform? <a href="#" class="text-indigo-600 hover:underline">Request support</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: SETTINGS CONTEXT                -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Settings Context</p>
+            <p class="text-sm text-warm-600 mb-6">Display in Settings &gt; Apps tab. Shows currently connected platform with management actions.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Connected Platform -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Connected Platform</p>
+                    <div class="platform-list-container">
+                        <p class="platform-section-label" style="margin-top: 0;">Connected Platform</p>
+                        <div class="platform-card connected">
+                            <div class="platform-logo">
+                                <img src="https://img.logo.dev/smile.io?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="Smile.io">
+                            </div>
+                            <div class="platform-content">
+                                <div class="platform-header">
+                                    <span class="platform-name">Smile.io</span>
+                                    <span class="platform-tier-badge">Enterprise</span>
+                                    <span class="connected-badge">
+                                        <i data-lucide="check"></i>
+                                        Connected
+                                    </span>
+                                </div>
+                                <p class="last-synced">Last synced: 2 minutes ago</p>
+                                <div class="platform-actions" style="margin-top: 12px;">
+                                    <button class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">
+                                        Test Connection
+                                    </button>
+                                    <button class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">
+                                        Reconnect
+                                    </button>
+                                    <button class="btn-text" style="padding: 6px 8px; font-size: 13px;">
+                                        Change Platform
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Platform Connected -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">No Platform Connected (Warning)</p>
+                    <div class="platform-list-container">
+                        <div class="warning-box">
+                            <i data-lucide="alert-circle" class="warning-box-icon"></i>
+                            <div class="warning-box-content">
+                                <p class="warning-box-title">No platform connected</p>
+                                <p class="warning-box-text">Connect your rewards platform to enable cross-merchant shopping for your customers.</p>
+                            </div>
+                        </div>
+                        <button class="btn-connect" style="width: 100%; justify-content: center;">
+                            Connect Platform
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: VOTE INTERACTION                -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Vote Interaction</p>
+            <p class="text-sm text-warm-600 mb-6">Before and after states for voting on Coming Soon platforms.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Before Vote -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Before Vote</p>
+                    <div class="platform-card coming-soon" style="margin-bottom: 0;">
+                        <div class="platform-logo">
+                            <img src="https://img.logo.dev/loyaltylion.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="LoyaltyLion">
+                        </div>
+                        <div class="platform-content">
+                            <div class="platform-header">
+                                <span class="platform-name">LoyaltyLion</span>
+                                <span class="vote-count">
+                                    <i data-lucide="vote"></i>
+                                    23
+                                </span>
+                            </div>
+                            <p class="platform-description">Launching Q1 2026</p>
+                            <div class="platform-actions">
+                                <button class="btn-vote">
+                                    Vote for This Platform
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- After Vote -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">After Vote (Disabled)</p>
+                    <div class="platform-card coming-soon" style="margin-bottom: 0;">
+                        <div class="platform-logo">
+                            <img src="https://img.logo.dev/loyaltylion.com?token=pk_bkuG9bxiQ1GlCl3EL_zGfQ" alt="LoyaltyLion">
+                        </div>
+                        <div class="platform-content">
+                            <div class="platform-header">
+                                <span class="platform-name">LoyaltyLion</span>
+                                <span class="vote-count">
+                                    <i data-lucide="vote"></i>
+                                    24
+                                </span>
+                            </div>
+                            <p class="platform-description">Launching Q1 2026</p>
+                            <div class="platform-actions">
+                                <button class="btn-vote voted" disabled>
+                                    <i data-lucide="check"></i>
+                                    Voted
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: ERROR STATE                     -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Error State</p>
+            <p class="text-sm text-warm-600 mb-6">Display when platform list fails to load.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="platform-list-container mx-auto">
+                    <div class="error-state">
+                        <i data-lucide="wifi-off" class="error-state-icon"></i>
+                        <p class="error-state-title">Unable to load platforms</p>
+                        <p class="error-state-text">We're having trouble connecting. Please try again.</p>
+                        <div class="flex justify-center gap-3">
+                            <button class="btn-connect">Retry</button>
+                            <button class="btn-secondary">Contact Support</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: PLATFORM CARD ANATOMY           -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Platform Card Anatomy</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Supported</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• White background</li>
+                        <li>• <code>warm-200</code> border (1px)</li>
+                        <li>• Hover: <code>warm-50</code> bg, <code>warm-300</code> border</li>
+                        <li>• Primary action: Connect button</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Tier Required</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• <code>orange-50</code> background</li>
+                        <li>• <code>orange-200</code> border (1px)</li>
+                        <li>• Warning icon: <code>orange-500</code></li>
+                        <li>• Actions: Learn About Tiers, Continue Anyway</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-xs text-warm-500 mb-4 font-medium">Coming Soon</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• <code>warm-50</code> background</li>
+                        <li>• <code>warm-300</code> dashed border</li>
+                        <li>• Vote count display</li>
+                        <li>• Action: Vote button (Indigo)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: TECHNICAL SPECIFICATIONS        -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-warm-50 border-b border-warm-200">
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Element</th>
+                            <th class="text-left px-6 py-3 font-semibold text-warm-700">Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Platform Name</td>
+                            <td class="px-6 py-3"><code>18px</code>, <code>font-weight: 600</code>, <code>warm-900</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Platform Description</td>
+                            <td class="px-6 py-3"><code>14px</code>, <code>font-weight: 400</code>, <code>warm-600</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Section Label</td>
+                            <td class="px-6 py-3"><code>14px</code>, <code>font-weight: 600</code>, uppercase, <code>tracking-wider</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Platform Logo</td>
+                            <td class="px-6 py-3"><code>48px × 48px</code>, <code>border-radius: 6px</code></td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Card Padding</td>
+                            <td class="px-6 py-3"><code>20px</code> (desktop), <code>16px</code> (mobile)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Card Gap</td>
+                            <td class="px-6 py-3"><code>12px</code> between cards</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-6 py-3 text-warm-600">Search Input</td>
+                            <td class="px-6 py-3"><code>padding: 12px 44px</code>, focus: <code>indigo-500</code> border (2px)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 text-warm-600">Connected Badge</td>
+                            <td class="px-6 py-3"><code>emerald-500</code> bg, white text, <code>border-radius: 12px</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 8: IMPLEMENTATION                  -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">8. Implementation</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="p-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">TypeScript Interface</p>
+                </div>
+                <div class="p-4">
+                    <div class="code-block">
+                        <code><span class="property">interface</span> Platform {
+  id: <span class="value">string</span>;
+  name: <span class="value">string</span>;
+  description: <span class="value">string</span>;
+  logoUrl: <span class="value">string</span>;
+  type: <span class="value">'rewards'</span> | <span class="value">'commerce'</span>;
+  status: <span class="value">'supported'</span> | <span class="value">'tier_required'</span> | <span class="value">'coming_soon'</span>;
+
+  <span class="comment">// For supported platforms</span>
+  apiKeyRequired?: <span class="value">boolean</span>;
+
+  <span class="comment">// For tier_required</span>
+  currentTier?: <span class="value">string</span>;    <span class="comment">// e.g., "Starter", "Growth"</span>
+  requiredTier?: <span class="value">string</span>;   <span class="comment">// e.g., "Enterprise"</span>
+  tierInfoUrl?: <span class="value">string</span>;    <span class="comment">// Link to pricing page</span>
+  tierReason?: <span class="value">string</span>;     <span class="comment">// e.g., "API access"</span>
+
+  <span class="comment">// For coming_soon</span>
+  estimatedLaunch?: <span class="value">string</span>; <span class="comment">// e.g., "Q1 2026"</span>
+  voteCount?: <span class="value">number</span>;
+  userHasVoted?: <span class="value">boolean</span>;
+
+  <span class="comment">// Metadata</span>
+  searchTerms?: <span class="value">string[]</span>;
+  sortOrder?: <span class="value">number</span>;
+}</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 9: ACCESSIBILITY                   -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">9. Accessibility</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">ARIA & Keyboard</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Search input: <code>role="search"</code>, <code>aria-label</code></li>
+                        <li>• Sections: <code>aria-labelledby</code> for headers</li>
+                        <li>• Tab: Focus through search → cards → buttons</li>
+                        <li>• Escape: Clear search input</li>
+                        <li>• Enter/Space: Activate focused button</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4">Screen Reader</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>• Supported: "Smile.io Enterprise. Full API access. Connect button."</li>
+                        <li>• Tier Required: "Smile.io. Enterprise tier required. Learn about tiers button."</li>
+                        <li>• Coming Soon: "LoyaltyLion. 23 votes. Vote button."</li>
+                        <li>• After vote: "Vote recorded. 24 votes total."</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 10: DESIGN DECISIONS               -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">10. Design Decisions</p>
+
+            <div class="space-y-4">
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why group by status?</p>
+                    <p class="text-sm text-warm-600">Makes it clear which platforms work now vs. require action vs. are future options. Merchants can quickly find what they need.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why allow "Continue Anyway" for Tier Required?</p>
+                    <p class="text-sm text-warm-600">Don't hard-block setup. Merchant can complete onboarding while working on their tier upgrade. Creates a softer conversion path.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why show vote counts?</p>
+                    <p class="text-sm text-warm-600">Social proof drives platform prioritization. Transparency builds trust and shows Saltwyk listens to merchant needs.</p>
+                </div>
+
+                <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                    <p class="font-medium text-ink mb-2">Why single column layout?</p>
+                    <p class="text-sm text-warm-600">Each card has significant information (logo, name, description, actions). Single column is scannable and works well on mobile.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 11: RELATED COMPONENTS             -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">11. Related Components</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/settings.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Settings Screen</p>
+                    <p class="text-xs text-warm-500">Apps tab with platform management.</p>
+                </a>
+                <a href="/core/components/dropdowns/combobox.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Combobox</p>
+                    <p class="text-xs text-warm-500">Search input patterns.</p>
+                </a>
+                <a href="/merchant/components/oauth-connection.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">OAuth Connection</p>
+                    <p class="text-xs text-warm-500">Platform authentication flow.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <!-- Search Functionality -->
+    <script>
+        (function() {
+            const searchInput = document.getElementById('demo-search');
+            const clearBtn = document.getElementById('demo-clear');
+            const noResults = document.getElementById('demo-no-results');
+            const platformList = document.getElementById('demo-platform-list');
+
+            if (!searchInput || !platformList) return;
+
+            const sections = platformList.querySelectorAll('.platform-section');
+            const cards = platformList.querySelectorAll('.platform-card');
+
+            let debounceTimer;
+
+            function filterPlatforms(query) {
+                const lowerQuery = query.toLowerCase().trim();
+
+                // Show/hide clear button
+                if (clearBtn) {
+                    clearBtn.style.display = lowerQuery ? 'flex' : 'none';
+                }
+
+                if (!lowerQuery) {
+                    // Show all
+                    cards.forEach(card => card.style.display = '');
+                    sections.forEach(section => section.style.display = '');
+                    if (noResults) noResults.style.display = 'none';
+                    return;
+                }
+
+                let anyVisible = false;
+
+                sections.forEach(section => {
+                    const sectionCards = section.querySelectorAll('.platform-card');
+                    let sectionHasVisible = false;
+
+                    sectionCards.forEach(card => {
+                        const name = (card.dataset.name || '').toLowerCase();
+                        const description = (card.dataset.description || '').toLowerCase();
+                        const searchTerms = (card.dataset.search || '').toLowerCase();
+
+                        const matches = name.includes(lowerQuery) ||
+                                       description.includes(lowerQuery) ||
+                                       searchTerms.includes(lowerQuery);
+
+                        card.style.display = matches ? '' : 'none';
+                        if (matches) {
+                            sectionHasVisible = true;
+                            anyVisible = true;
+                        }
+                    });
+
+                    // Hide section label if no visible cards
+                    const label = section.querySelector('.platform-section-label');
+                    if (label) {
+                        section.style.display = sectionHasVisible ? '' : 'none';
+                    }
+                });
+
+                // Show/hide no results
+                if (noResults) {
+                    noResults.style.display = anyVisible ? 'none' : 'block';
+                }
+            }
+
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    filterPlatforms(e.target.value);
+                }, 150);
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    filterPlatforms('');
+                    searchInput.blur();
+                }
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    filterPlatforms('');
+                    searchInput.focus();
+                });
+            }
+
+            // Vote button interaction
+            const voteButtons = document.querySelectorAll('.btn-vote:not(.voted)');
+            voteButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.classList.contains('voted')) return;
+
+                    // Find vote count and increment
+                    const card = this.closest('.platform-card');
+                    const voteCountEl = card.querySelector('.vote-count');
+                    if (voteCountEl) {
+                        const countText = voteCountEl.textContent.trim();
+                        const count = parseInt(countText.replace(/\D/g, '')) || 0;
+                        voteCountEl.innerHTML = `<i data-lucide="vote"></i> ${count + 1}`;
+                        lucide.createIcons();
+                    }
+
+                    // Update button
+                    this.classList.add('voted');
+                    this.disabled = true;
+                    this.innerHTML = '<i data-lucide="check"></i> Voted';
+                    lucide.createIcons();
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

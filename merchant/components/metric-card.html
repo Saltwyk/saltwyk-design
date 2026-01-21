@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metric Card | Merchant Components | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ========================================= */
+        /* METRIC CARD COMPONENT                    */
+        /* ========================================= */
+
+        /* Desktop Metric Card */
+        .metric-card {
+            background: white;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.15s ease;
+        }
+
+        .metric-card:hover {
+            border-color: hsl(var(--warm-300));
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-card .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .metric-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+
+        .metric-card .value.positive {
+            color: hsl(var(--emerald-600));
+        }
+
+        .metric-card .value.negative {
+            color: hsl(var(--magenta-600));
+        }
+
+        .metric-card .subtext {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        .metric-card .icon-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile Metric Card */
+        .metric-card-mobile {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .metric-card-mobile .label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .metric-card-mobile .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: hsl(var(--ink));
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+
+        .metric-card-mobile .value.positive {
+            color: hsl(var(--emerald-600));
+        }
+
+        .metric-card-mobile .subtext {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            margin-top: 2px;
+        }
+
+        /* Loading State */
+        .metric-card-loading .value-skeleton {
+            height: 28px;
+            width: 120px;
+            background: hsl(var(--warm-200));
+            border-radius: 4px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .metric-card-loading .label-skeleton {
+            height: 12px;
+            width: 80px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            margin-bottom: 8px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .metric-card-loading .subtext-skeleton {
+            height: 12px;
+            width: 100px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            margin-top: 8px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Error State */
+        .metric-card-error {
+            background: hsl(var(--magenta-50));
+            border-color: hsl(var(--magenta-200));
+        }
+
+        .metric-card-error .value {
+            color: hsl(var(--magenta-600));
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>→</span>
+            <a href="/merchant/components/" class="hover:text-emerald-600">Components</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Metric Card</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Merchant Component</p>
+            <h1 class="font-display text-4xl mb-2">Metric Card</h1>
+            <p class="text-warm-600">Display key financial metrics, balances, and status information with clear visual hierarchy and semantic color coding.</p>
+        </header>
+
+        <!-- View Toggle -->
+        <div class="view-toggle-header">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-warm-500">Preview Mode</p>
+                <div class="view-toggle" role="group" aria-label="View mode toggle">
+                    <button class="toggle-btn" data-view="mobile" aria-label="Mobile view" aria-pressed="false" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                            <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                            <line x1="10" y1="19" x2="14" y2="19"/>
+                        </svg>
+                    </button>
+                    <button class="toggle-btn active" data-view="desktop" aria-label="Desktop view" aria-pressed="true" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="14" x2="22" y2="14"/>
+                            <line x1="12" y1="17" x2="12" y2="20"/>
+                            <line x1="8" y1="20" x2="16" y2="20"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- OVERVIEW -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Overview</p>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="text-warm-700 mb-4">
+                    Metric Cards present key business data at a glance. They follow a consistent three-part structure:
+                    <strong>label</strong> (what the metric is), <strong>value</strong> (the data point), and
+                    <strong>subtext</strong> (contextual information). Use emerald for positive/available values only.
+                </p>
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Purpose</p>
+                        <p class="text-warm-600 text-xs">Display financial metrics, balances, dates, and status</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Location</p>
+                        <p class="text-warm-600 text-xs">Dashboard home, Clearing Balance, analytics views</p>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-1">Layout</p>
+                        <p class="text-warm-600 text-xs">Grid of 2-4 cards, responsive stacking on mobile</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VARIANTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Variants</p>
+            <p class="text-sm text-warm-600 mb-6">Four semantic variants based on the type of data being displayed.</p>
+
+            <!-- Financial (Positive) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Financial — Positive</p>
+                        <p class="text-sm text-warm-600">For available funds and positive balances. Uses emerald value color.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded">Primary</span>
+                </div>
+
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="metric-card-mobile">
+                                <p class="label">Available Balance</p>
+                                <p class="value positive">$4,287.52</p>
+                                <p class="subtext">Ready for payout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[280px]">
+                            <div class="metric-card">
+                                <p class="label">Available Balance</p>
+                                <p class="value positive">$4,287.52</p>
+                                <p class="subtext">Ready for payout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial (Neutral) -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Financial — Neutral</p>
+                        <p class="text-sm text-warm-600">For pending amounts or values not yet available. Uses default ink color.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Default</span>
+                </div>
+
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="metric-card-mobile">
+                                <p class="label">Pending Settlement</p>
+                                <p class="value">$1,245.99</p>
+                                <p class="subtext">Clears in 2 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[280px]">
+                            <div class="metric-card">
+                                <p class="label">Pending Settlement</p>
+                                <p class="value">$1,245.99</p>
+                                <p class="subtext">Clears in 2 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date/Time -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Date / Time</p>
+                        <p class="text-sm text-warm-600">For scheduled events, deadlines, or time-based information.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Informational</span>
+                </div>
+
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="metric-card-mobile">
+                                <p class="label">Next Payout</p>
+                                <p class="value">Jan 22</p>
+                                <p class="subtext">~$4,287.52 scheduled</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[280px]">
+                            <div class="metric-card">
+                                <p class="label">Next Payout</p>
+                                <p class="value">Jan 22</p>
+                                <p class="subtext">~$4,287.52 scheduled</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Count / Quantity -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-medium text-ink">Count / Quantity</p>
+                        <p class="text-sm text-warm-600">For transaction counts, item quantities, or numeric totals.</p>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warm-200 text-warm-700 rounded">Informational</span>
+                </div>
+
+                <div class="mobile-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px]">
+                            <div class="metric-card-mobile">
+                                <p class="label">Total Transactions</p>
+                                <p class="value">1,247</p>
+                                <p class="subtext">This month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="max-w-[280px]">
+                            <div class="metric-card">
+                                <p class="label">Total Transactions</p>
+                                <p class="value">1,247</p>
+                                <p class="subtext">This month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- WITH ICON VARIANT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">With Icon</p>
+            <p class="text-sm text-warm-600 mb-6">Optional icon placement for added visual context. Icon appears to the right of the content.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop — Icon Variant</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="metric-card">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="label">Available Balance</p>
+                                        <p class="value positive">$4,287.52</p>
+                                        <p class="subtext">Ready for payout</p>
+                                    </div>
+                                    <div class="icon-container bg-emerald-100">
+                                        <i data-lucide="wallet" class="w-5 h-5 text-emerald-600"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="label">Pending Settlement</p>
+                                        <p class="value">$1,245.99</p>
+                                        <p class="subtext">Clears in 2 days</p>
+                                    </div>
+                                    <div class="icon-container bg-warm-100">
+                                        <i data-lucide="clock" class="w-5 h-5 text-warm-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="label">Next Payout</p>
+                                        <p class="value">Jan 22</p>
+                                        <p class="subtext">~$4,287.52 scheduled</p>
+                                    </div>
+                                    <div class="icon-container bg-indigo-100">
+                                        <i data-lucide="calendar" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-variant mt-4">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile — Icon Variant (Stacked)</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px] space-y-3">
+                            <div class="metric-card-mobile">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="label">Available Balance</p>
+                                        <p class="value positive">$4,287.52</p>
+                                        <p class="subtext">Ready for payout</p>
+                                    </div>
+                                    <div class="icon-container bg-emerald-100" style="width: 36px; height: 36px; border-radius: 8px;">
+                                        <i data-lucide="wallet" class="w-4 h-4 text-emerald-600"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="metric-card-mobile">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="label">Pending Settlement</p>
+                                        <p class="value">$1,245.99</p>
+                                        <p class="subtext">Clears in 2 days</p>
+                                    </div>
+                                    <div class="icon-container bg-warm-100" style="width: 36px; height: 36px; border-radius: 8px;">
+                                        <i data-lucide="clock" class="w-4 h-4 text-warm-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- STATES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">States</p>
+            <p class="text-sm text-warm-600 mb-6">Loading, error, and interactive states for metric cards.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- Default -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Default</p>
+                        <div class="metric-card">
+                            <p class="label">Available</p>
+                            <p class="value positive">$4,287</p>
+                            <p class="subtext">Ready</p>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>border-warm-200</code></p>
+                    </div>
+
+                    <!-- Hover -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Hover</p>
+                        <div class="metric-card" style="border-color: hsl(var(--warm-300)); box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08);">
+                            <p class="label">Available</p>
+                            <p class="value positive">$4,287</p>
+                            <p class="subtext">Ready</p>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>border-warm-300 + shadow</code></p>
+                    </div>
+
+                    <!-- Loading -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Loading</p>
+                        <div class="metric-card metric-card-loading">
+                            <div class="label-skeleton"></div>
+                            <div class="value-skeleton"></div>
+                            <div class="subtext-skeleton"></div>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>skeleton + pulse</code></p>
+                    </div>
+
+                    <!-- Error -->
+                    <div>
+                        <p class="text-xs text-warm-500 mb-3 font-medium">Error</p>
+                        <div class="metric-card metric-card-error">
+                            <p class="label">Available Balance</p>
+                            <p class="value">Unable to load</p>
+                            <p class="subtext" style="color: hsl(var(--magenta-600));">Tap to retry</p>
+                        </div>
+                        <p class="text-xs text-warm-400 mt-2"><code>magenta-50 bg</code></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- GRID LAYOUT -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Grid Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Metric cards are displayed in a responsive grid. Desktop uses 3-4 columns, mobile stacks vertically.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <div class="desktop-variant">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Desktop — 3 Column Grid</p>
+                    <div class="bg-warm-100 rounded-lg p-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="metric-card">
+                                <p class="label">Available Balance</p>
+                                <p class="value positive">$4,287.52</p>
+                                <p class="subtext">Ready for payout</p>
+                            </div>
+                            <div class="metric-card">
+                                <p class="label">Pending Settlement</p>
+                                <p class="value">$1,245.99</p>
+                                <p class="subtext">Clears in 2 days</p>
+                            </div>
+                            <div class="metric-card">
+                                <p class="label">Next Payout</p>
+                                <p class="value">Jan 22</p>
+                                <p class="subtext">~$4,287.52 scheduled</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3"><code>grid grid-cols-3 gap-4</code></p>
+                </div>
+
+                <div class="mobile-variant mt-6">
+                    <p class="text-xs text-warm-500 mb-3 font-medium">Mobile — Stacked</p>
+                    <div class="bg-warm-100 rounded-lg p-4 flex justify-center">
+                        <div class="w-full max-w-[320px] space-y-3">
+                            <div class="metric-card-mobile">
+                                <p class="label">Available Balance</p>
+                                <p class="value positive">$4,287.52</p>
+                                <p class="subtext">Ready for payout</p>
+                            </div>
+                            <div class="metric-card-mobile">
+                                <p class="label">Pending Settlement</p>
+                                <p class="value">$1,245.99</p>
+                                <p class="subtext">Clears in 2 days</p>
+                            </div>
+                            <div class="metric-card-mobile">
+                                <p class="label">Next Payout</p>
+                                <p class="value">Jan 22</p>
+                                <p class="subtext">~$4,287.52 scheduled</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-warm-500 mt-3"><code>space-y-3</code> (stacked on mobile)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- TECHNICAL SPECIFICATIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Desktop Card</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Background</p>
+                        <code>white</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>1.5px solid warm-200</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border Radius</p>
+                        <code>12px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Padding</p>
+                        <code>20px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Border</p>
+                        <code>warm-300</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Hover Shadow</p>
+                        <code>0 2px 8px -2px rgba(0,0,0,0.08)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Mobile Card</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border</p>
+                        <code>1px solid warm-200</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Padding</p>
+                        <code>16px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Border Radius</p>
+                        <code>12px</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Stack Gap</p>
+                        <code>12px (space-y-3)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Typography</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Label (Desktop)</p>
+                        <code>12px font-medium warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Value (Desktop)</p>
+                        <code>28px font-bold tabular-nums</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Subtext (Desktop)</p>
+                        <code>12px warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Label (Mobile)</p>
+                        <code>11px font-medium warm-500</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Value (Mobile)</p>
+                        <code>24px font-bold tabular-nums</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Subtext (Mobile)</p>
+                        <code>11px warm-400</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Color Semantics</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Positive Value</p>
+                        <code>emerald-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Neutral Value</p>
+                        <code>ink (default)</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Negative/Error Value</p>
+                        <code>magenta-600</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Positive Icon Background</p>
+                        <code>emerald-100</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Neutral Icon Background</p>
+                        <code>warm-100</code>
+                    </div>
+                    <div>
+                        <p class="text-warm-500 text-xs mb-1">Error Card Background</p>
+                        <code>magenta-50</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- DESIGN DECISIONS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Design Decisions</p>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-4">
+                <p class="text-sm text-emerald-800"><strong>Emerald for Positive Values Only:</strong> The emerald-600 color is reserved exclusively for positive financial values — money that's available, earned, or ready for use. Neutral metrics (pending amounts, dates, counts) use the default ink color to avoid false positive signals.</p>
+            </div>
+
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4 mb-4">
+                <p class="text-sm text-warm-700"><strong>Color Semantics:</strong></p>
+                <ul class="text-sm text-warm-600 mt-2 space-y-1">
+                    <li>• <strong>Available Balance</strong> → emerald (ready to withdraw)</li>
+                    <li>• <strong>Pending Settlement</strong> → ink (not yet available)</li>
+                    <li>• <strong>Next Payout Date</strong> → ink (informational, not a value)</li>
+                    <li>• <strong>Negative/Failed</strong> → magenta (error or loss)</li>
+                </ul>
+            </div>
+
+            <div class="bg-warm-50 border border-warm-200 rounded-lg p-4">
+                <p class="text-sm text-warm-700"><strong>Tabular Numbers:</strong> All financial values use <code>font-variant-numeric: tabular-nums</code> to ensure proper alignment when numbers change or are displayed in columns.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- USAGE GUIDELINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Usage Guidelines</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Do -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Do</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use emerald only for available/positive values
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Use tabular-nums for financial values
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Include helpful subtext context
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Keep labels short and scannable
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emerald-500">•</span>
+                            Stack cards on mobile for readability
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-full bg-magenta-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-4 h-4 text-magenta-600"></i>
+                        </div>
+                        <p class="font-medium text-ink">Don't</p>
+                    </div>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use emerald for pending/neutral values
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use proportional fonts for numbers
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't omit the label — values need context
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't use thread gradients in metric cards
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-magenta-500">•</span>
+                            Don't exceed 4 metric cards in a row
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- IMPLEMENTATION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Implementation</p>
+
+            <div class="bg-intaglio-900 rounded-xl p-6 text-sm overflow-x-auto">
+                <p class="text-warm-400 mb-3">HTML Structure</p>
+                <pre class="text-emerald-300"><code>&lt;!-- Basic Metric Card --&gt;
+&lt;div class="metric-card"&gt;
+  &lt;p class="label"&gt;Available Balance&lt;/p&gt;
+  &lt;p class="value positive"&gt;$4,287.52&lt;/p&gt;
+  &lt;p class="subtext"&gt;Ready for payout&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- With Icon --&gt;
+&lt;div class="metric-card"&gt;
+  &lt;div class="flex items-start justify-between"&gt;
+    &lt;div&gt;
+      &lt;p class="label"&gt;Available Balance&lt;/p&gt;
+      &lt;p class="value positive"&gt;$4,287.52&lt;/p&gt;
+      &lt;p class="subtext"&gt;Ready for payout&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="icon-container bg-emerald-100"&gt;
+      &lt;i data-lucide="wallet"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Grid Layout --&gt;
+&lt;div class="grid grid-cols-3 gap-4"&gt;
+  &lt;div class="metric-card"&gt;...&lt;/div&gt;
+  &lt;div class="metric-card"&gt;...&lt;/div&gt;
+  &lt;div class="metric-card"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED COMPONENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">Related Components</p>
+
+            <div class="flex gap-3 flex-wrap">
+                <a href="/merchant/screens/clearing-balance.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Clearing Balance Screen</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/components/setup-progress.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Setup Progress</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/merchant/components/transaction-components.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Transaction Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="/core/components/cards/index.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                    <span class="font-medium">Card Components</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+        </main>
+    </div>
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

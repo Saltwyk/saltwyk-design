@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Phase 3: Banking Information | Merchant Screens | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* Setup Progress */
+        .progress-steps { display: flex; align-items: center; gap: 8px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--warm-300)); flex-shrink: 0; }
+        .step-dot.completed { background: hsl(var(--emerald-500)); }
+        .step-dot.active { background: hsl(var(--indigo-500)); box-shadow: 0 0 0 4px hsl(var(--indigo-100)); }
+        .step-line { flex: 1; height: 2px; background: hsl(var(--warm-200)); }
+        .step-line.completed { background: hsl(var(--emerald-500)); }
+
+        .mobile-step-card { background: white; border: 1px solid hsl(var(--warm-200)); border-radius: 12px; padding: 20px; }
+        .mobile-step-card .step-counter { font-size: 12px; color: hsl(var(--warm-500)); margin-bottom: 4px; }
+        .mobile-step-card h3 { font-size: 18px; font-weight: 600; color: hsl(var(--ink)); margin-bottom: 4px; }
+        .mobile-step-card p { font-size: 14px; color: hsl(var(--warm-500)); }
+
+        /* Onboarding Layout */
+        .onboarding-screen { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+        .onboarding-header { margin-bottom: 32px; }
+        .onboarding-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: hsl(var(--warm-500)); text-decoration: none; margin-bottom: 16px; }
+        .onboarding-back:hover { color: hsl(var(--warm-700)); }
+        .onboarding-title { font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 700; color: hsl(var(--ink)); margin-bottom: 8px; }
+        .onboarding-subtitle { font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.5; }
+
+        /* Money Flow Diagram */
+        .diagram-container { background: hsl(var(--warm-50)); border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+        .money-flow-diagram { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        /* Form Styles */
+        .form-container { background: white; border: 1px solid hsl(var(--warm-200)); border-radius: 12px; padding: 24px; }
+        .form-field { margin-bottom: 20px; }
+        .form-field:last-child { margin-bottom: 0; }
+        .form-label { display: block; font-size: 14px; font-weight: 500; color: hsl(var(--ink)); margin-bottom: 6px; }
+        .form-label .required { color: hsl(var(--magenta-500)); }
+        .form-label .optional { color: hsl(var(--warm-400)); font-weight: 400; }
+        .form-input { width: 100%; height: 44px; padding: 0 14px; border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; color: hsl(var(--ink)); transition: all 0.15s ease; }
+        .form-input:focus { outline: none; border-color: hsl(var(--indigo-500)); box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%); }
+        .form-input.error { border-color: hsl(var(--magenta-500)); }
+        .form-input.error:focus { box-shadow: 0 0 0 3px hsl(var(--magenta-500) / 10%); }
+        .form-input.valid { border-color: hsl(var(--emerald-500)); }
+        .form-hint { font-size: 12px; color: hsl(var(--warm-500)); margin-top: 6px; }
+        .form-error { font-size: 12px; color: hsl(var(--magenta-600)); margin-top: 6px; display: none; }
+        .form-error.visible { display: flex; align-items: center; gap: 4px; }
+        .form-success { font-size: 12px; color: hsl(var(--emerald-600)); margin-top: 6px; display: none; }
+        .form-success.visible { display: flex; align-items: center; gap: 4px; }
+
+        /* Security Notice */
+        .security-notice { display: flex; gap: 16px; background: hsl(var(--emerald-50)); border: 1px solid hsl(var(--emerald-200)); border-radius: 8px; padding: 20px; margin-top: 24px; }
+        .security-notice-icon { width: 24px; height: 24px; color: hsl(var(--emerald-600)); flex-shrink: 0; }
+        .security-notice-content h4 { font-size: 14px; font-weight: 600; color: hsl(var(--emerald-700)); margin-bottom: 4px; }
+        .security-notice-content p { font-size: 14px; color: hsl(var(--emerald-700)); line-height: 1.5; }
+
+        /* Form Actions */
+        .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid hsl(var(--warm-200)); }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: white; color: hsl(var(--warm-600)); border: 1px solid hsl(var(--warm-300)); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; }
+        .btn-back:hover { background: hsl(var(--warm-50)); border-color: hsl(var(--warm-400)); color: hsl(var(--warm-700)); }
+
+        .btn-submit { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: hsl(var(--emerald-600)); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+        .btn-submit:hover:not(:disabled) { background: hsl(var(--emerald-700)); }
+        .btn-submit:disabled { background: hsl(var(--warm-300)); color: hsl(var(--warm-500)); cursor: not-allowed; }
+
+        /* Success Message */
+        .success-banner { display: none; background: hsl(var(--emerald-50)); border: 1px solid hsl(var(--emerald-200)); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; }
+        .success-banner.visible { display: flex; align-items: center; gap: 12px; }
+        .success-banner-icon { color: hsl(var(--emerald-500)); flex-shrink: 0; }
+        .success-banner-text { font-size: 14px; color: hsl(var(--emerald-700)); }
+
+        /* Responsive */
+        @media (max-width: 639px) {
+            .onboarding-screen { padding: 24px 16px; }
+            .onboarding-title { font-size: 24px; }
+            .diagram-container { padding: 16px; }
+            .form-actions { flex-direction: column; gap: 12px; }
+            .form-actions button { width: 100%; justify-content: center; }
+            .security-notice { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Onboarding Phase 3</span>
+        </nav>
+
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">Phase 3: Banking Information</h1>
+            <p class="text-warm-600">Step 3 of 9 in merchant onboarding. Connect bank account for clearing balance funding and settlements.</p>
+        </header>
+
+        <!-- Full Screen Preview -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Screen Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Banking information form with money flow diagram. One account serves two purposes: funding and settlements.</p>
+
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-ledger rounded-lg shadow-lg overflow-hidden">
+                    <div class="h-[3px] w-full thread-cool"></div>
+
+                    <div class="onboarding-screen" id="onboarding-container">
+                        <!-- Back Link -->
+                        <a href="/merchant/screens/onboarding-phase-2-business-information.html" class="onboarding-back">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Back
+                        </a>
+
+                        <!-- Setup Progress - Step 3 of 9 -->
+                        <div class="mb-8">
+                            <div class="progress-steps mb-4">
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot completed"></div>
+                                <div class="step-line completed"></div>
+                                <div class="step-dot active"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-line"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                            <div class="mobile-step-card">
+                                <p class="step-counter">Step 3 of 9</p>
+                                <h3>Banking Information</h3>
+                                <p>Connect your bank account for funding and settlements.</p>
+                            </div>
+                        </div>
+
+                        <!-- Page Header -->
+                        <div class="onboarding-header">
+                            <h1 class="onboarding-title">Banking Information</h1>
+                            <p class="onboarding-subtitle">Connect your bank account for funding and settlements.</p>
+                        </div>
+
+                        <!-- Success Banner (hidden by default) -->
+                        <div class="success-banner" id="success-banner">
+                            <i data-lucide="check-circle" class="success-banner-icon w-5 h-5"></i>
+                            <span class="success-banner-text">Bank account saved successfully!</span>
+                        </div>
+
+                        <!-- Money Flow Diagram - Variant A: Dual Purpose -->
+                        <div class="diagram-container">
+                            <svg class="money-flow-diagram" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Bank Account Box (Top) -->
+                                <rect x="175" y="20" width="250" height="80" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+
+                                <!-- Bank Icon -->
+                                <g transform="translate(288, 35)">
+                                    <rect x="0" y="8" width="24" height="14" fill="none" stroke="#6B5E52" stroke-width="1.5" rx="1"/>
+                                    <path d="M2 8 L12 2 L22 8" fill="none" stroke="#6B5E52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="6" y1="12" x2="6" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                                    <line x1="12" y1="12" x2="12" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                                    <line x1="18" y1="12" x2="18" y2="18" stroke="#6B5E52" stroke-width="1.5"/>
+                                </g>
+
+                                <text x="300" y="72" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1F1A15">Your Bank Account</text>
+                                <text x="300" y="90" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6B5E52">Connected for dual-purpose use</text>
+
+                                <!-- Funding Arrow (Down, Left Side) -->
+                                <line x1="240" y1="100" x2="240" y2="180" stroke="#10B981" stroke-width="2"/>
+                                <polygon points="240,185 235,175 245,175" fill="#10B981"/>
+
+                                <!-- Funding Label -->
+                                <rect x="168" y="130" width="60" height="20" fill="#FEFCF9" rx="2"/>
+                                <text x="198" y="144" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#047857">Funding</text>
+
+                                <!-- Settlement Arrow (Up, Right Side) -->
+                                <line x1="360" y1="180" x2="360" y2="100" stroke="#6366F1" stroke-width="2"/>
+                                <polygon points="360,95 355,105 365,105" fill="#6366F1"/>
+
+                                <!-- Settlement Label -->
+                                <rect x="370" y="130" width="80" height="20" fill="#FEFCF9" rx="2"/>
+                                <text x="410" y="144" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#4338CA">Settlements</text>
+
+                                <!-- Clearing Balance Box (Bottom) -->
+                                <rect x="125" y="200" width="350" height="110" fill="#FFFFFF" stroke="#E5E1DA" stroke-width="1" rx="8"/>
+
+                                <text x="300" y="235" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1F1A15">Your Clearing Balance</text>
+
+                                <!-- Stripe Badge -->
+                                <rect x="215" y="248" width="170" height="22" fill="#EEF2FF" rx="4"/>
+                                <text x="300" y="263" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#4338CA">Stripe Connected Account</text>
+
+                                <!-- FDIC Badge -->
+                                <rect x="245" y="280" width="110" height="22" fill="#D1FAE5" rx="4"/>
+                                <g transform="translate(254, 285)">
+                                    <path d="M6 1 L11 3 L11 7 C11 10 6 12 6 12 C6 12 1 10 1 7 L1 3 Z" fill="none" stroke="#047857" stroke-width="1.2"/>
+                                    <path d="M4 6 L5.5 7.5 L8 5" fill="none" stroke="#047857" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <text x="305" y="295" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#047857">FDIC Insured</text>
+
+                                <!-- Tagline -->
+                                <text x="300" y="350" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#6B5E52">One account. Two purposes. Complete transparency.</text>
+                            </svg>
+                        </div>
+
+                        <!-- Form -->
+                        <form id="banking-form" class="form-container">
+                            <!-- Bank Name (Optional) -->
+                            <div class="form-field">
+                                <label for="bank-name" class="form-label">
+                                    Bank Name <span class="optional">(optional)</span>
+                                </label>
+                                <input type="text" id="bank-name" class="form-input" placeholder="Wells Fargo">
+                                <p class="form-hint">Helps you identify the account later</p>
+                            </div>
+
+                            <!-- Account Holder Name -->
+                            <div class="form-field">
+                                <label for="account-holder" class="form-label">
+                                    Account Holder Name <span class="required">*</span>
+                                </label>
+                                <input type="text" id="account-holder" class="form-input" required placeholder="Jane Smith">
+                                <p class="form-hint">Must match the name on your bank account</p>
+                                <p class="form-error" id="account-holder-error"><i data-lucide="alert-circle" class="w-3 h-3"></i> Please enter the account holder name</p>
+                            </div>
+
+                            <!-- Routing Number -->
+                            <div class="form-field">
+                                <label for="routing-number" class="form-label">
+                                    Routing Number <span class="required">*</span>
+                                </label>
+                                <input type="text" id="routing-number" class="form-input" required maxlength="9" placeholder="123456789" inputmode="numeric">
+                                <p class="form-hint">9-digit number (bottom left of check)</p>
+                                <p class="form-error" id="routing-number-error"><i data-lucide="alert-circle" class="w-3 h-3"></i> Routing number must be 9 digits</p>
+                            </div>
+
+                            <!-- Account Number -->
+                            <div class="form-field">
+                                <label for="account-number" class="form-label">
+                                    Account Number <span class="required">*</span>
+                                </label>
+                                <input type="text" id="account-number" class="form-input" required maxlength="17" placeholder="0123456789" inputmode="numeric">
+                                <p class="form-hint">Checking account recommended</p>
+                                <p class="form-error" id="account-number-error"><i data-lucide="alert-circle" class="w-3 h-3"></i> Please enter a valid account number (4-17 digits)</p>
+                            </div>
+
+                            <!-- Confirm Account Number -->
+                            <div class="form-field">
+                                <label for="confirm-account" class="form-label">
+                                    Confirm Account Number <span class="required">*</span>
+                                </label>
+                                <input type="text" id="confirm-account" class="form-input" required maxlength="17" placeholder="Re-enter account number" inputmode="numeric">
+                                <p class="form-hint">Re-enter to confirm</p>
+                                <p class="form-error" id="confirm-account-error"><i data-lucide="alert-circle" class="w-3 h-3"></i> Account numbers must match</p>
+                                <p class="form-success" id="confirm-account-success"><i data-lucide="check-circle" class="w-3 h-3"></i> Account numbers match</p>
+                            </div>
+
+                            <!-- Security Notice -->
+                            <div class="security-notice">
+                                <i data-lucide="lock" class="security-notice-icon"></i>
+                                <div class="security-notice-content">
+                                    <h4>Security Notice</h4>
+                                    <p>Your banking information is encrypted and stored securely. We use Stripe to process transactions.</p>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions">
+                                <button type="button" class="btn-back" onclick="window.history.back()">
+                                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                    Back
+                                </button>
+                                <button type="submit" class="btn-submit" id="submit-btn" disabled>
+                                    Continue
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Component Breakdown -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Component Breakdown</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Money Flow Diagram</p>
+                    <p class="text-xs text-warm-500 mb-4">Variant A: Dual-Purpose Bank Account</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Explains why we need bank account</li>
+                        <li>Shows funding (down arrow, emerald)</li>
+                        <li>Shows settlements (up arrow, indigo)</li>
+                        <li>FDIC Insured + Stripe badges build trust</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Form Fields</p>
+                    <p class="text-xs text-warm-500 mb-4">Bank account details</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Bank Name (optional, for identification)</li>
+                        <li>Account Holder Name (required)</li>
+                        <li>Routing Number (9 digits)</li>
+                        <li>Account Number + Confirmation</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Validation</p>
+                    <p class="text-xs text-warm-500 mb-4">Client-side validation rules</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Routing: exactly 9 digits</li>
+                        <li>Account: 4-17 digits</li>
+                        <li>Confirm must match account number</li>
+                        <li>Green checkmark when numbers match</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Security Notice</p>
+                    <p class="text-xs text-warm-500 mb-4">Trust-building element</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Lock icon for security</li>
+                        <li>Emerald styling (trust color)</li>
+                        <li>Mentions encryption + Stripe</li>
+                        <li>Placed after form, before submit</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- States -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. States</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Default</p>
+                    <p class="text-xs text-warm-500 mb-4">Initial page load</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>All fields empty</li>
+                        <li>Continue disabled</li>
+                        <li>No validation errors</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Numbers Match</p>
+                    <p class="text-xs text-warm-500 mb-4">Account confirmation valid</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Green checkmark shown</li>
+                        <li>"Account numbers match"</li>
+                        <li>Confirm field has valid border</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Valid</p>
+                    <p class="text-xs text-warm-500 mb-4">All fields complete</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Continue button enabled</li>
+                        <li>Emerald button color</li>
+                        <li>Ready to save</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-2">Submitted</p>
+                    <p class="text-xs text-warm-500 mb-4">After successful save</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li>Success banner appears</li>
+                        <li>Navigate to Phase 4</li>
+                        <li>Account saved to Stripe</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/onboarding-phase-2-business-information.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Phase 2: Business Info</p>
+                    <p class="text-xs text-warm-500">Previous onboarding step.</p>
+                </a>
+                <a href="/merchant/components/money-flow-diagram.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Money Flow Diagram</p>
+                    <p class="text-xs text-warm-500">Component documentation.</p>
+                </a>
+                <a href="/merchant/screens/clearing-balance.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Clearing Balance</p>
+                    <p class="text-xs text-warm-500">Where bank account is used.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 px-8 py-8 mt-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="/assets/logos/svg/saltwyk-logomark-emerald.svg" alt="Saltwyk" class="h-6 w-auto opacity-50">
+                <span class="text-sm text-warm-500">Saltwyk Design System v0.5</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-warm-500">
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                <a href="/core/tokens/" class="hover:text-emerald-600">Foundation</a>
+            </div>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="/partials/nav-loader.js"></script>
+
+    <script>
+        (function() {
+            const form = document.getElementById('banking-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const successBanner = document.getElementById('success-banner');
+
+            const fields = {
+                'account-holder': { required: true, validate: v => v.trim().length >= 2 },
+                'routing-number': { required: true, validate: v => /^\d{9}$/.test(v) },
+                'account-number': { required: true, validate: v => /^\d{4,17}$/.test(v) },
+                'confirm-account': { required: true, validate: v => v === document.getElementById('account-number').value && v.length >= 4 }
+            };
+
+            function validateField(id) {
+                const input = document.getElementById(id);
+                const error = document.getElementById(id + '-error');
+                const success = document.getElementById(id + '-success');
+                const config = fields[id];
+
+                if (!config) return true;
+
+                const isValid = config.validate(input.value);
+
+                if (error) {
+                    error.classList.toggle('visible', !isValid && input.value !== '');
+                }
+                if (success && id === 'confirm-account') {
+                    success.classList.toggle('visible', isValid && input.value !== '');
+                }
+
+                input.classList.remove('error', 'valid');
+                if (input.value !== '') {
+                    input.classList.add(isValid ? 'valid' : 'error');
+                }
+
+                return isValid;
+            }
+
+            function validateForm() {
+                let allValid = true;
+                for (const id in fields) {
+                    const input = document.getElementById(id);
+                    if (fields[id].required && !fields[id].validate(input.value)) {
+                        allValid = false;
+                    }
+                }
+                submitBtn.disabled = !allValid;
+                return allValid;
+            }
+
+            // Strip non-numeric for routing and account numbers
+            ['routing-number', 'account-number', 'confirm-account'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                    validateField(id);
+                    if (id === 'account-number') {
+                        validateField('confirm-account');
+                    }
+                    validateForm();
+                });
+            });
+
+            // Add blur validation to all fields
+            for (const id in fields) {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('blur', () => validateField(id));
+                    input.addEventListener('input', validateForm);
+                }
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (!validateForm()) return;
+
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Saving...</span>';
+
+                // Simulate API call
+                setTimeout(() => {
+                    successBanner.classList.add('visible');
+                    submitBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Saved';
+                    lucide.createIcons();
+
+                    // Log form data
+                    const accountNum = document.getElementById('account-number').value;
+                    console.log('Banking Information Saved:', {
+                        bank_name: document.getElementById('bank-name').value || null,
+                        account_holder_name: document.getElementById('account-holder').value,
+                        routing_number: document.getElementById('routing-number').value,
+                        account_number_masked: '****' + accountNum.slice(-4),
+                        account_type: 'checking'
+                    });
+                }, 1000);
+            });
+
+            // Initial validation
+            validateForm();
+        })();
+    </script>
+</body>
+</html>
