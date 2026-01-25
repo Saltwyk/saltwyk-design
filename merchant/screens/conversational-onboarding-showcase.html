@@ -1,0 +1,3010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Onboarding Showcase | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+
+    <!-- Fire Opal Design Tokens -->
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+        /* ===========================================
+           STATE SWITCHER (Demo Navigation)
+           =========================================== */
+        .demo-state-switcher {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: hsl(var(--intaglio-950));
+            border-bottom: 2px solid hsl(var(--intaglio-700));
+            padding: 12px 24px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .demo-state-switcher::before {
+            content: 'Demo States:';
+            color: hsl(var(--warm-400));
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .demo-state-switcher button {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--intaglio-600));
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .demo-state-switcher button:hover {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-100));
+        }
+
+        .demo-state-switcher button.active {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        /* Push content down for demo switcher */
+        .onboarding-shell {
+            margin-top: 56px;
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            background: hsl(var(--emerald-500));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+        }
+
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-help:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-save:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-100));
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            height: calc(100vh - 64px - 56px);
+            overflow: hidden;
+        }
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-100));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-messages-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-input-area {
+            padding: 16px 32px 24px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        /* ===========================================
+           CHAT INPUT MODES
+           =========================================== */
+        .chat-input {
+            flex: 1;
+            padding: 14px 18px;
+            font-size: 15px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 52px;
+            max-height: 120px;
+            transition: all 0.2s ease;
+        }
+
+        .chat-input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        /* Answer mode styling */
+        .chat-input.answer-mode {
+            border-color: hsl(var(--emerald-400));
+            background: hsl(var(--emerald-50));
+        }
+
+        .chat-input.answer-mode:focus {
+            border-color: hsl(var(--emerald-500));
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 15%);
+        }
+
+        /* Disabled mode */
+        .chat-input:disabled {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+            border-color: hsl(var(--warm-200));
+        }
+
+        .chat-send-btn {
+            min-width: 52px;
+            height: 52px;
+            padding: 0 16px;
+            border-radius: 12px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            background: hsl(var(--warm-400));
+        }
+
+        .chat-send-btn.active {
+            background: hsl(var(--emerald-600));
+            min-width: 100px;
+        }
+
+        .chat-send-btn.active:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        /* Input mode demo toggle */
+        .input-mode-toggle {
+            max-width: 680px;
+            margin: 12px auto 0;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input-mode-toggle::before {
+            content: 'Input Mode:';
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            margin-right: 4px;
+        }
+
+        .input-mode-toggle button {
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            border: 1px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .input-mode-toggle button:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        .input-mode-toggle button.active {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-300));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* ===========================================
+           MESSAGE COMPONENTS
+           =========================================== */
+
+        /* Agent Message */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .message-agent .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar svg,
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 580px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 12px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* User Message */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .message-user .message-content {
+            max-width: 450px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* System Message */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        .system-bubble.warning {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            color: hsl(var(--orange-700));
+        }
+
+        .system-bubble.error {
+            background: hsl(var(--magenta-50));
+            border: 1px solid hsl(var(--magenta-200));
+            color: hsl(var(--magenta-700));
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* Milestone Message */
+        .message-milestone {
+            margin: 24px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 16px;
+            padding: 28px 32px;
+            text-align: center;
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .milestone-card .milestone-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .milestone-card .milestone-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 8px;
+        }
+
+        .milestone-card .milestone-summary {
+            font-size: 14px;
+            color: hsl(var(--ink));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .milestone-card .milestone-summary ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .milestone-card .milestone-summary li {
+            padding: 2px 0;
+        }
+
+        .milestone-card .milestone-divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, hsl(var(--emerald-300)), transparent);
+            margin: 20px auto;
+        }
+
+        .milestone-card .milestone-next {
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Final milestone - celebration variant */
+        .milestone-card.celebration {
+            background: linear-gradient(135deg, hsl(var(--emerald-100)) 0%, hsl(var(--cyan-100)) 50%, hsl(var(--emerald-100)) 100%);
+            border-color: hsl(var(--emerald-300));
+        }
+
+        .milestone-card.celebration .milestone-icon {
+            font-size: 40px;
+        }
+
+        /* ===========================================
+           CONVERSATION SUMMARY CARDS (Collapsed)
+           =========================================== */
+        .conversation-summary {
+            margin: 16px 0;
+        }
+
+        .summary-card {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+        }
+
+        .summary-card__header:hover {
+            background: hsl(var(--emerald-100));
+        }
+
+        .summary-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--emerald-600));
+            flex-shrink: 0;
+        }
+
+        .summary-card__title {
+            flex: 1;
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--emerald-800));
+        }
+
+        .summary-card__value {
+            font-size: 13px;
+            color: hsl(var(--emerald-700));
+        }
+
+        .summary-card__expand-btn {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: hsl(var(--emerald-600));
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .summary-card.expanded .summary-card__expand-btn {
+            transform: rotate(180deg);
+        }
+
+        .summary-card__content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .summary-card.expanded .summary-card__content {
+            max-height: 500px;
+        }
+
+        .summary-card__content-inner {
+            padding: 0 16px 16px;
+            border-top: 1px solid hsl(var(--emerald-200));
+            margin-top: 0;
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS (Pattern 2)
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .choice-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .choice-btn:hover:not(:disabled) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        /* Selected state - stays visible with checkmark */
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+            cursor: default;
+        }
+
+        .choice-btn.selected i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Unselected disabled state */
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .choice-btn.primary {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn.primary:hover:not(:disabled) {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+        }
+
+        .choice-btn.secondary {
+            background: hsl(var(--indigo-50));
+            border-color: hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .choice-btn.secondary:hover:not(:disabled) {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-300));
+        }
+
+        /* ===========================================
+           SCROLL INDICATOR (Edit Flow)
+           =========================================== */
+        .scroll-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: hsl(var(--indigo-100));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 20px;
+            color: hsl(var(--indigo-700));
+            font-size: 13px;
+            font-weight: 500;
+            margin: 16px auto;
+            width: fit-content;
+            animation: scroll-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scroll-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .scroll-indicator i {
+            animation: scroll-bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes scroll-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* ===========================================
+           INFO CARD (Embedded Explanation)
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 15px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card__content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content ol {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+
+        .info-card__content li {
+            margin: 8px 0;
+        }
+
+        .info-card__content strong {
+            font-weight: 600;
+        }
+
+        .info-card__footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid hsl(var(--indigo-200));
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+            font-style: italic;
+        }
+
+        /* ===========================================
+           INLINE FORM (Auto-Fund Config)
+           =========================================== */
+        .inline-form {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .inline-form__row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .inline-form__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .inline-form__label {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            min-width: 140px;
+        }
+
+        .inline-form__input {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            max-width: 120px;
+        }
+
+        .inline-form__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .inline-form__submit {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            margin-top: 8px;
+        }
+
+        .inline-form__submit:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            position: sticky;
+            top: 0;
+            background: hsl(var(--warm-100));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            padding: 20px 24px;
+            z-index: 10;
+        }
+
+        .form-panel__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        /* ===========================================
+           SECTION CARDS (Form Panel)
+           =========================================== */
+        .section-card {
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section-card.completed {
+            background: hsl(var(--emerald-50));
+            border: 2px solid hsl(var(--emerald-200));
+        }
+
+        .section-card.active {
+            background: white;
+            border: 2px solid hsl(var(--indigo-500));
+            box-shadow: 0 4px 12px hsl(var(--indigo-500) / 15%);
+        }
+
+        .section-card.pending {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            opacity: 0.6;
+        }
+
+        .section-card.waitlisted {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-300));
+            opacity: 0.8;
+        }
+
+        /* Edit highlight animation */
+        .section-card.editing {
+            border-color: hsl(var(--indigo-500));
+            animation: highlight-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes highlight-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 hsl(var(--indigo-500) / 0.4); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 0); }
+        }
+
+        .section-card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            cursor: pointer;
+        }
+
+        .section-card__header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-card__icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-card__icon.completed {
+            color: hsl(var(--emerald-600));
+        }
+
+        .section-card__icon.active {
+            color: hsl(var(--indigo-600));
+        }
+
+        .section-card__icon.pending {
+            color: hsl(var(--warm-400));
+        }
+
+        .section-card__icon.waitlisted {
+            color: hsl(var(--orange-500));
+        }
+
+        .section-card__title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .section-card.completed .section-card__title {
+            color: hsl(var(--emerald-900));
+        }
+
+        .section-card.active .section-card__title {
+            color: hsl(var(--ink));
+        }
+
+        .section-card.pending .section-card__title {
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__edit-btn {
+            font-size: 13px;
+            color: hsl(var(--indigo-600));
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.15s ease;
+        }
+
+        .section-card__edit-btn:hover {
+            background: hsl(var(--indigo-100));
+        }
+
+        .section-card__edit-btn.cancel {
+            color: hsl(var(--magenta-600));
+        }
+
+        .section-card__edit-btn.cancel:hover {
+            background: hsl(var(--magenta-100));
+        }
+
+        .section-card__content {
+            padding: 0 16px 16px;
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .section-card.completed .section-card__content {
+            color: hsl(var(--emerald-800));
+        }
+
+        .section-card__summary {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .section-card__summary-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .section-card__summary-label {
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__status {
+            font-size: 13px;
+        }
+
+        .section-card__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .section-card__badge.warning {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-700));
+        }
+
+        .section-card__badge.waitlist {
+            background: hsl(var(--warm-200));
+            color: hsl(var(--warm-600));
+        }
+
+        /* ===========================================
+           CLEARING CALCULATOR (Mini Version in Panel)
+           =========================================== */
+        .clearing-calculator-mini {
+            background: white;
+            border: 2px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .clearing-calculator-mini__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .clearing-calculator-mini__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .clearing-calculator-mini__value {
+            font-weight: 700;
+            font-size: 24px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .clearing-calculator-mini__slider-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .clearing-calculator-mini__slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            appearance: none;
+            background: linear-gradient(to right, hsl(var(--emerald-200)), hsl(var(--emerald-500)));
+            cursor: pointer;
+        }
+
+        .clearing-calculator-mini__slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 3px solid hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: transform 0.1s ease;
+        }
+
+        .clearing-calculator-mini__slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .clearing-calculator-mini__range {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 8px;
+        }
+
+        .clearing-calculator-mini__coverage {
+            text-align: center;
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 16px;
+        }
+
+        .clearing-calculator-mini__confirm {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .clearing-calculator-mini__confirm:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* Sub-items for Banking section */
+        .section-card__sub-items {
+            margin-top: 12px;
+            padding-left: 8px;
+            border-left: 2px solid hsl(var(--warm-200));
+        }
+
+        .section-card__sub-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .section-card__sub-item i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .section-card__sub-item.completed {
+            color: hsl(var(--emerald-600));
+        }
+
+        .section-card__sub-item.active {
+            color: hsl(var(--indigo-600));
+            font-weight: 500;
+        }
+
+        .section-card__sub-item.pending {
+            color: hsl(var(--warm-400));
+        }
+
+        /* ===========================================
+           STATE-SPECIFIC VISIBILITY
+           =========================================== */
+        [data-state] {
+            display: none;
+        }
+
+        .state-welcome [data-state~="welcome"],
+        .state-commerce-platform [data-state~="commerce-platform"],
+        .state-rewards-platform [data-state~="rewards-platform"],
+        .state-tier-check [data-state~="tier-check"],
+        .state-stripe-connect [data-state~="stripe-connect"],
+        .state-clearing-balance [data-state~="clearing-balance"],
+        .state-auto-fund [data-state~="auto-fund"],
+        .state-payout-schedule [data-state~="payout-schedule"],
+        .state-section-complete [data-state~="section-complete"],
+        .state-edit-flow [data-state~="edit-flow"],
+        .state-final-complete [data-state~="final-complete"] {
+            display: block;
+        }
+
+        /* Flex items need display flex */
+        .state-welcome .choice-buttons[data-state~="welcome"],
+        .state-commerce-platform .choice-buttons[data-state~="commerce-platform"],
+        .state-rewards-platform .choice-buttons[data-state~="rewards-platform"],
+        .state-tier-check .choice-buttons[data-state~="tier-check"],
+        .state-stripe-connect .choice-buttons[data-state~="stripe-connect"],
+        .state-clearing-balance .choice-buttons[data-state~="clearing-balance"],
+        .state-auto-fund .choice-buttons[data-state~="auto-fund"],
+        .state-payout-schedule .choice-buttons[data-state~="payout-schedule"],
+        .state-section-complete .choice-buttons[data-state~="section-complete"],
+        .state-edit-flow .choice-buttons[data-state~="edit-flow"] {
+            display: flex;
+        }
+
+        /* ===========================================
+           ANIMATION UTILITIES
+           =========================================== */
+        .fade-in {
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: hsl(var(--emerald-400));
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-[hsl(var(--ledger))] text-[hsl(var(--ink))]">
+
+    <!-- =============================================
+         DEMO STATE SWITCHER
+         ============================================= -->
+    <div class="demo-state-switcher">
+        <button data-state-btn="welcome" class="active">1. Welcome</button>
+        <button data-state-btn="commerce-platform">2. Commerce</button>
+        <button data-state-btn="rewards-platform">3. Rewards</button>
+        <button data-state-btn="tier-check">4. Tier Check</button>
+        <button data-state-btn="stripe-connect">5. Stripe</button>
+        <button data-state-btn="clearing-balance">6. Balance</button>
+        <button data-state-btn="auto-fund">7. Auto-Fund</button>
+        <button data-state-btn="payout-schedule">8. Payouts</button>
+        <button data-state-btn="section-complete">9. Milestone</button>
+        <button data-state-btn="edit-flow">10. Edit</button>
+        <button data-state-btn="final-complete">11. Complete</button>
+    </div>
+
+    <!-- =============================================
+         ONBOARDING SHELL
+         ============================================= -->
+    <div class="onboarding-shell state-welcome" id="onboardingShell">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <!-- Logo -->
+            <div class="top-bar__logo">
+                <div class="top-bar__logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 95 95" fill="none">
+                        <mask id="m" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="10" width="75" height="75">
+                            <circle cx="47.46" cy="47.46" r="37.03" transform="rotate(20 47.46 47.46)" fill="#C4C4C4"/>
+                        </mask>
+                        <g mask="url(#m)">
+                            <circle cx="90.47" cy="26.52" r="30.72" transform="rotate(65 90.47 26.52)" fill="white"/>
+                            <circle cx="5.22" cy="66.27" r="30.72" transform="rotate(65 5.22 66.27)" fill="white"/>
+                            <circle cx="27.97" cy="3.77" r="30.72" transform="rotate(65 27.97 3.77)" fill="white"/>
+                            <circle cx="69.67" cy="88.11" r="30.72" transform="rotate(65 69.67 88.11)" fill="white"/>
+                        </g>
+                    </svg>
+                </div>
+                <span class="font-brand font-semibold text-lg">Saltwyk</span>
+            </div>
+
+            <!-- Progress -->
+            <div class="top-bar__progress">
+                <span class="top-bar__progress-label">PROGRESS</span>
+                <div class="top-bar__progress-dots" id="progressDots">
+                    <div class="progress-dot active" title="Your Store"></div>
+                    <div class="progress-dot" title="Rewards Platform"></div>
+                    <div class="progress-dot" title="Banking & Payments"></div>
+                    <div class="progress-dot" title="Launch Strategy"></div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="top-bar__actions">
+                <button class="btn-help">
+                    <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                    <span>Get Help (5 min)</span>
+                </button>
+                <button class="btn-save">
+                    <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                    <span>Save & Exit</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- TWO-COLUMN LAYOUT -->
+        <div class="onboarding-layout">
+
+            <!-- =============================================
+                 CHAT COLUMN (60%)
+                 ============================================= -->
+            <div class="chat-column">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-messages-inner">
+
+                        <!-- =========================================
+                             STATE 1: WELCOME
+                             ========================================= -->
+                        <div data-state="welcome">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Hi! I'm here to help you join the Saltwyk network.</p>
+                                        <p>Before we begin, I'll ask a few quick questions to make sure Saltwyk is a good fit for your store. This takes about <strong>15 minutes</strong> total.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="welcome" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>Ready to start?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn primary">Yes, let's do this</button>
+                                            <button class="choice-btn">I have questions first</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 2: COMMERCE PLATFORM (Disqualification)
+                             ========================================= -->
+                        <div data-state="commerce-platform">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>First, let's confirm your e-commerce platform.</p>
+                                        <p><strong>Which platform powers your online store?</strong></p>
+                                        <div class="choice-buttons">
+                                            <!-- After selection: selected stays visible with check, others disabled -->
+                                            <button class="choice-btn selected" disabled>
+                                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                                                Shopify
+                                            </button>
+                                            <button class="choice-btn" disabled>WooCommerce</button>
+                                            <button class="choice-btn" disabled>BigCommerce</button>
+                                            <button class="choice-btn" disabled>Magento</button>
+                                            <button class="choice-btn" disabled>Other</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="commerce-platform" style="margin-top: 20px;">
+                            <div class="message-user">
+                                <div class="message-content">
+                                    <div class="message-label">You</div>
+                                    <div class="message-bubble">
+                                        <p>Shopify</p>
+                                    </div>
+                                </div>
+                                <div class="avatar"><span>M</span></div>
+                            </div>
+                        </div>
+
+                        <div data-state="commerce-platform" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>I appreciate you checking! <strong>Shopify integration is coming soon</strong>, but isn't available yet.</p>
+                                        <p>We're working hard to add Shopify support and expect to launch in Q2 2026.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="commerce-platform" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble info">
+                                    <i data-lucide="info"></i>
+                                    <span>We'll notify you when Shopify support launches (Q2 2026)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="commerce-platform" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>Would you like to join our Shopify waitlist?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn primary">Join Waitlist</button>
+                                            <button class="choice-btn">I use a different platform</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 3: REWARDS PLATFORM
+                             ========================================= -->
+                        <div data-state="rewards-platform">
+                            <!-- Collapsed summary of previous section -->
+                            <div class="conversation-summary">
+                                <div class="summary-card" onclick="this.classList.toggle('expanded')">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Your Store</span>
+                                        <span class="summary-card__value">WooCommerce</span>
+                                        <button class="summary-card__expand-btn">
+                                            <i data-lucide="chevron-down" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="summary-card__content">
+                                        <div class="summary-card__content-inner" style="padding-top: 12px;">
+                                            <p style="font-size: 13px; color: hsl(var(--warm-600));">
+                                                Platform verified. Store: Acme Outdoor Gear
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="rewards-platform" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Great! WooCommerce works perfectly with Saltwyk.</p>
+                                        <p>Now I need to know about your rewards program.</p>
+                                        <p><strong>Which rewards platform do you use?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn selected" disabled>
+                                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                                                Smile.io
+                                            </button>
+                                            <button class="choice-btn" disabled>Yotpo</button>
+                                            <button class="choice-btn" disabled>LoyaltyLion</button>
+                                            <button class="choice-btn" disabled>Other</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="rewards-platform" style="margin-top: 20px;">
+                            <div class="message-user">
+                                <div class="message-content">
+                                    <div class="message-label">You</div>
+                                    <div class="message-bubble">
+                                        <p>Smile.io</p>
+                                    </div>
+                                </div>
+                                <div class="avatar"><span>M</span></div>
+                            </div>
+                        </div>
+
+                        <div data-state="rewards-platform" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Excellent choice! <strong>Smile.io</strong> works great with Saltwyk. We have a native integration.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="rewards-platform" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble success">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>Platform verified: Smile.io</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 4: TIER CHECK (Upgrade Needed)
+                             ========================================= -->
+                        <div data-state="tier-check">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>I checked your Smile.io account and found you're on the <strong>Growth plan</strong>.</p>
+                                        <p>To connect via API and enable cross-merchant rewards, you'll need <strong>Smile.io Enterprise</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="tier-check" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble warning">
+                                    <i data-lucide="alert-triangle"></i>
+                                    <span>You'll need to upgrade before going live</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="tier-check" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>You can continue setup now and upgrade later, or view upgrade options with Smile.io.</p>
+                                        <p><strong>What would you like to do?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn secondary">View Upgrade Options</button>
+                                            <button class="choice-btn">Continue Anyway</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 5: STRIPE CONNECT EXPLANATION
+                             ========================================= -->
+                        <div data-state="stripe-connect">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Now let's set up your banking. This is how you'll fund rewards and receive settlements.</p>
+                                        <p>To accept rewards as payment, you need two things:</p>
+
+                                        <div class="info-card">
+                                            <div class="info-card__title">
+                                                <i data-lucide="landmark" style="width: 18px; height: 18px;"></i>
+                                                Why Stripe Connect?
+                                            </div>
+                                            <div class="info-card__content">
+                                                <ol>
+                                                    <li><strong>Funding:</strong> You pre-fund a clearing balance (like a Stripe balance) that covers rewards as they're used</li>
+                                                    <li><strong>Settlements:</strong> We pay you back daily to your connected bank account</li>
+                                                </ol>
+                                                <div class="info-card__footer">
+                                                    Your clearing balance is working capital — you get it back after each transaction settles.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="stripe-connect" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>Do you currently use Stripe Connect?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn">Yes</button>
+                                            <button class="choice-btn">No</button>
+                                            <button class="choice-btn">I'm not sure</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 6: CLEARING BALANCE
+                             ========================================= -->
+                        <div data-state="clearing-balance">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Now let's set your clearing balance.</p>
+                                        <p>Based on outdoor retailers like yours, I recommend a <strong>$5,000 clearing balance</strong>. This covers about 2 weeks of typical rewards redemptions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="clearing-balance" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>Want to use this amount or customize it?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn" disabled>Use $5,000</button>
+                                            <button class="choice-btn selected" disabled>
+                                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                                                Customize Amount
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="clearing-balance" style="margin-top: 20px;">
+                            <div class="message-user">
+                                <div class="message-content">
+                                    <div class="message-label">You</div>
+                                    <div class="message-bubble">
+                                        <p>Customize Amount</p>
+                                    </div>
+                                </div>
+                                <div class="avatar"><span>M</span></div>
+                            </div>
+                        </div>
+
+                        <div data-state="clearing-balance" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>I've opened the <strong>Clearing Balance Calculator</strong> in the panel →</p>
+                                        <p>Use the slider to adjust the amount. You'll see how many days of coverage each amount provides.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="clearing-balance" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble success">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>Clearing balance set: $7,500</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="clearing-balance" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Perfect! <strong>$7,500</strong> is set for your initial balance. That gives you about 3 weeks of coverage.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 7: AUTO-FUND CONFIGURATION
+                             ========================================= -->
+                        <div data-state="auto-fund">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Do you want to set up <strong>auto-funding</strong>? This automatically adds funds when your balance runs low.</p>
+                                        <p>I recommend: <strong>When balance drops below $2,000, add $3,000</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="auto-fund" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>What would you like to do?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn primary">Use Recommendation</button>
+                                            <button class="choice-btn selected" disabled>
+                                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                                                Customize
+                                            </button>
+                                            <button class="choice-btn" disabled>Skip for now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="auto-fund" style="margin-top: 20px;">
+                            <div class="message-user">
+                                <div class="message-content">
+                                    <div class="message-label">You</div>
+                                    <div class="message-bubble">
+                                        <p>Customize</p>
+                                    </div>
+                                </div>
+                                <div class="avatar"><span>M</span></div>
+                            </div>
+                        </div>
+
+                        <div data-state="auto-fund" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Set your auto-fund threshold and amount:</p>
+                                        <div class="inline-form">
+                                            <div class="inline-form__row">
+                                                <label class="inline-form__label">Trigger when below:</label>
+                                                <input type="text" class="inline-form__input" value="$2,000">
+                                            </div>
+                                            <div class="inline-form__row">
+                                                <label class="inline-form__label">Add this amount:</label>
+                                                <input type="text" class="inline-form__input" value="$3,000">
+                                            </div>
+                                            <button class="inline-form__submit">Save Auto-Fund Settings</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="auto-fund" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble success">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>Auto-fund enabled: Add $3K when below $2K</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 8: PAYOUT SCHEDULE
+                             ========================================= -->
+                        <div data-state="payout-schedule">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>How often should we pay you back?</strong></p>
+                                        <p>Daily payouts give better cash flow. Weekly means fewer transactions to track.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="payout-schedule" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn selected" disabled>
+                                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                                                Daily (recommended)
+                                            </button>
+                                            <button class="choice-btn" disabled>Weekly</button>
+                                            <button class="choice-btn" disabled>Minimum Amount</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="payout-schedule" style="margin-top: 20px;">
+                            <div class="message-user">
+                                <div class="message-content">
+                                    <div class="message-label">You</div>
+                                    <div class="message-bubble">
+                                        <p>Daily (recommended)</p>
+                                    </div>
+                                </div>
+                                <div class="avatar"><span>M</span></div>
+                            </div>
+                        </div>
+
+                        <div data-state="payout-schedule" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Great choice! You'll receive daily settlements to your bank account.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="payout-schedule" style="margin-top: 12px;">
+                            <div class="message-system">
+                                <div class="system-bubble success">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>Payout schedule set: Daily</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 9: SECTION COMPLETE (Milestone)
+                             ========================================= -->
+                        <div data-state="section-complete">
+                            <!-- Collapsed summaries of completed sections -->
+                            <div class="conversation-summary">
+                                <div class="summary-card" onclick="this.classList.toggle('expanded')">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Your Store</span>
+                                        <span class="summary-card__value">WooCommerce</span>
+                                        <button class="summary-card__expand-btn">
+                                            <i data-lucide="chevron-down" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conversation-summary" style="margin-top: 8px;">
+                                <div class="summary-card" onclick="this.classList.toggle('expanded')">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Rewards Platform</span>
+                                        <span class="summary-card__value">Smile.io (Enterprise)</span>
+                                        <button class="summary-card__expand-btn">
+                                            <i data-lucide="chevron-down" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="section-complete" style="margin-top: 16px;">
+                            <div class="message-milestone">
+                                <div class="milestone-card">
+                                    <div class="milestone-icon">✓</div>
+                                    <div class="milestone-title">Banking & Payments Complete</div>
+                                    <div class="milestone-summary">
+                                        <ul>
+                                            <li>• Bank account connected</li>
+                                            <li>• Clearing balance: $7,500</li>
+                                            <li>• Auto-fund: ON ($3K when below $2K)</li>
+                                            <li>• Payouts: Daily</li>
+                                        </ul>
+                                    </div>
+                                    <div class="milestone-divider"></div>
+                                    <div class="milestone-next">One more section to go!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="section-complete" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Fantastic progress! Just one more section: <strong>Launch Strategy</strong>.</p>
+                                        <p>We'll decide when and how to go live on the Saltwyk network.</p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn primary">Continue</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 10: EDIT FLOW
+                             ========================================= -->
+                        <div data-state="edit-flow">
+                            <div class="scroll-indicator">
+                                <i data-lucide="arrow-up" style="width: 16px; height: 16px;"></i>
+                                <span>Scrolling to Rewards Platform...</span>
+                            </div>
+                        </div>
+
+                        <div data-state="edit-flow" style="margin-top: 16px;">
+                            <div class="message-system">
+                                <div class="system-bubble info">
+                                    <i data-lucide="edit-3"></i>
+                                    <span>Editing: Rewards Platform</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="edit-flow" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Let's update your rewards platform connection.</p>
+                                        <p>You're currently connected to <strong>Smile.io (Enterprise)</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="edit-flow" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p><strong>What would you like to change?</strong></p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn">Switch to different platform</button>
+                                            <button class="choice-btn">Reconnect API</button>
+                                            <button class="choice-btn">Cancel Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =========================================
+                             STATE 11: FINAL COMPLETE
+                             ========================================= -->
+                        <div data-state="final-complete">
+                            <!-- All collapsed summaries -->
+                            <div class="conversation-summary">
+                                <div class="summary-card">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Your Store</span>
+                                        <span class="summary-card__value">WooCommerce</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conversation-summary" style="margin-top: 8px;">
+                                <div class="summary-card">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Rewards Platform</span>
+                                        <span class="summary-card__value">Smile.io (Enterprise)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conversation-summary" style="margin-top: 8px;">
+                                <div class="summary-card">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Banking & Payments</span>
+                                        <span class="summary-card__value">$7,500 / Daily</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conversation-summary" style="margin-top: 8px;">
+                                <div class="summary-card">
+                                    <div class="summary-card__header">
+                                        <i data-lucide="check-circle" class="summary-card__icon"></i>
+                                        <span class="summary-card__title">Launch Strategy</span>
+                                        <span class="summary-card__value">Holiday Rush (Dec 15)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="final-complete" style="margin-top: 16px;">
+                            <div class="message-milestone">
+                                <div class="milestone-card celebration">
+                                    <div class="milestone-icon">🎉</div>
+                                    <div class="milestone-title">Setup Complete!</div>
+                                    <div class="milestone-summary">
+                                        <p>You're ready to start accepting rewards as payment.<br>Your dashboard is ready to go.</p>
+                                    </div>
+                                    <div class="milestone-divider"></div>
+                                    <div class="milestone-next">Your store will go live December 15</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-state="final-complete" style="margin-top: 16px;">
+                            <div class="message-agent fade-in">
+                                <div class="avatar"><span>S</span></div>
+                                <div class="message-content">
+                                    <div class="message-label">Agent</div>
+                                    <div class="message-bubble">
+                                        <p>Congratulations! You've joined the <strong>Holiday Rush campaign</strong> launching December 15th.</p>
+                                        <p>You'll receive an email when your store goes live. In the meantime, explore your dashboard to see what's coming.</p>
+                                        <div class="choice-buttons">
+                                            <button class="choice-btn primary">Go to Dashboard</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CHAT INPUT -->
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <textarea
+                            class="chat-input"
+                            placeholder="Ask me anything..."
+                            rows="1"
+                            id="chatInput"
+                        ></textarea>
+                        <button class="chat-send-btn" id="chatSendBtn">
+                            <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+                        </button>
+                    </div>
+                    <!-- Input mode toggle for demo -->
+                    <div class="input-mode-toggle">
+                        <button class="active" data-input-mode="free-form">Free-form</button>
+                        <button data-input-mode="answer">Answer Mode</button>
+                        <button data-input-mode="disabled">Disabled</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =============================================
+                 FORM PANEL (40%)
+                 ============================================= -->
+            <div class="form-panel">
+                <div class="form-panel__header">
+                    <div class="form-panel__title">Onboarding Progress</div>
+                </div>
+
+                <div class="form-panel__content" id="formPanelContent">
+
+                    <!-- =========================================
+                         STATE 1: WELCOME
+                         ========================================= -->
+                    <div data-state="welcome">
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active">
+                                        <i data-lucide="arrow-right"></i>
+                                    </div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__status">Getting started...</div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 2: COMMERCE PLATFORM
+                         ========================================= -->
+                    <div data-state="commerce-platform">
+                        <div class="section-card waitlisted">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon waitlisted"><i data-lucide="clock"></i></div>
+                                    <div class="section-card__title">
+                                        Your Store
+                                        <span class="section-card__badge waitlist">Waitlisted</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Platform</span>
+                                        <span>Shopify</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Status</span>
+                                        <span style="color: hsl(var(--orange-600));">Coming Q2 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending" style="opacity: 0.4;">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending" style="opacity: 0.4;">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending" style="opacity: 0.4;">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 3: REWARDS PLATFORM
+                         ========================================= -->
+                    <div data-state="rewards-platform">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Store</span>
+                                        <span>Acme Outdoor Gear</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Platform</span>
+                                        <span>WooCommerce</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Platform</span>
+                                        <span>Smile.io</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Status</span>
+                                        <span style="color: hsl(var(--emerald-600));">Connected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 4: TIER CHECK
+                         ========================================= -->
+                    <div data-state="tier-check">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">
+                                        Rewards Platform
+                                        <span class="section-card__badge warning">Upgrade needed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Platform</span>
+                                        <span>Smile.io</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Current Tier</span>
+                                        <span style="color: hsl(var(--orange-600));">Growth</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Required</span>
+                                        <span>Enterprise</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 5: STRIPE CONNECT
+                         ========================================= -->
+                    <div data-state="stripe-connect">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__status">Understanding clearing balances...</div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 6: CLEARING BALANCE (with calculator)
+                         ========================================= -->
+                    <div data-state="clearing-balance">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <!-- Interactive Clearing Balance Calculator -->
+                                <div class="clearing-calculator-mini">
+                                    <div class="clearing-calculator-mini__header">
+                                        <span class="clearing-calculator-mini__title">Clearing Balance</span>
+                                        <span class="clearing-calculator-mini__value" id="balanceValue">$7,500</span>
+                                    </div>
+                                    <div class="clearing-calculator-mini__slider-wrapper">
+                                        <input type="range" class="clearing-calculator-mini__slider" id="balanceSlider" min="1000" max="20000" value="7500" step="500">
+                                        <div class="clearing-calculator-mini__range">
+                                            <span>$1,000</span>
+                                            <span>$20,000</span>
+                                        </div>
+                                    </div>
+                                    <div class="clearing-calculator-mini__coverage" id="balanceCoverage">
+                                        Covers approximately 3 weeks
+                                    </div>
+                                    <button class="clearing-calculator-mini__confirm" id="balanceConfirm">Set $7,500</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 7: AUTO-FUND
+                         ========================================= -->
+                    <div data-state="auto-fund">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__sub-items">
+                                    <div class="section-card__sub-item completed">
+                                        <i data-lucide="check"></i>
+                                        <span>Bank connected</span>
+                                    </div>
+                                    <div class="section-card__sub-item completed">
+                                        <i data-lucide="check"></i>
+                                        <span>Clearing balance: $7,500</span>
+                                    </div>
+                                    <div class="section-card__sub-item active">
+                                        <i data-lucide="arrow-right"></i>
+                                        <span>Configuring auto-fund...</span>
+                                    </div>
+                                    <div class="section-card__sub-item pending">
+                                        <i data-lucide="circle"></i>
+                                        <span>Payout schedule</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 8: PAYOUT SCHEDULE
+                         ========================================= -->
+                    <div data-state="payout-schedule">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__sub-items">
+                                    <div class="section-card__sub-item completed">
+                                        <i data-lucide="check"></i>
+                                        <span>Bank connected</span>
+                                    </div>
+                                    <div class="section-card__sub-item completed">
+                                        <i data-lucide="check"></i>
+                                        <span>Clearing balance: $7,500</span>
+                                    </div>
+                                    <div class="section-card__sub-item completed">
+                                        <i data-lucide="check"></i>
+                                        <span>Auto-fund: $3K @ $2K</span>
+                                    </div>
+                                    <div class="section-card__sub-item active">
+                                        <i data-lucide="arrow-right"></i>
+                                        <span>Setting payout schedule...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card pending">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon pending"><i data-lucide="circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 9: SECTION COMPLETE
+                         ========================================= -->
+                    <div data-state="section-complete">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Bank</span>
+                                        <span>BOA ••••4567</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Balance</span>
+                                        <span>$7,500</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Auto-fund</span>
+                                        <span>ON</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Payouts</span>
+                                        <span>Daily</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card active">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="arrow-right"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__status">Choosing launch approach...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 10: EDIT FLOW
+                         ========================================= -->
+                    <div data-state="edit-flow">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card active editing">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon active"><i data-lucide="edit-3"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn cancel">Cancel</button>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Platform</span>
+                                        <span>Smile.io</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Tier</span>
+                                        <span>Enterprise</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Status</span>
+                                        <span style="color: hsl(var(--emerald-600));">Connected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed" style="opacity: 0.6;">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed" style="opacity: 0.6;">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =========================================
+                         STATE 11: FINAL COMPLETE
+                         ========================================= -->
+                    <div data-state="final-complete">
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Your Store</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Rewards Platform</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Banking & Payments</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed">
+                            <div class="section-card__header">
+                                <div class="section-card__header-left">
+                                    <div class="section-card__icon completed"><i data-lucide="check-circle"></i></div>
+                                    <div class="section-card__title">Launch Strategy</div>
+                                </div>
+                                <button class="section-card__edit-btn">Edit</button>
+                            </div>
+                            <div class="section-card__content">
+                                <div class="section-card__summary">
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Campaign</span>
+                                        <span>Holiday Rush</span>
+                                    </div>
+                                    <div class="section-card__summary-row">
+                                        <span class="section-card__summary-label">Launch</span>
+                                        <span>December 15, 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary Card -->
+                        <div style="margin-top: 24px; padding: 20px; background: linear-gradient(135deg, hsl(var(--emerald-50)), hsl(var(--cyan-50))); border: 2px solid hsl(var(--emerald-200)); border-radius: 12px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎉</div>
+                            <div style="font-weight: 600; color: hsl(var(--emerald-700)); margin-bottom: 4px;">All Set!</div>
+                            <div style="font-size: 13px; color: hsl(var(--warm-600));">Your store is ready to go live December 15</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =============================================
+         MOBILE LAYOUT NOTES (Design Reference Only)
+         ============================================= -->
+    <!--
+    MOBILE LAYOUT (< 768px) - Implementation Notes:
+
+    Layout:
+    - Single column (chat only)
+    - Form panel hidden by default
+    - "View Progress" FAB: Fixed bottom-right, indigo-600
+    - Tap FAB → Sheet slides from right with form panel content
+
+    Top Bar:
+    - Logo + Progress dots only
+    - "Get Help" and "Save" become icons only
+    - Height: 56px (reduced from 64px)
+
+    Chat:
+    - Message bubbles: max-width 85vw
+    - Typography: 14px agent, 13px user
+    - Choice buttons: Stack vertically on narrow screens
+    - Input: Larger touch target (48px height)
+
+    Form Panel (in Sheet):
+    - Full-width sheet overlay
+    - Dark backdrop (60% opacity)
+    - Swipe down to close
+    - Section cards maintain styling
+    - Edit buttons easier to tap (bigger)
+
+    Interactions:
+    - Tap outside sheet → Close
+    - Swipe down → Close
+    - Form panel auto-closes after edit save
+    - Returns to chat at last position
+
+    FAB Design:
+    - Position: fixed; bottom: 16px; right: 16px;
+    - Size: 56px height, auto width
+    - Background: hsl(var(--indigo-600))
+    - Content: Chart icon + "3/5" badge
+    - Bounces on section completion
+
+    Testing Priority: Desktop first, mobile as fallback
+    -->
+
+    <!-- =============================================
+         JAVASCRIPT
+         ============================================= -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // State Management
+        const states = [
+            'welcome',
+            'commerce-platform',
+            'rewards-platform',
+            'tier-check',
+            'stripe-connect',
+            'clearing-balance',
+            'auto-fund',
+            'payout-schedule',
+            'section-complete',
+            'edit-flow',
+            'final-complete'
+        ];
+
+        // Progress dot configurations: 0=pending, 1=active, 2=completed
+        const progressConfigs = {
+            'welcome': [1, 0, 0, 0],
+            'commerce-platform': [1, 0, 0, 0],
+            'rewards-platform': [2, 1, 0, 0],
+            'tier-check': [2, 1, 0, 0],
+            'stripe-connect': [2, 2, 1, 0],
+            'clearing-balance': [2, 2, 1, 0],
+            'auto-fund': [2, 2, 1, 0],
+            'payout-schedule': [2, 2, 1, 0],
+            'section-complete': [2, 2, 2, 1],
+            'edit-flow': [2, 2, 2, 2],
+            'final-complete': [2, 2, 2, 2]
+        };
+
+        // Input configurations for each state
+        const inputConfigs = {
+            'welcome': { mode: 'free-form', placeholder: 'Ask me anything...' },
+            'commerce-platform': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'rewards-platform': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'tier-check': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'stripe-connect': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'clearing-balance': { mode: 'disabled', placeholder: 'Adjust the slider in the panel →' },
+            'auto-fund': { mode: 'answer', placeholder: 'Type custom values or click a button...' },
+            'payout-schedule': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'section-complete': { mode: 'disabled', placeholder: 'Click Continue to proceed...' },
+            'edit-flow': { mode: 'disabled', placeholder: 'Choose an option above' },
+            'final-complete': { mode: 'disabled', placeholder: 'Setup complete!' }
+        };
+
+        function updateProgressDots(state) {
+            const dots = document.querySelectorAll('#progressDots .progress-dot');
+            const config = progressConfigs[state] || [0, 0, 0, 0];
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('completed', 'active');
+                if (config[index] === 2) {
+                    dot.classList.add('completed');
+                } else if (config[index] === 1) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function updateInputMode(mode, placeholder) {
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('chatSendBtn');
+            const modeButtons = document.querySelectorAll('[data-input-mode]');
+
+            // Reset classes
+            input.classList.remove('answer-mode');
+            sendBtn.classList.remove('active');
+
+            // Apply mode
+            if (mode === 'disabled') {
+                input.disabled = true;
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>';
+            } else if (mode === 'answer') {
+                input.disabled = false;
+                sendBtn.disabled = false;
+                input.classList.add('answer-mode');
+                sendBtn.classList.add('active');
+                sendBtn.innerHTML = '<i data-lucide="send" style="width: 18px; height: 18px;"></i><span>Submit</span>';
+            } else {
+                input.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>';
+            }
+
+            input.placeholder = placeholder;
+
+            // Update mode toggle buttons
+            modeButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.inputMode === mode) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Reinitialize icons
+            lucide.createIcons();
+        }
+
+        function setActiveState(stateName) {
+            const shell = document.getElementById('onboardingShell');
+
+            // Remove all state classes
+            states.forEach(s => shell.classList.remove(`state-${s}`));
+
+            // Add new state class
+            shell.classList.add(`state-${stateName}`);
+
+            // Update state buttons
+            document.querySelectorAll('[data-state-btn]').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.stateBtn === stateName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update progress dots
+            updateProgressDots(stateName);
+
+            // Update input mode
+            const cfg = inputConfigs[stateName];
+            if (cfg) {
+                updateInputMode(cfg.mode, cfg.placeholder);
+            }
+
+            // Scroll chat to top
+            document.getElementById('chatMessages').scrollTop = 0;
+
+            // Reinitialize icons
+            setTimeout(() => lucide.createIcons(), 50);
+        }
+
+        // State button handlers
+        document.querySelectorAll('[data-state-btn]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setActiveState(btn.dataset.stateBtn);
+            });
+        });
+
+        // Input mode toggle handlers
+        document.querySelectorAll('[data-input-mode]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.inputMode;
+                const placeholders = {
+                    'free-form': 'Ask me anything...',
+                    'answer': 'Type your answer...',
+                    'disabled': 'Choose an option above'
+                };
+                updateInputMode(mode, placeholders[mode]);
+            });
+        });
+
+        // Clearing balance slider
+        const slider = document.getElementById('balanceSlider');
+        const balanceValue = document.getElementById('balanceValue');
+        const balanceCoverage = document.getElementById('balanceCoverage');
+        const balanceConfirm = document.getElementById('balanceConfirm');
+
+        if (slider) {
+            slider.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                const formatted = `$${value.toLocaleString()}`;
+                balanceValue.textContent = formatted;
+                balanceConfirm.textContent = `Set ${formatted}`;
+
+                // Estimate coverage (simplified)
+                const weeks = Math.round(value / 2500);
+                balanceCoverage.textContent = `Covers approximately ${weeks} week${weeks !== 1 ? 's' : ''}`;
+            });
+        }
+
+        // Initialize
+        setActiveState('welcome');
+    </script>
+
+</body>
+</html>
