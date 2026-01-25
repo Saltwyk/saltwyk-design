@@ -148,7 +148,10 @@
         const sideLinks = document.querySelectorAll('#side-nav .sidebar-link');
 
         sideLinks.forEach(link => {
-            const linkPath = normalizePath(link.getAttribute('href'));
+            const href = link.getAttribute('href');
+            if (!href) return; // Skip elements without href (e.g., span headers)
+
+            const linkPath = normalizePath(href);
 
             if (currentPath === linkPath) {
                 if (!link.classList.contains('sidebar-link-disabled')) {

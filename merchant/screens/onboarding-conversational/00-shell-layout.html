@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Shell Layout | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__logo-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .top-bar__logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+        }
+
+        /* Progress Dots */
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 10%); }
+        }
+
+        /* Top Bar Actions */
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn-help:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .btn-help svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-save:hover {
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-100));
+        }
+
+        .btn-save svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hidden switch button (for future form view toggle) */
+        .btn-switch {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-switch:hover {
+            background: hsl(var(--intaglio-600));
+            color: hsl(var(--warm-100));
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            height: calc(100vh - 64px);
+            overflow: hidden;
+        }
+
+        /*
+         * RESPONSIVE NOTES:
+         * - Desktop (>1024px): 60% chat / 40% form panel
+         * - Tablet (768-1024px): 70% chat / 30% form panel
+         * - Mobile (<768px): Single column, form panel as sheet overlay
+         */
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-50));
+            border-left: 1px solid hsl(var(--warm-200));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chat-input-area {
+            padding: 16px 32px 24px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        /* ===========================================
+           CHAT INPUT MODES
+           =========================================== */
+        .chat-input {
+            flex: 1;
+            padding: 14px 18px;
+            font-size: 15px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 52px;
+            max-height: 120px;
+            transition: all 0.2s ease;
+        }
+
+        .chat-input::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        /* Free-form mode (default) */
+        .chat-input.free-form {
+            border-color: hsl(var(--warm-200));
+            background: white;
+        }
+
+        .chat-input.free-form:focus {
+            border-color: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 10%);
+        }
+
+        /* Answer mode - prompted for specific input */
+        .chat-input.answer-mode {
+            border-color: hsl(var(--emerald-400));
+            background: hsl(var(--emerald-50));
+        }
+
+        .chat-input.answer-mode:focus {
+            border-color: hsl(var(--emerald-500));
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 15%);
+        }
+
+        /* Disabled mode - waiting for choice selection */
+        .chat-input:disabled,
+        .chat-input.disabled-mode {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+            border-color: hsl(var(--warm-200));
+        }
+
+        .chat-send-btn {
+            min-width: 52px;
+            height: 52px;
+            padding: 0 16px;
+            border-radius: 12px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            background: hsl(var(--warm-400));
+        }
+
+        .chat-send-btn.active {
+            background: hsl(var(--emerald-600));
+            min-width: 100px;
+        }
+
+        .chat-send-btn.active:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            position: sticky;
+            top: 0;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            padding: 20px 24px;
+            z-index: 10;
+        }
+
+        .form-panel__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* ===========================================
+           EMPTY STATE PLACEHOLDERS
+           =========================================== */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .empty-state__icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: hsl(var(--warm-100));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state__icon svg {
+            width: 32px;
+            height: 32px;
+            color: hsl(var(--warm-400));
+        }
+
+        .empty-state__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+        }
+
+        .empty-state__description {
+            font-size: 14px;
+            color: hsl(var(--warm-400));
+            max-width: 280px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           INPUT MODE TOGGLE (Demo Control)
+           =========================================== */
+        .input-mode-toggle {
+            max-width: 680px;
+            margin: 12px auto 0;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input-mode-toggle::before {
+            content: 'Input Mode:';
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            margin-right: 4px;
+        }
+
+        .input-mode-toggle button {
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            border: 1px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .input-mode-toggle button:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        .input-mode-toggle button.active {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-300));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* ===========================================
+           DEMO CONTROLS
+           =========================================== */
+        .demo-controls {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .demo-controls__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-controls__row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-btn:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .demo-btn.active {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-400));
+            color: hsl(var(--indigo-700));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Conversational Shell Layout</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">00: Shell Layout</h1>
+            <p class="text-warm-600">The two-column shell structure for conversational merchant onboarding. Top bar with progress, chat column (60%), and form panel (40%).</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: FULL SHELL PREVIEW              -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Full Shell Preview</p>
+            <p class="text-sm text-warm-600 mb-6">Complete two-column layout showing empty states. Use the demo controls to test progress dots and input modes.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Progress State</p>
+                <div class="demo-controls__row" id="progress-controls">
+                    <button class="demo-btn active" data-progress="0">Start (All Pending)</button>
+                    <button class="demo-btn" data-progress="1">Section 1 Active</button>
+                    <button class="demo-btn" data-progress="2">Section 2 Active</button>
+                    <button class="demo-btn" data-progress="3">Section 3 Active</button>
+                    <button class="demo-btn" data-progress="4">Section 4 Active</button>
+                    <button class="demo-btn" data-progress="5">Complete</button>
+                </div>
+            </div>
+
+            <!-- Shell Preview Container -->
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg overflow-hidden" style="height: 700px;">
+
+                <!-- Onboarding Shell -->
+                <div class="onboarding-shell h-full flex flex-col">
+
+                    <!-- ======================================== -->
+                    <!-- TOP BAR                                  -->
+                    <!-- ======================================== -->
+                    <div class="top-bar">
+                        <!-- Logo -->
+                        <div class="top-bar__logo">
+                            <div class="top-bar__logo-icon">
+                                <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk">
+                            </div>
+                            <span class="top-bar__logo-text">Saltwyk</span>
+                        </div>
+
+                        <!-- Progress Dots -->
+                        <div class="top-bar__progress">
+                            <span class="top-bar__progress-label">Setup Progress</span>
+                            <div class="top-bar__progress-dots" id="progress-dots">
+                                <!-- 5 dots: 4 sections + final completion -->
+                                <div class="progress-dot active" data-dot="0" title="Your Store"></div>
+                                <div class="progress-dot" data-dot="1" title="Rewards Program"></div>
+                                <div class="progress-dot" data-dot="2" title="Business Verification"></div>
+                                <div class="progress-dot" data-dot="3" title="Banking & Payments"></div>
+                                <div class="progress-dot" data-dot="4" title="Launch"></div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="top-bar__actions">
+                            <!-- Hidden: Switch to Form View (for future toggle) -->
+                            <button class="btn-switch">
+                                <i data-lucide="list"></i>
+                                <span>Form View</span>
+                            </button>
+
+                            <button class="btn-help">
+                                <i data-lucide="phone"></i>
+                                <span>Get Help (5 min)</span>
+                            </button>
+
+                            <button class="btn-save">
+                                <i data-lucide="save"></i>
+                                <span>Save & Exit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ======================================== -->
+                    <!-- TWO-COLUMN LAYOUT                        -->
+                    <!-- ======================================== -->
+                    <!--
+                        RESPONSIVE BEHAVIOR:
+                        - Desktop (>1024px): 60% chat / 40% form - side by side
+                        - Tablet (768-1024px): 70% chat / 30% form - side by side
+                        - Mobile (<768px): 100% chat, form panel accessible via floating button
+                          that opens a Sheet (slide-up panel)
+                    -->
+                    <div class="onboarding-layout">
+
+                        <!-- ================================== -->
+                        <!-- CHAT COLUMN (60%)                  -->
+                        <!-- ================================== -->
+                        <div class="chat-column">
+                            <!-- Chat Messages Area -->
+                            <div class="chat-messages">
+                                <div class="chat-messages-inner">
+                                    <!-- Empty State -->
+                                    <div class="empty-state">
+                                        <div class="empty-state__icon">
+                                            <i data-lucide="message-circle"></i>
+                                        </div>
+                                        <p class="empty-state__title">Chat messages appear here</p>
+                                        <p class="empty-state__description">
+                                            The onboarding agent will guide you through setup with conversational prompts, choice buttons, and inline forms.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chat Input Area -->
+                            <div class="chat-input-area">
+                                <div class="chat-input-wrapper">
+                                    <textarea
+                                        class="chat-input disabled-mode"
+                                        id="chat-input"
+                                        placeholder="Select an option above or type a message..."
+                                        disabled
+                                        rows="1"
+                                    ></textarea>
+                                    <button class="chat-send-btn" id="send-btn" disabled>
+                                        <i data-lucide="send"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Input Mode Toggle (Demo) -->
+                                <div class="input-mode-toggle" id="input-mode-toggle">
+                                    <button class="active" data-mode="disabled">Disabled</button>
+                                    <button data-mode="free-form">Free-form</button>
+                                    <button data-mode="answer">Answer</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================================== -->
+                        <!-- FORM PANEL (40%)                   -->
+                        <!-- ================================== -->
+                        <div class="form-panel">
+                            <!-- Panel Header -->
+                            <div class="form-panel__header">
+                                <h2 class="form-panel__title">Your Progress</h2>
+                            </div>
+
+                            <!-- Panel Content -->
+                            <div class="form-panel__content">
+                                <!-- Empty State -->
+                                <div class="empty-state">
+                                    <div class="empty-state__icon">
+                                        <i data-lucide="clipboard-list"></i>
+                                    </div>
+                                    <p class="empty-state__title">Progress and data appear here</p>
+                                    <p class="empty-state__description">
+                                        As you complete each section, your captured information and progress cards will appear in this panel.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: TOP BAR ANATOMY                  -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. Top Bar Anatomy</p>
+            <p class="text-sm text-warm-600 mb-6">The top bar provides branding, progress indication, and escape hatches. Height: 64px.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Element</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Token/Style</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Background</td>
+                            <td class="px-4 py-3"><code>hsl(var(--intaglio-900))</code></td>
+                            <td class="px-4 py-3 text-warm-600">Dark merchant chrome</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Border Bottom</td>
+                            <td class="px-4 py-3"><code>hsl(var(--intaglio-700))</code></td>
+                            <td class="px-4 py-3 text-warm-600">Subtle separation from content</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Logo Icon</td>
+                            <td class="px-4 py-3"><code>28x28px, saltwyk-logomark-mono-light.svg</code></td>
+                            <td class="px-4 py-3 text-warm-600">Saltwyk logomark (light variant for dark bg)</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Logo Text</td>
+                            <td class="px-4 py-3"><code>Outfit 600, 18px, white</code></td>
+                            <td class="px-4 py-3 text-warm-600">Brand font</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Progress Label</td>
+                            <td class="px-4 py-3"><code>11px, warm-400, 500 weight</code></td>
+                            <td class="px-4 py-3 text-warm-600">"Setup Progress"</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Progress Dot (Pending)</td>
+                            <td class="px-4 py-3"><code>12px, warm-600</code></td>
+                            <td class="px-4 py-3 text-warm-600">Default state</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Progress Dot (Active)</td>
+                            <td class="px-4 py-3"><code>14px, indigo-500, pulse shadow</code></td>
+                            <td class="px-4 py-3 text-warm-600">Current section</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Progress Dot (Completed)</td>
+                            <td class="px-4 py-3"><code>12px, emerald-500</code></td>
+                            <td class="px-4 py-3 text-warm-600">Finished sections</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Get Help Button</td>
+                            <td class="px-4 py-3"><code>indigo-600 bg, white text</code></td>
+                            <td class="px-4 py-3 text-warm-600">Primary action for assistance</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Save & Exit Button</td>
+                            <td class="px-4 py-3"><code>transparent, intaglio-600 border</code></td>
+                            <td class="px-4 py-3 text-warm-600">Secondary escape hatch</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: TWO-COLUMN LAYOUT               -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. Two-Column Layout</p>
+            <p class="text-sm text-warm-600 mb-6">Chat column handles the conversation flow. Form panel shows captured data and progress.</p>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Chat Column -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-semibold text-ink mb-3">Chat Column (60%)</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li><strong>Background:</strong> <code>hsl(var(--ledger))</code></li>
+                        <li><strong>Right border:</strong> <code>1px solid warm-200</code></li>
+                        <li><strong>Messages area:</strong> <code>padding: 32px</code></li>
+                        <li><strong>Max content width:</strong> <code>680px</code></li>
+                        <li><strong>Input area:</strong> Sticky at bottom with border-top</li>
+                    </ul>
+                </div>
+
+                <!-- Form Panel -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-semibold text-ink mb-3">Form Panel (40%)</p>
+                    <ul class="space-y-2 text-sm text-warm-600">
+                        <li><strong>Background:</strong> <code>hsl(var(--warm-50))</code></li>
+                        <li><strong>Left border:</strong> <code>1px solid warm-200</code></li>
+                        <li><strong>Header:</strong> Sticky, 16px font weight 600</li>
+                        <li><strong>Content padding:</strong> <code>24px</code></li>
+                        <li><strong>Scrollable:</strong> Independent scroll from chat</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: INPUT MODES                     -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Chat Input Modes</p>
+            <p class="text-sm text-warm-600 mb-6">The chat input has three visual states based on context.</p>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Disabled -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="w-full h-12 rounded-lg border-2 border-warm-200 bg-warm-50 mb-4 flex items-center px-4">
+                        <span class="text-warm-400 text-sm">Select an option above...</span>
+                    </div>
+                    <p class="font-semibold text-ink mb-2">Disabled Mode</p>
+                    <p class="text-sm text-warm-600">Shown when waiting for user to select from choice buttons. Background: warm-50, border: warm-200.</p>
+                </div>
+
+                <!-- Free-form -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="w-full h-12 rounded-lg border-2 border-warm-200 bg-white mb-4 flex items-center px-4">
+                        <span class="text-warm-400 text-sm">Type a message...</span>
+                    </div>
+                    <p class="font-semibold text-ink mb-2">Free-form Mode</p>
+                    <p class="text-sm text-warm-600">Default enabled state for open conversation. Background: white, border: warm-200, focus: indigo-500.</p>
+                </div>
+
+                <!-- Answer -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="w-full h-12 rounded-lg border-2 border-emerald-400 bg-emerald-50 mb-4 flex items-center px-4">
+                        <span class="text-emerald-600 text-sm">Enter your store name...</span>
+                    </div>
+                    <p class="font-semibold text-ink mb-2">Answer Mode</p>
+                    <p class="text-sm text-warm-600">Prompted for specific input. Background: emerald-50, border: emerald-400. Indicates expected response.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: RESPONSIVE BEHAVIOR             -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Responsive Behavior</p>
+            <p class="text-sm text-warm-600 mb-6">Layout adapts across breakpoints while maintaining the conversational flow.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50">
+                        <tr>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Breakpoint</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Chat Column</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Form Panel</th>
+                            <th class="text-left px-4 py-3 font-semibold text-ink border-b border-warm-200">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Desktop (&gt;1024px)</td>
+                            <td class="px-4 py-3">60%</td>
+                            <td class="px-4 py-3">40%</td>
+                            <td class="px-4 py-3 text-warm-600">Side-by-side, both visible</td>
+                        </tr>
+                        <tr class="border-b border-warm-100">
+                            <td class="px-4 py-3 font-medium">Tablet (768-1024px)</td>
+                            <td class="px-4 py-3">70%</td>
+                            <td class="px-4 py-3">30%</td>
+                            <td class="px-4 py-3 text-warm-600">Side-by-side, narrower panel</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Mobile (&lt;768px)</td>
+                            <td class="px-4 py-3">100%</td>
+                            <td class="px-4 py-3">Sheet overlay</td>
+                            <td class="px-4 py-3 text-warm-600">Floating "View Progress" button triggers slide-up sheet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: RELATED                         -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/conversational-onboarding-showcase.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Conversational Showcase</p>
+                    <p class="text-xs text-warm-500">Full interactive demo of all states.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-wizard-phase-1-platform-connection.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Wizard Phase 1</p>
+                    <p class="text-xs text-warm-500">Traditional form-based onboarding.</p>
+                </a>
+                <a href="/merchant/components/sidebar-nav.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Sidebar Navigation</p>
+                    <p class="text-xs text-warm-500">Merchant dashboard navigation component.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // PROGRESS DOT DEMO
+        // =========================================
+        const progressConfigs = {
+            0: [1, 0, 0, 0, 0],  // Start: first active, rest pending
+            1: [1, 0, 0, 0, 0],  // Section 1 active
+            2: [2, 1, 0, 0, 0],  // Section 1 complete, 2 active
+            3: [2, 2, 1, 0, 0],  // 1-2 complete, 3 active
+            4: [2, 2, 2, 1, 0],  // 1-3 complete, 4 active
+            5: [2, 2, 2, 2, 2],  // All complete
+        };
+        // 0 = pending, 1 = active, 2 = completed
+
+        function updateProgressDots(progressLevel) {
+            const config = progressConfigs[progressLevel];
+            const dots = document.querySelectorAll('#progress-dots .progress-dot');
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('pending', 'active', 'completed');
+
+                switch(config[index]) {
+                    case 0:
+                        // pending is default (no class needed)
+                        break;
+                    case 1:
+                        dot.classList.add('active');
+                        break;
+                    case 2:
+                        dot.classList.add('completed');
+                        break;
+                }
+            });
+        }
+
+        // Progress control buttons
+        document.querySelectorAll('#progress-controls .demo-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#progress-controls .demo-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateProgressDots(parseInt(btn.dataset.progress));
+            });
+        });
+
+        // =========================================
+        // INPUT MODE DEMO
+        // =========================================
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        function setInputMode(mode) {
+            // Remove all mode classes
+            chatInput.classList.remove('disabled-mode', 'free-form', 'answer-mode');
+            sendBtn.classList.remove('active');
+
+            switch(mode) {
+                case 'disabled':
+                    chatInput.classList.add('disabled-mode');
+                    chatInput.disabled = true;
+                    chatInput.placeholder = 'Select an option above or type a message...';
+                    sendBtn.disabled = true;
+                    break;
+                case 'free-form':
+                    chatInput.classList.add('free-form');
+                    chatInput.disabled = false;
+                    chatInput.placeholder = 'Type a message...';
+                    sendBtn.disabled = false;
+                    break;
+                case 'answer':
+                    chatInput.classList.add('answer-mode');
+                    chatInput.disabled = false;
+                    chatInput.placeholder = 'Enter your store name...';
+                    sendBtn.disabled = false;
+                    sendBtn.classList.add('active');
+                    break;
+            }
+        }
+
+        // Input mode toggle buttons
+        document.querySelectorAll('#input-mode-toggle button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#input-mode-toggle button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                setInputMode(btn.dataset.mode);
+            });
+        });
+
+        // Initialize
+        updateProgressDots(0);
+    </script>
+</body>
+</html>

@@ -23,7 +23,7 @@ This is the first screen in the 9-phase merchant onboarding flow.
 
 ## What You're Building
 
-**File to create:** `/merchant/screens/onboarding-phase-1-platform-connection.html`
+**File to create:** `/merchant/screens/onboarding-wizard-phase-1-platform-connection.html`
 
 This is a complete, working demonstration screen showing:
 - Setup progress indicator (Step 1 of 9)
@@ -563,7 +563,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 
 ## Deliverable
 
-One file: `/merchant/screens/onboarding-phase-1-platform-connection.html`
+One file: `/merchant/screens/onboarding-wizard-phase-1-platform-connection.html`
 
 **This file should:**
 - Be a complete, working HTML page

@@ -1,0 +1,3114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 3: Banking & Payments | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           STATE SWITCHER (Demo Navigation)
+           =========================================== */
+        .demo-state-switcher {
+            background: hsl(var(--intaglio-950));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .demo-state-switcher__label {
+            color: hsl(var(--warm-400));
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .demo-state-switcher__group {
+            margin-bottom: 12px;
+        }
+
+        .demo-state-switcher__group:last-child {
+            margin-bottom: 0;
+        }
+
+        .demo-state-switcher__group-label {
+            color: hsl(var(--warm-500));
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .demo-state-switcher__buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-state-switcher button {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--intaglio-600));
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .demo-state-switcher button:hover {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-100));
+        }
+
+        .demo-state-switcher button.active {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .demo-state-switcher button.education {
+            border-color: hsl(var(--indigo-600));
+        }
+
+        .demo-state-switcher button.education.active {
+            background: hsl(var(--indigo-600));
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .demo-state-switcher button.config {
+            border-color: hsl(var(--cyan-600));
+        }
+
+        .demo-state-switcher button.config.active {
+            background: hsl(var(--cyan-600));
+            border-color: hsl(var(--cyan-500));
+        }
+
+        /* ===========================================
+           ONBOARDING SHELL (Demo Container)
+           =========================================== */
+        .onboarding-shell {
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+            height: 780px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__logo-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .top-bar__logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+        }
+
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 10%); }
+        }
+
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-50));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .chat-messages-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-input-area {
+            padding: 16px 24px 20px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 48px;
+        }
+
+        .chat-input:disabled {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           MESSAGE COMPONENTS
+           =========================================== */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-agent .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 4px;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 10px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* User Message */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-user .message-content {
+            max-width: 400px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        /* System Message */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 12px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        .system-bubble.warning {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            color: hsl(var(--orange-700));
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .choice-buttons.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn.selected i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .choice-btn .badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-700));
+            margin-left: auto;
+        }
+
+        .choice-btn .badge.indigo {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* ===========================================
+           INFO CARD (Educational)
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-600));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-card__body {
+            flex: 1;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 6px;
+        }
+
+        .info-card__content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content p {
+            margin: 0 0 8px;
+        }
+
+        .info-card__content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card__content ul {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+        .info-card__content li {
+            margin-bottom: 4px;
+        }
+
+        .info-card__content li:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card__note {
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid hsl(var(--indigo-200));
+        }
+
+        /* Large educational card */
+        .info-card.large {
+            padding: 20px;
+        }
+
+        .info-card.large .info-card__icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .info-card.large .info-card__title {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* Critical education card (clearing balance) */
+        .info-card.critical {
+            background: linear-gradient(135deg, hsl(var(--indigo-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--indigo-300));
+        }
+
+        .info-card.critical .info-card__title {
+            font-size: 16px;
+            color: hsl(var(--indigo-800));
+        }
+
+        /* ===========================================
+           FLOW DIAGRAM (inline visual)
+           =========================================== */
+        .flow-visual {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+            border: 1px solid hsl(var(--indigo-200));
+        }
+
+        .flow-visual__steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .flow-visual__step {
+            flex: 1;
+            text-align: center;
+            padding: 12px 8px;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-700));
+        }
+
+        .flow-visual__step strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 2px;
+            color: hsl(var(--ink));
+        }
+
+        .flow-visual__arrow {
+            color: hsl(var(--indigo-400));
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           EXAMPLE BOX (Clearing Balance)
+           =========================================== */
+        .example-box {
+            background: hsl(var(--cyan-50));
+            border: 1px solid hsl(var(--cyan-200));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin: 14px 0;
+        }
+
+        .example-box__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--cyan-700));
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-box__title i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .example-box__steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .example-box__step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            line-height: 1.4;
+        }
+
+        .example-box__number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: hsl(var(--cyan-600));
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .example-box__highlight {
+            font-weight: 600;
+            color: hsl(var(--cyan-700));
+        }
+
+        /* ===========================================
+           TRANSACTION FLOW DIAGRAM (Clearing Balance)
+           =========================================== */
+        .transaction-flow {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 14px;
+            border: 1px solid hsl(var(--indigo-200));
+        }
+
+        .transaction-flow__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--indigo-600));
+            margin-bottom: 16px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .transaction-flow__diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .transaction-flow__row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .transaction-flow__box {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .transaction-flow__box--bank {
+            background: hsl(var(--warm-100));
+            border: 1px solid hsl(var(--warm-300));
+            color: hsl(var(--warm-700));
+        }
+
+        .transaction-flow__box--clearing {
+            background: hsl(var(--indigo-100));
+            border: 2px solid hsl(var(--indigo-400));
+            color: hsl(var(--indigo-700));
+            padding: 14px 18px;
+        }
+
+        .transaction-flow__box--clearing strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .transaction-flow__box--merchant {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-300));
+            color: hsl(var(--emerald-700));
+        }
+
+        .transaction-flow__arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .transaction-flow__arrow--down {
+            color: hsl(var(--emerald-600));
+        }
+
+        .transaction-flow__arrow--up {
+            color: hsl(var(--indigo-600));
+        }
+
+        .transaction-flow__arrow i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .transaction-flow__note {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            text-align: center;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        .transaction-flow__tagline {
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--indigo-700));
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid hsl(var(--indigo-100));
+        }
+
+        /* ===========================================
+           INLINE FORM
+           =========================================== */
+        .inline-form {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+        }
+
+        .inline-form__group {
+            margin-bottom: 12px;
+        }
+
+        .inline-form__group:last-of-type {
+            margin-bottom: 14px;
+        }
+
+        .inline-form__label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .inline-form__input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+        }
+
+        .inline-form__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .inline-form__row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .inline-form__row .inline-form__group {
+            flex: 1;
+        }
+
+        .inline-form__submit {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .inline-form__submit:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ===========================================
+           PRESET BUTTONS (for auto-fund)
+           =========================================== */
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .preset-btn {
+            flex: 1;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s ease;
+        }
+
+        .preset-btn:hover:not(.selected) {
+            border-color: hsl(var(--warm-300));
+            background: hsl(var(--warm-50));
+        }
+
+        .preset-btn.selected {
+            background: hsl(var(--indigo-600));
+            border-color: hsl(var(--indigo-600));
+            color: white;
+        }
+
+        .preset-btn__label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .preset-btn__values {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* ===========================================
+           MILESTONE MESSAGE
+           =========================================== */
+        .message-milestone {
+            margin: 20px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .milestone-card__icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--emerald-500));
+        }
+
+        .milestone-card__title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: hsl(var(--emerald-800));
+            margin-bottom: 8px;
+        }
+
+        .milestone-card__summary {
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .milestone-card__divider {
+            height: 1px;
+            background: hsl(var(--emerald-200));
+            margin: 16px 0;
+        }
+
+        .milestone-card__next {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            background: white;
+        }
+
+        .form-panel__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            padding: 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .section-card.completed {
+            border-color: hsl(var(--emerald-200));
+        }
+
+        .section-card.in-progress {
+            border-color: hsl(var(--indigo-200));
+        }
+
+        .section-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .section-card.completed .section-card__header {
+            background: hsl(var(--emerald-50));
+            border-color: hsl(var(--emerald-100));
+        }
+
+        .section-card.in-progress .section-card__header {
+            background: hsl(var(--indigo-50));
+            border-color: hsl(var(--indigo-100));
+        }
+
+        .section-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+        }
+
+        .section-card.completed .section-card__icon {
+            color: hsl(var(--emerald-500));
+        }
+
+        .section-card.in-progress .section-card__icon {
+            color: hsl(var(--indigo-500));
+        }
+
+        .section-card__info {
+            flex: 1;
+        }
+
+        .section-card__name {
+            font-weight: 600;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            margin: 0;
+        }
+
+        .section-card__status {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            margin: 0;
+        }
+
+        .section-card__content {
+            padding: 12px 14px;
+        }
+
+        .section-card__row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .section-card__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-card__label {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__value {
+            font-size: 12px;
+            color: hsl(var(--ink));
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* ===========================================
+           STRIPE OAUTH PANEL
+           =========================================== */
+        .stripe-oauth-panel {
+            background: white;
+            border: 2px solid hsl(var(--indigo-300));
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .stripe-oauth-panel__logo {
+            width: 80px;
+            height: auto;
+            margin: 0 auto 16px;
+        }
+
+        .stripe-oauth-panel__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .stripe-oauth-panel__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .stripe-oauth-panel__permissions {
+            text-align: left;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+        }
+
+        .stripe-oauth-panel__permissions-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin-bottom: 10px;
+        }
+
+        .stripe-oauth-panel__permission {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            padding: 4px 0;
+        }
+
+        .stripe-oauth-panel__permission i {
+            width: 14px;
+            height: 14px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .stripe-oauth-panel__btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            background: #635bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stripe-oauth-panel__btn:hover {
+            background: #5851e6;
+        }
+
+        .stripe-oauth-panel__security {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .stripe-oauth-panel__security i {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* ===========================================
+           CLEARING BALANCE CALCULATOR
+           =========================================== */
+        .clearing-calculator {
+            background: white;
+            border: 2px solid hsl(var(--indigo-300));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .clearing-calculator__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .clearing-calculator__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .clearing-calculator__value {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: hsl(var(--indigo-600));
+        }
+
+        .clearing-calculator__slider-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .clearing-calculator__slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, hsl(var(--indigo-200)) 0%, hsl(var(--indigo-400)) 100%);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .clearing-calculator__slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            background: hsl(var(--indigo-600));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: transform 0.1s ease;
+        }
+
+        .clearing-calculator__slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .clearing-calculator__slider::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            background: hsl(var(--indigo-600));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .clearing-calculator__range {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .clearing-calculator__coverage {
+            background: hsl(var(--indigo-50));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+
+        .clearing-calculator__coverage-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--indigo-600));
+            margin-bottom: 8px;
+        }
+
+        .clearing-calculator__coverage-text {
+            font-size: 14px;
+            color: hsl(var(--ink));
+            line-height: 1.5;
+        }
+
+        .clearing-calculator__coverage-text strong {
+            color: hsl(var(--indigo-700));
+        }
+
+        .clearing-calculator__tip {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            font-style: italic;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .clearing-calculator__tip i {
+            width: 14px;
+            height: 14px;
+            color: hsl(var(--warm-400));
+        }
+
+        .clearing-calculator__confirm {
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .clearing-calculator__confirm:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ===========================================
+           PROGRESS SUMMARY
+           =========================================== */
+        .progress-summary {
+            background: hsl(var(--warm-100));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .progress-summary__title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin: 0 0 10px;
+        }
+
+        .progress-summary__bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-summary__fill {
+            height: 100%;
+            background: hsl(var(--emerald-500));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-summary__text {
+            font-size: 12px;
+            color: hsl(var(--warm-600));
+            margin: 0;
+        }
+
+        /* ===========================================
+           STATE VISIBILITY
+           =========================================== */
+        [data-state] {
+            display: none;
+        }
+
+        /* Show elements for current state */
+        .state-stripe-intro [data-state~="stripe-intro"],
+        .state-stripe-oauth [data-state~="stripe-oauth"],
+        .state-stripe-connected [data-state~="stripe-connected"],
+        .state-clearing-education [data-state~="clearing-education"],
+        .state-clearing-questions [data-state~="clearing-questions"],
+        .state-clearing-calculator [data-state~="clearing-calculator"],
+        .state-clearing-set [data-state~="clearing-set"],
+        .state-auto-fund-choice [data-state~="auto-fund-choice"],
+        .state-auto-fund-configure [data-state~="auto-fund-configure"],
+        .state-auto-fund-set [data-state~="auto-fund-set"],
+        .state-payout-schedule [data-state~="payout-schedule"],
+        .state-section-complete [data-state~="section-complete"] {
+            display: block;
+        }
+
+        /* Flex items */
+        .state-stripe-intro .choice-buttons[data-state~="stripe-intro"],
+        .state-clearing-education .choice-buttons[data-state~="clearing-education"],
+        .state-clearing-questions .choice-buttons[data-state~="clearing-questions"],
+        .state-auto-fund-choice .choice-buttons[data-state~="auto-fund-choice"],
+        .state-payout-schedule .choice-buttons[data-state~="payout-schedule"] {
+            display: flex;
+        }
+
+        /* ===========================================
+           DOCUMENTATION SECTIONS
+           =========================================== */
+        .doc-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid hsl(var(--warm-200));
+        }
+
+        .doc-section h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            margin-bottom: 12px;
+        }
+
+        .doc-section ul, .doc-section ol {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .doc-section li {
+            margin-bottom: 6px;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .doc-table th,
+        .doc-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .doc-table th {
+            background: hsl(var(--warm-50));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .doc-table td {
+            color: hsl(var(--warm-700));
+        }
+
+        /* Flow diagram */
+        .flow-diagram {
+            background: hsl(var(--warm-50));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step__number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .flow-step__content {
+            flex: 1;
+        }
+
+        .flow-step__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .flow-step__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .flow-branch {
+            margin-left: 44px;
+            padding-left: 16px;
+            border-left: 2px solid hsl(var(--warm-200));
+            margin-top: 8px;
+        }
+
+        .flow-branch__label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+        }
+
+        .flow-branch__label.happy {
+            color: hsl(var(--emerald-600));
+        }
+
+        .flow-branch__label.alt {
+            color: hsl(var(--indigo-600));
+        }
+
+        /* Callout box */
+        .callout-critical {
+            background: linear-gradient(135deg, hsl(var(--orange-50)) 0%, hsl(var(--yellow-50)) 100%);
+            border: 2px solid hsl(var(--orange-300));
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .callout-critical__title {
+            font-weight: 600;
+            font-size: 15px;
+            color: hsl(var(--orange-800));
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout-critical__title i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .callout-critical__content {
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/merchant/screens/index.html" class="hover:text-emerald-600 transition-colors">Merchant Screens</a>
+            <span>/</span>
+            <span class="text-warm-700">Section 3: Banking & Payments</span>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="serial text-indigo-600">05</span>
+                <span class="h-px flex-1 bg-warm-200"></span>
+            </div>
+            <h1 class="font-display text-4xl text-ink mb-2">Section 3: Banking & Payments</h1>
+            <p class="text-warm-600">Complete conversation flow for Section 3, including Stripe Connect, clearing balance education, calculator delegation, auto-fund configuration, and payout schedule.</p>
+        </header>
+
+        <!-- Section Info -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Duration</p>
+                <p class="text-lg font-semibold text-ink">7-10 minutes</p>
+                <p class="text-xs text-warm-500">Longest section</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Critical Moment</p>
+                <p class="text-sm text-ink">Clearing balance education</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Integration</p>
+                <p class="text-sm text-ink">Stripe Connect OAuth</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Demo States</p>
+                <p class="text-lg font-semibold text-ink">12 states</p>
+            </div>
+        </div>
+
+        <!-- State Switcher -->
+        <div class="demo-state-switcher">
+            <span class="demo-state-switcher__label">Demo State Switcher</span>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Stripe Connection</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="stripe-intro" class="active">1. Stripe Intro</button>
+                    <button data-state-btn="stripe-oauth">2. OAuth Flow</button>
+                    <button data-state-btn="stripe-connected">3. Connected</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Clearing Balance Education</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="clearing-education" class="education">4. Education</button>
+                    <button data-state-btn="clearing-questions" class="education">5. Questions</button>
+                    <button data-state-btn="clearing-calculator" class="education">6. Calculator</button>
+                    <button data-state-btn="clearing-set" class="education">7. Amount Set</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Configuration</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="auto-fund-choice" class="config">8. Auto-Fund?</button>
+                    <button data-state-btn="auto-fund-configure" class="config">9. Configure</button>
+                    <button data-state-btn="auto-fund-set" class="config">10. Set</button>
+                    <button data-state-btn="payout-schedule" class="config">11. Payouts</button>
+                    <button data-state-btn="section-complete">12. Complete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- ONBOARDING SHELL DEMO                      -->
+        <!-- =========================================== -->
+        <div class="onboarding-shell state-stripe-intro" id="onboardingShell">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="top-bar__logo">
+                    <div class="top-bar__logo-icon">
+                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk">
+                    </div>
+                    <span class="top-bar__logo-text">Saltwyk</span>
+                </div>
+
+                <div class="top-bar__progress">
+                    <span class="top-bar__progress-label">Setup Progress</span>
+                    <div class="top-bar__progress-dots" id="progressDots">
+                        <div class="progress-dot completed" title="Your Store"></div>
+                        <div class="progress-dot completed" title="Rewards Platform"></div>
+                        <div class="progress-dot active" title="Banking & Payments"></div>
+                        <div class="progress-dot" title="Business Verification"></div>
+                    </div>
+                </div>
+
+                <div class="top-bar__actions">
+                    <button class="btn-help">
+                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                        <span>Get Help</span>
+                    </button>
+                    <button class="btn-save">
+                        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                        <span>Save & Exit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TWO-COLUMN LAYOUT -->
+            <div class="onboarding-layout">
+
+                <!-- ===================================== -->
+                <!-- CHAT COLUMN (60%)                    -->
+                <!-- ===================================== -->
+                <div class="chat-column">
+                    <div class="chat-messages">
+                        <div class="chat-messages-inner">
+
+                            <!-- ================================= -->
+                            <!-- STATE 1: STRIPE INTRO            -->
+                            <!-- ================================= -->
+                            <div data-state="stripe-intro stripe-oauth stripe-connected clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Now let's set up payments and settlements. Saltwyk uses <strong>Stripe Connect</strong> to handle money movement securely.</p>
+
+                                            <div class="info-card large">
+                                                <i data-lucide="shield-check" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">What is Stripe Connect?</div>
+                                                    <div class="info-card__content">
+                                                        <ul>
+                                                            <li>Stripe Connect handles all payment processing and bank transfers</li>
+                                                            <li>Your banking info stays with Stripe (never stored by Saltwyk)</li>
+                                                            <li>Same security as paying with your credit card online</li>
+                                                            <li>Stripe powers millions of businesses worldwide</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="stripe-intro">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Ready to connect your Stripe account?</strong></p>
+                                            <div class="choice-buttons" data-state="stripe-intro">
+                                                <button class="choice-btn">
+                                                    Connect with Stripe
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">I need to create a Stripe account first</button>
+                                                <button class="choice-btn">Tell me more about security</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 2: STRIPE OAUTH            -->
+                            <!-- ================================= -->
+                            <div data-state="stripe-oauth stripe-connected clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Connect with Stripe</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="stripe-oauth">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Opening Stripe authorization... You'll see the connect panel on the right. →</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="stripe-oauth">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="external-link"></i>
+                                        <span>Connecting to Stripe...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 3: STRIPE CONNECTED        -->
+                            <!-- ================================= -->
+                            <div data-state="stripe-connected clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Stripe connected successfully</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="stripe-connected">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Your bank account is now linked through Stripe. Next, let's talk about your <strong>clearing balance</strong> - this is important!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: CLEARING EDUCATION      -->
+                            <!-- ================================= -->
+                            <div data-state="clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Let me explain <strong>why you need a clearing balance</strong> - this is the key to understanding how rewards commerce works.</p>
+
+                                            <div class="info-card critical large">
+                                                <i data-lucide="wallet" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Why You Need a Clearing Balance</div>
+                                                    <div class="info-card__content">
+                                                        <p>When shoppers use <strong>other merchants' rewards</strong> at your store, you need to pay those merchants back. Your clearing balance makes this possible instantly.</p>
+                                                    </div>
+
+                                                    <div class="example-box">
+                                                        <div class="example-box__title">
+                                                            <i data-lucide="lightbulb"></i>
+                                                            Here's a real example:
+                                                        </div>
+                                                        <div class="example-box__steps">
+                                                            <div class="example-box__step">
+                                                                <span class="example-box__number">1</span>
+                                                                <span>A shopper uses <span class="example-box__highlight">Target points</span> at your store</span>
+                                                            </div>
+                                                            <div class="example-box__step">
+                                                                <span class="example-box__number">2</span>
+                                                                <span>They buy a <span class="example-box__highlight">$100 item</span> from you</span>
+                                                            </div>
+                                                            <div class="example-box__step">
+                                                                <span class="example-box__number">3</span>
+                                                                <span>You pay Target $100 <span class="example-box__highlight">from your clearing balance</span></span>
+                                                            </div>
+                                                            <div class="example-box__step">
+                                                                <span class="example-box__number">4</span>
+                                                                <span>Target settles back to you <span class="example-box__highlight">that same day</span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="info-card__content" style="margin-top: 12px;">
+                                                        <p><strong>Your clearing balance is your float</strong> - the working capital that makes instant rewards transactions possible.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Here's how the money flows:</p>
+
+                                            <div class="transaction-flow">
+                                                <div class="transaction-flow__title">Money Flow Diagram</div>
+                                                <div class="transaction-flow__diagram">
+                                                    <div class="transaction-flow__row">
+                                                        <div class="transaction-flow__box transaction-flow__box--bank">
+                                                            <i data-lucide="landmark" style="width: 16px; height: 16px; margin-bottom: 4px;"></i><br>
+                                                            Your Bank Account
+                                                        </div>
+                                                    </div>
+                                                    <div class="transaction-flow__row">
+                                                        <div class="transaction-flow__arrow transaction-flow__arrow--down">
+                                                            <i data-lucide="arrow-down"></i>
+                                                            Fund (ACH)
+                                                        </div>
+                                                    </div>
+                                                    <div class="transaction-flow__row">
+                                                        <div class="transaction-flow__box transaction-flow__box--clearing">
+                                                            <strong>Your Clearing Balance</strong>
+                                                            Stripe Connected Account<br>
+                                                            <span style="font-size: 10px; background: hsl(var(--emerald-100)); padding: 2px 6px; border-radius: 4px; color: hsl(var(--emerald-700));">FDIC Insured</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="transaction-flow__row" style="gap: 40px;">
+                                                        <div class="transaction-flow__arrow transaction-flow__arrow--down">
+                                                            <i data-lucide="arrow-down"></i>
+                                                            Pay merchants
+                                                        </div>
+                                                        <div class="transaction-flow__arrow transaction-flow__arrow--up">
+                                                            <i data-lucide="arrow-up"></i>
+                                                            Receive payments
+                                                        </div>
+                                                    </div>
+                                                    <div class="transaction-flow__row">
+                                                        <div class="transaction-flow__box transaction-flow__box--merchant">
+                                                            Other Saltwyk Merchants
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="transaction-flow__note">Daily settlement batch reconciles all transactions</p>
+                                                <p class="transaction-flow__tagline">Your funds, your account. Saltwyk just orchestrates.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-education clearing-questions">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Important:</strong> This is <strong>not a fee</strong> - you get this money back daily. Think of it like having cash in a register: you need some there to make change, but it's always your money.</p>
+                                            <p><strong>Does this make sense?</strong></p>
+                                            <div class="choice-buttons" data-state="clearing-education">
+                                                <button class="choice-btn">
+                                                    Yes, I understand
+                                                    <span class="badge">Continue</span>
+                                                </button>
+                                                <button class="choice-btn">Can you explain more?</button>
+                                                <button class="choice-btn">Why is this needed?</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: CLEARING QUESTIONS      -->
+                            <!-- ================================= -->
+                            <div data-state="clearing-questions">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Why is this needed?</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-questions">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great question! Here's the full picture:</p>
+                                            <p>When a shopper from another store uses their points at your store, we need to settle with the other merchant. Your clearing balance lets us do this <strong>instantly</strong> instead of making shoppers wait 3-5 days.</p>
+
+                                            <div class="info-card" style="margin: 14px 0;">
+                                                <i data-lucide="zap" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Why instant matters</div>
+                                                    <div class="info-card__content">
+                                                        <p style="margin: 0;">Without clearing balances, every rewards purchase would require waiting for bank transfers between merchants. Shoppers would abandon carts. Your clearing balance makes the magic happen instantly.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p><strong>Key point:</strong> The money cycles back to you daily. It's your working capital, not a cost.</p>
+                                            <div class="choice-buttons" data-state="clearing-questions">
+                                                <button class="choice-btn">
+                                                    Got it, let's continue
+                                                    <span class="badge">Continue</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 6: CLEARING CALCULATOR     -->
+                            <!-- ================================= -->
+                            <div data-state="clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, I understand</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Let's set your initial clearing balance. I've opened a <strong>calculator</strong> in the panel to help you estimate the right amount. →</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-calculator">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="sliders-horizontal"></i>
+                                        <span>Adjust the slider to see coverage estimates</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 7: CLEARING SET            -->
+                            <!-- ================================= -->
+                            <div data-state="clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Clearing balance set to $5,000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="clearing-set">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>You'll fund this via ACH when you launch (1-2 business days). No payment needed today.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 8: AUTO-FUND CHOICE        -->
+                            <!-- ================================= -->
+                            <div data-state="auto-fund-choice auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>To prevent running out of clearing balance, we can <strong>automatically add funds</strong> when you get low.</p>
+                                            <p><strong>Would you like to enable auto-fund?</strong></p>
+                                            <div class="choice-buttons" data-state="auto-fund-choice">
+                                                <button class="choice-btn">
+                                                    Yes, enable auto-fund
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">No, I'll manage manually</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 9: AUTO-FUND CONFIGURE     -->
+                            <!-- ================================= -->
+                            <div data-state="auto-fund-configure auto-fund-set payout-schedule section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, enable auto-fund</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="auto-fund-configure">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great choice! Let's set your auto-fund rules.</p>
+                                            <p><strong>Choose a preset or customize:</strong></p>
+
+                                            <div class="preset-buttons">
+                                                <button class="preset-btn">
+                                                    <span class="preset-btn__label">Low</span>
+                                                    <span class="preset-btn__values">$1,500 / $2,500</span>
+                                                </button>
+                                                <button class="preset-btn selected">
+                                                    <span class="preset-btn__label">Medium</span>
+                                                    <span class="preset-btn__values">$2,000 / $3,000</span>
+                                                </button>
+                                                <button class="preset-btn">
+                                                    <span class="preset-btn__label">High</span>
+                                                    <span class="preset-btn__values">$3,000 / $5,000</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="inline-form" style="margin-top: 12px;">
+                                                <div class="inline-form__row">
+                                                    <div class="inline-form__group">
+                                                        <label class="inline-form__label">When balance drops below</label>
+                                                        <input type="text" class="inline-form__input" value="$2,000">
+                                                    </div>
+                                                    <div class="inline-form__group">
+                                                        <label class="inline-form__label">Add this much</label>
+                                                        <input type="text" class="inline-form__input" value="$3,000">
+                                                    </div>
+                                                </div>
+                                                <p style="font-size: 12px; color: hsl(var(--warm-500)); margin: 8px 0 12px;">Funds are added via ACH (free, 1-2 days)</p>
+                                                <button class="inline-form__submit">Confirm Auto-Fund Settings</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 10: AUTO-FUND SET          -->
+                            <!-- ================================= -->
+                            <div data-state="auto-fund-set payout-schedule section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Auto-fund enabled: Add $3,000 when below $2,000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="auto-fund-set">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Your clearing balance will stay healthy automatically. You can adjust these settings anytime from your dashboard.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 11: PAYOUT SCHEDULE        -->
+                            <!-- ================================= -->
+                            <div data-state="payout-schedule section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Finally, <strong>how often would you like to receive payouts?</strong></p>
+
+                                            <div class="info-card" style="margin-bottom: 14px;">
+                                                <i data-lucide="info" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__content">
+                                                        <p style="margin: 0;">Payouts return your cleared balance to your bank account. More frequent = better cash flow.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="choice-buttons" data-state="payout-schedule">
+                                                <button class="choice-btn">
+                                                    Daily payouts
+                                                    <span class="badge">Best cash flow</span>
+                                                </button>
+                                                <button class="choice-btn">
+                                                    Weekly payouts
+                                                    <span class="badge indigo">Fewer transactions</span>
+                                                </button>
+                                                <button class="choice-btn">Custom minimum amount</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 12: SECTION COMPLETE       -->
+                            <!-- ================================= -->
+                            <div data-state="section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Daily payouts</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Daily payouts at 11 PM EST</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-milestone">
+                                    <div class="milestone-card">
+                                        <i data-lucide="check-circle-2" class="milestone-card__icon"></i>
+                                        <h3 class="milestone-card__title">Section 3 Complete!</h3>
+                                        <p class="milestone-card__summary">Banking & payments configured: <strong>Stripe connected</strong>, <strong>$5,000 clearing balance</strong>, <strong>auto-fund enabled</strong>, <strong>daily payouts</strong>.</p>
+                                        <div class="milestone-card__divider"></div>
+                                        <p class="milestone-card__next"><strong>Next:</strong> Business verification</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <textarea class="chat-input" placeholder="Select an option above..." disabled rows="1"></textarea>
+                            <button class="chat-send-btn" disabled>
+                                <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================================== -->
+                <!-- FORM PANEL (40%)                     -->
+                <!-- ===================================== -->
+                <div class="form-panel">
+                    <div class="form-panel__header">
+                        <h2 class="form-panel__title">Your Progress</h2>
+                    </div>
+                    <div class="form-panel__content">
+
+                        <!-- Section 1: Complete (Always shown) -->
+                        <div class="section-card completed" style="margin-bottom: 8px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Your Store</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Complete (Always shown) -->
+                        <div class="section-card completed" style="margin-bottom: 8px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Rewards Platform</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: In Progress -->
+                        <div data-state="stripe-intro stripe-oauth stripe-connected clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule">
+                            <div class="section-card in-progress">
+                                <div class="section-card__header">
+                                    <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Banking & Payments</p>
+                                        <p class="section-card__status">In progress...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stripe OAuth Panel -->
+                        <div data-state="stripe-oauth">
+                            <div class="stripe-oauth-panel">
+                                <svg class="stripe-oauth-panel__logo" viewBox="0 0 60 25" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="#635bff" d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 4.05-.95v3.32a8.33 8.33 0 0 1-4.56 1.1c-4.01 0-6.83-2.5-6.83-7.48 0-4.19 2.39-7.52 6.3-7.52 3.92 0 5.96 3.28 5.96 7.5 0 .4-.02 1.04-.06 1.48zm-6.3-5.63c-1.03 0-1.87.73-2.03 2.2h4.09c-.11-1.43-.81-2.2-2.06-2.2zM42.55 5.3h4.15v14.63h-4.15zm0-5.07h4.15v3.31h-4.15zm-4.7 13.2c0 1.88-.48 3.4-1.6 4.47-1.11 1.07-2.67 1.6-4.68 1.6-1.82 0-3.47-.38-4.96-1.13v-3.78c1.56.95 3.25 1.43 5.07 1.43 1.62 0 2.43-.64 2.43-1.9 0-.34-.08-.64-.25-.9-.17-.26-.42-.52-.74-.77-.32-.25-.95-.62-1.88-1.1-1.52-.8-2.56-1.62-3.12-2.46-.56-.84-.84-1.84-.84-3 0-1.8.64-3.24 1.92-4.31 1.28-1.07 2.96-1.61 5.03-1.61 1.67 0 3.24.32 4.71.95v3.64c-1.44-.8-2.98-1.21-4.62-1.21-1.32 0-1.98.49-1.98 1.47 0 .39.13.73.4 1.02.27.29.82.67 1.67 1.13 1.7.91 2.9 1.85 3.59 2.83.69.97 1.04 2.15 1.04 3.53zM20.4 6.3c-.45-.2-.96-.3-1.54-.3-1.1 0-1.96.46-2.57 1.38v-1.7h-4.14v14.25h4.15v-7.43c0-1.87.63-2.81 1.9-2.81.56 0 1.04.14 1.44.41V6.42c-.18-.05-.5-.1-.95-.1h-.3v-.02zm-13.1 9.47c0 1.1-.29 1.94-.87 2.53-.58.59-1.42.88-2.53.88-.6 0-1.21-.15-1.81-.45V14.5c.55.53 1.14.8 1.78.8.66 0 1-.47 1-1.42V5.67h4.43v10.1zM0 5.67h4.43v3.11H0zm0-4.52h4.43v3.11H0z"/>
+                                </svg>
+                                <h3 class="stripe-oauth-panel__title">Connect to Saltwyk</h3>
+                                <p class="stripe-oauth-panel__desc">Allow Saltwyk to access your Stripe account for secure payment processing.</p>
+                                <div class="stripe-oauth-panel__permissions">
+                                    <p class="stripe-oauth-panel__permissions-title">Permissions Requested</p>
+                                    <div class="stripe-oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>View account balances</span>
+                                    </div>
+                                    <div class="stripe-oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Create and manage transfers</span>
+                                    </div>
+                                    <div class="stripe-oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Process payouts to your bank</span>
+                                    </div>
+                                </div>
+                                <button class="stripe-oauth-panel__btn">
+                                    <i data-lucide="link" style="width: 18px; height: 18px;"></i>
+                                    Authorize Connection
+                                </button>
+                                <p class="stripe-oauth-panel__security">
+                                    <i data-lucide="lock"></i>
+                                    Secure connection via Stripe Connect
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Stripe Connected Summary -->
+                        <div data-state="stripe-connected clearing-education clearing-questions">
+                            <div class="section-card" style="margin-top: 12px;">
+                                <div class="section-card__header">
+                                    <i data-lucide="check-circle" class="section-card__icon" style="color: hsl(var(--emerald-500));"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Stripe Connected</p>
+                                        <p class="section-card__status">Bank account linked</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Account</span>
+                                        <span class="section-card__value">••••4567</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Bank</span>
+                                        <span class="section-card__value">Chase Business</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clearing Balance Calculator (HERO COMPONENT) -->
+                        <div data-state="clearing-calculator">
+                            <div class="clearing-calculator">
+                                <div class="clearing-calculator__header">
+                                    <span class="clearing-calculator__title">Clearing Balance</span>
+                                    <span class="clearing-calculator__value" id="calcValue">$5,000</span>
+                                </div>
+                                <div class="clearing-calculator__slider-wrapper">
+                                    <input type="range" class="clearing-calculator__slider" id="calcSlider" min="1000" max="25000" value="5000" step="500">
+                                    <div class="clearing-calculator__range">
+                                        <span>$1,000</span>
+                                        <span>$25,000</span>
+                                    </div>
+                                </div>
+                                <div class="clearing-calculator__coverage" id="calcCoverage">
+                                    <p class="clearing-calculator__coverage-title">Coverage Estimate</p>
+                                    <p class="clearing-calculator__coverage-text">
+                                        Covers approximately <strong>3-4 weeks</strong> at 10% penetration.<br>
+                                        Supports ~<strong>30-50 rewards transactions</strong>.
+                                    </p>
+                                </div>
+                                <p class="clearing-calculator__tip">
+                                    <i data-lucide="lightbulb"></i>
+                                    Most merchants start with $5,000-$10,000
+                                </p>
+                                <button class="clearing-calculator__confirm" id="calcConfirm">Set $5,000</button>
+                            </div>
+                        </div>
+
+                        <!-- Clearing Balance Set Summary -->
+                        <div data-state="clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule">
+                            <div class="section-card" style="margin-top: 12px;">
+                                <div class="section-card__header">
+                                    <i data-lucide="wallet" class="section-card__icon" style="color: hsl(var(--indigo-500));"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Clearing Balance</p>
+                                        <p class="section-card__status">Configured</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Initial Amount</span>
+                                        <span class="section-card__value">$5,000</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Funding</span>
+                                        <span class="section-card__value">ACH at launch</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Auto-Fund Set Summary -->
+                        <div data-state="auto-fund-set payout-schedule">
+                            <div class="section-card" style="margin-top: 8px;">
+                                <div class="section-card__header">
+                                    <i data-lucide="refresh-cw" class="section-card__icon" style="color: hsl(var(--cyan-600));"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Auto-Fund</p>
+                                        <p class="section-card__status">Enabled</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Threshold</span>
+                                        <span class="section-card__value">Below $2,000</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Add Amount</span>
+                                        <span class="section-card__value">$3,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Complete -->
+                        <div data-state="section-complete">
+                            <div class="section-card completed">
+                                <div class="section-card__header">
+                                    <i data-lucide="check-circle" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Banking & Payments</p>
+                                        <p class="section-card__status">Complete</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Stripe</span>
+                                        <span class="section-card__value">Connected</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Clearing Balance</span>
+                                        <span class="section-card__value">$5,000</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Auto-Fund</span>
+                                        <span class="section-card__value">Enabled</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Payouts</span>
+                                        <span class="section-card__value">Daily</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 75%;"></div>
+                                </div>
+                                <p class="progress-summary__text">3 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Progress (non-complete states) -->
+                        <div data-state="stripe-intro stripe-oauth stripe-connected clearing-education clearing-questions clearing-calculator clearing-set auto-fund-choice auto-fund-configure auto-fund-set payout-schedule">
+                            <div class="progress-summary" style="margin-top: 16px;">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 50%;"></div>
+                                </div>
+                                <p class="progress-summary__text">2 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- DOCUMENTATION SECTIONS                     -->
+        <!-- =========================================== -->
+
+        <!-- Flow Summary -->
+        <div class="doc-section">
+            <h2>Flow Summary</h2>
+            <p>Section 3 is the longest and most education-heavy section. It connects Stripe, explains clearing balances, configures auto-fund, and sets payout schedule. The clearing balance explanation is the critical moment - merchants who don't understand it may drop off.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step__number">1</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Stripe Connect Introduction</div>
+                        <div class="flow-step__desc">Explain what Stripe Connect is and security benefits</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">2</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">OAuth Connection</div>
+                        <div class="flow-step__desc">Authorize via Stripe Connect OAuth (delegation pattern)</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">3</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Clearing Balance Education</div>
+                        <div class="flow-step__desc">CRITICAL: Explain what it is, why needed, visual flow diagram</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">4</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Calculator Delegation</div>
+                        <div class="flow-step__desc">Interactive slider with coverage estimates based on revenue</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">5</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Auto-Fund Configuration</div>
+                        <div class="flow-step__desc">Enable/disable auto-fund, set threshold and amount</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">6</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Payout Schedule</div>
+                        <div class="flow-step__desc">Choose daily, weekly, or minimum amount triggers</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">7</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Section Complete</div>
+                        <div class="flow-step__desc">Milestone celebration, proceed to Section 4</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clearing Balance Deep Dive -->
+        <div class="doc-section">
+            <h2>Clearing Balance Deep Dive</h2>
+
+            <div class="callout-critical">
+                <div class="callout-critical__title">
+                    <i data-lucide="alert-triangle"></i>
+                    Critical Education Moment
+                </div>
+                <div class="callout-critical__content">
+                    <p>The clearing balance explanation is where merchants are most likely to drop off. If they don't understand it, they may think it's a fee or deposit they won't get back. <strong>This section must feel educational, not extractive.</strong></p>
+                </div>
+            </div>
+
+            <h3>What is a Clearing Balance?</h3>
+            <p>A clearing balance is working capital that enables instant rewards redemptions. When a shopper from Store A uses their points at Store B, Store B uses their clearing balance to cover the purchase immediately. Store B gets paid back when the transaction settles (typically same day or next day).</p>
+
+            <h3>Why is it Needed?</h3>
+            <ul>
+                <li><strong>Instant transactions:</strong> Without clearing balances, rewards redemptions would take 3-5 days to process</li>
+                <li><strong>Network liquidity:</strong> Enables smooth money movement across the merchant network</li>
+                <li><strong>Shopper experience:</strong> Shoppers don't wait - their points work instantly</li>
+            </ul>
+
+            <h3>Key Messaging Points</h3>
+            <ul>
+                <li><strong>"It's not a fee"</strong> - You get this money back</li>
+                <li><strong>"Like cash in a register"</strong> - Familiar analogy for working capital</li>
+                <li><strong>"Working capital"</strong> - Business-friendly terminology</li>
+                <li><strong>"Cycles back daily"</strong> - Emphasize the return flow</li>
+            </ul>
+
+            <h3>FAQ Responses</h3>
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"Is this a deposit I lose?"</td>
+                        <td>No - it's working capital that cycles back to you. Think of it like cash in your register.</td>
+                    </tr>
+                    <tr>
+                        <td>"Why can't you just front this?"</td>
+                        <td>We're a network, not a lender. Your balance ensures instant transactions without credit risk.</td>
+                    </tr>
+                    <tr>
+                        <td>"What if I run out?"</td>
+                        <td>You can enable auto-fund to automatically replenish, or add funds manually from your dashboard.</td>
+                    </tr>
+                    <tr>
+                        <td>"When do I get paid back?"</td>
+                        <td>By default, daily at 11 PM EST. You can also choose weekly or threshold-based payouts.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Why This Matters -->
+        <div class="doc-section">
+            <h2>Why This Matters: Drop-off Prevention</h2>
+            <p>This section has the highest potential for merchant confusion and abandonment. Key strategies:</p>
+
+            <h3>Educational Approach</h3>
+            <ul>
+                <li><strong>Lead with benefits:</strong> Instant transactions, better shopper experience</li>
+                <li><strong>Use visuals:</strong> Flow diagram showing money movement</li>
+                <li><strong>Familiar analogies:</strong> "Like cash in a register"</li>
+                <li><strong>Emphasize return:</strong> "You get this money back"</li>
+            </ul>
+
+            <h3>Trust Signals</h3>
+            <ul>
+                <li>Stripe branding (trusted payments infrastructure)</li>
+                <li>Security messaging ("Your banking info stays with Stripe")</li>
+                <li>"No payment needed today" - reduce immediate commitment anxiety</li>
+            </ul>
+
+            <h3>Escape Hatches</h3>
+            <ul>
+                <li>Allow questions before proceeding</li>
+                <li>Offer "Tell me more" options at every step</li>
+                <li>Save & Exit always available</li>
+                <li>Help button in header for live support</li>
+            </ul>
+        </div>
+
+        <!-- Calculator Logic -->
+        <div class="doc-section">
+            <h2>Calculator Logic</h2>
+            <p>The clearing balance calculator estimates coverage based on the merchant's monthly revenue (from Section 1).</p>
+
+            <h3>Formula</h3>
+            <p><code>Coverage Weeks = Clearing Balance / (Monthly Revenue × Estimated Penetration Rate × 0.25)</code></p>
+
+            <h3>Assumptions</h3>
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Default Value</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Penetration Rate</td>
+                        <td>10%</td>
+                        <td>Conservative estimate for early adopters</td>
+                    </tr>
+                    <tr>
+                        <td>Average Transaction</td>
+                        <td>$75-150</td>
+                        <td>Varies by category</td>
+                    </tr>
+                    <tr>
+                        <td>Weekly Factor</td>
+                        <td>0.25</td>
+                        <td>Monthly revenue / 4 weeks</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Slider Configuration</h3>
+            <ul>
+                <li><strong>Range:</strong> $1,000 - $25,000</li>
+                <li><strong>Step:</strong> $500</li>
+                <li><strong>Default:</strong> $5,000 (or calculated recommendation)</li>
+            </ul>
+        </div>
+
+        <!-- Auto-Fund Recommendations -->
+        <div class="doc-section">
+            <h2>Auto-Fund Recommendations</h2>
+            <p>Auto-fund presets are calculated as percentages of the initial clearing balance.</p>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Preset</th>
+                        <th>Threshold</th>
+                        <th>Add Amount</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Low</td>
+                        <td>30% of balance</td>
+                        <td>50% of balance</td>
+                        <td>Lower volume merchants, tight cash flow</td>
+                    </tr>
+                    <tr>
+                        <td>Medium (Default)</td>
+                        <td>40% of balance</td>
+                        <td>60% of balance</td>
+                        <td>Most merchants, balanced approach</td>
+                    </tr>
+                    <tr>
+                        <td>High</td>
+                        <td>60% of balance</td>
+                        <td>100% of balance</td>
+                        <td>High volume, don't want to run out</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Manual Management</h3>
+            <p>If merchants choose manual management:</p>
+            <ul>
+                <li>Show warning about monitoring balance</li>
+                <li>Explain they can enable auto-fund later</li>
+                <li>Email notifications for low balance are auto-enabled</li>
+            </ul>
+        </div>
+
+        <!-- Payout Schedule Trade-offs -->
+        <div class="doc-section">
+            <h2>Payout Schedule Trade-offs</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Schedule</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Daily</td>
+                        <td>Best cash flow, money back quickly</td>
+                        <td>More bank transactions</td>
+                        <td>Most merchants (recommended)</td>
+                    </tr>
+                    <tr>
+                        <td>Weekly</td>
+                        <td>Fewer transactions, easier reconciliation</td>
+                        <td>Money tied up longer, need higher balance</td>
+                        <td>Merchants preferring batched accounting</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Amount</td>
+                        <td>Control over timing, flexible</td>
+                        <td>Unpredictable, requires more management</td>
+                        <td>Advanced users with specific cash flow needs</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Impact on Clearing Balance</h3>
+            <p>Weekly payouts require approximately 2x the clearing balance of daily payouts to maintain the same coverage, since money cycles back less frequently.</p>
+        </div>
+
+        <!-- Data Captured -->
+        <div class="doc-section">
+            <h2>Data Captured</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Source</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Stripe Connect Account</td>
+                        <td>OAuth flow</td>
+                        <td>Account ID</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Bank Account (via Stripe)</td>
+                        <td>Stripe sync</td>
+                        <td>Last 4 digits</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Initial Clearing Balance</td>
+                        <td>Calculator input</td>
+                        <td>Currency</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Auto-Fund Enabled</td>
+                        <td>User choice</td>
+                        <td>Boolean</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Auto-Fund Threshold</td>
+                        <td>User input / preset</td>
+                        <td>Currency</td>
+                        <td>If auto-fund enabled</td>
+                    </tr>
+                    <tr>
+                        <td>Auto-Fund Amount</td>
+                        <td>User input / preset</td>
+                        <td>Currency</td>
+                        <td>If auto-fund enabled</td>
+                    </tr>
+                    <tr>
+                        <td>Payout Schedule</td>
+                        <td>User selection</td>
+                        <td>Enum (daily, weekly, minimum)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Payout Minimum</td>
+                        <td>User input</td>
+                        <td>Currency</td>
+                        <td>If schedule = minimum</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Timing -->
+        <div class="doc-section">
+            <h2>Timing by Path</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Duration</th>
+                        <th>Steps</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Happy Path (Existing Stripe)</td>
+                        <td>~7 minutes</td>
+                        <td>12 states</td>
+                        <td>Education takes most time</td>
+                    </tr>
+                    <tr>
+                        <td>With Questions</td>
+                        <td>~10 minutes</td>
+                        <td>14+ states</td>
+                        <td>FAQ responses add time</td>
+                    </tr>
+                    <tr>
+                        <td>New Stripe Account</td>
+                        <td>~15 minutes</td>
+                        <td>External flow</td>
+                        <td>Stripe onboarding separate</td>
+                    </tr>
+                    <tr>
+                        <td>Manual Management</td>
+                        <td>~6 minutes</td>
+                        <td>10 states</td>
+                        <td>Skip auto-fund config</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Edge Cases -->
+        <div class="doc-section">
+            <h2>Edge Cases</h2>
+
+            <h3>Stripe OAuth Failure</h3>
+            <p>If OAuth popup is blocked or user cancels, show error with options: "Try again" or "I need help". Offer live support escalation for persistent issues.</p>
+
+            <h3>No Existing Stripe Account</h3>
+            <p>Open Stripe signup in new tab with return URL. Show "I've created my account" button to resume flow. Session persists so progress isn't lost.</p>
+
+            <h3>Bank Verification Pending</h3>
+            <p>If Stripe requires micro-deposit verification, explain the 1-2 day wait and allow merchant to continue setup. Show pending status in dashboard.</p>
+
+            <h3>Minimum Balance Too Low</h3>
+            <p>If merchant sets balance below recommended minimum ($1,000), show warning but allow it. Explain they may run out quickly and should enable auto-fund.</p>
+
+            <h3>Calculator Confusion</h3>
+            <p>If merchant spends more than 2 minutes on calculator without setting, prompt with "Need help choosing? Most merchants like you start with $X" (based on their revenue).</p>
+
+            <h3>Session Timeout on Stripe</h3>
+            <p>Stripe OAuth can timeout if left open too long. If merchant returns with expired session, auto-restart the OAuth flow with clear messaging.</p>
+        </div>
+
+        <!-- Related -->
+        <div class="doc-section">
+            <h2>Related</h2>
+
+            <div class="grid grid-cols-3 gap-4 mt-4">
+                <a href="/merchant/screens/onboarding-conversational/04-section-rewards-platform.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">04: Section 2 - Rewards</p>
+                    <p class="text-xs text-warm-500">Previous section flow.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/02-interaction-patterns.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">02: Interaction Patterns</p>
+                    <p class="text-xs text-warm-500">Calculator delegation pattern.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-wizard-phase-5-fund-clearing-balance.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Wizard: Clearing Balance</p>
+                    <p class="text-xs text-warm-500">Alternative wizard flow.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-6 mt-12 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // STATE MANAGEMENT
+        // =========================================
+        const shell = document.getElementById('onboardingShell');
+        const progressDots = document.querySelectorAll('#progressDots .progress-dot');
+
+        function setState(stateName) {
+            // Remove all state classes
+            shell.className = shell.className.replace(/state-\S+/g, '').trim();
+
+            // Add new state class
+            shell.classList.add('state-' + stateName);
+
+            // Update progress dots
+            updateProgressDots(stateName);
+
+            // Re-initialize icons for newly visible content
+            lucide.createIcons();
+        }
+
+        function updateProgressDots(stateName) {
+            progressDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+            });
+
+            // Sections 1 and 2 always complete
+            progressDots[0].classList.add('completed');
+            progressDots[1].classList.add('completed');
+
+            // Set third dot based on state
+            if (stateName === 'section-complete') {
+                progressDots[2].classList.add('completed');
+                progressDots[3].classList.add('active');
+            } else {
+                progressDots[2].classList.add('active');
+            }
+        }
+
+        // State switcher buttons
+        document.querySelectorAll('[data-state-btn]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('[data-state-btn]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Set state
+                setState(btn.dataset.stateBtn);
+            });
+        });
+
+        // =========================================
+        // CLEARING BALANCE CALCULATOR
+        // =========================================
+        const calcSlider = document.getElementById('calcSlider');
+        const calcValue = document.getElementById('calcValue');
+        const calcConfirm = document.getElementById('calcConfirm');
+        const calcCoverage = document.getElementById('calcCoverage');
+
+        // Monthly revenue from Section 1 (example: $210,000)
+        const monthlyRevenue = 210000;
+        const penetrationRate = 0.10; // 10%
+        const avgTransaction = 100;
+
+        function formatCurrency(value) {
+            return '$' + value.toLocaleString();
+        }
+
+        function updateCalculator() {
+            const balance = parseInt(calcSlider.value);
+            calcValue.textContent = formatCurrency(balance);
+            calcConfirm.textContent = 'Set ' + formatCurrency(balance);
+
+            // Calculate coverage
+            const weeklyVolume = (monthlyRevenue * penetrationRate) / 4;
+            const coverageWeeks = Math.round(balance / weeklyVolume);
+            const transactionCount = Math.round(balance / avgTransaction);
+
+            let coverageText = '';
+            if (coverageWeeks <= 1) {
+                coverageText = `Covers approximately <strong>1 week</strong> at 10% penetration.<br>Supports ~<strong>${transactionCount} rewards transactions</strong>.`;
+            } else if (coverageWeeks >= 8) {
+                coverageText = `Covers approximately <strong>2+ months</strong> at 10% penetration.<br>Supports ~<strong>${transactionCount}+ rewards transactions</strong>.`;
+            } else {
+                coverageText = `Covers approximately <strong>${coverageWeeks}-${coverageWeeks + 1} weeks</strong> at 10% penetration.<br>Supports ~<strong>${transactionCount - 10}-${transactionCount + 20} rewards transactions</strong>.`;
+            }
+
+            calcCoverage.innerHTML = `
+                <p class="clearing-calculator__coverage-title">Coverage Estimate</p>
+                <p class="clearing-calculator__coverage-text">${coverageText}</p>
+            `;
+        }
+
+        if (calcSlider) {
+            calcSlider.addEventListener('input', updateCalculator);
+            // Initialize
+            updateCalculator();
+        }
+
+        // =========================================
+        // PRESET BUTTONS
+        // =========================================
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        // Initialize first state
+        setState('stripe-intro');
+    </script>
+</body>
+</html>

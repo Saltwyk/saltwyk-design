@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 1: Your Store | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           STATE SWITCHER (Demo Navigation)
+           =========================================== */
+        .demo-state-switcher {
+            background: hsl(var(--intaglio-950));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .demo-state-switcher__label {
+            color: hsl(var(--warm-400));
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .demo-state-switcher__group {
+            margin-bottom: 12px;
+        }
+
+        .demo-state-switcher__group:last-child {
+            margin-bottom: 0;
+        }
+
+        .demo-state-switcher__group-label {
+            color: hsl(var(--warm-500));
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .demo-state-switcher__buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-state-switcher button {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--intaglio-600));
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .demo-state-switcher button:hover {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-100));
+        }
+
+        .demo-state-switcher button.active {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .demo-state-switcher button.shopify {
+            border-color: hsl(var(--orange-600));
+        }
+
+        .demo-state-switcher button.shopify.active {
+            background: hsl(var(--orange-600));
+            border-color: hsl(var(--orange-500));
+        }
+
+        /* ===========================================
+           ONBOARDING SHELL (Demo Container)
+           =========================================== */
+        .onboarding-shell {
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__logo-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .top-bar__logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+        }
+
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 10%); }
+        }
+
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-50));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .chat-messages-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-input-area {
+            padding: 16px 24px 20px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 48px;
+        }
+
+        .chat-input:disabled {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           MESSAGE COMPONENTS
+           =========================================== */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-agent .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 4px;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 10px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* User Message */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-user .message-content {
+            max-width: 400px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        /* System Message */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 12px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        .system-bubble.warning {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            color: hsl(var(--orange-700));
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .choice-buttons.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn.selected i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .choice-btn .badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+            margin-left: auto;
+        }
+
+        /* ===========================================
+           INFO CARD
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-600));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-card__body {
+            flex: 1;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 6px;
+        }
+
+        .info-card__content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        /* Orange info card for disqualification */
+        .info-card.warning {
+            background: hsl(var(--orange-50));
+            border-color: hsl(var(--orange-200));
+        }
+
+        .info-card.warning .info-card__icon {
+            color: hsl(var(--orange-600));
+        }
+
+        .info-card.warning .info-card__title {
+            color: hsl(var(--orange-700));
+        }
+
+        /* ===========================================
+           CONFIRMATION CARD
+           =========================================== */
+        .confirmation-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            margin-top: 14px;
+            overflow: hidden;
+        }
+
+        .confirmation-card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            background: hsl(var(--warm-50));
+        }
+
+        .confirmation-card__title {
+            font-weight: 600;
+            font-size: 13px;
+            color: hsl(var(--ink));
+        }
+
+        .confirmation-card__edit-btn {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .confirmation-card__content {
+            padding: 14px 16px;
+        }
+
+        .confirmation-card__row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-card__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .confirmation-card__label {
+            width: 110px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .confirmation-card__value {
+            font-size: 13px;
+            color: hsl(var(--warm-900));
+        }
+
+        /* ===========================================
+           INLINE FORM
+           =========================================== */
+        .inline-form {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+        }
+
+        .inline-form__group {
+            margin-bottom: 12px;
+        }
+
+        .inline-form__label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .inline-form__input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+        }
+
+        .inline-form__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .inline-form__submit {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        .inline-form__submit:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ===========================================
+           MILESTONE MESSAGE
+           =========================================== */
+        .message-milestone {
+            margin: 20px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .milestone-card__icon {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 10px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .milestone-card__title {
+            font-size: 17px;
+            font-weight: 600;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 6px;
+        }
+
+        .milestone-card__summary {
+            font-size: 13px;
+            color: hsl(var(--ink));
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .milestone-card__divider {
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, hsl(var(--emerald-300)), transparent);
+            margin: 14px auto;
+        }
+
+        .milestone-card__next {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .milestone-card__next strong {
+            color: hsl(var(--ink));
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            padding: 16px 20px;
+            background: hsl(var(--warm-100));
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Section Card */
+        .section-card {
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section-card.empty {
+            background: hsl(var(--warm-100));
+            border: 1px dashed hsl(var(--warm-300));
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section-card.empty p {
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card.in-progress {
+            background: white;
+            border: 2px solid hsl(var(--indigo-400));
+            box-shadow: 0 2px 8px hsl(var(--indigo-500) / 10%);
+        }
+
+        .section-card.completed {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+        }
+
+        .section-card.waitlisted {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+        }
+
+        .section-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+        .section-card__icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .section-card.in-progress .section-card__icon {
+            color: hsl(var(--indigo-600));
+        }
+
+        .section-card.completed .section-card__icon {
+            color: hsl(var(--emerald-600));
+        }
+
+        .section-card.waitlisted .section-card__icon {
+            color: hsl(var(--orange-600));
+        }
+
+        .section-card__info {
+            flex: 1;
+        }
+
+        .section-card__name {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .section-card__status {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 2px;
+        }
+
+        .section-card.completed .section-card__status {
+            color: hsl(var(--emerald-700));
+        }
+
+        .section-card.waitlisted .section-card__status {
+            color: hsl(var(--orange-700));
+        }
+
+        .section-card__edit-btn {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .section-card__content {
+            padding: 0 16px 14px;
+            font-size: 13px;
+        }
+
+        .section-card__row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .section-card__row:last-child {
+            border-bottom: none;
+        }
+
+        .section-card__label {
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__value {
+            color: hsl(var(--ink));
+            font-weight: 500;
+        }
+
+        /* Progress Summary */
+        .progress-summary {
+            background: hsl(var(--warm-100));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .progress-summary__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+        }
+
+        .progress-summary__bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-summary__fill {
+            height: 100%;
+            background: hsl(var(--emerald-500));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-summary__text {
+            font-size: 12px;
+            color: hsl(var(--warm-600));
+            margin-top: 8px;
+        }
+
+        /* ===========================================
+           EDIT MODE IN FORM PANEL
+           =========================================== */
+        .section-card.editing {
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .section-card__edit-form {
+            padding: 0 16px 14px;
+        }
+
+        .edit-field {
+            margin-bottom: 12px;
+        }
+
+        .edit-field__label {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .edit-field__input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 13px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+        }
+
+        .edit-field__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .edit-actions .btn-save {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .edit-actions .btn-cancel {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            background: white;
+            color: hsl(var(--warm-600));
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* ===========================================
+           EXIT BUTTON
+           =========================================== */
+        .exit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 14px;
+        }
+
+        .exit-btn:hover {
+            background: hsl(var(--warm-200));
+        }
+
+        .exit-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===========================================
+           OAUTH PANEL
+           =========================================== */
+        .oauth-panel {
+            background: white;
+            border: 2px solid hsl(var(--indigo-300));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .oauth-panel__icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--indigo-600));
+        }
+
+        .oauth-panel__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions {
+            text-align: left;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__permission {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            padding: 4px 0;
+        }
+
+        .oauth-panel__permission i {
+            width: 14px;
+            height: 14px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .oauth-panel__btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .oauth-panel__btn:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .oauth-panel__btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===========================================
+           STATE VISIBILITY
+           =========================================== */
+        [data-state] {
+            display: none;
+        }
+
+        /* Show elements for current state */
+        .state-welcome [data-state~="welcome"],
+        .state-platform-select [data-state~="platform-select"],
+        .state-woo-oauth [data-state~="woo-oauth"],
+        .state-woo-connected [data-state~="woo-connected"],
+        .state-woo-verify [data-state~="woo-verify"],
+        .state-woo-confirm [data-state~="woo-confirm"],
+        .state-section-complete [data-state~="section-complete"],
+        .state-shopify-disqualify [data-state~="shopify-disqualify"],
+        .state-shopify-waitlist [data-state~="shopify-waitlist"],
+        .state-shopify-waitlisted [data-state~="shopify-waitlisted"],
+        .state-edit-details [data-state~="edit-details"] {
+            display: block;
+        }
+
+        /* Special handling for flex items */
+        .state-welcome .choice-buttons[data-state~="welcome"],
+        .state-platform-select .choice-buttons[data-state~="platform-select"],
+        .state-woo-oauth .choice-buttons[data-state~="woo-oauth"],
+        .state-woo-confirm .choice-buttons[data-state~="woo-confirm"],
+        .state-shopify-disqualify .choice-buttons[data-state~="shopify-disqualify"],
+        .state-shopify-waitlist .choice-buttons[data-state~="shopify-waitlist"] {
+            display: flex;
+        }
+
+        /* ===========================================
+           DOCUMENTATION SECTIONS
+           =========================================== */
+        .doc-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid hsl(var(--warm-200));
+        }
+
+        .doc-section h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            margin-bottom: 12px;
+        }
+
+        .doc-section ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .doc-section li {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-700));
+            margin-bottom: 6px;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .doc-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .doc-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+        }
+
+        .doc-table td:first-child {
+            font-weight: 500;
+            color: hsl(var(--ink));
+        }
+
+        /* Flow diagram */
+        .flow-diagram {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step__number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .flow-step__content {
+            flex: 1;
+        }
+
+        .flow-step__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .flow-step__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .flow-branch {
+            margin-left: 44px;
+            padding-left: 16px;
+            border-left: 2px solid hsl(var(--warm-200));
+            margin-top: 8px;
+        }
+
+        .flow-branch__label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+        }
+
+        .flow-branch__label.happy {
+            color: hsl(var(--emerald-600));
+        }
+
+        .flow-branch__label.disqualify {
+            color: hsl(var(--orange-600));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Section 1: Your Store</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Section Specification</p>
+            <h1 class="font-display text-4xl mb-2">03: Section 1 — Your Store</h1>
+            <p class="text-warm-600">Complete conversation flow for Section 1, including qualification checks, OAuth connection, store verification, and the Shopify disqualification path.</p>
+
+            <div class="grid grid-cols-4 gap-4 mt-8">
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Goal</p>
+                    <p class="text-sm text-ink">Qualify commerce platform</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Duration</p>
+                    <p class="text-sm text-ink">2-3 minutes</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Critical Check</p>
+                    <p class="text-sm text-ink">Supported platform</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Data Collected</p>
+                    <p class="text-sm text-ink">4 fields</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- STATE SWITCHER                             -->
+        <!-- =========================================== -->
+        <div class="demo-state-switcher">
+            <span class="demo-state-switcher__label">Demo States</span>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Happy Path (WooCommerce)</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="welcome" class="active">1. Welcome</button>
+                    <button data-state-btn="platform-select">2. Platform</button>
+                    <button data-state-btn="woo-oauth">3. OAuth</button>
+                    <button data-state-btn="woo-connected">4. Connected</button>
+                    <button data-state-btn="woo-verify">5. Verifying</button>
+                    <button data-state-btn="woo-confirm">6. Confirm</button>
+                    <button data-state-btn="section-complete">7. Complete</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Disqualification Path (Shopify)</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="shopify-disqualify" class="shopify">8. Shopify Info</button>
+                    <button data-state-btn="shopify-waitlist" class="shopify">9. Waitlist Form</button>
+                    <button data-state-btn="shopify-waitlisted" class="shopify">10. Waitlisted</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Edit Flow</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="edit-details">11. Edit Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- ONBOARDING SHELL DEMO                      -->
+        <!-- =========================================== -->
+        <div class="onboarding-shell state-welcome" id="onboardingShell">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="top-bar__logo">
+                    <div class="top-bar__logo-icon">
+                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk">
+                    </div>
+                    <span class="top-bar__logo-text">Saltwyk</span>
+                </div>
+
+                <div class="top-bar__progress">
+                    <span class="top-bar__progress-label">Setup Progress</span>
+                    <div class="top-bar__progress-dots" id="progressDots">
+                        <div class="progress-dot active" title="Your Store"></div>
+                        <div class="progress-dot" title="Rewards Platform"></div>
+                        <div class="progress-dot" title="Business Verification"></div>
+                        <div class="progress-dot" title="Banking & Payments"></div>
+                    </div>
+                </div>
+
+                <div class="top-bar__actions">
+                    <button class="btn-help">
+                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                        <span>Get Help</span>
+                    </button>
+                    <button class="btn-save">
+                        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                        <span>Save & Exit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TWO-COLUMN LAYOUT -->
+            <div class="onboarding-layout">
+
+                <!-- ===================================== -->
+                <!-- CHAT COLUMN (60%)                    -->
+                <!-- ===================================== -->
+                <div class="chat-column">
+                    <div class="chat-messages">
+                        <div class="chat-messages-inner">
+
+                            <!-- ================================= -->
+                            <!-- STATE 1: WELCOME                  -->
+                            <!-- ================================= -->
+                            <div data-state="welcome platform-select woo-verify woo-confirm section-complete shopify-disqualify shopify-waitlist shopify-waitlisted edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Welcome to Saltwyk, <strong>Acme Outdoor Gear</strong>!</p>
+                                            <p>I'm here to help you join our rewards commerce network. This will take about <strong>15 minutes</strong>.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="welcome">
+                                <div class="message-agent" style="margin-top: 4px;">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I can guide you through each step, or if you prefer, you can fill out forms yourself.</p>
+                                            <div class="choice-buttons" data-state="welcome">
+                                                <button class="choice-btn">
+                                                    Guide me through setup
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">I'll fill out forms myself</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 2: PLATFORM SELECT         -->
+                            <!-- ================================= -->
+                            <div data-state="platform-select woo-verify woo-confirm section-complete shopify-disqualify shopify-waitlist shopify-waitlisted edit-details">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Guide me through setup</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="platform-select woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great! Let's start with the basics.</p>
+                                            <p><strong>Which commerce platform powers your store?</strong></p>
+                                            <div class="choice-buttons" data-state="platform-select">
+                                                <button class="choice-btn">WooCommerce</button>
+                                                <button class="choice-btn">BigCommerce</button>
+                                                <button class="choice-btn">Magento</button>
+                                                <button class="choice-btn">Shopify</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 3: WOOCOMMERCE OAUTH        -->
+                            <!-- ================================= -->
+                            <div data-state="woo-oauth woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>WooCommerce</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-oauth woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Excellent! WooCommerce is fully supported. To get started, I'll need to connect to your store.</p>
+                                            <p><strong>How would you like to connect?</strong></p>
+                                            <div class="choice-buttons horizontal" data-state="woo-oauth">
+                                                <button class="choice-btn">
+                                                    Connect via OAuth
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">Connect with API keys</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-oauth">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="external-link"></i>
+                                        <span>Opening WooCommerce authorization...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: WOOCOMMERCE CONNECTED    -->
+                            <!-- ================================= -->
+                            <div data-state="woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Connect via OAuth</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Successfully connected to your WooCommerce store</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-connected">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Your store is connected. Now let me pull your store details...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: WOOCOMMERCE VERIFY       -->
+                            <!-- ================================= -->
+                            <div data-state="woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I'm fetching your store information from WooCommerce...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-verify">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="loader-2" class="animate-spin"></i>
+                                        <span>Syncing store data...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: WOOCOMMERCE CONFIRM      -->
+                            <!-- ================================= -->
+                            <div data-state="woo-confirm section-complete edit-details">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Store information found</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-confirm edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I found your store details from our data partners. <strong>Does this look correct?</strong></p>
+
+                                            <div class="confirmation-card">
+                                                <div class="confirmation-card__header">
+                                                    <span class="confirmation-card__title">Store Details</span>
+                                                    <button class="confirmation-card__edit-btn">Edit</button>
+                                                </div>
+                                                <div class="confirmation-card__content">
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Store URL</span>
+                                                        <span class="confirmation-card__value">acme-outdoor.com</span>
+                                                    </div>
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Monthly Revenue</span>
+                                                        <span class="confirmation-card__value">~$210,000</span>
+                                                    </div>
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Category</span>
+                                                        <span class="confirmation-card__value">Outdoor & Sporting Goods</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="choice-buttons horizontal" data-state="woo-confirm">
+                                                <button class="choice-btn">Yes, that's correct</button>
+                                                <button class="choice-btn">No, let me edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: SECTION COMPLETE         -->
+                            <!-- ================================= -->
+                            <div data-state="section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, that's correct</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Store verified</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-milestone">
+                                    <div class="milestone-card">
+                                        <i data-lucide="check-circle-2" class="milestone-card__icon"></i>
+                                        <h3 class="milestone-card__title">Section 1 Complete!</h3>
+                                        <p class="milestone-card__summary">Your store has been verified: <strong>Acme Outdoor Gear</strong> on WooCommerce.</p>
+                                        <div class="milestone-card__divider"></div>
+                                        <p class="milestone-card__next"><strong>Next:</strong> Connect your rewards platform</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 6: SHOPIFY DISQUALIFY       -->
+                            <!-- ================================= -->
+                            <div data-state="shopify-disqualify shopify-waitlist shopify-waitlisted">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great! Let's start with the basics.</p>
+                                            <p><strong>Which commerce platform powers your store?</strong></p>
+                                            <div class="choice-buttons">
+                                                <button class="choice-btn" disabled>WooCommerce</button>
+                                                <button class="choice-btn" disabled>BigCommerce</button>
+                                                <button class="choice-btn" disabled>Magento</button>
+                                                <button class="choice-btn selected" disabled>
+                                                    <i data-lucide="check"></i>
+                                                    Shopify
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="shopify-disqualify shopify-waitlist shopify-waitlisted">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Shopify</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="shopify-disqualify shopify-waitlist shopify-waitlisted">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Thanks for your interest! <strong>Shopify integration is coming in Q2 2026.</strong></p>
+                                            <p>We're launching with WooCommerce, BigCommerce, and Magento first to ensure the best experience.</p>
+
+                                            <div class="info-card warning">
+                                                <i data-lucide="info" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Why not Shopify yet?</div>
+                                                    <div class="info-card__content">
+                                                        Shopify requires specialized app approval through their partner program. We're working with their team and expect to launch support in Q2 2026.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="shopify-disqualify">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Would you like to join our Shopify waitlist?</strong> We'll notify you as soon as we launch.</p>
+                                            <div class="choice-buttons horizontal" data-state="shopify-disqualify">
+                                                <button class="choice-btn">Yes, add me to waitlist</button>
+                                                <button class="choice-btn">No, I'll check back later</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 7: SHOPIFY WAITLIST FORM    -->
+                            <!-- ================================= -->
+                            <div data-state="shopify-waitlist shopify-waitlisted">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, add me to waitlist</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="shopify-waitlist">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>What's your best email for updates?</strong></p>
+
+                                            <div class="inline-form">
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">Email Address</label>
+                                                    <input type="email" class="inline-form__input" placeholder="you@example.com" value="alex@acme-outdoor.com">
+                                                </div>
+                                                <button class="inline-form__submit">Join Waitlist</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 8: SHOPIFY WAITLISTED       -->
+                            <!-- ================================= -->
+                            <div data-state="shopify-waitlisted">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>You're on the list! We'll email you in Q2 2026.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="shopify-waitlisted">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Thanks for joining! In the meantime:</p>
+                                            <p>• Explore rewards commerce at <strong>saltwyk.com</strong></p>
+                                            <p>• Questions? Email us at <strong>hello@saltwyk.com</strong></p>
+
+                                            <button class="exit-btn">
+                                                <i data-lucide="log-out"></i>
+                                                Exit Setup
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 9: EDIT DETAILS             -->
+                            <!-- ================================= -->
+                            <div data-state="edit-details">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>No, let me edit</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="edit-details">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="edit-3"></i>
+                                        <span>Edit your details in the panel →</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <textarea class="chat-input" placeholder="Select an option above..." disabled rows="1"></textarea>
+                            <button class="chat-send-btn" disabled>
+                                <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================================== -->
+                <!-- FORM PANEL (40%)                     -->
+                <!-- ===================================== -->
+                <div class="form-panel">
+                    <div class="form-panel__header">
+                        <h2 class="form-panel__title">Your Progress</h2>
+                    </div>
+                    <div class="form-panel__content">
+
+                        <!-- Empty State -->
+                        <div data-state="welcome">
+                            <div class="section-card empty">
+                                <p>Your captured information will appear here as you progress through setup.</p>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: In Progress -->
+                        <div data-state="platform-select woo-oauth woo-connected woo-verify woo-confirm">
+                            <div class="section-card in-progress">
+                                <div class="section-card__header">
+                                    <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Your Store</p>
+                                        <p class="section-card__status">In progress...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 0%;"></div>
+                                </div>
+                                <p class="progress-summary__text">0 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- OAuth Panel (during authorization) -->
+                        <div data-state="woo-oauth">
+                            <div class="oauth-panel" style="margin-top: 16px;">
+                                <i data-lucide="shield-check" class="oauth-panel__icon"></i>
+                                <h3 class="oauth-panel__title">Authorize WooCommerce</h3>
+                                <p class="oauth-panel__desc">Allow Saltwyk to access your store data securely.</p>
+                                <div class="oauth-panel__permissions">
+                                    <p class="oauth-panel__permissions-title">Permissions Requested</p>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read store settings</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read order history</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read customer data</span>
+                                    </div>
+                                </div>
+                                <button class="oauth-panel__btn">
+                                    <i data-lucide="external-link"></i>
+                                    Authorize Connection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: Completed -->
+                        <div data-state="section-complete">
+                            <div class="section-card completed">
+                                <div class="section-card__header">
+                                    <i data-lucide="check-circle" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Your Store</p>
+                                        <p class="section-card__status">Complete</p>
+                                    </div>
+                                    <button class="section-card__edit-btn">Edit</button>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Platform</span>
+                                        <span class="section-card__value">WooCommerce</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Store URL</span>
+                                        <span class="section-card__value">acme-outdoor.com</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Revenue</span>
+                                        <span class="section-card__value">~$210,000/mo</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 25%;"></div>
+                                </div>
+                                <p class="progress-summary__text">1 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: Waitlisted (Shopify) -->
+                        <div data-state="shopify-disqualify shopify-waitlist shopify-waitlisted">
+                            <div class="section-card waitlisted">
+                                <div class="section-card__header">
+                                    <i data-lucide="clock" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Your Store</p>
+                                        <p class="section-card__status">Waitlisted for Shopify</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Platform</span>
+                                        <span class="section-card__value">Shopify</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Status</span>
+                                        <span class="section-card__value">Coming Q2 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 0%;"></div>
+                                </div>
+                                <p class="progress-summary__text">Setup paused (platform not yet supported)</p>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: Edit Mode -->
+                        <div data-state="edit-details">
+                            <div class="section-card in-progress editing">
+                                <div class="section-card__header">
+                                    <i data-lucide="edit-3" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Your Store</p>
+                                        <p class="section-card__status">Editing...</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__edit-form">
+                                    <div class="edit-field">
+                                        <label class="edit-field__label">Store URL</label>
+                                        <input type="text" class="edit-field__input" value="acme-outdoor.com">
+                                    </div>
+                                    <div class="edit-field">
+                                        <label class="edit-field__label">Monthly Revenue</label>
+                                        <input type="text" class="edit-field__input" value="$210,000">
+                                    </div>
+                                    <div class="edit-field">
+                                        <label class="edit-field__label">Category</label>
+                                        <input type="text" class="edit-field__input" value="Outdoor & Sporting Goods">
+                                    </div>
+                                    <div class="edit-actions">
+                                        <button class="btn-cancel">Cancel</button>
+                                        <button class="btn-save">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 0%;"></div>
+                                </div>
+                                <p class="progress-summary__text">0 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- DOCUMENTATION SECTIONS                     -->
+        <!-- =========================================== -->
+
+        <!-- Flow Summary -->
+        <div class="doc-section">
+            <h2>Flow Summary</h2>
+            <p>Section 1 qualifies the merchant's commerce platform, connects via OAuth, and collects store details. The critical check is platform support—Shopify merchants are gracefully redirected to a waitlist.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step__number">1</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Welcome + Mode Selection</div>
+                        <div class="flow-step__desc">Greet merchant, offer guided vs. self-serve option</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">2</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Platform Selection</div>
+                        <div class="flow-step__desc">Ask which commerce platform powers their store</div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label happy">If WooCommerce / BigCommerce / Magento</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">OAuth Connection</div>
+                            <div class="flow-step__desc">Authorize via OAuth to connect to store API</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Verify Store Details</div>
+                            <div class="flow-step__desc">Sync and confirm store info from platform API</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">5</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Section Complete</div>
+                            <div class="flow-step__desc">Show milestone, proceed to Section 2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label disqualify">If Shopify</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Explain Limitation</div>
+                            <div class="flow-step__desc">Inform Shopify is coming Q2 2026, offer waitlist</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Collect Email (Optional)</div>
+                            <div class="flow-step__desc">Inline form for waitlist signup, then exit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disqualification Philosophy -->
+        <div class="doc-section">
+            <h2>Disqualification Handling</h2>
+            <p>When a merchant selects an unsupported platform, the experience should feel informative, not rejecting. Key principles:</p>
+
+            <h3>Tone</h3>
+            <ul>
+                <li><strong>Warm, not cold:</strong> Use orange/warning tones, not red/error</li>
+                <li><strong>Explain why:</strong> Give context (Shopify app approval process)</li>
+                <li><strong>Offer value:</strong> Waitlist keeps them engaged, not abandoned</li>
+                <li><strong>Provide exit:</strong> Clear path to leave without frustration</li>
+            </ul>
+
+            <h3>What Not to Do</h3>
+            <ul>
+                <li>Don't use error states (red, X icons)</li>
+                <li>Don't say "sorry" excessively—be matter-of-fact</li>
+                <li>Don't leave them stranded with no next action</li>
+                <li>Don't hide the limitation until after they've invested time</li>
+            </ul>
+        </div>
+
+        <!-- Data Captured -->
+        <div class="doc-section">
+            <h2>Data Captured</h2>
+            <p>Section 1 collects the following fields. Storeleads pre-populates most data; merchants confirm or edit.</p>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Source</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Commerce Platform</td>
+                        <td>User selection</td>
+                        <td>Enum (WooCommerce, BigCommerce, Magento, Shopify)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>OAuth Token</td>
+                        <td>OAuth flow</td>
+                        <td>Encrypted token</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Store URL</td>
+                        <td>Platform API sync</td>
+                        <td>URL</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Revenue</td>
+                        <td>Platform API sync</td>
+                        <td>Currency estimate</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Product Category</td>
+                        <td>Platform API sync</td>
+                        <td>String</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Timing -->
+        <div class="doc-section">
+            <h2>Timing by Path</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Duration</th>
+                        <th>Steps</th>
+                        <th>Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Happy Path (WooCommerce)</td>
+                        <td>~3 minutes</td>
+                        <td>7 steps</td>
+                        <td>Section complete, proceed to Section 2</td>
+                    </tr>
+                    <tr>
+                        <td>Happy Path with Edit</td>
+                        <td>~4 minutes</td>
+                        <td>9 steps</td>
+                        <td>Section complete after edits</td>
+                    </tr>
+                    <tr>
+                        <td>Shopify → Waitlist</td>
+                        <td>~1 minute</td>
+                        <td>4 steps</td>
+                        <td>Waitlisted, exit setup</td>
+                    </tr>
+                    <tr>
+                        <td>Shopify → No Waitlist</td>
+                        <td>~30 seconds</td>
+                        <td>3 steps</td>
+                        <td>Exit setup immediately</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- OAuth Connection -->
+        <div class="doc-section">
+            <h2>OAuth Connection</h2>
+
+            <p>Commerce platforms are connected via OAuth. This provides secure, token-based access without merchants sharing passwords or managing API keys.</p>
+
+            <h3>Why OAuth for Commerce Platforms?</h3>
+            <ul>
+                <li><strong>Security:</strong> No credentials stored, automatic token refresh</li>
+                <li><strong>Simplicity:</strong> One-click authorization familiar to merchants</li>
+                <li><strong>Full access:</strong> OAuth grants the permissions needed for store sync</li>
+                <li><strong>Revocable:</strong> Merchants can disconnect from their platform dashboard</li>
+            </ul>
+
+            <h3>OAuth Flow</h3>
+            <ol>
+                <li>Merchant clicks "Connect via OAuth"</li>
+                <li>Platform authorization window opens (popup or redirect)</li>
+                <li>Merchant approves the requested permissions</li>
+                <li>Platform redirects back with authorization code</li>
+                <li>Saltwyk exchanges code for access token (server-side)</li>
+                <li>Connection confirmed, store sync begins</li>
+            </ol>
+
+            <h3>Fallback: API Keys</h3>
+            <p>Some merchants prefer manual API key entry (technical users, debugging, or OAuth issues). The flow supports this as a secondary option but OAuth is recommended as the primary method.</p>
+        </div>
+
+        <!-- Edge Cases -->
+        <div class="doc-section">
+            <h2>Edge Cases</h2>
+
+            <h3>OAuth Failure</h3>
+            <p>If OAuth popup is blocked or user cancels, show error message with options: "Try again" or "Connect with API keys instead". Log the failure for support debugging.</p>
+
+            <h3>Store Data is Wrong</h3>
+            <p>If the merchant indicates data is incorrect, the confirmation card switches to edit mode. All fields become editable inputs. After saving, the agent confirms the updated values before proceeding.</p>
+
+            <h3>API Sync Incomplete</h3>
+            <p>If the platform API doesn't return all required fields (e.g., revenue not available via API), present an inline form to collect the missing data. This should be rare for established stores.</p>
+
+            <h3>Merchant Wants to Switch Platforms</h3>
+            <p>If a merchant starts with Shopify but wants to try with a different platform, they can use "Save & Exit" and restart. The system should not auto-save the Shopify selection until they explicitly join the waitlist.</p>
+
+            <h3>Multiple Stores</h3>
+            <p>For merchants with multiple stores on different platforms, they should complete onboarding for each store separately. This is handled at the account level, not within Section 1.</p>
+        </div>
+
+        <!-- Related -->
+        <div class="doc-section">
+            <h2>Related</h2>
+
+            <div class="grid grid-cols-3 gap-4 mt-4">
+                <a href="/merchant/screens/onboarding-conversational/00-shell-layout.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">00: Shell Layout</p>
+                    <p class="text-xs text-warm-500">Two-column structure.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/01-message-components.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">01: Message Components</p>
+                    <p class="text-xs text-warm-500">All message types.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/02-interaction-patterns.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">02: Interaction Patterns</p>
+                    <p class="text-xs text-warm-500">Reusable patterns.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-6 mt-12 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // STATE MANAGEMENT
+        // =========================================
+        const shell = document.getElementById('onboardingShell');
+        const progressDots = document.querySelectorAll('#progressDots .progress-dot');
+
+        function setState(stateName) {
+            // Remove all state classes
+            shell.className = shell.className.replace(/state-\S+/g, '').trim();
+
+            // Add new state class
+            shell.classList.add('state-' + stateName);
+
+            // Update progress dots
+            updateProgressDots(stateName);
+
+            // Re-initialize icons for newly visible content
+            lucide.createIcons();
+        }
+
+        function updateProgressDots(stateName) {
+            progressDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+            });
+
+            // Set first dot based on state
+            if (stateName === 'section-complete') {
+                progressDots[0].classList.add('completed');
+                progressDots[1].classList.add('active');
+            } else if (stateName.startsWith('shopify')) {
+                // Shopify path - no progress
+                progressDots[0].classList.add('active');
+            } else {
+                progressDots[0].classList.add('active');
+            }
+        }
+
+        // State switcher buttons
+        document.querySelectorAll('[data-state-btn]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('[data-state-btn]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Set state
+                setState(btn.dataset.stateBtn);
+            });
+        });
+
+        // Initialize first state
+        setState('welcome');
+    </script>
+</body>
+</html>
