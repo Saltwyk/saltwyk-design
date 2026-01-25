@@ -1,0 +1,2895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 4: Launch Strategy | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           STATE SWITCHER (Demo Navigation)
+           =========================================== */
+        .demo-state-switcher {
+            background: hsl(var(--intaglio-950));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .demo-state-switcher__label {
+            color: hsl(var(--warm-400));
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .demo-state-switcher__group {
+            margin-bottom: 12px;
+        }
+
+        .demo-state-switcher__group:last-child {
+            margin-bottom: 0;
+        }
+
+        .demo-state-switcher__group-label {
+            color: hsl(var(--warm-500));
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .demo-state-switcher__buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-state-switcher button {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--intaglio-600));
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .demo-state-switcher button:hover {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-100));
+        }
+
+        .demo-state-switcher button.active {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .demo-state-switcher button.campaign {
+            border-color: hsl(var(--indigo-600));
+        }
+
+        .demo-state-switcher button.campaign.active {
+            background: hsl(var(--indigo-600));
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .demo-state-switcher button.finale {
+            border-color: hsl(var(--cyan-500));
+        }
+
+        .demo-state-switcher button.finale.active {
+            background: linear-gradient(135deg, hsl(var(--emerald-500)) 0%, hsl(var(--cyan-500)) 100%);
+            border-color: hsl(var(--cyan-400));
+        }
+
+        /* ===========================================
+           ONBOARDING SHELL (Demo Container)
+           =========================================== */
+        .onboarding-shell {
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+            height: 780px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__logo-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .top-bar__logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+        }
+
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 10%); }
+        }
+
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-50));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .chat-messages-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-input-area {
+            padding: 16px 24px 20px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 48px;
+        }
+
+        .chat-input:disabled {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           MESSAGE COMPONENTS
+           =========================================== */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-agent .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 4px;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 10px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* User Message */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-user .message-content {
+            max-width: 400px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        /* System Message */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 12px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .choice-buttons.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn .badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-700));
+            margin-left: auto;
+        }
+
+        .choice-btn .badge.indigo {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* ===========================================
+           INFO CARD (Educational)
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-600));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-card__body {
+            flex: 1;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 6px;
+        }
+
+        .info-card__content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content p {
+            margin: 0 0 8px;
+        }
+
+        .info-card__content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card__content ul {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+        .info-card__content li {
+            margin-bottom: 4px;
+        }
+
+        .info-card__best-for {
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid hsl(var(--indigo-200));
+        }
+
+        /* Launch option cards */
+        .info-card.launch-option {
+            margin-top: 12px;
+        }
+
+        .info-card.launch-option.go-live {
+            background: hsl(var(--emerald-50));
+            border-color: hsl(var(--emerald-200));
+        }
+
+        .info-card.launch-option.go-live .info-card__icon {
+            color: hsl(var(--emerald-600));
+        }
+
+        .info-card.launch-option.go-live .info-card__title {
+            color: hsl(var(--emerald-700));
+        }
+
+        .info-card.launch-option.go-live .info-card__best-for {
+            color: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-200));
+        }
+
+        .info-card.launch-option.campaign {
+            background: hsl(var(--indigo-50));
+            border-color: hsl(var(--indigo-200));
+        }
+
+        /* ===========================================
+           MILESTONE MESSAGE (Final Celebration)
+           =========================================== */
+        .message-milestone {
+            margin: 20px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .milestone-card__icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--emerald-500));
+        }
+
+        .milestone-card__title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: hsl(var(--emerald-800));
+            margin-bottom: 8px;
+        }
+
+        .milestone-card__summary {
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .milestone-card__divider {
+            height: 1px;
+            background: hsl(var(--emerald-200));
+            margin: 16px 0;
+        }
+
+        .milestone-card__next {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        /* GRAND FINALE Milestone */
+        .milestone-card.finale {
+            background: linear-gradient(135deg, hsl(var(--emerald-100)) 0%, hsl(var(--cyan-100)) 50%, hsl(var(--indigo-100)) 100%);
+            border: 3px solid hsl(var(--emerald-300));
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .milestone-card.finale::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, hsl(var(--cyan-200) / 30%) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
+        }
+
+        .milestone-card.finale .milestone-card__icon {
+            width: 64px;
+            height: 64px;
+            color: hsl(var(--emerald-500));
+            position: relative;
+            z-index: 1;
+        }
+
+        .milestone-card.finale .milestone-card__title {
+            font-size: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .finale__checklist {
+            text-align: left;
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .finale__checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .finale__checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .finale__checklist-item i {
+            width: 18px;
+            height: 18px;
+            color: hsl(var(--emerald-500));
+        }
+
+        .finale__next-steps {
+            text-align: left;
+            margin: 20px 0;
+            padding: 16px 20px;
+            background: hsl(var(--indigo-50));
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .finale__next-steps-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 10px;
+        }
+
+        .finale__next-steps-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 13px;
+            color: hsl(var(--warm-700));
+        }
+
+        .finale__next-steps-item i {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--indigo-500));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .finale__cta {
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .finale__cta:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .finale__cta i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .finale__contact {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            padding: 16px 20px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            background: white;
+        }
+
+        .form-panel__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            padding: 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .section-card.completed {
+            border-color: hsl(var(--emerald-200));
+        }
+
+        .section-card.in-progress {
+            border-color: hsl(var(--indigo-200));
+        }
+
+        .section-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .section-card.completed .section-card__header {
+            background: hsl(var(--emerald-50));
+            border-color: hsl(var(--emerald-100));
+        }
+
+        .section-card.in-progress .section-card__header {
+            background: hsl(var(--indigo-50));
+            border-color: hsl(var(--indigo-100));
+        }
+
+        .section-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--warm-400));
+        }
+
+        .section-card.completed .section-card__icon {
+            color: hsl(var(--emerald-500));
+        }
+
+        .section-card.in-progress .section-card__icon {
+            color: hsl(var(--indigo-500));
+        }
+
+        .section-card__info {
+            flex: 1;
+        }
+
+        .section-card__name {
+            font-weight: 600;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            margin: 0;
+        }
+
+        .section-card__status {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            margin: 0;
+        }
+
+        .section-card__content {
+            padding: 12px 14px;
+        }
+
+        .section-card__row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .section-card__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-card__label {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__value {
+            font-size: 12px;
+            color: hsl(var(--ink));
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* ===========================================
+           EXCLUSION MANAGER
+           =========================================== */
+        .exclusion-manager {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .exclusion-manager__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 16px;
+        }
+
+        .exclusion-manager__input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .exclusion-manager__input {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+        }
+
+        .exclusion-manager__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .exclusion-manager__add-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .exclusion-manager__add-btn:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .exclusion-manager__list {
+            margin-bottom: 16px;
+        }
+
+        .exclusion-manager__item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .exclusion-manager__item-info {
+            flex: 1;
+        }
+
+        .exclusion-manager__item-name {
+            font-weight: 500;
+            font-size: 13px;
+            color: hsl(var(--ink));
+        }
+
+        .exclusion-manager__item-domain {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+        }
+
+        .exclusion-manager__item-remove {
+            padding: 6px;
+            background: transparent;
+            border: none;
+            color: hsl(var(--warm-400));
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .exclusion-manager__item-remove:hover {
+            color: hsl(var(--orange-600));
+            background: hsl(var(--orange-50));
+        }
+
+        .exclusion-manager__counter {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 16px;
+        }
+
+        .exclusion-manager__done-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .exclusion-manager__done-btn:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* ===========================================
+           CAMPAIGN CARDS
+           =========================================== */
+        .campaign-card {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .campaign-card:hover {
+            border-color: hsl(var(--indigo-300));
+            box-shadow: 0 4px 12px hsl(var(--warm-900) / 8%);
+        }
+
+        .campaign-card.selected {
+            border-color: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 3px hsl(var(--indigo-500) / 20%);
+        }
+
+        .campaign-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .campaign-card__theme {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .campaign-card__theme-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .campaign-card__theme-icon.holiday {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-600));
+        }
+
+        .campaign-card__theme-icon.newyear {
+            background: hsl(var(--cyan-100));
+            color: hsl(var(--cyan-600));
+        }
+
+        .campaign-card__theme-icon.valentine {
+            background: hsl(var(--magenta-100));
+            color: hsl(var(--magenta-600));
+        }
+
+        .campaign-card__theme-icon i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .campaign-card__title {
+            font-weight: 600;
+            font-size: 15px;
+            color: hsl(var(--ink));
+        }
+
+        .campaign-card__date {
+            font-size: 13px;
+            font-weight: 600;
+            color: hsl(var(--indigo-600));
+            background: hsl(var(--indigo-50));
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .campaign-card__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .campaign-card__meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .campaign-card__meta-item {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .campaign-card__meta-item i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .campaign-card__progress {
+            margin-bottom: 12px;
+        }
+
+        .campaign-card__progress-bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .campaign-card__progress-fill {
+            height: 100%;
+            background: hsl(var(--indigo-500));
+            border-radius: 3px;
+        }
+
+        .campaign-card__progress-text {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+        }
+
+        .campaign-card__spots {
+            color: hsl(var(--indigo-600));
+            font-weight: 500;
+        }
+
+        .campaign-card__select-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .campaign-card__select-btn:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .campaign-card.selected .campaign-card__select-btn {
+            background: hsl(var(--emerald-600));
+        }
+
+        /* ===========================================
+           TERMS CHECKLIST
+           =========================================== */
+        .terms-panel {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .terms-panel__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 16px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox:hover {
+            background: hsl(var(--warm-100));
+        }
+
+        .terms-checkbox input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: hsl(var(--emerald-600));
+        }
+
+        .terms-checkbox__content {
+            flex: 1;
+        }
+
+        .terms-checkbox__label {
+            font-size: 13px;
+            color: hsl(var(--ink));
+            font-weight: 500;
+        }
+
+        .terms-checkbox__link {
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            text-decoration: underline;
+            margin-left: 4px;
+        }
+
+        .terms-checkbox__info {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            margin-top: 4px;
+        }
+
+        .terms-panel__accept-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        .terms-panel__accept-btn:hover:not(:disabled) {
+            background: hsl(var(--emerald-500));
+        }
+
+        .terms-panel__accept-btn:disabled {
+            background: hsl(var(--warm-300));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           PROGRESS SUMMARY
+           =========================================== */
+        .progress-summary {
+            background: hsl(var(--warm-100));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .progress-summary__title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin: 0 0 10px;
+        }
+
+        .progress-summary__bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-summary__fill {
+            height: 100%;
+            background: hsl(var(--emerald-500));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-summary__text {
+            font-size: 12px;
+            color: hsl(var(--warm-600));
+            margin: 0;
+        }
+
+        /* Completion status badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .status-badge.pending {
+            background: hsl(var(--indigo-50));
+            color: hsl(var(--indigo-700));
+            border: 1px solid hsl(var(--indigo-200));
+        }
+
+        .status-badge.complete {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+            border: 1px solid hsl(var(--emerald-200));
+        }
+
+        .status-badge i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ===========================================
+           STATE VISIBILITY
+           =========================================== */
+        [data-state] {
+            display: none;
+        }
+
+        /* Show elements for current state */
+        .state-exclusions-intro [data-state~="exclusions-intro"],
+        .state-exclusions-skip [data-state~="exclusions-skip"],
+        .state-exclusions-add [data-state~="exclusions-add"],
+        .state-exclusions-done [data-state~="exclusions-done"],
+        .state-launch-choice [data-state~="launch-choice"],
+        .state-go-live-now [data-state~="go-live-now"],
+        .state-campaign-intro [data-state~="campaign-intro"],
+        .state-campaign-select [data-state~="campaign-select"],
+        .state-campaign-selected [data-state~="campaign-selected"],
+        .state-terms-review [data-state~="terms-review"],
+        .state-terms-accepted [data-state~="terms-accepted"],
+        .state-final-celebration [data-state~="final-celebration"] {
+            display: block;
+        }
+
+        /* Flex items */
+        .state-exclusions-intro .choice-buttons[data-state~="exclusions-intro"],
+        .state-launch-choice .choice-buttons[data-state~="launch-choice"],
+        .state-go-live-now .choice-buttons[data-state~="go-live-now"],
+        .state-terms-review .choice-buttons[data-state~="terms-review"] {
+            display: flex;
+        }
+
+        /* ===========================================
+           DOCUMENTATION SECTIONS
+           =========================================== */
+        .doc-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid hsl(var(--warm-200));
+        }
+
+        .doc-section h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            margin-bottom: 12px;
+        }
+
+        .doc-section ul, .doc-section ol {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .doc-section li {
+            margin-bottom: 6px;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .doc-table th,
+        .doc-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .doc-table th {
+            background: hsl(var(--warm-50));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .doc-table td {
+            color: hsl(var(--warm-700));
+        }
+
+        /* Flow diagram */
+        .flow-diagram {
+            background: hsl(var(--warm-50));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step__number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .flow-step__content {
+            flex: 1;
+        }
+
+        .flow-step__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .flow-step__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .flow-branch {
+            margin-left: 44px;
+            padding-left: 16px;
+            border-left: 2px solid hsl(var(--warm-200));
+            margin-top: 8px;
+        }
+
+        .flow-branch__label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+        }
+
+        .flow-branch__label.immediate {
+            color: hsl(var(--emerald-600));
+        }
+
+        .flow-branch__label.campaign {
+            color: hsl(var(--indigo-600));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/merchant/screens/index.html" class="hover:text-emerald-600 transition-colors">Merchant Screens</a>
+            <span>/</span>
+            <span class="text-warm-700">Section 4: Launch Strategy</span>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="serial text-indigo-600">06</span>
+                <span class="h-px flex-1 bg-warm-200"></span>
+            </div>
+            <h1 class="font-display text-4xl text-ink mb-2">Section 4: Launch Strategy</h1>
+            <p class="text-warm-600">Complete conversation flow for Section 4, including merchant exclusions, launch timing choice, campaign selection, terms acceptance, and final celebration.</p>
+        </header>
+
+        <!-- Section Info -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Duration</p>
+                <p class="text-lg font-semibold text-ink">3-5 minutes</p>
+                <p class="text-xs text-warm-500">Final section</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Key Decision</p>
+                <p class="text-sm text-ink">Go Live vs Campaign</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Outcome</p>
+                <p class="text-sm text-ink">Setup complete!</p>
+            </div>
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                <p class="serial text-warm-500 mb-1">Demo States</p>
+                <p class="text-lg font-semibold text-ink">12 states</p>
+            </div>
+        </div>
+
+        <!-- State Switcher -->
+        <div class="demo-state-switcher">
+            <span class="demo-state-switcher__label">Demo State Switcher</span>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Exclusions (Optional)</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="exclusions-intro" class="active">1. Intro</button>
+                    <button data-state-btn="exclusions-skip">2. Skip</button>
+                    <button data-state-btn="exclusions-add">3. Add</button>
+                    <button data-state-btn="exclusions-done">4. Done</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Launch Decision</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="launch-choice" class="campaign">5. Choice</button>
+                    <button data-state-btn="go-live-now" class="campaign">6. Go Live Now</button>
+                    <button data-state-btn="campaign-intro" class="campaign">7. Campaign Intro</button>
+                    <button data-state-btn="campaign-select" class="campaign">8. Select</button>
+                    <button data-state-btn="campaign-selected" class="campaign">9. Selected</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Completion</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="terms-review">10. Terms</button>
+                    <button data-state-btn="terms-accepted">11. Accepted</button>
+                    <button data-state-btn="final-celebration" class="finale">12. Celebration</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- ONBOARDING SHELL DEMO                      -->
+        <!-- =========================================== -->
+        <div class="onboarding-shell state-exclusions-intro" id="onboardingShell">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="top-bar__logo">
+                    <div class="top-bar__logo-icon">
+                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk">
+                    </div>
+                    <span class="top-bar__logo-text">Saltwyk</span>
+                </div>
+
+                <div class="top-bar__progress">
+                    <span class="top-bar__progress-label">Setup Progress</span>
+                    <div class="top-bar__progress-dots" id="progressDots">
+                        <div class="progress-dot completed" title="Your Store"></div>
+                        <div class="progress-dot completed" title="Rewards Platform"></div>
+                        <div class="progress-dot completed" title="Banking & Payments"></div>
+                        <div class="progress-dot active" title="Launch Strategy"></div>
+                    </div>
+                </div>
+
+                <div class="top-bar__actions">
+                    <button class="btn-help">
+                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                        <span>Get Help</span>
+                    </button>
+                    <button class="btn-save">
+                        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                        <span>Save & Exit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TWO-COLUMN LAYOUT -->
+            <div class="onboarding-layout">
+
+                <!-- ===================================== -->
+                <!-- CHAT COLUMN (60%)                    -->
+                <!-- ===================================== -->
+                <div class="chat-column">
+                    <div class="chat-messages">
+                        <div class="chat-messages-inner">
+
+                            <!-- ================================= -->
+                            <!-- STATE 1: EXCLUSIONS INTRO        -->
+                            <!-- ================================= -->
+                            <div data-state="exclusions-intro exclusions-skip exclusions-add exclusions-done launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>We're almost ready to launch! Before we do, there's one optional feature: <strong>merchant exclusions</strong>.</p>
+
+                                            <div class="info-card">
+                                                <i data-lucide="shield-off" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">What are exclusions?</div>
+                                                    <div class="info-card__content">
+                                                        <ul>
+                                                            <li>Block up to 10 merchants from your network</li>
+                                                            <li>Their shoppers can't use points at your store</li>
+                                                            <li>Your shoppers can't use points at theirs</li>
+                                                            <li><strong>This is optional</strong> - most merchants don't use it</li>
+                                                        </ul>
+                                                    </div>
+                                                    <p class="info-card__best-for">Use cases: Direct competitors, brands you don't want associated with</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="exclusions-intro">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Would you like to exclude any merchants?</strong></p>
+                                            <div class="choice-buttons" data-state="exclusions-intro">
+                                                <button class="choice-btn">
+                                                    No, I'm good
+                                                    <span class="badge">Continue</span>
+                                                </button>
+                                                <button class="choice-btn">Yes, add exclusions</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 2: EXCLUSIONS SKIP         -->
+                            <!-- ================================= -->
+                            <div data-state="exclusions-skip launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>No, I'm good</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="exclusions-skip">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>No exclusions - full network access</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 3: EXCLUSIONS ADD          -->
+                            <!-- ================================= -->
+                            <div data-state="exclusions-add exclusions-done">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, add exclusions</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="exclusions-add">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>No problem. Use the panel on the right to add merchants you want to exclude. →</p>
+                                            <p>You can add up to 10. Enter their store name or domain.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="exclusions-add">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="search"></i>
+                                        <span>Search for merchants to exclude in the panel</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: EXCLUSIONS DONE         -->
+                            <!-- ================================= -->
+                            <div data-state="exclusions-done launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>3 merchants excluded</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="exclusions-done">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Got it. Those merchants won't appear in your network. You can change this anytime from your dashboard.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: LAUNCH CHOICE           -->
+                            <!-- ================================= -->
+                            <div data-state="launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Now for the big decision: <strong>When do you want to go live?</strong></p>
+                                            <p>You have two options:</p>
+
+                                            <div class="info-card launch-option go-live">
+                                                <i data-lucide="zap" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Go Live Immediately</div>
+                                                    <div class="info-card__content">
+                                                        <ul>
+                                                            <li>Start accepting rewards commerce right away</li>
+                                                            <li>You'll be live within 24 hours (after verification)</li>
+                                                            <li>Join the network on your own schedule</li>
+                                                        </ul>
+                                                    </div>
+                                                    <p class="info-card__best-for">Best for: Merchants who want to start ASAP</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="info-card launch-option campaign">
+                                                <i data-lucide="users" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Join a Launch Campaign</div>
+                                                    <div class="info-card__content">
+                                                        <ul>
+                                                            <li>Launch alongside 10-20 other merchants</li>
+                                                            <li>Coordinated marketing and cross-promotion</li>
+                                                            <li>Themed campaigns with shared strategy</li>
+                                                            <li>Stronger network effects from day one</li>
+                                                        </ul>
+                                                    </div>
+                                                    <p class="info-card__best-for">Best for: Merchants who want community launch support</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="launch-choice">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Which approach interests you?</strong></p>
+                                            <div class="choice-buttons" data-state="launch-choice">
+                                                <button class="choice-btn">Go Live Now</button>
+                                                <button class="choice-btn">
+                                                    Join a Campaign
+                                                    <span class="badge indigo">Recommended</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 6: GO LIVE NOW             -->
+                            <!-- ================================= -->
+                            <div data-state="go-live-now">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Go Live Now</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="go-live-now">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Perfect! You'll be live once we verify your information (typically 24 hours).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="go-live-now">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="info"></i>
+                                        <span>Network effects grow over time - more merchants = more value</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="go-live-now">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>You can always join future campaigns from your dashboard.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 7: CAMPAIGN INTRO          -->
+                            <!-- ================================= -->
+                            <div data-state="campaign-intro campaign-select campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Join a Campaign</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="campaign-intro campaign-select">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great choice! Let me show you our upcoming campaigns. →</p>
+                                            <p>Each campaign has a theme, launch date, and group of merchants launching together.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="campaign-intro campaign-select">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="calendar"></i>
+                                        <span>Select a campaign in the panel to join</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 9: CAMPAIGN SELECTED       -->
+                            <!-- ================================= -->
+                            <div data-state="campaign-selected terms-review terms-accepted final-celebration">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Campaign selected: New Year Fresh Start (January 15, 2026)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="campaign-selected">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Excellent! You'll launch on <strong>January 15, 2026</strong> with 8 other merchants in the New Year Fresh Start cohort.</p>
+
+                                            <div class="info-card">
+                                                <i data-lucide="calendar-check" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">What happens next?</div>
+                                                    <div class="info-card__content">
+                                                        <ul>
+                                                            <li>We'll verify your account (1-2 business days)</li>
+                                                            <li>You'll receive campaign materials and strategy guide</li>
+                                                            <li>You'll fund your clearing balance before launch</li>
+                                                            <li>On January 15, we all go live together!</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="campaign-selected">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>You'll get an email with campaign details and timeline.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 10: TERMS REVIEW           -->
+                            <!-- ================================= -->
+                            <div data-state="terms-review terms-accepted final-celebration">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>One last thing: please review and accept our terms in the panel. →</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="terms-review">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="file-text"></i>
+                                        <span>Review and accept terms to complete setup</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 11: TERMS ACCEPTED         -->
+                            <!-- ================================= -->
+                            <div data-state="terms-accepted final-celebration">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Terms accepted</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 12: FINAL CELEBRATION      -->
+                            <!-- ================================= -->
+                            <div data-state="final-celebration">
+                                <div class="message-milestone">
+                                    <div class="milestone-card finale">
+                                        <i data-lucide="party-popper" class="milestone-card__icon"></i>
+                                        <h3 class="milestone-card__title">Setup Complete!</h3>
+                                        <p class="milestone-card__summary">You've finished onboarding. Here's what you accomplished:</p>
+
+                                        <div class="finale__checklist">
+                                            <div class="finale__checklist-item">
+                                                <i data-lucide="check-circle-2"></i>
+                                                <span>Store connected (WooCommerce)</span>
+                                            </div>
+                                            <div class="finale__checklist-item">
+                                                <i data-lucide="check-circle-2"></i>
+                                                <span>Rewards platform linked (Smile.io)</span>
+                                            </div>
+                                            <div class="finale__checklist-item">
+                                                <i data-lucide="check-circle-2"></i>
+                                                <span>Banking configured (Stripe + $5,000 balance)</span>
+                                            </div>
+                                            <div class="finale__checklist-item">
+                                                <i data-lucide="check-circle-2"></i>
+                                                <span>Launch strategy set (New Year Fresh Start - Jan 15)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="finale__next-steps">
+                                            <div class="finale__next-steps-title">What happens next:</div>
+                                            <div class="finale__next-steps-item">
+                                                <i data-lucide="clock"></i>
+                                                <span>We're verifying your account (1-2 business days)</span>
+                                            </div>
+                                            <div class="finale__next-steps-item">
+                                                <i data-lucide="mail"></i>
+                                                <span>You'll receive an email when verification is complete</span>
+                                            </div>
+                                            <div class="finale__next-steps-item">
+                                                <i data-lucide="wallet"></i>
+                                                <span>Then you'll fund your clearing balance via ACH</span>
+                                            </div>
+                                            <div class="finale__next-steps-item">
+                                                <i data-lucide="rocket"></i>
+                                                <span>On January 15, you go live with your cohort!</span>
+                                            </div>
+                                        </div>
+
+                                        <button class="finale__cta">
+                                            Go to Dashboard
+                                            <i data-lucide="arrow-right"></i>
+                                        </button>
+
+                                        <p class="finale__contact">
+                                            Questions? hello@saltwyk.com or (555) 123-4567
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <textarea class="chat-input" placeholder="Select an option above..." disabled rows="1"></textarea>
+                            <button class="chat-send-btn" disabled>
+                                <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================================== -->
+                <!-- FORM PANEL (40%)                     -->
+                <!-- ===================================== -->
+                <div class="form-panel">
+                    <div class="form-panel__header">
+                        <h2 class="form-panel__title">Your Progress</h2>
+                    </div>
+                    <div class="form-panel__content">
+
+                        <!-- Section 1-3: Complete (Always shown) -->
+                        <div class="section-card completed" style="margin-bottom: 6px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Your Store</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed" style="margin-bottom: 6px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Rewards Platform</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card completed" style="margin-bottom: 6px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Banking & Payments</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: In Progress -->
+                        <div data-state="exclusions-intro exclusions-skip exclusions-add exclusions-done launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted">
+                            <div class="section-card in-progress">
+                                <div class="section-card__header">
+                                    <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Launch Strategy</p>
+                                        <p class="section-card__status">In progress...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exclusion Manager -->
+                        <div data-state="exclusions-add">
+                            <div class="exclusion-manager">
+                                <div class="exclusion-manager__title">Merchant Exclusions</div>
+                                <div class="exclusion-manager__input-row">
+                                    <input type="text" class="exclusion-manager__input" placeholder="Search by store name or domain...">
+                                    <button class="exclusion-manager__add-btn">Add</button>
+                                </div>
+                                <div class="exclusion-manager__list">
+                                    <div class="exclusion-manager__item">
+                                        <div class="exclusion-manager__item-info">
+                                            <div class="exclusion-manager__item-name">Mountain Sports Co</div>
+                                            <div class="exclusion-manager__item-domain">mountainsports.com</div>
+                                        </div>
+                                        <button class="exclusion-manager__item-remove">
+                                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="exclusion-manager__item">
+                                        <div class="exclusion-manager__item-info">
+                                            <div class="exclusion-manager__item-name">Trail Blazer Outfitters</div>
+                                            <div class="exclusion-manager__item-domain">trailblazeroutfitters.com</div>
+                                        </div>
+                                        <button class="exclusion-manager__item-remove">
+                                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="exclusion-manager__item">
+                                        <div class="exclusion-manager__item-info">
+                                            <div class="exclusion-manager__item-name">Outdoor Extreme</div>
+                                            <div class="exclusion-manager__item-domain">outdoorextreme.com</div>
+                                        </div>
+                                        <button class="exclusion-manager__item-remove">
+                                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="exclusion-manager__counter">3/10 exclusions used</p>
+                                <button class="exclusion-manager__done-btn">Done Adding Exclusions</button>
+                            </div>
+                        </div>
+
+                        <!-- Campaign Cards -->
+                        <div data-state="campaign-intro campaign-select">
+                            <div class="campaign-card" id="campaign-holiday">
+                                <div class="campaign-card__header">
+                                    <div class="campaign-card__theme">
+                                        <div class="campaign-card__theme-icon holiday">
+                                            <i data-lucide="gift"></i>
+                                        </div>
+                                        <div class="campaign-card__title">Holiday Rush</div>
+                                    </div>
+                                    <div class="campaign-card__date">Dec 15, 2025</div>
+                                </div>
+                                <p class="campaign-card__desc">Capture holiday spending with coordinated rewards promotions. Perfect for the busiest shopping season.</p>
+                                <div class="campaign-card__meta">
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="wallet"></i>
+                                        Rec. balance: $7,500
+                                    </div>
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="video"></i>
+                                        Strategy video
+                                    </div>
+                                </div>
+                                <div class="campaign-card__progress">
+                                    <div class="campaign-card__progress-bar">
+                                        <div class="campaign-card__progress-fill" style="width: 60%;"></div>
+                                    </div>
+                                    <p class="campaign-card__progress-text">12/20 merchants confirmed · <span class="campaign-card__spots">8 spots left</span></p>
+                                </div>
+                                <button class="campaign-card__select-btn">Select Campaign</button>
+                            </div>
+
+                            <div class="campaign-card selected" id="campaign-newyear">
+                                <div class="campaign-card__header">
+                                    <div class="campaign-card__theme">
+                                        <div class="campaign-card__theme-icon newyear">
+                                            <i data-lucide="sparkles"></i>
+                                        </div>
+                                        <div class="campaign-card__title">New Year Fresh Start</div>
+                                    </div>
+                                    <div class="campaign-card__date">Jan 15, 2026</div>
+                                </div>
+                                <p class="campaign-card__desc">Kick off the year with rewards shopping. Target customers ready for fresh starts and new habits.</p>
+                                <div class="campaign-card__meta">
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="wallet"></i>
+                                        Rec. balance: $5,000
+                                    </div>
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="video"></i>
+                                        Strategy video
+                                    </div>
+                                </div>
+                                <div class="campaign-card__progress">
+                                    <div class="campaign-card__progress-bar">
+                                        <div class="campaign-card__progress-fill" style="width: 45%;"></div>
+                                    </div>
+                                    <p class="campaign-card__progress-text">9/20 merchants confirmed · <span class="campaign-card__spots">11 spots left</span></p>
+                                </div>
+                                <button class="campaign-card__select-btn">Selected</button>
+                            </div>
+
+                            <div class="campaign-card" id="campaign-valentine">
+                                <div class="campaign-card__header">
+                                    <div class="campaign-card__theme">
+                                        <div class="campaign-card__theme-icon valentine">
+                                            <i data-lucide="heart"></i>
+                                        </div>
+                                        <div class="campaign-card__title">Valentine's Romance</div>
+                                    </div>
+                                    <div class="campaign-card__date">Feb 1, 2026</div>
+                                </div>
+                                <p class="campaign-card__desc">Gift-giving season focus. Perfect for merchants with romantic or gift-oriented products.</p>
+                                <div class="campaign-card__meta">
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="wallet"></i>
+                                        Rec. balance: $6,000
+                                    </div>
+                                    <div class="campaign-card__meta-item">
+                                        <i data-lucide="video"></i>
+                                        Strategy video
+                                    </div>
+                                </div>
+                                <div class="campaign-card__progress">
+                                    <div class="campaign-card__progress-bar">
+                                        <div class="campaign-card__progress-fill" style="width: 15%;"></div>
+                                    </div>
+                                    <p class="campaign-card__progress-text">3/20 merchants confirmed · <span class="campaign-card__spots">17 spots left</span></p>
+                                </div>
+                                <button class="campaign-card__select-btn">Select Campaign</button>
+                            </div>
+                        </div>
+
+                        <!-- Campaign Selected Summary -->
+                        <div data-state="campaign-selected terms-review terms-accepted">
+                            <div class="section-card" style="margin-top: 12px;">
+                                <div class="section-card__header">
+                                    <i data-lucide="calendar" class="section-card__icon" style="color: hsl(var(--indigo-500));"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Campaign Selected</p>
+                                        <p class="section-card__status">New Year Fresh Start</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Launch Date</span>
+                                        <span class="section-card__value">January 15, 2026</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Cohort Size</span>
+                                        <span class="section-card__value">9 merchants</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms Panel -->
+                        <div data-state="terms-review">
+                            <div class="terms-panel">
+                                <div class="terms-panel__title">Terms & Conditions</div>
+
+                                <label class="terms-checkbox">
+                                    <input type="checkbox" id="terms-service">
+                                    <div class="terms-checkbox__content">
+                                        <div class="terms-checkbox__label">
+                                            I agree to Saltwyk's Terms of Service
+                                            <a href="#" class="terms-checkbox__link">View Terms</a>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="terms-checkbox">
+                                    <input type="checkbox" id="terms-fee">
+                                    <div class="terms-checkbox__content">
+                                        <div class="terms-checkbox__label">I understand the 3% transaction fee</div>
+                                        <div class="terms-checkbox__info">Fee is deducted from payouts, not charged upfront</div>
+                                    </div>
+                                </label>
+
+                                <label class="terms-checkbox">
+                                    <input type="checkbox" id="terms-clearing">
+                                    <div class="terms-checkbox__content">
+                                        <div class="terms-checkbox__label">I understand clearing balances are refundable</div>
+                                        <div class="terms-checkbox__info">Working capital that cycles back via daily payouts</div>
+                                    </div>
+                                </label>
+
+                                <button class="terms-panel__accept-btn" id="acceptTermsBtn" disabled>Accept Terms</button>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Complete -->
+                        <div data-state="final-celebration">
+                            <div class="section-card completed">
+                                <div class="section-card__header">
+                                    <i data-lucide="check-circle" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Launch Strategy</p>
+                                        <p class="section-card__status">Complete</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Campaign</span>
+                                        <span class="section-card__value">New Year Fresh Start</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Launch Date</span>
+                                        <span class="section-card__value">January 15, 2026</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Exclusions</span>
+                                        <span class="section-card__value">None</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 100%;"></div>
+                                </div>
+                                <p class="progress-summary__text">4 of 4 sections complete</p>
+                            </div>
+
+                            <div class="status-badge pending">
+                                <i data-lucide="clock"></i>
+                                Pending verification (1-2 business days)
+                            </div>
+                        </div>
+
+                        <!-- Progress (non-complete states) -->
+                        <div data-state="exclusions-intro exclusions-skip exclusions-add exclusions-done launch-choice go-live-now campaign-intro campaign-select campaign-selected terms-review terms-accepted">
+                            <div class="progress-summary" style="margin-top: 16px;">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 75%;"></div>
+                                </div>
+                                <p class="progress-summary__text">3 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- DOCUMENTATION SECTIONS                     -->
+        <!-- =========================================== -->
+
+        <!-- Flow Summary -->
+        <div class="doc-section">
+            <h2>Flow Summary</h2>
+            <p>Section 4 is the final section of onboarding. It covers optional exclusions, the critical launch timing decision, and terms acceptance before celebrating completion.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step__number">1</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Merchant Exclusions (Optional)</div>
+                        <div class="flow-step__desc">Explain exclusion feature, let merchant skip or add up to 10</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">2</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Launch Timing Decision</div>
+                        <div class="flow-step__desc">Present Go Live Now vs Join Campaign options</div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label immediate">If Go Live Now</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3a</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Confirm Immediate Launch</div>
+                            <div class="flow-step__desc">Note about verification, proceed to terms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label campaign">If Join Campaign</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3b</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Campaign Selection</div>
+                            <div class="flow-step__desc">Show available campaigns with dates, spots, strategies</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">4</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Terms Acceptance</div>
+                        <div class="flow-step__desc">Service terms, fee acknowledgment, clearing balance understanding</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">5</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Grand Finale Celebration</div>
+                        <div class="flow-step__desc">Celebrate completion, summarize accomplishments, next steps</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Strategy -->
+        <div class="doc-section">
+            <h2>Campaign Strategy</h2>
+            <p>Coordinated launch campaigns provide significant advantages over individual launches.</p>
+
+            <h3>Why Campaigns Matter</h3>
+            <ul>
+                <li><strong>Network effects:</strong> More merchants launching together = more immediate value for shoppers</li>
+                <li><strong>Marketing coordination:</strong> Shared promotional resources and cross-promotion</li>
+                <li><strong>Strategy guidance:</strong> Each campaign comes with a strategy video and playbook</li>
+                <li><strong>Community support:</strong> Merchants help each other succeed in the same cohort</li>
+            </ul>
+
+            <h3>Campaign Structure</h3>
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Theme</td>
+                        <td>Unifies marketing messaging across all merchants</td>
+                    </tr>
+                    <tr>
+                        <td>Launch Date</td>
+                        <td>Coordinated go-live for maximum impact</td>
+                    </tr>
+                    <tr>
+                        <td>Cohort Size (10-20)</td>
+                        <td>Large enough for network effects, small enough for community</td>
+                    </tr>
+                    <tr>
+                        <td>Strategy Video</td>
+                        <td>Campaign-specific guidance and best practices</td>
+                    </tr>
+                    <tr>
+                        <td>Recommended Balance</td>
+                        <td>Based on expected volume for that season</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Network Effects -->
+        <div class="doc-section">
+            <h2>Network Effects</h2>
+            <p>The value of rewards commerce grows exponentially with each new merchant and shopper.</p>
+
+            <h3>How It Works</h3>
+            <ul>
+                <li><strong>More merchants</strong> = more places for shoppers to earn and spend points</li>
+                <li><strong>More shoppers</strong> = more rewards transactions at each merchant</li>
+                <li><strong>More transactions</strong> = faster clearing balance turnover</li>
+                <li><strong>Coordinated launches</strong> = immediate critical mass of network activity</li>
+            </ul>
+
+            <h3>Campaign vs Individual Launch</h3>
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Individual Launch</th>
+                        <th>Campaign Launch</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Day 1 Network Partners</td>
+                        <td>Variable (depends on existing network)</td>
+                        <td>10-20 guaranteed</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing Support</td>
+                        <td>Self-directed</td>
+                        <td>Coordinated, shared resources</td>
+                    </tr>
+                    <tr>
+                        <td>Time to First Transaction</td>
+                        <td>Days to weeks</td>
+                        <td>Often same day</td>
+                    </tr>
+                    <tr>
+                        <td>Community</td>
+                        <td>None</td>
+                        <td>Cohort Slack channel, peer support</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Exclusion Philosophy -->
+        <div class="doc-section">
+            <h2>Exclusion Philosophy</h2>
+            <p>Exclusions are a power user feature. Most merchants don't need them.</p>
+
+            <h3>When to Use Exclusions</h3>
+            <ul>
+                <li><strong>Direct competitors:</strong> A camping store might exclude another camping store in the same market</li>
+                <li><strong>Brand conflicts:</strong> A luxury brand might exclude discount retailers</li>
+                <li><strong>Value conflicts:</strong> A vegan brand might exclude leather goods sellers</li>
+            </ul>
+
+            <h3>When NOT to Use Exclusions</h3>
+            <ul>
+                <li><strong>Just because they're similar:</strong> Complementary products often drive cross-sales</li>
+                <li><strong>Preemptively:</strong> Wait to see if there's actual friction before excluding</li>
+                <li><strong>Broadly:</strong> Excluding many merchants reduces network value</li>
+            </ul>
+
+            <h3>Key Messaging</h3>
+            <p>"Most merchants don't use this feature" - sets expectation that full network access is normal and valuable.</p>
+        </div>
+
+        <!-- Data Captured -->
+        <div class="doc-section">
+            <h2>Data Captured</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Source</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Excluded Merchants</td>
+                        <td>User selection</td>
+                        <td>Array (0-10 IDs)</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Launch Type</td>
+                        <td>User choice</td>
+                        <td>Enum (immediate, campaign)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Selected Campaign</td>
+                        <td>User selection</td>
+                        <td>Campaign ID</td>
+                        <td>If campaign</td>
+                    </tr>
+                    <tr>
+                        <td>Terms Accepted</td>
+                        <td>Checkbox</td>
+                        <td>Boolean</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Fee Acknowledged</td>
+                        <td>Checkbox</td>
+                        <td>Boolean</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Clearing Balance Acknowledged</td>
+                        <td>Checkbox</td>
+                        <td>Boolean</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Timing -->
+        <div class="doc-section">
+            <h2>Timing by Path</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Duration</th>
+                        <th>Steps</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Happy Path (No exclusions, Campaign)</td>
+                        <td>~3 minutes</td>
+                        <td>8 states</td>
+                        <td>Most common path</td>
+                    </tr>
+                    <tr>
+                        <td>With Exclusions + Campaign</td>
+                        <td>~5 minutes</td>
+                        <td>10 states</td>
+                        <td>Power user path</td>
+                    </tr>
+                    <tr>
+                        <td>Go Live Now (No exclusions)</td>
+                        <td>~2 minutes</td>
+                        <td>6 states</td>
+                        <td>Fastest path</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Edge Cases -->
+        <div class="doc-section">
+            <h2>Edge Cases</h2>
+
+            <h3>Campaign Fills Up</h3>
+            <p>If a campaign reaches capacity while merchant is selecting, show "Campaign Full" state with option to join waitlist or select different campaign. Pre-validate availability on card display.</p>
+
+            <h3>Merchant Changes Mind on Campaign</h3>
+            <p>After selection but before terms, allow "Change Campaign" link. After terms acceptance, changes require contacting support (to prevent gaming of spots).</p>
+
+            <h3>No Campaigns Available</h3>
+            <p>If all campaigns are full or none exist, only show "Go Live Now" option. Explain that campaigns will return and they can join later from dashboard.</p>
+
+            <h3>Exclusion Search Returns No Results</h3>
+            <p>If merchant searches for a merchant not in the network, explain that merchant isn't on Saltwyk yet. Offer to notify them when merchant joins.</p>
+
+            <h3>Terms Rejection</h3>
+            <p>If merchant won't accept terms, they cannot complete setup. Save & Exit preserves progress. Offer to connect with support if they have questions about terms.</p>
+        </div>
+
+        <!-- Post-Setup -->
+        <div class="doc-section">
+            <h2>Post-Setup: What Happens Next</h2>
+
+            <h3>Verification (1-2 Business Days)</h3>
+            <ul>
+                <li>Automated checks on business information</li>
+                <li>Stripe account verification</li>
+                <li>Rewards platform connection validation</li>
+                <li>Merchant receives email when complete</li>
+            </ul>
+
+            <h3>Funding (After Verification)</h3>
+            <ul>
+                <li>Merchant logs into dashboard</li>
+                <li>Initiates ACH transfer for clearing balance</li>
+                <li>Funds arrive in 1-2 business days</li>
+                <li>Auto-fund enabled if configured</li>
+            </ul>
+
+            <h3>Go Live</h3>
+            <ul>
+                <li><strong>Immediate:</strong> Once funded, merchant is live within 24 hours</li>
+                <li><strong>Campaign:</strong> Merchant goes live on campaign launch date with cohort</li>
+            </ul>
+
+            <h3>Ongoing Support</h3>
+            <ul>
+                <li>Campaign merchants: Cohort Slack channel, strategy sessions</li>
+                <li>All merchants: Dashboard, email support, phone support</li>
+            </ul>
+        </div>
+
+        <!-- Related -->
+        <div class="doc-section">
+            <h2>Related</h2>
+
+            <div class="grid grid-cols-3 gap-4 mt-4">
+                <a href="/merchant/screens/onboarding-conversational/05-section-banking-payments.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">05: Section 3 - Banking</p>
+                    <p class="text-xs text-warm-500">Previous section flow.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/02-interaction-patterns.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">02: Interaction Patterns</p>
+                    <p class="text-xs text-warm-500">Choice buttons pattern.</p>
+                </a>
+                <a href="/merchant/screens/conversational-onboarding-showcase.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Conversational Showcase</p>
+                    <p class="text-xs text-warm-500">Full interactive demo.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-6 mt-12 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // STATE MANAGEMENT
+        // =========================================
+        const shell = document.getElementById('onboardingShell');
+        const progressDots = document.querySelectorAll('#progressDots .progress-dot');
+
+        function setState(stateName) {
+            // Remove all state classes
+            shell.className = shell.className.replace(/state-\S+/g, '').trim();
+
+            // Add new state class
+            shell.classList.add('state-' + stateName);
+
+            // Update progress dots
+            updateProgressDots(stateName);
+
+            // Re-initialize icons for newly visible content
+            lucide.createIcons();
+        }
+
+        function updateProgressDots(stateName) {
+            progressDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+            });
+
+            // Sections 1-3 always complete
+            progressDots[0].classList.add('completed');
+            progressDots[1].classList.add('completed');
+            progressDots[2].classList.add('completed');
+
+            // Set fourth dot based on state
+            if (stateName === 'final-celebration') {
+                progressDots[3].classList.add('completed');
+            } else {
+                progressDots[3].classList.add('active');
+            }
+        }
+
+        // State switcher buttons
+        document.querySelectorAll('[data-state-btn]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('[data-state-btn]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Set state
+                setState(btn.dataset.stateBtn);
+            });
+        });
+
+        // =========================================
+        // TERMS CHECKBOXES
+        // =========================================
+        const termsCheckboxes = document.querySelectorAll('.terms-checkbox input');
+        const acceptTermsBtn = document.getElementById('acceptTermsBtn');
+
+        function updateAcceptButton() {
+            const allChecked = Array.from(termsCheckboxes).every(cb => cb.checked);
+            if (acceptTermsBtn) {
+                acceptTermsBtn.disabled = !allChecked;
+            }
+        }
+
+        termsCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateAcceptButton);
+        });
+
+        // =========================================
+        // CAMPAIGN CARD SELECTION
+        // =========================================
+        document.querySelectorAll('.campaign-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove selected from all
+                document.querySelectorAll('.campaign-card').forEach(c => {
+                    c.classList.remove('selected');
+                    c.querySelector('.campaign-card__select-btn').textContent = 'Select Campaign';
+                });
+
+                // Add selected to clicked
+                card.classList.add('selected');
+                card.querySelector('.campaign-card__select-btn').textContent = 'Selected';
+            });
+        });
+
+        // Initialize first state
+        setState('exclusions-intro');
+    </script>
+</body>
+</html>
