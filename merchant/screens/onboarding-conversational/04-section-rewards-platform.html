@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 2: Rewards Platform | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           STATE SWITCHER (Demo Navigation)
+           =========================================== */
+        .demo-state-switcher {
+            background: hsl(var(--intaglio-950));
+            border: 2px solid hsl(var(--intaglio-700));
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .demo-state-switcher__label {
+            color: hsl(var(--warm-400));
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .demo-state-switcher__group {
+            margin-bottom: 12px;
+        }
+
+        .demo-state-switcher__group:last-child {
+            margin-bottom: 0;
+        }
+
+        .demo-state-switcher__group-label {
+            color: hsl(var(--warm-500));
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .demo-state-switcher__buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-state-switcher button {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--intaglio-600));
+            background: hsl(var(--intaglio-800));
+            color: hsl(var(--warm-300));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .demo-state-switcher button:hover {
+            background: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-100));
+        }
+
+        .demo-state-switcher button.active {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .demo-state-switcher button.upgrade {
+            border-color: hsl(var(--orange-600));
+        }
+
+        .demo-state-switcher button.upgrade.active {
+            background: hsl(var(--orange-600));
+            border-color: hsl(var(--orange-500));
+        }
+
+        .demo-state-switcher button.alt {
+            border-color: hsl(var(--indigo-600));
+        }
+
+        .demo-state-switcher button.alt.active {
+            background: hsl(var(--indigo-600));
+            border-color: hsl(var(--indigo-500));
+        }
+
+        /* ===========================================
+           ONBOARDING SHELL (Demo Container)
+           =========================================== */
+        .onboarding-shell {
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===========================================
+           TOP BAR
+           =========================================== */
+        .top-bar {
+            background: hsl(var(--intaglio-900));
+            color: hsl(var(--warm-100));
+            height: 64px;
+            border-bottom: 1px solid hsl(var(--intaglio-700));
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .top-bar__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar__logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar__logo-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .top-bar__logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+        }
+
+        .top-bar__progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar__progress-label {
+            font-size: 11px;
+            color: hsl(var(--warm-400));
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .top-bar__progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: hsl(var(--warm-600));
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: hsl(var(--emerald-500));
+        }
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 30%); }
+            50% { box-shadow: 0 0 0 8px hsl(var(--indigo-500) / 10%); }
+        }
+
+        .top-bar__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-help {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: hsl(var(--warm-300));
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid hsl(var(--intaglio-600));
+            cursor: pointer;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .onboarding-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-column {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            background: hsl(var(--ledger));
+            border-right: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel {
+            flex: 0 0 40%;
+            background: hsl(var(--warm-50));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CHAT COLUMN
+           =========================================== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .chat-messages-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-input-area {
+            padding: 16px 24px 20px;
+            background: hsl(var(--ledger));
+            border-top: 1px solid hsl(var(--warm-200));
+        }
+
+        .chat-input-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            background: white;
+            color: hsl(var(--ink));
+            resize: none;
+            min-height: 48px;
+        }
+
+        .chat-input:disabled {
+            background: hsl(var(--warm-50));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: hsl(var(--warm-300));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send-btn:disabled {
+            background: hsl(var(--warm-200));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           MESSAGE COMPONENTS
+           =========================================== */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-agent .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 4px;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 10px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* User Message */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .message-user .message-content {
+            max-width: 400px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 4px;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        /* System Message */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 12px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        .system-bubble.warning {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            color: hsl(var(--orange-700));
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .choice-buttons.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn.selected i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .choice-btn .badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+            margin-left: auto;
+        }
+
+        /* ===========================================
+           INFO CARD
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-600));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-card__body {
+            flex: 1;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 6px;
+        }
+
+        .info-card__content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content p {
+            margin: 0 0 8px;
+        }
+
+        .info-card__content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card__note {
+            font-size: 12px;
+            color: hsl(var(--indigo-600));
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid hsl(var(--indigo-200));
+        }
+
+        .info-card__links {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .info-card__link {
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .info-card__link:hover {
+            color: hsl(var(--indigo-700));
+        }
+
+        .info-card__link i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Orange info card for upgrade needed */
+        .info-card.warning {
+            background: hsl(var(--orange-50));
+            border-color: hsl(var(--orange-200));
+        }
+
+        .info-card.warning .info-card__icon {
+            color: hsl(var(--orange-600));
+        }
+
+        .info-card.warning .info-card__title {
+            color: hsl(var(--orange-700));
+        }
+
+        .info-card.warning .info-card__note {
+            color: hsl(var(--orange-600));
+            border-color: hsl(var(--orange-200));
+        }
+
+        /* ===========================================
+           CONFIRMATION CARD
+           =========================================== */
+        .confirmation-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            margin-top: 14px;
+            overflow: hidden;
+        }
+
+        .confirmation-card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            background: hsl(var(--warm-50));
+        }
+
+        .confirmation-card__title {
+            font-weight: 600;
+            font-size: 13px;
+            color: hsl(var(--ink));
+        }
+
+        .confirmation-card__content {
+            padding: 14px 16px;
+        }
+
+        .confirmation-card__row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-card__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .confirmation-card__label {
+            width: 110px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .confirmation-card__value {
+            font-size: 13px;
+            color: hsl(var(--warm-900));
+        }
+
+        /* ===========================================
+           INLINE FORM
+           =========================================== */
+        .inline-form {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+        }
+
+        .inline-form__group {
+            margin-bottom: 12px;
+        }
+
+        .inline-form__group:last-of-type {
+            margin-bottom: 14px;
+        }
+
+        .inline-form__label {
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .inline-form__optional {
+            font-weight: 400;
+            color: hsl(var(--warm-400));
+        }
+
+        .inline-form__input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+        }
+
+        .inline-form__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .inline-form__submit {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .inline-form__submit:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .inline-form__submit.secondary {
+            background: hsl(var(--indigo-600));
+        }
+
+        .inline-form__submit.secondary:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        /* ===========================================
+           MILESTONE MESSAGE
+           =========================================== */
+        .message-milestone {
+            margin: 20px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .milestone-card__icon {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 10px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .milestone-card__title {
+            font-size: 17px;
+            font-weight: 600;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 6px;
+        }
+
+        .milestone-card__summary {
+            font-size: 13px;
+            color: hsl(var(--ink));
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .milestone-card__divider {
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, hsl(var(--emerald-300)), transparent);
+            margin: 14px auto;
+        }
+
+        .milestone-card__next {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .milestone-card__next strong {
+            color: hsl(var(--ink));
+        }
+
+        /* ===========================================
+           FORM PANEL
+           =========================================== */
+        .form-panel__header {
+            padding: 16px 20px;
+            background: hsl(var(--warm-100));
+            border-bottom: 1px solid hsl(var(--warm-200));
+        }
+
+        .form-panel__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .form-panel__content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Section Cards */
+        .section-card {
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section-card.completed {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+        }
+
+        .section-card.in-progress {
+            background: white;
+            border: 2px solid hsl(var(--indigo-400));
+            box-shadow: 0 2px 8px hsl(var(--indigo-500) / 10%);
+        }
+
+        .section-card.pending-upgrade {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+        }
+
+        .section-card.deferred {
+            background: hsl(var(--warm-50));
+            border: 1px dashed hsl(var(--warm-300));
+        }
+
+        .section-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+        .section-card__icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .section-card.completed .section-card__icon {
+            color: hsl(var(--emerald-600));
+        }
+
+        .section-card.in-progress .section-card__icon {
+            color: hsl(var(--indigo-600));
+        }
+
+        .section-card.pending-upgrade .section-card__icon {
+            color: hsl(var(--orange-600));
+        }
+
+        .section-card.deferred .section-card__icon {
+            color: hsl(var(--warm-400));
+        }
+
+        .section-card__info {
+            flex: 1;
+        }
+
+        .section-card__name {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .section-card__status {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 2px;
+        }
+
+        .section-card.completed .section-card__status {
+            color: hsl(var(--emerald-700));
+        }
+
+        .section-card.pending-upgrade .section-card__status {
+            color: hsl(var(--orange-700));
+        }
+
+        .section-card__badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .section-card__badge.warning {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-700));
+        }
+
+        .section-card__badge.info {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+        }
+
+        .section-card__content {
+            padding: 0 16px 14px;
+            font-size: 13px;
+        }
+
+        .section-card__row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .section-card__row:last-child {
+            border-bottom: none;
+        }
+
+        .section-card__label {
+            color: hsl(var(--warm-500));
+        }
+
+        .section-card__value {
+            color: hsl(var(--ink));
+            font-weight: 500;
+        }
+
+        /* OAuth Panel */
+        .oauth-panel {
+            background: white;
+            border: 2px solid hsl(var(--indigo-300));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .oauth-panel__icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--indigo-600));
+        }
+
+        .oauth-panel__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions {
+            text-align: left;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__permission {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            padding: 4px 0;
+        }
+
+        .oauth-panel__permission i {
+            width: 14px;
+            height: 14px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .oauth-panel__btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .oauth-panel__btn:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .oauth-panel__btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Progress Summary */
+        .progress-summary {
+            background: hsl(var(--warm-100));
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .progress-summary__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+        }
+
+        .progress-summary__bar {
+            height: 6px;
+            background: hsl(var(--warm-200));
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-summary__fill {
+            height: 100%;
+            background: hsl(var(--emerald-500));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-summary__text {
+            font-size: 12px;
+            color: hsl(var(--warm-600));
+            margin-top: 8px;
+        }
+
+        /* Continue Button */
+        .continue-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 14px;
+        }
+
+        .continue-btn:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .continue-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===========================================
+           STATE VISIBILITY
+           =========================================== */
+        [data-state] {
+            display: none;
+        }
+
+        /* Show elements for current state */
+        .state-platform-select [data-state~="platform-select"],
+        .state-smile-tier-check [data-state~="smile-tier-check"],
+        .state-smile-enterprise [data-state~="smile-enterprise"],
+        .state-smile-needs-upgrade [data-state~="smile-needs-upgrade"],
+        .state-upgrade-request [data-state~="upgrade-request"],
+        .state-upgrade-requested [data-state~="upgrade-requested"],
+        .state-continue-limited [data-state~="continue-limited"],
+        .state-yotpo-connect [data-state~="yotpo-connect"],
+        .state-oauth-authorize [data-state~="oauth-authorize"],
+        .state-oauth-success [data-state~="oauth-success"],
+        .state-program-verify [data-state~="program-verify"],
+        .state-section-complete [data-state~="section-complete"],
+        .state-no-platform [data-state~="no-platform"] {
+            display: block;
+        }
+
+        /* Flex items */
+        .state-platform-select .choice-buttons[data-state~="platform-select"],
+        .state-smile-enterprise .choice-buttons[data-state~="smile-enterprise"],
+        .state-smile-needs-upgrade .choice-buttons[data-state~="smile-needs-upgrade"],
+        .state-yotpo-connect .choice-buttons[data-state~="yotpo-connect"],
+        .state-program-verify .choice-buttons[data-state~="program-verify"],
+        .state-no-platform .choice-buttons[data-state~="no-platform"] {
+            display: flex;
+        }
+
+        /* ===========================================
+           DOCUMENTATION SECTIONS
+           =========================================== */
+        .doc-section {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid hsl(var(--warm-200));
+        }
+
+        .doc-section h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: hsl(var(--ink));
+        }
+
+        .doc-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(var(--warm-700));
+            margin-bottom: 12px;
+        }
+
+        .doc-section ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .doc-section li {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-700));
+            margin-bottom: 6px;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .doc-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .doc-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+        }
+
+        .doc-table td:first-child {
+            font-weight: 500;
+            color: hsl(var(--ink));
+        }
+
+        /* Flow diagram */
+        .flow-diagram {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step__number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .flow-step__content {
+            flex: 1;
+        }
+
+        .flow-step__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .flow-step__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .flow-branch {
+            margin-left: 44px;
+            padding-left: 16px;
+            border-left: 2px solid hsl(var(--warm-200));
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+
+        .flow-branch__label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+        }
+
+        .flow-branch__label.happy {
+            color: hsl(var(--emerald-600));
+        }
+
+        .flow-branch__label.upgrade {
+            color: hsl(var(--orange-600));
+        }
+
+        .flow-branch__label.alt {
+            color: hsl(var(--indigo-600));
+        }
+
+        /* Support matrix */
+        .support-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .support-matrix__item {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .support-matrix__item.supported {
+            border-color: hsl(var(--emerald-300));
+            background: hsl(var(--emerald-50));
+        }
+
+        .support-matrix__name {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+            margin-bottom: 4px;
+        }
+
+        .support-matrix__tier {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .support-matrix__item.supported .support-matrix__tier {
+            color: hsl(var(--emerald-700));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Section 2: Rewards Platform</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Section Specification</p>
+            <h1 class="font-display text-4xl mb-2">04: Section 2 — Rewards Platform</h1>
+            <p class="text-warm-600">Complete conversation flow for Section 2, including tier checking, upgrade paths, OAuth connection, and program verification.</p>
+
+            <div class="grid grid-cols-4 gap-4 mt-8">
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Goal</p>
+                    <p class="text-sm text-ink">Connect rewards program</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Duration</p>
+                    <p class="text-sm text-ink">3-5 minutes</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Critical Check</p>
+                    <p class="text-sm text-ink">Tier verification</p>
+                </div>
+                <div class="bg-white border border-warm-200 rounded-lg p-4">
+                    <p class="text-xs text-warm-500 font-medium uppercase tracking-wide mb-1">Data Collected</p>
+                    <p class="text-sm text-ink">4+ fields</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- STATE SWITCHER                             -->
+        <!-- =========================================== -->
+        <div class="demo-state-switcher">
+            <span class="demo-state-switcher__label">Demo States</span>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Happy Path (Smile.io Enterprise)</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="platform-select" class="active">1. Select Platform</button>
+                    <button data-state-btn="smile-tier-check">2. Tier Check</button>
+                    <button data-state-btn="smile-enterprise">3. Enterprise OK</button>
+                    <button data-state-btn="oauth-authorize">4. OAuth</button>
+                    <button data-state-btn="oauth-success">5. Connected</button>
+                    <button data-state-btn="program-verify">6. Verify</button>
+                    <button data-state-btn="section-complete">7. Complete</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Upgrade Path (Non-Enterprise)</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="smile-needs-upgrade" class="upgrade">8. Needs Upgrade</button>
+                    <button data-state-btn="upgrade-request" class="upgrade">9. Request Help</button>
+                    <button data-state-btn="upgrade-requested" class="upgrade">10. Requested</button>
+                    <button data-state-btn="continue-limited" class="upgrade">11. Limited Mode</button>
+                </div>
+            </div>
+
+            <div class="demo-state-switcher__group">
+                <span class="demo-state-switcher__group-label">Alternative Paths</span>
+                <div class="demo-state-switcher__buttons">
+                    <button data-state-btn="yotpo-connect" class="alt">12. Yotpo Flow</button>
+                    <button data-state-btn="no-platform" class="alt">13. No Platform</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- ONBOARDING SHELL DEMO                      -->
+        <!-- =========================================== -->
+        <div class="onboarding-shell state-platform-select" id="onboardingShell">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="top-bar__logo">
+                    <div class="top-bar__logo-icon">
+                        <img src="/assets/logos/svg/saltwyk-logomark-mono-light.svg" alt="Saltwyk">
+                    </div>
+                    <span class="top-bar__logo-text">Saltwyk</span>
+                </div>
+
+                <div class="top-bar__progress">
+                    <span class="top-bar__progress-label">Setup Progress</span>
+                    <div class="top-bar__progress-dots" id="progressDots">
+                        <div class="progress-dot completed" title="Your Store"></div>
+                        <div class="progress-dot active" title="Rewards Platform"></div>
+                        <div class="progress-dot" title="Business Verification"></div>
+                        <div class="progress-dot" title="Banking & Payments"></div>
+                    </div>
+                </div>
+
+                <div class="top-bar__actions">
+                    <button class="btn-help">
+                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                        <span>Get Help</span>
+                    </button>
+                    <button class="btn-save">
+                        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                        <span>Save & Exit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TWO-COLUMN LAYOUT -->
+            <div class="onboarding-layout">
+
+                <!-- ===================================== -->
+                <!-- CHAT COLUMN (60%)                    -->
+                <!-- ===================================== -->
+                <div class="chat-column">
+                    <div class="chat-messages">
+                        <div class="chat-messages-inner">
+
+                            <!-- ================================= -->
+                            <!-- STATE 1: PLATFORM SELECT         -->
+                            <!-- ================================= -->
+                            <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete yotpo-connect no-platform">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Now let's connect your rewards program.</p>
+                                            <p><strong>Which loyalty platform do you use?</strong></p>
+                                            <div class="choice-buttons" data-state="platform-select">
+                                                <button class="choice-btn">Smile.io</button>
+                                                <button class="choice-btn">Yotpo Loyalty</button>
+                                                <button class="choice-btn">LoyaltyLion</button>
+                                                <button class="choice-btn">Kangaroo Rewards</button>
+                                                <button class="choice-btn">I don't have one yet</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 2: SMILE.IO TIER CHECK     -->
+                            <!-- ================================= -->
+                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Smile.io</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Great choice! Smile.io is one of our integration partners. Let me check your subscription tier...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="smile-tier-check">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="loader-2" class="animate-spin"></i>
+                                        <span>Checking your Smile.io account...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 3: SMILE ENTERPRISE OK     -->
+                            <!-- ================================= -->
+                            <div data-state="smile-enterprise oauth-authorize oauth-success program-verify section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Verified: Smile.io Enterprise</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="smile-enterprise">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Perfect! You're on <strong>Smile.io Enterprise</strong> which gives us full API access. Let's connect your account.</p>
+                                            <div class="choice-buttons horizontal" data-state="smile-enterprise">
+                                                <button class="choice-btn">
+                                                    Connect via OAuth
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">Connect manually with API key</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 8: SMILE NEEDS UPGRADE     -->
+                            <!-- ================================= -->
+                            <div data-state="smile-needs-upgrade upgrade-request upgrade-requested continue-limited">
+                                <div class="message-system">
+                                    <div class="system-bubble warning">
+                                        <i data-lucide="alert-triangle"></i>
+                                        <span>Current tier: Smile.io Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="smile-needs-upgrade upgrade-request upgrade-requested continue-limited">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I see you're currently on <strong>Smile.io Growth</strong>. To integrate with Saltwyk, you'll need Enterprise tier for full API access.</p>
+
+                                            <div class="info-card warning">
+                                                <i data-lucide="info" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Why Enterprise?</div>
+                                                    <div class="info-card__content">
+                                                        <p>Saltwyk requires advanced API permissions to securely move points between programs. Smile.io provides these on Enterprise plans.</p>
+                                                    </div>
+                                                    <p class="info-card__note">We're partnered with Smile.io — mention Saltwyk for priority upgrade support.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="smile-needs-upgrade">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>You have a few options:</p>
+                                            <div class="choice-buttons" data-state="smile-needs-upgrade">
+                                                <button class="choice-btn">Help me upgrade to Enterprise</button>
+                                                <button class="choice-btn">Continue anyway (limited features)</button>
+                                                <button class="choice-btn">Choose a different platform</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 9: UPGRADE REQUEST FORM    -->
+                            <!-- ================================= -->
+                            <div data-state="upgrade-request upgrade-requested">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Help me upgrade to Enterprise</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="upgrade-request">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I'll connect you with our Smile.io partnership team. They'll help you upgrade with priority support and potential discounts.</p>
+
+                                            <div class="inline-form">
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">Your best email</label>
+                                                    <input type="email" class="inline-form__input" placeholder="you@example.com" value="alex@acme-outdoor.com">
+                                                </div>
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">Phone number <span class="inline-form__optional">(optional)</span></label>
+                                                    <input type="tel" class="inline-form__input" placeholder="(555) 123-4567">
+                                                </div>
+                                                <button class="inline-form__submit secondary">Request Upgrade Help</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 10: UPGRADE REQUESTED      -->
+                            <!-- ================================= -->
+                            <div data-state="upgrade-requested">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Upgrade request sent! Our team will contact you within 24 hours.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="upgrade-requested">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>While we help with your upgrade, you can complete the rest of setup. We'll activate full network access once you're on Enterprise.</p>
+
+                                            <button class="continue-btn">
+                                                Continue Setup
+                                                <i data-lucide="arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 11: CONTINUE LIMITED       -->
+                            <!-- ================================= -->
+                            <div data-state="continue-limited">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Continue anyway (limited features)</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="continue-limited">
+                                <div class="message-system">
+                                    <div class="system-bubble warning">
+                                        <i data-lucide="alert-triangle"></i>
+                                        <span>Limited Feature Mode: Some network features unavailable until upgrade</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="continue-limited">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Understood. You can still complete setup, but your account will have limited functionality until you upgrade. You can upgrade anytime from your dashboard.</p>
+
+                                            <button class="continue-btn">
+                                                Continue with OAuth
+                                                <i data-lucide="arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 12: YOTPO CONNECT          -->
+                            <!-- ================================= -->
+                            <div data-state="yotpo-connect">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yotpo Loyalty</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="yotpo-connect">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Excellent! Yotpo is fully supported. Let's connect your account.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="yotpo-connect">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="info"></i>
+                                        <span>Yotpo connection requires admin access to your Yotpo dashboard</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="yotpo-connect">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>How would you like to connect?</p>
+                                            <div class="choice-buttons horizontal" data-state="yotpo-connect">
+                                                <button class="choice-btn">
+                                                    Connect via OAuth
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">I need help with connection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: OAUTH AUTHORIZE         -->
+                            <!-- ================================= -->
+                            <div data-state="oauth-authorize oauth-success program-verify section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Connect via OAuth</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="oauth-authorize">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>I'll redirect you to Smile.io to authorize the connection. This is secure and takes about 30 seconds.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="oauth-authorize">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="external-link"></i>
+                                        <span>Opening authorization window...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: OAUTH SUCCESS           -->
+                            <!-- ================================= -->
+                            <div data-state="oauth-success program-verify section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Successfully connected to Smile.io</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="oauth-success program-verify section-complete">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Perfect! I can see your rewards program. Let me verify the configuration...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="oauth-success">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="loader-2" class="animate-spin"></i>
+                                        <span>Syncing your program rules...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 6: PROGRAM VERIFY          -->
+                            <!-- ================================= -->
+                            <div data-state="program-verify section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Program configuration loaded</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="program-verify">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p><strong>Does this look correct?</strong></p>
+
+                                            <div class="confirmation-card">
+                                                <div class="confirmation-card__header">
+                                                    <span class="confirmation-card__title">Rewards Program</span>
+                                                </div>
+                                                <div class="confirmation-card__content">
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Program Name</span>
+                                                        <span class="confirmation-card__value">Acme Rewards</span>
+                                                    </div>
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Points per $1</span>
+                                                        <span class="confirmation-card__value">10 points</span>
+                                                    </div>
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Redemption Rate</span>
+                                                        <span class="confirmation-card__value">100 points = $1</span>
+                                                    </div>
+                                                    <div class="confirmation-card__row">
+                                                        <span class="confirmation-card__label">Active Members</span>
+                                                        <span class="confirmation-card__value">~5,200</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="choice-buttons horizontal" data-state="program-verify">
+                                                <button class="choice-btn">Yes, that's correct</button>
+                                                <button class="choice-btn">No, let me check my settings</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 7: SECTION COMPLETE        -->
+                            <!-- ================================= -->
+                            <div data-state="section-complete">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Yes, that's correct</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Rewards platform connected</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="section-complete">
+                                <div class="message-milestone">
+                                    <div class="milestone-card">
+                                        <i data-lucide="check-circle-2" class="milestone-card__icon"></i>
+                                        <h3 class="milestone-card__title">Section 2 Complete!</h3>
+                                        <p class="milestone-card__summary">Your Smile.io rewards program is now connected with <strong>~5,200 active members</strong>.</p>
+                                        <div class="milestone-card__divider"></div>
+                                        <p class="milestone-card__next"><strong>Next:</strong> Business verification</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 13: NO PLATFORM            -->
+                            <!-- ================================= -->
+                            <div data-state="no-platform">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>I don't have one yet</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="no-platform">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>No problem! Many merchants start with rewards after joining Saltwyk. We can help you set one up.</p>
+
+                                            <div class="info-card">
+                                                <i data-lucide="gift" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Getting Started with Rewards</div>
+                                                    <div class="info-card__content">
+                                                        <p>We recommend Smile.io or LoyaltyLion for most merchants. Both offer great features and integrate seamlessly with Saltwyk.</p>
+                                                    </div>
+                                                    <div class="info-card__links">
+                                                        <a class="info-card__link">
+                                                            Smile.io (20% off first year)
+                                                            <i data-lucide="external-link"></i>
+                                                        </a>
+                                                        <a class="info-card__link">
+                                                            LoyaltyLion (free consultation)
+                                                            <i data-lucide="external-link"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="no-platform">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Would you like to set up a rewards program now, or come back to this later?</p>
+                                            <div class="choice-buttons" data-state="no-platform">
+                                                <button class="choice-btn">Set up rewards program now</button>
+                                                <button class="choice-btn">I'll do this later</button>
+                                                <button class="choice-btn">Notify me when you support more platforms</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <textarea class="chat-input" placeholder="Select an option above..." disabled rows="1"></textarea>
+                            <button class="chat-send-btn" disabled>
+                                <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================================== -->
+                <!-- FORM PANEL (40%)                     -->
+                <!-- ===================================== -->
+                <div class="form-panel">
+                    <div class="form-panel__header">
+                        <h2 class="form-panel__title">Your Progress</h2>
+                    </div>
+                    <div class="form-panel__content">
+
+                        <!-- Section 1: Complete (Always shown) -->
+                        <div class="section-card completed" style="margin-bottom: 12px;">
+                            <div class="section-card__header">
+                                <i data-lucide="check-circle" class="section-card__icon"></i>
+                                <div class="section-card__info">
+                                    <p class="section-card__name">Your Store</p>
+                                    <p class="section-card__status">Complete</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: In Progress -->
+                        <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request yotpo-connect oauth-authorize oauth-success program-verify no-platform">
+                            <div class="section-card in-progress">
+                                <div class="section-card__header">
+                                    <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Rewards Platform</p>
+                                        <p class="section-card__status">In progress...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 25%;"></div>
+                                </div>
+                                <p class="progress-summary__text">1 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- OAuth Panel (during authorization) -->
+                        <div data-state="oauth-authorize">
+                            <div class="oauth-panel" style="margin-top: 16px;">
+                                <i data-lucide="shield-check" class="oauth-panel__icon"></i>
+                                <h3 class="oauth-panel__title">Authorize Smile.io</h3>
+                                <p class="oauth-panel__desc">Allow Saltwyk to access your rewards program data.</p>
+                                <div class="oauth-panel__permissions">
+                                    <p class="oauth-panel__permissions-title">Permissions Requested</p>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read program configuration</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read member points balances</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Issue and redeem points</span>
+                                    </div>
+                                </div>
+                                <button class="oauth-panel__btn">
+                                    <i data-lucide="external-link"></i>
+                                    Authorize Connection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Complete -->
+                        <div data-state="section-complete">
+                            <div class="section-card completed">
+                                <div class="section-card__header">
+                                    <i data-lucide="check-circle" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Rewards Platform</p>
+                                        <p class="section-card__status">Connected</p>
+                                    </div>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Platform</span>
+                                        <span class="section-card__value">Smile.io</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Tier</span>
+                                        <span class="section-card__value">Enterprise</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Members</span>
+                                        <span class="section-card__value">~5,200</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 50%;"></div>
+                                </div>
+                                <p class="progress-summary__text">2 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Pending Upgrade -->
+                        <div data-state="upgrade-requested continue-limited">
+                            <div class="section-card pending-upgrade">
+                                <div class="section-card__header">
+                                    <i data-lucide="clock" class="section-card__icon"></i>
+                                    <div class="section-card__info">
+                                        <p class="section-card__name">Rewards Platform</p>
+                                        <p class="section-card__status">Pending upgrade</p>
+                                    </div>
+                                    <span class="section-card__badge warning">Upgrade Needed</span>
+                                </div>
+                                <div class="section-card__content">
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Platform</span>
+                                        <span class="section-card__value">Smile.io</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Current Tier</span>
+                                        <span class="section-card__value">Growth</span>
+                                    </div>
+                                    <div class="section-card__row">
+                                        <span class="section-card__label">Required</span>
+                                        <span class="section-card__value">Enterprise</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="progress-summary">
+                                <p class="progress-summary__title">Overall Progress</p>
+                                <div class="progress-summary__bar">
+                                    <div class="progress-summary__fill" style="width: 25%;"></div>
+                                </div>
+                                <p class="progress-summary__text">1 of 4 sections complete (upgrade pending)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =========================================== -->
+        <!-- DOCUMENTATION SECTIONS                     -->
+        <!-- =========================================== -->
+
+        <!-- Flow Summary -->
+        <div class="doc-section">
+            <h2>Flow Summary</h2>
+            <p>Section 2 connects the merchant's rewards platform and verifies tier compatibility. The critical check is subscription tier—lower tiers get upgrade assistance or continue with limited features.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step__number">1</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Platform Selection</div>
+                        <div class="flow-step__desc">Choose loyalty platform from supported options</div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-step__number">2</div>
+                    <div class="flow-step__content">
+                        <div class="flow-step__title">Tier Verification</div>
+                        <div class="flow-step__desc">Check subscription tier for API access level</div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label happy">If Enterprise/Pro Tier</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">OAuth Connection</div>
+                            <div class="flow-step__desc">Authorize via OAuth or manual API key</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Verify Configuration</div>
+                            <div class="flow-step__desc">Confirm program settings and member count</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">5</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Section Complete</div>
+                            <div class="flow-step__desc">Show milestone, proceed to Section 3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label upgrade">If Lower Tier</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Explain Tier Requirement</div>
+                            <div class="flow-step__desc">Offer upgrade help, continue limited, or switch platform</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Handle Choice</div>
+                            <div class="flow-step__desc">Process upgrade request or proceed with limitations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-branch">
+                    <div class="flow-branch__label alt">If No Platform</div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">3</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Recommend Options</div>
+                            <div class="flow-step__desc">Suggest Smile.io or LoyaltyLion with partner offers</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Set Up or Defer</div>
+                            <div class="flow-step__desc">Link to setup or mark section as deferred</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tier Requirements -->
+        <div class="doc-section">
+            <h2>Tier Requirements</h2>
+            <p>Different subscription tiers provide different levels of API access. Saltwyk requires advanced permissions only available on higher tiers.</p>
+
+            <h3>Why Enterprise/Pro Tiers?</h3>
+            <ul>
+                <li><strong>Full API access:</strong> Read/write to points balances, not just read-only</li>
+                <li><strong>Webhook support:</strong> Real-time transaction notifications</li>
+                <li><strong>Higher rate limits:</strong> Support for network-scale operations</li>
+                <li><strong>Dedicated support:</strong> Partner-level assistance for integrations</li>
+            </ul>
+
+            <h3>What's Limited Without Enterprise?</h3>
+            <ul>
+                <li>Cannot accept points from other merchants (read-only)</li>
+                <li>Manual settlement instead of automatic</li>
+                <li>Limited transaction volume per day</li>
+                <li>No real-time sync (hourly batches only)</li>
+            </ul>
+        </div>
+
+        <!-- Platform Support Matrix -->
+        <div class="doc-section">
+            <h2>Platform Support Matrix</h2>
+            <p>Current platform support and required tiers for full Saltwyk integration.</p>
+
+            <div class="support-matrix">
+                <div class="support-matrix__item supported">
+                    <p class="support-matrix__name">Smile.io</p>
+                    <p class="support-matrix__tier">Enterprise required</p>
+                </div>
+                <div class="support-matrix__item supported">
+                    <p class="support-matrix__name">Yotpo Loyalty</p>
+                    <p class="support-matrix__tier">Premium required</p>
+                </div>
+                <div class="support-matrix__item supported">
+                    <p class="support-matrix__name">LoyaltyLion</p>
+                    <p class="support-matrix__tier">Pro required</p>
+                </div>
+                <div class="support-matrix__item">
+                    <p class="support-matrix__name">Kangaroo</p>
+                    <p class="support-matrix__tier">Coming Q3 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- OAuth vs Manual -->
+        <div class="doc-section">
+            <h2>OAuth vs Manual Connection</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>When to Use</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OAuth (Recommended)</td>
+                        <td>Default for all merchants</td>
+                        <td>Secure, automatic token refresh, no keys to manage</td>
+                        <td>Requires browser popup</td>
+                    </tr>
+                    <tr>
+                        <td>Manual API Key</td>
+                        <td>Technical users, debugging, or OAuth issues</td>
+                        <td>Works in any environment, more control</td>
+                        <td>Keys can expire, security risk if exposed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Data Captured -->
+        <div class="doc-section">
+            <h2>Data Captured</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Source</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rewards Platform</td>
+                        <td>User selection</td>
+                        <td>Enum</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Subscription Tier</td>
+                        <td>API verification</td>
+                        <td>String</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>OAuth Token</td>
+                        <td>OAuth flow</td>
+                        <td>Encrypted token</td>
+                        <td>Yes (or API key)</td>
+                    </tr>
+                    <tr>
+                        <td>Program Name</td>
+                        <td>API sync</td>
+                        <td>String</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Points per Dollar</td>
+                        <td>API sync</td>
+                        <td>Number</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Redemption Rate</td>
+                        <td>API sync</td>
+                        <td>Number</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Active Members</td>
+                        <td>API sync</td>
+                        <td>Number</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Timing -->
+        <div class="doc-section">
+            <h2>Timing by Path</h2>
+
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Duration</th>
+                        <th>Steps</th>
+                        <th>Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Happy Path (Enterprise)</td>
+                        <td>~3 minutes</td>
+                        <td>7 steps</td>
+                        <td>Section complete, full access</td>
+                    </tr>
+                    <tr>
+                        <td>Upgrade Request</td>
+                        <td>~4 minutes</td>
+                        <td>10 steps</td>
+                        <td>Pending upgrade, continue setup</td>
+                    </tr>
+                    <tr>
+                        <td>Continue Limited</td>
+                        <td>~4 minutes</td>
+                        <td>11 steps</td>
+                        <td>Limited access, proceed</td>
+                    </tr>
+                    <tr>
+                        <td>No Platform (Defer)</td>
+                        <td>~2 minutes</td>
+                        <td>4 steps</td>
+                        <td>Section deferred</td>
+                    </tr>
+                    <tr>
+                        <td>No Platform (Setup)</td>
+                        <td>~10 minutes</td>
+                        <td>External flow</td>
+                        <td>External signup, return later</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Edge Cases -->
+        <div class="doc-section">
+            <h2>Edge Cases</h2>
+
+            <h3>OAuth Failure</h3>
+            <p>If OAuth popup is blocked or user cancels, show error message with options: "Try again" or "Connect manually with API key". Log the failure for support debugging.</p>
+
+            <h3>Invalid API Key</h3>
+            <p>If manual API key is invalid, show specific error (expired, wrong permissions, etc.) and guide user to their platform's API settings page.</p>
+
+            <h3>Program Configuration Mismatch</h3>
+            <p>If merchant says program details are wrong, explain that these come from their rewards platform and guide them to update settings there. Offer to re-sync after changes.</p>
+
+            <h3>Multiple Rewards Programs</h3>
+            <p>Some merchants run multiple programs (e.g., VIP + standard). For v1, only one program can be connected. Show the primary program and note that additional programs are on the roadmap.</p>
+
+            <h3>Tier Changed Mid-Session</h3>
+            <p>If merchant upgrades their tier during the session (via partner link), they can use "Refresh tier status" to re-verify without restarting the section.</p>
+        </div>
+
+        <!-- Related -->
+        <div class="doc-section">
+            <h2>Related</h2>
+
+            <div class="grid grid-cols-3 gap-4 mt-4">
+                <a href="/merchant/screens/onboarding-conversational/03-section-your-store.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">03: Section 1 - Your Store</p>
+                    <p class="text-xs text-warm-500">Previous section flow.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/02-interaction-patterns.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">02: Interaction Patterns</p>
+                    <p class="text-xs text-warm-500">Reusable patterns.</p>
+                </a>
+                <a href="/merchant/screens/conversational-onboarding-showcase.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Conversational Showcase</p>
+                    <p class="text-xs text-warm-500">Full interactive demo.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-6 mt-12 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // STATE MANAGEMENT
+        // =========================================
+        const shell = document.getElementById('onboardingShell');
+        const progressDots = document.querySelectorAll('#progressDots .progress-dot');
+
+        function setState(stateName) {
+            // Remove all state classes
+            shell.className = shell.className.replace(/state-\S+/g, '').trim();
+
+            // Add new state class
+            shell.classList.add('state-' + stateName);
+
+            // Update progress dots
+            updateProgressDots(stateName);
+
+            // Re-initialize icons for newly visible content
+            lucide.createIcons();
+        }
+
+        function updateProgressDots(stateName) {
+            progressDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+            });
+
+            // Section 1 always complete
+            progressDots[0].classList.add('completed');
+
+            // Set second dot based on state
+            if (stateName === 'section-complete') {
+                progressDots[1].classList.add('completed');
+                progressDots[2].classList.add('active');
+            } else {
+                progressDots[1].classList.add('active');
+            }
+        }
+
+        // State switcher buttons
+        document.querySelectorAll('[data-state-btn]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('[data-state-btn]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Set state
+                setState(btn.dataset.stateBtn);
+            });
+        });
+
+        // Initialize first state
+        setState('platform-select');
+    </script>
+</body>
+</html>
