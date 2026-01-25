@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaction Patterns | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           COMPONENT DEMO CONTAINERS
+           =========================================== */
+        .component-demo {
+            background: hsl(var(--ledger));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 16px;
+        }
+
+        .component-demo--dark {
+            background: hsl(var(--intaglio-900));
+            border-color: hsl(var(--intaglio-700));
+        }
+
+        .component-demo__label {
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .component-demo__inner {
+            max-width: 680px;
+        }
+
+        /* ===========================================
+           PATTERN 1: CHOICE BUTTONS
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .choice-buttons.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+            height: 48px;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+            cursor: default;
+        }
+
+        .choice-btn.selected i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        .choice-btn.loading {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+        }
+
+        .choice-btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===========================================
+           PATTERN 2: CONFIRMATION CARD
+           =========================================== */
+        .confirmation-card {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .confirmation-card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+        }
+
+        .confirmation-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .confirmation-card__edit-btn {
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.15s ease;
+        }
+
+        .confirmation-card__edit-btn:hover {
+            background: hsl(var(--indigo-100));
+        }
+
+        .confirmation-card__content {
+            padding: 16px;
+        }
+
+        .confirmation-card__row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .confirmation-card__row:last-child {
+            margin-bottom: 0;
+        }
+
+        .confirmation-card__label {
+            width: 120px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        .confirmation-card__value {
+            font-size: 14px;
+            color: hsl(var(--warm-900));
+        }
+
+        /* Edit mode */
+        .confirmation-card.editing {
+            border-color: hsl(var(--indigo-400));
+        }
+
+        .confirmation-card__input {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            transition: border-color 0.15s ease;
+        }
+
+        .confirmation-card__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .confirmation-card__actions {
+            display: flex;
+            gap: 8px;
+            padding: 16px;
+            border-top: 1px solid hsl(var(--warm-100));
+            justify-content: flex-end;
+        }
+
+        .confirmation-card__save-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .confirmation-card__save-btn:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .confirmation-card__cancel-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            background: white;
+            color: hsl(var(--warm-600));
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .confirmation-card__cancel-btn:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        /* ===========================================
+           PATTERN 3: INFO CARD (EDUCATIONAL)
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .info-card__icon {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--indigo-600));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-card__body {
+            flex: 1;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 8px;
+        }
+
+        .info-card__content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content p {
+            margin: 0 0 8px;
+        }
+
+        .info-card__content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card__content ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .info-card__content li {
+            margin: 4px 0;
+        }
+
+        .info-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--indigo-600));
+            margin-top: 12px;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        .info-card__link:hover {
+            color: hsl(var(--indigo-700));
+        }
+
+        .info-card__link i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Visual diagram */
+        .info-card__diagram {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px;
+            background: hsl(var(--indigo-100));
+            border-radius: 6px;
+        }
+
+        .diagram-box {
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid hsl(var(--indigo-300));
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--indigo-700));
+        }
+
+        .diagram-arrow {
+            color: hsl(var(--indigo-400));
+        }
+
+        /* ===========================================
+           PATTERN 4: SUMMARY CARD (COLLAPSIBLE)
+           =========================================== */
+        .summary-card {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .summary-card__header:hover {
+            background: hsl(var(--emerald-100));
+        }
+
+        .summary-card__title {
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--emerald-800));
+        }
+
+        .summary-card__value {
+            flex: 1;
+            font-size: 14px;
+            color: hsl(var(--warm-700));
+            text-align: center;
+        }
+
+        .summary-card__toggle {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--emerald-600));
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card.expanded .summary-card__toggle {
+            transform: rotate(180deg);
+        }
+
+        .summary-card__content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .summary-card.expanded .summary-card__content {
+            max-height: 500px;
+        }
+
+        .summary-card__content-inner {
+            padding: 0 20px 20px;
+            border-top: 1px solid hsl(var(--emerald-200));
+        }
+
+        /* Message replay inside expanded card */
+        .summary-card__messages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 16px;
+        }
+
+        .summary-message {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .summary-message.agent {
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-800));
+            margin-right: 48px;
+        }
+
+        .summary-message.user {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            color: hsl(var(--ink));
+            margin-left: 48px;
+        }
+
+        /* ===========================================
+           PATTERN 5: INLINE FORM
+           =========================================== */
+        .inline-form {
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .inline-form__group {
+            margin-bottom: 16px;
+        }
+
+        .inline-form__label {
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .inline-form__input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .inline-form__prefix {
+            position: absolute;
+            left: 14px;
+            font-size: 14px;
+            color: hsl(var(--warm-500));
+        }
+
+        .inline-form__input {
+            width: 100%;
+            height: 44px;
+            padding: 10px 14px;
+            padding-left: 28px;
+            font-size: 14px;
+            border: 1px solid hsl(var(--warm-300));
+            border-radius: 8px;
+            transition: border-color 0.15s ease;
+        }
+
+        .inline-form__input:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+        }
+
+        .inline-form__helper {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-top: 6px;
+        }
+
+        .inline-form__submit {
+            width: 120px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .inline-form__submit:hover:not(:disabled) {
+            background: hsl(var(--emerald-500));
+        }
+
+        .inline-form__submit:disabled {
+            background: hsl(var(--warm-300));
+            cursor: not-allowed;
+        }
+
+        .inline-form__row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .inline-form__row .inline-form__group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* ===========================================
+           PATTERN 6: COMPLEX DELEGATION
+           =========================================== */
+        .delegation-demo {
+            display: flex;
+            gap: 24px;
+            background: hsl(var(--warm-100));
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 400px;
+        }
+
+        .delegation-demo__chat {
+            flex: 0 0 55%;
+            background: hsl(var(--ledger));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .delegation-demo__panel {
+            flex: 0 0 45%;
+            background: hsl(var(--warm-50));
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .delegation-demo__panel.active {
+            border-color: hsl(var(--indigo-400));
+            box-shadow: 0 0 0 4px hsl(var(--indigo-500) / 15%);
+        }
+
+        .delegation-demo__panel.active .panel-header {
+            background: hsl(var(--indigo-50));
+            border-color: hsl(var(--indigo-200));
+        }
+
+        .panel-header {
+            padding: 16px;
+            background: hsl(var(--warm-100));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            font-weight: 600;
+            font-size: 14px;
+            color: hsl(var(--ink));
+        }
+
+        .panel-content {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Clearing calculator mini */
+        .clearing-calculator {
+            background: white;
+            border: 2px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .clearing-calculator__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .clearing-calculator__label {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+        }
+
+        .clearing-calculator__value {
+            font-size: 28px;
+            font-weight: 700;
+            color: hsl(var(--emerald-600));
+        }
+
+        .clearing-calculator__slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            appearance: none;
+            background: linear-gradient(to right, hsl(var(--emerald-200)), hsl(var(--emerald-500)));
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .clearing-calculator__slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 3px solid hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .clearing-calculator__range {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 16px;
+        }
+
+        .clearing-calculator__coverage {
+            text-align: center;
+            font-size: 13px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 20px;
+        }
+
+        .clearing-calculator__coverage strong {
+            color: hsl(var(--emerald-700));
+        }
+
+        .clearing-calculator__confirm {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .clearing-calculator__confirm:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        /* Agent message (mini) for delegation demo */
+        .demo-message {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .demo-message.user {
+            justify-content: flex-end;
+        }
+
+        .demo-message .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .demo-message.agent .avatar {
+            background: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .demo-message.user .avatar {
+            background: hsl(var(--warm-400));
+            color: white;
+        }
+
+        .demo-message .bubble {
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 280px;
+        }
+
+        .demo-message.agent .bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--ink));
+        }
+
+        .demo-message.user .bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            color: hsl(var(--ink));
+        }
+
+        .demo-message .bubble .arrow-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: hsl(var(--indigo-600));
+            font-weight: 500;
+        }
+
+        .demo-message .bubble .arrow-indicator i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* System message (mini) */
+        .demo-system {
+            display: flex;
+            justify-content: center;
+        }
+
+        .demo-system .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .demo-system .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        .demo-system .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        .demo-system .system-bubble i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ===========================================
+           DEMO CONTROLS
+           =========================================== */
+        .demo-controls {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .demo-controls__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-controls__row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-btn:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .demo-btn.active {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-400));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* ===========================================
+           SPEC TABLE
+           =========================================== */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+        }
+
+        .spec-table td:first-child {
+            font-weight: 500;
+            color: hsl(var(--ink));
+        }
+
+        /* ===========================================
+           USAGE TABLE
+           =========================================== */
+        .usage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .usage-table th {
+            text-align: left;
+            padding: 14px 16px;
+            background: hsl(var(--intaglio-900));
+            color: white;
+            font-weight: 600;
+        }
+
+        .usage-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid hsl(var(--warm-200));
+            color: hsl(var(--warm-700));
+        }
+
+        .usage-table tr:nth-child(even) {
+            background: hsl(var(--warm-50));
+        }
+
+        .usage-table td:first-child {
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .complexity-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .complexity-badge.simple {
+            background: hsl(var(--emerald-100));
+            color: hsl(var(--emerald-700));
+        }
+
+        .complexity-badge.medium {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-700));
+        }
+
+        .complexity-badge.complex {
+            background: hsl(var(--indigo-100));
+            color: hsl(var(--indigo-700));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Interaction Patterns</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">02: Interaction Patterns</h1>
+            <p class="text-warm-600">The six reusable interaction patterns used throughout conversational onboarding. Each pattern solves a specific input/output need.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- PATTERN SUMMARY TABLE                      -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">When to Use Each Pattern</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="usage-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Use Case</th>
+                            <th>Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Choice Buttons</td>
+                            <td>Select from 3-5 predefined options with quick selection</td>
+                            <td><span class="complexity-badge simple">Simple</span></td>
+                        </tr>
+                        <tr>
+                            <td>Confirmation Card</td>
+                            <td>Verify pre-filled data from Storeleads or previous input</td>
+                            <td><span class="complexity-badge simple">Simple</span></td>
+                        </tr>
+                        <tr>
+                            <td>Info Card</td>
+                            <td>Explain complex concepts inline (Stripe Connect, clearing balances)</td>
+                            <td><span class="complexity-badge simple">Simple</span></td>
+                        </tr>
+                        <tr>
+                            <td>Summary Card</td>
+                            <td>Collapse completed conversation sections</td>
+                            <td><span class="complexity-badge medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Inline Form</td>
+                            <td>Collect 1-2 text inputs without delegating to form panel</td>
+                            <td><span class="complexity-badge medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Complex Delegation</td>
+                            <td>Calculator, multi-step forms, rich components in form panel</td>
+                            <td><span class="complexity-badge complex">Complex</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 1: CHOICE BUTTONS                  -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-1">
+            <p class="serial text-intaglio-500 mb-4">Pattern 1: Choice Buttons</p>
+            <p class="text-sm text-warm-600 mb-6">Select from 3-5 predefined options. Shows before, after, and loading states.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Interactive Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn active" data-choice-state="before">Before Selection</button>
+                    <button class="demo-btn" data-choice-state="after">After Selection</button>
+                    <button class="demo-btn" data-choice-state="loading">Loading State</button>
+                </div>
+            </div>
+
+            <!-- Before Selection -->
+            <div class="component-demo" id="choice-before">
+                <p class="component-demo__label">Before Selection</p>
+                <div class="component-demo__inner">
+                    <div class="choice-buttons" id="choice-buttons-demo">
+                        <button class="choice-btn" data-choice="smile">Smile.io</button>
+                        <button class="choice-btn" data-choice="yotpo">Yotpo</button>
+                        <button class="choice-btn" data-choice="loyaltylion">LoyaltyLion</button>
+                        <button class="choice-btn" data-choice="kangaroo">Kangaroo Rewards</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- After Selection (hidden by default) -->
+            <div class="component-demo" id="choice-after" style="display: none;">
+                <p class="component-demo__label">After Selection</p>
+                <div class="component-demo__inner">
+                    <div class="choice-buttons">
+                        <button class="choice-btn selected" disabled>
+                            <i data-lucide="check"></i>
+                            Smile.io
+                        </button>
+                        <button class="choice-btn" disabled>Yotpo</button>
+                        <button class="choice-btn" disabled>LoyaltyLion</button>
+                        <button class="choice-btn" disabled>Kangaroo Rewards</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State (hidden by default) -->
+            <div class="component-demo" id="choice-loading" style="display: none;">
+                <p class="component-demo__label">Loading State</p>
+                <div class="component-demo__inner">
+                    <div class="choice-buttons">
+                        <button class="choice-btn loading" disabled>
+                            <i data-lucide="loader-2"></i>
+                            Connecting...
+                        </button>
+                        <button class="choice-btn" disabled>Yotpo</button>
+                        <button class="choice-btn" disabled>LoyaltyLion</button>
+                        <button class="choice-btn" disabled>Kangaroo Rewards</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Button Height</td>
+                            <td>—</td>
+                            <td>48px</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>—</td>
+                            <td>12px 16px</td>
+                        </tr>
+                        <tr>
+                            <td>Border Radius</td>
+                            <td>—</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Gap Between Buttons</td>
+                            <td>—</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Typography</td>
+                            <td>—</td>
+                            <td>14px, weight 500</td>
+                        </tr>
+                        <tr>
+                            <td>Default Background</td>
+                            <td><code>white</code></td>
+                            <td>Border: warm-200</td>
+                        </tr>
+                        <tr>
+                            <td>Hover Background</td>
+                            <td><code>warm-50</code></td>
+                            <td>Border: warm-300</td>
+                        </tr>
+                        <tr>
+                            <td>Selected Background</td>
+                            <td><code>emerald-600</code></td>
+                            <td>White text, check icon</td>
+                        </tr>
+                        <tr>
+                            <td>Disabled Background</td>
+                            <td><code>warm-50</code></td>
+                            <td>Color: warm-400</td>
+                        </tr>
+                        <tr>
+                            <td>Checkmark Icon</td>
+                            <td>Lucide <code>check</code></td>
+                            <td>20px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 2: CONFIRMATION CARD               -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-2">
+            <p class="serial text-intaglio-500 mb-4">Pattern 2: Confirmation Card</p>
+            <p class="text-sm text-warm-600 mb-6">Confirm pre-filled data from Storeleads or previous input. Toggle between view and edit modes.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Interactive Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn active" data-confirm-state="view">View Mode</button>
+                    <button class="demo-btn" data-confirm-state="edit">Edit Mode</button>
+                </div>
+            </div>
+
+            <!-- View Mode -->
+            <div class="component-demo" id="confirm-view">
+                <p class="component-demo__label">Collapsed (View Mode)</p>
+                <div class="component-demo__inner">
+                    <div class="confirmation-card" id="confirmation-card-demo">
+                        <div class="confirmation-card__header">
+                            <span class="confirmation-card__title">Store Details</span>
+                            <button class="confirmation-card__edit-btn" onclick="toggleConfirmationEdit()">Edit</button>
+                        </div>
+                        <div class="confirmation-card__content">
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Platform</span>
+                                <span class="confirmation-card__value">WooCommerce</span>
+                            </div>
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Annual Revenue</span>
+                                <span class="confirmation-card__value">$2.5M</span>
+                            </div>
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Category</span>
+                                <span class="confirmation-card__value">Home & Garden</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Mode (hidden by default) -->
+            <div class="component-demo" id="confirm-edit" style="display: none;">
+                <p class="component-demo__label">Expanded (Edit Mode)</p>
+                <div class="component-demo__inner">
+                    <div class="confirmation-card editing">
+                        <div class="confirmation-card__header">
+                            <span class="confirmation-card__title">Store Details</span>
+                            <span style="font-size: 12px; color: hsl(var(--indigo-600));">Editing...</span>
+                        </div>
+                        <div class="confirmation-card__content">
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Platform</span>
+                                <input type="text" class="confirmation-card__input" value="WooCommerce">
+                            </div>
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Annual Revenue</span>
+                                <input type="text" class="confirmation-card__input" value="$2.5M">
+                            </div>
+                            <div class="confirmation-card__row">
+                                <span class="confirmation-card__label">Category</span>
+                                <input type="text" class="confirmation-card__input" value="Home & Garden">
+                            </div>
+                        </div>
+                        <div class="confirmation-card__actions">
+                            <button class="confirmation-card__cancel-btn">Cancel</button>
+                            <button class="confirmation-card__save-btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Card Padding</td>
+                            <td>—</td>
+                            <td>16px</td>
+                        </tr>
+                        <tr>
+                            <td>Row Gap</td>
+                            <td>—</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Label Width</td>
+                            <td>—</td>
+                            <td>120px (fixed)</td>
+                        </tr>
+                        <tr>
+                            <td>Border Radius</td>
+                            <td>—</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Label Typography</td>
+                            <td><code>warm-500</code></td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Value Typography</td>
+                            <td><code>warm-900</code></td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>Edit Button</td>
+                            <td><code>indigo-600</code></td>
+                            <td>13px, weight 500</td>
+                        </tr>
+                        <tr>
+                            <td>Edit Mode Border</td>
+                            <td><code>indigo-400</code></td>
+                            <td>Indicates active editing</td>
+                        </tr>
+                        <tr>
+                            <td>Input Focus</td>
+                            <td><code>indigo-500</code></td>
+                            <td>Border highlight</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 3: INFO CARD (EDUCATIONAL)         -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-3">
+            <p class="serial text-intaglio-500 mb-4">Pattern 3: Info Card (Educational)</p>
+            <p class="text-sm text-warm-600 mb-6">Explain complex concepts inline. Used for Stripe Connect explanations, clearing balance education, etc.</p>
+
+            <!-- Stripe Connect Example -->
+            <div class="component-demo">
+                <p class="component-demo__label">Stripe Connect Explanation</p>
+                <div class="component-demo__inner">
+                    <div class="info-card">
+                        <i data-lucide="info" class="info-card__icon"></i>
+                        <div class="info-card__body">
+                            <div class="info-card__title">Why Stripe Connect?</div>
+                            <div class="info-card__content">
+                                <p>Stripe Connect lets Saltwyk securely move funds between merchants in the network. When a customer uses rewards at your store, the funds come from the originating merchant's balance.</p>
+                                <p>Your data is encrypted end-to-end and we never store sensitive credentials.</p>
+                            </div>
+                            <a class="info-card__link">
+                                Learn More
+                                <i data-lucide="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clearing Balance Example -->
+            <div class="component-demo">
+                <p class="component-demo__label">Clearing Balance Explanation with Diagram</p>
+                <div class="component-demo__inner">
+                    <div class="info-card">
+                        <i data-lucide="info" class="info-card__icon"></i>
+                        <div class="info-card__body">
+                            <div class="info-card__title">What's a clearing balance?</div>
+                            <div class="info-card__content">
+                                <p>A clearing balance is working capital that covers reward redemptions as they happen:</p>
+                                <ul>
+                                    <li><strong>Pre-funded:</strong> You deposit funds before going live</li>
+                                    <li><strong>Used instantly:</strong> Covers rewards as customers redeem them</li>
+                                    <li><strong>Replenished daily:</strong> Settlements restore your balance</li>
+                                </ul>
+                                <div class="info-card__diagram">
+                                    <span class="diagram-box">Your Balance</span>
+                                    <i data-lucide="arrow-right" class="diagram-arrow"></i>
+                                    <span class="diagram-box">Customer Redeems</span>
+                                    <i data-lucide="arrow-right" class="diagram-arrow"></i>
+                                    <span class="diagram-box">Daily Settlement</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background</td>
+                            <td><code>indigo-50</code></td>
+                            <td>Educational callout</td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td><code>indigo-200</code></td>
+                            <td>1px solid</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>—</td>
+                            <td>16px</td>
+                        </tr>
+                        <tr>
+                            <td>Icon-to-Content Gap</td>
+                            <td>—</td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Title-to-Body Gap</td>
+                            <td>—</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Border Radius</td>
+                            <td>—</td>
+                            <td>8px</td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td><code>indigo-600</code></td>
+                            <td>20px Lucide</td>
+                        </tr>
+                        <tr>
+                            <td>Title</td>
+                            <td><code>indigo-700</code></td>
+                            <td>14px, weight 600</td>
+                        </tr>
+                        <tr>
+                            <td>Link Color</td>
+                            <td><code>indigo-600</code></td>
+                            <td>13px, weight 500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 4: SUMMARY CARD (COLLAPSIBLE)      -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-4">
+            <p class="serial text-intaglio-500 mb-4">Pattern 4: Summary Card (Collapsible)</p>
+            <p class="text-sm text-warm-600 mb-6">Collapse completed conversation sections to reduce cognitive load. Click to expand and review history.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Interactive Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn" onclick="toggleSummaryCard()">Toggle Expand/Collapse</button>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <p class="component-demo__label">Click to expand/collapse</p>
+                <div class="component-demo__inner">
+                    <div class="summary-card" id="summary-card-demo" onclick="this.classList.toggle('expanded')">
+                        <div class="summary-card__header">
+                            <span class="summary-card__title">Your Store</span>
+                            <span class="summary-card__value">WooCommerce</span>
+                            <i data-lucide="chevron-down" class="summary-card__toggle"></i>
+                        </div>
+                        <div class="summary-card__content">
+                            <div class="summary-card__content-inner">
+                                <div class="summary-card__messages">
+                                    <div class="summary-message agent">Which platform powers your online store?</div>
+                                    <div class="summary-message user">WooCommerce</div>
+                                    <div class="summary-message agent">Great! WooCommerce works perfectly with Saltwyk. Your store "Acme Outdoor Gear" is now connected.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collapsed vs Expanded side by side -->
+            <div class="grid grid-cols-2 gap-4 mt-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <p class="font-semibold text-ink mb-2">Collapsed State</p>
+                    <ul class="text-sm text-warm-600 space-y-1">
+                        <li>Shows section title + key decision</li>
+                        <li>Chevron-down icon on right</li>
+                        <li>Click header to expand</li>
+                        <li>Padding: 16px</li>
+                    </ul>
+                </div>
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-4">
+                    <p class="font-semibold text-ink mb-2">Expanded State</p>
+                    <ul class="text-sm text-warm-600 space-y-1">
+                        <li>Full conversation history visible</li>
+                        <li>Chevron-up icon (rotated)</li>
+                        <li>Click header to collapse</li>
+                        <li>Padding: 20px</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background</td>
+                            <td><code>emerald-50</code></td>
+                            <td>Indicates completion</td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td><code>emerald-200</code></td>
+                            <td>1px solid</td>
+                        </tr>
+                        <tr>
+                            <td>Padding (Collapsed)</td>
+                            <td>—</td>
+                            <td>16px</td>
+                        </tr>
+                        <tr>
+                            <td>Padding (Expanded)</td>
+                            <td>—</td>
+                            <td>20px</td>
+                        </tr>
+                        <tr>
+                            <td>Title</td>
+                            <td><code>emerald-800</code></td>
+                            <td>14px, weight 600</td>
+                        </tr>
+                        <tr>
+                            <td>Value</td>
+                            <td><code>warm-700</code></td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>Chevron Icon</td>
+                            <td><code>emerald-600</code></td>
+                            <td>20px</td>
+                        </tr>
+                        <tr>
+                            <td>Animation</td>
+                            <td>—</td>
+                            <td>max-height 0.3s ease</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 5: INLINE FORM                     -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-5">
+            <p class="serial text-intaglio-500 mb-4">Pattern 5: Inline Form (Simple)</p>
+            <p class="text-sm text-warm-600 mb-6">Collect 1-2 text inputs without delegating to the form panel. Stays in the chat flow.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Interactive Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn" id="inline-form-validate">Test Validation</button>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <p class="component-demo__label">Revenue Estimate Input</p>
+                <div class="component-demo__inner">
+                    <p style="font-size: 14px; color: hsl(var(--ink)); margin-bottom: 16px;">What's your monthly revenue estimate?</p>
+                    <div class="inline-form">
+                        <div class="inline-form__row">
+                            <div class="inline-form__group">
+                                <label class="inline-form__label">Monthly Revenue</label>
+                                <div class="inline-form__input-wrapper">
+                                    <span class="inline-form__prefix">$</span>
+                                    <input type="text" class="inline-form__input" id="revenue-input" placeholder="0" oninput="validateInlineForm()">
+                                </div>
+                                <p class="inline-form__helper">Rough estimate is fine</p>
+                            </div>
+                            <button class="inline-form__submit" id="inline-form-submit" disabled>Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Input Height</td>
+                            <td>—</td>
+                            <td>44px</td>
+                        </tr>
+                        <tr>
+                            <td>Input Border</td>
+                            <td><code>warm-300</code></td>
+                            <td>1px solid</td>
+                        </tr>
+                        <tr>
+                            <td>Input Focus Border</td>
+                            <td><code>indigo-500</code></td>
+                            <td>Highlight on focus</td>
+                        </tr>
+                        <tr>
+                            <td>Prefix Text</td>
+                            <td><code>warm-500</code></td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>Helper Text</td>
+                            <td><code>warm-500</code></td>
+                            <td>12px</td>
+                        </tr>
+                        <tr>
+                            <td>Button Width</td>
+                            <td>—</td>
+                            <td>120px</td>
+                        </tr>
+                        <tr>
+                            <td>Button (Enabled)</td>
+                            <td><code>emerald-600</code></td>
+                            <td>14px, weight 600</td>
+                        </tr>
+                        <tr>
+                            <td>Button (Disabled)</td>
+                            <td><code>warm-300</code></td>
+                            <td>Grayed out</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- PATTERN 6: COMPLEX DELEGATION              -->
+        <!-- =========================================== -->
+        <section class="mb-16" id="pattern-6">
+            <p class="serial text-intaglio-500 mb-4">Pattern 6: Complex Delegation</p>
+            <p class="text-sm text-warm-600 mb-6">Chat announces, form panel handles complex components. Used for calculators, multi-step forms, and rich interactions.</p>
+
+            <!-- Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Interactive Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn active" data-delegation-state="active">Panel Active</button>
+                    <button class="demo-btn" data-delegation-state="complete">After Confirmation</button>
+                </div>
+            </div>
+
+            <!-- Two-column demo -->
+            <div class="delegation-demo" id="delegation-demo">
+                <!-- Chat Column -->
+                <div class="delegation-demo__chat">
+                    <div class="demo-message agent">
+                        <div class="avatar">S</div>
+                        <div class="bubble">
+                            Let's set your clearing balance. I've opened the calculator in the panel
+                            <span class="arrow-indicator">
+                                <i data-lucide="arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="demo-system">
+                        <div class="system-bubble info">
+                            <i data-lucide="sliders"></i>
+                            <span>Adjust the slider to see coverage estimates</span>
+                        </div>
+                    </div>
+
+                    <div id="delegation-success" style="display: none;">
+                        <div class="demo-system">
+                            <div class="system-bubble success">
+                                <i data-lucide="check-circle"></i>
+                                <span>Clearing balance set to $5,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Panel -->
+                <div class="delegation-demo__panel active" id="delegation-panel">
+                    <div class="panel-header">Clearing Balance Calculator</div>
+                    <div class="panel-content">
+                        <div class="clearing-calculator">
+                            <div class="clearing-calculator__header">
+                                <span class="clearing-calculator__label">Initial Balance</span>
+                                <span class="clearing-calculator__value" id="calc-value">$5,000</span>
+                            </div>
+                            <input type="range" class="clearing-calculator__slider" id="calc-slider" min="1000" max="15000" value="5000" step="500" oninput="updateCalculator(this.value)">
+                            <div class="clearing-calculator__range">
+                                <span>$1,000</span>
+                                <span>$15,000</span>
+                            </div>
+                            <p class="clearing-calculator__coverage">Covers approximately <strong id="calc-days">14 days</strong> of rewards</p>
+                            <button class="clearing-calculator__confirm" onclick="confirmBalance()">Set $<span id="calc-btn-value">5,000</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Delegation Indicator</td>
+                            <td><code>indigo-600</code></td>
+                            <td>Arrow icon (→) in agent message</td>
+                        </tr>
+                        <tr>
+                            <td>Panel Active Border</td>
+                            <td><code>indigo-400</code></td>
+                            <td>2px solid + shadow</td>
+                        </tr>
+                        <tr>
+                            <td>Panel Active Shadow</td>
+                            <td><code>indigo-500 / 15%</code></td>
+                            <td>0 0 0 4px glow</td>
+                        </tr>
+                        <tr>
+                            <td>Panel Header (Active)</td>
+                            <td><code>indigo-50</code></td>
+                            <td>Highlights current task</td>
+                        </tr>
+                        <tr>
+                            <td>System Confirmation</td>
+                            <td><code>emerald-50</code></td>
+                            <td>Success message in chat</td>
+                        </tr>
+                        <tr>
+                            <td>Slider Track</td>
+                            <td>Gradient</td>
+                            <td>emerald-200 to emerald-500</td>
+                        </tr>
+                        <tr>
+                            <td>Slider Thumb</td>
+                            <td><code>emerald-500</code></td>
+                            <td>22px, 3px border</td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Button</td>
+                            <td><code>emerald-600</code></td>
+                            <td>Full width, 14px weight 600</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: RELATED                         -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/onboarding-conversational/00-shell-layout.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">00: Shell Layout</p>
+                    <p class="text-xs text-warm-500">Two-column layout structure.</p>
+                </a>
+                <a href="/merchant/screens/onboarding-conversational/01-message-components.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">01: Message Components</p>
+                    <p class="text-xs text-warm-500">Agent, User, System, Milestone messages.</p>
+                </a>
+                <a href="/merchant/screens/conversational-onboarding-showcase.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Conversational Showcase</p>
+                    <p class="text-xs text-warm-500">Full interactive demo.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // PATTERN 1: CHOICE BUTTONS
+        // =========================================
+        document.querySelectorAll('[data-choice-state]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('[data-choice-state]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Show/hide demos
+                const state = btn.dataset.choiceState;
+                document.getElementById('choice-before').style.display = state === 'before' ? 'block' : 'none';
+                document.getElementById('choice-after').style.display = state === 'after' ? 'block' : 'none';
+                document.getElementById('choice-loading').style.display = state === 'loading' ? 'block' : 'none';
+
+                // Re-init icons for newly visible content
+                lucide.createIcons();
+            });
+        });
+
+        // Interactive choice button selection
+        document.querySelectorAll('#choice-buttons-demo .choice-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset all buttons
+                document.querySelectorAll('#choice-buttons-demo .choice-btn').forEach(b => {
+                    b.classList.remove('selected');
+                    b.disabled = false;
+                    b.innerHTML = b.dataset.choice.charAt(0).toUpperCase() + b.dataset.choice.slice(1).replace(/.io$/, '.io');
+                });
+
+                // Set selected state
+                btn.classList.add('selected');
+                btn.innerHTML = '<i data-lucide="check"></i> ' + btn.textContent;
+
+                // Disable others
+                document.querySelectorAll('#choice-buttons-demo .choice-btn:not(.selected)').forEach(b => {
+                    b.disabled = true;
+                });
+
+                lucide.createIcons();
+            });
+        });
+
+        // =========================================
+        // PATTERN 2: CONFIRMATION CARD
+        // =========================================
+        document.querySelectorAll('[data-confirm-state]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-confirm-state]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const state = btn.dataset.confirmState;
+                document.getElementById('confirm-view').style.display = state === 'view' ? 'block' : 'none';
+                document.getElementById('confirm-edit').style.display = state === 'edit' ? 'block' : 'none';
+            });
+        });
+
+        function toggleConfirmationEdit() {
+            document.querySelector('[data-confirm-state="edit"]').click();
+        }
+
+        // =========================================
+        // PATTERN 4: SUMMARY CARD
+        // =========================================
+        function toggleSummaryCard() {
+            const card = document.getElementById('summary-card-demo');
+            card.classList.toggle('expanded');
+        }
+
+        // =========================================
+        // PATTERN 5: INLINE FORM
+        // =========================================
+        function validateInlineForm() {
+            const input = document.getElementById('revenue-input');
+            const submit = document.getElementById('inline-form-submit');
+            const value = input.value.replace(/[^0-9]/g, '');
+
+            if (value && parseInt(value) > 0) {
+                submit.disabled = false;
+            } else {
+                submit.disabled = true;
+            }
+        }
+
+        document.getElementById('inline-form-validate').addEventListener('click', () => {
+            const input = document.getElementById('revenue-input');
+            input.value = '150000';
+            validateInlineForm();
+        });
+
+        // =========================================
+        // PATTERN 6: DELEGATION
+        // =========================================
+        function updateCalculator(value) {
+            const formatted = parseInt(value).toLocaleString();
+            document.getElementById('calc-value').textContent = '$' + formatted;
+            document.getElementById('calc-btn-value').textContent = formatted;
+
+            // Approximate days of coverage (assuming ~$350/day average)
+            const days = Math.round(parseInt(value) / 350);
+            document.getElementById('calc-days').textContent = days + ' days';
+        }
+
+        function confirmBalance() {
+            const value = document.getElementById('calc-slider').value;
+            const formatted = parseInt(value).toLocaleString();
+
+            // Show success message
+            document.getElementById('delegation-success').style.display = 'block';
+            document.querySelector('#delegation-success .system-bubble span').textContent = 'Clearing balance set to $' + formatted;
+
+            // Remove active state from panel
+            document.getElementById('delegation-panel').classList.remove('active');
+
+            lucide.createIcons();
+        }
+
+        document.querySelectorAll('[data-delegation-state]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-delegation-state]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const state = btn.dataset.delegationState;
+                const panel = document.getElementById('delegation-panel');
+                const success = document.getElementById('delegation-success');
+
+                if (state === 'active') {
+                    panel.classList.add('active');
+                    success.style.display = 'none';
+                } else {
+                    panel.classList.remove('active');
+                    success.style.display = 'block';
+                }
+
+                lucide.createIcons();
+            });
+        });
+    </script>
+</body>
+</html>
