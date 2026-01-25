@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Components | Merchant Screens | Saltwyk Design System</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind & Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+    <link rel="stylesheet" href="/assets/config/view-toggle.css">
+
+    <style>
+        /* ===========================================
+           FONT FAMILIES & BASE UTILITIES
+           =========================================== */
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Cool thread gradient - Merchant (Fire Opal) */
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));
+        }
+
+        /* ===========================================
+           COMPONENT DEMO CONTAINERS
+           =========================================== */
+        .component-demo {
+            background: hsl(var(--ledger));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 16px;
+        }
+
+        .component-demo--dark {
+            background: hsl(var(--intaglio-900));
+            border-color: hsl(var(--intaglio-700));
+        }
+
+        .component-demo__label {
+            font-size: 11px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .component-demo__inner {
+            max-width: 680px;
+        }
+
+        /* ===========================================
+           AGENT MESSAGE
+
+           Usage: AI assistant responses, questions, guidance
+           Avatar: 36px emerald circle with "S" initial
+           Bubble: emerald-50 bg, emerald-200 border
+           Typography: 15px, line-height 1.6
+           =========================================== */
+        .message-agent {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .message-agent .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: hsl(var(--emerald-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-agent .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .message-agent .message-content {
+            flex: 1;
+            max-width: 580px;
+        }
+
+        .message-agent .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .message-agent .message-bubble {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .message-agent .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-agent .message-bubble p + p {
+            margin-top: 12px;
+        }
+
+        .message-agent .message-bubble strong {
+            font-weight: 600;
+        }
+
+        /* ===========================================
+           USER MESSAGE
+
+           Usage: Merchant responses, selections
+           Layout: Right-aligned
+           Avatar: 32px warm-400 circle with "M" initial
+           Bubble: white bg, warm-200 border
+           Typography: 14px, line-height 1.5
+           =========================================== */
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .message-user .message-content {
+            max-width: 450px;
+            text-align: right;
+        }
+
+        .message-user .message-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .message-user .message-bubble {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .message-user .message-bubble p {
+            color: hsl(var(--ink));
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .message-user .message-bubble .selection {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-user .message-bubble .selection i {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .message-user .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: hsl(var(--warm-400));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message-user .avatar span {
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* ===========================================
+           SYSTEM MESSAGE
+
+           Usage: Status updates, notifications, errors
+           Layout: Centered, no avatar
+           Typography: 13px, font-weight 500
+           Variants: info, success, warning, error
+           =========================================== */
+        .message-system {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+        }
+
+        .system-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Info variant (default) */
+        .system-bubble.info {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* Success variant */
+        .system-bubble.success {
+            background: hsl(var(--emerald-50));
+            border: 1px solid hsl(var(--emerald-200));
+            color: hsl(var(--emerald-700));
+        }
+
+        /* Warning variant */
+        .system-bubble.warning {
+            background: hsl(var(--orange-50));
+            border: 1px solid hsl(var(--orange-200));
+            color: hsl(var(--orange-700));
+        }
+
+        /* Error variant */
+        .system-bubble.error {
+            background: hsl(var(--magenta-50));
+            border: 1px solid hsl(var(--magenta-200));
+            color: hsl(var(--magenta-700));
+        }
+
+        .system-bubble i {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           MILESTONE MESSAGE
+
+           Usage: Section completion, final celebration
+           Layout: Full-width card, centered content
+           Background: emerald-to-cyan gradient
+           Animation: Scale + fade entrance
+           =========================================== */
+        .message-milestone {
+            margin: 24px 0;
+        }
+
+        .milestone-card {
+            background: linear-gradient(135deg, hsl(var(--emerald-50)) 0%, hsl(var(--cyan-50)) 100%);
+            border: 2px solid hsl(var(--emerald-200));
+            border-radius: 16px;
+            padding: 28px 32px;
+            text-align: center;
+        }
+
+        .milestone-card.animated {
+            animation: milestone-enter 0.4s ease-out;
+        }
+
+        @keyframes milestone-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .milestone-card .milestone-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .milestone-card .milestone-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: hsl(var(--emerald-700));
+            margin-bottom: 8px;
+        }
+
+        .milestone-card .milestone-summary {
+            font-size: 14px;
+            color: hsl(var(--ink));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .milestone-card .milestone-summary ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .milestone-card .milestone-summary li {
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .milestone-card .milestone-summary li i {
+            width: 16px;
+            height: 16px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .milestone-card .milestone-divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, hsl(var(--emerald-300)), transparent);
+            margin: 20px auto;
+        }
+
+        .milestone-card .milestone-next {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+        }
+
+        .milestone-card .milestone-next strong {
+            color: hsl(var(--ink));
+            font-weight: 600;
+        }
+
+        /* Celebration variant */
+        .milestone-card.celebration {
+            background: linear-gradient(135deg, hsl(var(--emerald-100)) 0%, hsl(var(--cyan-100)) 50%, hsl(var(--emerald-100)) 100%);
+            border-color: hsl(var(--emerald-300));
+        }
+
+        .milestone-card.celebration .milestone-icon {
+            width: 56px;
+            height: 56px;
+        }
+
+        .milestone-card .milestone-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            margin-top: 8px;
+        }
+
+        .milestone-card .milestone-cta:hover {
+            background: hsl(var(--emerald-500));
+        }
+
+        .milestone-card .milestone-cta i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===========================================
+           CHOICE BUTTONS (Embedded in Agent Message)
+
+           Usage: Selection options after agent question
+           Spacing: 10px gap, 16px margin-top
+           States: default, hover, selected, disabled
+           =========================================== */
+        .choice-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .choice-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 2px solid hsl(var(--warm-200));
+            border-radius: 10px;
+            color: hsl(var(--ink));
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .choice-btn:hover:not(:disabled):not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-300));
+        }
+
+        .choice-btn.selected {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+            color: white;
+            cursor: default;
+        }
+
+        .choice-btn.selected i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .choice-btn:disabled:not(.selected) {
+            background: hsl(var(--warm-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+
+        /* ===========================================
+           INFO CARD (Embedded in Agent Message)
+
+           Usage: Explanations, additional context
+           Background: indigo-50, indigo-200 border
+           =========================================== */
+        .info-card {
+            background: hsl(var(--indigo-50));
+            border: 1px solid hsl(var(--indigo-200));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .info-card__title {
+            font-weight: 600;
+            font-size: 15px;
+            color: hsl(var(--indigo-700));
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card__title i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .info-card__content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--ink));
+        }
+
+        .info-card__content p {
+            margin: 0;
+        }
+
+        .info-card__content p + p {
+            margin-top: 8px;
+        }
+
+        /* ===========================================
+           ANIMATION DEMOS
+           =========================================== */
+        .demo-controls {
+            background: hsl(var(--warm-50));
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .demo-controls__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-500));
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-controls__row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-btn:hover {
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-400));
+        }
+
+        .demo-btn.active {
+            background: hsl(var(--indigo-100));
+            border-color: hsl(var(--indigo-400));
+            color: hsl(var(--indigo-700));
+        }
+
+        /* Message appearance animation */
+        .message-animated {
+            animation: message-appear 0.3s ease-out;
+        }
+
+        @keyframes message-appear {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hidden state for animation demo */
+        .message-hidden {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        /* Spec table styles */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .spec-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: hsl(var(--warm-50));
+            border-bottom: 1px solid hsl(var(--warm-200));
+            font-weight: 600;
+            color: hsl(var(--ink));
+        }
+
+        .spec-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid hsl(var(--warm-100));
+            color: hsl(var(--warm-700));
+        }
+
+        .spec-table td:first-child {
+            font-weight: 500;
+            color: hsl(var(--ink));
+        }
+    </style>
+</head>
+<body class="bg-ledger">
+
+    <!-- =========================================== -->
+    <!-- TOP NAVIGATION (Design System)             -->
+    <!-- =========================================== -->
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-cool"></div>
+
+    <!-- =========================================== -->
+    <!-- DESIGN SYSTEM DOCUMENTATION                -->
+    <!-- =========================================== -->
+    <div class="max-w-6xl mx-auto p-8">
+
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>&rarr;</span>
+            <a href="/merchant/" class="hover:text-emerald-600">Merchant</a>
+            <span>&rarr;</span>
+            <a href="/merchant/screens/" class="hover:text-emerald-600">Screens</a>
+            <span>&rarr;</span>
+            <span class="text-ink font-medium">Message Components</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-intaglio-500 mb-2">Screen Specification</p>
+            <h1 class="font-display text-4xl mb-2">01: Message Components</h1>
+            <p class="text-warm-600">The four message types used in conversational onboarding: Agent, User, System, and Milestone messages.</p>
+        </header>
+
+        <!-- =========================================== -->
+        <!-- SECTION 1: AGENT MESSAGES                  -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">1. Agent Messages</p>
+            <p class="text-sm text-warm-600 mb-6">AI assistant responses, questions, and guidance. Left-aligned with emerald avatar and bubble.</p>
+
+            <!-- Default Agent Message -->
+            <div class="component-demo">
+                <p class="component-demo__label">Default Agent Message</p>
+                <div class="component-demo__inner">
+                    <div class="message-agent">
+                        <div class="avatar">
+                            <span>S</span>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p>Welcome to Saltwyk! I'll guide you through setting up your merchant account. This should take about 15-20 minutes, and you can save your progress at any time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Question -->
+            <div class="component-demo">
+                <p class="component-demo__label">Agent Question</p>
+                <div class="component-demo__inner">
+                    <div class="message-agent">
+                        <div class="avatar">
+                            <span>S</span>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p><strong>Which commerce platform powers your online store?</strong></p>
+                                <p>We'll use this to connect your product catalog and order data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent with Info Card -->
+            <div class="component-demo">
+                <p class="component-demo__label">Agent with Embedded Info Card</p>
+                <div class="component-demo__inner">
+                    <div class="message-agent">
+                        <div class="avatar">
+                            <span>S</span>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p>Great choice! Smile.io is one of our most popular integrations. Here's what happens next:</p>
+
+                                <div class="info-card">
+                                    <div class="info-card__title">
+                                        <i data-lucide="info"></i>
+                                        How the Connection Works
+                                    </div>
+                                    <div class="info-card__content">
+                                        <p>When you click "Connect", you'll be redirected to Smile.io to authorize Saltwyk. We'll request permission to read your loyalty program data and sync customer points.</p>
+                                        <p>Your data is encrypted end-to-end and we never store sensitive credentials.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent with Choice Buttons -->
+            <div class="component-demo">
+                <p class="component-demo__label">Agent with Choice Buttons</p>
+                <div class="component-demo__inner">
+                    <div class="message-agent">
+                        <div class="avatar">
+                            <span>S</span>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p><strong>Which rewards platform do you use?</strong></p>
+
+                                <div class="choice-buttons">
+                                    <button class="choice-btn selected">
+                                        <i data-lucide="check"></i>
+                                        Smile.io
+                                    </button>
+                                    <button class="choice-btn" disabled>LoyaltyLion</button>
+                                    <button class="choice-btn" disabled>Yotpo</button>
+                                    <button class="choice-btn" disabled>Stamped.io</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Message Specs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Avatar</td>
+                            <td><code>emerald-500</code> background</td>
+                            <td>36px circle, "S" initial</td>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
+                            <td><code>emerald-700</code></td>
+                            <td>11px, weight 500, 0.02em tracking</td>
+                        </tr>
+                        <tr>
+                            <td>Bubble Background</td>
+                            <td><code>emerald-50</code></td>
+                            <td>12px border-radius</td>
+                        </tr>
+                        <tr>
+                            <td>Bubble Border</td>
+                            <td><code>emerald-200</code></td>
+                            <td>1px solid</td>
+                        </tr>
+                        <tr>
+                            <td>Typography</td>
+                            <td><code>ink</code></td>
+                            <td>15px, line-height 1.6</td>
+                        </tr>
+                        <tr>
+                            <td>Max Width</td>
+                            <td>—</td>
+                            <td>580px</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>—</td>
+                            <td>16px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 2: USER MESSAGES                   -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">2. User Messages</p>
+            <p class="text-sm text-warm-600 mb-6">Merchant responses and selections. Right-aligned with warm avatar and white bubble.</p>
+
+            <!-- Text Response -->
+            <div class="component-demo">
+                <p class="component-demo__label">Text Response</p>
+                <div class="component-demo__inner">
+                    <div class="message-user">
+                        <div class="message-content">
+                            <div class="message-label">You</div>
+                            <div class="message-bubble">
+                                <p>I use WooCommerce for my store</p>
+                            </div>
+                        </div>
+                        <div class="avatar">
+                            <span>M</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Selection Echo -->
+            <div class="component-demo">
+                <p class="component-demo__label">Button Selection Echo</p>
+                <div class="component-demo__inner">
+                    <div class="message-user">
+                        <div class="message-content">
+                            <div class="message-label">You</div>
+                            <div class="message-bubble">
+                                <p class="selection">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>Smile.io</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="avatar">
+                            <span>M</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Message Specs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Avatar</td>
+                            <td><code>warm-400</code> background</td>
+                            <td>32px circle, "M" initial</td>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
+                            <td><code>warm-500</code></td>
+                            <td>11px, weight 500</td>
+                        </tr>
+                        <tr>
+                            <td>Bubble Background</td>
+                            <td><code>white</code></td>
+                            <td>12px border-radius</td>
+                        </tr>
+                        <tr>
+                            <td>Bubble Border</td>
+                            <td><code>warm-200</code></td>
+                            <td>1px solid</td>
+                        </tr>
+                        <tr>
+                            <td>Typography</td>
+                            <td><code>ink</code></td>
+                            <td>14px, line-height 1.5</td>
+                        </tr>
+                        <tr>
+                            <td>Max Width</td>
+                            <td>—</td>
+                            <td>450px</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>—</td>
+                            <td>12px 16px</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 3: SYSTEM MESSAGES                 -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">3. System Messages</p>
+            <p class="text-sm text-warm-600 mb-6">Status updates, notifications, and errors. Centered with no avatar, icon + text format.</p>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Info -->
+                <div class="component-demo">
+                    <p class="component-demo__label">Info (Default)</p>
+                    <div class="message-system">
+                        <div class="system-bubble info">
+                            <i data-lucide="info"></i>
+                            <span>Verifying your Smile.io connection...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div class="component-demo">
+                    <p class="component-demo__label">Success</p>
+                    <div class="message-system">
+                        <div class="system-bubble success">
+                            <i data-lucide="check-circle"></i>
+                            <span>Connection verified successfully</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="component-demo">
+                    <p class="component-demo__label">Warning</p>
+                    <div class="message-system">
+                        <div class="system-bubble warning">
+                            <i data-lucide="alert-triangle"></i>
+                            <span>Your subscription tier may need upgrading</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div class="component-demo">
+                    <p class="component-demo__label">Error</p>
+                    <div class="message-system">
+                        <div class="system-bubble error">
+                            <i data-lucide="x-circle"></i>
+                            <span>Unable to connect. Please try again.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Message Specs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Variant</th>
+                            <th>Background</th>
+                            <th>Border</th>
+                            <th>Text Color</th>
+                            <th>Icon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Info</td>
+                            <td><code>indigo-50</code></td>
+                            <td><code>indigo-200</code></td>
+                            <td><code>indigo-700</code></td>
+                            <td><code>info</code></td>
+                        </tr>
+                        <tr>
+                            <td>Success</td>
+                            <td><code>emerald-50</code></td>
+                            <td><code>emerald-200</code></td>
+                            <td><code>emerald-700</code></td>
+                            <td><code>check-circle</code></td>
+                        </tr>
+                        <tr>
+                            <td>Warning</td>
+                            <td><code>orange-50</code></td>
+                            <td><code>orange-200</code></td>
+                            <td><code>orange-700</code></td>
+                            <td><code>alert-triangle</code></td>
+                        </tr>
+                        <tr>
+                            <td>Error</td>
+                            <td><code>magenta-50</code></td>
+                            <td><code>magenta-200</code></td>
+                            <td><code>magenta-700</code></td>
+                            <td><code>x-circle</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="p-4 bg-warm-50 border-t border-warm-200">
+                    <p class="text-sm text-warm-600"><strong>Common styles:</strong> 13px font, weight 500, 8px border-radius, 10px 16px padding, 16px icon</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 4: MILESTONE MESSAGES              -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">4. Milestone Messages</p>
+            <p class="text-sm text-warm-600 mb-6">Section completion celebrations. Full-width cards with gradient backgrounds and animations.</p>
+
+            <!-- Animation Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Animation Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn" id="replay-milestone">Replay Entrance Animation</button>
+                </div>
+            </div>
+
+            <!-- Section Complete -->
+            <div class="component-demo">
+                <p class="component-demo__label">Section Complete (Standard)</p>
+                <div class="component-demo__inner">
+                    <div class="message-milestone" id="milestone-standard">
+                        <div class="milestone-card animated">
+                            <i data-lucide="check-circle-2" class="milestone-icon"></i>
+                            <h3 class="milestone-title">Section 1 Complete</h3>
+                            <p class="milestone-summary">You've successfully connected your WooCommerce store and Smile.io rewards platform.</p>
+                            <div class="milestone-divider"></div>
+                            <p class="milestone-next"><strong>Next:</strong> Business verification</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Celebration -->
+            <div class="component-demo">
+                <p class="component-demo__label">Final Celebration</p>
+                <div class="component-demo__inner">
+                    <div class="message-milestone" id="milestone-celebration">
+                        <div class="milestone-card celebration animated">
+                            <i data-lucide="party-popper" class="milestone-icon"></i>
+                            <h3 class="milestone-title">Setup Complete!</h3>
+                            <div class="milestone-summary">
+                                <p>Congratulations! Your merchant account is fully configured.</p>
+                                <ul>
+                                    <li><i data-lucide="check"></i> Store connected</li>
+                                    <li><i data-lucide="check"></i> Rewards platform linked</li>
+                                    <li><i data-lucide="check"></i> Business verified</li>
+                                    <li><i data-lucide="check"></i> Payments configured</li>
+                                </ul>
+                            </div>
+                            <div class="milestone-divider"></div>
+                            <button class="milestone-cta">
+                                Go to Dashboard
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Milestone Specs -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mt-6">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Token/Style</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Background</td>
+                            <td>Gradient</td>
+                            <td><code>emerald-50</code> to <code>cyan-50</code> (135deg)</td>
+                        </tr>
+                        <tr>
+                            <td>Border</td>
+                            <td><code>emerald-200</code></td>
+                            <td>2px solid, 16px radius</td>
+                        </tr>
+                        <tr>
+                            <td>Icon</td>
+                            <td><code>emerald-600</code></td>
+                            <td>48px (standard), 56px (celebration)</td>
+                        </tr>
+                        <tr>
+                            <td>Title</td>
+                            <td><code>emerald-700</code></td>
+                            <td>18px, weight 600</td>
+                        </tr>
+                        <tr>
+                            <td>Summary</td>
+                            <td><code>ink</code></td>
+                            <td>14px, line-height 1.5</td>
+                        </tr>
+                        <tr>
+                            <td>Divider</td>
+                            <td><code>emerald-300</code></td>
+                            <td>2px height, 60% width, gradient fade</td>
+                        </tr>
+                        <tr>
+                            <td>Padding</td>
+                            <td>—</td>
+                            <td>28px 32px</td>
+                        </tr>
+                        <tr>
+                            <td>Animation</td>
+                            <td>—</td>
+                            <td>0.4s ease-out, scale(0.95) + translateY(10px)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 5: MESSAGE FLOW EXAMPLE            -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">5. Message Flow Example</p>
+            <p class="text-sm text-warm-600 mb-6">A typical conversation sequence showing message types in context.</p>
+
+            <!-- Animation Demo Controls -->
+            <div class="demo-controls">
+                <p class="demo-controls__title">Animation Demo</p>
+                <div class="demo-controls__row">
+                    <button class="demo-btn" id="replay-flow">Replay Message Sequence</button>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <div class="component-demo__inner" id="message-flow">
+                    <!-- Message 1: Agent -->
+                    <div class="message-agent mb-4 message-animated" data-delay="0">
+                        <div class="avatar"><span>S</span></div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p><strong>Which rewards platform do you use?</strong></p>
+                                <div class="choice-buttons">
+                                    <button class="choice-btn selected"><i data-lucide="check"></i> Smile.io</button>
+                                    <button class="choice-btn" disabled>LoyaltyLion</button>
+                                    <button class="choice-btn" disabled>Yotpo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 2: User -->
+                    <div class="message-user mb-4 message-animated" data-delay="300">
+                        <div class="message-content">
+                            <div class="message-label">You</div>
+                            <div class="message-bubble">
+                                <p class="selection"><i data-lucide="check-circle"></i> Smile.io</p>
+                            </div>
+                        </div>
+                        <div class="avatar"><span>M</span></div>
+                    </div>
+
+                    <!-- Message 3: System -->
+                    <div class="message-system mb-4 message-animated" data-delay="600">
+                        <div class="system-bubble info">
+                            <i data-lucide="loader-2" class="animate-spin"></i>
+                            <span>Connecting to Smile.io...</span>
+                        </div>
+                    </div>
+
+                    <!-- Message 4: System Success -->
+                    <div class="message-system mb-4 message-animated" data-delay="900">
+                        <div class="system-bubble success">
+                            <i data-lucide="check-circle"></i>
+                            <span>Connected successfully!</span>
+                        </div>
+                    </div>
+
+                    <!-- Message 5: Agent -->
+                    <div class="message-agent message-animated" data-delay="1200">
+                        <div class="avatar"><span>S</span></div>
+                        <div class="message-content">
+                            <div class="message-label">Saltwyk</div>
+                            <div class="message-bubble">
+                                <p>Perfect! Your Smile.io account is now linked. I can see you have <strong>2,847 active rewards members</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 6: SPACING REFERENCE               -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">6. Spacing Reference</p>
+            <p class="text-sm text-warm-600 mb-6">Consistent spacing between message elements.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Spacing</th>
+                            <th>Value</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Message gap</td>
+                            <td>16px</td>
+                            <td>Between consecutive messages</td>
+                        </tr>
+                        <tr>
+                            <td>Avatar to content</td>
+                            <td>12px</td>
+                            <td>Horizontal gap</td>
+                        </tr>
+                        <tr>
+                            <td>Label to bubble</td>
+                            <td>6px</td>
+                            <td>Vertical gap</td>
+                        </tr>
+                        <tr>
+                            <td>Paragraph spacing</td>
+                            <td>12px</td>
+                            <td>Between paragraphs in bubble</td>
+                        </tr>
+                        <tr>
+                            <td>Choice buttons margin</td>
+                            <td>16px top</td>
+                            <td>From message text to buttons</td>
+                        </tr>
+                        <tr>
+                            <td>Choice button gap</td>
+                            <td>10px</td>
+                            <td>Between buttons</td>
+                        </tr>
+                        <tr>
+                            <td>System message margin</td>
+                            <td>8px vertical</td>
+                            <td>Above and below</td>
+                        </tr>
+                        <tr>
+                            <td>Milestone margin</td>
+                            <td>24px vertical</td>
+                            <td>Above and below</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION 7: RELATED                         -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-intaglio-500 mb-4">7. Related</p>
+
+            <div class="grid grid-cols-3 gap-4">
+                <a href="/merchant/screens/onboarding-conversational/00-shell-layout.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">00: Shell Layout</p>
+                    <p class="text-xs text-warm-500">Two-column layout structure.</p>
+                </a>
+                <a href="/merchant/screens/conversational-onboarding-showcase.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Conversational Showcase</p>
+                    <p class="text-xs text-warm-500">Full interactive demo.</p>
+                </a>
+                <a href="/merchant/components/sidebar-nav.html" class="block bg-white border-2 border-warm-200 rounded-lg p-4 hover:border-warm-300 transition-colors">
+                    <p class="font-medium text-ink mb-1">Sidebar Navigation</p>
+                    <p class="text-xs text-warm-500">Merchant dashboard nav.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t-2 border-warm-200">
+            <div class="flex justify-between items-center text-sm text-warm-500">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+                    <span class="text-warm-300">·</span>
+                    <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                </div>
+                <span>v0.6 · January 2026</span>
+            </div>
+        </footer>
+
+    </div>
+
+        </main>
+    </div>
+
+    <!-- =========================================== -->
+    <!-- JAVASCRIPT                                 -->
+    <!-- =========================================== -->
+    <script src="/partials/nav-loader.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // =========================================
+        // MILESTONE ANIMATION REPLAY
+        // =========================================
+        document.getElementById('replay-milestone').addEventListener('click', () => {
+            const cards = document.querySelectorAll('.milestone-card');
+            cards.forEach(card => {
+                card.classList.remove('animated');
+                // Force reflow
+                void card.offsetWidth;
+                card.classList.add('animated');
+            });
+        });
+
+        // =========================================
+        // MESSAGE FLOW ANIMATION REPLAY
+        // =========================================
+        document.getElementById('replay-flow').addEventListener('click', () => {
+            const messages = document.querySelectorAll('#message-flow > div');
+
+            // Hide all messages
+            messages.forEach(msg => {
+                msg.classList.remove('message-animated');
+                msg.classList.add('message-hidden');
+            });
+
+            // Show messages with staggered delays
+            messages.forEach((msg, index) => {
+                const delay = index * 400;
+                setTimeout(() => {
+                    msg.classList.remove('message-hidden');
+                    msg.classList.add('message-animated');
+                }, delay);
+            });
+        });
+    </script>
+</body>
+</html>
