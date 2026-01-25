@@ -995,8 +995,8 @@
             font-weight: 500;
         }
 
-        /* OAuth Panel */
-        .oauth-panel {
+        /* API Key Panel */
+        .api-key-panel {
             background: white;
             border: 2px solid hsl(var(--indigo-300));
             border-radius: 12px;
@@ -1004,28 +1004,28 @@
             text-align: center;
         }
 
-        .oauth-panel__icon {
+        .api-key-panel__icon {
             width: 48px;
             height: 48px;
             margin: 0 auto 12px;
             color: hsl(var(--indigo-600));
         }
 
-        .oauth-panel__title {
+        .api-key-panel__title {
             font-size: 15px;
             font-weight: 600;
             color: hsl(var(--ink));
             margin-bottom: 8px;
         }
 
-        .oauth-panel__desc {
+        .api-key-panel__desc {
             font-size: 13px;
             color: hsl(var(--warm-600));
             line-height: 1.5;
             margin-bottom: 16px;
         }
 
-        .oauth-panel__permissions {
+        .api-key-panel__permissions {
             text-align: left;
             background: hsl(var(--warm-50));
             border-radius: 8px;
@@ -1033,7 +1033,7 @@
             margin-bottom: 16px;
         }
 
-        .oauth-panel__permissions-title {
+        .api-key-panel__permissions-title {
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
@@ -1042,7 +1042,7 @@
             margin-bottom: 8px;
         }
 
-        .oauth-panel__permission {
+        .api-key-panel__permission {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1051,35 +1051,17 @@
             padding: 4px 0;
         }
 
-        .oauth-panel__permission i {
+        .api-key-panel__permission i {
             width: 14px;
             height: 14px;
             color: hsl(var(--emerald-600));
         }
 
-        .oauth-panel__btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            background: hsl(var(--indigo-600));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .oauth-panel__btn:hover {
-            background: hsl(var(--indigo-500));
-        }
-
-        .oauth-panel__btn i {
-            width: 18px;
-            height: 18px;
+        .api-key-panel__note {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            font-style: italic;
+            margin-top: 12px;
         }
 
         /* Progress Summary */
@@ -1160,10 +1142,11 @@
         .state-upgrade-requested [data-state~="upgrade-requested"],
         .state-continue-limited [data-state~="continue-limited"],
         .state-yotpo-connect [data-state~="yotpo-connect"],
-        .state-oauth-authorize [data-state~="oauth-authorize"],
-        .state-oauth-success [data-state~="oauth-success"],
+        .state-api-connect [data-state~="api-connect"],
+        .state-api-connected [data-state~="api-connected"],
         .state-program-verify [data-state~="program-verify"],
         .state-section-complete [data-state~="section-complete"],
+        .state-something-else [data-state~="something-else"],
         .state-no-platform [data-state~="no-platform"] {
             display: block;
         }
@@ -1396,7 +1379,7 @@
         <header class="mb-12">
             <p class="serial text-intaglio-500 mb-2">Section Specification</p>
             <h1 class="font-display text-4xl mb-2">04: Section 2 — Rewards Platform</h1>
-            <p class="text-warm-600">Complete conversation flow for Section 2, including tier checking, upgrade paths, OAuth connection, and program verification.</p>
+            <p class="text-warm-600">Complete conversation flow for Section 2, including tier checking, upgrade paths, API key connection, and program verification.</p>
 
             <div class="grid grid-cols-4 gap-4 mt-8">
                 <div class="bg-white border border-warm-200 rounded-lg p-4">
@@ -1430,8 +1413,8 @@
                     <button data-state-btn="platform-select" class="active">1. Select Platform</button>
                     <button data-state-btn="smile-tier-check">2. Tier Check</button>
                     <button data-state-btn="smile-enterprise">3. Enterprise OK</button>
-                    <button data-state-btn="oauth-authorize">4. OAuth</button>
-                    <button data-state-btn="oauth-success">5. Connected</button>
+                    <button data-state-btn="api-connect">4. API Key</button>
+                    <button data-state-btn="api-connected">5. Connected</button>
                     <button data-state-btn="program-verify">6. Verify</button>
                     <button data-state-btn="section-complete">7. Complete</button>
                 </div>
@@ -1451,7 +1434,8 @@
                 <span class="demo-state-switcher__group-label">Alternative Paths</span>
                 <div class="demo-state-switcher__buttons">
                     <button data-state-btn="yotpo-connect" class="alt">12. Yotpo Flow</button>
-                    <button data-state-btn="no-platform" class="alt">13. No Platform</button>
+                    <button data-state-btn="something-else" class="alt">13. Something Else</button>
+                    <button data-state-btn="no-platform" class="alt">14. No Platform</button>
                 </div>
             </div>
         </div>
@@ -1505,7 +1489,7 @@
                             <!-- ================================= -->
                             <!-- STATE 1: PLATFORM SELECT         -->
                             <!-- ================================= -->
-                            <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete yotpo-connect no-platform">
+                            <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited api-connect api-connected program-verify section-complete yotpo-connect no-platform">
                                 <div class="message-agent">
                                     <div class="avatar"><span>S</span></div>
                                     <div class="message-content">
@@ -1518,6 +1502,7 @@
                                                 <button class="choice-btn">Yotpo Loyalty</button>
                                                 <button class="choice-btn">LoyaltyLion</button>
                                                 <button class="choice-btn">Kangaroo Rewards</button>
+                                                <button class="choice-btn">Something else</button>
                                                 <button class="choice-btn">I don't have one yet</button>
                                             </div>
                                         </div>
@@ -1528,7 +1513,7 @@
                             <!-- ================================= -->
                             <!-- STATE 2: SMILE.IO TIER CHECK     -->
                             <!-- ================================= -->
-                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete">
+                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited api-connect api-connected program-verify section-complete">
                                 <div class="message-user">
                                     <div class="message-content">
                                         <div class="message-label">You</div>
@@ -1540,7 +1525,7 @@
                                 </div>
                             </div>
 
-                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited oauth-authorize oauth-success program-verify section-complete">
+                            <div data-state="smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request upgrade-requested continue-limited api-connect api-connected program-verify section-complete">
                                 <div class="message-agent">
                                     <div class="avatar"><span>S</span></div>
                                     <div class="message-content">
@@ -1564,7 +1549,7 @@
                             <!-- ================================= -->
                             <!-- STATE 3: SMILE ENTERPRISE OK     -->
                             <!-- ================================= -->
-                            <div data-state="smile-enterprise oauth-authorize oauth-success program-verify section-complete">
+                            <div data-state="smile-enterprise api-connect api-connected program-verify section-complete">
                                 <div class="message-system">
                                     <div class="system-bubble success">
                                         <i data-lucide="check-circle"></i>
@@ -1582,10 +1567,10 @@
                                             <p>Perfect! You're on <strong>Smile.io Enterprise</strong> which gives us full API access. Let's connect your account.</p>
                                             <div class="choice-buttons horizontal" data-state="smile-enterprise">
                                                 <button class="choice-btn">
-                                                    Connect via OAuth
+                                                    Connect with API key
                                                     <span class="badge">Recommended</span>
                                                 </button>
-                                                <button class="choice-btn">Connect manually with API key</button>
+                                                <button class="choice-btn">I need help finding my API key</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1745,7 +1730,7 @@
                                             <p>Understood. You can still complete setup, but your account will have limited functionality until you upgrade. You can upgrade anytime from your dashboard.</p>
 
                                             <button class="continue-btn">
-                                                Continue with OAuth
+                                                Connect with API key
                                                 <i data-lucide="arrow-right"></i>
                                             </button>
                                         </div>
@@ -1798,10 +1783,10 @@
                                             <p>How would you like to connect?</p>
                                             <div class="choice-buttons horizontal" data-state="yotpo-connect">
                                                 <button class="choice-btn">
-                                                    Connect via OAuth
+                                                    Connect with API key
                                                     <span class="badge">Recommended</span>
                                                 </button>
-                                                <button class="choice-btn">I need help with connection</button>
+                                                <button class="choice-btn">I need help finding my API key</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1811,35 +1796,50 @@
                             <!-- ================================= -->
                             <!-- STATE 4: OAUTH AUTHORIZE         -->
                             <!-- ================================= -->
-                            <div data-state="oauth-authorize oauth-success program-verify section-complete">
+                            <div data-state="api-connect api-connected program-verify section-complete">
                                 <div class="message-user">
                                     <div class="message-content">
                                         <div class="message-label">You</div>
                                         <div class="message-bubble">
-                                            <p>Connect via OAuth</p>
+                                            <p>Connect with API key</p>
                                         </div>
                                     </div>
                                     <div class="avatar"><span>M</span></div>
                                 </div>
                             </div>
 
-                            <div data-state="oauth-authorize">
+                            <div data-state="api-connect">
                                 <div class="message-agent">
                                     <div class="avatar"><span>S</span></div>
                                     <div class="message-content">
                                         <div class="message-label">Saltwyk</div>
                                         <div class="message-bubble">
-                                            <p>I'll redirect you to Smile.io to authorize the connection. This is secure and takes about 30 seconds.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                            <p>Great! You can find your API key in your Smile.io dashboard under <strong>Settings → API</strong>.</p>
 
-                            <div data-state="oauth-authorize">
-                                <div class="message-system">
-                                    <div class="system-bubble info">
-                                        <i data-lucide="external-link"></i>
-                                        <span>Opening authorization window...</span>
+                                            <div class="inline-form">
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">API Key</label>
+                                                    <input type="text" class="inline-form__input" placeholder="sk_live_xxxxxxxxxxxxxxxx" value="sk_live_acme_outdoor_1234567890">
+                                                </div>
+                                                <button class="inline-form__submit">Verify & Connect</button>
+                                            </div>
+
+                                            <div class="info-card" style="margin-top: 14px;">
+                                                <i data-lucide="help-circle" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">Where to find your API key</div>
+                                                    <div class="info-card__content">
+                                                        <p>Log into Smile.io → Settings → API → Copy your Live API Key</p>
+                                                    </div>
+                                                    <div class="info-card__links">
+                                                        <a class="info-card__link">
+                                                            Open Smile.io API Settings
+                                                            <i data-lucide="external-link"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1847,28 +1847,28 @@
                             <!-- ================================= -->
                             <!-- STATE 5: OAUTH SUCCESS           -->
                             <!-- ================================= -->
-                            <div data-state="oauth-success program-verify section-complete">
+                            <div data-state="api-connected program-verify section-complete">
                                 <div class="message-system">
                                     <div class="system-bubble success">
                                         <i data-lucide="check-circle"></i>
-                                        <span>Successfully connected to Smile.io</span>
+                                        <span>API key verified — Connected to Smile.io</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div data-state="oauth-success program-verify section-complete">
+                            <div data-state="api-connected program-verify section-complete">
                                 <div class="message-agent">
                                     <div class="avatar"><span>S</span></div>
                                     <div class="message-content">
                                         <div class="message-label">Saltwyk</div>
                                         <div class="message-bubble">
-                                            <p>Perfect! I can see your rewards program. Let me verify the configuration...</p>
+                                            <p>Your API key is valid. I can see your rewards program. Let me verify the configuration...</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div data-state="oauth-success">
+                            <div data-state="api-connected">
                                 <div class="message-system">
                                     <div class="system-bubble info">
                                         <i data-lucide="loader-2" class="animate-spin"></i>
@@ -1967,7 +1967,56 @@
                             </div>
 
                             <!-- ================================= -->
-                            <!-- STATE 13: NO PLATFORM            -->
+                            <!-- STATE 13: SOMETHING ELSE         -->
+                            <!-- ================================= -->
+                            <div data-state="something-else">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Something else</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="something-else">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>No problem! We're always expanding our integrations. Which rewards platform do you use?</p>
+
+                                            <div class="inline-form">
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">Platform name</label>
+                                                    <input type="text" class="inline-form__input" placeholder="e.g., Marsello, Rivo, Stamped...">
+                                                </div>
+                                                <div class="inline-form__group">
+                                                    <label class="inline-form__label">Platform website <span class="inline-form__optional">(optional)</span></label>
+                                                    <input type="url" class="inline-form__input" placeholder="https://...">
+                                                </div>
+                                                <button class="inline-form__submit secondary">Submit Platform Request</button>
+                                            </div>
+
+                                            <div class="info-card" style="margin-top: 14px;">
+                                                <i data-lucide="clock" class="info-card__icon"></i>
+                                                <div class="info-card__body">
+                                                    <div class="info-card__title">What happens next?</div>
+                                                    <div class="info-card__content">
+                                                        <p>We'll evaluate adding support for your platform. Most new integrations take 4-6 weeks. We'll email you when it's ready.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 14: NO PLATFORM            -->
                             <!-- ================================= -->
                             <div data-state="no-platform">
                                 <div class="message-user">
@@ -2065,7 +2114,7 @@
                         </div>
 
                         <!-- Section 2: In Progress -->
-                        <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request yotpo-connect oauth-authorize oauth-success program-verify no-platform">
+                        <div data-state="platform-select smile-tier-check smile-enterprise smile-needs-upgrade upgrade-request yotpo-connect api-connect api-connected program-verify something-else no-platform">
                             <div class="section-card in-progress">
                                 <div class="section-card__header">
                                     <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
@@ -2085,31 +2134,28 @@
                             </div>
                         </div>
 
-                        <!-- OAuth Panel (during authorization) -->
-                        <div data-state="oauth-authorize">
-                            <div class="oauth-panel" style="margin-top: 16px;">
-                                <i data-lucide="shield-check" class="oauth-panel__icon"></i>
-                                <h3 class="oauth-panel__title">Authorize Smile.io</h3>
-                                <p class="oauth-panel__desc">Allow Saltwyk to access your rewards program data.</p>
-                                <div class="oauth-panel__permissions">
-                                    <p class="oauth-panel__permissions-title">Permissions Requested</p>
-                                    <div class="oauth-panel__permission">
+                        <!-- API Key Panel (during connection) -->
+                        <div data-state="api-connect">
+                            <div class="api-key-panel" style="margin-top: 16px;">
+                                <i data-lucide="key" class="api-key-panel__icon"></i>
+                                <h3 class="api-key-panel__title">API Key Connection</h3>
+                                <p class="api-key-panel__desc">Enter your API key from Smile.io to connect.</p>
+                                <div class="api-key-panel__permissions">
+                                    <p class="api-key-panel__permissions-title">This will allow Saltwyk to:</p>
+                                    <div class="api-key-panel__permission">
                                         <i data-lucide="check"></i>
                                         <span>Read program configuration</span>
                                     </div>
-                                    <div class="oauth-panel__permission">
+                                    <div class="api-key-panel__permission">
                                         <i data-lucide="check"></i>
                                         <span>Read member points balances</span>
                                     </div>
-                                    <div class="oauth-panel__permission">
+                                    <div class="api-key-panel__permission">
                                         <i data-lucide="check"></i>
                                         <span>Issue and redeem points</span>
                                     </div>
                                 </div>
-                                <button class="oauth-panel__btn">
-                                    <i data-lucide="external-link"></i>
-                                    Authorize Connection
-                                </button>
+                                <p class="api-key-panel__note">Your API key is encrypted and stored securely.</p>
                             </div>
                         </div>
 
@@ -2221,8 +2267,8 @@
                     <div class="flow-step">
                         <div class="flow-step__number">3</div>
                         <div class="flow-step__content">
-                            <div class="flow-step__title">OAuth Connection</div>
-                            <div class="flow-step__desc">Authorize via OAuth or manual API key</div>
+                            <div class="flow-step__title">API Key Connection</div>
+                            <div class="flow-step__desc">Enter API key from rewards platform dashboard</div>
                         </div>
                     </div>
                     <div class="flow-step">
@@ -2326,34 +2372,27 @@
             </div>
         </div>
 
-        <!-- OAuth vs Manual -->
+        <!-- API Key Connection -->
         <div class="doc-section">
-            <h2>OAuth vs Manual Connection</h2>
+            <h2>API Key Connection</h2>
 
-            <table class="doc-table">
-                <thead>
-                    <tr>
-                        <th>Method</th>
-                        <th>When to Use</th>
-                        <th>Pros</th>
-                        <th>Cons</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>OAuth (Recommended)</td>
-                        <td>Default for all merchants</td>
-                        <td>Secure, automatic token refresh, no keys to manage</td>
-                        <td>Requires browser popup</td>
-                    </tr>
-                    <tr>
-                        <td>Manual API Key</td>
-                        <td>Technical users, debugging, or OAuth issues</td>
-                        <td>Works in any environment, more control</td>
-                        <td>Keys can expire, security risk if exposed</td>
-                    </tr>
-                </tbody>
-            </table>
+            <p>Rewards platforms are connected via API key. This requires the merchant to copy their API key from their rewards platform dashboard.</p>
+
+            <h3>Why API Keys?</h3>
+            <ul>
+                <li><strong>Platform support:</strong> Most rewards platforms provide API keys but not OAuth</li>
+                <li><strong>Simplicity:</strong> Copy/paste workflow familiar to merchants</li>
+                <li><strong>Control:</strong> Merchants can revoke keys from their platform dashboard</li>
+                <li><strong>Debugging:</strong> Easier to troubleshoot connection issues</li>
+            </ul>
+
+            <h3>Security Considerations</h3>
+            <ul>
+                <li>API keys are encrypted at rest and in transit</li>
+                <li>Keys are never displayed after initial entry</li>
+                <li>Merchants can regenerate keys from their platform if compromised</li>
+                <li>We request minimum necessary permissions</li>
+            </ul>
         </div>
 
         <!-- Data Captured -->
@@ -2383,10 +2422,10 @@
                         <td>Yes</td>
                     </tr>
                     <tr>
-                        <td>OAuth Token</td>
-                        <td>OAuth flow</td>
-                        <td>Encrypted token</td>
-                        <td>Yes (or API key)</td>
+                        <td>API Key</td>
+                        <td>User input</td>
+                        <td>Encrypted string</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Program Name</td>
@@ -2468,11 +2507,11 @@
         <div class="doc-section">
             <h2>Edge Cases</h2>
 
-            <h3>OAuth Failure</h3>
-            <p>If OAuth popup is blocked or user cancels, show error message with options: "Try again" or "Connect manually with API key". Log the failure for support debugging.</p>
-
             <h3>Invalid API Key</h3>
-            <p>If manual API key is invalid, show specific error (expired, wrong permissions, etc.) and guide user to their platform's API settings page.</p>
+            <p>If API key is invalid, show specific error (expired, wrong permissions, incorrect format, etc.) and guide user to their platform's API settings page with a direct link.</p>
+
+            <h3>API Key Permission Errors</h3>
+            <p>If the API key doesn't have sufficient permissions, explain which permissions are missing and provide platform-specific instructions for generating a new key with the correct scopes.</p>
 
             <h3>Program Configuration Mismatch</h3>
             <p>If merchant says program details are wrong, explain that these come from their rewards platform and guide them to update settings there. Offer to re-sync after changes.</p>

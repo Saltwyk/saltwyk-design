@@ -1054,6 +1054,95 @@
         }
 
         /* ===========================================
+           OAUTH PANEL
+           =========================================== */
+        .oauth-panel {
+            background: white;
+            border: 2px solid hsl(var(--indigo-300));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .oauth-panel__icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: hsl(var(--indigo-600));
+        }
+
+        .oauth-panel__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(var(--ink));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__desc {
+            font-size: 13px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions {
+            text-align: left;
+            background: hsl(var(--warm-50));
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+
+        .oauth-panel__permissions-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: hsl(var(--warm-500));
+            margin-bottom: 8px;
+        }
+
+        .oauth-panel__permission {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: hsl(var(--ink));
+            padding: 4px 0;
+        }
+
+        .oauth-panel__permission i {
+            width: 14px;
+            height: 14px;
+            color: hsl(var(--emerald-600));
+        }
+
+        .oauth-panel__btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: hsl(var(--indigo-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .oauth-panel__btn:hover {
+            background: hsl(var(--indigo-500));
+        }
+
+        .oauth-panel__btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===========================================
            STATE VISIBILITY
            =========================================== */
         [data-state] {
@@ -1063,6 +1152,8 @@
         /* Show elements for current state */
         .state-welcome [data-state~="welcome"],
         .state-platform-select [data-state~="platform-select"],
+        .state-woo-oauth [data-state~="woo-oauth"],
+        .state-woo-connected [data-state~="woo-connected"],
         .state-woo-verify [data-state~="woo-verify"],
         .state-woo-confirm [data-state~="woo-confirm"],
         .state-section-complete [data-state~="section-complete"],
@@ -1076,6 +1167,7 @@
         /* Special handling for flex items */
         .state-welcome .choice-buttons[data-state~="welcome"],
         .state-platform-select .choice-buttons[data-state~="platform-select"],
+        .state-woo-oauth .choice-buttons[data-state~="woo-oauth"],
         .state-woo-confirm .choice-buttons[data-state~="woo-confirm"],
         .state-shopify-disqualify .choice-buttons[data-state~="shopify-disqualify"],
         .state-shopify-waitlist .choice-buttons[data-state~="shopify-waitlist"] {
@@ -1258,7 +1350,7 @@
         <header class="mb-12">
             <p class="serial text-intaglio-500 mb-2">Section Specification</p>
             <h1 class="font-display text-4xl mb-2">03: Section 1 — Your Store</h1>
-            <p class="text-warm-600">Complete conversation flow for Section 1, including qualification checks, store verification, and the Shopify disqualification path.</p>
+            <p class="text-warm-600">Complete conversation flow for Section 1, including qualification checks, OAuth connection, store verification, and the Shopify disqualification path.</p>
 
             <div class="grid grid-cols-4 gap-4 mt-8">
                 <div class="bg-white border border-warm-200 rounded-lg p-4">
@@ -1291,25 +1383,27 @@
                 <div class="demo-state-switcher__buttons">
                     <button data-state-btn="welcome" class="active">1. Welcome</button>
                     <button data-state-btn="platform-select">2. Platform</button>
-                    <button data-state-btn="woo-verify">3. Verifying</button>
-                    <button data-state-btn="woo-confirm">4. Confirm</button>
-                    <button data-state-btn="section-complete">5. Complete</button>
+                    <button data-state-btn="woo-oauth">3. OAuth</button>
+                    <button data-state-btn="woo-connected">4. Connected</button>
+                    <button data-state-btn="woo-verify">5. Verifying</button>
+                    <button data-state-btn="woo-confirm">6. Confirm</button>
+                    <button data-state-btn="section-complete">7. Complete</button>
                 </div>
             </div>
 
             <div class="demo-state-switcher__group">
                 <span class="demo-state-switcher__group-label">Disqualification Path (Shopify)</span>
                 <div class="demo-state-switcher__buttons">
-                    <button data-state-btn="shopify-disqualify" class="shopify">6. Shopify Info</button>
-                    <button data-state-btn="shopify-waitlist" class="shopify">7. Waitlist Form</button>
-                    <button data-state-btn="shopify-waitlisted" class="shopify">8. Waitlisted</button>
+                    <button data-state-btn="shopify-disqualify" class="shopify">8. Shopify Info</button>
+                    <button data-state-btn="shopify-waitlist" class="shopify">9. Waitlist Form</button>
+                    <button data-state-btn="shopify-waitlisted" class="shopify">10. Waitlisted</button>
                 </div>
             </div>
 
             <div class="demo-state-switcher__group">
                 <span class="demo-state-switcher__group-label">Edit Flow</span>
                 <div class="demo-state-switcher__buttons">
-                    <button data-state-btn="edit-details">9. Edit Details</button>
+                    <button data-state-btn="edit-details">11. Edit Details</button>
                 </div>
             </div>
         </div>
@@ -1430,9 +1524,9 @@
                             </div>
 
                             <!-- ================================= -->
-                            <!-- STATE 3a: WOOCOMMERCE VERIFY      -->
+                            <!-- STATE 3: WOOCOMMERCE OAUTH        -->
                             <!-- ================================= -->
-                            <div data-state="woo-verify woo-confirm section-complete edit-details">
+                            <div data-state="woo-oauth woo-connected woo-verify woo-confirm section-complete edit-details">
                                 <div class="message-user">
                                     <div class="message-content">
                                         <div class="message-label">You</div>
@@ -1444,13 +1538,81 @@
                                 </div>
                             </div>
 
+                            <div data-state="woo-oauth woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Excellent! WooCommerce is fully supported. To get started, I'll need to connect to your store.</p>
+                                            <p><strong>How would you like to connect?</strong></p>
+                                            <div class="choice-buttons horizontal" data-state="woo-oauth">
+                                                <button class="choice-btn">
+                                                    Connect via OAuth
+                                                    <span class="badge">Recommended</span>
+                                                </button>
+                                                <button class="choice-btn">Connect with API keys</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-oauth">
+                                <div class="message-system">
+                                    <div class="system-bubble info">
+                                        <i data-lucide="external-link"></i>
+                                        <span>Opening WooCommerce authorization...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 4: WOOCOMMERCE CONNECTED    -->
+                            <!-- ================================= -->
+                            <div data-state="woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-user">
+                                    <div class="message-content">
+                                        <div class="message-label">You</div>
+                                        <div class="message-bubble">
+                                            <p>Connect via OAuth</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar"><span>M</span></div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-connected woo-verify woo-confirm section-complete edit-details">
+                                <div class="message-system">
+                                    <div class="system-bubble success">
+                                        <i data-lucide="check-circle"></i>
+                                        <span>Successfully connected to your WooCommerce store</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-state="woo-connected">
+                                <div class="message-agent">
+                                    <div class="avatar"><span>S</span></div>
+                                    <div class="message-content">
+                                        <div class="message-label">Saltwyk</div>
+                                        <div class="message-bubble">
+                                            <p>Your store is connected. Now let me pull your store details...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================================= -->
+                            <!-- STATE 5: WOOCOMMERCE VERIFY       -->
+                            <!-- ================================= -->
                             <div data-state="woo-verify woo-confirm section-complete edit-details">
                                 <div class="message-agent">
                                     <div class="avatar"><span>S</span></div>
                                     <div class="message-content">
                                         <div class="message-label">Saltwyk</div>
                                         <div class="message-bubble">
-                                            <p>Perfect! WooCommerce is fully supported. Let me verify your store details...</p>
+                                            <p>I'm fetching your store information from WooCommerce...</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1460,7 +1622,7 @@
                                 <div class="message-system">
                                     <div class="system-bubble info">
                                         <i data-lucide="loader-2" class="animate-spin"></i>
-                                        <span>Looking up your store information...</span>
+                                        <span>Syncing store data...</span>
                                     </div>
                                 </div>
                             </div>
@@ -1748,7 +1910,7 @@
                         </div>
 
                         <!-- Section 1: In Progress -->
-                        <div data-state="platform-select woo-verify woo-confirm">
+                        <div data-state="platform-select woo-oauth woo-connected woo-verify woo-confirm">
                             <div class="section-card in-progress">
                                 <div class="section-card__header">
                                     <i data-lucide="loader-2" class="section-card__icon animate-spin"></i>
@@ -1765,6 +1927,34 @@
                                     <div class="progress-summary__fill" style="width: 0%;"></div>
                                 </div>
                                 <p class="progress-summary__text">0 of 4 sections complete</p>
+                            </div>
+                        </div>
+
+                        <!-- OAuth Panel (during authorization) -->
+                        <div data-state="woo-oauth">
+                            <div class="oauth-panel" style="margin-top: 16px;">
+                                <i data-lucide="shield-check" class="oauth-panel__icon"></i>
+                                <h3 class="oauth-panel__title">Authorize WooCommerce</h3>
+                                <p class="oauth-panel__desc">Allow Saltwyk to access your store data securely.</p>
+                                <div class="oauth-panel__permissions">
+                                    <p class="oauth-panel__permissions-title">Permissions Requested</p>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read store settings</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read order history</span>
+                                    </div>
+                                    <div class="oauth-panel__permission">
+                                        <i data-lucide="check"></i>
+                                        <span>Read customer data</span>
+                                    </div>
+                                </div>
+                                <button class="oauth-panel__btn">
+                                    <i data-lucide="external-link"></i>
+                                    Authorize Connection
+                                </button>
                             </div>
                         </div>
 
@@ -1887,7 +2077,7 @@
         <!-- Flow Summary -->
         <div class="doc-section">
             <h2>Flow Summary</h2>
-            <p>Section 1 qualifies the merchant's commerce platform and collects store details. The critical check is platform support—Shopify merchants are gracefully redirected to a waitlist.</p>
+            <p>Section 1 qualifies the merchant's commerce platform, connects via OAuth, and collects store details. The critical check is platform support—Shopify merchants are gracefully redirected to a waitlist.</p>
 
             <div class="flow-diagram">
                 <div class="flow-step">
@@ -1911,12 +2101,19 @@
                     <div class="flow-step">
                         <div class="flow-step__number">3</div>
                         <div class="flow-step__content">
-                            <div class="flow-step__title">Verify Store Details</div>
-                            <div class="flow-step__desc">Look up and confirm store info from Storeleads</div>
+                            <div class="flow-step__title">OAuth Connection</div>
+                            <div class="flow-step__desc">Authorize via OAuth to connect to store API</div>
                         </div>
                     </div>
                     <div class="flow-step">
                         <div class="flow-step__number">4</div>
+                        <div class="flow-step__content">
+                            <div class="flow-step__title">Verify Store Details</div>
+                            <div class="flow-step__desc">Sync and confirm store info from platform API</div>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step__number">5</div>
                         <div class="flow-step__content">
                             <div class="flow-step__title">Section Complete</div>
                             <div class="flow-step__desc">Show milestone, proceed to Section 2</div>
@@ -1988,20 +2185,26 @@
                         <td>Yes</td>
                     </tr>
                     <tr>
+                        <td>OAuth Token</td>
+                        <td>OAuth flow</td>
+                        <td>Encrypted token</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
                         <td>Store URL</td>
-                        <td>Storeleads + confirmation</td>
+                        <td>Platform API sync</td>
                         <td>URL</td>
                         <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Monthly Revenue</td>
-                        <td>Storeleads + confirmation</td>
+                        <td>Platform API sync</td>
                         <td>Currency estimate</td>
                         <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Product Category</td>
-                        <td>Storeleads + confirmation</td>
+                        <td>Platform API sync</td>
                         <td>String</td>
                         <td>Yes</td>
                     </tr>
@@ -2025,14 +2228,14 @@
                 <tbody>
                     <tr>
                         <td>Happy Path (WooCommerce)</td>
-                        <td>~2 minutes</td>
-                        <td>5 steps</td>
+                        <td>~3 minutes</td>
+                        <td>7 steps</td>
                         <td>Section complete, proceed to Section 2</td>
                     </tr>
                     <tr>
                         <td>Happy Path with Edit</td>
-                        <td>~3 minutes</td>
-                        <td>7 steps</td>
+                        <td>~4 minutes</td>
+                        <td>9 steps</td>
                         <td>Section complete after edits</td>
                     </tr>
                     <tr>
@@ -2051,15 +2254,46 @@
             </table>
         </div>
 
+        <!-- OAuth Connection -->
+        <div class="doc-section">
+            <h2>OAuth Connection</h2>
+
+            <p>Commerce platforms are connected via OAuth. This provides secure, token-based access without merchants sharing passwords or managing API keys.</p>
+
+            <h3>Why OAuth for Commerce Platforms?</h3>
+            <ul>
+                <li><strong>Security:</strong> No credentials stored, automatic token refresh</li>
+                <li><strong>Simplicity:</strong> One-click authorization familiar to merchants</li>
+                <li><strong>Full access:</strong> OAuth grants the permissions needed for store sync</li>
+                <li><strong>Revocable:</strong> Merchants can disconnect from their platform dashboard</li>
+            </ul>
+
+            <h3>OAuth Flow</h3>
+            <ol>
+                <li>Merchant clicks "Connect via OAuth"</li>
+                <li>Platform authorization window opens (popup or redirect)</li>
+                <li>Merchant approves the requested permissions</li>
+                <li>Platform redirects back with authorization code</li>
+                <li>Saltwyk exchanges code for access token (server-side)</li>
+                <li>Connection confirmed, store sync begins</li>
+            </ol>
+
+            <h3>Fallback: API Keys</h3>
+            <p>Some merchants prefer manual API key entry (technical users, debugging, or OAuth issues). The flow supports this as a secondary option but OAuth is recommended as the primary method.</p>
+        </div>
+
         <!-- Edge Cases -->
         <div class="doc-section">
             <h2>Edge Cases</h2>
 
-            <h3>Storeleads Data is Wrong</h3>
+            <h3>OAuth Failure</h3>
+            <p>If OAuth popup is blocked or user cancels, show error message with options: "Try again" or "Connect with API keys instead". Log the failure for support debugging.</p>
+
+            <h3>Store Data is Wrong</h3>
             <p>If the merchant indicates data is incorrect, the confirmation card switches to edit mode. All fields become editable inputs. After saving, the agent confirms the updated values before proceeding.</p>
 
-            <h3>Storeleads Data Not Found</h3>
-            <p>If no data is found for the store URL, skip the confirmation card and present an inline form to collect: Store URL, Monthly Revenue estimate, and Product Category. This should be rare for established stores.</p>
+            <h3>API Sync Incomplete</h3>
+            <p>If the platform API doesn't return all required fields (e.g., revenue not available via API), present an inline form to collect the missing data. This should be rare for established stores.</p>
 
             <h3>Merchant Wants to Switch Platforms</h3>
             <p>If a merchant starts with Shopify but wants to try with a different platform, they can use "Save & Exit" and restart. The system should not auto-save the Shopify selection until they explicitly join the waitlist.</p>
