@@ -25,7 +25,8 @@
 |---------|-----------|
 | Loyalty Program | **Rewards Platform** |
 | Payout | **Settlement** |
-| Clearing Balance | **Clearing Balance** (correct) |
+| Clearing Balance | **Clearing Balance** (concept) / **Finance** (nav item) |
+| Transactions | **Sales** (nav item) |
 
 ---
 
@@ -205,13 +206,15 @@ Swipe/click to dismiss
 ```
 Sidebar:
 ├─ [Context Indicator]     ← Top
-├─ Dashboard
-├─ Transactions
-├─ Clearing Balance
+├─ Setup (if incomplete)   ← Onboarding progress
 ├─ [Divider]
-├─ Setup (if incomplete)
-├─ Settings                 ← Bottom area
-└─ Support                  ← Bottom area
+├─ Home
+├─ Apps
+├─ Sales                   ← FKA "Transactions"
+├─ Finance                 ← FKA "Clearing Balance"
+├─ [Divider]
+├─ Settings                ← Bottom area
+└─ Support                 ← Bottom area
 ```
 
 ---

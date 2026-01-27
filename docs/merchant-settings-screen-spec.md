@@ -29,8 +29,8 @@ The Settings screen provides comprehensive account management for merchants at a
 │  DASHBOARD         │  ┌──────────────────────────────────────────────────┐  │
 │  • Home            │  │ Account │ Finance │ Apps │ Team │ Prefs │ Support │  │
 │  • Apps            │  └──────────────────────────────────────────────────┘  │
-│  • Transactions    │  ─────────────────────────────────────────────────────  │
-│  • Clearing Balance│                                                          │
+│  • Sales           │  ─────────────────────────────────────────────────────  │
+│  • Finance         │                                                          │
 │                    │  [Active Section Content]                               │
 │  ─────             │                                                          │
 │  ⚙️ Settings ← active                                                        │
