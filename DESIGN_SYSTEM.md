@@ -33,9 +33,9 @@ The Saltwyk design system embodies **"Intaglio Ink + Ledger Paper + Security Thr
 
 | Name | Size | Line Height | Font | Usage |
 |------|------|-------------|------|-------|
-| Display | 48px | 1.1 | DM Serif | Page heroes |
-| H1 | 36px | 1.2 | DM Serif | Page titles |
-| H2 | 30px | 1.2 | DM Serif | Section headers |
+| Display | 48px | 1.1 | Fraunces | Page heroes |
+| H1 | 36px | 1.2 | Fraunces | Page titles |
+| H2 | 30px | 1.2 | Fraunces | Section headers |
 | H3 | 24px | 1.3 | Inter 600 | Card headers |
 | H4 | 20px | 1.4 | Inter 600 | Subsections |
 | Body Large | 18px | 1.6 | Inter 400 | Lead paragraphs |
