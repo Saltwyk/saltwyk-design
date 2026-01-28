@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners Page | Marketing Pages | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../assets/config/view-toggle.css">
+    <link rel="stylesheet" href="../../assets/config/fullpage-mode.css">
+    <script src="../../partials/fullpage-mode.js"></script>
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Thread Gradients */
+        .thread-spectrum {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);
+            height: 3px;
+        }
+        .thread-cool {
+            background: linear-gradient(90deg, hsl(170 100% 50%), hsl(330 100% 50%));
+            height: 3px;
+        }
+
+        /* Device Frame Styles */
+        .device-frame-mobile {
+            width: 375px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 8px solid hsl(var(--intaglio-800));
+        }
+        .device-frame-desktop {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid hsl(var(--warm-300));
+        }
+
+        /* Page content styles */
+        .page-content {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.5;
+            background: hsl(48 29% 95%);
+        }
+        .page-content .nav-inner {
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: hsl(48 29% 95%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .page-content .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: hsl(24 29% 8%);
+        }
+        .page-content .nav-cta {
+            padding: 8px 16px;
+            background: hsl(150 100% 27%);
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        /* Hero Card */
+        .page-content .hero-section {
+            padding: 32px 16px;
+        }
+        .page-content .hero-card {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .page-content .hero-card-content {
+            padding: 32px 20px;
+        }
+        .page-content .hero-eyebrow {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(150 100% 27%);
+            margin-bottom: 8px;
+        }
+        .page-content .hero-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            font-variation-settings: 'opsz' 144;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: hsl(24 29% 8%);
+            margin-bottom: 12px;
+        }
+        .page-content .hero-subhead {
+            font-size: 16px;
+            line-height: 1.5;
+            color: hsl(30 7% 35%);
+            margin-bottom: 20px;
+        }
+        .page-content .btn-primary {
+            display: inline-block;
+            padding: 12px 24px;
+            background: hsl(150 100% 27%);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        /* Section styles */
+        .page-content .section-light {
+            background: hsl(48 29% 95%);
+            padding: 32px 16px;
+        }
+        .page-content .section-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 22px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            color: hsl(24 29% 8%);
+            margin-bottom: 16px;
+        }
+        .page-content .section-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: hsl(30 8% 25%);
+            margin-bottom: 12px;
+        }
+        .page-content .section-text.emphasis {
+            color: hsl(24 29% 8%);
+            font-weight: 500;
+        }
+        .page-content .illustration-placeholder {
+            background: linear-gradient(180deg, hsl(40 25% 96%), hsl(38 30% 92%));
+            border: 2px solid hsl(36 35% 85%);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 16px;
+        }
+        .page-content .illustration-placeholder p {
+            font-size: 11px;
+            color: hsl(28 22% 35%);
+        }
+
+        /* Economics Box */
+        .page-content .economics-box {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .page-content .economics-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: hsl(24 29% 8%);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .page-content .economics-item {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .page-content .economics-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: hsl(24 29% 8%);
+            margin-bottom: 4px;
+        }
+        .page-content .economics-item p {
+            font-size: 12px;
+            color: hsl(30 7% 35%);
+        }
+        .page-content .economics-note {
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid hsl(30 5% 88%);
+            font-size: 12px;
+            color: hsl(30 7% 35%);
+        }
+        .page-content .economics-note .emphasis {
+            color: hsl(24 29% 8%);
+            font-weight: 500;
+        }
+
+        /* Partner Types */
+        .page-content .partner-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .page-content .partner-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .page-content .partner-card h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: hsl(24 29% 8%);
+            margin-bottom: 6px;
+        }
+        .page-content .partner-card p {
+            font-size: 12px;
+            line-height: 1.5;
+            color: hsl(30 7% 35%);
+        }
+
+        /* CTA */
+        .page-content .section-cta {
+            background: linear-gradient(90deg, hsla(28, 100%, 55%, 0.2), hsla(330, 100%, 50%, 0.2)), hsl(24 29% 8%);
+            padding: 40px 16px;
+            text-align: center;
+        }
+        .page-content .cta-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .page-content .btn-primary-inverse {
+            display: inline-block;
+            padding: 14px 28px;
+            background: white;
+            color: hsl(150 100% 22%);
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .page-content .footer-dark {
+            background: hsl(24 29% 8%);
+            padding: 32px 16px 24px;
+        }
+        .page-content .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .page-content .footer-tagline {
+            font-size: 12px;
+            color: hsl(30 6% 46%);
+            margin-bottom: 24px;
+        }
+        .page-content .footer-links {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .page-content .footer-link {
+            font-size: 12px;
+            color: hsl(30 5% 78%);
+        }
+        .page-content .footer-copyright {
+            font-size: 11px;
+            color: hsl(30 6% 46%);
+            padding-top: 16px;
+            border-top: 1px solid hsl(24 28% 18%);
+        }
+
+        /* Desktop overrides */
+        .desktop-content .nav-inner {
+            padding: 0 32px;
+            height: 72px;
+        }
+        .desktop-content .nav-logo { font-size: 22px; }
+        .desktop-content .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .desktop-content .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(30 7% 35%);
+        }
+        .desktop-content .hero-section {
+            padding: 64px 48px 80px;
+        }
+        .desktop-content .hero-card {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .desktop-content .hero-card-content {
+            padding: 64px;
+        }
+        .desktop-content .hero-headline {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .desktop-content .hero-subhead {
+            font-size: 22px;
+            margin-bottom: 32px;
+        }
+        .desktop-content .btn-primary {
+            padding: 16px 32px;
+            font-size: 15px;
+        }
+        .desktop-content .section-light {
+            padding: 80px 48px;
+        }
+        .desktop-content .section-content {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .desktop-content .section-title {
+            font-size: 36px;
+            margin-bottom: 24px;
+        }
+        .desktop-content .section-text {
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+        .desktop-content .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .desktop-content .illustration-placeholder {
+            margin-top: 0;
+            min-height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .desktop-content .economics-box {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .desktop-content .economics-title {
+            font-size: 32px;
+            margin-bottom: 28px;
+        }
+        .desktop-content .economics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .desktop-content .economics-item {
+            margin-bottom: 0;
+        }
+        .desktop-content .economics-item h4 {
+            font-size: 15px;
+        }
+        .desktop-content .economics-item p {
+            font-size: 13px;
+        }
+        .desktop-content .economics-note {
+            font-size: 14px;
+        }
+        .desktop-content .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .desktop-content .partner-card {
+            padding: 28px;
+        }
+        .desktop-content .partner-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .desktop-content .partner-card p {
+            font-size: 14px;
+        }
+        .desktop-content .section-cta {
+            padding: 80px 48px;
+        }
+        .desktop-content .cta-headline {
+            font-size: 48px;
+            margin-bottom: 28px;
+        }
+        .desktop-content .btn-primary-inverse {
+            padding: 16px 32px;
+            font-size: 15px;
+        }
+        .desktop-content .footer-dark {
+            padding: 64px 48px 48px;
+        }
+        .desktop-content .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 32px;
+        }
+        .desktop-content .footer-column h4 {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(30 6% 62%);
+            margin-bottom: 16px;
+        }
+        .desktop-content .footer-column ul { list-style: none; }
+        .desktop-content .footer-column li { margin-bottom: 8px; }
+        .desktop-content .footer-column a {
+            font-size: 13px;
+            color: hsl(30 5% 78%);
+        }
+        .desktop-content .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid hsl(24 28% 18%);
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-spectrum"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Marketing</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Partners</span>
+                </nav>
+
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Page Specification</p>
+                    <h1 class="font-display text-4xl mb-2">Partners Page</h1>
+                    <p class="text-warm-600">The partner acquisition page for agencies and consultants. Features a light hero card with thread-cool, two-column content grids, economics box, and partner type cards.</p>
+                </header>
+
+                <!-- View Toggle -->
+                <div class="view-toggle-header">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-warm-500">Preview Mode</p>
+                        <div class="flex items-center gap-6">
+                            <div class="view-toggle" role="group" aria-label="View mode toggle">
+                                <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                        <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                                        <line x1="10" y1="19" x2="14" y2="19"/>
+                                    </svg>
+                                </button>
+                                <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                        <line x1="2" y1="14" x2="22" y2="14"/>
+                                        <line x1="12" y1="17" x2="12" y2="20"/>
+                                        <line x1="8" y1="20" x2="16" y2="20"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="text-warm-300">|</span>
+                            <a href="?fullpage&view=desktop" target="_blank" class="text-sm text-warm-500 hover:text-emerald-600 flex items-center gap-1">
+                                Full Page
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- MOBILE LAYOUT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <div class="mobile-variant">
+                        <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Mobile-first layout with stacked hero card, single-column content, and vertically stacked partner cards.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                            <div class="device-frame-mobile">
+                                <div class="page-content" style="max-height: 800px; overflow-y: auto;">
+                                    <!-- Navigation -->
+                                    <div class="nav-inner">
+                                        <span class="nav-logo">Saltwyk</span>
+                                        <span class="nav-cta">Let's Talk</span>
+                                    </div>
+
+                                    <!-- Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Hero -->
+                                    <div class="hero-section">
+                                        <div class="hero-card">
+                                            <div class="thread-cool"></div>
+                                            <div class="hero-card-content">
+                                                <p class="hero-eyebrow">For Partners</p>
+                                                <h1 class="hero-headline">Partner Points Commerce.</h1>
+                                                <p class="hero-subhead">A new revenue stream for your practice.</p>
+                                                <span class="btn-primary">Become a Partner</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Opportunity -->
+                                    <div class="section-light">
+                                        <p class="section-text">Your clients need new ways to grow without sacrificing margin. Points commerce is that channel.</p>
+                                        <p class="section-text emphasis">Partner Points Commerce delivers growth for clients and recurring revenue for your practice.</p>
+                                    </div>
+
+                                    <!-- What Partners Offer -->
+                                    <div class="section-light" style="padding-top: 0;">
+                                        <h2 class="section-title">What partners offer clients</h2>
+                                        <p class="section-text">A new customer acquisition channel where shoppers spend points instead of hunting for discounts.</p>
+                                        <p class="section-text emphasis">You deliver growth. We provide infrastructure.</p>
+                                        <div class="illustration-placeholder">
+                                            <p>[Illustration: Partner Relationship]</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- How It Works -->
+                                    <div class="section-light">
+                                        <h2 class="section-title">How it works</h2>
+                                        <p class="section-text">One-click installation for most merchants. White-glove for enterprise.</p>
+                                        <p class="section-text emphasis">Your role: introduce, guide strategy, capture fees. We handle implementation.</p>
+                                    </div>
+
+                                    <!-- Economics -->
+                                    <div class="section-light" style="padding-top: 0;">
+                                        <div class="economics-box">
+                                            <p class="economics-title">Partner economics</p>
+                                            <div class="economics-item">
+                                                <h4>Revenue Share</h4>
+                                                <p>Ongoing % of merchant volume</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Implementation Fees</h4>
+                                                <p>Separate fees for enterprise</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Deal Protection</h4>
+                                                <p>Registration protects your intros</p>
+                                            </div>
+                                            <div class="economics-note">
+                                                Early partners get founding economics.<br>
+                                                <span class="emphasis">We compensate generously and permanently.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Partner Types -->
+                                    <div class="section-light">
+                                        <h2 class="section-title">Who this is for</h2>
+                                        <div class="partner-grid">
+                                            <div class="partner-card">
+                                                <h3>Commerce Agencies</h3>
+                                                <p>Add points commerce to your service mix.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Strategy Consultants</h3>
+                                                <p>Turn recommendations into revenue.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Loyalty Specialists</h3>
+                                                <p>Extend loyalty beyond owned rewards.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Platform Partners</h3>
+                                                <p>Give merchants competitive advantage.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CTA -->
+                                    <div class="section-cta">
+                                        <h2 class="cta-headline">Accepting early partners now.</h2>
+                                        <span class="btn-primary-inverse">Let's Talk</span>
+                                    </div>
+
+                                    <!-- Footer Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <p class="footer-logo">Saltwyk</p>
+                                        <p class="footer-tagline">The trillion point economy.</p>
+                                        <div class="footer-links">
+                                            <span class="footer-link">About</span>
+                                            <span class="footer-link">Merchants</span>
+                                            <span class="footer-link">Partners</span>
+                                        </div>
+                                        <p class="footer-copyright">&copy; 2025 Saltwyk. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="desktop-variant">
+                        <p class="serial text-intaglio-500 mb-4">Desktop Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Full desktop layout with centered hero card, two-column content grids, 3-column economics, and 2x2 partner grid.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8">
+                            <div class="device-frame-desktop">
+                                <div class="page-content desktop-content" style="max-height: 900px; overflow-y: auto;">
+                                    <!-- Navigation -->
+                                    <div class="nav-inner">
+                                        <span class="nav-logo">Saltwyk</span>
+                                        <div class="nav-links">
+                                            <span class="nav-link">Merchants</span>
+                                            <span class="nav-link">Partners</span>
+                                            <span class="nav-link">About</span>
+                                            <span class="nav-cta">Let's Talk</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Hero -->
+                                    <div class="hero-section">
+                                        <div class="hero-card">
+                                            <div class="thread-cool"></div>
+                                            <div class="hero-card-content" style="text-align: center;">
+                                                <p class="hero-eyebrow">For Partners</p>
+                                                <h1 class="hero-headline">Partner Points Commerce.</h1>
+                                                <p class="hero-subhead">A new revenue stream for your practice.</p>
+                                                <span class="btn-primary">Become a Partner</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Opportunity -->
+                                    <div class="section-light">
+                                        <div class="section-content">
+                                            <p class="section-text">Your clients need new ways to grow without sacrificing margin. Points commerce is that channel.</p>
+                                            <p class="section-text emphasis">You need differentiated service offerings. Partner Points Commerce delivers growth for clients and recurring revenue for your practice.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- What Partners Offer -->
+                                    <div class="section-light" style="padding-top: 0;">
+                                        <div class="content-grid">
+                                            <div>
+                                                <h2 class="section-title">What partners offer clients</h2>
+                                                <p class="section-text">A new customer acquisition channel where shoppers spend points instead of hunting for discounts. Higher-value customers at better economics.</p>
+                                                <p class="section-text">Your clients turn their rewards programs into partner marketing platforms.</p>
+                                                <p class="section-text emphasis">You deliver growth. We provide infrastructure.</p>
+                                            </div>
+                                            <div class="illustration-placeholder">
+                                                <p>[Illustration: Partner Client Relationship]<br><br>Value flowing between partner, client, and Saltwyk</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- How It Works -->
+                                    <div class="section-light">
+                                        <div class="content-grid">
+                                            <div class="illustration-placeholder">
+                                                <p>[Illustration: Partner Workflow]<br><br>Introduction to implementation to ongoing revenue</p>
+                                            </div>
+                                            <div>
+                                                <h2 class="section-title">How it works</h2>
+                                                <p class="section-text">One-click installation for most merchants. White-glove service for enterprise implementations.</p>
+                                                <p class="section-text">Shoppers connect their rewards accounts and spend points at checkout. Merchants get paid in USD.</p>
+                                                <p class="section-text emphasis">Your role: introduce the opportunity, guide strategy, capture fees and revenue share. We handle implementation, settlement, compliance.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Economics -->
+                                    <div class="section-light">
+                                        <div class="economics-box">
+                                            <p class="economics-title">Partner economics</p>
+                                            <div class="economics-grid">
+                                                <div class="economics-item">
+                                                    <h4>Revenue Share</h4>
+                                                    <p>Ongoing percentage of merchant transaction volume</p>
+                                                </div>
+                                                <div class="economics-item">
+                                                    <h4>Implementation Fees</h4>
+                                                    <p>Separate fees for enterprise deployments</p>
+                                                </div>
+                                                <div class="economics-item">
+                                                    <h4>Deal Protection</h4>
+                                                    <p>Registration protects your introductions</p>
+                                                </div>
+                                            </div>
+                                            <div class="economics-note">
+                                                Early partners shape the program and lock in founding economics.<br>
+                                                <span class="emphasis">Details in conversations. We compensate generously and permanently.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Partner Types -->
+                                    <div class="section-light">
+                                        <div class="section-content" style="margin-bottom: 32px;">
+                                            <h2 class="section-title" style="text-align: center;">Who this is for</h2>
+                                        </div>
+                                        <div class="partner-grid">
+                                            <div class="partner-card">
+                                                <h3>Commerce Agencies</h3>
+                                                <p>Add points commerce to your service mix. Deliver new growth channels for e-commerce clients beyond paid media and discounting.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Strategy Consultants</h3>
+                                                <p>Advise on loyalty strategy with implementation backing. Turn recommendations into revenue through partnerships.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Loyalty Specialists</h3>
+                                                <p>Extend loyalty programs beyond owned rewards. Help clients accept points from the broader network.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Platform Partners</h3>
+                                                <p>Integrate points commerce into your platform. Give your merchants a competitive advantage.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CTA -->
+                                    <div class="section-cta">
+                                        <h2 class="cta-headline">Accepting early partners now.</h2>
+                                        <span class="btn-primary-inverse">Let's Talk</span>
+                                    </div>
+
+                                    <!-- Footer Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-grid">
+                                            <div>
+                                                <p class="footer-logo">Saltwyk</p>
+                                                <p class="footer-tagline" style="max-width: 240px;">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Company</h4>
+                                                <ul>
+                                                    <li><a>About</a></li>
+                                                    <li><a>Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Products</h4>
+                                                <ul>
+                                                    <li><a>For Merchants</a></li>
+                                                    <li><a>For Partners</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Legal</h4>
+                                                <ul>
+                                                    <li><a>Privacy</a></li>
+                                                    <li><a>Terms</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="footer-bottom">
+                                            <p class="footer-copyright">&copy; 2025 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-link">hello@saltwyk.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PAGE STRUCTURE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Page Structure</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Section Flow</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">1</span>
+                                <div>
+                                    <p class="font-medium text-ink">Navigation + Thread</p>
+                                    <p class="text-sm text-warm-500">Sticky nav with spectrum thread below</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
+                                <div>
+                                    <p class="font-medium text-ink">Hero Card (Light)</p>
+                                    <p class="text-sm text-warm-500">White card with thread-cool at top, centered content</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
+                                <div>
+                                    <p class="font-medium text-ink">Opportunity Narrative</p>
+                                    <p class="text-sm text-warm-500">Short intro establishing partner value prop</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
+                                <div>
+                                    <p class="font-medium text-ink">What Partners Offer (2-col)</p>
+                                    <p class="text-sm text-warm-500">Text left, illustration right</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">5</span>
+                                <div>
+                                    <p class="font-medium text-ink">How It Works (2-col reversed)</p>
+                                    <p class="text-sm text-warm-500">Illustration left, text right</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">6</span>
+                                <div>
+                                    <p class="font-medium text-ink">Economics Box</p>
+                                    <p class="text-sm text-warm-500">White card with 3-column grid for revenue/fees/protection</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">7</span>
+                                <div>
+                                    <p class="font-medium text-ink">Partner Types (2x2 Grid)</p>
+                                    <p class="text-sm text-warm-500">4 white cards for different partner categories</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">8</span>
+                                <div>
+                                    <p class="font-medium text-ink">CTA Section (Thread Flame)</p>
+                                    <p class="text-sm text-warm-500">20% flame overlay with inverse button</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">9</span>
+                                <div>
+                                    <p class="font-medium text-ink">Footer (Dark)</p>
+                                    <p class="text-sm text-warm-500">Brand, links, legal with spectrum thread above</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- TECHNICAL SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Typography Scale</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Headline</p>
+                                <code>72px / 400 / opsz 144</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Title</p>
+                                <code>40px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Partner Card Title</p>
+                                <code>20px / Fraunces / 600</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Subhead</p>
+                                <code>24px / Inter / 1.5</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Color Usage</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Page Background</p>
+                                <code>ledger</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Card</p>
+                                <code>white</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Thread</p>
+                                <code>thread-cool</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Economics Box</p>
+                                <code>white, rounded-12</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Partner Cards</p>
+                                <code>white, rounded-12</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Overlay</p>
+                                <code>thread-flame @ 20%</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Layout Patterns</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Content Grids</p>
+                                <code>2 columns, 64px gap</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Partner Grid</p>
+                                <code>2x2, 32px gap</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Economics Grid</p>
+                                <code>3 columns, 32px gap</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Card Width</p>
+                                <code>max-width: 1000px</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- RELATED PAGES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Related Pages</p>
+
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="homepage.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Homepage</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="about.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">About Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="merchants.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Merchants Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="../typography.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Typography</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Navigation -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>

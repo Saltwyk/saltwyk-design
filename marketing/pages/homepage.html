@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage | Marketing Pages | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../assets/config/view-toggle.css">
+    <link rel="stylesheet" href="../../assets/config/fullpage-mode.css">
+    <script src="../../partials/fullpage-mode.js"></script>
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Thread Gradients */
+        .thread-spectrum {
+            background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);
+            height: 3px;
+        }
+
+        /* Marketing Hero Gradient */
+        .gradient-hero-emerald {
+            background: linear-gradient(135deg, hsl(var(--emerald-500)) 0%, hsl(var(--emerald-700)) 50%, hsl(var(--intaglio-900)) 100%);
+        }
+
+        /* Device Frame Styles */
+        .device-frame-mobile {
+            width: 375px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 8px solid hsl(var(--intaglio-800));
+        }
+        .device-frame-desktop {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid hsl(var(--warm-300));
+        }
+
+        /* ============================================ */
+        /* PAGE CONTENT STYLES - MOBILE FIRST */
+        /* ============================================ */
+        .page-content {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.5;
+        }
+
+        /* Navigation */
+        .page-content .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: hsl(48 29% 95%);
+            border-bottom: 1px solid hsl(30 5% 88%);
+        }
+        .page-content .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .page-content .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: hsl(24 29% 8%);
+        }
+        .page-content .nav-links {
+            display: none;
+        }
+        .page-content .nav-cta {
+            padding: 10px 20px;
+            background: hsl(150 100% 27%);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+        .page-content .hamburger {
+            display: block;
+            width: 24px;
+            height: 24px;
+            color: hsl(30 7% 35%);
+        }
+
+        /* Hero Section - Marketing Gradient */
+        .page-content .hero-section {
+            position: relative;
+        }
+        .page-content .hero-gradient {
+            background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(150 100% 22%) 50%, hsl(24 29% 8%) 100%);
+            padding: 64px 24px;
+        }
+        .page-content .hero-content {
+            max-width: 600px;
+        }
+        .page-content .hero-eyebrow {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(150 60% 65%);
+            margin-bottom: 16px;
+        }
+        .page-content .hero-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 48px;
+            font-weight: 400;
+            font-variation-settings: 'opsz' 144;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .page-content .hero-subhead {
+            font-size: 16px;
+            line-height: 1.6;
+            color: hsl(24 20% 75%);
+            margin-bottom: 32px;
+        }
+        .page-content .btn-hero {
+            display: block;
+            width: 100%;
+            padding: 16px 32px;
+            background: white;
+            color: hsl(24 29% 8%);
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Illustration Placeholder */
+        .page-content .illustration-frame {
+            background: hsl(40 25% 96%);
+            border: 2px solid hsl(36 35% 85%);
+            border-radius: 8px;
+            padding: 40px 24px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .page-content .illustration-frame .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: hsl(28 22% 35%);
+            margin-bottom: 8px;
+        }
+        .page-content .illustration-frame .description {
+            font-size: 12px;
+            color: hsl(32 28% 50%);
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .page-content .section-ledger {
+            background: hsl(48 29% 95%);
+            padding: 60px 16px;
+        }
+        .page-content .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+        .page-content .section-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 9;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(24 29% 8%);
+            margin-bottom: 20px;
+        }
+        .page-content .section-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: hsl(30 7% 35%);
+            margin-bottom: 16px;
+        }
+        .page-content .section-text:last-of-type {
+            margin-bottom: 0;
+        }
+        .page-content .section-text.emphasis {
+            color: hsl(24 29% 8%);
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .page-content .cta-section {
+            background: linear-gradient(90deg, hsla(28, 100%, 55%, 0.2), hsla(330, 100%, 50%, 0.2)), hsl(24, 29%, 8%);
+            padding: 60px 16px;
+            text-align: center;
+        }
+        .page-content .cta-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 36px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .page-content .cta-subhead {
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .page-content .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .page-content .btn-primary-inverse {
+            display: block;
+            width: 100%;
+            padding: 16px 32px;
+            background: white;
+            color: hsl(150 100% 22%);
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .page-content .btn-secondary-outline {
+            display: block;
+            width: 100%;
+            padding: 16px 32px;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid white;
+        }
+
+        /* Footer */
+        .page-content .footer-dark {
+            background: hsl(24 29% 8%);
+            padding: 48px 16px 32px;
+        }
+        .page-content .footer-brand {
+            margin-bottom: 32px;
+        }
+        .page-content .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .page-content .footer-tagline {
+            font-size: 14px;
+            color: hsl(30 8% 50%);
+            max-width: 280px;
+            line-height: 1.5;
+        }
+        .page-content .footer-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .page-content .footer-column h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(30 6% 46%);
+            margin-bottom: 12px;
+        }
+        .page-content .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .page-content .footer-column li {
+            margin-bottom: 8px;
+        }
+        .page-content .footer-column a {
+            font-size: 13px;
+            color: hsl(30 5% 65%);
+            text-decoration: none;
+        }
+        .page-content .footer-bottom {
+            padding-top: 24px;
+            border-top: 1px solid hsl(24 28% 18%);
+        }
+        .page-content .footer-copyright {
+            font-size: 13px;
+            color: hsl(30 6% 46%);
+            margin-bottom: 8px;
+        }
+        .page-content .footer-email {
+            font-size: 13px;
+            color: hsl(30 5% 55%);
+        }
+
+        /* ============================================ */
+        /* DESKTOP OVERRIDES */
+        /* ============================================ */
+        .desktop-content .nav-inner {
+            padding: 0 32px;
+            height: 80px;
+        }
+        .desktop-content .nav-logo {
+            font-size: 24px;
+        }
+        .desktop-content .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .desktop-content .nav-link {
+            font-size: 16px;
+            font-weight: 500;
+            color: hsl(30 7% 35%);
+            text-decoration: none;
+        }
+        .desktop-content .nav-link:hover {
+            color: hsl(150 100% 27%);
+        }
+        .desktop-content .nav-cta {
+            padding: 12px 24px;
+            font-size: 15px;
+        }
+        .desktop-content .hamburger {
+            display: none;
+        }
+
+        /* Hero Desktop */
+        .desktop-content .hero-gradient {
+            padding: 128px 32px;
+        }
+        .desktop-content .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .desktop-content .hero-headline {
+            font-size: 72px;
+            margin-bottom: 24px;
+        }
+        .desktop-content .hero-subhead {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 640px;
+        }
+        .desktop-content .btn-hero {
+            width: auto;
+            display: inline-block;
+        }
+        .desktop-content .illustration-frame {
+            margin-top: 0;
+            padding: 64px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Content Sections Desktop */
+        .desktop-content .section-ledger {
+            padding: 100px 32px;
+        }
+        .desktop-content .section-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+        .desktop-content .section-grid.reverse .section-text-col {
+            order: 2;
+        }
+        .desktop-content .section-grid.reverse .section-illustration-col {
+            order: 1;
+        }
+        .desktop-content .section-card {
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        .desktop-content .section-card-wrapper {
+            background: white;
+            border-radius: 12px;
+            padding: 80px 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+        .desktop-content .section-title {
+            font-size: 48px;
+            font-variation-settings: 'opsz' 72;
+            margin-bottom: 24px;
+        }
+        .desktop-content .section-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .desktop-content .section-illustration {
+            min-height: 500px;
+        }
+
+        /* CTA Desktop */
+        .desktop-content .cta-section {
+            padding: 100px 32px;
+        }
+        .desktop-content .cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .desktop-content .cta-headline {
+            font-size: 64px;
+            font-variation-settings: 'opsz' 144;
+            margin-bottom: 24px;
+        }
+        .desktop-content .cta-subhead {
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+        .desktop-content .cta-buttons {
+            flex-direction: row;
+            justify-content: center;
+            gap: 16px;
+        }
+        .desktop-content .btn-primary-inverse,
+        .desktop-content .btn-secondary-outline {
+            width: auto;
+        }
+
+        /* Footer Desktop */
+        .desktop-content .footer-dark {
+            padding: 80px 32px 60px;
+        }
+        .desktop-content .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+        .desktop-content .footer-brand {
+            margin-bottom: 0;
+        }
+        .desktop-content .footer-logo {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .desktop-content .footer-links-grid {
+            display: contents;
+        }
+        .desktop-content .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .desktop-content .footer-copyright {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-spectrum"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>-></span>
+                    <a href="../index.html" class="hover:text-emerald-600">Marketing</a>
+                    <span>-></span>
+                    <span class="text-ink font-medium">Homepage</span>
+                </nav>
+
+                <header class="mb-12">
+                    <p class="serial text-emerald-600 mb-2">Page Specification</p>
+                    <h1 class="font-display text-4xl mb-2">Homepage</h1>
+                    <p class="text-warm-600">The main entry point for Saltwyk.com. Marketing gradient hero with dramatic emerald-to-intaglio treatment. The message IS the hero.</p>
+                </header>
+
+                <!-- Design Notes -->
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6 mb-12">
+                    <p class="font-medium text-emerald-800 mb-3">Galaxy Opal Design Decisions</p>
+                    <ul class="text-sm text-emerald-700 space-y-2">
+                        <li><strong>Marketing Gradient Hero:</strong> Dark emerald-to-intaglio gradient creates drama and sophistication. The message IS the hero - no competing illustration needed.</li>
+                        <li><strong>Single CTA:</strong> "Join the Network" works for both merchants and partners. White button stands out against dark gradient.</li>
+                        <li><strong>Alternating Layouts:</strong> Content sections alternate text/illustration positions to create visual rhythm.</li>
+                        <li><strong>Thread Discipline:</strong> Thread line above hero serves as dramatic entry point. Restraint is part of the design language.</li>
+                    </ul>
+                </div>
+
+                <!-- View Toggle -->
+                <div class="view-toggle-header">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-warm-500">Preview Mode</p>
+                        <div class="flex items-center gap-6">
+                            <div class="view-toggle" role="group" aria-label="View mode toggle">
+                            <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                    <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                                    <line x1="10" y1="19" x2="14" y2="19"/>
+                                </svg>
+                            </button>
+                            <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                    <line x1="2" y1="14" x2="22" y2="14"/>
+                                    <line x1="12" y1="17" x2="12" y2="20"/>
+                                    <line x1="8" y1="20" x2="16" y2="20"/>
+                                </svg>
+                            </button>
+                        </div>
+                            <span class="text-warm-300">|</span>
+                            <a href="?fullpage&view=desktop" target="_blank" class="text-sm text-warm-500 hover:text-emerald-600 flex items-center gap-1">
+                                Full Page
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- MOBILE LAYOUT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <div class="mobile-variant">
+                        <p class="serial text-emerald-600 mb-4">Mobile Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Mobile-first layout with marketing gradient hero, stacked content sections, and touch-friendly CTAs.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                            <div class="device-frame-mobile">
+                                <div class="page-content" style="max-height: 800px; overflow-y: auto;">
+
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper">
+                                        <div class="nav-inner">
+                                            <span class="nav-logo">Saltwyk</span>
+                                            <div class="flex items-center gap-4">
+                                                <span class="nav-cta">Let's Talk</span>
+                                                <svg class="hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero Section - Marketing Gradient -->
+                                    <div class="hero-section">
+                                        <!-- Thread above hero (Thread #1) -->
+                                        <div class="thread-spectrum"></div>
+
+                                        <div class="hero-gradient">
+                                            <div class="hero-content">
+                                                <p class="hero-eyebrow">Rewards Commerce</p>
+                                                <h1 class="hero-headline">Your points should work.</h1>
+                                                <p class="hero-subhead">Saltwyk makes points spendable, accelerating the points economy. Join the network where sales flow to merchants who accept points as payment.</p>
+                                                <a class="btn-hero">Join the Network</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- For Merchants -->
+                                    <div class="section-ledger">
+                                        <div class="section-card">
+                                            <h2 class="section-title">For Merchants</h2>
+                                            <p class="section-text">Shoppers spending points aren't hunting for discounts. They're spending what they've already earned. It's lighter for them, and it's better economics for you.</p>
+                                            <p class="section-text">When points are easy to spend, people shop more. You become part of a network where sales flow to merchants who accept points as payment.</p>
+                                            <p class="section-text emphasis">Early merchants shape the network and lock in economics that won't be available at scale.</p>
+
+                                            <div class="illustration-frame" style="margin-top: 24px;">
+                                                <p class="label">[Illustration: Merchant Value Proposition]</p>
+                                                <p class="description">Dashboard showing point acceptance, clearing balance, and network effects</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Why Shoppers Care -->
+                                    <div class="section-ledger" style="padding-top: 0;">
+                                        <div class="section-card">
+                                            <h2 class="section-title">Why Shoppers Care</h2>
+                                            <p class="section-text">Shopping with points is more fun than shopping with credit cards.</p>
+                                            <p class="section-text">When spending points is easy, shoppers do it more. They spend more, come back more often, and convert at higher rates.</p>
+                                            <p class="section-text emphasis">Saltwyk makes points easy to spend, not redeem. No catalogs, no conversion math, no expiration anxiety. Just checkout.</p>
+
+                                            <div class="illustration-frame" style="margin-top: 24px;">
+                                                <p class="label">[Illustration: Shopper Experience]</p>
+                                                <p class="description">Checkout flow showing multi-program point usage with smart allocation</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- For Partners -->
+                                    <div class="section-ledger" style="padding-top: 0;">
+                                        <div class="section-card">
+                                            <h2 class="section-title">For Partners</h2>
+                                            <p class="section-text">Your clients need new ways to grow. Partner Points Commerce is a channel they don't have yet.</p>
+                                            <p class="section-text">Saltwyk is a partner marketing platform and payments network in one. Bring merchants to the network. We reward partners generously and permanently.</p>
+                                            <p class="section-text emphasis">More tools are coming. Early partners shape what we build.</p>
+
+                                            <div class="illustration-frame" style="margin-top: 24px;">
+                                                <p class="label">[Illustration: Partner Ecosystem]</p>
+                                                <p class="description">Partner dashboard showing merchant referrals, revenue share, and network growth</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Final CTA Section -->
+                                    <div class="cta-section">
+                                        <h2 class="cta-headline">Accepting early merchants and partners.</h2>
+                                        <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment. Early partners shape what we build.</p>
+                                        <div class="cta-buttons">
+                                            <a class="btn-primary-inverse">Let's Talk</a>
+                                            <a class="btn-secondary-outline">Learn More</a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thread above footer -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-brand">
+                                            <p class="footer-logo">Saltwyk</p>
+                                            <p class="footer-tagline">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                        </div>
+
+                                        <div class="footer-links-grid">
+                                            <div class="footer-column">
+                                                <h4>Company</h4>
+                                                <ul>
+                                                    <li><a href="#">About</a></li>
+                                                    <li><a href="#">Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Products</h4>
+                                                <ul>
+                                                    <li><a href="#">Merchants</a></li>
+                                                    <li><a href="#">Partners</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Legal</h4>
+                                                <ul>
+                                                    <li><a href="#">Privacy</a></li>
+                                                    <li><a href="#">Terms</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="footer-bottom">
+                                            <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-email">hello@saltwyk.com</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- DESKTOP LAYOUT -->
+                    <!-- ============================================ -->
+                    <div class="desktop-variant">
+                        <p class="serial text-emerald-600 mb-4">Desktop Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Full desktop layout with marketing gradient hero, alternating content sections, and 4-column footer.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8">
+                            <div class="device-frame-desktop">
+                                <div class="page-content desktop-content" style="max-height: 900px; overflow-y: auto;">
+
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper">
+                                        <div class="nav-inner">
+                                            <span class="nav-logo">Saltwyk</span>
+                                            <div class="nav-links">
+                                                <a class="nav-link" href="#">Merchants</a>
+                                                <a class="nav-link" href="#">Partners</a>
+                                                <a class="nav-link" href="#">About</a>
+                                                <span class="nav-cta">Let's Talk</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero Section - Marketing Gradient -->
+                                    <div class="hero-section">
+                                        <!-- Thread above hero (Thread #1) -->
+                                        <div class="thread-spectrum"></div>
+
+                                        <div class="hero-gradient">
+                                            <div class="hero-content">
+                                                <p class="hero-eyebrow">Rewards Commerce</p>
+                                                <h1 class="hero-headline">Your points should work.</h1>
+                                                <p class="hero-subhead">Saltwyk makes points spendable, accelerating the points economy. Join the network where sales flow to merchants who accept points as payment.</p>
+                                                <a class="btn-hero">Join the Network</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- For Merchants - Text Left, Illustration Right -->
+                                    <div class="section-ledger">
+                                        <div class="section-grid">
+                                            <div class="section-text-col section-card">
+                                                <h2 class="section-title">For Merchants</h2>
+                                                <p class="section-text">Shoppers spending points aren't hunting for discounts. They're spending what they've already earned. It's lighter for them, and it's better economics for you.</p>
+                                                <p class="section-text">When points are easy to spend, people shop more. You become part of a network where sales flow to merchants who accept points as payment.</p>
+                                                <p class="section-text emphasis">Early merchants shape the network and lock in economics that won't be available at scale.</p>
+                                            </div>
+                                            <div class="section-illustration-col">
+                                                <div class="illustration-frame section-illustration">
+                                                    <p class="label">[Illustration: Merchant Value Proposition]</p>
+                                                    <p class="description">Dashboard showing point acceptance, clearing balance, and network effects</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Why Shoppers Care - Illustration Left, Text Right (Alternating) -->
+                                    <div class="section-ledger" style="padding-top: 0;">
+                                        <div class="section-card-wrapper">
+                                            <div class="section-grid reverse" style="max-width: 1136px; margin: 0 auto;">
+                                                <div class="section-text-col section-card">
+                                                    <h2 class="section-title">Why Shoppers Care</h2>
+                                                    <p class="section-text">Shopping with points is more fun than shopping with credit cards.</p>
+                                                    <p class="section-text">When spending points is easy, shoppers do it more. They spend more, come back more often, and convert at higher rates.</p>
+                                                    <p class="section-text emphasis">Saltwyk makes points easy to spend, not redeem. No catalogs, no conversion math, no expiration anxiety. Just checkout.</p>
+                                                </div>
+                                                <div class="section-illustration-col">
+                                                    <div class="illustration-frame section-illustration">
+                                                        <p class="label">[Illustration: Shopper Experience]</p>
+                                                        <p class="description">Checkout flow showing multi-program point usage with smart allocation</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- For Partners - Text Left, Illustration Right (Alternating Back) -->
+                                    <div class="section-ledger" style="padding-top: 0;">
+                                        <div class="section-grid">
+                                            <div class="section-text-col section-card">
+                                                <h2 class="section-title">For Partners</h2>
+                                                <p class="section-text">Your clients need new ways to grow. Partner Points Commerce is a channel they don't have yet.</p>
+                                                <p class="section-text">Saltwyk is a partner marketing platform and payments network in one. Bring merchants to the network. We reward partners generously and permanently.</p>
+                                                <p class="section-text emphasis">More tools are coming. Early partners shape what we build.</p>
+                                            </div>
+                                            <div class="section-illustration-col">
+                                                <div class="illustration-frame section-illustration">
+                                                    <p class="label">[Illustration: Partner Ecosystem]</p>
+                                                    <p class="description">Partner dashboard showing merchant referrals, revenue share, and network growth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Final CTA Section -->
+                                    <div class="cta-section">
+                                        <div class="cta-content">
+                                            <h2 class="cta-headline">Accepting early merchants and partners.</h2>
+                                            <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment. Early partners shape what we build.</p>
+                                            <div class="cta-buttons">
+                                                <a class="btn-primary-inverse">Let's Talk</a>
+                                                <a class="btn-secondary-outline">Learn More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thread above footer -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-inner">
+                                            <div class="footer-top">
+                                                <div class="footer-brand">
+                                                    <p class="footer-logo">Saltwyk</p>
+                                                    <p class="footer-tagline">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                                </div>
+
+                                                <div class="footer-links-grid">
+                                                    <div class="footer-column">
+                                                        <h4>Company</h4>
+                                                        <ul>
+                                                            <li><a href="#">About</a></li>
+                                                            <li><a href="#">Contact</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-column">
+                                                        <h4>Products</h4>
+                                                        <ul>
+                                                            <li><a href="#">Merchants</a></li>
+                                                            <li><a href="#">Partners</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-column">
+                                                        <h4>Legal</h4>
+                                                        <ul>
+                                                            <li><a href="#">Privacy</a></li>
+                                                            <li><a href="#">Terms</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="footer-bottom">
+                                                <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                                <p class="footer-email">hello@saltwyk.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PAGE STRUCTURE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Page Structure</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Section Flow</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">1</span>
+                                <div>
+                                    <p class="font-medium text-ink">Navigation</p>
+                                    <p class="text-sm text-warm-500">Sticky nav on ledger background</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
+                                <div>
+                                    <p class="font-medium text-ink">Hero Section (Marketing Gradient)</p>
+                                    <p class="text-sm text-warm-500">Thread above + emerald-to-intaglio gradient, 72pt white headline, single white CTA</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
+                                <div>
+                                    <p class="font-medium text-ink">For Merchants (Text Left)</p>
+                                    <p class="text-sm text-warm-500">Two-column: content left, illustration right</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
+                                <div>
+                                    <p class="font-medium text-ink">Why Shoppers Care (Alternating)</p>
+                                    <p class="text-sm text-warm-500">White card wrapper, illustration LEFT, text right - creates rhythm</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">5</span>
+                                <div>
+                                    <p class="font-medium text-ink">For Partners (Text Left)</p>
+                                    <p class="text-sm text-warm-500">Two-column: content left, illustration right - alternates back</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">6</span>
+                                <div>
+                                    <p class="font-medium text-ink">Final CTA Section</p>
+                                    <p class="text-sm text-warm-500">20% flame gradient over dark, 64pt headline, dual CTAs</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">7</span>
+                                <div>
+                                    <p class="font-medium text-ink">Footer</p>
+                                    <p class="text-sm text-warm-500">Thread above, 4-column layout, dark background</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- TECHNICAL SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Technical Specifications</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Typography Scale</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Headline</p>
+                                <code>72px / 400 / opsz 144</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Headline</p>
+                                <code>64px / 600 / opsz 144</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Title</p>
+                                <code>48px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text</p>
+                                <code>18px / Inter / 1.7</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Color Usage</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Page Background</p>
+                                <code>ledger</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Background</p>
+                                <code>gradient-hero-emerald</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Thread</p>
+                                <code>thread-spectrum</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero CTA</p>
+                                <code>white (on dark)</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Eyebrow Text</p>
+                                <code>emerald-300</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Final CTA BG</p>
+                                <code>flame @ 20% + intaglio</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Thread Usage</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Thread #1: Above Hero</p>
+                                <code>thread-spectrum, 3px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Thread #2: Above Footer</p>
+                                <code>thread-spectrum, 3px</code>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-4">Thread acts as dramatic entry point above hero. Thread discipline maintained throughout.</p>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Hero Design Rationale</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Treatment</p>
+                                <p class="text-warm-700">Marketing gradient (emerald -> intaglio)</p>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">No Illustration</p>
+                                <p class="text-warm-700">The message IS the hero</p>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Style</p>
+                                <p class="text-warm-700">White button on dark (high contrast)</p>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Typography</p>
+                                <p class="text-warm-700">72px white Fraunces, opsz 144</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- RELATED PAGES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-emerald-600 mb-4">Related Pages</p>
+
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="about.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">About Page</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                        <a href="merchants.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">Merchants Page</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                        <a href="partners.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">Partners Page</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                        <a href="../typography.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">Typography</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                        <a href="../color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">Color Strategy</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                        <a href="../showcase.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-300 transition-colors">
+                            <span class="font-medium">Showcase</span>
+                            <span class="text-warm-400 ml-2">-></span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Navigation -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">.</span>
+                        <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
