@@ -3,87 +3,1049 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing Color Strategy - Saltwyk Design System</title>
+    <title>Galaxy Opal Color Strategy - Saltwyk Design System</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/assets/config/tailwind.config.js"></script>
     <link rel="stylesheet" href="/assets/config/design-tokens.css">
 
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
         .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
 
+        /* Thread line utilities */
+        .thread-line { height: 3px; background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); border-radius: 9999px; }
+        .thread-line-thin { height: 2px; background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); border-radius: 9999px; }
+
+        /* Thread families */
+        .thread-spectrum { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); }
+        .thread-cool { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread))); }
+        .thread-fresh { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread))); }
+        .thread-tropic { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)) 50%, hsl(var(--orange-thread)) 100%); }
+
+        /* Intensity scale helpers */
+        .thread-opacity-65 { opacity: 0.65; }
+        .thread-opacity-40 { opacity: 0.40; }
+        .thread-opacity-20 { opacity: 0.20; }
+        .thread-opacity-8 { opacity: 0.08; }
+
+        /* Hero gradients */
+        .gradient-hero-intaglio { background: linear-gradient(135deg, hsl(24 29% 12%) 0%, hsl(24 28% 18%) 40%, hsl(24 29% 8%) 100%); }
+
+        /* Sepia gradient for illustrations */
+        .gradient-sepia { background: linear-gradient(180deg, hsl(var(--sepia-50)) 0%, hsl(var(--sepia-200)) 100%); }
+
+        /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
-        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
-        .nav-dropdown-menu { position: absolute; top: 100%; left: 0; min-width: 200px; background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px; box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100; }
-        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
-        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
-        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
-        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
 
-        .sidebar-link {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.875rem;
-            color: hsl(30 8% 35%);
-            border-radius: 0.375rem;
-            transition: background-color 0.1s ease, color 0.1s ease;
-        }
-        .sidebar-link:hover {
-            background-color: hsl(150 45% 97%);
-            color: hsl(150 100% 27%);
-        }
-        .sidebar-link-coming {
-            color: hsl(30 5% 68%);
-            cursor: default;
+        /* Preliminary badge */
+        .badge-preliminary {
+            background: hsl(var(--orange-100));
+            color: hsl(var(--orange-700));
+            border: 1px solid hsl(var(--orange-200));
         }
     </style>
 </head>
 <body class="bg-ledger text-ink">
-
     <div id="top-nav"></div>
 
     <div class="flex">
         <div id="side-nav"></div>
-        <main class="flex-1 bg-ledger">
-            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
-            <div class="max-w-4xl mx-auto px-8 py-8">
-                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
-                    <a href="/" class="hover:text-emerald-600 transition-colors">Design System</a>
-                    <span class="text-warm-300">→</span>
-                    <a href="/" class="hover:text-emerald-600 transition-colors">Products</a>
-                    <span class="text-warm-300">→</span>
-                    <span class="text-ink font-medium">Marketing Color Strategy</span>
-                </nav>
+        <main class="flex-1">
+            <!-- Thread #1: Header Position -->
+            <div class="thread-line w-full"></div>
 
-                <header class="mb-12">
-                    <h1 class="font-display text-4xl mb-4">Marketing Color Strategy</h1>
-                    <p class="text-lg text-warm-600">Extended Opal treatment for public website and landing pages.</p>
-                </header>
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/marketing/" class="hover:text-emerald-600">Marketing</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Color Strategy</span>
+        </nav>
 
-                <div class="bg-white border-2 border-warm-200 rounded-xl p-12 text-center">
-                    <p class="text-warm-400 text-lg mb-2">Coming Soon</p>
-                    <p class="text-warm-500 text-sm">This page is under development.</p>
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Marketing Design System</p>
+            <h1 class="font-display text-4xl mb-2">Galaxy Opal</h1>
+            <p class="text-lg text-warm-600 mb-4">Marketing's vibrant, expressive visual language</p>
+            <p class="text-warm-500 max-w-3xl leading-relaxed">
+                Galaxy Opal is the marketing surface treatment—a more dramatic and attention-capturing evolution of Fire Opal.
+                It combines traditional finance gravitas (intaglio, sepia) with modern currency innovation (security threads, vibrant gradients)
+                to tell Saltwyk's story.
+            </p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Philosophy</p>
+            <h2 class="font-display text-2xl mb-6">Traditional Finance + Modern Currency</h2>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Traditional Finance -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="w-12 h-12 rounded-lg gradient-sepia border-2 border-sepia-300 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-sepia-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <p class="font-medium text-ink mb-3">Traditional Finance</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-sepia-500 mt-1">•</span>
+                            <span>Intaglio printing</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sepia-500 mt-1">•</span>
+                            <span>Sepia tones</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sepia-500 mt-1">•</span>
+                            <span>Engraved aesthetics</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sepia-500 mt-1">•</span>
+                            <span>Parchment surfaces</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sepia-500 mt-1">•</span>
+                            <span>Formal composition</span>
+                        </li>
+                    </ul>
                 </div>
 
-                <footer class="pt-6 mt-12 border-t-2 border-warm-200">
-                    <div class="flex justify-between items-center text-sm text-warm-500">
-                        <div class="flex items-center gap-4">
-                            <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
-                            <span class="text-warm-300">·</span>
-                            <a href="/sitemap.html" class="hover:text-emerald-600 transition-colors">Sitemap</a>
+                <!-- The Bridge -->
+                <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-b-lg overflow-hidden">
+                    <div class="h-[3px] thread-spectrum"></div>
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-lg bg-intaglio-800 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
                         </div>
-                        <span class="text-warm-400">v0.6 · January 2026</span>
+                        <p class="font-medium text-white mb-3">The Bridge</p>
+                        <p class="text-sm text-warm-300 leading-relaxed">
+                            Galaxy Opal synthesizes both worlds—the gravitas of established finance with the energy of modern currency innovation.
+                        </p>
                     </div>
-                </footer>
+                </div>
+
+                <!-- Modern Currency -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-100 to-magenta-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <p class="font-medium text-ink mb-3">Modern Currency</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-500 mt-1">•</span>
+                            <span>Security threads</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-500 mt-1">•</span>
+                            <span>Holographic elements</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-500 mt-1">•</span>
+                            <span>Vibrant gradients</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-500 mt-1">•</span>
+                            <span>Dynamic energy</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: RELATIONSHIP TO OTHER TREATMENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Context</p>
+            <h2 class="font-display text-2xl mb-6">Relationship to Other Treatments</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-warm-200 bg-warm-50">
+                            <th class="text-left py-3 px-4 font-medium w-40">Treatment</th>
+                            <th class="text-left py-3 px-4 font-medium">Personality</th>
+                            <th class="text-left py-3 px-4 font-medium">Background</th>
+                            <th class="text-left py-3 px-4 font-medium">Thread Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr class="bg-intaglio-50">
+                            <td class="py-3 px-4 font-medium">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-[3px] w-8 thread-spectrum rounded-full"></div>
+                                    <span>Galaxy Opal</span>
+                                </div>
+                                <span class="text-xs text-emerald-600">Marketing</span>
+                            </td>
+                            <td class="py-3 px-4 text-warm-700">Vibrant, expressive, attention-capturing</td>
+                            <td class="py-3 px-4 text-warm-600">Dark backgrounds with dramatic gradients</td>
+                            <td class="py-3 px-4 text-warm-600 font-medium">Multiple thread accents per page</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-[3px] w-8 thread-cool rounded-full"></div>
+                                    <span>Fire Opal</span>
+                                </div>
+                                <span class="text-xs text-warm-500">Merchant Product</span>
+                            </td>
+                            <td class="py-3 px-4 text-warm-700">Sophisticated, professional, trustworthy</td>
+                            <td class="py-3 px-4 text-warm-600">Dark intaglio backgrounds</td>
+                            <td class="py-3 px-4 text-warm-600">One thread per page</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-[3px] w-8 thread-fresh rounded-full"></div>
+                                    <span>Bright Opal</span>
+                                </div>
+                                <span class="text-xs text-warm-500">Shopper Product</span>
+                            </td>
+                            <td class="py-3 px-4 text-warm-700">Friendly, approachable, clear</td>
+                            <td class="py-3 px-4 text-warm-600">Light ledger backgrounds</td>
+                            <td class="py-3 px-4 text-warm-600">Subtle thread accents</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">
+                                <span>Matrix Opal</span>
+                                <span class="text-xs text-warm-500 block">Documentation</span>
+                            </td>
+                            <td class="py-3 px-4 text-warm-700">Neutral, informative, readable</td>
+                            <td class="py-3 px-4 text-warm-600">Light backgrounds, minimal decoration</td>
+                            <td class="py-3 px-4 text-warm-600">Rare thread usage</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: BACKGROUND STRATEGY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Surfaces</p>
+            <h2 class="font-display text-2xl mb-6">Surface Treatments</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Layering System</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <table class="w-full text-sm">
+                            <tbody class="divide-y divide-warm-100">
+                                <tr>
+                                    <td class="py-3 text-warm-500">Primary Surface</td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-6 h-6 rounded border border-warm-300" style="background: hsl(48 29% 95%)"></span>
+                                            <code class="text-xs">hsl(var(--ledger))</code>
+                                        </div>
+                                        <span class="text-xs text-warm-500">Warm off-white parchment</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 text-warm-500">Card Surfaces</td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-6 h-6 rounded border border-warm-300 bg-white"></span>
+                                            <code class="text-xs">hsl(0, 0%, 100%)</code>
+                                        </div>
+                                        <span class="text-xs text-warm-500">Pure white with subtle shadows</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 text-warm-500">Accent Sections</td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-6 h-6 rounded border border-intaglio-700" style="background: hsl(24 29% 8%)"></span>
+                                            <code class="text-xs">hsl(var(--intaglio-900))</code>
+                                        </div>
+                                        <span class="text-xs text-warm-500">Dark intaglio for dramatic moments</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-4">
+                        <p class="font-medium text-ink mb-2">Rhythm</p>
+                        <p class="text-sm text-warm-600 leading-relaxed">
+                            Predominantly light with strategic dark sections for emphasis. Alternate between ledger and intaglio
+                            to create visual rhythm—light for comprehension, dark for impact.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Examples -->
+            <p class="text-sm font-medium text-warm-600 mb-3">Visual Examples</p>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Full ledger with white cards -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="bg-ledger p-4">
+                        <div class="bg-white rounded-lg shadow-sm p-3 mb-2">
+                            <div class="h-2 w-16 bg-warm-200 rounded mb-1"></div>
+                            <div class="h-2 w-24 bg-warm-100 rounded"></div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm p-3">
+                            <div class="h-2 w-20 bg-warm-200 rounded mb-1"></div>
+                            <div class="h-2 w-16 bg-warm-100 rounded"></div>
+                        </div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs text-warm-600">Ledger + white cards</p>
+                    </div>
+                </div>
+
+                <!-- Section alternation -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="bg-ledger p-2 text-center">
+                        <div class="h-1 w-8 bg-warm-300 rounded mx-auto"></div>
+                    </div>
+                    <div class="bg-intaglio-900 p-4 text-center">
+                        <div class="h-[2px] w-full thread-spectrum rounded mb-2"></div>
+                        <div class="h-2 w-16 bg-intaglio-700 rounded mx-auto"></div>
+                    </div>
+                    <div class="bg-ledger p-2 text-center">
+                        <div class="h-1 w-8 bg-warm-300 rounded mx-auto"></div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs text-warm-600">Light → Dark → Light</p>
+                    </div>
+                </div>
+
+                <!-- Card elevation -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="bg-ledger p-4">
+                        <div class="bg-white rounded-lg shadow-lg p-4 -rotate-1">
+                            <div class="h-[2px] w-full thread-spectrum rounded mb-3"></div>
+                            <div class="h-2 w-20 bg-warm-200 rounded mb-1"></div>
+                            <div class="h-2 w-16 bg-warm-100 rounded"></div>
+                        </div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs text-warm-600">Card elevation + shadow</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3B: TYPOGRAPHY HIERARCHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Type System</p>
+            <h2 class="font-display text-2xl mb-6">Typography Hierarchy</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-sm text-warm-600 mb-6">Fraunces serves as the display typeface for all marketing headlines. Four sizes establish hierarchy.</p>
+
+                <div class="space-y-8">
+                    <!-- Display XL -->
+                    <div class="border-b border-warm-100 pb-6">
+                        <p class="font-display text-5xl mb-3" style="font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;">The rewards commerce network</p>
+                        <div class="flex flex-wrap gap-4 text-xs">
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Size</span>
+                                <span class="text-ink font-medium ml-2">48px / 3rem</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Weight</span>
+                                <span class="text-ink font-medium ml-2">400 (Regular)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Tracking</span>
+                                <span class="text-ink font-medium ml-2">-0.02em</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Leading</span>
+                                <span class="text-ink font-medium ml-2">1.1 (110%)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Color</span>
+                                <code class="text-ink font-medium ml-2">hsl(24 29% 8%)</code>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2">Use: Hero headlines, major page titles</p>
+                    </div>
+
+                    <!-- Display L -->
+                    <div class="border-b border-warm-100 pb-6">
+                        <p class="font-display text-4xl mb-3" style="font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">Accept points from everywhere</p>
+                        <div class="flex flex-wrap gap-4 text-xs">
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Size</span>
+                                <span class="text-ink font-medium ml-2">36px / 2.25rem</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Weight</span>
+                                <span class="text-ink font-medium ml-2">400 (Regular)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Tracking</span>
+                                <span class="text-ink font-medium ml-2">-0.015em</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Leading</span>
+                                <span class="text-ink font-medium ml-2">1.15 (115%)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Color</span>
+                                <code class="text-ink font-medium ml-2">hsl(24 29% 8%)</code>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2">Use: Section headers, feature titles</p>
+                    </div>
+
+                    <!-- Display M -->
+                    <div class="border-b border-warm-100 pb-6">
+                        <p class="font-display text-2xl mb-3" style="font-weight: 400; letter-spacing: -0.01em; line-height: 1.2;">Turn loyalty into revenue</p>
+                        <div class="flex flex-wrap gap-4 text-xs">
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Size</span>
+                                <span class="text-ink font-medium ml-2">24px / 1.5rem</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Weight</span>
+                                <span class="text-ink font-medium ml-2">400 (Regular)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Tracking</span>
+                                <span class="text-ink font-medium ml-2">-0.01em</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Leading</span>
+                                <span class="text-ink font-medium ml-2">1.2 (120%)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Color</span>
+                                <code class="text-ink font-medium ml-2">hsl(24 29% 8%)</code>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2">Use: Card titles, subsection headers</p>
+                    </div>
+
+                    <!-- Display S -->
+                    <div>
+                        <p class="font-display text-xl mb-3" style="font-weight: 500; letter-spacing: 0em; line-height: 1.25;">Built for merchants who prosper</p>
+                        <div class="flex flex-wrap gap-4 text-xs">
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Size</span>
+                                <span class="text-ink font-medium ml-2">20px / 1.25rem</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Weight</span>
+                                <span class="text-ink font-medium ml-2">500 (Medium)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Tracking</span>
+                                <span class="text-ink font-medium ml-2">0em (normal)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Leading</span>
+                                <span class="text-ink font-medium ml-2">1.25 (125%)</span>
+                            </div>
+                            <div class="bg-warm-50 rounded px-3 py-2">
+                                <span class="text-warm-500">Color</span>
+                                <code class="text-ink font-medium ml-2">hsl(24 29% 8%)</code>
+                            </div>
+                        </div>
+                        <p class="text-xs text-warm-500 mt-2">Use: Smaller titles, emphasized body text</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark background variants -->
+            <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-lg p-6">
+                <p class="text-sm text-warm-300 mb-4">On dark backgrounds, use <code class="bg-intaglio-800 text-warm-200">hsl(var(--warm-100))</code> for headlines.</p>
+                <p class="font-display text-4xl text-warm-100" style="font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">Found money feeling</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: THREAD GRADIENT SYSTEM -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Decorative Elements</p>
+            <h2 class="font-display text-2xl mb-6">Security Thread Usage</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Two-Per-Page Baseline</p>
+                <p class="text-sm text-warm-600 mb-6">Every marketing page starts with two thread positions as the baseline.</p>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Thread #1 -->
+                    <div class="border-2 border-emerald-200 rounded-lg p-4 bg-emerald-50/30">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center justify-center">1</span>
+                            <p class="font-medium text-ink">Header Position</p>
+                        </div>
+                        <p class="text-sm text-warm-600 mb-3">
+                            Horizontal gradient line immediately below the navigation header. Spans full width using <code>.thread-line</code> utility (3px height).
+                        </p>
+                        <div class="bg-warm-100 rounded p-2">
+                            <div class="h-2 w-full bg-warm-200 rounded mb-1"></div>
+                            <div class="h-[3px] thread-spectrum rounded"></div>
+                        </div>
+                    </div>
+
+                    <!-- Thread #2 -->
+                    <div class="border-2 border-emerald-200 rounded-lg p-4 bg-emerald-50/30">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center justify-center">2</span>
+                            <p class="font-medium text-ink">Hero Card Top</p>
+                        </div>
+                        <p class="text-sm text-warm-600 mb-3">
+                            Applied to the top edge of the hero card/section. Square top corners (no border-radius). Gradient flows horizontally across card top.
+                        </p>
+                        <div class="bg-warm-100 rounded-b p-2">
+                            <div class="h-[3px] thread-spectrum rounded-none -mx-2 -mt-2 mb-2"></div>
+                            <div class="h-2 w-20 bg-warm-200 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rules -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Thread Rules</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Two threads are the baseline for every marketing page</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Additional thread usage requires intentional design decision</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span>Thread families: Cool, Fresh, Tropic, Spectrum</span>
+                        </li>
+                    </ul>
+                    <div>
+                        <p class="text-sm font-medium text-warm-700 mb-2">Intensity Scale</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-3">
+                                <div class="h-[3px] w-16 thread-spectrum rounded"></div>
+                                <span class="text-xs text-warm-500">100%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="h-[3px] w-16 thread-spectrum rounded thread-opacity-65"></div>
+                                <span class="text-xs text-warm-500">65%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="h-[3px] w-16 thread-spectrum rounded thread-opacity-40"></div>
+                                <span class="text-xs text-warm-500">40%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="h-[3px] w-16 thread-spectrum rounded thread-opacity-20"></div>
+                                <span class="text-xs text-warm-500">20%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="h-[3px] w-16 thread-spectrum rounded thread-opacity-8"></div>
+                                <span class="text-xs text-warm-500">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page layout example -->
+            <p class="text-sm font-medium text-warm-600 mb-3">Page Layout Example</p>
+            <div class="bg-warm-100 border-2 border-warm-200 rounded-lg p-6">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden max-w-md mx-auto">
+                    <!-- Nav placeholder -->
+                    <div class="bg-warm-50 px-4 py-2 flex items-center justify-between border-b border-warm-200">
+                        <div class="h-2 w-16 bg-warm-300 rounded"></div>
+                        <div class="flex gap-2">
+                            <div class="h-2 w-8 bg-warm-200 rounded"></div>
+                            <div class="h-2 w-8 bg-warm-200 rounded"></div>
+                        </div>
+                    </div>
+                    <!-- Thread #1 -->
+                    <div class="h-[3px] thread-spectrum"></div>
+                    <!-- Hero section -->
+                    <div class="bg-intaglio-900 rounded-b-none overflow-hidden">
+                        <!-- Thread #2 on hero card -->
+                        <div class="h-[3px] thread-spectrum"></div>
+                        <div class="p-6">
+                            <div class="h-3 w-32 bg-intaglio-700 rounded mb-2"></div>
+                            <div class="h-2 w-48 bg-intaglio-800 rounded"></div>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="bg-ledger p-4">
+                        <div class="h-2 w-24 bg-warm-300 rounded mb-2"></div>
+                        <div class="h-2 w-full bg-warm-200 rounded"></div>
+                    </div>
+                </div>
+                <p class="text-xs text-warm-500 text-center mt-4">Both thread positions shown in context</p>
+            </div>
+
+            <!-- Working Hero Card Example -->
+            <div class="mt-8">
+                <p class="text-sm font-medium text-warm-600 mb-3">Working Example: Hero Card with Thread</p>
+                <div class="bg-ledger border-2 border-warm-200 rounded-lg p-6">
+                    <!-- The actual hero card -->
+                    <div class="bg-intaglio-900 rounded-b-lg overflow-hidden shadow-xl max-w-2xl mx-auto">
+                        <!-- Thread on top edge - square top corners -->
+                        <div class="h-[3px] thread-spectrum"></div>
+                        <!-- Hero content -->
+                        <div class="p-8">
+                            <p class="serial text-cyan-400 mb-3">Introducing</p>
+                            <h3 class="font-display text-3xl text-white mb-4" style="letter-spacing: -0.015em; line-height: 1.15;">The rewards commerce network</h3>
+                            <p class="text-warm-300 mb-6 max-w-md">Accept loyalty points from hundreds of programs. Unlock new customers. Get paid in cash.</p>
+                            <button class="px-5 py-2.5 rounded-lg text-white font-medium" style="background: hsl(150 100% 27%)">
+                                Learn more →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Implementation notes -->
+                    <div class="mt-6 bg-white rounded-lg border border-warm-200 p-4 max-w-2xl mx-auto">
+                        <p class="text-xs font-medium text-ink mb-2">Implementation</p>
+                        <pre class="text-xs text-warm-600 font-mono overflow-x-auto"><code>&lt;div class="bg-intaglio-900 rounded-b-lg overflow-hidden"&gt;
+  &lt;div class="h-[3px] thread-spectrum"&gt;&lt;/div&gt;
+  &lt;div class="p-8"&gt;
+    &lt;!-- Hero content --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p class="text-xs text-warm-500 mt-2">Key: <code>rounded-b-lg</code> (not <code>rounded-lg</code>) keeps top corners square for the thread.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: THREAD FAMILY SELECTION -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Decision Framework</p>
+            <h2 class="font-display text-2xl mb-6">Choosing Thread Families</h2>
+
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Spectrum -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 flex items-start gap-6">
+                    <div class="flex-shrink-0 w-32">
+                        <div class="h-[4px] thread-spectrum rounded mb-2"></div>
+                        <p class="font-medium text-ink">Spectrum</p>
+                        <p class="text-xs text-warm-500">Full rainbow</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-warm-600 mb-2">Homepage, about page, brand moments</p>
+                        <p class="text-xs text-warm-500">Use when you need the full brand expression. Maximum vibrancy and energy.</p>
+                    </div>
+                </div>
+
+                <!-- Cool -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 flex items-start gap-6">
+                    <div class="flex-shrink-0 w-32">
+                        <div class="h-[4px] thread-cool rounded mb-2"></div>
+                        <p class="font-medium text-ink">Cool</p>
+                        <p class="text-xs text-warm-500">Cyan → Magenta</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-warm-600 mb-2">Technology, infrastructure, trust themes</p>
+                        <p class="text-xs text-warm-500">Professional authority. Good for B2B messaging and technical credibility.</p>
+                    </div>
+                </div>
+
+                <!-- Fresh -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 flex items-start gap-6">
+                    <div class="flex-shrink-0 w-32">
+                        <div class="h-[4px] thread-fresh rounded mb-2"></div>
+                        <p class="font-medium text-ink">Fresh</p>
+                        <p class="text-xs text-warm-500">Lime → Cyan</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-warm-600 mb-2">Growth, success, positive outcomes</p>
+                        <p class="text-xs text-warm-500">Optimistic and forward-looking. Great for success stories and benefits.</p>
+                    </div>
+                </div>
+
+                <!-- Tropic -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6 flex items-start gap-6">
+                    <div class="flex-shrink-0 w-32">
+                        <div class="h-[4px] thread-tropic rounded mb-2"></div>
+                        <p class="font-medium text-ink">Tropic</p>
+                        <p class="text-xs text-warm-500">Cyan → Lime → Orange</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-warm-600 mb-2">Diversity, ecosystem, network effects</p>
+                        <p class="text-xs text-warm-500">Breadth and variety. Good for partner pages and ecosystem messaging.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: INDIGO + SEPIA DEPTH STRATEGY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <div class="flex items-center gap-3 mb-4">
+                <p class="serial text-emerald-600">Illustration Depth</p>
+                <span class="badge-preliminary text-xs font-medium px-2 py-0.5 rounded">Preliminary</span>
+            </div>
+            <h2 class="font-display text-2xl mb-6">Illustration Depth System</h2>
+
+            <div class="bg-orange-50 border-2 border-orange-200 rounded-lg p-4 mb-6">
+                <p class="text-sm text-orange-800">
+                    <strong>Under Investigation:</strong> This approach is preliminary and will be refined through design experiments.
+                    The layering system below represents the current working hypothesis.
+                </p>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="font-medium text-ink mb-4">Layering Approach for Sepia Intaglio Illustrations</p>
+
+                <div class="space-y-6">
+                    <!-- Layer 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-sepia-200 text-sepia-700 text-sm font-bold flex items-center justify-center">1</div>
+                        <div>
+                            <p class="font-medium text-ink mb-1">Sepia Base</p>
+                            <p class="text-sm text-warm-600 mb-2">Traditional engraved illustration in sepia tones</p>
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded" style="background: hsl(40 25% 96%)"></span>
+                                <span class="w-5 h-5 rounded" style="background: hsl(36 35% 85%)"></span>
+                                <span class="w-5 h-5 rounded" style="background: hsl(32 28% 58%)"></span>
+                                <span class="w-5 h-5 rounded" style="background: hsl(30 25% 45%)"></span>
+                                <span class="w-5 h-5 rounded" style="background: hsl(26 20% 25%)"></span>
+                                <code class="text-xs ml-2">sepia-50 → sepia-800</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 text-sm font-bold flex items-center justify-center">2</div>
+                        <div>
+                            <p class="font-medium text-ink mb-1">Thread Integration</p>
+                            <p class="text-sm text-warm-600 mb-2">Security thread gradients embedded within illustration composition (as line work, decorative elements)</p>
+                            <div class="h-[3px] w-32 thread-spectrum rounded"></div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 3 -->
+                    <div class="flex items-start gap-4 opacity-75">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 text-sm font-bold flex items-center justify-center">3</div>
+                        <div>
+                            <p class="font-medium text-ink mb-1">Indigo Depth <span class="badge-preliminary text-xs font-medium px-1.5 py-0.5 rounded ml-2">Preliminary</span></p>
+                            <p class="text-sm text-warm-600 mb-3">Subtle indigo linework or tint overlay to create depth</p>
+
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-3">
+                                    <p class="font-medium text-indigo-800 mb-1">Approach A</p>
+                                    <p class="text-indigo-600 text-xs">Indigo as additional intaglio lines (similar to sepia but cooler tone)</p>
+                                </div>
+                                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-3">
+                                    <p class="font-medium text-indigo-800 mb-1">Approach B</p>
+                                    <p class="text-indigo-600 text-xs">Indigo as subtle tint/transparency overlay (10-30% opacity)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layering Progression Comparison -->
+            <p class="text-sm font-medium text-warm-600 mb-3">Layering Progression</p>
+            <div class="grid grid-cols-4 gap-4">
+                <!-- Stage 1: Sepia Only -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="aspect-square relative" style="background: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(36 30% 90%) 100%);">
+                        <!-- Simulated sepia illustration lines -->
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="45" r="20" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <circle cx="50" cy="45" r="15" stroke="hsl(30 25% 45%)" stroke-width="1" fill="none"/>
+                            <path d="M30 70 Q50 60 70 70" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <line x1="35" y1="75" x2="65" y2="75" stroke="hsl(30 25% 45%)" stroke-width="1"/>
+                            <line x1="40" y1="80" x2="60" y2="80" stroke="hsl(32 28% 58%)" stroke-width="0.75"/>
+                        </svg>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs font-medium text-ink">1. Sepia Base</p>
+                        <p class="text-[10px] text-warm-500">Traditional engraving</p>
+                    </div>
+                </div>
+
+                <!-- Stage 2: Sepia + Thread -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="aspect-square relative" style="background: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(36 30% 90%) 100%);">
+                        <!-- Sepia illustration -->
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="45" r="20" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <circle cx="50" cy="45" r="15" stroke="hsl(30 25% 45%)" stroke-width="1" fill="none"/>
+                            <path d="M30 70 Q50 60 70 70" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <line x1="35" y1="75" x2="65" y2="75" stroke="hsl(30 25% 45%)" stroke-width="1"/>
+                            <line x1="40" y1="80" x2="60" y2="80" stroke="hsl(32 28% 58%)" stroke-width="0.75"/>
+                        </svg>
+                        <!-- Thread accent -->
+                        <div class="absolute bottom-4 left-4 right-4 h-[3px] thread-spectrum rounded"></div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs font-medium text-ink">2. + Thread</p>
+                        <p class="text-[10px] text-warm-500">Security thread integrated</p>
+                    </div>
+                </div>
+
+                <!-- Stage 3: Sepia + Thread + Indigo Lines -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="aspect-square relative" style="background: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(36 30% 90%) 100%);">
+                        <!-- Sepia + indigo illustration -->
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="45" r="20" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <circle cx="50" cy="45" r="15" stroke="hsl(30 25% 45%)" stroke-width="1" fill="none"/>
+                            <!-- Indigo depth lines -->
+                            <circle cx="50" cy="45" r="22" stroke="hsl(239 84% 67%)" stroke-width="0.75" fill="none" opacity="0.5"/>
+                            <circle cx="50" cy="45" r="12" stroke="hsl(239 84% 67%)" stroke-width="0.5" fill="none" opacity="0.4"/>
+                            <path d="M30 70 Q50 60 70 70" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <path d="M28 72 Q50 62 72 72" stroke="hsl(239 84% 67%)" stroke-width="0.75" fill="none" opacity="0.5"/>
+                            <line x1="35" y1="75" x2="65" y2="75" stroke="hsl(30 25% 45%)" stroke-width="1"/>
+                            <line x1="40" y1="80" x2="60" y2="80" stroke="hsl(32 28% 58%)" stroke-width="0.75"/>
+                        </svg>
+                        <!-- Thread accent -->
+                        <div class="absolute bottom-4 left-4 right-4 h-[3px] thread-spectrum rounded"></div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs font-medium text-ink">3. + Indigo Lines</p>
+                        <p class="text-[10px] text-warm-500">Approach A: cooler linework</p>
+                    </div>
+                </div>
+
+                <!-- Stage 4: Sepia + Thread + Indigo Tint -->
+                <div class="rounded-lg overflow-hidden border-2 border-warm-200">
+                    <div class="aspect-square relative" style="background: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(36 30% 90%) 100%);">
+                        <!-- Indigo tint overlay -->
+                        <div class="absolute inset-0" style="background: linear-gradient(135deg, hsla(239 84% 67% / 0.08) 0%, hsla(239 84% 67% / 0.15) 100%);"></div>
+                        <!-- Sepia illustration -->
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="45" r="20" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <circle cx="50" cy="45" r="15" stroke="hsl(30 25% 45%)" stroke-width="1" fill="none"/>
+                            <path d="M30 70 Q50 60 70 70" stroke="hsl(32 28% 58%)" stroke-width="1.5" fill="none"/>
+                            <line x1="35" y1="75" x2="65" y2="75" stroke="hsl(30 25% 45%)" stroke-width="1"/>
+                            <line x1="40" y1="80" x2="60" y2="80" stroke="hsl(32 28% 58%)" stroke-width="0.75"/>
+                        </svg>
+                        <!-- Thread accent -->
+                        <div class="absolute bottom-4 left-4 right-4 h-[3px] thread-spectrum rounded"></div>
+                    </div>
+                    <div class="px-3 py-2 bg-warm-50 border-t border-warm-200">
+                        <p class="text-xs font-medium text-ink">4. + Indigo Tint</p>
+                        <p class="text-[10px] text-warm-500">Approach B: subtle overlay</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: EMERALD USAGE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Action Color</p>
+            <h2 class="font-display text-2xl mb-6">Primary Action Color</h2>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background: hsl(150 100% 27%)">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-ink">Emerald</p>
+                            <code class="text-xs">hsl(var(--emerald-500))</code>
+                        </div>
+                    </div>
+
+                    <p class="text-sm font-medium text-ink mb-3">Use For:</p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span><strong>Primary CTAs:</strong> All main action buttons</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span><strong>Links:</strong> Default link color</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-1">•</span>
+                            <span><strong>Success States:</strong> Completion, verification, positive outcomes</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <p class="font-medium text-ink mb-4 flex items-center gap-2">
+                        <span class="text-magenta-600">✗</span> Never Use For:
+                    </p>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Decoration only</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Backgrounds without purpose</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-1">•</span>
+                            <span>Competing with thread gradients</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-4 pt-4 border-t border-magenta-100">
+                        <p class="text-xs text-warm-500">
+                            Emerald should feel special and intentional. Overuse diminishes its impact as an action color.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button example -->
+            <div class="mt-6 bg-intaglio-900 rounded-lg p-8 text-center">
+                <button class="px-6 py-3 rounded-lg text-white font-medium shadow-lg" style="background: hsl(150 100% 27%)">
+                    Start accepting points →
+                </button>
+                <p class="text-xs text-warm-400 mt-4">Primary CTA on dark background</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 8: ACCESSIBILITY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Standards</p>
+            <h2 class="font-display text-2xl mb-6">Color Contrast & Legibility</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Minimum Contrast Requirements</p>
+                </div>
+                <table class="w-full text-sm">
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="p-4 text-warm-500 w-48">Text on ledger background</td>
+                            <td class="p-4 text-ink">Must meet WCAG AA (4.5:1 for body, 3:1 for large text)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Text on dark intaglio</td>
+                            <td class="p-4 text-ink">Must use <code>hsl(var(--warm-100))</code> or lighter</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Emerald buttons</td>
+                            <td class="p-4 text-ink">White text meets AAA contrast</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-warm-500">Thread gradients</td>
+                            <td class="p-4 text-ink">Decorative only—never carry meaning alone</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Light background example -->
+                <div class="bg-ledger border-2 border-warm-200 rounded-lg p-6">
+                    <p class="text-ink font-medium mb-2">Text on Ledger</p>
+                    <p class="text-warm-600 text-sm mb-4">Body text uses warm-600 or darker for sufficient contrast.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs px-2 py-1 rounded bg-emerald-100 text-emerald-700">4.5:1 ✓</span>
+                        <span class="text-xs text-warm-500">WCAG AA Pass</span>
+                    </div>
+                </div>
+
+                <!-- Dark background example -->
+                <div class="bg-intaglio-900 border-2 border-intaglio-700 rounded-lg p-6">
+                    <p class="text-white font-medium mb-2">Text on Intaglio</p>
+                    <p class="text-warm-300 text-sm mb-4">Body text uses warm-100 to warm-300 for legibility.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs px-2 py-1 rounded bg-emerald-900 text-emerald-300">7:1 ✓</span>
+                        <span class="text-xs text-warm-400">WCAG AAA Pass</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 9: EXAMPLES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">In Practice</p>
+            <h2 class="font-display text-2xl mb-6">Galaxy Opal in Action</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600 mb-4">See complete compositions using these rules in the Marketing Showcase.</p>
+
+                <a href="showcase.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium" style="background: hsl(150 100% 27%)">
+                    View Showcase
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Related links -->
+            <p class="text-sm font-medium text-warm-600 mb-3">Related Documentation</p>
+            <div class="flex gap-3 flex-wrap">
+                <a href="/core/tokens/threads.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Thread Lines</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="components/illustration-system.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Illustration System</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="components/heroes.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Hero Variants</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
         </main>
     </div>
 
