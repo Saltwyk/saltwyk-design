@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Typography | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        /* Typography */
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; }
+
+        /* Thread families */
+        .thread-spectrum { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); }
+
+        /* Display scale utilities */
+        .display-xl { font-size: 96px; font-variation-settings: 'opsz' 144; font-weight: 300; letter-spacing: -0.03em; line-height: 1.05; }
+        .display-l { font-size: 72px; font-variation-settings: 'opsz' 144; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+        .display-m { font-size: 64px; font-variation-settings: 'opsz' 144; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+        .display-s { font-size: 56px; font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; }
+        .heading-xl { font-size: 48px; font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
+        .heading-l { font-size: 40px; font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+        .heading-m { font-size: 32px; font-variation-settings: 'opsz' 9; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3; }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .display-xl { font-size: 48px; }
+            .display-l { font-size: 40px; }
+            .display-m { font-size: 36px; }
+            .display-s { font-size: 32px; }
+            .heading-xl { font-size: 28px; }
+            .heading-l { font-size: 24px; }
+            .heading-m { font-size: 24px; }
+        }
+
+        /* Navigation dropdown styles */
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; min-width: 200px;
+            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <!-- Thread at top -->
+            <div class="h-[3px] w-full thread-spectrum"></div>
+
+    <div class="max-w-6xl mx-auto p-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+            <a href="/" class="hover:text-emerald-600">Design System</a>
+            <span>→</span>
+            <a href="/marketing/" class="hover:text-emerald-600">Marketing</a>
+            <span>→</span>
+            <span class="text-ink font-medium">Typography</span>
+        </nav>
+
+        <!-- Header -->
+        <header class="mb-12">
+            <p class="serial text-emerald-600 mb-2">Marketing Design System</p>
+            <h1 class="font-display text-4xl mb-2" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Marketing Typography</h1>
+            <p class="text-lg text-warm-600 mb-4">Expressive type hierarchy for Galaxy Opal</p>
+            <p class="text-warm-500 max-w-3xl leading-relaxed">
+                Marketing typography pushes further than product UI - larger scales, dramatic weight contrast, and sophisticated use of Fraunces to create memorable brand moments. This system balances impact with readability.
+            </p>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- SECTION 1: FONT PHILOSOPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Philosophy</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Display-First Approach</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600 mb-6">Marketing inverts the product hierarchy. While product UI uses Inter primarily with Fraunces accents, marketing leads with Fraunces display typography and uses Inter as support. This creates distinctive brand voice and visual drama.</p>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <!-- Product UI Hierarchy -->
+                    <div class="bg-warm-50 rounded-lg p-5">
+                        <p class="font-medium text-ink mb-4">Product UI Hierarchy</p>
+                        <ul class="text-sm text-warm-600 space-y-2">
+                            <li class="flex items-start gap-3">
+                                <span class="text-warm-400 font-medium w-20 flex-shrink-0">Primary</span>
+                                <span>Inter (body, labels, utility)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-warm-400 font-medium w-20 flex-shrink-0">Accent</span>
+                                <span>Fraunces (headlines only)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-warm-400 font-medium w-20 flex-shrink-0">Scale</span>
+                                <span>Conservative (max 48px)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-warm-400 font-medium w-20 flex-shrink-0">Weights</span>
+                                <span>400-600</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-warm-400 font-medium w-20 flex-shrink-0">Purpose</span>
+                                <span>Clarity, efficiency</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Marketing Hierarchy -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5">
+                        <p class="font-medium text-ink mb-4">Marketing Hierarchy</p>
+                        <ul class="text-sm text-warm-600 space-y-2">
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-600 font-medium w-20 flex-shrink-0">Primary</span>
+                                <span>Fraunces (headlines, emphasis)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-600 font-medium w-20 flex-shrink-0">Support</span>
+                                <span>Inter (body, descriptions)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-600 font-medium w-20 flex-shrink-0">Scale</span>
+                                <span>Dramatic (32px-96px)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-600 font-medium w-20 flex-shrink-0">Weights</span>
+                                <span>300-700</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-emerald-600 font-medium w-20 flex-shrink-0">Purpose</span>
+                                <span>Impact, memorability</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 2: MARKETING DISPLAY SCALE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Scale System</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Display Scale Hierarchy</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600 mb-6">Marketing uses seven display sizes from 96pt to 32pt. Each size has specific use cases, weight recommendations, and technical specifications for optical sizing.</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Display XL - 96pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Display XL</p>
+                            <p class="text-xs text-warm-500">96pt / Maximum scale</p>
+                        </div>
+                        <code class="text-xs">.display-xl</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 96px; font-variation-settings: 'opsz' 144; font-weight: 300; letter-spacing: -0.025em; line-height: 1.05;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 144</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 300-400</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.025em to -0.03em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.05</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 48pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Homepage heroes, launch announcements, maximum impact moments</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Maximum scale - use sparingly. Weight 300 recommended for elegance at this size.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display L - 72pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Display L</p>
+                            <p class="text-xs text-warm-500">72pt / Primary hero</p>
+                        </div>
+                        <code class="text-xs">.display-l</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 72px; font-variation-settings: 'opsz' 144; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 144</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 300-400</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.02em to -0.025em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.1</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 40pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Primary hero headlines, major page headers</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Primary marketing headline size. Balanced impact and elegance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display M - 64pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Display M</p>
+                            <p class="text-xs text-warm-500">64pt / CTA & features</p>
+                        </div>
+                        <code class="text-xs">.display-m</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 64px; font-variation-settings: 'opsz' 144; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 144</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400-600</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.02em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.1</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 36pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">CTA sections, feature highlights, energy moments</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">High energy - weight 600 for confidence, 400 for approachability.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display S - 56pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Display S</p>
+                            <p class="text-xs text-warm-500">56pt / Section headlines</p>
+                        </div>
+                        <code class="text-xs">.display-s</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 56px; font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 72</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400-600</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.015em to -0.02em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.15</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 32pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Section headlines, feature intros, secondary heroes</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Versatile - transitions between hero and section contexts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heading XL - 48pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Heading XL</p>
+                            <p class="text-xs text-warm-500">48pt / Workhorse</p>
+                        </div>
+                        <code class="text-xs">.heading-xl</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 48px; font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 72</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400-600</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.015em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.2</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 28pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Section headers, card headlines, feature titles</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Workhorse size - most common marketing section header.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heading L - 40pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Heading L</p>
+                            <p class="text-xs text-warm-500">40pt / Subsections</p>
+                        </div>
+                        <code class="text-xs">.heading-l</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 40px; font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 72</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 500-600</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.01em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.2</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 24pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Subsection headers, feature cards, testimonial intros</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Smaller contexts - feature grids, cards, multi-column layouts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heading M - 32pt -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-ink">Heading M</p>
+                            <p class="text-xs text-warm-500">32pt / Minimum display</p>
+                        </div>
+                        <code class="text-xs">.heading-m</code>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-display text-ink mb-6" style="font-size: 32px; font-variation-settings: 'opsz' 9; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3;">The trillion point economy</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Specifications</p>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-warm-100 px-2 py-1 rounded">opsz: 9</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Weight: 600</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Tracking: -0.005em</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.3</span>
+                                    <span class="bg-warm-100 px-2 py-1 rounded">Mobile: 24pt</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-warm-500 mb-2">Use Cases</p>
+                                <p class="text-sm text-warm-600">Small card headlines, list headers, minimum display size</p>
+                                <p class="text-xs text-warm-500 mt-2 italic">Minimum marketing display size - below this, use Inter.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 3: WEIGHT SELECTION GUIDE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Weight System</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Choosing Weights for Context</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600 mb-6">Fraunces weights from 300-700 each create different tone and impact. Selection depends on message, context, and surrounding elements.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Light 300 -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-display text-4xl text-ink mb-4" style="font-variation-settings: 'opsz' 72; font-weight: 300; letter-spacing: -0.015em; line-height: 1.15;">Built for the conscious economy</p>
+                    <div class="border-t border-warm-100 pt-4">
+                        <p class="font-medium text-ink mb-2">Light 300</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Tone:</strong> Elegant, sophisticated, editorial</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>When to use:</strong> Brand storytelling, premium messaging, trust-building</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Pair with:</strong> Lighter body text, generous whitespace</p>
+                        <p class="text-xs text-warm-500"><strong>Avoid:</strong> Dense layouts, small sizes, utility content</p>
+                    </div>
+                </div>
+
+                <!-- Regular 400 -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-display text-4xl text-ink mb-4" style="font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">Built for the conscious economy</p>
+                    <div class="border-t border-warm-100 pt-4">
+                        <p class="font-medium text-ink mb-2">Regular 400</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Tone:</strong> Balanced, approachable, versatile</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>When to use:</strong> Default marketing headlines, general messaging</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Pair with:</strong> Any body text weight, flexible</p>
+                        <p class="text-xs text-warm-500"><strong>Avoid:</strong> When maximum impact or extreme elegance needed</p>
+                    </div>
+                </div>
+
+                <!-- Semibold 600 -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-display text-4xl text-ink mb-4" style="font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15;">Built for the conscious economy</p>
+                    <div class="border-t border-warm-100 pt-4">
+                        <p class="font-medium text-ink mb-2">Semibold 600</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Tone:</strong> Confident, strong, assertive</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>When to use:</strong> Product features, value props, calls to action</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Pair with:</strong> Medium-weight body, structured layouts</p>
+                        <p class="text-xs text-warm-500"><strong>Avoid:</strong> Overuse - can feel heavy-handed</p>
+                    </div>
+                </div>
+
+                <!-- Bold 700 -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="font-display text-4xl text-ink mb-4" style="font-variation-settings: 'opsz' 72; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15;">Built for the conscious economy</p>
+                    <div class="border-t border-warm-100 pt-4">
+                        <p class="font-medium text-ink mb-2">Bold 700</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Tone:</strong> Maximum impact, urgent, powerful</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>When to use:</strong> Special announcements, critical messaging, emphasis</p>
+                        <p class="text-sm text-warm-600 mb-2"><strong>Pair with:</strong> Light body text for contrast</p>
+                        <p class="text-xs text-warm-500"><strong>Avoid:</strong> Long headlines (hard to read), frequent use</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decision Framework -->
+            <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-3">Quick Selection Guide</p>
+                <div class="grid grid-cols-5 gap-4 text-sm">
+                    <div class="text-center">
+                        <p class="font-medium text-emerald-700">Trust & elegance</p>
+                        <p class="text-emerald-600">→ 300</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-medium text-emerald-700">Default marketing</p>
+                        <p class="text-emerald-600">→ 400</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-medium text-emerald-700">Product & features</p>
+                        <p class="text-emerald-600">→ 600</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-medium text-emerald-700">Urgent & impactful</p>
+                        <p class="text-emerald-600">→ 700</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-medium text-emerald-700">Mixed headline</p>
+                        <p class="text-emerald-600">→ 300 + 700</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 4: ITALIC USAGE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Italic Patterns</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Italic for Sophistication</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Fraunces italic adds elegance and editorial quality. Use strategically for quotes, emphasis, and sophisticated brand moments.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 mb-6">
+                <!-- Pattern 1: Testimonials -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="serial text-indigo-600 mb-4">Pattern 1: Testimonials</p>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-2xl text-ink italic" style="font-weight: 400; line-height: 1.5;">"Saltwyk made me realize how my daily purchases can support businesses that align with my values."</p>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-xs">
+                        <span class="bg-warm-100 px-2 py-1 rounded">Size: 24-32pt</span>
+                        <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400</span>
+                        <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.5+</span>
+                    </div>
+                    <p class="text-sm text-warm-500 mt-3">Customer quotes, testimonials, social proof</p>
+                </div>
+
+                <!-- Pattern 2: Editorial Headlines -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="serial text-indigo-600 mb-4">Pattern 2: Editorial Headlines</p>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-4xl text-ink italic" style="font-weight: 400; font-variation-settings: 'opsz' 72; letter-spacing: -0.015em; line-height: 1.15;">Where your rewards finally work for you</p>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-xs">
+                        <span class="bg-warm-100 px-2 py-1 rounded">Any display size</span>
+                        <span class="bg-warm-100 px-2 py-1 rounded">Weight: 300-400 only</span>
+                    </div>
+                    <p class="text-sm text-warm-500 mt-3">Sophisticated brand storytelling, editorial content, trust-building</p>
+                </div>
+
+                <!-- Pattern 3: Emphasis Within Text -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="serial text-indigo-600 mb-4">Pattern 3: Emphasis Within Text</p>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-3xl text-ink" style="font-weight: 400; font-variation-settings: 'opsz' 72; letter-spacing: -0.01em; line-height: 1.2;">Pay with <em>points</em>. Save with <em>meaning</em>.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-xs">
+                        <span class="bg-warm-100 px-2 py-1 rounded">Italic on key words only</span>
+                        <span class="bg-warm-100 px-2 py-1 rounded">Same size/weight</span>
+                    </div>
+                    <p class="text-sm text-warm-500 mt-3">Single-word emphasis, proper nouns, titles</p>
+                </div>
+            </div>
+
+            <!-- Italic Guidelines -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6">
+                    <p class="font-medium text-emerald-800 mb-3">Do</p>
+                    <ul class="text-sm text-emerald-700 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Use for customer quotes</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Use for editorial sophistication</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Use weight 300-400 (never 600-700 italic)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Increase leading by 0.1-0.2</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-magenta-50 border-2 border-magenta-200 rounded-lg p-6">
+                    <p class="font-medium text-magenta-800 mb-3">Don't</p>
+                    <ul class="text-sm text-magenta-700 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Use italic for UI elements</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Use heavy weights in italic</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Overuse - creates visual chaos</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Use for emphasis in body text (use bold)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 5: OPTICAL SIZING -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Variable Font</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Variable Font Optical Sizing</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Fraunces is a variable font with optical sizing axis (opsz 9-144). Correct optical size settings dramatically improve readability and visual quality at different scales.</p>
+            </div>
+
+            <!-- Side-by-side comparison -->
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <p class="font-medium text-magenta-700 mb-4">Incorrect - No Optical Sizing</p>
+                    <p class="font-display text-4xl text-ink mb-4" style="font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">The trillion point economy</p>
+                    <code class="text-xs">font-size: 48px;</code>
+                    <p class="text-xs text-magenta-600 mt-2">Default opsz may not be optimal for this size</p>
+                </div>
+
+                <div class="bg-white border-2 border-emerald-200 rounded-lg p-6">
+                    <p class="font-medium text-emerald-700 mb-4">Correct - Matched Optical Sizing</p>
+                    <p class="font-display text-4xl text-ink mb-4" style="font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15;">The trillion point economy</p>
+                    <code class="text-xs">font-size: 48px; font-variation-settings: 'opsz' 72;</code>
+                    <p class="text-xs text-emerald-600 mt-2">Letterforms optimized for this viewing size</p>
+                </div>
+            </div>
+
+            <!-- Optical sizing rules table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                    <p class="font-medium text-ink">Optical Sizing Rules</p>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left py-3 px-6 font-medium">Display Size</th>
+                            <th class="text-left py-3 px-6 font-medium">Optical Size Setting</th>
+                            <th class="text-left py-3 px-6 font-medium">Code</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="py-3 px-6">96pt, 72pt, 64pt</td>
+                            <td class="py-3 px-6 font-medium">144</td>
+                            <td class="py-3 px-6"><code class="text-xs">font-variation-settings: 'opsz' 144</code></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">56pt, 48pt, 40pt</td>
+                            <td class="py-3 px-6 font-medium">72</td>
+                            <td class="py-3 px-6"><code class="text-xs">font-variation-settings: 'opsz' 72</code></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">32pt and below</td>
+                            <td class="py-3 px-6 font-medium">9</td>
+                            <td class="py-3 px-6"><code class="text-xs">font-variation-settings: 'opsz' 9</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Technical note -->
+            <div class="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                <p class="font-medium text-indigo-800 mb-3">Why Optical Sizing Matters</p>
+                <ul class="text-sm text-indigo-700 space-y-2">
+                    <li><strong>Large sizes (144):</strong> Thinner strokes, more refined details, elegant contrast</li>
+                    <li><strong>Medium sizes (72):</strong> Balanced proportions, versatile readability</li>
+                    <li><strong>Small sizes (9):</strong> Heavier strokes, better legibility, more robust letterforms</li>
+                </ul>
+                <p class="text-sm text-indigo-600 mt-3 font-medium">Always set optical size explicitly - don't rely on defaults.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 6: MIXED WEIGHT HEADLINES -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Advanced Technique</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Weight Mixing for Emphasis</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Advanced technique: mixing weights within a single headline to create hierarchy and emphasis without changing size.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 mb-6">
+                <!-- Pattern 1: Light + Bold Contrast -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="serial text-indigo-600 mb-4">Pattern 1: Light + Bold Contrast</p>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-4xl text-ink" style="font-variation-settings: 'opsz' 72; line-height: 1.2;">
+                            <span style="font-weight: 300;">The</span>
+                            <span style="font-weight: 700;"> payment rails</span>
+                            <span style="font-weight: 300;"> for</span>
+                            <span style="font-weight: 700;"> points</span>
+                        </p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-3">Light 300 for articles/prepositions, Bold 700 for key concepts</p>
+                    <div class="bg-warm-100 rounded p-4 font-mono text-xs text-warm-700 overflow-x-auto">
+                        <pre>&lt;h1 class="font-display text-5xl" style="font-variation-settings: 'opsz' 72;"&gt;
+  &lt;span style="font-weight: 300;"&gt;The&lt;/span&gt;
+  &lt;span style="font-weight: 700;"&gt;payment rails&lt;/span&gt;
+  &lt;span style="font-weight: 300;"&gt;for&lt;/span&gt;
+  &lt;span style="font-weight: 700;"&gt;points&lt;/span&gt;
+&lt;/h1&gt;</pre>
+                    </div>
+                </div>
+
+                <!-- Pattern 2: Color + Weight Hierarchy -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <p class="serial text-indigo-600 mb-4">Pattern 2: Color + Weight Hierarchy</p>
+                    <div class="bg-intaglio-900 rounded-lg p-6 mb-4">
+                        <p class="font-display text-4xl" style="font-variation-settings: 'opsz' 72; line-height: 1.2;">
+                            <span style="font-weight: 700; color: hsl(150 100% 40%);">Pay with points.</span>
+                        </p>
+                        <p class="font-display text-4xl" style="font-variation-settings: 'opsz' 72; line-height: 1.2;">
+                            <span style="font-weight: 300; color: hsl(var(--warm-200));">Save with meaning.</span>
+                        </p>
+                    </div>
+                    <p class="text-sm text-warm-600">Same size (56pt), different weight + color = clear hierarchy</p>
+                </div>
+            </div>
+
+            <!-- Mixed weight guidelines -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Mixed Weight Rules</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Use for short headlines (1-2 lines max)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Alternate light (300) + bold (700) for maximum contrast</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Keep all text same size and leading</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Emphasize 2-3 key concepts, de-emphasize connectors</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">&#10003;</span>
+                            <span>Test readability - should feel natural, not gimmicky</span>
+                        </li>
+                    </ul>
+                    <ul class="text-sm text-warm-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Don't mix more than 2 weights in one headline</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Don't use in long-form content</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-magenta-500 mt-0.5">&#10007;</span>
+                            <span>Don't combine with italic (too much variation)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 7: SUBTITLE TREATMENTS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Supporting Text</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Subtitle Hierarchy Options</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Subtitles support display headlines. We have three treatment options depending on context and tone.</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Option A: Standard Clarity -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-5 py-4 bg-emerald-50 border-b border-warm-200">
+                        <p class="font-medium text-emerald-800">Option A: Standard Clarity</p>
+                    </div>
+                    <div class="p-5">
+                        <p class="font-display text-2xl text-ink mb-4" style="font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.01em; line-height: 1.2;">Built for merchants</p>
+                        <p class="text-lg mb-4" style="color: hsl(var(--warm-600)); line-height: 1.6;">Accept points as payment with real-time settlement and zero fraud risk.</p>
+                        <div class="border-t border-warm-100 pt-4">
+                            <div class="flex flex-wrap gap-2 text-xs mb-3">
+                                <span class="bg-warm-100 px-2 py-1 rounded">Inter, 20pt</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.6</span>
+                            </div>
+                            <p class="text-xs text-warm-500"><strong>Context:</strong> Product features, utility content, general marketing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option B: Editorial Elegance -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-5 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Option B: Editorial Elegance</p>
+                    </div>
+                    <div class="p-5">
+                        <p class="font-display text-2xl text-ink mb-4" style="font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.01em; line-height: 1.2;">Built for merchants</p>
+                        <p class="font-display text-xl mb-4 italic" style="color: hsl(var(--warm-600)); font-weight: 300; line-height: 1.5;">Accept points as payment with real-time settlement and zero fraud risk.</p>
+                        <div class="border-t border-warm-100 pt-4">
+                            <div class="flex flex-wrap gap-2 text-xs mb-3">
+                                <span class="bg-warm-100 px-2 py-1 rounded">Fraunces italic, 24pt</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Weight: 300</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.5</span>
+                            </div>
+                            <p class="text-xs text-warm-500"><strong>Context:</strong> Brand storytelling, premium messaging, emotional content</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option C: Unified Voice -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-5 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Option C: Unified Voice</p>
+                    </div>
+                    <div class="p-5">
+                        <p class="font-display text-2xl text-ink mb-4" style="font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.01em; line-height: 1.2;">Built for merchants</p>
+                        <p class="font-display text-lg mb-4" style="color: hsl(var(--warm-600)); font-weight: 400; line-height: 1.6;">Accept points as payment with real-time settlement and zero fraud risk.</p>
+                        <div class="border-t border-warm-100 pt-4">
+                            <div class="flex flex-wrap gap-2 text-xs mb-3">
+                                <span class="bg-warm-100 px-2 py-1 rounded">Fraunces, 20pt</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Weight: 400</span>
+                                <span class="bg-warm-100 px-2 py-1 rounded">Leading: 1.6</span>
+                            </div>
+                            <p class="text-xs text-warm-500"><strong>Context:</strong> Maintaining Fraunces throughout, distinctive brand voice</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selection guide -->
+            <div class="mt-6 bg-warm-50 border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-3">Selection Guide</p>
+                <div class="grid grid-cols-3 gap-6 text-sm text-warm-600">
+                    <p><strong>A (Inter):</strong> Default - clarity and utility</p>
+                    <p><strong>B (Fraunces italic):</strong> Premium brand moments</p>
+                    <p><strong>C (Fraunces regular):</strong> Strong brand voice throughout</p>
+                </div>
+                <p class="text-sm text-warm-500 mt-3">Default to Option A unless elegance or brand distinction required.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 8: BODY TEXT PAIRING -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Pairing</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Pairing with Inter Body Text</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Fraunces display headlines must pair well with Inter body text. Size relationships and spacing create hierarchy.</p>
+            </div>
+
+            <div class="space-y-6 mb-6">
+                <!-- Ratio 1: Hero Pairing -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="serial text-indigo-600">Ratio 1: Hero Pairing (3.5:1)</p>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">72pt / 20pt</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-5xl text-ink mb-8" style="font-variation-settings: 'opsz' 144; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;">The trillion point economy</p>
+                        <p class="text-xl" style="color: hsl(var(--warm-600)); line-height: 1.6;">When points are easy to spend, everyone wins. No catalogs, no conversion math, no expiration anxiety.</p>
+                    </div>
+                    <div class="flex items-center gap-6 text-sm text-warm-600">
+                        <span><strong>Ratio:</strong> 72pt / 20pt = 3.6:1</span>
+                        <span><strong>Spacing:</strong> 32px headline to body</span>
+                        <span><strong>Context:</strong> Hero sections, landing pages</span>
+                    </div>
+                </div>
+
+                <!-- Ratio 2: Section Pairing -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="serial text-indigo-600">Ratio 2: Section Pairing (2.5:1)</p>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">48pt / 18pt</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-4xl text-ink mb-6" style="font-variation-settings: 'opsz' 72; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2;">Built for the conscious economy</p>
+                        <p class="text-lg" style="color: hsl(var(--warm-600)); line-height: 1.6;">Every feature designed to make sustainable choices the easy choice.</p>
+                    </div>
+                    <div class="flex items-center gap-6 text-sm text-warm-600">
+                        <span><strong>Ratio:</strong> 48pt / 18pt = 2.67:1</span>
+                        <span><strong>Spacing:</strong> 24px headline to body</span>
+                        <span><strong>Context:</strong> Section headers, feature intros</span>
+                    </div>
+                </div>
+
+                <!-- Ratio 3: Card Pairing -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="serial text-indigo-600">Ratio 3: Card Pairing (2:1)</p>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">32pt / 16pt</span>
+                    </div>
+                    <div class="bg-warm-50 rounded-lg p-6 mb-4">
+                        <p class="font-display text-3xl text-ink mb-4" style="font-variation-settings: 'opsz' 9; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3;">Real-Time Clearing</p>
+                        <p class="text-base" style="color: hsl(var(--warm-600)); line-height: 1.5;">Instant settlement powered by pre-funded clearing balances.</p>
+                    </div>
+                    <div class="flex items-center gap-6 text-sm text-warm-600">
+                        <span><strong>Ratio:</strong> 32pt / 16pt = 2:1</span>
+                        <span><strong>Spacing:</strong> 16px headline to body</span>
+                        <span><strong>Context:</strong> Feature cards, small compositions</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing rules -->
+            <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6">
+                <p class="font-medium text-emerald-800 mb-3">Headline to Body Ratios</p>
+                <div class="grid grid-cols-3 gap-6 text-sm">
+                    <div>
+                        <p class="font-medium text-emerald-700">3:1 to 4:1</p>
+                        <p class="text-emerald-600">Maximum drama (heroes)</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-emerald-700">2.5:1 to 3:1</p>
+                        <p class="text-emerald-600">Strong hierarchy (sections)</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-emerald-700">2:1 to 2.5:1</p>
+                        <p class="text-emerald-600">Moderate hierarchy (cards)</p>
+                    </div>
+                </div>
+                <p class="text-sm text-emerald-700 mt-4 font-medium">Never go below 2:1 - hierarchy becomes unclear.</p>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 9: TRACKING & LEADING -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Spacing</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Spacing Specifications</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Letter spacing (tracking) and line height (leading) are critical for readability and visual quality.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Tracking Guide -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Tracking Guide by Size</p>
+                    </div>
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">96pt</td>
+                                <td class="py-3 px-6"><code class="text-xs">-0.025em to -0.03em</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Tight - creates drama</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">72pt-64pt</td>
+                                <td class="py-3 px-6"><code class="text-xs">-0.02em to -0.025em</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Tight - maintains impact</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">56pt-48pt</td>
+                                <td class="py-3 px-6"><code class="text-xs">-0.015em to -0.02em</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Moderate - balanced</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">40pt-32pt</td>
+                                <td class="py-3 px-6"><code class="text-xs">-0.01em to -0.015em</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Subtle - readability</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Below 32pt</td>
+                                <td class="py-3 px-6"><code class="text-xs">0em (default)</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">No negative tracking</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Leading Guide -->
+                <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 bg-warm-50 border-b border-warm-200">
+                        <p class="font-medium text-ink">Leading Guide by Context</p>
+                    </div>
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-warm-100">
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Display headlines</td>
+                                <td class="py-3 px-6"><code class="text-xs">1.05 - 1.15</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Tight for impact</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Section headlines</td>
+                                <td class="py-3 px-6"><code class="text-xs">1.15 - 1.25</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Moderate</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Body text</td>
+                                <td class="py-3 px-6"><code class="text-xs">1.5 - 1.6</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Generous for readability</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Testimonials (italic)</td>
+                                <td class="py-3 px-6"><code class="text-xs">1.5 - 1.7</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">Extra space for italic</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-6 text-warm-500">Small text (&lt;16px)</td>
+                                <td class="py-3 px-6"><code class="text-xs">1.5 - 1.6</code></td>
+                                <td class="py-3 px-6 text-xs text-warm-500">More space at small sizes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Visual examples -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                <p class="font-medium text-ink mb-4">Tracking Comparison</p>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="bg-magenta-50 rounded-lg p-4 text-center">
+                        <p class="font-display text-2xl text-ink mb-2" style="font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.05em;">Too tight</p>
+                        <code class="text-xs text-magenta-600">-0.05em</code>
+                    </div>
+                    <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-4 text-center">
+                        <p class="font-display text-2xl text-ink mb-2" style="font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: -0.02em;">Correct</p>
+                        <code class="text-xs text-emerald-600">-0.02em</code>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 text-center">
+                        <p class="font-display text-2xl text-ink mb-2" style="font-variation-settings: 'opsz' 72; font-weight: 400; letter-spacing: 0.02em;">Too loose</p>
+                        <code class="text-xs text-magenta-600">+0.02em</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 10: RESPONSIVE TYPOGRAPHY -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Responsive</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Mobile Scale Adjustments</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Marketing typography must scale appropriately for mobile. Never just shrink - adjust proportions and hierarchy.</p>
+            </div>
+
+            <!-- Scale reduction table -->
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-warm-50 border-b border-warm-200 flex items-center justify-between">
+                    <p class="font-medium text-ink">Scale Reduction Table</p>
+                    <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">Breakpoint: 768px</span>
+                </div>
+                <table class="w-full text-sm">
+                    <thead class="bg-warm-50 border-b border-warm-200">
+                        <tr>
+                            <th class="text-left py-3 px-6 font-medium">Desktop</th>
+                            <th class="text-left py-3 px-6 font-medium">Mobile</th>
+                            <th class="text-left py-3 px-6 font-medium">Reduction</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-warm-100">
+                        <tr>
+                            <td class="py-3 px-6">96pt</td>
+                            <td class="py-3 px-6 font-medium">48pt</td>
+                            <td class="py-3 px-6 text-warm-500">50%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">72pt</td>
+                            <td class="py-3 px-6 font-medium">40pt</td>
+                            <td class="py-3 px-6 text-warm-500">55%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">64pt</td>
+                            <td class="py-3 px-6 font-medium">36pt</td>
+                            <td class="py-3 px-6 text-warm-500">56%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">56pt</td>
+                            <td class="py-3 px-6 font-medium">32pt</td>
+                            <td class="py-3 px-6 text-warm-500">57%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">48pt</td>
+                            <td class="py-3 px-6 font-medium">28pt</td>
+                            <td class="py-3 px-6 text-warm-500">58%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">40pt</td>
+                            <td class="py-3 px-6 font-medium">24pt</td>
+                            <td class="py-3 px-6 text-warm-500">60%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6">32pt</td>
+                            <td class="py-3 px-6 font-medium">24pt</td>
+                            <td class="py-3 px-6 text-warm-500">75%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile-specific adjustments -->
+            <div class="bg-indigo-50 border-2 border-indigo-200 rounded-lg p-6">
+                <p class="font-medium text-indigo-800 mb-4">Mobile-Specific Adjustments</p>
+                <ul class="text-sm text-indigo-700 space-y-2">
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500 mt-0.5">•</span>
+                        <span><strong>Leading:</strong> Increase by 0.05-0.1 (more breathing room on small screens)</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500 mt-0.5">•</span>
+                        <span><strong>Tracking:</strong> Reduce negative tracking slightly (letterforms more legible)</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500 mt-0.5">•</span>
+                        <span><strong>Spacing:</strong> Increase space between elements (touch targets)</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-indigo-500 mt-0.5">•</span>
+                        <span><strong>Line length:</strong> Limit to 60-70 characters</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 11: ANTI-PATTERNS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Avoid</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">What Not to Do</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-warm-600">Common typography mistakes that undermine Galaxy Opal quality.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- All Caps Fraunces -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">All Caps Fraunces</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4">
+                        <p class="font-display text-2xl text-ink uppercase" style="font-weight: 400; font-variation-settings: 'opsz' 72;">THE REWARDS COMMERCE</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Destroys Fraunces' character, reduces readability</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Use Outfit for all-caps (serial style) or title case Fraunces</p>
+                </div>
+
+                <!-- Heavy Italic -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">Heavy Italic</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4">
+                        <p class="font-display text-2xl text-ink italic" style="font-weight: 700; font-variation-settings: 'opsz' 72;">The rewards commerce</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Too heavy, loses italic elegance</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Only use italic in weights 300-400</p>
+                </div>
+
+                <!-- Insufficient Contrast -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">Insufficient Contrast</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4">
+                        <p class="font-display text-3xl text-ink mb-2" style="font-weight: 400; font-variation-settings: 'opsz' 72; line-height: 1.2;">The rewards commerce</p>
+                        <p class="text-2xl" style="color: hsl(var(--warm-600));">Supporting text here</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Hierarchy unclear, feels flat</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Maintain 2:1 minimum ratio</p>
+                </div>
+
+                <!-- Tight Leading on Body -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">Tight Leading on Body</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4">
+                        <p class="text-base" style="color: hsl(var(--warm-700)); line-height: 1.2;">When points are easy to spend, everyone wins. No catalogs, no conversion math, no expiration anxiety. Just real value.</p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Hard to read, cramped</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Use 1.5-1.6 leading for body text</p>
+                </div>
+
+                <!-- Too Many Weights -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">Too Many Weights</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4">
+                        <p class="font-display text-2xl text-ink" style="font-variation-settings: 'opsz' 72; line-height: 1.2;">
+                            <span style="font-weight: 300;">The</span>
+                            <span style="font-weight: 700;">payment</span>
+                            <span style="font-weight: 500;">rails</span>
+                            <span style="font-weight: 400;">for</span>
+                            <span style="font-weight: 600;">points</span>
+                        </p>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Visual chaos, gimmicky</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Maximum 2 weights per headline</p>
+                </div>
+
+                <!-- Fraunces for UI -->
+                <div class="bg-white border-2 border-magenta-200 rounded-lg p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-magenta-600 text-lg">&#10007;</span>
+                        <p class="font-medium text-magenta-800">Fraunces for UI</p>
+                    </div>
+                    <div class="bg-magenta-50 rounded-lg p-4 mb-4 flex gap-3">
+                        <button class="font-display px-4 py-2 rounded bg-emerald-600 text-white text-sm" style="font-weight: 500;">Submit Form</button>
+                        <label class="font-display text-sm flex items-center gap-2" style="font-weight: 400;"><input type="checkbox"> Remember me</label>
+                    </div>
+                    <p class="text-sm text-warm-600 mb-2"><strong>Problem:</strong> Wrong context - Fraunces is display only</p>
+                    <p class="text-sm text-emerald-600"><strong>Fix:</strong> Use Inter for all UI elements</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECTION 12: QUICK REFERENCE -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Reference</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Typography Cheat Sheet</h2>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-warm-50 border-b-2 border-warm-200">
+                            <tr>
+                                <th class="text-left py-3 px-4 font-medium">Element</th>
+                                <th class="text-left py-3 px-4 font-medium">Font</th>
+                                <th class="text-left py-3 px-4 font-medium">Size</th>
+                                <th class="text-left py-3 px-4 font-medium">Weight</th>
+                                <th class="text-left py-3 px-4 font-medium">Tracking</th>
+                                <th class="text-left py-3 px-4 font-medium">Leading</th>
+                                <th class="text-left py-3 px-4 font-medium">Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-warm-100">
+                            <tr class="bg-emerald-50/30">
+                                <td class="py-3 px-4 font-medium">Hero XL</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">96pt</td>
+                                <td class="py-3 px-4">300-400</td>
+                                <td class="py-3 px-4">-0.03em</td>
+                                <td class="py-3 px-4">1.05</td>
+                                <td class="py-3 px-4 text-warm-600">Homepage heroes</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Hero L</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">72pt</td>
+                                <td class="py-3 px-4">300-400</td>
+                                <td class="py-3 px-4">-0.02em</td>
+                                <td class="py-3 px-4">1.1</td>
+                                <td class="py-3 px-4 text-warm-600">Primary heroes</td>
+                            </tr>
+                            <tr class="bg-emerald-50/30">
+                                <td class="py-3 px-4 font-medium">Hero M</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">64pt</td>
+                                <td class="py-3 px-4">400-600</td>
+                                <td class="py-3 px-4">-0.02em</td>
+                                <td class="py-3 px-4">1.1</td>
+                                <td class="py-3 px-4 text-warm-600">CTA sections</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Section XL</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">56pt</td>
+                                <td class="py-3 px-4">400-600</td>
+                                <td class="py-3 px-4">-0.02em</td>
+                                <td class="py-3 px-4">1.15</td>
+                                <td class="py-3 px-4 text-warm-600">Major sections</td>
+                            </tr>
+                            <tr class="bg-emerald-50/30">
+                                <td class="py-3 px-4 font-medium">Section L</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">48pt</td>
+                                <td class="py-3 px-4">400-600</td>
+                                <td class="py-3 px-4">-0.015em</td>
+                                <td class="py-3 px-4">1.2</td>
+                                <td class="py-3 px-4 text-warm-600">Section headers</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Section M</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">40pt</td>
+                                <td class="py-3 px-4">500-600</td>
+                                <td class="py-3 px-4">-0.01em</td>
+                                <td class="py-3 px-4">1.2</td>
+                                <td class="py-3 px-4 text-warm-600">Subsections</td>
+                            </tr>
+                            <tr class="bg-emerald-50/30">
+                                <td class="py-3 px-4 font-medium">Card</td>
+                                <td class="py-3 px-4">Fraunces</td>
+                                <td class="py-3 px-4">32pt</td>
+                                <td class="py-3 px-4">600</td>
+                                <td class="py-3 px-4">-0.01em</td>
+                                <td class="py-3 px-4">1.3</td>
+                                <td class="py-3 px-4 text-warm-600">Card headlines</td>
+                            </tr>
+                            <tr class="border-t-2 border-warm-200">
+                                <td class="py-3 px-4 font-medium">Body XL</td>
+                                <td class="py-3 px-4">Inter</td>
+                                <td class="py-3 px-4">20pt</td>
+                                <td class="py-3 px-4">400</td>
+                                <td class="py-3 px-4">0em</td>
+                                <td class="py-3 px-4">1.6</td>
+                                <td class="py-3 px-4 text-warm-600">Lead paragraphs</td>
+                            </tr>
+                            <tr class="bg-warm-50/50">
+                                <td class="py-3 px-4 font-medium">Body L</td>
+                                <td class="py-3 px-4">Inter</td>
+                                <td class="py-3 px-4">18pt</td>
+                                <td class="py-3 px-4">400</td>
+                                <td class="py-3 px-4">0em</td>
+                                <td class="py-3 px-4">1.6</td>
+                                <td class="py-3 px-4 text-warm-600">Subheads</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Body</td>
+                                <td class="py-3 px-4">Inter</td>
+                                <td class="py-3 px-4">16pt</td>
+                                <td class="py-3 px-4">400</td>
+                                <td class="py-3 px-4">0em</td>
+                                <td class="py-3 px-4">1.5</td>
+                                <td class="py-3 px-4 text-warm-600">Default body</td>
+                            </tr>
+                            <tr class="bg-warm-50/50">
+                                <td class="py-3 px-4 font-medium">Quote</td>
+                                <td class="py-3 px-4">Fraunces italic</td>
+                                <td class="py-3 px-4">24-32pt</td>
+                                <td class="py-3 px-4">400</td>
+                                <td class="py-3 px-4">0em</td>
+                                <td class="py-3 px-4">1.6</td>
+                                <td class="py-3 px-4 text-warm-600">Testimonials</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- RELATED LINKS -->
+        <!-- ============================================ -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Related</p>
+            <h2 class="font-display text-2xl mb-6" style="font-weight: 600; font-variation-settings: 'opsz' 72;">Related Documentation</h2>
+
+            <div class="flex gap-4 flex-wrap">
+                <a href="/foundation/typography.html" class="bg-white border-2 border-warm-200 rounded-lg px-5 py-4 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Product Typography</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="color-strategy.html" class="bg-white border-2 border-warm-200 rounded-lg px-5 py-4 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Galaxy Opal Color Strategy</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+                <a href="showcase.html" class="bg-white border-2 border-warm-200 rounded-lg px-5 py-4 text-sm hover:border-emerald-500 transition-colors">
+                    <span class="font-medium">Marketing Showcase</span>
+                    <span class="text-warm-400 ml-2">→</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-warm-200 mt-16">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+            <div class="flex items-center gap-3">
+                <a href="/" class="hover:text-emerald-600">Home</a>
+                <span class="text-warm-300">·</span>
+                <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+            </div>
+            <p>Saltwyk Design System v0.6.0</p>
+        </div>
+    </footer>
+        </main>
+    </div>
+
+    <script src="/partials/nav-loader.js"></script>
+</body>
+</html>

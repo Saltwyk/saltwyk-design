@@ -1,0 +1,134 @@
+/**
+ * Fullpage Mode Styles
+ *
+ * When ?fullpage is in the URL, hides all design system UI
+ * and renders the mockup at full height without scroll constraints.
+ */
+
+/* ===========================================
+   HIDE DESIGN SYSTEM UI
+   =========================================== */
+
+/* Design system navigation */
+.fullpage-mode #top-nav,
+.fullpage-mode #side-nav {
+  display: none !important;
+}
+
+/* Design system page chrome */
+.fullpage-mode > body > .flex > main > .h-\[3px\],  /* top thread */
+.fullpage-mode > body > .flex > main > footer {     /* bottom footer */
+  display: none !important;
+}
+
+/* Documentation content - hide everything in the max-w-6xl container except the mockup section */
+.fullpage-mode .max-w-6xl > nav,                    /* breadcrumbs */
+.fullpage-mode .max-w-6xl > header,                 /* page title */
+.fullpage-mode .max-w-6xl > .bg-emerald-50,         /* design notes */
+.fullpage-mode .max-w-6xl > .view-toggle-header,    /* toggle controls */
+.fullpage-mode .max-w-6xl > section:not(:first-of-type) {  /* specs sections */
+  display: none !important;
+}
+
+/* Hide section labels and descriptions outside mockup */
+.fullpage-mode .mobile-variant > .serial,
+.fullpage-mode .mobile-variant > p.text-sm,
+.fullpage-mode .desktop-variant > .serial,
+.fullpage-mode .desktop-variant > p.text-sm {
+  display: none !important;
+}
+
+/* ===========================================
+   SHOW ONLY SELECTED VARIANT
+   =========================================== */
+
+/* Hide both by default in fullpage mode */
+.fullpage-mode .mobile-variant,
+.fullpage-mode .desktop-variant {
+  display: none !important;
+}
+
+/* Show mobile variant */
+.fullpage-mobile .mobile-variant {
+  display: block !important;
+}
+
+/* Show desktop variant */
+.fullpage-desktop .desktop-variant {
+  display: block !important;
+}
+
+/* ===========================================
+   REMOVE SCROLL CONSTRAINTS
+   =========================================== */
+
+.fullpage-mode .page-content,
+.fullpage-mode .page-content.desktop-content {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* ===========================================
+   STRIP DEVICE FRAME CHROME
+   =========================================== */
+
+.fullpage-mode .device-frame-mobile,
+.fullpage-mode .device-frame-desktop {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* Keep mobile width constrained for accuracy */
+.fullpage-mobile .device-frame-mobile {
+  width: 375px !important;
+  margin: 0 auto;
+}
+
+/* Desktop can expand to full width */
+.fullpage-desktop .device-frame-desktop {
+  width: 100% !important;
+}
+
+/* ===========================================
+   CLEAN UP WRAPPER BACKGROUNDS
+   =========================================== */
+
+.fullpage-mode .bg-warm-100 {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Remove container constraints */
+.fullpage-mode .max-w-6xl {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.fullpage-mode section.mb-16 {
+  margin-bottom: 0 !important;
+}
+
+/* ===========================================
+   PAGE BACKGROUND
+   =========================================== */
+
+.fullpage-mode body {
+  background: white !important;
+}
+
+/* Center mobile mockup on page */
+.fullpage-mobile body {
+  display: flex;
+  justify-content: center;
+  background: hsl(var(--warm-100)) !important;
+}
+
+.fullpage-mobile .flex {
+  width: 100%;
+  justify-content: center;
+}

@@ -19,32 +19,17 @@
         .font-display { font-family: 'Fraunces', Georgia, serif; }
         .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
         .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-        code { font-size: 12px; background: hsl(30 5% 93%); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
-        .code-block { background: hsl(24 29% 8%); border-radius: 8px; padding: 16px; overflow-x: auto; }
-        .code-block code { background: transparent; color: hsl(150 60% 65%); padding: 0; }
-        .code-block .comment { color: hsl(30 10% 50%); }
-        .code-block .property { color: hsl(170 70% 60%); }
+        code { font-size: 12px; background: hsl(var(--warm-200)); padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; }
+        .code-block { background: hsl(var(--ink)); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .code-block code { background: transparent; color: hsl(var(--emerald-300)); padding: 0; }
+        .code-block .comment { color: hsl(var(--warm-500)); }
+        .code-block .property { color: hsl(var(--cyan-thread)); }
         .code-block .value { color: hsl(40 80% 70%); }
 
-        /* Navigation dropdown styles */
-        .nav-dropdown { position: relative; }
-        .nav-dropdown-menu {
-            position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            opacity: 0; visibility: hidden; transform: translateY(-4px);
-            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
-            z-index: 100; padding: 8px 0;
-        }
-        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
-        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 8px 0; }
-
-        /* Spec table */
+/* Spec table */
         .spec-table { width: 100%; border-collapse: collapse; }
-        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(30 6% 46%); background: hsl(30 10% 96%); border-bottom: 1px solid hsl(30 5% 88%); }
-        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(30 5% 93%); color: hsl(24 29% 8%); }
+        .spec-table th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--warm-500)); background: hsl(var(--intaglio-50)); border-bottom: 1px solid hsl(var(--warm-200)); }
+        .spec-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid hsl(var(--warm-200)); color: hsl(var(--ink)); }
         .spec-table tr:last-child td { border-bottom: none; }
 
         /* ========================================= */
@@ -52,7 +37,7 @@
         /* ========================================= */
         .progress-track {
             width: 100%;
-            background: hsl(30 5% 88%);
+            background: hsl(var(--warm-200));
             border-radius: 9999px;
             overflow: hidden;
         }
@@ -61,7 +46,7 @@
         .progress-track-thick { height: 12px; }
 
         .progress-track-dark {
-            background: hsl(24 26% 22%);
+            background: hsl(var(--intaglio-700));
         }
 
         .progress-fill {
@@ -69,11 +54,11 @@
             border-radius: 9999px;
             transition: width 300ms ease-out;
         }
-        .progress-fill-emerald { background: hsl(150 100% 27%); }
-        .progress-fill-warning { background: hsl(30 95% 55%); }
-        .progress-fill-error { background: hsl(330 85% 50%); }
+        .progress-fill-emerald { background: hsl(var(--emerald-500)); }
+        .progress-fill-warning { background: hsl(var(--orange-thread)); }
+        .progress-fill-error { background: hsl(var(--magenta-500)); }
         .progress-fill-gradient {
-            background: linear-gradient(90deg, hsl(200 80% 55%), hsl(170 70% 45%), hsl(150 100% 27%));
+            background: linear-gradient(90deg, hsl(200 80% 55%), hsl(var(--emerald-600)), hsl(var(--emerald-500)));
         }
 
         /* ========================================= */
@@ -84,19 +69,19 @@
         }
         .circular-track {
             fill: none;
-            stroke: hsl(30 5% 88%);
+            stroke: hsl(var(--warm-200));
         }
         .circular-track-dark {
-            stroke: hsl(24 26% 22%);
+            stroke: hsl(var(--intaglio-700));
         }
         .circular-fill {
             fill: none;
-            stroke: hsl(150 100% 27%);
+            stroke: hsl(var(--emerald-500));
             stroke-linecap: round;
             transition: stroke-dashoffset 300ms ease-out;
         }
-        .circular-fill-warning { stroke: hsl(30 95% 55%); }
-        .circular-fill-error { stroke: hsl(330 85% 50%); }
+        .circular-fill-warning { stroke: hsl(var(--orange-thread)); }
+        .circular-fill-error { stroke: hsl(var(--magenta-500)); }
 
         /* ========================================= */
         /* SPINNER STYLES */
@@ -108,7 +93,7 @@
         .spinner {
             border-radius: 9999px;
             border-style: solid;
-            border-color: hsl(150 100% 27%);
+            border-color: hsl(var(--emerald-500));
             border-top-color: transparent;
             animation: spin 750ms linear infinite;
         }
@@ -123,7 +108,7 @@
             border-top-color: transparent;
         }
         .spinner-dark {
-            border-color: hsl(150 70% 45%);
+            border-color: hsl(var(--emerald-600));
             border-top-color: transparent;
         }
         .spinner-inherit {
@@ -141,9 +126,9 @@
         .skeleton {
             background: linear-gradient(
                 90deg,
-                hsl(30 5% 90%) 0%,
-                hsl(30 5% 96%) 50%,
-                hsl(30 5% 90%) 100%
+                hsl(var(--warm-200)) 0%,
+                hsl(var(--warm-100)) 50%,
+                hsl(var(--warm-200)) 100%
             );
             background-size: 200% 100%;
             animation: shimmer 1.5s ease-in-out infinite;
@@ -151,9 +136,9 @@
         .skeleton-dark {
             background: linear-gradient(
                 90deg,
-                hsl(24 26% 22%) 0%,
-                hsl(24 26% 28%) 50%,
-                hsl(24 26% 22%) 100%
+                hsl(var(--intaglio-700)) 0%,
+                hsl(var(--intaglio-700)) 50%,
+                hsl(var(--intaglio-700)) 100%
             );
             background-size: 200% 100%;
         }
@@ -197,37 +182,37 @@
             font-size: 12px;
         }
         .step-indicator-completed {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
             color: white;
         }
         .step-indicator-current {
             background: white;
-            border: 2px solid hsl(150 100% 27%);
-            color: hsl(150 100% 27%);
+            border: 2px solid hsl(var(--emerald-500));
+            color: hsl(var(--emerald-500));
         }
         .step-indicator-upcoming {
             background: white;
-            border: 2px solid hsl(30 5% 78%);
-            color: hsl(30 6% 46%);
+            border: 2px solid hsl(var(--warm-300));
+            color: hsl(var(--warm-500));
         }
         .step-indicator-error {
-            background: hsl(330 85% 50%);
+            background: hsl(var(--magenta-500));
             color: white;
         }
         /* Dark mode step indicators */
         .step-indicator-completed-dark {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
             color: white;
         }
         .step-indicator-current-dark {
-            background: hsl(24 26% 15%);
-            border: 2px solid hsl(150 100% 27%);
-            color: hsl(150 70% 45%);
+            background: hsl(var(--intaglio-700));
+            border: 2px solid hsl(var(--emerald-500));
+            color: hsl(var(--emerald-600));
         }
         .step-indicator-upcoming-dark {
-            background: hsl(24 26% 15%);
-            border: 2px solid hsl(24 26% 30%);
-            color: hsl(30 6% 46%);
+            background: hsl(var(--intaglio-700));
+            border: 2px solid hsl(var(--warm-700));
+            color: hsl(var(--warm-500));
         }
 
         .step-connector {
@@ -236,38 +221,38 @@
             left: calc(50% + 16px);
             right: calc(-50% + 16px);
             height: 2px;
-            background: hsl(30 5% 88%);
+            background: hsl(var(--warm-200));
         }
         .step-connector-completed {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
         }
         .step-connector-dark {
-            background: hsl(24 26% 30%);
+            background: hsl(var(--warm-700));
         }
         .step-connector-completed-dark {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
         }
 
         .step-label {
             margin-top: 8px;
             font-size: 14px;
             font-weight: 500;
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
             text-align: center;
         }
         .step-label-upcoming {
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
         .step-label-dark {
-            color: hsl(30 5% 90%);
+            color: hsl(var(--warm-200));
         }
         .step-label-upcoming-dark {
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
         }
         .step-description {
             margin-top: 4px;
             font-size: 12px;
-            color: hsl(30 6% 46%);
+            color: hsl(var(--warm-500));
             text-align: center;
         }
 
@@ -314,29 +299,29 @@
         .demo-btn-sm { height: 32px; padding: 0 12px; font-size: 13px; }
         .demo-btn-md { height: 40px; padding: 0 20px; font-size: 14px; }
         .demo-btn-primary {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
             color: white;
         }
         .demo-btn-primary:hover {
-            background: hsl(150 100% 22%);
+            background: hsl(var(--emerald-500));
         }
         .demo-btn-secondary {
-            background: hsl(30 5% 95%);
-            border-color: hsl(30 5% 78%);
-            color: hsl(24 29% 8%);
+            background: hsl(var(--warm-100));
+            border-color: hsl(var(--warm-300));
+            color: hsl(var(--ink));
         }
         .demo-btn-secondary:hover {
-            background: hsl(30 5% 88%);
+            background: hsl(var(--warm-200));
         }
         .demo-btn-ghost {
             background: transparent;
-            color: hsl(24 29% 8%);
+            color: hsl(var(--ink));
         }
         .demo-btn-ghost:hover {
-            background: hsl(30 5% 95%);
+            background: hsl(var(--warm-100));
         }
         .demo-btn-dark {
-            background: hsl(150 100% 27%);
+            background: hsl(var(--emerald-500));
             color: white;
         }
     </style>
@@ -348,7 +333,7 @@
         <div id="side-nav"></div>
         <main class="flex-1">
             <!-- Spectrum thread at top -->
-            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);"></div>
 
     <div class="max-w-6xl mx-auto px-8 py-12">
 
@@ -1151,7 +1136,7 @@
         <section class="mb-16">
             <p class="serial text-emerald-600 mb-4">8. Dark Mode</p>
 
-            <div class="bg-[hsl(24_26%_12%)] border-2 border-[hsl(24_26%_22%)] rounded-lg p-8">
+            <div class="bg-ink border-2 border-intaglio-700 rounded-lg p-8">
                 <div class="grid grid-cols-2 gap-8">
                     <!-- Progress Bars -->
                     <div>
@@ -1217,7 +1202,7 @@
                             </div>
                             <div class="w-12 h-0.5 bg-emerald-500"></div>
                             <div class="step-indicator step-indicator-current-dark">2</div>
-                            <div class="w-12 h-0.5" style="background: hsl(24 26% 30%);"></div>
+                            <div class="w-12 h-0.5" style="background: hsl(var(--warm-700));"></div>
                             <div class="step-indicator step-indicator-upcoming-dark">3</div>
                         </div>
                     </div>

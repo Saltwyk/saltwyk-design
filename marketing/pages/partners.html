@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners Page | Marketing Pages | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../assets/config/view-toggle.css">
+    <link rel="stylesheet" href="../../assets/config/fullpage-mode.css">
+    <script src="../../partials/fullpage-mode.js"></script>
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Thread Gradients */
+        .thread-spectrum {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);
+            height: 3px;
+        }
+        .thread-tropic {
+            background: linear-gradient(90deg, hsl(var(--orange-thread)) 0%, hsl(var(--cyan-thread)) 100%);
+            height: 3px;
+        }
+
+        /* Device Frame Styles */
+        .device-frame-mobile {
+            width: 375px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 8px solid hsl(var(--intaglio-800));
+        }
+        .device-frame-desktop {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid hsl(var(--warm-300));
+        }
+
+        /* Page content styles */
+        .page-content {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.5;
+            background: hsl(var(--ledger));
+        }
+        .page-content .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: hsl(var(--ledger));
+        }
+        .page-content .nav-inner {
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .page-content .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: hsl(var(--ink));
+        }
+        .page-content .nav-cta {
+            padding: 8px 16px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        /* Hero - Tropic gradient surface */
+        .page-content .hero-partners {
+            background: linear-gradient(135deg, hsl(20 60% 94%) 0%, hsl(170 60% 92%) 100%);
+            padding: 80px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-content .hero-partners > *:not(.guilloche-container) {
+            position: relative;
+            z-index: 1;
+        }
+        .page-content .guilloche-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .page-content .guilloche-rosette {
+            position: absolute;
+            right: -150px;
+            top: 20%;
+            width: 600px;
+            height: 600px;
+        }
+        .page-content .hero-eyebrow {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(var(--orange-600));
+            margin-bottom: 12px;
+        }
+        .page-content .hero-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 40px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 144;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            background: linear-gradient(135deg, hsl(20 85% 40%) 0%, hsl(170 85% 35%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .page-content .hero-subhead {
+            font-size: 18px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+            margin-bottom: 48px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .page-content .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+            height: 48px;
+            line-height: 20px;
+        }
+        .page-content .btn-primary:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        /* Value Prop section */
+        .page-content .section-value-prop {
+            background: hsl(var(--ledger));
+            padding: 60px 16px;
+        }
+        .page-content .value-prop-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .page-content .value-prop-item {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 32px 32px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-content .value-prop-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+        .page-content .card-client::before {
+            background: linear-gradient(180deg, hsl(var(--cyan-thread)) 0%, hsl(var(--magenta-thread)) 100%);
+        }
+        .page-content .card-partner::before {
+            background: linear-gradient(180deg, hsl(var(--orange-thread)) 0%, hsl(var(--cyan-thread)) 100%);
+        }
+        .page-content .value-prop-emphasis {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 9;
+            color: hsl(var(--intaglio-900));
+        }
+        .page-content .value-prop-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+        }
+        .page-content .section-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+            margin-bottom: 24px;
+        }
+        .page-content .section-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* What Partners Offer */
+        .page-content .section-offer {
+            background: hsl(var(--ledger));
+            padding: 60px 16px;
+        }
+        .page-content .section-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+        }
+        .page-content .section-illustration {
+            background: hsl(var(--sepia-50));
+            border: 2px solid hsl(var(--sepia-200));
+            border-radius: 8px;
+            padding: 48px 24px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .page-content .section-illustration p {
+            font-size: 14px;
+            color: hsl(var(--sepia-600));
+        }
+        .page-content .section-illustration .subtext {
+            font-size: 12px;
+            color: hsl(var(--sepia-500));
+            margin-top: 8px;
+        }
+
+        /* How It Works */
+        .page-content .section-how {
+            background: white;
+            padding: 60px 16px;
+        }
+        .page-content .section-headline-center {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .page-content .point-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 6px;
+        }
+        .page-content .point-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+        }
+        .page-content .point {
+            margin-bottom: 24px;
+        }
+        .page-content .point:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Economics */
+        .page-content .section-economics {
+            background: linear-gradient(135deg, hsl(20 60% 94%) 0%, hsl(170 60% 92%) 100%);
+            padding: 60px 16px;
+            text-align: center;
+        }
+        .page-content .section-headline-gradient {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+        }
+        .page-content .economics-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .page-content .economics-item {
+            text-align: center;
+        }
+        .page-content .economics-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 6px;
+        }
+        .page-content .economics-item p {
+            font-size: 14px;
+            color: hsl(var(--warm-600));
+            line-height: 1.5;
+        }
+        .page-content .economics-note {
+            font-size: 14px;
+            font-style: italic;
+            color: hsl(var(--warm-600));
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Partner Types */
+        .page-content .section-partners {
+            background: hsl(var(--ledger));
+            padding: 60px 16px;
+        }
+        .page-content .partner-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .page-content .partner-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 2px solid hsl(var(--warm-200));
+        }
+        .page-content .partner-card h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 18px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 8px;
+        }
+        .page-content .partner-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+        }
+
+        /* CTA Section */
+        .page-content .cta-partners {
+            background:
+                linear-gradient(90deg,
+                    hsla(28, 100%, 55%, 0.2),
+                    hsla(330, 100%, 50%, 0.2)
+                ),
+                hsl(var(--ink));
+            position: relative;
+            padding: 60px 16px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .page-content .cta-partners::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 12px,
+                rgba(255, 200, 150, 0.06) 12px,
+                rgba(255, 200, 150, 0.06) 12.5px
+            );
+            pointer-events: none;
+        }
+        .page-content .cta-partners > * {
+            position: relative;
+            z-index: 1;
+        }
+        .page-content .cta-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 28px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            color: white;
+            margin-bottom: 16px;
+        }
+        .page-content .cta-subhead {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 32px;
+        }
+        .page-content .btn-primary-inverse {
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: hsl(var(--emerald-600));
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+            height: 48px;
+            line-height: 20px;
+        }
+        .page-content .btn-primary-inverse:hover {
+            background: hsl(var(--warm-50));
+        }
+
+        /* Footer */
+        .page-content .footer-dark {
+            background: hsl(var(--ink));
+            padding: 32px 16px 24px;
+        }
+        .page-content .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+            margin-bottom: 8px;
+        }
+        .page-content .footer-tagline {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 24px;
+        }
+        .page-content .footer-links {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .page-content .footer-link {
+            font-size: 12px;
+            color: hsl(var(--warm-300));
+        }
+        .page-content .footer-copyright {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            padding-top: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+        }
+
+        /* Desktop overrides */
+        .desktop-content .nav-inner {
+            padding: 0 32px;
+            height: 72px;
+        }
+        .desktop-content .nav-logo { font-size: 22px; }
+        .desktop-content .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .desktop-content .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+        }
+        .desktop-content .hero-partners {
+            padding: 120px 48px;
+        }
+        .desktop-content .guilloche-rosette {
+            width: 700px;
+            height: 700px;
+            right: -100px;
+            top: 10%;
+        }
+        .desktop-content .hero-headline {
+            font-size: 72px;
+        }
+        .desktop-content .hero-subhead {
+            font-size: 20px;
+        }
+        .desktop-content .btn-primary {
+            padding: 16px 32px;
+            font-size: 15px;
+            height: 56px;
+            line-height: 24px;
+        }
+        .desktop-content .section-value-prop {
+            padding: 100px 48px;
+        }
+        .desktop-content .value-prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .desktop-content .value-prop-item {
+            padding: 40px 40px 40px 48px;
+        }
+        .desktop-content .section-text {
+            font-size: 18px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 24px;
+        }
+        .desktop-content .section-text:last-child {
+            margin-bottom: 0;
+        }
+        .desktop-content .section-offer {
+            padding: 100px 48px;
+        }
+        .desktop-content .section-headline {
+            font-size: 48px;
+        }
+        .desktop-content .two-col-60-40 {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 64px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .two-col-40-60 {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 64px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .section-illustration {
+            margin-top: 0;
+            min-height: 400px;
+            padding: 64px;
+        }
+        .desktop-content .section-how {
+            padding: 100px 48px;
+        }
+        .desktop-content .section-headline-center {
+            font-size: 48px;
+            margin-bottom: 48px;
+        }
+        .desktop-content .point-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .desktop-content .point-text {
+            font-size: 16px;
+        }
+        .desktop-content .point {
+            margin-bottom: 32px;
+        }
+        .desktop-content .section-economics {
+            padding: 100px 48px;
+        }
+        .desktop-content .section-headline-gradient {
+            font-size: 48px;
+        }
+        .desktop-content .economics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto 32px;
+        }
+        .desktop-content .economics-item h4 {
+            font-size: 18px;
+        }
+        .desktop-content .economics-note {
+            font-size: 16px;
+        }
+        .desktop-content .section-partners {
+            padding: 100px 48px;
+        }
+        .desktop-content .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .partner-card {
+            padding: 32px;
+        }
+        .desktop-content .partner-card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        .desktop-content .partner-card p {
+            font-size: 16px;
+        }
+        .desktop-content .cta-partners {
+            padding: 100px 48px;
+        }
+        .desktop-content .cta-headline {
+            font-size: 64px;
+            font-variation-settings: 'opsz' 144;
+            margin-bottom: 24px;
+        }
+        .desktop-content .cta-subhead {
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+        .desktop-content .btn-primary-inverse {
+            padding: 16px 32px;
+            font-size: 15px;
+            height: 56px;
+            line-height: 24px;
+        }
+        .desktop-content .footer-dark {
+            padding: 64px 48px 48px;
+        }
+        .desktop-content .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 32px;
+        }
+        .desktop-content .footer-column h4 {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-400));
+            margin-bottom: 16px;
+        }
+        .desktop-content .footer-column ul { list-style: none; }
+        .desktop-content .footer-column li { margin-bottom: 8px; }
+        .desktop-content .footer-column a {
+            font-size: 13px;
+            color: hsl(var(--warm-300));
+        }
+        .desktop-content .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-spectrum"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Marketing</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Partners</span>
+                </nav>
+
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Page Specification</p>
+                    <h1 class="font-display text-4xl mb-2">Partners Page</h1>
+                    <p class="text-warm-600">The partner acquisition page for agencies and consultants. Features Tropic gradient surface (orange-cyan), gradient text headlines, alternating two-column layouts, economics section, and partner type cards.</p>
+                </header>
+
+                <!-- View Toggle -->
+                <div class="view-toggle-header">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-warm-500">Preview Mode</p>
+                        <div class="flex items-center gap-6">
+                            <div class="view-toggle" role="group" aria-label="View mode toggle">
+                                <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                        <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                                        <line x1="10" y1="19" x2="14" y2="19"/>
+                                    </svg>
+                                </button>
+                                <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                        <line x1="2" y1="14" x2="22" y2="14"/>
+                                        <line x1="12" y1="17" x2="12" y2="20"/>
+                                        <line x1="8" y1="20" x2="16" y2="20"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="text-warm-300">|</span>
+                            <a href="?fullpage&view=desktop" target="_blank" class="text-sm text-warm-500 hover:text-emerald-600 flex items-center gap-1">
+                                Full Page
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- MOBILE LAYOUT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <div class="mobile-variant">
+                        <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Mobile-first layout with Tropic gradient hero, stacked sections, single-column partner cards.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                            <div class="device-frame-mobile">
+                                <div class="page-content" style="max-height: 800px; overflow-y: auto;">
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper">
+                                        <div class="nav-inner">
+                                            <span class="nav-logo">Saltwyk</span>
+                                            <span class="nav-cta">Let's Talk</span>
+                                        </div>
+                                        <div class="thread-spectrum"></div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <div class="thread-tropic"></div>
+                                    <div class="hero-partners">
+                                        <div class="guilloche-container">
+                                            <svg class="guilloche-rosette" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+                                                <path d="M580 300.93 L578.59 298.33 L574.4 296 L567.49 294.18 L557.99 293.11 L546.06 293.02 L531.87 294.12 L515.71 296.54 L497.8 300.44 L478.46 305.93 L458.02 313.06 L436.77 321.82 L415.05 332.2 L393.24 344.15 L371.61 357.51 L350.49 372.17 L330.2 387.9 L310.99 404.51 L293.11 421.73 L276.77 439.25 L262.11 456.83 L249.26 474.11 L238.32 490.81 L229.31 506.59 L222.25 521.14 L217.07 534.16 L213.67 545.41 L211.94 554.6 L211.7 561.53 L212.75 566.04 L214.88 567.92 L217.84 567.16 L221.38 563.64 L225.23 557.36 L229.13 548.42 L232.81 536.85 L236.04 522.8 L238.57 506.48 L240.21 488.05 L240.75 467.83 L240.07 446.05 L238.06 423.05 L234.65 399.15 L229.78 374.7 L223.49 350.02 L215.84 325.5 L206.9 301.42 L196.83 278.16 L185.78 255.99 L173.99 235.21 L161.69 216.04 L149.09 198.74 L136.54 183.41 L124.28 170.23 L112.62 159.27 L101.86 150.57 L92.31 144.11 L84.22 139.83 L77.83 137.68 L73.42 137.48 L71.15 139.07 L71.2 142.25 L73.68 146.8 L78.71 152.45 L86.26 158.95 L96.37 166.01 L108.99 173.37 L123.98 180.74 L141.2 187.87 L160.48 194.48 L181.57 200.4 L204.21 205.37 L228.13 209.27 L252.96 211.96 L278.43 213.38 L304.14 213.42 L329.76 212.1 L354.93 209.48 L379.32 205.58 L402.58 200.58 L424.46 194.59 L444.63 187.8 L462.86 180.45 L478.95 172.76 L492.74 164.98 L504.1 157.43 L512.93 150.32 L519.23 143.98 L523.02 138.67 L524.34 134.63 L523.33 132.12 L520.08 131.36 L514.84 132.52 L507.78 135.75 L499.17 141.18 L489.26 148.87 L478.37 158.84 L466.74 171.08 L454.7 185.51 L442.53 202.03 L430.51 220.48 L418.92 240.68 L408.01 262.4 L397.97 285.35 L389 309.25 L381.27 333.77 L374.83 358.58 L369.83 383.35 L366.23 407.72 L364.05 431.34 L363.22 453.87 L363.67 475.03 L365.22 494.49 L367.73 511.97 L371 527.26 L374.79 540.17 L378.87 550.52 L382.99 558.23 L386.89 563.23 L390.28 565.47 L392.9 565.03 L394.51 561.98 L394.89 556.4 L393.82 548.51 L391.11 538.49 L386.65 526.56 L380.3 513 L372.01 498.12 L361.74 482.18 L349.55 465.5 L335.45 448.42 L319.58 431.25 L302.1 414.28 L283.15 397.81 L263.03 382.07 L241.96 367.35 L220.21 353.79 L198.13 341.61 L176.01 330.9 L154.2 321.8 L133.04 314.29 L112.87 308.42 L93.99 304.11 L76.71 301.31 L61.31 299.9 L48.04 299.67 L37.15 300.5 L28.79 302.16 L23.07 304.38 L20.13 306.94 L20 309.56 L22.67 312.03 L28.09 314.02 L36.16 315.32 L46.74 315.72 L59.65 314.98 L74.67 312.94 L91.53 309.43 L109.95 304.36 L129.63 297.66 L150.23 289.27 L171.46 279.23 L192.96 267.6 L214.41 254.44 L235.46 239.94 L255.83 224.25 L275.26 207.57 L293.47 190.18 L310.25 172.33 L325.41 154.33 L338.83 136.49 L350.4 119.1 L360.08 102.49 L367.84 86.98 L373.71 72.88 L377.79 60.48 L380.17 50.01 L381.02 41.72 L380.53 35.83 L378.89 32.49 L376.36 31.79 L373.17 33.81 L369.61 38.6 L365.89 46.14 L362.33 56.31 L359.17 69.04 L356.61 84.17 L354.91 101.46 L354.23 120.71 L354.75 141.65 L356.59 163.93 L359.82 187.28 L364.5 211.34 L370.64 235.77 L378.17 260.25 L387.05 284.39 L397.11 307.88 L408.23 330.43 L420.2 351.72 L432.78 371.49 L445.73 389.56 L458.78 405.7 L471.62 419.78 L484 431.68 L495.56 441.38 L506.05 448.85 L515.15 454.12 L522.64 457.28 L528.24 458.42 L531.74 457.75 L532.97 455.39 L531.78 451.63 L528.11 446.67 L521.83 440.8 L513 434.26 L501.61 427.35 L487.78 420.31 L471.62 413.45 L453.31 407.02 L433.07 401.22 L411.15 396.26 L387.81 392.34 L363.38 389.6 L338.18 388.13 L312.56 387.99 L286.88 389.22 L261.46 391.78 L236.67 395.63 L212.84 400.66 L190.29 406.71 L169.31 413.63 L150.12 421.21 L133 429.19 L118.07 437.35 L105.54 445.42 L95.45 453.08 L87.87 460.1 L82.81 466.18 L80.21 471.04 L80.01 474.47 L82.05 476.2 L86.17 476.06 L92.15 473.86 L99.8 469.49 L108.81 462.86 L118.94 453.91 L129.9 442.68 L141.38 429.19 L153.1 413.52 L164.76 395.84 L176.1 376.29 L186.86 355.11 L196.83 332.58 L205.8 308.93 L213.6 284.5 L220.12 259.64 L225.28 234.65 L229.04 209.9 L231.38 185.74 L232.34 162.49 L232.03 140.53 L230.55 120.08 L228.06 101.5 L224.76 85 L220.84 70.82 L216.58 59.09 L212.21 49.97 L207.97 43.54 L204.16 39.82 L201.05 38.81 L198.87 40.44 L197.86 44.61 L198.27 51.2 L200.24 59.99 L203.96 70.75 L209.57 83.26 L217.12 97.22 L226.67 112.35 L238.19 128.33 L251.66 144.85 L266.99 161.6 L284.03 178.27 L302.61 194.57 L322.49 210.24 L343.47 225.01 L365.24 238.68 L387.52 251.08 L409.96 262.04 L432.24 271.48 L454.03 279.32 L474.98 285.58 L494.78 290.24 L513.11 293.4 L529.68 295.15 L544.2 295.64 L556.46 295.04 L566.26 293.58 L573.45 291.47 L577.92 288.94 L579.6 286.27 L578.45 283.72 L574.53 281.54 L567.92 279.97 L558.75 279.28 L547.14 279.66 L533.35 281.29 L517.6 284.39 L500.16 289.01 L481.31 295.28 L461.4 303.24 L440.73 312.9 L419.64 324.2 L398.48 337.06 L377.55 351.39 L357.15 366.99 L337.58 383.64 L319.11 401.17 L301.98 419.24 L286.34 437.62 L272.4 455.98 L260.25 474 L249.94 491.39 L241.53 507.78 L234.98 522.91 L230.25 536.45 L227.23 548.15 L225.77 557.74 L225.7 565.03 L226.85 569.82 L228.95 572.02 L231.78 571.46 L235.1 568.16 L238.59 562.11 L242.02 553.35 L245.16 541.96 L247.72 528.11 L249.51 511.99 L250.29 493.79 L249.96 473.8 L248.3 452.28 L245.27 429.57 L240.79 405.99 L234.83 381.87 L227.43 357.57 L218.67 333.43 L208.62 309.78 L197.46 286.94 L185.36 265.22 L172.56 244.89 L159.27 226.15 L145.79 209.25 L132.39 194.35 L119.37 181.52 L107.02 170.88 L95.63 162.45 L85.54 156.2 L76.98 152.07 L70.21 149.96 L65.48 149.76 L62.97 151.24 L62.81 154.22 L65.19 158.46 L70.12 163.7 L77.63 169.71 L87.74 176.17 L100.38 182.82 L115.4 189.41 L132.68 195.67 L152 201.36 L173.14 206.25 L195.83 210.17 L219.74 212.95 L244.6 214.5 L270.02 214.72 L295.71 213.58 L321.26 211.09 L346.34 207.3 L370.64 202.28 L393.8 196.16 L415.54 189.12 L435.6 181.37 L453.71 173.1 L469.69 164.58 L483.37 156.04 L494.67 147.81 L503.47 140.15 L509.8 133.33 L513.63 127.64 L515.09 123.31 L514.26 120.62 L511.27 119.75 L506.34 120.87 L499.71 124.16 L491.59 129.72 L482.27 137.57 L472.03 147.79 L461.13 160.3 L449.92 175.05 L438.65 191.9 L427.58 210.71 L417 231.26 L407.16 253.32 L398.21 276.63 L390.37 300.86 L383.75 325.7 L378.49 350.8 L374.59 375.86 L372.12 400.48 L371 424.33 L371.22 447.06 L372.61 468.39 L375.08 488.01 L378.42 505.63 L382.41 521.07 L386.85 534.12 L391.49 544.63 L396.04 552.47 L400.27 557.65 L403.88 560.12 L406.62 559.89 L408.25 557.11 L408.55 551.89 L407.29 544.38 L404.31 534.79 L399.49 523.36 L392.72 510.38 L383.93 496.1 L373.13 480.86 L360.33 464.94 L345.6 448.69 L329.08 432.37 L310.93 416.3 L291.34 400.77 L270.54 386 L248.81 372.26 L226.44 359.7 L203.76 348.52 L181.08 338.79 L158.73 330.63 L137.07 324.04 L116.43 319.04 L97.13 315.54 L79.47 313.48 L63.71 312.7 L50.13 313.06 L38.92 314.36 L30.27 316.35 L24.3 318.84 L21.1 321.55 L20.69 324.2 L23.09 326.57 L28.23 328.39 L35.98 329.4 L46.23 329.38 L58.76 328.14 L73.35 325.52 L89.76 321.35 L107.69 315.54 L126.83 308.04 L146.87 298.8 L167.47 287.88 L188.29 275.33 L209.05 261.26 L229.38 245.83 L249.02 229.2 L267.67 211.65 L285.11 193.38 L301.13 174.69 L315.57 155.9 L328.25 137.3 L339.15 119.21 L348.18 101.95 L355.35 85.86 L360.73 71.24 L364.37 58.35 L366.43 47.46 L367.01 38.81 L366.38 32.57 L364.7 28.92 L362.21 27.98 L359.21 29.77 L355.91 34.35 L352.6 41.65 L349.53 51.65 L346.95 64.18 L345.09 79.09 L344.17 96.14 L344.35 115.15 L345.78 135.8 L348.61 157.79 L352.89 180.81 L358.63 204.52 L365.87 228.57 L374.5 252.63 L384.47 276.34 L395.63 299.38 L407.81 321.46 L420.81 342.29 L434.37 361.59 L448.24 379.2 L462.16 394.89" fill="none" stroke="hsl(30 5% 88%)" stroke-width="3" opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <p class="hero-eyebrow">For Partners</p>
+                                        <h1 class="hero-headline">Partner Points Commerce.</h1>
+                                        <p class="hero-subhead">A new revenue stream for your practice.</p>
+                                        <span class="btn-primary">Become a Partner</span>
+                                    </div>
+
+                                    <!-- Value Prop -->
+                                    <div class="section-value-prop">
+                                        <div class="value-prop-grid">
+                                            <div class="value-prop-item card-client">
+                                                <p class="value-prop-text">
+                                                    <span class="value-prop-emphasis">Your clients</span>
+                                                    need new ways to grow without sacrificing margin. Points commerce is that channel.
+                                                </p>
+                                            </div>
+                                            <div class="value-prop-item card-partner">
+                                                <p class="value-prop-text">
+                                                    <span class="value-prop-emphasis">You</span>
+                                                    need differentiated service offerings. Partner Points Commerce delivers growth for clients and recurring revenue for your practice.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- What Partners Offer -->
+                                    <div class="section-offer">
+                                        <div>
+                                            <h2 class="section-headline">What partners offer clients</h2>
+                                            <p class="section-text"><strong>A new customer acquisition channel</strong> where shoppers spend points instead of hunting for discounts. Higher-value customers at better economics.</p>
+                                            <p class="section-text">Your clients turn their rewards programs into <strong>partner marketing platforms</strong>.</p>
+                                            <p class="section-text"><strong>You deliver growth. We provide infrastructure.</strong></p>
+                                        </div>
+                                        <div class="section-illustration">
+                                            <p>[Illustration: Partner-Client Relationship]</p>
+                                            <p class="subtext">Visual showing partner, client, and Saltwyk collaboration</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- How It Works -->
+                                    <div class="section-how">
+                                        <h2 class="section-headline-center">How it works</h2>
+                                        <div class="point">
+                                            <p class="point-title">One-click installation for most merchants. White-glove service for enterprise implementations.</p>
+                                        </div>
+                                        <div class="point">
+                                            <p class="point-title">Shoppers connect their rewards accounts and spend points at checkout. Merchants get paid in USD.</p>
+                                        </div>
+                                        <div class="point">
+                                            <p class="point-title">Your role: introduce the opportunity, guide strategy, capture fees and revenue share. We handle implementation, settlement, compliance.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Economics -->
+                                    <div class="section-economics">
+                                        <h2 class="section-headline-gradient">Partner economics</h2>
+                                        <div class="economics-grid">
+                                            <div class="economics-item">
+                                                <h4>Revenue Share</h4>
+                                                <p>Ongoing percentage of merchant transaction volume</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Implementation Fees</h4>
+                                                <p>Security fees for enterprise deployments</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Deal Protection</h4>
+                                                <p>Registration protects your introductions</p>
+                                            </div>
+                                        </div>
+                                        <p class="economics-note">Early partners shape the program and lock in founding economics. Details in conversation. We compensate generously and permanently.</p>
+                                    </div>
+
+                                    <!-- Partner Types -->
+                                    <div class="section-partners">
+                                        <h2 class="section-headline-center">Who this is for</h2>
+                                        <div class="partner-grid">
+                                            <div class="partner-card">
+                                                <h3>Commerce Agencies</h3>
+                                                <p>Add points commerce to your service mix. Deliver new growth channels for clients beyond paid media and discounting.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Strategy Consultants</h3>
+                                                <p>Advise on loyalty strategy with implementation backing. Turn recommendations into revenue through partnerships.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Loyalty Specialists</h3>
+                                                <p>Extend loyalty programs beyond reward redemption. Help clients accept points from the broader network.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Platform Partners</h3>
+                                                <p>Integrate points commerce into your platform. Give your merchants a competitive advantage.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CTA -->
+                                    <div class="cta-partners">
+                                        <h2 class="cta-headline">Accepting early partners now.</h2>
+                                        <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment.</p>
+                                        <span class="btn-primary-inverse">Let's Talk</span>
+                                    </div>
+
+                                    <!-- Footer Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <p class="footer-logo">Saltwyk</p>
+                                        <p class="footer-tagline">The trillion point economy.</p>
+                                        <div class="footer-links">
+                                            <span class="footer-link">About</span>
+                                            <span class="footer-link">Merchants</span>
+                                            <span class="footer-link">Partners</span>
+                                        </div>
+                                        <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="desktop-variant">
+                        <p class="serial text-intaglio-500 mb-4">Desktop Layout</p>
+                        <p class="text-sm text-warm-600 mb-6">Full desktop layout with Tropic gradient hero, gradient text headlines, alternating two-column grids, 3-column economics, and 2x2 partner grid.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8">
+                            <div class="device-frame-desktop">
+                                <div class="page-content desktop-content" style="max-height: 900px; overflow-y: auto;">
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper">
+                                        <div class="nav-inner">
+                                            <span class="nav-logo">Saltwyk</span>
+                                            <div class="nav-links">
+                                                <span class="nav-link">Merchants</span>
+                                                <span class="nav-link">Partners</span>
+                                                <span class="nav-link">About</span>
+                                                <span class="nav-cta">Let's Talk</span>
+                                            </div>
+                                        </div>
+                                        <div class="thread-spectrum"></div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <div class="thread-tropic"></div>
+                                    <div class="hero-partners">
+                                        <div class="guilloche-container">
+                                            <svg class="guilloche-rosette" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+                                                <path d="M580 300.93 L578.59 298.33 L574.4 296 L567.49 294.18 L557.99 293.11 L546.06 293.02 L531.87 294.12 L515.71 296.54 L497.8 300.44 L478.46 305.93 L458.02 313.06 L436.77 321.82 L415.05 332.2 L393.24 344.15 L371.61 357.51 L350.49 372.17 L330.2 387.9 L310.99 404.51 L293.11 421.73 L276.77 439.25 L262.11 456.83 L249.26 474.11 L238.32 490.81 L229.31 506.59 L222.25 521.14 L217.07 534.16 L213.67 545.41 L211.94 554.6 L211.7 561.53 L212.75 566.04 L214.88 567.92 L217.84 567.16 L221.38 563.64 L225.23 557.36 L229.13 548.42 L232.81 536.85 L236.04 522.8 L238.57 506.48 L240.21 488.05 L240.75 467.83 L240.07 446.05 L238.06 423.05 L234.65 399.15 L229.78 374.7 L223.49 350.02 L215.84 325.5 L206.9 301.42 L196.83 278.16 L185.78 255.99 L173.99 235.21 L161.69 216.04 L149.09 198.74 L136.54 183.41 L124.28 170.23 L112.62 159.27 L101.86 150.57 L92.31 144.11 L84.22 139.83 L77.83 137.68 L73.42 137.48 L71.15 139.07 L71.2 142.25 L73.68 146.8 L78.71 152.45 L86.26 158.95 L96.37 166.01 L108.99 173.37 L123.98 180.74 L141.2 187.87 L160.48 194.48 L181.57 200.4 L204.21 205.37 L228.13 209.27 L252.96 211.96 L278.43 213.38 L304.14 213.42 L329.76 212.1 L354.93 209.48 L379.32 205.58 L402.58 200.58 L424.46 194.59 L444.63 187.8 L462.86 180.45 L478.95 172.76 L492.74 164.98 L504.1 157.43 L512.93 150.32 L519.23 143.98 L523.02 138.67 L524.34 134.63 L523.33 132.12 L520.08 131.36 L514.84 132.52 L507.78 135.75 L499.17 141.18 L489.26 148.87 L478.37 158.84 L466.74 171.08 L454.7 185.51 L442.53 202.03 L430.51 220.48 L418.92 240.68 L408.01 262.4 L397.97 285.35 L389 309.25 L381.27 333.77 L374.83 358.58 L369.83 383.35 L366.23 407.72 L364.05 431.34 L363.22 453.87 L363.67 475.03 L365.22 494.49 L367.73 511.97 L371 527.26 L374.79 540.17 L378.87 550.52 L382.99 558.23 L386.89 563.23 L390.28 565.47 L392.9 565.03 L394.51 561.98 L394.89 556.4 L393.82 548.51 L391.11 538.49 L386.65 526.56 L380.3 513 L372.01 498.12 L361.74 482.18 L349.55 465.5 L335.45 448.42 L319.58 431.25 L302.1 414.28 L283.15 397.81 L263.03 382.07 L241.96 367.35 L220.21 353.79 L198.13 341.61 L176.01 330.9 L154.2 321.8 L133.04 314.29 L112.87 308.42 L93.99 304.11 L76.71 301.31 L61.31 299.9 L48.04 299.67 L37.15 300.5 L28.79 302.16 L23.07 304.38 L20.13 306.94 L20 309.56 L22.67 312.03 L28.09 314.02 L36.16 315.32 L46.74 315.72 L59.65 314.98 L74.67 312.94 L91.53 309.43 L109.95 304.36 L129.63 297.66 L150.23 289.27 L171.46 279.23 L192.96 267.6 L214.41 254.44 L235.46 239.94 L255.83 224.25 L275.26 207.57 L293.47 190.18 L310.25 172.33 L325.41 154.33 L338.83 136.49 L350.4 119.1 L360.08 102.49 L367.84 86.98 L373.71 72.88 L377.79 60.48 L380.17 50.01 L381.02 41.72 L380.53 35.83 L378.89 32.49 L376.36 31.79 L373.17 33.81 L369.61 38.6 L365.89 46.14 L362.33 56.31 L359.17 69.04 L356.61 84.17 L354.91 101.46 L354.23 120.71 L354.75 141.65 L356.59 163.93 L359.82 187.28 L364.5 211.34 L370.64 235.77 L378.17 260.25 L387.05 284.39 L397.11 307.88 L408.23 330.43 L420.2 351.72 L432.78 371.49 L445.73 389.56 L458.78 405.7 L471.62 419.78 L484 431.68 L495.56 441.38 L506.05 448.85 L515.15 454.12 L522.64 457.28 L528.24 458.42 L531.74 457.75 L532.97 455.39 L531.78 451.63 L528.11 446.67 L521.83 440.8 L513 434.26 L501.61 427.35 L487.78 420.31 L471.62 413.45 L453.31 407.02 L433.07 401.22 L411.15 396.26 L387.81 392.34 L363.38 389.6 L338.18 388.13 L312.56 387.99 L286.88 389.22 L261.46 391.78 L236.67 395.63 L212.84 400.66 L190.29 406.71 L169.31 413.63 L150.12 421.21 L133 429.19 L118.07 437.35 L105.54 445.42 L95.45 453.08 L87.87 460.1 L82.81 466.18 L80.21 471.04 L80.01 474.47 L82.05 476.2 L86.17 476.06 L92.15 473.86 L99.8 469.49 L108.81 462.86 L118.94 453.91 L129.9 442.68 L141.38 429.19 L153.1 413.52 L164.76 395.84 L176.1 376.29 L186.86 355.11 L196.83 332.58 L205.8 308.93 L213.6 284.5 L220.12 259.64 L225.28 234.65 L229.04 209.9 L231.38 185.74 L232.34 162.49 L232.03 140.53 L230.55 120.08 L228.06 101.5 L224.76 85 L220.84 70.82 L216.58 59.09 L212.21 49.97 L207.97 43.54 L204.16 39.82 L201.05 38.81 L198.87 40.44 L197.86 44.61 L198.27 51.2 L200.24 59.99 L203.96 70.75 L209.57 83.26 L217.12 97.22 L226.67 112.35 L238.19 128.33 L251.66 144.85 L266.99 161.6 L284.03 178.27 L302.61 194.57 L322.49 210.24 L343.47 225.01 L365.24 238.68 L387.52 251.08 L409.96 262.04 L432.24 271.48 L454.03 279.32 L474.98 285.58 L494.78 290.24 L513.11 293.4 L529.68 295.15 L544.2 295.64 L556.46 295.04 L566.26 293.58 L573.45 291.47 L577.92 288.94 L579.6 286.27 L578.45 283.72 L574.53 281.54 L567.92 279.97 L558.75 279.28 L547.14 279.66 L533.35 281.29 L517.6 284.39 L500.16 289.01 L481.31 295.28 L461.4 303.24 L440.73 312.9 L419.64 324.2 L398.48 337.06 L377.55 351.39 L357.15 366.99 L337.58 383.64 L319.11 401.17 L301.98 419.24 L286.34 437.62 L272.4 455.98 L260.25 474 L249.94 491.39 L241.53 507.78 L234.98 522.91 L230.25 536.45 L227.23 548.15 L225.77 557.74 L225.7 565.03 L226.85 569.82 L228.95 572.02 L231.78 571.46 L235.1 568.16 L238.59 562.11 L242.02 553.35 L245.16 541.96 L247.72 528.11 L249.51 511.99 L250.29 493.79 L249.96 473.8 L248.3 452.28 L245.27 429.57 L240.79 405.99 L234.83 381.87 L227.43 357.57 L218.67 333.43 L208.62 309.78 L197.46 286.94 L185.36 265.22 L172.56 244.89 L159.27 226.15 L145.79 209.25 L132.39 194.35 L119.37 181.52 L107.02 170.88 L95.63 162.45 L85.54 156.2 L76.98 152.07 L70.21 149.96 L65.48 149.76 L62.97 151.24 L62.81 154.22 L65.19 158.46 L70.12 163.7 L77.63 169.71 L87.74 176.17 L100.38 182.82 L115.4 189.41 L132.68 195.67 L152 201.36 L173.14 206.25 L195.83 210.17 L219.74 212.95 L244.6 214.5 L270.02 214.72 L295.71 213.58 L321.26 211.09 L346.34 207.3 L370.64 202.28 L393.8 196.16 L415.54 189.12 L435.6 181.37 L453.71 173.1 L469.69 164.58 L483.37 156.04 L494.67 147.81 L503.47 140.15 L509.8 133.33 L513.63 127.64 L515.09 123.31 L514.26 120.62 L511.27 119.75 L506.34 120.87 L499.71 124.16 L491.59 129.72 L482.27 137.57 L472.03 147.79 L461.13 160.3 L449.92 175.05 L438.65 191.9 L427.58 210.71 L417 231.26 L407.16 253.32 L398.21 276.63 L390.37 300.86 L383.75 325.7 L378.49 350.8 L374.59 375.86 L372.12 400.48 L371 424.33 L371.22 447.06 L372.61 468.39 L375.08 488.01 L378.42 505.63 L382.41 521.07 L386.85 534.12 L391.49 544.63 L396.04 552.47 L400.27 557.65 L403.88 560.12 L406.62 559.89 L408.25 557.11 L408.55 551.89 L407.29 544.38 L404.31 534.79 L399.49 523.36 L392.72 510.38 L383.93 496.1 L373.13 480.86 L360.33 464.94 L345.6 448.69 L329.08 432.37 L310.93 416.3 L291.34 400.77 L270.54 386 L248.81 372.26 L226.44 359.7 L203.76 348.52 L181.08 338.79 L158.73 330.63 L137.07 324.04 L116.43 319.04 L97.13 315.54 L79.47 313.48 L63.71 312.7 L50.13 313.06 L38.92 314.36 L30.27 316.35 L24.3 318.84 L21.1 321.55 L20.69 324.2 L23.09 326.57 L28.23 328.39 L35.98 329.4 L46.23 329.38 L58.76 328.14 L73.35 325.52 L89.76 321.35 L107.69 315.54 L126.83 308.04 L146.87 298.8 L167.47 287.88 L188.29 275.33 L209.05 261.26 L229.38 245.83 L249.02 229.2 L267.67 211.65 L285.11 193.38 L301.13 174.69 L315.57 155.9 L328.25 137.3 L339.15 119.21 L348.18 101.95 L355.35 85.86 L360.73 71.24 L364.37 58.35 L366.43 47.46 L367.01 38.81 L366.38 32.57 L364.7 28.92 L362.21 27.98 L359.21 29.77 L355.91 34.35 L352.6 41.65 L349.53 51.65 L346.95 64.18 L345.09 79.09 L344.17 96.14 L344.35 115.15 L345.78 135.8 L348.61 157.79 L352.89 180.81 L358.63 204.52 L365.87 228.57 L374.5 252.63 L384.47 276.34 L395.63 299.38 L407.81 321.46 L420.81 342.29 L434.37 361.59 L448.24 379.2 L462.16 394.89" fill="none" stroke="hsl(30 5% 88%)" stroke-width="3" opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <p class="hero-eyebrow">For Partners</p>
+                                        <h1 class="hero-headline">Partner Points Commerce.</h1>
+                                        <p class="hero-subhead">A new revenue stream for your practice.</p>
+                                        <span class="btn-primary">Become a Partner</span>
+                                    </div>
+
+                                    <!-- Value Prop -->
+                                    <div class="section-value-prop">
+                                        <div class="value-prop-grid">
+                                            <div class="value-prop-item card-client">
+                                                <p class="value-prop-text">
+                                                    <span class="value-prop-emphasis">Your clients</span>
+                                                    need new ways to grow without sacrificing margin. Points commerce is that channel.
+                                                </p>
+                                            </div>
+                                            <div class="value-prop-item card-partner">
+                                                <p class="value-prop-text">
+                                                    <span class="value-prop-emphasis">You</span>
+                                                    need differentiated service offerings. Partner Points Commerce delivers growth for clients and recurring revenue for your practice.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- What Partners Offer -->
+                                    <div class="section-offer">
+                                        <div class="two-col-60-40">
+                                            <div>
+                                                <h2 class="section-headline">What partners offer clients</h2>
+                                                <p class="section-text"><strong>A new customer acquisition channel</strong> where shoppers spend points instead of hunting for discounts. Higher-value customers at better economics.</p>
+                                                <p class="section-text">Your clients turn their rewards programs into <strong>partner marketing platforms</strong>.</p>
+                                                <p class="section-text"><strong>You deliver growth. We provide infrastructure.</strong></p>
+                                            </div>
+                                            <div class="section-illustration">
+                                                <p>[Illustration: Partner-Client Relationship]</p>
+                                                <p class="subtext">Visual showing partner, client, and Saltwyk collaboration</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- How It Works -->
+                                    <div class="section-how">
+                                        <h2 class="section-headline-center">How it works</h2>
+                                        <div class="two-col-40-60">
+                                            <div class="section-illustration">
+                                                <p>[Illustration: Partner Workflow]</p>
+                                                <p class="subtext">Implementation to ongoing revenue share</p>
+                                            </div>
+                                            <div>
+                                                <div class="point">
+                                                    <p class="point-title">One-click installation for most merchants. White-glove service for enterprise implementations.</p>
+                                                </div>
+                                                <div class="point">
+                                                    <p class="point-title">Shoppers connect their rewards accounts and spend points at checkout. Merchants get paid in USD.</p>
+                                                </div>
+                                                <div class="point">
+                                                    <p class="point-title">Your role: introduce the opportunity, guide strategy, capture fees and revenue share. We handle implementation, settlement, compliance.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Economics -->
+                                    <div class="section-economics">
+                                        <h2 class="section-headline-gradient">Partner economics</h2>
+                                        <div class="economics-grid">
+                                            <div class="economics-item">
+                                                <h4>Revenue Share</h4>
+                                                <p>Ongoing percentage of merchant transaction volume</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Implementation Fees</h4>
+                                                <p>Security fees for enterprise deployments</p>
+                                            </div>
+                                            <div class="economics-item">
+                                                <h4>Deal Protection</h4>
+                                                <p>Registration protects your introductions</p>
+                                            </div>
+                                        </div>
+                                        <p class="economics-note">Early partners shape the program and lock in founding economics. Details in conversation. We compensate generously and permanently.</p>
+                                    </div>
+
+                                    <!-- Partner Types -->
+                                    <div class="section-partners">
+                                        <h2 class="section-headline-center">Who this is for</h2>
+                                        <div class="partner-grid">
+                                            <div class="partner-card">
+                                                <h3>Commerce Agencies</h3>
+                                                <p>Add points commerce to your service mix. Deliver new growth channels for clients beyond paid media and discounting.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Strategy Consultants</h3>
+                                                <p>Advise on loyalty strategy with implementation backing. Turn recommendations into revenue through partnerships.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Loyalty Specialists</h3>
+                                                <p>Extend loyalty programs beyond reward redemption. Help clients accept points from the broader network.</p>
+                                            </div>
+                                            <div class="partner-card">
+                                                <h3>Platform Partners</h3>
+                                                <p>Integrate points commerce into your platform. Give your merchants a competitive advantage.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CTA -->
+                                    <div class="cta-partners">
+                                        <h2 class="cta-headline">Accepting early partners now.</h2>
+                                        <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment. Early partners shape the network and lock in economics that won't be available at scale.</p>
+                                        <span class="btn-primary-inverse">Let's Talk</span>
+                                    </div>
+
+                                    <!-- Footer Thread -->
+                                    <div class="thread-spectrum"></div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-grid">
+                                            <div>
+                                                <p class="footer-logo">Saltwyk</p>
+                                                <p class="footer-tagline" style="max-width: 240px;">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Company</h4>
+                                                <ul>
+                                                    <li><a>About</a></li>
+                                                    <li><a>Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Products</h4>
+                                                <ul>
+                                                    <li><a>For Merchants</a></li>
+                                                    <li><a>For Partners</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Legal</h4>
+                                                <ul>
+                                                    <li><a>Privacy</a></li>
+                                                    <li><a>Terms</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="footer-bottom">
+                                            <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-link">hello@saltwyk.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PAGE STRUCTURE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Page Structure</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Section Flow</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">1</span>
+                                <div>
+                                    <p class="font-medium text-ink">Navigation + Thread</p>
+                                    <p class="text-sm text-warm-500">Sticky nav with spectrum thread below</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
+                                <div>
+                                    <p class="font-medium text-ink">Hero (Tropic Gradient Surface)</p>
+                                    <p class="text-sm text-warm-500">Thread-tropic line, gradient-tropic-bg, gradient text headline, centered content. "Become a Partner" CTA.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
+                                <div>
+                                    <p class="font-medium text-ink">Partner Value Proposition (Ledger + Two Cards)</p>
+                                    <p class="text-sm text-warm-500">Two side-by-side white cards on ledger. Left card (cool thread accent): client focus. Right card (flame thread accent): partner focus. Fraunces emphasis on key phrases.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
+                                <div>
+                                    <p class="font-medium text-ink">What Partners Offer (Ledger)</p>
+                                    <p class="text-sm text-warm-500">Text left (60%), illustration right (40%) on ledger background</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">5</span>
+                                <div>
+                                    <p class="font-medium text-ink">How It Works (White)</p>
+                                    <p class="text-sm text-warm-500">Illustration left (40%), text right (60%). Alternating layout.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">6</span>
+                                <div>
+                                    <p class="font-medium text-ink">Partner Economics (Tropic BG)</p>
+                                    <p class="text-sm text-warm-500">Solid intaglio-900 headline, 3-column economics grid, italic closing note</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">7</span>
+                                <div>
+                                    <p class="font-medium text-ink">Who This Is For (Ledger)</p>
+                                    <p class="text-sm text-warm-500">2x2 grid of partner type cards with white backgrounds</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">8</span>
+                                <div>
+                                    <p class="font-medium text-ink">CTA Section (Flame + Texture)</p>
+                                    <p class="text-sm text-warm-500">Warm-tinted diagonal lines over flame gradient. "Let's Talk" inverse button.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">9</span>
+                                <div>
+                                    <p class="font-medium text-ink">Footer (Dark)</p>
+                                    <p class="text-sm text-warm-500">Brand, links, legal with spectrum thread above</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- KEY DIFFERENTIATORS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Page Differentiation</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Homepage</p>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-16 h-4 rounded" style="background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)), hsl(var(--orange-thread)), hsl(var(--magenta-thread)), hsl(var(--cyan-thread)));"></div>
+                                <span class="text-xs text-warm-500">Spectrum</span>
+                            </div>
+                            <p class="text-sm text-warm-600">Full rainbow. Maximum energy. Universal appeal.</p>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Merchants</p>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-16 h-4 rounded" style="background: linear-gradient(135deg, hsl(var(--emerald-500)), hsl(185 90% 35%), hsl(var(--intaglio-900)));"></div>
+                                <span class="text-xs text-warm-500">Emerald-Cyan</span>
+                            </div>
+                            <p class="text-sm text-warm-600">Cool, tech-forward. Professional. B2B confidence.</p>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Partners</p>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-16 h-4 rounded" style="background: linear-gradient(90deg, hsl(var(--orange-thread)), hsl(var(--cyan-thread)));"></div>
+                                <span class="text-xs text-warm-500">Tropic</span>
+                            </div>
+                            <p class="text-sm text-warm-600">Warm + cool. Ecosystem diversity. Collaborative energy.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- TECHNICAL SPECIFICATIONS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Technical Specifications</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Typography Scale</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Headline</p>
+                                <code>72px / 600 / opsz 144 / gradient</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Headline</p>
+                                <code>48px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Economics Headline</p>
+                                <code>48px / 600 / opsz 72 / intaglio-900</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Headline</p>
+                                <code>64px / 600 / opsz 144</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Value Prop Emphasis</p>
+                                <code>24px / 600 / opsz 9 / intaglio-900</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Partner Card Title</p>
+                                <code>24px / Fraunces / 600</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Point Title</p>
+                                <code>18px / Inter / 600</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text</p>
+                                <code>18px / Inter / 400</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Subhead</p>
+                                <code>20px / Inter / 400</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Color Usage</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Background</p>
+                                <code>gradient-tropic-bg</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Thread</p>
+                                <code>thread-tropic (orange → cyan)</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Gradient Text</p>
+                                <code>orange-85% → cyan-85%</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Value Prop / How It Works</p>
+                                <code>ledger + two white cards / white</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Offer / Partner Types</p>
+                                <code>ledger</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Economics</p>
+                                <code>gradient-tropic-bg (echoes hero)</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Spacing</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Padding (Desktop)</p>
+                                <code>100px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Padding (Mobile)</p>
+                                <code>60px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Padding (Desktop)</p>
+                                <code>120px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Column Gap</p>
+                                <code>64px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Card Gap</p>
+                                <code>32px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Economics Gap</p>
+                                <code>32px</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Thread Count</p>
+                        <p class="font-medium text-ink mb-3">Total threads on page: <strong>2</strong></p>
+                        <div class="space-y-2 text-sm text-warm-600">
+                            <p>1. Below navigation (<code>.thread-spectrum</code>)</p>
+                            <p>2. Above footer (<code>.thread-spectrum</code>)</p>
+                        </div>
+                        <p class="text-sm text-warm-500 mt-3">The tropic thread at the hero top and gradient text effects provide visual interest without additional threads.</p>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- RELATED PAGES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Related Pages</p>
+
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="homepage.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Homepage</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="about.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">About Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="merchants.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Merchants Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="../components/heroes.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Heroes</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Navigation -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
