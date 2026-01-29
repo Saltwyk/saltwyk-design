@@ -4,510 +4,1373 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketing Showcase | Saltwyk Design System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
-    <script>
-        tailwindcss.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        intaglio: {
-                            800: 'hsl(24 29% 12%)',
-                            900: 'hsl(24 29% 8%)'
-                        },
-                        warm: {
-                            50: 'hsl(30 25% 97%)',
-                            100: 'hsl(30 20% 94%)',
-                            200: 'hsl(30 15% 88%)',
-                            400: 'hsl(30 12% 55%)',
-                            500: 'hsl(30 10% 45%)',
-                            600: 'hsl(30 8% 35%)'
-                        },
-                        emerald: {
-                            400: 'hsl(150 100% 35%)',
-                            500: 'hsl(150 100% 27%)',
-                            600: 'hsl(150 100% 22%)'
-                        }
-                    },
-                    fontFamily: {
-                        'display': ['Fraunces', 'serif'],
-                        'sans': ['Inter', 'sans-serif'],
-                        'brand': ['Outfit', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
     <style>
-        .serial { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; }
-        .font-display { font-family: 'Fraunces', serif; }
+        /* Typography */
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
 
-        /* Fire Opal - Dark Heroes */
-        .gradient-hero-emerald {
-            background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(150 100% 18%) 50%, hsl(24 29% 8%) 100%);
+        /* Optical size settings for Fraunces */
+        .opsz-144 { font-variation-settings: 'opsz' 144; }
+        .opsz-72 { font-variation-settings: 'opsz' 72; }
+        .opsz-9 { font-variation-settings: 'opsz' 9; }
+
+        /* Thread families */
+        .thread-spectrum { background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%); }
+        .thread-cool { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread))); }
+        .thread-fresh { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread))); }
+        .thread-tropic { background: linear-gradient(90deg, hsl(var(--cyan-thread)), hsl(var(--lime-thread)) 50%, hsl(var(--orange-thread)) 100%); }
+        .thread-flame { background: linear-gradient(90deg, hsl(28 100% 55%), hsl(var(--magenta-thread))); }
+
+        /* CTA gradient variants */
+        .cta-gradient-refined {
+            background:
+                linear-gradient(90deg, hsla(28, 100%, 55%, 0.2), hsla(var(--magenta-thread), 0.2)),
+                hsl(var(--ink));
         }
-        .gradient-hero-flame {
-            background: linear-gradient(135deg, hsl(25 100% 50%) 0%, hsl(330 100% 50%) 50%, hsl(24 29% 8%) 100%);
+        .cta-gradient-emerald {
+            background: linear-gradient(135deg, hsl(150, 100%, 22%), hsl(150, 100%, 18%));
+        }
+        .cta-gradient-overlay {
+            background:
+                linear-gradient(90deg, hsla(var(--ink), 0.4), hsla(var(--ink), 0.4)),
+                linear-gradient(90deg, hsl(28, 100%, 55%), hsl(var(--magenta-thread)));
         }
 
-        /* Bright Opal - Light Sections */
-        .gradient-cool-bg {
-            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%);
+        /* Illustration frame variants */
+        .sepia-frame-noborder {
+            background: linear-gradient(180deg, hsl(var(--sepia-50)), hsl(var(--sepia-100)));
+            border-radius: 12px;
         }
-        .gradient-fresh-bg {
-            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(90 40% 95%) 100%);
-        }
-        .gradient-tropic-bg {
-            background: linear-gradient(135deg, hsl(25 40% 95%) 0%, hsl(170 40% 95%) 100%);
+        .sepia-frame-thread {
+            background: hsl(var(--sepia-50));
+            border-left: 3px solid;
+            border-image: linear-gradient(180deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread))) 1;
+            border-radius: 0 12px 12px 0;
         }
 
-        /* Gradient Text */
+        /* Gradient text */
         .gradient-text-emerald {
-            background: linear-gradient(135deg, hsl(150 100% 40%) 0%, hsl(170 100% 45%) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .gradient-text-flame {
-            background: linear-gradient(135deg, hsl(25 100% 55%) 0%, hsl(330 100% 55%) 100%);
+            background: linear-gradient(135deg, hsl(150 100% 40%) 0%, hsl(var(--indigo-400)) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Thread Lines */
-        .thread-cool { background: linear-gradient(90deg, hsl(170 100% 45%) 0%, hsl(330 100% 55%) 100%); }
-        .thread-emerald { background: linear-gradient(90deg, hsl(150 100% 35%) 0%, hsl(170 100% 45%) 100%); }
-
-        /* CTA Button Gradient */
-        .btn-gradient-emerald {
-            background: linear-gradient(135deg, hsl(150 100% 35%) 0%, hsl(150 100% 27%) 100%);
+        /* Subtle background gradients */
+        .gradient-social-proof {
+            background: linear-gradient(135deg, hsl(170 40% 97%) 0%, hsl(330 40% 97%) 100%);
         }
 
-        /* Animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        /* Annotation card */
+        .annotation {
+            background: hsl(var(--warm-100));
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
         }
-        .float { animation: float 3s ease-in-out infinite; }
 
-        /* Composition Frame */
-        .composition-frame {
-            background: hsl(30 5% 96%);
-            border: 1px solid hsl(30 10% 90%);
+        /* Sepia frame for illustrations */
+        .sepia-frame {
+            background: hsl(var(--sepia-50));
+            border: 3px solid hsl(var(--sepia-300));
+            border-radius: 8px;
         }
 
         /* Navigation dropdown styles */
         .nav-dropdown { position: relative; }
-        .nav-dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
         .nav-dropdown-menu {
             position: absolute; top: 100%; left: 0; min-width: 200px;
-            background: white; border: 2px solid hsl(30 5% 88%); border-radius: 8px;
-            box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1); padding: 0.5rem 0;
+            background: white; border: 2px solid hsl(var(--warm-200)); border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             opacity: 0; visibility: hidden; transform: translateY(-4px);
-            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s; z-index: 100;
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            z-index: 100; padding: 8px 0;
         }
-        .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
-            opacity: 1; visibility: visible; transform: translateY(0);
-        }
-        .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: hsl(30 8% 35%); font-size: 0.875rem; transition: background-color 0.1s ease, color 0.1s ease; }
-        .nav-dropdown-menu a:hover { background-color: hsl(150 45% 97%); color: hsl(150 100% 27%); }
-        .nav-dropdown-menu .divider { height: 1px; background: hsl(30 5% 90%); margin: 0.5rem 0; }
-        .nav-dropdown-trigger svg { transition: transform 0.15s ease; }
-        .nav-dropdown:hover .nav-dropdown-trigger svg { transform: rotate(180deg); }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown-menu a { display: block; padding: 8px 16px; color: hsl(30 8% 30%); text-decoration: none; font-size: 14px; }
+        .nav-dropdown-menu a:hover { background: hsl(30 10% 96%); color: hsl(160 40% 35%); }
     </style>
 </head>
-<body class="bg-warm-50 text-warm-600">
+<body class="bg-ledger text-ink">
     <div id="top-nav"></div>
 
     <div class="flex">
         <div id="side-nav"></div>
         <main class="flex-1">
-            <div class="h-[3px] w-full" style="background: linear-gradient(90deg, hsl(170 100% 50%) 0%, hsl(74 100% 60%) 25%, hsl(28 100% 55%) 50%, hsl(330 100% 50%) 75%, hsl(170 100% 50%) 100%);"></div>
+            <!-- Thread at top -->
+            <div class="h-[3px] w-full thread-spectrum"></div>
 
-    <!-- Breadcrumb -->
-    <nav class="px-8 py-4 border-b border-warm-200">
-        <ol class="flex items-center gap-2 text-sm">
-            <li><a href="/" class="text-warm-500 hover:text-emerald-500">Design System</a></li>
-            <li class="text-warm-400">/</li>
-            <li><a href="index.html" class="text-warm-500 hover:text-emerald-500">Marketing</a></li>
-            <li class="text-warm-400">/</li>
-            <li class="text-warm-600">Showcase</li>
-        </ol>
-    </nav>
+            <!-- Page Header -->
+            <div class="max-w-[1400px] mx-auto px-8 py-12">
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="/" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="/marketing/" class="hover:text-emerald-600">Marketing</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Showcase</span>
+                </nav>
 
-    <!-- Header -->
-    <header class="px-8 py-12 border-b border-warm-200">
-        <p class="serial text-emerald-500 mb-2">Composition Gallery</p>
-        <h1 class="font-display text-4xl text-intaglio-900 mb-4">Marketing Showcase</h1>
-        <p class="text-lg text-warm-500 max-w-2xl">
-            Real-world compositions showing how marketing pages combine Fire Opal and Bright Opal
-            treatments to create expressive, memorable experiences.
-        </p>
-    </header>
-
-    <main class="px-8 py-12 space-y-16">
-
-        <!-- Composition 1: Hero Dark (Fire Opal) -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 01</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Hero Dark</h2>
-                <p class="text-warm-500 mt-1">Fire Opal treatment for primary landing pages</p>
+                <p class="serial text-emerald-600 mb-2">Composition Gallery</p>
+                <h1 class="font-display text-5xl opsz-144 mb-4" style="font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;">Marketing Showcase</h1>
+                <p class="text-lg text-warm-600 max-w-2xl" style="line-height: 1.6;">
+                    Galaxy Opal design language in action. Each composition demonstrates specific design constraints,
+                    typography hierarchy, thread usage, and spacing patterns for marketing moments.
+                </p>
             </div>
 
-            <div class="composition-frame rounded-xl overflow-hidden">
-                <div class="gradient-hero-emerald text-white p-12 min-h-[400px] flex flex-col justify-between">
-                    <!-- Nav -->
-                    <nav class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded bg-white/20"></div>
-                            <span class="font-brand font-semibold">Saltwyk</span>
+            <!-- ============================================ -->
+            <!-- COMPOSITION 1: HERO DARK - MAXIMUM DRAMA -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 01</p>
+                            <h2 class="font-display text-2xl text-ink">Hero Dark — Maximum Drama</h2>
+                            <p class="text-warm-500 mt-1">Galaxy Opal's most expressive treatment for high-impact marketing moments</p>
                         </div>
-                        <div class="flex gap-6 text-sm text-white/80">
-                            <span>For Shoppers</span>
-                            <span>For Merchants</span>
-                            <span>About</span>
-                        </div>
-                    </nav>
-
-                    <!-- Hero Content -->
-                    <div class="max-w-xl">
-                        <p class="serial text-emerald-400 mb-3">The Payment Network</p>
-                        <h1 class="font-display text-5xl mb-4">Pay with purpose.<br>Save with meaning.</h1>
-                        <p class="text-white/70 text-lg mb-8">Join the payment network that rewards sustainable choices and connects you to merchants who share your values.</p>
-                        <div class="flex gap-4">
-                            <button class="bg-white text-intaglio-900 px-6 py-3 rounded-lg font-medium">Get Started</button>
-                            <button class="border border-white/30 text-white px-6 py-3 rounded-lg font-medium">Learn More</button>
-                        </div>
-                    </div>
-
-                    <!-- Thread Line -->
-                    <div class="thread-emerald h-0.5 w-full mt-8"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Composition 2: Hero Light (Bright Opal) -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 02</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Hero Light</h2>
-                <p class="text-warm-500 mt-1">Bright Opal for softer, approachable landing pages</p>
-            </div>
-
-            <div class="composition-frame rounded-xl overflow-hidden">
-                <div class="gradient-cool-bg p-12 min-h-[400px] flex flex-col justify-between">
-                    <!-- Nav -->
-                    <nav class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded bg-intaglio-900/10"></div>
-                            <span class="font-brand font-semibold text-intaglio-900">Saltwyk</span>
-                        </div>
-                        <div class="flex gap-6 text-sm text-warm-500">
-                            <span>Features</span>
-                            <span>Pricing</span>
-                            <span>Support</span>
-                        </div>
-                    </nav>
-
-                    <!-- Hero Content -->
-                    <div class="max-w-xl">
-                        <p class="serial text-emerald-500 mb-3">Passport Wallet</p>
-                        <h1 class="font-display text-5xl text-intaglio-900 mb-4">Your purchases,<br>your planet.</h1>
-                        <p class="text-warm-500 text-lg mb-8">Track your spending impact, earn rewards for conscious choices, and watch your savings grow with every purchase.</p>
-                        <div class="flex gap-4">
-                            <button class="btn-gradient-emerald text-white px-6 py-3 rounded-lg font-medium">Download Passport</button>
-                            <button class="border border-warm-300 text-intaglio-900 px-6 py-3 rounded-lg font-medium">See How It Works</button>
-                        </div>
-                    </div>
-
-                    <!-- Thread Line -->
-                    <div class="thread-cool h-0.5 w-full mt-8 opacity-40"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Composition 3: Feature Grid -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 03</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Feature Grid</h2>
-                <p class="text-warm-500 mt-1">Mixed treatments highlight different feature categories</p>
-            </div>
-
-            <div class="composition-frame rounded-xl overflow-hidden p-8">
-                <div class="text-center mb-10">
-                    <p class="serial text-emerald-500 mb-2">Why Saltwyk</p>
-                    <h2 class="font-display text-3xl text-intaglio-900 mb-3">Built for the conscious economy</h2>
-                    <p class="text-warm-500 max-w-lg mx-auto">Every feature designed to make sustainable choices the easy choice.</p>
-                </div>
-
-                <div class="grid grid-cols-3 gap-6">
-                    <!-- Feature 1 - Fire Opal -->
-                    <div class="gradient-hero-emerald rounded-xl p-6 text-white">
-                        <div class="w-12 h-12 rounded-lg bg-white/20 mb-4 flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                        </div>
-                        <h3 class="font-display text-xl mb-2">Real-Time Clearing</h3>
-                        <p class="text-white/70 text-sm">Instant settlement means faster access to your funds.</p>
-                    </div>
-
-                    <!-- Feature 2 - Bright Opal -->
-                    <div class="gradient-fresh-bg rounded-xl p-6 border border-warm-200">
-                        <div class="w-12 h-12 rounded-lg bg-emerald-500/10 mb-4 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-display text-xl text-intaglio-900 mb-2">Impact Rewards</h3>
-                        <p class="text-warm-500 text-sm">Earn more when you shop with sustainable merchants.</p>
-                    </div>
-
-                    <!-- Feature 3 - Bright Opal -->
-                    <div class="gradient-tropic-bg rounded-xl p-6 border border-warm-200">
-                        <div class="w-12 h-12 rounded-lg bg-orange-500/10 mb-4 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-display text-xl text-intaglio-900 mb-2">Secure by Design</h3>
-                        <p class="text-warm-500 text-sm">Bank-grade security protects every transaction.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Composition 4: Social Proof -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 04</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Social Proof</h2>
-                <p class="text-warm-500 mt-1">Testimonials and stats on Bright Opal background</p>
-            </div>
-
-            <div class="composition-frame rounded-xl overflow-hidden">
-                <div class="gradient-cool-bg p-12">
-                    <div class="text-center mb-10">
-                        <p class="serial text-emerald-500 mb-2">Trusted By</p>
-                        <h2 class="font-display text-3xl text-intaglio-900">Join thousands of conscious consumers</h2>
-                    </div>
-
-                    <!-- Stats Row -->
-                    <div class="grid grid-cols-4 gap-6 mb-12">
-                        <div class="text-center">
-                            <p class="font-display text-4xl gradient-text-emerald">2.4M</p>
-                            <p class="text-warm-500 text-sm mt-1">Active Users</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="font-display text-4xl gradient-text-emerald">$840M</p>
-                            <p class="text-warm-500 text-sm mt-1">Processed Monthly</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="font-display text-4xl gradient-text-emerald">12K</p>
-                            <p class="text-warm-500 text-sm mt-1">Merchant Partners</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="font-display text-4xl gradient-text-emerald">4.8</p>
-                            <p class="text-warm-500 text-sm mt-1">App Store Rating</p>
-                        </div>
-                    </div>
-
-                    <!-- Testimonial -->
-                    <div class="bg-white rounded-xl p-8 border border-warm-200 max-w-2xl mx-auto">
-                        <blockquote class="font-display text-2xl text-intaglio-900 mb-4">
-                            "Saltwyk made me realize how my daily purchases can support businesses that align with my values."
-                        </blockquote>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600"></div>
-                            <div>
-                                <p class="font-medium text-intaglio-900">Sarah Chen</p>
-                                <p class="text-warm-500 text-sm">Passport User since 2024</p>
-                            </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Thread at section top creates entry point</li>
+                                <li>• 96pt headline establishes maximum scale</li>
+                                <li>• 2:1 contrast between headline and subhead</li>
+                                <li>• Emerald CTA pops against dark background</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Composition 5: Illustration Frame -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 05</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Illustration Frame</h2>
-                <p class="text-warm-500 mt-1">Sepia-toned frame for spot illustrations</p>
-            </div>
+                <!-- Composition -->
+                <div class="bg-intaglio-900 w-full">
+                    <!-- Thread at top of section -->
+                    <div class="h-[3px] w-full thread-spectrum"></div>
 
-            <div class="composition-frame rounded-xl overflow-hidden p-8">
-                <div class="grid grid-cols-2 gap-12 items-center">
-                    <!-- Illustration Frame -->
-                    <div class="aspect-square rounded-xl p-8 flex items-center justify-center" style="background: hsl(30 25% 92%); border: 2px dashed hsl(30 15% 80%);">
-                        <div class="text-center">
-                            <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-warm-100 to-warm-200 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-warm-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <p class="serial text-warm-400">Illustration Placeholder</p>
-                        </div>
-                    </div>
-
-                    <!-- Content -->
-                    <div>
-                        <p class="serial text-emerald-500 mb-3">How It Works</p>
-                        <h2 class="font-display text-3xl text-intaglio-900 mb-4">Simple steps to a better way to pay</h2>
-                        <div class="space-y-4">
-                            <div class="flex gap-4">
-                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">1</div>
-                                <div>
-                                    <h3 class="font-medium text-intaglio-900">Download Passport</h3>
-                                    <p class="text-warm-500 text-sm">Available on iOS and Android</p>
+                    <div class="max-w-[1400px] mx-auto px-8 py-[120px]">
+                        <div class="grid grid-cols-2 gap-16 items-center">
+                            <!-- Left: Content -->
+                            <div class="max-w-[800px]">
+                                <p class="serial text-emerald-400 mb-4">Rewards Commerce</p>
+                                <h2 class="font-display text-white opsz-144 mb-8" style="font-size: 96px; font-weight: 300; letter-spacing: -0.025em; line-height: 1.05;">
+                                    Pay with what you've already earned
+                                </h2>
+                                <p class="text-xl mb-12" style="color: hsl(var(--warm-200)); font-weight: 400; line-height: 1.6;">
+                                    Real payment infrastructure. Real-time settlement. Real commerce, powered by points.
+                                </p>
+                                <div class="flex gap-4">
+                                    <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                        Become a Merchant
+                                    </button>
+                                    <button class="text-white font-medium rounded-lg border-2 border-white/30" style="height: 56px; padding: 0 32px;">
+                                        Learn More
+                                    </button>
                                 </div>
                             </div>
-                            <div class="flex gap-4">
-                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">2</div>
-                                <div>
-                                    <h3 class="font-medium text-intaglio-900">Link your accounts</h3>
-                                    <p class="text-warm-500 text-sm">Connect your bank or card</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="w-8 h-8 rounded-full btn-gradient-emerald text-white flex items-center justify-center text-sm font-medium shrink-0">3</div>
-                                <div>
-                                    <h3 class="font-medium text-intaglio-900">Shop with impact</h3>
-                                    <p class="text-warm-500 text-sm">Every purchase supports your values</p>
+
+                            <!-- Right: Illustration placeholder -->
+                            <div class="sepia-frame p-10 flex items-center justify-center" style="width: 600px; height: 400px;">
+                                <div class="text-center">
+                                    <p class="serial text-sepia-500">[Illustration: Universal Rewards Commerce]</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Composition 6: CTA Section -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 06</p>
-                <h2 class="font-display text-2xl text-intaglio-900">CTA Section</h2>
-                <p class="text-warm-500 mt-1">Fire Opal call-to-action with high visual impact</p>
-            </div>
-
-            <div class="composition-frame rounded-xl overflow-hidden">
-                <div class="gradient-hero-flame text-white p-12 text-center relative overflow-hidden">
-                    <!-- Background decoration -->
-                    <div class="absolute inset-0 opacity-10">
-                        <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-white blur-3xl"></div>
-                        <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-white blur-3xl"></div>
+            <!-- ============================================ -->
+            <!-- COMPOSITION 2: HERO LIGHT - APPROACHABLE -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 02</p>
+                            <h2 class="font-display text-2xl text-ink">Hero Light — Approachable Confidence</h2>
+                            <p class="text-warm-500 mt-1">Galaxy Opal's lighter treatment for trust-building and approachability</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Thread on card top = Galaxy Opal signature</li>
+                                <li>• White card on ledger creates depth</li>
+                                <li>• Centered composition for symmetry</li>
+                                <li>• 72pt headline shows secondary scale</li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="relative z-10">
-                        <p class="serial text-orange-300 mb-3">Ready to Start?</p>
-                        <h2 class="font-display text-4xl mb-4">Join the payment revolution</h2>
-                        <p class="text-white/70 text-lg mb-8 max-w-md mx-auto">
-                            Whether you're a shopper looking to make an impact or a merchant ready to grow, Saltwyk is your partner.
+                <!-- Composition -->
+                <div class="bg-ledger py-16">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <!-- White card with thread on top -->
+                        <div class="bg-white rounded-b-xl shadow-lg overflow-hidden">
+                            <!-- Thread at top edge - square corners -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="p-20 text-center">
+                                <div class="max-w-[700px] mx-auto">
+                                    <h2 class="font-display opsz-144 mb-6" style="font-size: 72px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                        The trillion point economy
+                                    </h2>
+                                    <p class="text-lg mb-10" style="color: hsl(var(--warm-600)); font-weight: 400; line-height: 1.6;">
+                                        When points are easy to spend, everyone wins
+                                    </p>
+                                    <button class="text-white font-medium rounded-lg mb-16" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                        Start Accepting Points
+                                    </button>
+                                </div>
+
+                                <!-- Illustration placeholder -->
+                                <div class="sepia-frame p-8 mx-auto flex items-center justify-center" style="max-width: 800px; height: 300px;">
+                                    <p class="serial text-sepia-500">[Illustration: Points Economy Network]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 3: FEATURE GRID - THREE COLUMN -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 03</p>
+                            <h2 class="font-display text-2xl text-ink">Feature Grid — Three Column</h2>
+                            <p class="text-warm-500 mt-1">Pattern for feature sections with icons/illustrations</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• 3-column grid is maximum for features</li>
+                                <li>• 56pt headlines for section headers</li>
+                                <li>• 24pt headlines for feature cards</li>
+                                <li>• White cards on ledger maintain hierarchy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <!-- Section Header -->
+                        <div class="text-center mb-16">
+                            <p class="serial text-emerald-600 mb-3">How It Works</p>
+                            <h2 class="font-display opsz-72 mb-4" style="font-size: 56px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                Built for the conscious economy
+                            </h2>
+                            <p class="text-lg mx-auto" style="color: hsl(var(--warm-600)); max-width: 600px; line-height: 1.6;">
+                                Every feature designed to make sustainable choices the easy choice
+                            </p>
+                        </div>
+
+                        <!-- 3-column grid -->
+                        <div class="grid grid-cols-3 gap-8">
+                            <!-- Feature 1 -->
+                            <div class="bg-white rounded-lg p-6 text-center">
+                                <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background: hsl(var(--emerald-500));">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-display opsz-9 mb-3" style="font-size: 24px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Real-Time Clearing
+                                </h3>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Instant settlement powered by pre-funded clearing balances. Your funds are available immediately, not days later.
+                                </p>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="bg-white rounded-lg p-6 text-center">
+                                <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background: hsl(var(--emerald-500));">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-display opsz-9 mb-3" style="font-size: 24px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Merchant Network
+                                </h3>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Cross-merchant acceptance creates network effects. The more merchants join, the more valuable points become.
+                                </p>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="bg-white rounded-lg p-6 text-center">
+                                <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background: hsl(var(--emerald-500));">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-display opsz-9 mb-3" style="font-size: 24px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Secure by Design
+                                </h3>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Bank-grade security protects every transaction. Your data and your customers' data stay safe.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 4: STATS BAR - SOCIAL PROOF -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 04</p>
+                            <h2 class="font-display text-2xl text-ink">Stats Bar — Social Proof</h2>
+                            <p class="text-warm-500 mt-1">Display metrics with dramatic type scale</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• 64pt numbers with gradient text for impact</li>
+                                <li>• 4-column layout maintains scanability</li>
+                                <li>• Background gradient adds subtle energy</li>
+                                <li>• Testimonial anchors social proof</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="gradient-social-proof py-20">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <!-- Header -->
+                        <div class="text-center mb-12">
+                            <p class="serial mb-3" style="color: hsl(var(--warm-600));">Trusted By</p>
+                            <h2 class="font-display opsz-72" style="font-size: 48px; font-weight: 400; letter-spacing: -0.015em; color: hsl(var(--intaglio-900));">
+                                Join thousands of conscious consumers
+                            </h2>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-4 gap-8 mb-12">
+                            <div class="text-center">
+                                <p class="font-display opsz-144 gradient-text-emerald" style="font-size: 64px; font-weight: 700;">2.4M</p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-600));">Active users</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-display opsz-144 gradient-text-emerald" style="font-size: 64px; font-weight: 700;">$840M</p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-600));">Processed Monthly</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-display opsz-144 gradient-text-emerald" style="font-size: 64px; font-weight: 700;">12K</p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-600));">Merchant Partners</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-display opsz-144 gradient-text-emerald" style="font-size: 64px; font-weight: 700;">4.8</p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-600));">App Store Rating</p>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial -->
+                        <div class="text-center max-w-[800px] mx-auto">
+                            <p class="font-display italic mb-6" style="font-size: 24px; line-height: 1.4; color: hsl(var(--intaglio-900));">
+                                "Saltwyk made me realize how my daily purchases can support businesses that align with my values."
+                            </p>
+                            <div class="flex items-center justify-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600"></div>
+                                <div class="text-left">
+                                    <p class="text-sm font-medium" style="color: hsl(var(--intaglio-900));">Sarah Chen</p>
+                                    <p class="text-sm" style="color: hsl(var(--warm-600));">Portland, Oregon</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 5: CTA SECTION - MAXIMUM ENERGY -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 05</p>
+                            <h2 class="font-display text-2xl text-ink">CTA Section — Maximum Energy</h2>
+                            <p class="text-warm-500 mt-1">High-energy conversion moment with thread background</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• 20% flame gradient over dark base</li>
+                                <li>• Reduced intensity improves text readability</li>
+                                <li>• Inverted CTA colors (white bg) stands out</li>
+                                <li>• Use sparingly - one per page maximum</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="w-full py-[100px]" style="background: linear-gradient(90deg, hsla(28, 100%, 55%, 0.2), hsla(var(--magenta-thread), 0.2)), hsl(var(--ink));">
+                    <div class="max-w-[900px] mx-auto px-8 text-center">
+                        <p class="serial text-white/80 mb-4">Ready to Start?</p>
+                        <h2 class="font-display opsz-144 text-white mb-6" style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;">
+                            Join the payment revolution
+                        </h2>
+                        <p class="text-lg text-white/90 mb-12 max-w-[700px] mx-auto" style="line-height: 1.6;">
+                            Connect your rewards programs today. No credit card required. Start earning cash back from merchants ready to grow.
                         </p>
                         <div class="flex justify-center gap-4">
-                            <button class="bg-white text-intaglio-900 px-8 py-4 rounded-lg font-semibold text-lg">
-                                Get Passport Free
-                            </button>
-                            <button class="border-2 border-white/50 text-white px-8 py-4 rounded-lg font-semibold text-lg">
+                            <button class="font-medium rounded-lg" style="background: white; color: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
                                 Become a Merchant
+                            </button>
+                            <button class="text-white font-medium rounded-lg border-2 border-white" style="height: 56px; padding: 0 32px;">
+                                Become a Partner
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Composition 7: Footer -->
-        <section>
-            <div class="mb-4">
-                <p class="serial text-emerald-500 mb-1">Composition 07</p>
-                <h2 class="font-display text-2xl text-intaglio-900">Footer</h2>
-                <p class="text-warm-500 mt-1">Dark chrome footer with thread accent</p>
-            </div>
-
-            <div class="composition-frame rounded-xl overflow-hidden">
-                <footer class="bg-intaglio-900 text-white p-12">
-                    <!-- Thread Line Top -->
-                    <div class="thread-emerald h-0.5 w-full mb-12"></div>
-
-                    <div class="grid grid-cols-4 gap-8 mb-12">
-                        <!-- Brand Column -->
+            <!-- ============================================ -->
+            <!-- COMPOSITION 6: TESTIMONIAL CARD -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-8 h-8 rounded bg-emerald-500/20"></div>
-                                <span class="font-brand font-semibold text-lg">Saltwyk</span>
+                            <p class="serial text-emerald-600 mb-1">Composition 06</p>
+                            <h2 class="font-display text-2xl text-ink">Testimonial Card — Trust Building</h2>
+                            <p class="text-warm-500 mt-1">Pattern for customer quotes and social proof</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Italic Fraunces for quotes adds elegance</li>
+                                <li>• Thread accent adds brand touch</li>
+                                <li>• 28pt quote text maintains readability</li>
+                                <li>• White card on ledger creates focus</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-16">
+                    <div class="max-w-[800px] mx-auto px-8">
+                        <div class="bg-white rounded-xl p-12 shadow-lg relative">
+                            <!-- Quote mark decoration -->
+                            <div class="absolute top-8 left-8 font-display" style="font-size: 72px; color: hsl(var(--emerald-500)); opacity: 0.2; line-height: 1;">
+                                "
                             </div>
-                            <p class="text-white/60 text-sm">The payment network for the conscious economy.</p>
-                        </div>
 
-                        <!-- Products -->
-                        <div>
-                            <h4 class="serial text-emerald-400 mb-4">Products</h4>
-                            <ul class="space-y-2 text-white/70 text-sm">
-                                <li>Passport Wallet</li>
-                                <li>Merchant Dashboard</li>
-                                <li>Clearing Network</li>
-                                <li>Developer API</li>
-                            </ul>
-                        </div>
+                            <!-- Quote text -->
+                            <p class="font-display italic mb-8 relative z-10" style="font-size: 28px; line-height: 1.4; color: hsl(var(--intaglio-900));">
+                                Before Saltwyk, my Target points just sat there. Now I use them everywhere. It's like found money every time I shop.
+                            </p>
 
-                        <!-- Company -->
-                        <div>
-                            <h4 class="serial text-emerald-400 mb-4">Company</h4>
-                            <ul class="space-y-2 text-white/70 text-sm">
-                                <li>About Us</li>
-                                <li>Careers</li>
-                                <li>Press</li>
-                                <li>Contact</li>
-                            </ul>
+                            <!-- Attribution -->
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400 to-magenta-400"></div>
+                                <div>
+                                    <p class="font-semibold" style="font-size: 16px; color: hsl(var(--intaglio-900));">Maria Rodriguez</p>
+                                    <p style="font-size: 14px; color: hsl(var(--warm-600));">Saltwyk Shopper since 2024</p>
+                                    <div class="h-[2px] w-20 thread-cool rounded mt-2"></div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </section>
 
-                        <!-- Legal -->
+            <!-- ============================================ -->
+            <!-- COMPOSITION 7: FEATURE WITH ILLUSTRATION -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h4 class="serial text-emerald-400 mb-4">Legal</h4>
-                            <ul class="space-y-2 text-white/70 text-sm">
-                                <li>Privacy Policy</li>
-                                <li>Terms of Service</li>
-                                <li>Cookie Policy</li>
-                                <li>Security</li>
+                            <p class="serial text-emerald-600 mb-1">Composition 07</p>
+                            <h2 class="font-display text-2xl text-ink">Feature with Illustration Frame</h2>
+                            <p class="text-warm-500 mt-1">Side-by-side content + illustration pattern</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• 50/50 split maintains balance</li>
+                                <li>• Sepia frame reserved for illustrations</li>
+                                <li>• Numbered steps use emerald</li>
+                                <li>• 48pt headlines for secondary emphasis</li>
                             </ul>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Bottom Bar -->
-                    <div class="flex justify-between items-center pt-8 border-t border-white/10">
-                        <p class="text-white/50 text-sm">&copy; 2025 Saltwyk Inc. All rights reserved.</p>
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded bg-white/10"></div>
-                            <div class="w-8 h-8 rounded bg-white/10"></div>
-                            <div class="w-8 h-8 rounded bg-white/10"></div>
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <div class="grid grid-cols-2 gap-16 items-center">
+                            <!-- Left: Content -->
+                            <div>
+                                <p class="serial text-emerald-600 mb-3">How It Works</p>
+                                <h2 class="font-display opsz-72 mb-8" style="font-size: 48px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; color: hsl(var(--intaglio-900));">
+                                    Simple steps to a better way to pay
+                                </h2>
+
+                                <div class="space-y-8">
+                                    <!-- Step 1 -->
+                                    <div class="flex gap-4 items-start">
+                                        <div class="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-display" style="background: hsl(var(--emerald-500)); font-size: 20px;">
+                                            1
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold mb-2" style="font-size: 18px; color: hsl(var(--intaglio-900));">Download Passport</h3>
+                                            <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                                Get the free app on iOS or Android. Set up takes less than two minutes.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Step 2 -->
+                                    <div class="flex gap-4 items-start">
+                                        <div class="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-display" style="background: hsl(var(--emerald-500)); font-size: 20px;">
+                                            2
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold mb-2" style="font-size: 18px; color: hsl(var(--intaglio-900));">Link your programs</h3>
+                                            <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                                Connect your existing loyalty programs securely. We support hundreds of partners.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Step 3 -->
+                                    <div class="flex gap-4 items-start">
+                                        <div class="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-display" style="background: hsl(var(--emerald-500)); font-size: 20px;">
+                                            3
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold mb-2" style="font-size: 18px; color: hsl(var(--intaglio-900));">Pay anywhere</h3>
+                                            <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                                Use your points at any participating merchant. It's that simple.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Illustration -->
+                            <div class="sepia-frame p-10 flex items-center justify-center min-h-[400px]">
+                                <p class="serial text-sepia-500 text-center">[Illustration: Shopper-facing headline]</p>
+                            </div>
                         </div>
                     </div>
-                </footer>
-            </div>
-        </section>
+                </div>
+            </section>
 
-    </main>
+            <!-- ============================================ -->
+            <!-- COMPOSITION 8: FOOTER TREATMENT -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 08</p>
+                            <h2 class="font-display text-2xl text-ink">Footer Treatment</h2>
+                            <p class="text-warm-500 mt-1">Footer pattern with thread divider</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Design Notes</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Thread above footer creates clear boundary</li>
+                                <li>• Dark footer anchors page</li>
+                                <li>• Serial labels organize link sections</li>
+                                <li>• Warm grays maintain legibility on dark</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Footer -->
-    <footer class="px-8 py-6 border-t border-warm-200">
-        <div class="flex justify-between items-center text-sm text-warm-500">
-            <div class="flex items-center gap-4">
-                <a href="/" class="hover:text-emerald-500 transition-colors">Home</a>
-                <span class="text-warm-300">·</span>
-                <a href="/sitemap.html" class="hover:text-emerald-500 transition-colors">Sitemap</a>
-            </div>
-            <span>v0.6 · January 2026</span>
-        </div>
-    </footer>
+                <!-- Composition -->
+                <div>
+                    <!-- Thread divider -->
+                    <div class="h-[3px] w-full thread-spectrum"></div>
+
+                    <!-- Footer -->
+                    <div style="background: hsl(var(--intaglio-900));">
+                        <div class="max-w-[1200px] mx-auto px-8 py-20">
+                            <!-- Content Grid -->
+                            <div class="grid gap-12" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
+                                <!-- Brand Column -->
+                                <div>
+                                    <p class="font-brand font-semibold text-white text-2xl mb-4">Saltwyk</p>
+                                    <p class="text-sm" style="color: hsl(var(--warm-300)); line-height: 1.6;">
+                                        Saltwyk accelerates the points economy with rewards commerce infrastructure.
+                                    </p>
+                                </div>
+
+                                <!-- Company -->
+                                <div>
+                                    <p class="serial mb-4" style="color: hsl(var(--warm-500));">Company</p>
+                                    <ul class="space-y-3 text-sm" style="color: hsl(var(--warm-300));">
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">About</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Careers</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Press</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Contact</a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Products -->
+                                <div>
+                                    <p class="serial mb-4" style="color: hsl(var(--warm-500));">Products</p>
+                                    <ul class="space-y-3 text-sm" style="color: hsl(var(--warm-300));">
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Passport</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Merchant</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">API</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Enterprise</a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Legal -->
+                                <div>
+                                    <p class="serial mb-4" style="color: hsl(var(--warm-500));">Legal</p>
+                                    <ul class="space-y-3 text-sm" style="color: hsl(var(--warm-300));">
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Privacy</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Terms</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Cookies</a></li>
+                                        <li><a href="#" class="hover:text-emerald-400 transition-colors">Security</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Bar -->
+                            <div class="flex justify-between items-center pt-6 mt-16" style="border-top: 1px solid hsl(var(--intaglio-700));">
+                                <p class="text-sm" style="color: hsl(var(--warm-500));">
+                                    &copy; 2026 Saltwyk. All rights reserved.
+                                </p>
+                                <p class="text-sm" style="color: hsl(var(--warm-400));">
+                                    hello@saltwyk.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 9: TYPE PLAYGROUND -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 09</p>
+                            <h2 class="font-display text-2xl text-ink">Type Playground — Weight & Style Range</h2>
+                            <p class="text-warm-500 mt-1">Demonstrate the full range of Fraunces weights, styles, and optical sizes</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Typography Playground</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Weight range: 300-700</li>
+                                <li>• Italic variants available</li>
+                                <li>• Optical sizing: 9-144</li>
+                                <li>• Key: Weight creates hierarchy without size changes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <!-- Section Header -->
+                        <div class="mb-12">
+                            <p class="serial text-emerald-600 mb-2">Typography Exploration</p>
+                            <h2 class="font-display opsz-72 mb-4" style="font-size: 48px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                Fraunces Design Range
+                            </h2>
+                            <p class="text-lg" style="color: hsl(var(--warm-600));">
+                                Understanding weight, style, and optical size variations
+                            </p>
+                        </div>
+
+                        <!-- Weight Variations -->
+                        <div class="space-y-8 mb-12">
+                            <!-- Light 300 -->
+                            <div>
+                                <p class="font-display opsz-144" style="font-size: 64px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                    Pay with what you've earned
+                                </p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-500));">Light 300 — Elegant, editorial</p>
+                            </div>
+
+                            <!-- Regular 400 -->
+                            <div>
+                                <p class="font-display opsz-144" style="font-size: 64px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                    Pay with what you've earned
+                                </p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-500));">Regular 400 — Balanced, versatile</p>
+                            </div>
+
+                            <!-- Semibold 600 -->
+                            <div>
+                                <p class="font-display opsz-144" style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                    Pay with what you've earned
+                                </p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-500));">Semibold 600 — Confident, strong</p>
+                            </div>
+
+                            <!-- Bold 700 -->
+                            <div>
+                                <p class="font-display opsz-144" style="font-size: 64px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                    Pay with what you've earned
+                                </p>
+                                <p class="text-sm mt-2" style="color: hsl(var(--warm-500));">Bold 700 — Maximum impact</p>
+                            </div>
+                        </div>
+
+                        <!-- Italic Demonstration -->
+                        <div class="mb-12 pt-12 border-t border-warm-200">
+                            <p class="font-display opsz-72 italic" style="font-size: 56px; font-weight: 400; color: hsl(var(--intaglio-900));">
+                                Italic for emphasis
+                            </p>
+                            <p class="text-sm mt-2" style="color: hsl(var(--warm-500));">Italic adds sophistication and editorial quality</p>
+                        </div>
+
+                        <!-- Optical Size Comparison -->
+                        <div class="pt-12 border-t border-warm-200">
+                            <p class="font-medium mb-6" style="color: hsl(var(--intaglio-900));">Optical Size Impact</p>
+                            <div class="grid grid-cols-2 gap-8">
+                                <div class="bg-white rounded-lg p-6">
+                                    <p class="font-display" style="font-size: 48px; font-weight: 400; font-variation-settings: 'opsz' 9; color: hsl(var(--intaglio-900));">
+                                        The trillion point economy
+                                    </p>
+                                    <p class="text-sm mt-4" style="color: hsl(var(--warm-500));">Optical Size 9 — Designed for small sizes, higher stroke contrast</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-6">
+                                    <p class="font-display" style="font-size: 48px; font-weight: 400; font-variation-settings: 'opsz' 144; color: hsl(var(--intaglio-900));">
+                                        The trillion point economy
+                                    </p>
+                                    <p class="text-sm mt-4" style="color: hsl(var(--warm-500));">Optical Size 144 — Designed for headlines, refined stroke weight</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 10: HERO - ITALIC DRAMA -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 10</p>
+                            <h2 class="font-display text-2xl text-ink">Hero — Italic Drama</h2>
+                            <p class="text-warm-500 mt-1">Show Fraunces italic for sophisticated, editorial hero treatment</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Hero - Italic Drama</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Italic Fraunces creates editorial sophistication</li>
+                                <li>• 72pt italic feels elegant vs aggressive</li>
+                                <li>• Weight 400 maintains readability</li>
+                                <li>• Perfect for trust-building messaging</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-16">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <div class="bg-white rounded-b-xl overflow-hidden" style="box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <!-- Thread at top edge -->
+                            <div class="h-[3px] w-full thread-fresh"></div>
+
+                            <div class="p-20 text-center">
+                                <h2 class="font-display opsz-144 italic mb-8" style="font-size: 72px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                    Where your rewards finally work for you
+                                </h2>
+                                <p class="text-xl mb-12 max-w-[700px] mx-auto" style="color: hsl(var(--warm-600)); font-weight: 400; line-height: 1.6;">
+                                    No catalogs, no conversion math, no expiration anxiety. Just checkout.
+                                </p>
+                                <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                    Start Shopping
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 11: SPLIT MESSAGE - WEIGHT CONTRAST -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 11</p>
+                            <h2 class="font-display text-2xl text-ink">Split Message — Weight Contrast</h2>
+                            <p class="text-warm-500 mt-1">Demonstrate weight contrast within single composition for hierarchy</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Split Message - Weight Contrast</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Visual hierarchy through weight alone</li>
+                                <li>• Both lines 56pt but 700 vs 300 weight</li>
+                                <li>• Color reinforces hierarchy</li>
+                                <li>• Same size = cohesive, different weight = emphasis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[900px] mx-auto px-8 text-center">
+                        <div class="mb-8">
+                            <p class="font-display opsz-72" style="font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--emerald-500));">
+                                Pay with points.
+                            </p>
+                            <p class="font-display opsz-72 mt-1" style="font-size: 56px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                                Save with meaning.
+                            </p>
+                        </div>
+                        <p class="text-lg mb-12 max-w-[700px] mx-auto" style="color: hsl(var(--warm-600)); line-height: 1.6;">
+                            Join the payment network that rewards sustainable choices and helps merchants prosper.
+                        </p>
+                        <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 12: CTA SECTION - VARIANT A -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 12</p>
+                            <h2 class="font-display text-2xl text-ink">CTA Section — Variant A (Refined Gradient)</h2>
+                            <p class="text-warm-500 mt-1">Test reduced gradient intensity for readability</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">CTA Section - Variant A</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Reduced gradient intensity: 20% opacity</li>
+                                <li>• Maintains energy while improving readability</li>
+                                <li>• Dark base ensures contrast</li>
+                                <li>• Test: Can you read all text clearly?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="w-full py-[100px] cta-gradient-refined">
+                    <div class="max-w-[900px] mx-auto px-8 text-center">
+                        <p class="serial text-white/80 mb-3">Ready to Start?</p>
+                        <h2 class="font-display opsz-144 text-white mb-6" style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;">
+                            Join the payment revolution
+                        </h2>
+                        <p class="text-lg text-white/90 mb-12 max-w-[700px] mx-auto" style="line-height: 1.6;">
+                            Connect your rewards programs today. No credit card required. Start earning from merchants ready to grow.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <button class="font-medium rounded-lg" style="background: white; color: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                Become a Merchant
+                            </button>
+                            <button class="text-white font-medium rounded-lg border-2 border-white" style="height: 56px; padding: 0 32px;">
+                                Become a Partner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 13: CTA SECTION - VARIANT B -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 13</p>
+                            <h2 class="font-display text-2xl text-ink">CTA Section — Variant B (Solid Gradient)</h2>
+                            <p class="text-warm-500 mt-1">Test single-color gradient for maximum readability</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">CTA Section - Variant B</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Single-color emerald gradient</li>
+                                <li>• Maximum readability, reduced visual energy</li>
+                                <li>• Emerald-600 to emerald-700 subtle depth</li>
+                                <li>• Test: Does this feel too safe/corporate?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="w-full py-[100px] cta-gradient-emerald">
+                    <div class="max-w-[900px] mx-auto px-8 text-center">
+                        <p class="serial text-white/80 mb-3">Ready to Start?</p>
+                        <h2 class="font-display opsz-144 text-white mb-6" style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;">
+                            Join the payment revolution
+                        </h2>
+                        <p class="text-lg text-white/90 mb-12 max-w-[700px] mx-auto" style="line-height: 1.6;">
+                            Connect your rewards programs today. No credit card required. Start earning from merchants ready to grow.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <button class="font-medium rounded-lg" style="background: white; color: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                Become a Merchant
+                            </button>
+                            <button class="text-white font-medium rounded-lg border-2 border-white" style="height: 56px; padding: 0 32px;">
+                                Become a Partner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 14: CTA SECTION - VARIANT C -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 14</p>
+                            <h2 class="font-display text-2xl text-ink">CTA Section — Variant C (Overlay Approach)</h2>
+                            <p class="text-warm-500 mt-1">Test dark multiply overlay on vibrant gradient</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">CTA Section - Variant C</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• 40% dark overlay on full flame gradient</li>
+                                <li>• Preserves gradient visibility</li>
+                                <li>• Dark overlay improves contrast</li>
+                                <li>• Test: Best of both worlds?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="w-full py-[100px] cta-gradient-overlay">
+                    <div class="max-w-[900px] mx-auto px-8 text-center">
+                        <p class="serial text-white/80 mb-3">Ready to Start?</p>
+                        <h2 class="font-display opsz-144 text-white mb-6" style="font-size: 64px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;">
+                            Join the payment revolution
+                        </h2>
+                        <p class="text-lg text-white/90 mb-12 max-w-[700px] mx-auto" style="line-height: 1.6;">
+                            Connect your rewards programs today. No credit card required. Start earning from merchants ready to grow.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <button class="font-medium rounded-lg" style="background: white; color: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                Become a Merchant
+                            </button>
+                            <button class="text-white font-medium rounded-lg border-2 border-white" style="height: 56px; padding: 0 32px;">
+                                Become a Partner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 15: ILLUSTRATION FRAME - NO BORDER -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 15</p>
+                            <h2 class="font-display text-2xl text-ink">Illustration Frame — No Border</h2>
+                            <p class="text-warm-500 mt-1">Test illustration frame without border (just sepia fill)</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Illustration Frame - No Border</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Clean sepia gradient fill without border</li>
+                                <li>• Relies on background gradient for definition</li>
+                                <li>• Less ornate, more modern</li>
+                                <li>• Test: Unfinished or refined?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <div class="grid grid-cols-2 gap-16 items-center">
+                            <!-- Left: Content -->
+                            <div>
+                                <p class="serial text-emerald-600 mb-2">How It Works</p>
+                                <h2 class="font-display opsz-72 mb-4" style="font-size: 48px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Currency-grade security
+                                </h2>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Every transaction protected by the same infrastructure that secures billions in traditional finance.
+                                </p>
+                            </div>
+
+                            <!-- Right: Illustration Frame - No Border -->
+                            <div class="sepia-frame-noborder p-16 flex items-center justify-center min-h-[300px]">
+                                <p class="text-sm" style="color: hsl(var(--sepia-500));">[Illustration: Security elements]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 16: ILLUSTRATION FRAME - THREAD ACCENT -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 16</p>
+                            <h2 class="font-display text-2xl text-ink">Illustration Frame — Thread Accent</h2>
+                            <p class="text-warm-500 mt-1">Test thread as compositional element on illustration frame</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Illustration Frame - Thread Accent</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Thread on left edge as design element</li>
+                                <li>• Vertical thread gradient adds energy</li>
+                                <li>• Integrates brand element into composition</li>
+                                <li>• Test: Too decorative or purposeful accent?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1200px] mx-auto px-8">
+                        <div class="grid grid-cols-2 gap-16 items-center">
+                            <!-- Left: Content -->
+                            <div>
+                                <p class="serial text-emerald-600 mb-2">How It Works</p>
+                                <h2 class="font-display opsz-72 mb-4" style="font-size: 48px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Currency-grade security
+                                </h2>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Every transaction protected by the same infrastructure that secures billions in traditional finance.
+                                </p>
+                            </div>
+
+                            <!-- Right: Illustration Frame - Thread Accent -->
+                            <div class="sepia-frame-thread p-16 flex items-center justify-center min-h-[300px]">
+                                <p class="text-sm" style="color: hsl(var(--sepia-500));">[Illustration: Security elements]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 17: MIXED WEIGHT HEADLINE -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 17</p>
+                            <h2 class="font-display text-2xl text-ink">Mixed Weight Headline</h2>
+                            <p class="text-warm-500 mt-1">Show weight mixing within single headline for emphasis</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Mixed Weight Headline</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Weight variation within single headline</li>
+                                <li>• 300 for articles/prepositions</li>
+                                <li>• 700 for key concepts</li>
+                                <li>• Test: Sophisticated or gimmicky?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-16">
+                    <div class="max-w-[800px] mx-auto px-8">
+                        <div class="bg-white rounded-b-xl overflow-hidden shadow-lg">
+                            <div class="h-[3px] w-full thread-spectrum"></div>
+                            <div class="p-16 text-center">
+                                <h2 class="font-display opsz-72 mb-6" style="font-size: 48px; letter-spacing: -0.015em; line-height: 1.2; color: hsl(var(--intaglio-900));">
+                                    <span style="font-weight: 300;">The</span>
+                                    <span style="font-weight: 700;">payment rails</span>
+                                    <span style="font-weight: 300;">for</span>
+                                    <span style="font-weight: 700;">points</span>
+                                </h2>
+                                <p class="text-lg mb-10" style="color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Infrastructure that makes rewards spendable everywhere
+                                </p>
+                                <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                    See How It Works
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 18: SUBTITLE TREATMENT OPTIONS -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 18</p>
+                            <h2 class="font-display text-2xl text-ink">Subtitle Treatment Options</h2>
+                            <p class="text-warm-500 mt-1">Establish subtitle hierarchy patterns for different contexts</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Subtitle Treatment Options</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Option A: Product pages, utility content</li>
+                                <li>• Option B: Brand storytelling, editorial</li>
+                                <li>• Option C: When maintaining Fraunces throughout</li>
+                                <li>• Default to Option A unless elegance needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[100px]">
+                    <div class="max-w-[1000px] mx-auto px-8">
+                        <!-- Section Header -->
+                        <div class="mb-12">
+                            <p class="serial text-emerald-600 mb-2">Typography System</p>
+                            <h2 class="font-display opsz-72 mb-4" style="font-size: 48px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                Subtitle Treatment Options
+                            </h2>
+                            <p class="text-lg" style="color: hsl(var(--warm-600));">
+                                Three approaches for different contexts and tones
+                            </p>
+                        </div>
+
+                        <!-- Three Options -->
+                        <div class="space-y-16">
+                            <!-- Option A - Standard Clarity -->
+                            <div class="bg-white rounded-lg p-8">
+                                <h3 class="font-display opsz-72 mb-4" style="font-size: 40px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Built for merchants
+                                </h3>
+                                <p class="mb-4" style="font-size: 20px; font-weight: 400; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Accept points as payment with real-time settlement and zero fraud risk.
+                                </p>
+                                <p class="text-sm" style="color: hsl(var(--warm-500));">
+                                    Standard: Inter regular — Clear, straightforward, trustworthy
+                                </p>
+                            </div>
+
+                            <!-- Option B - Editorial Elegance -->
+                            <div class="bg-white rounded-lg p-8">
+                                <h3 class="font-display opsz-72 mb-4" style="font-size: 40px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Built for merchants
+                                </h3>
+                                <p class="font-display italic mb-4" style="font-size: 24px; font-weight: 300; color: hsl(var(--warm-600)); line-height: 1.5;">
+                                    Accept points as payment with real-time settlement and zero fraud risk.
+                                </p>
+                                <p class="text-sm" style="color: hsl(var(--warm-500));">
+                                    Elegant: Fraunces italic light — Sophisticated, editorial, premium
+                                </p>
+                            </div>
+
+                            <!-- Option C - Unified Voice -->
+                            <div class="bg-white rounded-lg p-8">
+                                <h3 class="font-display opsz-72 mb-4" style="font-size: 40px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                    Built for merchants
+                                </h3>
+                                <p class="font-display mb-4" style="font-size: 20px; font-weight: 400; color: hsl(var(--warm-600)); line-height: 1.6;">
+                                    Accept points as payment with real-time settlement and zero fraud risk.
+                                </p>
+                                <p class="text-sm" style="color: hsl(var(--warm-500));">
+                                    Unified: Fraunces regular — Cohesive, distinctive, brand-forward
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 19: CARD WITHOUT THREAD -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 19</p>
+                            <h2 class="font-display text-2xl text-ink">Card Without Thread</h2>
+                            <p class="text-warm-500 mt-1">Prove Galaxy Opal works without threads when inappropriate</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Card Without Thread</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Threads are intentional, not required</li>
+                                <li>• Strong typography carries design</li>
+                                <li>• Generous spacing creates hierarchy</li>
+                                <li>• Proves restraint is part of language</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-16">
+                    <div class="max-w-[900px] mx-auto px-8">
+                        <div class="bg-white rounded-xl p-16 text-center" style="box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+                            <h2 class="font-display opsz-72 mb-6" style="font-size: 48px; font-weight: 600; color: hsl(var(--intaglio-900));">
+                                Pricing
+                            </h2>
+                            <p class="text-lg mb-8" style="color: hsl(var(--warm-600));">
+                                Simple, transparent pricing with no hidden fees
+                            </p>
+
+                            <div class="mb-8">
+                                <p class="font-display opsz-144 gradient-text-emerald" style="font-size: 72px; font-weight: 700;">3%</p>
+                                <p style="font-size: 16px; color: hsl(var(--warm-600));">per transaction</p>
+                            </div>
+
+                            <div class="text-left max-w-[400px] mx-auto mb-12 space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span style="font-size: 16px; color: hsl(var(--warm-600));">Real-time settlement</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span style="font-size: 16px; color: hsl(var(--warm-600));">Zero fraud liability</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span style="font-size: 16px; color: hsl(var(--warm-600));">No monthly minimums</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span style="font-size: 16px; color: hsl(var(--warm-600));">Cancel anytime</span>
+                                </div>
+                            </div>
+
+                            <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                                Get Started
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- COMPOSITION 20: MINIMAL COMPOSITION -->
+            <!-- ============================================ -->
+            <section class="mb-24">
+                <!-- Composition Label -->
+                <div class="max-w-[1400px] mx-auto px-8 mb-4">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="serial text-emerald-600 mb-1">Composition 20</p>
+                            <h2 class="font-display text-2xl text-ink">Minimal Composition</h2>
+                            <p class="text-warm-500 mt-1">Test maximum restraint and whitespace</p>
+                        </div>
+                        <div class="annotation text-warm-600">
+                            <p class="font-medium mb-1">Minimal Composition</p>
+                            <ul class="text-xs space-y-0.5">
+                                <li>• Less is more</li>
+                                <li>• Single thread accent, not full width</li>
+                                <li>• Maximum breathing room</li>
+                                <li>• Restraint is design confidence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition -->
+                <div class="bg-ledger py-[160px]">
+                    <div class="max-w-[600px] mx-auto px-8 text-center">
+                        <!-- Short thread accent -->
+                        <div class="h-[3px] w-20 thread-spectrum rounded mx-auto mb-10"></div>
+
+                        <h2 class="font-display opsz-144 mb-8" style="font-size: 64px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; color: hsl(var(--intaglio-900));">
+                            The trillion point economy
+                        </h2>
+                        <p class="text-lg mb-14 max-w-[500px] mx-auto" style="color: hsl(var(--warm-600)); line-height: 1.6;">
+                            When points are easy to spend, everyone wins
+                        </p>
+                        <button class="text-white font-medium rounded-lg" style="background: hsl(var(--emerald-500)); height: 56px; padding: 0 32px;">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page Footer -->
+            <footer class="bg-white border-t-2 border-warm-200">
+                <div class="max-w-[1400px] mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="/" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="/sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
         </main>
     </div>
+
     <script src="/partials/nav-loader.js"></script>
 </body>
 </html>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guilloche Generator | Tools | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600;700&family=Outfit:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="/assets/config/design-tokens.css">
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        .thread-spectrum {
+            background: linear-gradient(90deg,
+                hsl(var(--cyan-thread)) 0%,
+                hsl(var(--lime-thread)) 25%,
+                hsl(var(--orange-thread)) 50%,
+                hsl(var(--magenta-thread)) 75%,
+                hsl(var(--cyan-thread)) 100%
+            );
+        }
+
+        /* ========================================= */
+        /* GUILLOCHE GENERATOR STYLES               */
+        /* ========================================= */
+
+        /* Controls Panel */
+        .controls-panel {
+            width: 360px;
+            min-width: 360px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: hsl(var(--warm-300)) transparent;
+        }
+
+        .controls-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .controls-panel::-webkit-scrollbar-thumb {
+            background: hsl(var(--warm-300));
+            border-radius: 2px;
+        }
+
+        .control-section {
+            border-bottom: 1px solid hsl(var(--warm-200));
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .control-section:last-child {
+            border-bottom: none;
+        }
+
+        .control-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-500));
+            margin-bottom: 12px;
+        }
+
+        /* Prompt Input */
+        .prompt-textarea {
+            width: 100%;
+            min-height: 72px;
+            padding: 10px 12px;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: hsl(var(--warm-900));
+            background: white;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.15s ease;
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: hsl(var(--emerald-500));
+            box-shadow: 0 0 0 3px hsl(var(--emerald-500) / 0.1);
+        }
+
+        .prompt-textarea::placeholder {
+            color: hsl(var(--warm-400));
+        }
+
+        /* Slider Controls */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .slider-label {
+            width: 90px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-700));
+            flex-shrink: 0;
+        }
+
+        .slider-input {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            background: hsl(var(--warm-200));
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            transition: background 0.15s ease, transform 0.1s ease;
+        }
+
+        .slider-input::-webkit-slider-thumb:hover {
+            background: hsl(var(--emerald-600));
+            transform: scale(1.15);
+        }
+
+        .slider-input::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: hsl(var(--emerald-500));
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .slider-value {
+            width: 48px;
+            text-align: right;
+            font-size: 12px;
+            font-weight: 600;
+            color: hsl(var(--warm-600));
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+        }
+
+        /* Pattern Type Selector */
+        .pattern-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .pattern-option {
+            padding: 8px 10px;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-600));
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s ease;
+        }
+
+        .pattern-option:hover {
+            border-color: hsl(var(--warm-300));
+            color: hsl(var(--warm-800));
+        }
+
+        .pattern-option.active {
+            border-color: hsl(var(--emerald-500));
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-700));
+        }
+
+        /* Color Swatches */
+        .color-family {
+            margin-bottom: 8px;
+        }
+
+        .color-family-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+
+        .color-swatches {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.1s ease, border-color 0.15s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.2);
+            z-index: 1;
+        }
+
+        .color-swatch.active {
+            border-color: hsl(var(--warm-900));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--warm-900));
+            transform: scale(1.15);
+        }
+
+        /* Preview Area */
+        .preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .preview-canvas {
+            background: white;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .preview-canvas.transparent-bg {
+            background: repeating-conic-gradient(hsl(var(--warm-100)) 0% 25%, white 0% 50%) 50% / 16px 16px;
+        }
+
+        .preview-canvas svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .preview-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+        }
+
+        /* Export Buttons */
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: hsl(var(--warm-700));
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .export-btn:hover {
+            border-color: hsl(var(--warm-300));
+            background: hsl(var(--warm-50));
+        }
+
+        .export-btn-primary {
+            background: hsl(var(--emerald-500));
+            border-color: hsl(var(--emerald-500));
+            color: white;
+        }
+
+        .export-btn-primary:hover {
+            background: hsl(var(--emerald-600));
+            border-color: hsl(var(--emerald-600));
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .generate-btn:hover {
+            background: hsl(var(--emerald-600));
+        }
+
+        /* Background Toggle */
+        .bg-toggle {
+            display: flex;
+            border: 1.5px solid hsl(var(--warm-200));
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bg-toggle-option {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            color: hsl(var(--warm-500));
+            cursor: pointer;
+            background: white;
+            border: none;
+            transition: all 0.15s ease;
+        }
+
+        .bg-toggle-option.active {
+            background: hsl(var(--warm-100));
+            color: hsl(var(--warm-800));
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 20px;
+            background: hsl(var(--warm-900));
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .guilloche-layout {
+                flex-direction: column !important;
+            }
+            .controls-panel {
+                width: 100% !important;
+                min-width: unset !important;
+                max-height: unset !important;
+            }
+        }
+
+        /* Preset chips */
+        .preset-chip {
+            display: inline-block;
+            padding: 4px 10px;
+            border: 1px solid hsl(var(--warm-200));
+            border-radius: 12px;
+            font-size: 11px;
+            color: hsl(var(--warm-600));
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-chip:hover {
+            border-color: hsl(var(--emerald-400));
+            color: hsl(var(--emerald-700));
+            background: hsl(var(--emerald-50));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex min-h-screen">
+        <div id="side-nav"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 max-w-[1400px]">
+
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm text-warm-500 mb-6">
+                <a href="/" class="hover:text-emerald-600">Design System</a>
+                <span>→</span>
+                <a href="/core/" class="hover:text-emerald-600">Foundation</a>
+                <span>→</span>
+                <span>Tools</span>
+                <span>→</span>
+                <span class="text-warm-700">Guilloche Generator</span>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="font-display text-3xl font-semibold text-warm-900 mb-2" style="font-variation-settings: 'opsz' 72;">Guilloche Generator</h1>
+                <p class="text-warm-600 text-base max-w-2xl">Generate intricate geometric patterns based on hypotrochoid, epitrochoid, and rose curves. Use natural language prompts or fine-tune parameters with manual controls. Export as SVG for use in brand materials.</p>
+            </div>
+
+            <!-- Thread accent -->
+            <div class="thread-spectrum h-[3px] rounded-full mb-8"></div>
+
+            <!-- Main Layout: Controls + Preview -->
+            <div class="flex gap-8 guilloche-layout">
+
+                <!-- Controls Panel -->
+                <div class="controls-panel bg-white border border-warm-200 rounded-xl p-5">
+
+                    <!-- Prompt Input -->
+                    <div class="control-section">
+                        <div class="control-section-title">Prompt</div>
+                        <textarea id="prompt-input" class="prompt-textarea" placeholder="e.g. elegant flowing warm dense subtle"></textarea>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button id="generate-btn" class="generate-btn">Generate</button>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-1.5">
+                            <span class="preset-chip" data-prompt="elegant flowing warm">elegant warm</span>
+                            <span class="preset-chip" data-prompt="dense intricate cool bold">dense cool</span>
+                            <span class="preset-chip" data-prompt="simple delicate subtle">minimal</span>
+                            <span class="preset-chip" data-prompt="chaotic bold large">chaotic bold</span>
+                            <span class="preset-chip" data-prompt="smooth flowing fine cool subtle">fine thread</span>
+                        </div>
+                    </div>
+
+                    <!-- Pattern Type -->
+                    <div class="control-section">
+                        <div class="control-section-title">Curve Type</div>
+                        <div class="pattern-options">
+                            <button class="pattern-option active" data-type="hypotrochoid">Hypotrochoid</button>
+                            <button class="pattern-option" data-type="epitrochoid">Epitrochoid</button>
+                            <button class="pattern-option" data-type="rose">Rose</button>
+                            <button class="pattern-option" data-type="spirograph">Spirograph</button>
+                        </div>
+                    </div>
+
+                    <!-- Geometry -->
+                    <div class="control-section">
+                        <div class="control-section-title">Geometry</div>
+                        <div class="slider-row">
+                            <span class="slider-label">Outer R</span>
+                            <input type="range" class="slider-input" id="slider-R" min="50" max="300" value="200" step="1">
+                            <span class="slider-value" id="val-R">200</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label">Inner r</span>
+                            <input type="range" class="slider-input" id="slider-r" min="10" max="200" value="80" step="1">
+                            <span class="slider-value" id="val-r">80</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label">Pen offset d</span>
+                            <input type="range" class="slider-input" id="slider-d" min="5" max="200" value="100" step="1">
+                            <span class="slider-value" id="val-d">100</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label">Rotations</span>
+                            <input type="range" class="slider-input" id="slider-rotations" min="1" max="60" value="10" step="1">
+                            <span class="slider-value" id="val-rotations">10</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label">Resolution</span>
+                            <input type="range" class="slider-input" id="slider-resolution" min="100" max="1000" value="360" step="10">
+                            <span class="slider-value" id="val-resolution">360</span>
+                        </div>
+                    </div>
+
+                    <!-- Style -->
+                    <div class="control-section">
+                        <div class="control-section-title">Style</div>
+                        <div class="slider-row">
+                            <span class="slider-label">Stroke width</span>
+                            <input type="range" class="slider-input" id="slider-stroke" min="0.25" max="3" value="0.5" step="0.25">
+                            <span class="slider-value" id="val-stroke">0.5</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label">Opacity</span>
+                            <input type="range" class="slider-input" id="slider-opacity" min="0.1" max="1" value="0.8" step="0.05">
+                            <span class="slider-value" id="val-opacity">0.80</span>
+                        </div>
+                    </div>
+
+                    <!-- Color -->
+                    <div class="control-section">
+                        <div class="control-section-title">Color</div>
+                        <div id="color-picker"></div>
+                    </div>
+
+                    <!-- Canvas -->
+                    <div class="control-section">
+                        <div class="control-section-title">Canvas</div>
+                        <div class="slider-row">
+                            <span class="slider-label">Size</span>
+                            <input type="range" class="slider-input" id="slider-canvas" min="200" max="1200" value="600" step="50">
+                            <span class="slider-value" id="val-canvas">600</span>
+                        </div>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="slider-label">Background</span>
+                            <div class="bg-toggle">
+                                <button class="bg-toggle-option active" data-bg="white">White</button>
+                                <button class="bg-toggle-option" data-bg="transparent">Transparent</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Preview + Export -->
+                <div class="flex-1 flex flex-col">
+
+                    <!-- Export Bar -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <button class="export-btn-primary export-btn" id="btn-download">
+                                <i data-lucide="download" style="width:14px;height:14px;"></i>
+                                Download SVG
+                            </button>
+                            <button class="export-btn" id="btn-newtab">
+                                <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+                                Open in Tab
+                            </button>
+                            <button class="export-btn" id="btn-copy">
+                                <i data-lucide="copy" style="width:14px;height:14px;"></i>
+                                Copy SVG
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview Canvas -->
+                    <div class="preview-container">
+                        <div class="preview-canvas" id="preview-canvas">
+                            <svg id="guilloche-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+                        </div>
+                    </div>
+
+                    <!-- Preview Meta -->
+                    <div class="preview-meta" id="preview-meta">
+                        <span id="meta-points">Points: —</span>
+                        <span id="meta-size">Size: —</span>
+                        <span id="meta-dimensions">600 × 600</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Copied to clipboard</div>
+
+    <!-- Nav Loader -->
+    <script src="/partials/nav-loader.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // =============================================
+        // DESIGN TOKEN COLORS
+        // =============================================
+        const COLOR_FAMILIES = {
+            warm:     { label: 'Warm',     shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--warm' },
+            intaglio: { label: 'Intaglio', shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--intaglio' },
+            emerald:  { label: 'Emerald',  shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--emerald' },
+            cyan:     { label: 'Cyan',     shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--cyan' },
+            magenta:  { label: 'Magenta',  shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--magenta' },
+            lime:     { label: 'Lime',     shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--lime' },
+            orange:   { label: 'Orange',   shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--orange' },
+            sepia:    { label: 'Sepia',    shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--sepia' },
+            sienna:   { label: 'Sienna',   shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--sienna' },
+            slate:    { label: 'Slate',    shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--slate' },
+            indigo:   { label: 'Indigo',   shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--indigo' },
+            burgundy: { label: 'Burgundy', shades: [50,100,200,300,400,500,600,700,800,900], prefix: '--burgundy' },
+        };
+
+        // =============================================
+        // STATE
+        // =============================================
+        const state = {
+            type: 'hypotrochoid',
+            R: 200,
+            r: 80,
+            d: 100,
+            rotations: 10,
+            resolution: 360,
+            strokeWidth: 0.5,
+            opacity: 0.8,
+            color: 'hsl(150 100% 27%)',     // emerald-500 default
+            colorVar: '--emerald-500',
+            canvasSize: 600,
+            bgWhite: true,
+        };
+
+        let debounceTimer = null;
+        let isDragging = false;
+
+        // =============================================
+        // GUILLOCHE ENGINE
+        // =============================================
+        const GuillocheEngine = {
+            generate(params) {
+                const { type, R, r, d, rotations, resolution } = params;
+                const totalPoints = rotations * resolution;
+                const maxT = rotations * 2 * Math.PI;
+                const points = [];
+
+                for (let i = 0; i <= totalPoints; i++) {
+                    const t = (i / totalPoints) * maxT;
+                    let x, y;
+
+                    switch (type) {
+                        case 'hypotrochoid':
+                            x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+                            y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+                            break;
+                        case 'epitrochoid':
+                            x = (R + r) * Math.cos(t) - d * Math.cos(((R + r) / r) * t);
+                            y = (R + r) * Math.sin(t) - d * Math.sin(((R + r) / r) * t);
+                            break;
+                        case 'rose':
+                            const k = R / r;
+                            const radius = d * Math.cos(k * t);
+                            x = radius * Math.cos(t);
+                            y = radius * Math.sin(t);
+                            break;
+                        case 'spirograph':
+                            // Multi-layer hypotrochoid with phase offset
+                            x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+                            y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+                            // Add subtle second harmonic
+                            const r2 = r * 0.3;
+                            const d2 = d * 0.2;
+                            x += r2 * Math.cos(3.7 * t);
+                            y += r2 * Math.sin(3.7 * t);
+                            break;
+                    }
+
+                    points.push({ x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 });
+                }
+
+                return points;
+            }
+        };
+
+        // =============================================
+        // SVG BUILDER
+        // =============================================
+        const SVGBuilder = {
+            buildPath(points, canvasSize) {
+                // Calculate bounds for centering
+                let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+                for (const p of points) {
+                    if (p.x < minX) minX = p.x;
+                    if (p.x > maxX) maxX = p.x;
+                    if (p.y < minY) minY = p.y;
+                    if (p.y > maxY) maxY = p.y;
+                }
+
+                const patternW = maxX - minX;
+                const patternH = maxY - minY;
+                const padding = 20;
+                const scale = Math.min((canvasSize - padding * 2) / patternW, (canvasSize - padding * 2) / patternH);
+
+                const pathParts = [];
+                for (let i = 0; i < points.length; i++) {
+                    const px = Math.round(((points[i].x - minX) * scale + (canvasSize - patternW * scale) / 2) * 100) / 100;
+                    const py = Math.round(((points[i].y - minY) * scale + (canvasSize - patternH * scale) / 2) * 100) / 100;
+                    pathParts.push(i === 0 ? `M${px} ${py}` : `L${px} ${py}`);
+                }
+
+                return pathParts.join(' ');
+            },
+
+            // Display SVG: viewBox only, no width/height — sized by CSS container
+            buildDisplay(points, params) {
+                const { canvasSize, strokeWidth, opacity, color, bgWhite } = params;
+                const pathD = this.buildPath(points, canvasSize);
+
+                const bgRect = bgWhite
+                    ? `<rect width="${canvasSize}" height="${canvasSize}" fill="white"/>`
+                    : '';
+
+                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvasSize} ${canvasSize}">
+${bgRect}
+<path d="${pathD}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" opacity="${opacity}" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+            },
+
+            // Export SVG: explicit width/height for design tools, max-width for browser viewing
+            buildExport(points, params) {
+                const { canvasSize, strokeWidth, opacity, color, bgWhite } = params;
+                const pathD = this.buildPath(points, canvasSize);
+
+                const bgRect = bgWhite
+                    ? `<rect width="${canvasSize}" height="${canvasSize}" fill="white"/>`
+                    : '';
+
+                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvasSize} ${canvasSize}" width="${canvasSize}" height="${canvasSize}" style="max-width:100%;height:auto">
+${bgRect}
+<path d="${pathD}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" opacity="${opacity}" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+            }
+        };
+
+        // =============================================
+        // PROMPT PARSER
+        // =============================================
+        const PromptParser = {
+            keywords: {
+                // Density
+                dense:     { rotations: [25, 50], resolution: [500, 800] },
+                tight:     { rotations: [20, 40], resolution: [400, 600] },
+                intricate: { rotations: [30, 60], resolution: [600, 1000] },
+                sparse:    { rotations: [2, 5], resolution: [100, 200] },
+                simple:    { rotations: [3, 8], resolution: [150, 300] },
+                minimal:   { rotations: [2, 4], resolution: [100, 200] },
+
+                // Scale
+                large: { R: [220, 300], r: [80, 180], d: [120, 200] },
+                grand: { R: [250, 300], r: [100, 200], d: [150, 200] },
+                small: { R: [50, 120], r: [10, 50], d: [20, 60] },
+                delicate: { R: [60, 150], r: [15, 60], d: [30, 80] },
+                fine: { R: [80, 160], r: [20, 70], d: [25, 70] },
+
+                // Flow
+                flowing:  { _ratio: [0.3, 0.5] },
+                smooth:   { _ratio: [0.35, 0.55] },
+                elegant:  { _ratio: [0.3, 0.45], strokeWidth: [0.25, 0.75] },
+                sharp:    { _ratio: [0.05, 0.15] },
+                angular:  { _ratio: [0.08, 0.2] },
+                chaotic:  { _ratio: [0.02, 0.1], rotations: [15, 40] },
+
+                // Intensity
+                bold:   { strokeWidth: [1.5, 3], opacity: [0.85, 1] },
+                strong: { strokeWidth: [1.5, 2.5], opacity: [0.8, 1] },
+                subtle: { strokeWidth: [0.25, 0.5], opacity: [0.2, 0.5] },
+                light:  { strokeWidth: [0.25, 0.5], opacity: [0.15, 0.4] },
+
+                // Color keywords
+                warm:   { _color: ['--warm-600', '--orange-500', '--sienna-500', '--sepia-500'] },
+                golden: { _color: ['--orange-400', '--sepia-400', '--sienna-400'] },
+                cool:   { _color: ['--slate-500', '--indigo-500', '--cyan-500'] },
+                icy:    { _color: ['--cyan-400', '--slate-400', '--indigo-400'] },
+                green:  { _color: ['--emerald-500', '--emerald-600', '--lime-500'] },
+                red:    { _color: ['--magenta-500', '--burgundy-500', '--sienna-500'] },
+                dark:   { _color: ['--intaglio-800', '--warm-800', '--slate-800'] },
+                rich:   { _color: ['--burgundy-600', '--indigo-600', '--emerald-700'] },
+            },
+
+            parse(promptText) {
+                const words = promptText.toLowerCase().split(/[\s,;]+/).filter(Boolean);
+                const result = {};
+                let colorCandidates = [];
+                let hasRatio = false;
+
+                for (const word of words) {
+                    const mapping = this.keywords[word];
+                    if (!mapping) continue;
+
+                    for (const [key, range] of Object.entries(mapping)) {
+                        if (key === '_color') {
+                            colorCandidates = colorCandidates.concat(range);
+                        } else if (key === '_ratio') {
+                            hasRatio = true;
+                            result._ratio = range;
+                        } else {
+                            result[key] = range;
+                        }
+                    }
+                }
+
+                // Build params from ranges (pick random within range)
+                const params = {};
+                const rand = (min, max) => min + Math.random() * (max - min);
+
+                if (result.R) params.R = Math.round(rand(result.R[0], result.R[1]));
+                if (result.r) params.r = Math.round(rand(result.r[0], result.r[1]));
+                if (result.d) params.d = Math.round(rand(result.d[0], result.d[1]));
+                if (result.rotations) params.rotations = Math.round(rand(result.rotations[0], result.rotations[1]));
+                if (result.resolution) params.resolution = Math.round(rand(result.resolution[0], result.resolution[1]) / 10) * 10;
+                if (result.strokeWidth) params.strokeWidth = Math.round(rand(result.strokeWidth[0], result.strokeWidth[1]) * 4) / 4;
+                if (result.opacity) params.opacity = Math.round(rand(result.opacity[0], result.opacity[1]) * 20) / 20;
+
+                // Handle ratio: r/R ratio affects flow
+                if (result._ratio) {
+                    const R = params.R || state.R;
+                    const ratio = rand(result._ratio[0], result._ratio[1]);
+                    params.r = Math.round(R * ratio);
+                }
+
+                // Pick color
+                if (colorCandidates.length > 0) {
+                    const picked = colorCandidates[Math.floor(Math.random() * colorCandidates.length)];
+                    params.colorVar = picked;
+                    params.color = `hsl(var(${picked}))`;
+                }
+
+                return params;
+            }
+        };
+
+        // =============================================
+        // UI CONTROLLER
+        // =============================================
+        const UI = {
+            init() {
+                this.buildColorPicker();
+                this.bindSliders();
+                this.bindPatternType();
+                this.bindPrompt();
+                this.bindBgToggle();
+                this.bindExport();
+                this.bindPresets();
+                this.render();
+            },
+
+            buildColorPicker() {
+                const container = document.getElementById('color-picker');
+                const root = document.documentElement;
+
+                for (const [familyKey, family] of Object.entries(COLOR_FAMILIES)) {
+                    const div = document.createElement('div');
+                    div.className = 'color-family';
+                    div.innerHTML = `<div class="color-family-label">${family.label}</div><div class="color-swatches" data-family="${familyKey}"></div>`;
+
+                    const swatchRow = div.querySelector('.color-swatches');
+                    for (const shade of family.shades) {
+                        const varName = `${family.prefix}-${shade}`;
+                        const swatch = document.createElement('button');
+                        swatch.className = 'color-swatch';
+                        if (varName === state.colorVar) swatch.classList.add('active');
+                        swatch.dataset.var = varName;
+                        swatch.style.backgroundColor = `hsl(var(${varName}))`;
+                        swatch.title = `${family.label} ${shade}`;
+                        swatch.addEventListener('click', () => this.selectColor(varName, swatch));
+                        swatchRow.appendChild(swatch);
+                    }
+
+                    container.appendChild(div);
+                }
+            },
+
+            selectColor(varName, el) {
+                document.querySelectorAll('.color-swatch.active').forEach(s => s.classList.remove('active'));
+                el.classList.add('active');
+                state.colorVar = varName;
+                state.color = `hsl(var(${varName}))`;
+                this.scheduleRender();
+            },
+
+            bindSliders() {
+                const sliders = [
+                    { id: 'slider-R', key: 'R', valId: 'val-R', isInt: true },
+                    { id: 'slider-r', key: 'r', valId: 'val-r', isInt: true },
+                    { id: 'slider-d', key: 'd', valId: 'val-d', isInt: true },
+                    { id: 'slider-rotations', key: 'rotations', valId: 'val-rotations', isInt: true },
+                    { id: 'slider-resolution', key: 'resolution', valId: 'val-resolution', isInt: true },
+                    { id: 'slider-stroke', key: 'strokeWidth', valId: 'val-stroke', isInt: false },
+                    { id: 'slider-opacity', key: 'opacity', valId: 'val-opacity', isInt: false },
+                    { id: 'slider-canvas', key: 'canvasSize', valId: 'val-canvas', isInt: true },
+                ];
+
+                for (const s of sliders) {
+                    const slider = document.getElementById(s.id);
+                    const valDisplay = document.getElementById(s.valId);
+
+                    slider.addEventListener('input', () => {
+                        const val = s.isInt ? parseInt(slider.value) : parseFloat(slider.value);
+                        state[s.key] = val;
+                        valDisplay.textContent = s.isInt ? val : val.toFixed(s.key === 'opacity' ? 2 : s.key === 'strokeWidth' ? 2 : 0);
+                        this.scheduleRender();
+                    });
+
+                    slider.addEventListener('mousedown', () => { isDragging = true; });
+                    slider.addEventListener('mouseup', () => { isDragging = false; this.render(); });
+                    slider.addEventListener('touchstart', () => { isDragging = true; });
+                    slider.addEventListener('touchend', () => { isDragging = false; this.render(); });
+                }
+            },
+
+            bindPatternType() {
+                document.querySelectorAll('.pattern-option').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.pattern-option').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        state.type = btn.dataset.type;
+                        this.render();
+                    });
+                });
+            },
+
+            bindPrompt() {
+                document.getElementById('generate-btn').addEventListener('click', () => {
+                    const text = document.getElementById('prompt-input').value.trim();
+                    if (!text) return;
+
+                    const params = PromptParser.parse(text);
+                    this.applyParams(params);
+                    this.render();
+                });
+
+                // Also allow Enter key
+                document.getElementById('prompt-input').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        document.getElementById('generate-btn').click();
+                    }
+                });
+            },
+
+            bindPresets() {
+                document.querySelectorAll('.preset-chip').forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        const prompt = chip.dataset.prompt;
+                        document.getElementById('prompt-input').value = prompt;
+                        const params = PromptParser.parse(prompt);
+                        this.applyParams(params);
+                        this.render();
+                    });
+                });
+            },
+
+            applyParams(params) {
+                const sliderMap = {
+                    R: 'slider-R',
+                    r: 'slider-r',
+                    d: 'slider-d',
+                    rotations: 'slider-rotations',
+                    resolution: 'slider-resolution',
+                    strokeWidth: 'slider-stroke',
+                    opacity: 'slider-opacity',
+                };
+
+                const valMap = {
+                    R: 'val-R',
+                    r: 'val-r',
+                    d: 'val-d',
+                    rotations: 'val-rotations',
+                    resolution: 'val-resolution',
+                    strokeWidth: 'val-stroke',
+                    opacity: 'val-opacity',
+                };
+
+                for (const [key, val] of Object.entries(params)) {
+                    if (key.startsWith('_')) continue;
+                    if (key === 'color' || key === 'colorVar') {
+                        state[key] = val;
+                        if (key === 'colorVar') {
+                            // Update swatch selection
+                            document.querySelectorAll('.color-swatch.active').forEach(s => s.classList.remove('active'));
+                            const target = document.querySelector(`.color-swatch[data-var="${val}"]`);
+                            if (target) target.classList.add('active');
+                        }
+                        continue;
+                    }
+
+                    state[key] = val;
+
+                    if (sliderMap[key]) {
+                        const slider = document.getElementById(sliderMap[key]);
+                        // Clamp to slider range
+                        const clamped = Math.max(parseFloat(slider.min), Math.min(parseFloat(slider.max), val));
+                        slider.value = clamped;
+                        state[key] = clamped;
+                    }
+
+                    if (valMap[key]) {
+                        const display = document.getElementById(valMap[key]);
+                        const isFloat = key === 'strokeWidth' || key === 'opacity';
+                        display.textContent = isFloat ? val.toFixed(2) : val;
+                    }
+                }
+            },
+
+            bindBgToggle() {
+                document.querySelectorAll('.bg-toggle-option').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.bg-toggle-option').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        state.bgWhite = btn.dataset.bg === 'white';
+
+                        const canvas = document.getElementById('preview-canvas');
+                        canvas.classList.toggle('transparent-bg', !state.bgWhite);
+                        this.render();
+                    });
+                });
+            },
+
+            bindExport() {
+                document.getElementById('btn-download').addEventListener('click', () => ExportHandler.download());
+                document.getElementById('btn-newtab').addEventListener('click', () => ExportHandler.openTab());
+                document.getElementById('btn-copy').addEventListener('click', () => ExportHandler.copy());
+            },
+
+            scheduleRender() {
+                clearTimeout(debounceTimer);
+                const delay = isDragging ? 30 : 150;
+                debounceTimer = setTimeout(() => this.render(), delay);
+            },
+
+            render() {
+                const points = GuillocheEngine.generate(state);
+
+                // For export, resolve the CSS variable to an actual color
+                const resolvedColor = this.resolveColor(state.colorVar);
+
+                const exportSvg = SVGBuilder.buildExport(points, {
+                    ...state,
+                    color: resolvedColor,
+                });
+
+                // For display, use CSS variable and no explicit dimensions
+                const displaySvg = SVGBuilder.buildDisplay(points, {
+                    ...state,
+                    color: `hsl(var(${state.colorVar}))`,
+                });
+
+                // Store export SVG on state
+                state._exportSvg = exportSvg;
+
+                // Render display version — container sized, SVG fills via CSS
+                const canvas = document.getElementById('preview-canvas');
+                const maxSize = Math.min(state.canvasSize, canvas.parentElement.clientWidth);
+                canvas.style.width = maxSize + 'px';
+                canvas.style.height = maxSize + 'px';
+                canvas.innerHTML = displaySvg;
+
+                // Update meta
+                const sizeKB = (new Blob([exportSvg]).size / 1024).toFixed(1);
+                document.getElementById('meta-points').textContent = `Points: ${points.length.toLocaleString()}`;
+                document.getElementById('meta-size').textContent = `Size: ${sizeKB} KB`;
+                document.getElementById('meta-dimensions').textContent = `${state.canvasSize} × ${state.canvasSize}`;
+            },
+
+            resolveColor(varName) {
+                const style = getComputedStyle(document.documentElement);
+                const hslValue = style.getPropertyValue(varName).trim();
+                if (hslValue) {
+                    return `hsl(${hslValue})`;
+                }
+                return state.color;
+            }
+        };
+
+        // =============================================
+        // EXPORT HANDLER
+        // =============================================
+        const ExportHandler = {
+            getSvg() {
+                return state._exportSvg || '';
+            },
+
+            download() {
+                const svg = this.getSvg();
+                if (!svg) return;
+                const blob = new Blob([svg], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `guilloche-${Date.now()}.svg`;
+                a.click();
+                URL.revokeObjectURL(url);
+            },
+
+            openTab() {
+                const svg = this.getSvg();
+                if (!svg) return;
+                const blob = new Blob([svg], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            },
+
+            copy() {
+                const svg = this.getSvg();
+                if (!svg) return;
+                navigator.clipboard.writeText(svg).then(() => {
+                    this.showToast('SVG copied to clipboard');
+                }).catch(() => {
+                    this.showToast('Failed to copy');
+                });
+            },
+
+            showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('visible');
+                setTimeout(() => toast.classList.remove('visible'), 2000);
+            }
+        };
+
+        // =============================================
+        // INIT
+        // =============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            UI.init();
+        });
+
+    })();
+    </script>
+
+</body>
+</html>

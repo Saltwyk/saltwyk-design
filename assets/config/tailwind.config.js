@@ -346,8 +346,8 @@ tailwind.config = {
           "50%": { opacity: "0.4" },
         },
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.4)" },
-          "50%": { boxShadow: "0 0 20px 10px rgba(16, 185, 129, 0.2)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 hsla(150, 100%, 27%, 0.4)" },
+          "50%": { boxShadow: "0 0 20px 10px hsla(150, 100%, 27%, 0.2)" },
         },
         spin: {
           "0%": { transform: "rotate(0deg)" },
