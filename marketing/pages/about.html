@@ -108,19 +108,34 @@
         /* Spectrum background (full rainbow tint) */
         .page-content .gradient-spectrum-bg {
             background: linear-gradient(135deg,
-                hsl(170 40% 95%) 0%,
-                hsl(74 35% 96%) 33%,
-                hsl(20 40% 96%) 66%,
-                hsl(330 40% 97%) 100%
+                hsl(170 60% 92%) 0%,
+                hsl(74 55% 93%) 33%,
+                hsl(20 60% 94%) 66%,
+                hsl(330 60% 95%) 100%
             );
         }
 
-        /* Fresh background (cyan-lime tint) */
-        .page-content .gradient-fresh-bg {
+        /* Dark intaglio background with texture */
+        .page-content .gradient-dark-bg {
             background: linear-gradient(135deg,
-                hsl(170 40% 95%) 0%,
-                hsl(74 40% 96%) 100%
+                hsl(var(--intaglio-800)) 0%,
+                hsl(var(--intaglio-900)) 100%
             );
+            position: relative;
+            overflow: hidden;
+        }
+        .page-content .gradient-dark-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 12px,
+                rgba(255, 255, 255, 0.06) 12px,
+                rgba(255, 255, 255, 0.06) 12.5px
+            );
+            pointer-events: none;
         }
 
         /* Dark emerald gradient with texture */
@@ -141,159 +156,13 @@
                 45deg,
                 transparent,
                 transparent 12px,
-                rgba(255, 255, 255, 0.06) 12px,
-                rgba(255, 255, 255, 0.06) 12.5px
+                rgba(255, 255, 255, 0.07) 12px,
+                rgba(255, 255, 255, 0.07) 12.5px
             );
             pointer-events: none;
         }
 
-        /* Fresh text gradient */
-        .page-content .text-gradient-fresh {
-            background: linear-gradient(135deg, hsl(170 85% 32%) 0%, hsl(74 85% 35%) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* ============================================ */
-        /* STATEMENT SECTIONS */
-        /* ============================================ */
-        .page-content .statement-section {
-            padding: 80px 20px;
-            text-align: center;
-        }
-        .page-content .statement-section.short {
-            padding: 60px 20px;
-        }
-        .page-content .statement-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .page-content .statement-inner.z-above {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Large headlines (Statements 1, 5) */
-        .page-content .headline-large {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 40px;
-            font-weight: 600;
-            font-variation-settings: 'opsz' 72;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            color: hsl(var(--intaglio-900));
-        }
-        .page-content .headline-large.text-white {
-            color: white;
-        }
-
-        /* Medium headlines (Statements 2, 3, 4) */
-        .page-content .headline-medium {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 36px;
-            font-weight: 600;
-            font-variation-settings: 'opsz' 9;
-            letter-spacing: -0.015em;
-            line-height: 1.15;
-            color: hsl(var(--intaglio-900));
-        }
-
-        /* Explanation text */
-        .page-content .explanation {
-            font-size: 18px;
-            line-height: 1.6;
-            color: hsl(var(--warm-600));
-            max-width: 700px;
-            margin: 32px auto 0;
-        }
-        .page-content .explanation.text-dark {
-            color: hsl(var(--warm-700));
-        }
-        .page-content .explanation.text-light {
-            color: rgba(255, 255, 255, 0.9);
-        }
-        .page-content .explanation p {
-            margin-bottom: 24px;
-        }
-        .page-content .explanation p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* ============================================ */
-        /* THE NAME BOX */
-        /* ============================================ */
-        .page-content .name-section {
-            background: white;
-            padding: 60px 20px;
-        }
-        .page-content .name-box {
-            background: hsl(var(--warm-50));
-            border: 3px solid hsl(var(--warm-300));
-            border-radius: 12px;
-            padding: 32px;
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .page-content .name-box p {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 20px;
-            font-weight: 400;
-            font-style: italic;
-            font-variation-settings: 'opsz' 9;
-            line-height: 1.5;
-            color: hsl(var(--warm-700));
-        }
-
-        /* ============================================ */
-        /* CTA SECTION */
-        /* ============================================ */
-        .page-content .cta-section {
-            padding: 80px 20px;
-            text-align: center;
-        }
-        .page-content .cta-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-        }
-        .page-content .cta-eyebrow {
-            font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: hsl(var(--emerald-300));
-        }
-        .page-content .cta-headline {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 48px;
-            font-weight: 600;
-            font-variation-settings: 'opsz' 72;
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-            color: white;
-            margin-top: 16px;
-        }
-        .page-content .cta-subhead {
-            font-size: 18px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 700px;
-            margin: 32px auto 0;
-        }
-        .page-content .btn-cta {
-            display: inline-block;
-            padding: 16px 32px;
-            background: white;
-            color: hsl(var(--emerald-600));
-            font-weight: 600;
-            font-size: 16px;
-            border-radius: 8px;
-            margin-top: 48px;
-        }
+        /* (Content section styles are inlined for clarity and to prevent cascade conflicts) */
 
         /* ============================================ */
         /* FOOTER */
@@ -354,42 +223,6 @@
         }
         .desktop-content .hamburger { display: none; }
 
-        /* Statement sections desktop */
-        .desktop-content .statement-section {
-            padding: 120px 48px;
-        }
-        .desktop-content .statement-section.short {
-            padding: 100px 48px;
-        }
-        .desktop-content .headline-large {
-            font-size: 64px;
-            font-variation-settings: 'opsz' 144;
-        }
-        .desktop-content .headline-medium {
-            font-size: 56px;
-            font-variation-settings: 'opsz' 72;
-        }
-
-        /* Name box desktop */
-        .desktop-content .name-section {
-            padding: 100px 48px;
-        }
-        .desktop-content .name-box {
-            padding: 48px;
-        }
-        .desktop-content .name-box p {
-            font-size: 24px;
-        }
-
-        /* CTA desktop */
-        .desktop-content .cta-section {
-            padding: 120px 48px;
-        }
-        .desktop-content .cta-headline {
-            font-size: 72px;
-            font-variation-settings: 'opsz' 144;
-        }
-
         /* Footer desktop */
         .desktop-content .footer-dark {
             padding: 64px 48px 48px;
@@ -443,17 +276,19 @@
                 <header class="mb-12">
                     <p class="serial text-intaglio-500 mb-2">Page Specification</p>
                     <h1 class="font-display text-4xl mb-2">About Page</h1>
-                    <p class="text-warm-600">Bold declarative approach. Five core belief statements that build narrative momentum. Typography-first — no illustrations. Alternating backgrounds create rhythm. Gradient text on the infrastructure statement. Builds toward "the trillion point economy."</p>
+                    <p class="text-warm-600">Bold declarative approach. Four self-contained belief statements with varied headline sizes (52–80px) and alternating backgrounds. Two-card treatment, dark intaglio section, emphasis callout with credit card counter-positioning. Builds to single powerful finale: "We're building the trillion point economy."</p>
                 </header>
 
                 <!-- Design Notes -->
                 <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6 mb-12">
                     <p class="font-medium text-emerald-800 mb-3">Manifesto Design Decisions</p>
                     <ul class="text-sm text-emerald-700 space-y-2">
-                        <li><strong>Five declarations:</strong> Each section makes one bold statement. Short explanations (2-3 sentences). The headlines carry the page.</li>
-                        <li><strong>Alternating backgrounds:</strong> Spectrum → White → Fresh → Ledger → Dark emerald. Background changes mark declaration boundaries.</li>
-                        <li><strong>Gradient text:</strong> Only used once — "The infrastructure didn't exist." (fresh gradient). Restraint makes it powerful.</li>
-                        <li><strong>Dark emerald CTA:</strong> Same gradient as homepage hero. Diagonal line texture. Eyebrow → headline → subhead → button structure.</li>
+                        <li><strong>Four declarations + finale:</strong> Each section makes one bold, self-contained statement. Varied headline sizes (52–80px) create visual hierarchy. No redundant dark sections — single powerful finale.</li>
+                        <li><strong>Alternating backgrounds:</strong> Spectrum → Ledger (cards) → Dark intaglio → Ledger (callout) → White (name + thread) → Dark emerald finale.</li>
+                        <li><strong>Two-card treatment:</strong> Statement 2 splits shopper/merchant perspectives into side-by-side cards with 6px thread accent borders (cool + flame), visible shadows.</li>
+                        <li><strong>Dark Statement 3:</strong> Intaglio-800→900 gradient with -45° line texture. White text. No gradient text — boldness through contrast.</li>
+                        <li><strong>Emphasis callout:</strong> Statement 4 counter-positions against credit cards. Emphasis: "When both sides win, no one needs to extract." — 32px, emerald-300 borders.</li>
+                        <li><strong>Name section:</strong> Spectrum thread at top, "OUR NAME" heading in emerald-600, clean text on white (no box). Declarative, not questioning.</li>
                     </ul>
                 </div>
 
@@ -521,72 +356,91 @@
                                     </div>
 
                                     <!-- Statement 1: Points should be spendable -->
-                                    <div class="statement-section gradient-spectrum-bg">
-                                        <div class="statement-inner">
-                                            <h1 class="headline-large">Points should be spendable.</h1>
-                                            <div class="explanation">
-                                                <p>Not redeemable. Spendable. Everywhere. The infrastructure to make this possible didn't exist. We're building it.</p>
-                                            </div>
+                                    <section class="gradient-spectrum-bg" style="padding: 80px 20px; text-align: center;">
+                                        <div style="max-width: 900px; margin: 0 auto;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 52px; font-weight: 600; font-variation-settings: 'opsz' 144; letter-spacing: -0.02em; line-height: 1.05; color: hsl(var(--intaglio-900)); margin: 0 0 32px;">
+                                                Points should be spendable.
+                                            </h1>
+                                            <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-600)); max-width: 700px; margin: 0 auto;">
+                                                Not redeemable. Spendable. Everywhere. The infrastructure to make this possible didn't exist. We're building it.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 2: Better than money -->
-                                    <div class="statement-section" style="background: white;">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium">Points are better than money for everyday transactions.</h2>
-                                            <div class="explanation">
-                                                <p>For shoppers: No debt. No bill coming. No anxiety. Just spending what you've already earned.</p>
-                                                <p>For merchants: When you shift your perspective on what points are for, new growth opportunities emerge.</p>
+                                    <section style="background: hsl(var(--ledger)); padding: 68px 20px;">
+                                        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 36px; font-weight: 600; font-variation-settings: 'opsz' 9; letter-spacing: -0.015em; line-height: 1.15; color: hsl(var(--intaglio-900)); margin: 0 0 40px;">
+                                                Points are better than money for everyday transactions.
+                                            </h2>
+                                        </div>
+                                        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+                                            <div style="position: relative; background: white; border-radius: 12px; padding: 32px 24px 32px 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 12px 0 0 12px; background: linear-gradient(180deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));"></div>
+                                                <p style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(var(--cyan-thread)); margin: 0 0 10px;">For Shoppers</p>
+                                                <p style="font-size: 16px; line-height: 1.6; color: hsl(var(--warm-700)); margin: 0;">No debt. No bill coming. No anxiety. Just spending what you've already earned.</p>
+                                            </div>
+                                            <div style="position: relative; background: white; border-radius: 12px; padding: 32px 24px 32px 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 12px 0 0 12px; background: linear-gradient(180deg, hsl(var(--orange-thread)), hsl(var(--magenta-thread)));"></div>
+                                                <p style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(var(--orange-thread)); margin: 0 0 10px;">For Merchants</p>
+                                                <p style="font-size: 16px; line-height: 1.6; color: hsl(var(--warm-700)); margin: 0;">When you shift your perspective on what points are for, new growth opportunities emerge.</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 3: Infrastructure gap -->
-                                    <div class="statement-section short gradient-fresh-bg">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium text-gradient-fresh">The infrastructure didn't exist.</h2>
-                                            <div class="explanation text-dark">
-                                                <p>Legacy payments tech was built for the finance industry to extract value. Points needed something better.</p>
-                                            </div>
+                                    <section class="gradient-dark-bg" style="padding: 52px 20px;">
+                                        <div style="position: relative; z-index: 10; max-width: 900px; margin: 0 auto; text-align: center;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.015em; line-height: 1.15; color: white; margin: 0 0 32px;">
+                                                The infrastructure to make points spendable didn't exist.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto;">
+                                                Legacy payments tech was built for the finance industry to extract value. Points needed something better.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 4: Prosper -->
-                                    <div class="statement-section" style="background: hsl(var(--ledger));">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium">The points economy should help people and merchants prosper.</h2>
-                                            <div class="explanation">
-                                                <p>When points are easy to spend, shoppers spend more and merchants grow without discounting. Infrastructure should serve them, not extract from them.</p>
+                                    <section style="background: hsl(var(--ledger)); padding: 68px 20px; text-align: center;">
+                                        <div style="max-width: 900px; margin: 0 auto;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 36px; font-weight: 600; font-variation-settings: 'opsz' 9; letter-spacing: -0.015em; line-height: 1.15; color: hsl(var(--intaglio-900)); margin: 0 0 32px;">
+                                                The points economy should help people and merchants prosper.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-600)); max-width: 700px; margin: 0 auto 40px;">
+                                                The points economy is more profitable for merchants and more engaging for shoppers than the credit card economy. Points create activation. Credit is built for extraction.
+                                            </p>
+                                            <div style="max-width: 600px; margin: 0 auto; padding: 32px 20px; border-top: 3px solid hsl(var(--emerald-300)); border-bottom: 3px solid hsl(var(--emerald-300));">
+                                                <p style="font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 600; font-style: italic; font-variation-settings: 'opsz' 9; line-height: 1.3; color: hsl(var(--emerald-800)); margin: 0;">
+                                                    When both sides win, no one needs to extract.
+                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Statement 5: We're building it -->
-                                    <div class="statement-section gradient-hero-emerald">
-                                        <div class="statement-inner z-above">
-                                            <h1 class="headline-large text-white">We're building it.</h1>
-                                            <div class="explanation text-light">
-                                                <p>The infrastructure. The products. The network. From every angle, we're creating the foundation for a points economy where everyone prospers.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </section>
 
                                     <!-- The Name -->
-                                    <div class="name-section">
-                                        <div class="name-box">
-                                            <p>The name? Saltwyk is an old word for a salt market — a trading town where people spent their salt (the original salary) for the things they needed. We're building that for points.</p>
+                                    <section style="background: white;">
+                                        <div class="thread-spectrum"></div>
+                                        <div style="max-width: 700px; margin: 0 auto; padding: 52px 20px; text-align: center;">
+                                            <p style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(var(--emerald-600)); margin: 0 0 20px;">Our Name</p>
+                                            <p style="font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 400; font-style: italic; font-variation-settings: 'opsz' 9; line-height: 1.5; color: hsl(var(--warm-700)); margin: 0;">
+                                                Saltwyk is an old word for a salt market — a trading town where people spent their salt (the original salary) on the things they needed. We're building that for points.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- CTA -->
-                                    <div class="cta-section gradient-hero-emerald">
-                                        <div class="cta-inner">
-                                            <p class="cta-eyebrow">We're accepting early merchants and partners</p>
-                                            <h2 class="cta-headline">The trillion point economy.</h2>
-                                            <p class="cta-subhead">Early merchants shape the network. Early partners shape what we build. Both lock in economics that won't be available at scale.</p>
-                                            <span class="btn-cta">Let's Talk</span>
+                                    <section class="gradient-hero-emerald" style="padding: 80px 20px; text-align: center;">
+                                        <div style="position: relative; z-index: 10; max-width: 900px; margin: 0 auto;">
+                                            <p style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(var(--emerald-300)); margin: 0 0 16px;">We're accepting early merchants and partners</p>
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 48px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.02em; line-height: 1.05; color: white; margin: 0 0 32px;">
+                                                We're building the trillion point economy.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto 48px;">
+                                                Early merchants shape the network. Early partners shape what we build. Both lock in economics that won't be available at scale.
+                                            </p>
+                                            <span style="display: inline-block; padding: 16px 32px; background: white; color: hsl(var(--emerald-600)); font-weight: 600; font-size: 16px; border-radius: 8px;">Let's Talk</span>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Footer Thread -->
                                     <div class="thread-spectrum"></div>
@@ -612,7 +466,7 @@
                     <!-- ============================================ -->
                     <div class="desktop-variant">
                         <p class="serial text-intaglio-500 mb-4">Desktop Layout</p>
-                        <p class="text-sm text-warm-600 mb-6">Full desktop manifesto. 56-72px declarations, gradient text effect on Statement 3, alternating section backgrounds building toward the CTA.</p>
+                        <p class="text-sm text-warm-600 mb-6">Full desktop manifesto. Four statements → name origin → single powerful finale. Credit card counter-positioning in Statement 4. No redundant sections.</p>
 
                         <div class="bg-warm-100 rounded-lg p-8">
                             <div class="device-frame-desktop">
@@ -633,72 +487,91 @@
                                     </div>
 
                                     <!-- Statement 1: Points should be spendable -->
-                                    <div class="statement-section gradient-spectrum-bg">
-                                        <div class="statement-inner">
-                                            <h1 class="headline-large">Points should be spendable.</h1>
-                                            <div class="explanation">
-                                                <p>Not redeemable. Spendable. Everywhere. The infrastructure to make this possible didn't exist. We're building it.</p>
-                                            </div>
+                                    <section class="gradient-spectrum-bg" style="padding: 120px 48px; text-align: center;">
+                                        <div style="max-width: 900px; margin: 0 auto;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 80px; font-weight: 600; font-variation-settings: 'opsz' 144; letter-spacing: -0.02em; line-height: 1.05; color: hsl(var(--intaglio-900)); margin: 0 0 32px;">
+                                                Points should be spendable.
+                                            </h1>
+                                            <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-600)); max-width: 700px; margin: 0 auto;">
+                                                Not redeemable. Spendable. Everywhere. The infrastructure to make this possible didn't exist. We're building it.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 2: Better than money -->
-                                    <div class="statement-section" style="background: white;">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium">Points are better than money for everyday transactions.</h2>
-                                            <div class="explanation">
-                                                <p>For shoppers: No debt. No bill coming. No anxiety. Just spending what you've already earned.</p>
-                                                <p>For merchants: When you shift your perspective on what points are for, new growth opportunities emerge.</p>
+                                    <section style="background: hsl(var(--ledger)); padding: 100px 48px;">
+                                        <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 52px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.015em; line-height: 1.15; color: hsl(var(--intaglio-900)); margin: 0 0 48px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                                                Points are better than money for everyday transactions.
+                                            </h2>
+                                        </div>
+                                        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: row; gap: 24px;">
+                                            <div style="flex: 1; position: relative; background: white; border-radius: 12px; padding: 48px 36px 48px 56px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 12px 0 0 12px; background: linear-gradient(180deg, hsl(var(--cyan-thread)), hsl(var(--magenta-thread)));"></div>
+                                                <p style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(var(--cyan-thread)); margin: 0 0 12px;">For Shoppers</p>
+                                                <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-700)); margin: 0;">No debt. No bill coming. No anxiety. Just spending what you've already earned.</p>
+                                            </div>
+                                            <div style="flex: 1; position: relative; background: white; border-radius: 12px; padding: 48px 36px 48px 56px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 12px 0 0 12px; background: linear-gradient(180deg, hsl(var(--orange-thread)), hsl(var(--magenta-thread)));"></div>
+                                                <p style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(var(--orange-thread)); margin: 0 0 12px;">For Merchants</p>
+                                                <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-700)); margin: 0;">When you shift your perspective on what points are for, new growth opportunities emerge.</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 3: Infrastructure gap -->
-                                    <div class="statement-section short gradient-fresh-bg">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium text-gradient-fresh">The infrastructure didn't exist.</h2>
-                                            <div class="explanation text-dark">
-                                                <p>Legacy payments tech was built for the finance industry to extract value. Points needed something better.</p>
-                                            </div>
+                                    <section class="gradient-dark-bg" style="padding: 80px 48px;">
+                                        <div style="position: relative; z-index: 10; max-width: 900px; margin: 0 auto; text-align: center;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 52px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.015em; line-height: 1.15; color: white; margin: 0 0 32px;">
+                                                The infrastructure to make points spendable didn't exist.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto;">
+                                                Legacy payments tech was built for the finance industry to extract value. Points needed something better.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Statement 4: Prosper -->
-                                    <div class="statement-section" style="background: hsl(var(--ledger));">
-                                        <div class="statement-inner">
-                                            <h2 class="headline-medium">The points economy should help people and merchants prosper.</h2>
-                                            <div class="explanation">
-                                                <p>When points are easy to spend, shoppers spend more and merchants grow without discounting. Infrastructure should serve them, not extract from them.</p>
+                                    <section style="background: hsl(var(--ledger)); padding: 100px 48px; text-align: center;">
+                                        <div style="max-width: 900px; margin: 0 auto;">
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 52px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.015em; line-height: 1.15; color: hsl(var(--intaglio-900)); margin: 0 0 32px;">
+                                                The points economy should help people and merchants prosper.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: hsl(var(--warm-600)); max-width: 700px; margin: 0 auto 48px;">
+                                                The points economy is more profitable for merchants and more engaging for shoppers than the credit card economy. Points create activation. Credit is built for extraction.
+                                            </p>
+                                            <div style="max-width: 600px; margin: 0 auto; padding: 40px 24px; border-top: 3px solid hsl(var(--emerald-300)); border-bottom: 3px solid hsl(var(--emerald-300));">
+                                                <p style="font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 600; font-style: italic; font-variation-settings: 'opsz' 9; line-height: 1.3; color: hsl(var(--emerald-800)); margin: 0;">
+                                                    When both sides win, no one needs to extract.
+                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Statement 5: We're building it -->
-                                    <div class="statement-section gradient-hero-emerald">
-                                        <div class="statement-inner z-above">
-                                            <h1 class="headline-large text-white">We're building it.</h1>
-                                            <div class="explanation text-light">
-                                                <p>The infrastructure. The products. The network. From every angle, we're creating the foundation for a points economy where everyone prospers.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </section>
 
                                     <!-- The Name -->
-                                    <div class="name-section">
-                                        <div class="name-box">
-                                            <p>The name? Saltwyk is an old word for a salt market — a trading town where people spent their salt (the original salary) for the things they needed. We're building that for points.</p>
+                                    <section style="background: white;">
+                                        <div class="thread-spectrum"></div>
+                                        <div style="max-width: 700px; margin: 0 auto; padding: 80px 48px; text-align: center;">
+                                            <p style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(var(--emerald-600)); margin: 0 0 24px;">Our Name</p>
+                                            <p style="font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 400; font-style: italic; font-variation-settings: 'opsz' 9; line-height: 1.5; color: hsl(var(--warm-700)); margin: 0;">
+                                                Saltwyk is an old word for a salt market — a trading town where people spent their salt (the original salary) on the things they needed. We're building that for points.
+                                            </p>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- CTA -->
-                                    <div class="cta-section gradient-hero-emerald">
-                                        <div class="cta-inner">
-                                            <p class="cta-eyebrow">We're accepting early merchants and partners</p>
-                                            <h2 class="cta-headline">The trillion point economy.</h2>
-                                            <p class="cta-subhead">Early merchants shape the network. Early partners shape what we build. Both lock in economics that won't be available at scale.</p>
-                                            <span class="btn-cta">Let's Talk</span>
+                                    <section class="gradient-hero-emerald" style="padding: 120px 48px; text-align: center;">
+                                        <div style="position: relative; z-index: 10; max-width: 900px; margin: 0 auto;">
+                                            <p style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(var(--emerald-300)); margin: 0 0 16px;">We're accepting early merchants and partners</p>
+                                            <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 72px; font-weight: 600; font-variation-settings: 'opsz' 144; letter-spacing: -0.02em; line-height: 1.05; color: white; margin: 0 0 32px;">
+                                                We're building the trillion point economy.
+                                            </h2>
+                                            <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto 48px;">
+                                                Early merchants shape the network. Early partners shape what we build. Both lock in economics that won't be available at scale.
+                                            </p>
+                                            <span style="display: inline-block; padding: 16px 32px; background: white; color: hsl(var(--emerald-600)); font-weight: 600; font-size: 16px; border-radius: 8px;">Let's Talk</span>
                                         </div>
-                                    </div>
+                                    </section>
 
                                     <!-- Footer Thread -->
                                     <div class="thread-spectrum"></div>
@@ -762,54 +635,47 @@
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
                                 <div>
-                                    <p class="font-medium text-ink">Statement 1 (Spectrum BG)</p>
-                                    <p class="text-sm text-warm-500">"Points should be spendable." 64px, intaglio-900. Full rainbow tint background.</p>
+                                    <p class="font-medium text-ink">Statement 1 (Spectrum BG, 120px)</p>
+                                    <p class="text-sm text-warm-500">"Points should be spendable." 80px, intaglio-900. Vibrant rainbow tint background (60% sat).</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
                                 <div>
-                                    <p class="font-medium text-ink">Statement 2 (White)</p>
-                                    <p class="text-sm text-warm-500">"Points are better than money for everyday transactions." 56px. Two-paragraph explanation (shoppers + merchants).</p>
+                                    <p class="font-medium text-ink">Statement 2 (Ledger BG, 100px)</p>
+                                    <p class="text-sm text-warm-500">"Points are better than money..." 52px. Two cards with 6px threads, visible shadows, 14px labels.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
                                 <div>
-                                    <p class="font-medium text-ink">Statement 3 (Fresh BG, shorter)</p>
-                                    <p class="text-sm text-warm-500">"The infrastructure didn't exist." 56px gradient text (fresh). Cyan-lime tint background.</p>
+                                    <p class="font-medium text-ink">Statement 3 (Dark Intaglio, 80px)</p>
+                                    <p class="text-sm text-warm-500">"The infrastructure to make points spendable didn't exist." 52px white. -45° texture at 0.06 opacity.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">5</span>
                                 <div>
-                                    <p class="font-medium text-ink">Statement 4 (Ledger)</p>
-                                    <p class="text-sm text-warm-500">"The points economy should help people and merchants prosper." 56px, intaglio-900.</p>
+                                    <p class="font-medium text-ink">Statement 4 (Ledger, 100px)</p>
+                                    <p class="text-sm text-warm-500">"...help people and merchants prosper." 52px. Credit card counter-positioning. Emphasis: "When both sides win" — 32px.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">6</span>
                                 <div>
-                                    <p class="font-medium text-ink">Statement 5 (Dark Emerald)</p>
-                                    <p class="text-sm text-warm-500">"We're building it." 64px white. Emerald gradient with diagonal line texture.</p>
+                                    <p class="font-medium text-ink">Our Name (White + Spectrum Thread)</p>
+                                    <p class="text-sm text-warm-500">"OUR NAME" heading. Spectrum thread at top. Fraunces italic etymology. 24px desktop. Clean, no box.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">7</span>
                                 <div>
-                                    <p class="font-medium text-ink">The Name (White)</p>
-                                    <p class="text-sm text-warm-500">Warm-50 box with warm-300 border. Fraunces italic etymology. 24px desktop.</p>
+                                    <p class="font-medium text-ink">CTA (Dark Emerald)</p>
+                                    <p class="text-sm text-warm-500">Eyebrow → "We're building the trillion point economy." 72px → subhead → "Let's Talk" button.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">8</span>
-                                <div>
-                                    <p class="font-medium text-ink">CTA (Dark Emerald)</p>
-                                    <p class="text-sm text-warm-500">Eyebrow → "The trillion point economy." 72px → subhead → "Let's Talk" button.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">9</span>
                                 <div>
                                     <p class="font-medium text-ink">Thread + Footer</p>
                                     <p class="text-sm text-warm-500">Spectrum thread, standard dark footer.</p>
@@ -829,12 +695,20 @@
                         <p class="font-medium text-ink mb-4">Typography Scale</p>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Large Headlines (1, 5)</p>
-                                <code>64px / 600 / opsz 144</code>
+                                <p class="text-warm-500 text-xs mb-1">Statement 1 Headline</p>
+                                <code>80px / 600 / opsz 144</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Medium Headlines (2, 3, 4)</p>
-                                <code>56px / 600 / opsz 72</code>
+                                <p class="text-warm-500 text-xs mb-1">Statements 2, 4</p>
+                                <code>52px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Statement 3</p>
+                                <code>52px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Emphasis Callout</p>
+                                <code>32px / 600 / italic / emerald-800</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">CTA Headline</p>
@@ -864,37 +738,45 @@
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Statement 2</p>
-                                <code>white</code>
+                                <code>ledger + white cards</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Statement 3</p>
-                                <code>gradient-fresh-bg</code>
+                                <code>gradient-dark-bg</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Statement 4</p>
-                                <code>ledger</code>
+                                <code>ledger + callout</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Statement 5 + CTA</p>
+                                <p class="text-warm-500 text-xs mb-1">Our Name</p>
+                                <code>white + spectrum thread</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Final CTA</p>
                                 <code>gradient-hero-emerald</code>
-                            </div>
-                            <div>
-                                <p class="text-warm-500 text-xs mb-1">The Name</p>
-                                <code>white / warm-50 box</code>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
-                        <p class="font-medium text-ink mb-4">Spacing</p>
+                        <p class="font-medium text-ink mb-4">Spacing (Desktop)</p>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Major Sections (Desktop)</p>
+                                <p class="text-warm-500 text-xs mb-1">Statement 1 + CTA</p>
                                 <code>120px top/bottom</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Short Section (Statement 3)</p>
+                                <p class="text-warm-500 text-xs mb-1">Statements 2, 4</p>
                                 <code>100px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Statement 3</p>
+                                <code>80px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Name Section</p>
+                                <code>80px top/bottom</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Headline → Explanation</p>
@@ -917,10 +799,11 @@
 
                     <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
                         <p class="font-medium text-ink mb-4">Thread Count</p>
-                        <p class="font-medium text-ink mb-3">Total threads on page: <strong>2</strong></p>
+                        <p class="font-medium text-ink mb-3">Total threads on page: <strong>3</strong></p>
                         <div class="space-y-2 text-sm text-warm-600">
                             <p>1. Below navigation (<code>.thread-spectrum</code>)</p>
-                            <p>2. Above footer (<code>.thread-spectrum</code>)</p>
+                            <p>2. Top of Name section (<code>.thread-spectrum</code>)</p>
+                            <p>3. Above footer (<code>.thread-spectrum</code>)</p>
                         </div>
                     </div>
                 </section>
