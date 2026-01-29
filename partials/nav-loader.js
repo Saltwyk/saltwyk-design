@@ -272,7 +272,7 @@
                 left: 0;
                 min-width: 200px;
                 background: white;
-                border: 2px solid hsl(30 5% 88%);
+                border: 2px solid hsl(var(--warm-200));
                 border-radius: 8px;
                 box-shadow: 0 4px 12px -2px rgba(26, 15, 10, 0.1);
                 padding: 0.5rem 0;
@@ -291,17 +291,17 @@
             .nav-dropdown-menu a {
                 display: block;
                 padding: 0.5rem 1rem;
-                color: hsl(30 8% 35%);
+                color: hsl(var(--warm-600));
                 font-size: 0.875rem;
                 transition: background-color 0.1s ease, color 0.1s ease;
             }
             .nav-dropdown-menu a:hover {
-                background-color: hsl(150 45% 97%);
-                color: hsl(150 100% 27%);
+                background-color: hsl(var(--emerald-50));
+                color: hsl(var(--emerald-500));
             }
             .nav-dropdown-menu .divider {
                 height: 1px;
-                background: hsl(30 5% 90%);
+                background: hsl(var(--warm-200));
                 margin: 0.5rem 0;
             }
             .nav-dropdown-menu .menu-label {
@@ -310,7 +310,7 @@
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
-                color: hsl(30 5% 55%);
+                color: hsl(var(--warm-400));
             }
             .nav-dropdown-trigger svg {
                 transition: transform 0.15s ease;
@@ -322,8 +322,8 @@
 
             /* Active state for dropdown items */
             .nav-active {
-                background-color: hsl(150 45% 97%) !important;
-                color: hsl(150 100% 27%) !important;
+                background-color: hsl(var(--emerald-50)) !important;
+                color: hsl(var(--emerald-500)) !important;
                 font-weight: 500;
             }
 
@@ -332,23 +332,23 @@
                 display: block;
                 padding: 8px 12px;
                 font-size: 14px;
-                color: hsl(24 29% 8%);
+                color: hsl(var(--ink));
                 border-radius: 6px;
                 transition: background-color 150ms;
             }
 
             .sidebar-link:hover:not(.sidebar-link-disabled) {
-                background-color: hsl(30 15% 96%);
+                background-color: hsl(var(--intaglio-50));
             }
 
             .sidebar-link-active {
-                background-color: hsl(150 45% 97%);
-                color: hsl(150 100% 27%);
+                background-color: hsl(var(--emerald-50));
+                color: hsl(var(--emerald-500));
                 font-weight: 500;
             }
 
             .sidebar-link-disabled {
-                color: hsl(30 5% 62%);
+                color: hsl(var(--warm-400));
                 pointer-events: none;
             }
 
@@ -366,7 +366,7 @@
             .nav-group-chevron {
                 width: 16px;
                 height: 16px;
-                color: hsl(30 5% 55%);
+                color: hsl(var(--warm-400));
                 transition: transform 150ms ease;
                 flex-shrink: 0;
             }
@@ -391,7 +391,7 @@
             }
 
             .nav-group-header.has-active-child {
-                color: hsl(150 100% 27%);
+                color: hsl(var(--emerald-500));
             }
 
             /* Section visibility */
