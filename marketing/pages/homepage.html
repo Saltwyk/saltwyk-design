@@ -108,9 +108,41 @@
         .page-content .hero-gradient {
             background: linear-gradient(135deg, hsl(150 100% 27%) 0%, hsl(150 100% 22%) 50%, hsl(24 29% 8%) 100%);
             padding: 64px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Logomark watermark */
+        .page-content .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -5%;
+            transform: translateY(-50%);
+            width: 400px;
+            height: 400px;
+            background-image: url("data:image/svg+xml,%3Csvg width='95' height='95' viewBox='0 0 95 95' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_69_220' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='10' y='10' width='75' height='75'%3E%3Ccircle cx='47.46' cy='47.46' r='37.0286' transform='rotate(20 47.46 47.46)' fill='%23C4C4C4'/%3E%3C/mask%3E%3Cg mask='url(%23mask0_69_220)'%3E%3Ccircle cx='90.4691' cy='26.5209' r='30.7211' transform='rotate(65 90.4691 26.5209)' fill='%23ffffff'/%3E%3Ccircle cx='5.22495' cy='66.2721' r='30.7211' transform='rotate(65 5.22495 66.2721)' fill='%23ffffff'/%3E%3Ccircle cx='27.9715' cy='3.77415' r='30.7211' transform='rotate(65 27.9715 3.77415)' fill='%23ffffff'/%3E%3Ccircle cx='69.6742' cy='88.107' r='30.7211' transform='rotate(65 69.6742 88.107)' fill='%23ffffff'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+        /* Intaglio line pattern overlay */
+        .page-content .hero-gradient::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M0 40L40 0M-10 30L30 -10M10 50L50 10'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 24px 24px;
+            opacity: 0.08;
+            pointer-events: none;
         }
         .page-content .hero-content {
             max-width: 600px;
+            position: relative;
+            z-index: 1;
         }
         .page-content .hero-eyebrow {
             font-family: 'Outfit', sans-serif;
@@ -358,6 +390,11 @@
         /* Hero Desktop */
         .desktop-content .hero-gradient {
             padding: 128px 32px;
+        }
+        .desktop-content .hero-gradient::before {
+            width: 500px;
+            height: 500px;
+            right: 5%;
         }
         .desktop-content .hero-content {
             max-width: 900px;
