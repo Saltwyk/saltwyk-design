@@ -27,9 +27,6 @@
             background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);
             height: 3px;
         }
-        .thread-flame {
-            background: linear-gradient(90deg, hsl(var(--orange-thread)), hsl(var(--magenta-thread)));
-        }
 
         /* Device Frame Styles */
         .device-frame-mobile {
@@ -84,10 +81,34 @@
             border-radius: 6px;
         }
 
-        /* Hero styles */
-        .page-content .hero-dark {
-            background: hsl(var(--ink));
-            padding: 32px 16px;
+        /* Hero - Emerald-Cyan gradient (differentiates from homepage) */
+        .page-content .hero-merchants {
+            background: linear-gradient(135deg,
+                hsl(var(--emerald-500)) 0%,
+                hsl(185 90% 35%) 50%,
+                hsl(var(--intaglio-900)) 100%
+            );
+            position: relative;
+            padding: 80px 16px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .page-content .hero-merchants::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 12px,
+                rgba(170, 255, 255, 0.08) 12px,
+                rgba(170, 255, 255, 0.08) 12.5px
+            );
+            pointer-events: none;
+        }
+        .page-content .hero-merchants > * {
+            position: relative;
+            z-index: 1;
         }
         .page-content .hero-eyebrow {
             font-family: 'Outfit', sans-serif;
@@ -95,33 +116,210 @@
             font-size: 10px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: hsl(var(--emerald-400));
-            margin-bottom: 8px;
+            color: hsl(var(--emerald-300));
+            margin-bottom: 12px;
         }
         .page-content .hero-headline {
             font-family: 'Fraunces', Georgia, serif;
-            font-size: 28px;
-            font-weight: 300;
+            font-size: 40px;
+            font-weight: 400;
             font-variation-settings: 'opsz' 144;
             letter-spacing: -0.02em;
-            line-height: 1.15;
+            line-height: 1.05;
             color: white;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .page-content .hero-subhead {
-            font-size: 14px;
+            font-size: 18px;
             line-height: 1.6;
-            color: hsl(var(--warm-300));
-            margin-bottom: 20px;
+            color: hsl(var(--warm-200));
+            margin-bottom: 48px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .page-content .btn-primary {
             display: inline-block;
-            padding: 12px 24px;
-            background: hsl(var(--emerald-500));
+            padding: 14px 32px;
+            background: hsl(var(--emerald-600));
             color: white;
             font-weight: 600;
             font-size: 14px;
             border-radius: 8px;
+            height: 48px;
+            line-height: 20px;
+        }
+        .page-content .btn-primary:hover {
+            background: hsl(var(--emerald-700));
+        }
+
+        /* Problem section */
+        .page-content .section-problem {
+            background: linear-gradient(135deg, hsl(170 40% 95%) 0%, hsl(330 40% 96%) 100%);
+            padding: 60px 16px;
+        }
+        .page-content .section-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+        }
+        .page-content .section-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+            margin-bottom: 24px;
+        }
+        .page-content .section-text:last-child {
+            margin-bottom: 0;
+        }
+        .page-content .section-illustration {
+            background: hsl(var(--sepia-50));
+            border: 2px solid hsl(var(--sepia-200));
+            border-radius: 8px;
+            padding: 48px 24px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .page-content .section-illustration p {
+            font-size: 14px;
+            color: hsl(var(--sepia-600));
+        }
+        .page-content .section-illustration .subtext {
+            font-size: 12px;
+            color: hsl(var(--sepia-500));
+            margin-top: 8px;
+        }
+
+        /* Solution section */
+        .page-content .section-solution {
+            background: white;
+            padding: 60px 16px;
+        }
+        .page-content .section-headline-xl {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+        }
+
+        /* Benefits section */
+        .page-content .section-benefits {
+            background: hsl(var(--ledger));
+            padding: 60px 16px;
+        }
+        .page-content .benefits-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .page-content .benefit-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 2px solid hsl(var(--warm-200));
+        }
+        .page-content .benefit-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .page-content .benefit-icon-emerald {
+            background: hsl(var(--emerald-50));
+            color: hsl(var(--emerald-600));
+        }
+        .page-content .benefit-icon-cyan {
+            background: hsl(var(--cyan-50));
+            color: hsl(var(--cyan-700));
+        }
+        .page-content .benefit-icon-lime {
+            background: hsl(var(--lime-50));
+            color: hsl(var(--lime-700));
+        }
+        .page-content .benefit-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.01em;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 8px;
+        }
+        .page-content .benefit-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
+        }
+
+        /* How It Works */
+        .page-content .section-steps {
+            background: white;
+            padding: 60px 16px;
+        }
+        .page-content .steps-headline {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 32px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 32px;
+        }
+        .page-content .step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+        .page-content .step-number {
+            width: 32px;
+            height: 32px;
+            background: hsl(var(--emerald-600));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .page-content .step-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: hsl(var(--intaglio-900));
+            margin-bottom: 6px;
+        }
+        .page-content .step-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: hsl(var(--warm-600));
         }
         .page-content .illustration-placeholder {
             background: linear-gradient(180deg, hsl(var(--sepia-50)), hsl(var(--sepia-100)));
@@ -129,126 +327,80 @@
             border-radius: 8px;
             padding: 24px;
             text-align: center;
-            margin-top: 20px;
-        }
-        .page-content .illustration-placeholder p {
-            font-size: 11px;
-            color: hsl(var(--sepia-600));
-        }
-
-        /* Section styles */
-        .page-content .section-light {
-            background: hsl(var(--ledger));
-            padding: 32px 16px;
-        }
-        .page-content .section-title {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 22px;
-            font-weight: 600;
-            font-variation-settings: 'opsz' 72;
-            color: hsl(var(--ink));
-            margin-bottom: 16px;
-        }
-        .page-content .section-text {
-            font-size: 14px;
-            line-height: 1.7;
-            color: hsl(var(--warm-700));
-            margin-bottom: 12px;
-        }
-        .page-content .section-text.emphasis {
-            color: hsl(var(--ink));
-            font-weight: 500;
-        }
-
-        /* Benefits */
-        .page-content .benefits-grid {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-        }
-        .page-content .benefit-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .page-content .benefit-icon {
-            width: 36px;
-            height: 36px;
-            background: hsl(var(--emerald-50));
-            border-radius: 6px;
-            margin-bottom: 12px;
-            display: flex;
             align-items: center;
             justify-content: center;
-            color: hsl(var(--emerald-500));
-            font-size: 16px;
+            min-height: 300px;
         }
-        .page-content .benefit-title {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: hsl(var(--ink));
-            margin-bottom: 8px;
-        }
-        .page-content .benefit-text {
-            font-size: 13px;
-            line-height: 1.6;
-            color: hsl(var(--warm-600));
-        }
-
-        /* Steps */
-        .page-content .step {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .page-content .step-number {
-            width: 28px;
-            height: 28px;
-            background: hsl(var(--emerald-500));
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-        .page-content .step-title {
-            font-weight: 600;
+        .page-content .illustration-placeholder p {
             font-size: 14px;
-            color: hsl(var(--ink));
-            margin-bottom: 4px;
+            color: hsl(var(--sepia-600));
         }
-        .page-content .step-text {
-            font-size: 13px;
-            line-height: 1.6;
-            color: hsl(var(--warm-600));
+        .page-content .illustration-placeholder .subtext {
+            font-size: 12px;
+            color: hsl(var(--sepia-500));
+            margin-top: 8px;
         }
 
-        /* CTA */
-        .page-content .section-cta {
-            background: linear-gradient(90deg, hsla(var(--orange-thread) / 0.2), hsla(var(--magenta-thread) / 0.2)), hsl(var(--ink));
-            padding: 40px 16px;
+        /* CTA Section */
+        .page-content .cta-merchants {
+            background:
+                linear-gradient(90deg,
+                    hsla(28, 100%, 55%, 0.2),
+                    hsla(330, 100%, 50%, 0.2)
+                ),
+                hsl(var(--ink));
+            position: relative;
+            padding: 60px 16px;
             text-align: center;
+            overflow: hidden;
+        }
+        .page-content .cta-merchants::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 12px,
+                rgba(255, 200, 150, 0.06) 12px,
+                rgba(255, 200, 150, 0.06) 12.5px
+            );
+            pointer-events: none;
+        }
+        .page-content .cta-merchants > * {
+            position: relative;
+            z-index: 1;
         }
         .page-content .cta-headline {
             font-family: 'Fraunces', Georgia, serif;
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 600;
+            font-variation-settings: 'opsz' 72;
             color: white;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+        }
+        .page-content .cta-subhead {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 32px;
         }
         .page-content .btn-primary-inverse {
             display: inline-block;
-            padding: 14px 28px;
+            padding: 14px 32px;
             background: white;
             color: hsl(var(--emerald-600));
             font-weight: 600;
             font-size: 14px;
             border-radius: 8px;
+            height: 48px;
+            line-height: 20px;
+        }
+        .page-content .btn-primary-inverse:hover {
+            background: hsl(var(--warm-50));
         }
 
         /* Footer */
@@ -300,102 +452,127 @@
             font-weight: 500;
             color: hsl(var(--warm-600));
         }
-        .desktop-content .hero-dark {
-            padding: 80px 48px;
-        }
-        .desktop-content .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
+        .desktop-content .hero-merchants {
+            padding: 120px 48px;
         }
         .desktop-content .hero-headline {
-            font-size: 56px;
-            margin-bottom: 24px;
+            font-size: 72px;
         }
         .desktop-content .hero-subhead {
-            font-size: 18px;
-            margin-bottom: 28px;
+            font-size: 20px;
         }
         .desktop-content .btn-primary {
             padding: 16px 32px;
             font-size: 15px;
+            height: 56px;
+            line-height: 24px;
         }
-        .desktop-content .illustration-placeholder {
-            margin-top: 0;
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .desktop-content .section-problem {
+            padding: 100px 48px;
         }
-        .desktop-content .section-light {
-            padding: 80px 48px;
-        }
-        .desktop-content .section-content {
-            max-width: 640px;
-            margin: 0 auto;
-        }
-        .desktop-content .section-title {
-            font-size: 36px;
-            margin-bottom: 24px;
+        .desktop-content .section-headline {
+            font-size: 48px;
         }
         .desktop-content .section-text {
-            font-size: 17px;
-            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .desktop-content .two-col-60-40 {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 64px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .two-col-40-60 {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 64px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .desktop-content .section-illustration {
+            margin-top: 0;
+            min-height: 400px;
+            padding: 64px;
+        }
+        .desktop-content .section-solution {
+            padding: 100px 48px;
+        }
+        .desktop-content .section-headline-xl {
+            font-size: 56px;
+        }
+        .desktop-content .section-benefits {
+            padding: 100px 48px;
         }
         .desktop-content .benefits-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
+            gap: 32px;
         }
         .desktop-content .benefit-card {
-            padding: 28px;
-        }
-        .desktop-content .benefit-icon {
-            width: 44px;
-            height: 44px;
-            margin-bottom: 16px;
+            padding: 32px;
         }
         .desktop-content .benefit-title {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 24px;
+            margin-bottom: 12px;
         }
         .desktop-content .benefit-text {
-            font-size: 14px;
+            font-size: 16px;
+        }
+        .desktop-content .section-steps {
+            padding: 100px 48px;
+        }
+        .desktop-content .steps-headline {
+            font-size: 48px;
+            margin-bottom: 48px;
         }
         .desktop-content .steps-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
+            grid-template-columns: 55% 45%;
+            gap: 64px;
             align-items: start;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .desktop-content .step {
-            margin-bottom: 28px;
+            gap: 16px;
+            margin-bottom: 32px;
         }
         .desktop-content .step-number {
-            width: 36px;
-            height: 36px;
-            font-size: 15px;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
         }
         .desktop-content .step-title {
-            font-size: 16px;
-            margin-bottom: 6px;
+            font-size: 18px;
+            margin-bottom: 8px;
         }
         .desktop-content .step-text {
-            font-size: 14px;
+            font-size: 16px;
         }
-        .desktop-content .section-cta {
-            padding: 80px 48px;
+        .desktop-content .illustration-placeholder {
+            min-height: 500px;
+            padding: 64px;
+        }
+        .desktop-content .cta-merchants {
+            padding: 100px 48px;
         }
         .desktop-content .cta-headline {
-            font-size: 48px;
-            margin-bottom: 28px;
+            font-size: 64px;
+            font-variation-settings: 'opsz' 144;
+            margin-bottom: 24px;
+        }
+        .desktop-content .cta-subhead {
+            font-size: 18px;
+            margin-bottom: 48px;
         }
         .desktop-content .btn-primary-inverse {
             padding: 16px 32px;
             font-size: 15px;
+            height: 56px;
+            line-height: 24px;
         }
         .desktop-content .footer-dark {
             padding: 64px 48px 48px;
@@ -449,7 +626,7 @@
                 <header class="mb-12">
                     <p class="serial text-intaglio-500 mb-2">Page Specification</p>
                     <h1 class="font-display text-4xl mb-2">Merchants Page</h1>
-                    <p class="text-warm-600">The merchant acquisition page. Positions points commerce as a new growth channel with better economics. Includes dark hero, problem/solution narrative, benefits grid, and step-by-step how it works.</p>
+                    <p class="text-warm-600">The merchant acquisition page. Positions points commerce as a new growth channel with better economics. Features emerald-cyan hero gradient with texture, problem/solution narrative, benefits grid, and step-by-step how it works.</p>
                 </header>
 
                 <!-- View Toggle -->
@@ -493,7 +670,7 @@
                 <section class="mb-16">
                     <div class="mobile-variant">
                         <p class="serial text-intaglio-500 mb-4">Mobile Layout</p>
-                        <p class="text-sm text-warm-600 mb-6">Mobile-first layout with stacked sections and single-column benefits and steps.</p>
+                        <p class="text-sm text-warm-600 mb-6">Mobile-first layout with centered hero, stacked sections, single-column benefits and steps.</p>
 
                         <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
                             <div class="device-frame-mobile">
@@ -504,50 +681,61 @@
                                             <span class="nav-logo">Saltwyk</span>
                                             <span class="nav-cta">Let's Talk</span>
                                         </div>
-                                        <!-- Thread at bottom of sticky nav -->
                                         <div class="thread-spectrum"></div>
                                     </div>
 
                                     <!-- Hero -->
-                                    <div class="hero-dark">
+                                    <div class="hero-merchants">
                                         <p class="hero-eyebrow">For Merchants</p>
                                         <h1 class="hero-headline">Points Commerce: A new channel for growth.</h1>
                                         <p class="hero-subhead">Acquire premium customers with better economics through the points payment network.</p>
-                                        <span class="btn-primary">Get Started</span>
-                                        <div class="illustration-placeholder">
-                                            <p>[Illustration: Merchant Dashboard]</p>
-                                        </div>
+                                        <span class="btn-primary">Join the Network</span>
                                     </div>
 
                                     <!-- Problem -->
-                                    <div class="section-light">
-                                        <p class="section-text">Discounts erode margin. Credit cards take 3%. Shopping agents race prices to the bottom.</p>
-                                        <p class="section-text emphasis">Merchants need a channel that doesn't depend on who can afford to lose the most margin.</p>
+                                    <div class="section-problem">
+                                        <div>
+                                            <h2 class="section-headline">The discount trap</h2>
+                                            <p class="section-text"><strong>Discounts erode margin.</strong> Credit cards take 3%. Shopping agents race prices to the bottom.</p>
+                                            <p class="section-text"><strong>Every customer acquisition channel costs more.</strong> Every sale requires deeper discounting.</p>
+                                            <p class="section-text">Merchants need a channel that doesn't depend on who can afford to lose the most margin. <strong>Merchants need a path to prosperity.</strong></p>
+                                        </div>
+                                        <div class="section-illustration">
+                                            <p>[Illustration: Discount Race to Bottom]</p>
+                                            <p class="subtext">Graph showing margin erosion from discounting and competitive pricing pressure</p>
+                                        </div>
                                     </div>
 
                                     <!-- Solution -->
-                                    <div class="section-light" style="padding-top: 0;">
-                                        <h2 class="section-title">Points commerce is that path.</h2>
-                                        <p class="section-text">When shoppers pay with points, they're spending found money. Not hunting for discounts.</p>
-                                        <p class="section-text emphasis">You get new, premium customers at economics that actually work.</p>
+                                    <div class="section-solution">
+                                        <div>
+                                            <h2 class="section-headline-xl">Points commerce is that path.</h2>
+                                            <p class="section-text">When shoppers pay with points instead of credit cards, they're spending <strong>found money</strong>. Not hunting for discounts. Not comparing prices across tabs.</p>
+                                            <p class="section-text">That psychology changes the transaction. <strong>Higher order values. Better conversion.</strong> No discounting required.</p>
+                                            <p class="section-text">You get new, <strong>premium customers</strong> you wouldn't have acquired otherwise, at economics that actually work.</p>
+                                        </div>
+                                        <div class="section-illustration">
+                                            <p>[Illustration: Points Commerce Economics]</p>
+                                            <p class="subtext">Comparison showing better unit economics with points vs traditional discounting</p>
+                                        </div>
                                     </div>
 
                                     <!-- Benefits -->
-                                    <div class="section-light" style="padding-top: 0;">
+                                    <div class="section-benefits">
                                         <div class="benefits-grid">
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-emerald">
+                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
                                                         <polyline points="17 6 23 6 23 12"/>
                                                     </svg>
                                                 </div>
                                                 <p class="benefit-title">Higher Order Values</p>
-                                                <p class="benefit-text">Shoppers spending "found money" don't hunt for discounts.</p>
+                                                <p class="benefit-text">Shoppers spending "found money" don't hunt for discounts. They buy what they want.</p>
                                             </div>
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-cyan">
+                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                                                         <circle cx="9" cy="7" r="4"/>
                                                         <line x1="19" y1="8" x2="19" y2="14"/>
@@ -555,57 +743,58 @@
                                                     </svg>
                                                 </div>
                                                 <p class="benefit-title">New Customers</p>
-                                                <p class="benefit-text">Premium customers from the network.</p>
+                                                <p class="benefit-text">Premium customers from the network who you wouldn't have acquired otherwise.</p>
                                             </div>
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-lime">
+                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <line x1="12" y1="1" x2="12" y2="23"/>
                                                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                                                     </svg>
                                                 </div>
                                                 <p class="benefit-title">Better Economics</p>
-                                                <p class="benefit-text">No discounting required. Get paid in USD.</p>
+                                                <p class="benefit-text">No discounting required. Get paid in USD with transparent settlement.</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- How it works -->
-                                    <div class="section-light">
-                                        <h2 class="section-title">How it works</h2>
+                                    <!-- How It Works -->
+                                    <div class="section-steps">
+                                        <h2 class="steps-headline">How it works</h2>
                                         <div class="step">
                                             <span class="step-number">1</span>
                                             <div>
                                                 <p class="step-title">Shoppers connect their accounts</p>
-                                                <p class="step-text">Connect once, see points at checkout.</p>
+                                                <p class="step-text">Shoppers connect their merchant rewards accounts once. Then at checkout, they see their available points.</p>
                                             </div>
                                         </div>
                                         <div class="step">
                                             <span class="step-number">2</span>
                                             <div>
                                                 <p class="step-title">Points become payment</p>
-                                                <p class="step-text">No catalogs, no conversion math.</p>
+                                                <p class="step-text">They can spend points like any other payment method. No catalogs, no conversion math.</p>
                                             </div>
                                         </div>
                                         <div class="step">
                                             <span class="step-number">3</span>
                                             <div>
                                                 <p class="step-title">You get paid in USD</p>
-                                                <p class="step-text">We handle settlement and compliance.</p>
+                                                <p class="step-text">We handle settlement, reconciliation, and compliance. You focus on selling.</p>
                                             </div>
                                         </div>
                                         <div class="step">
                                             <span class="step-number">4</span>
                                             <div>
                                                 <p class="step-title">Your program becomes a platform</p>
-                                                <p class="step-text">Become a destination for shoppers.</p>
+                                                <p class="step-text">Your strategic partnerships team turns your rewards program into a partner marketing platform.</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- CTA -->
-                                    <div class="section-cta">
+                                    <div class="cta-merchants">
                                         <h2 class="cta-headline">Accepting early merchants now.</h2>
+                                        <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment.</p>
                                         <span class="btn-primary-inverse">Let's Talk</span>
                                     </div>
 
@@ -621,7 +810,7 @@
                                             <span class="footer-link">Merchants</span>
                                             <span class="footer-link">Partners</span>
                                         </div>
-                                        <p class="footer-copyright">&copy; 2025 Saltwyk. All rights reserved.</p>
+                                        <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
                                     </div>
                                 </div>
                             </div>
@@ -631,7 +820,7 @@
                     <!-- Desktop Layout -->
                     <div class="desktop-variant">
                         <p class="serial text-intaglio-500 mb-4">Desktop Layout</p>
-                        <p class="text-sm text-warm-600 mb-6">Full desktop layout with two-column hero, 3-column benefits grid, and side-by-side steps.</p>
+                        <p class="text-sm text-warm-600 mb-6">Full desktop layout with centered hero, 3-column benefits grid, and side-by-side steps with illustration.</p>
 
                         <div class="bg-warm-100 rounded-lg p-8">
                             <div class="device-frame-desktop">
@@ -647,50 +836,55 @@
                                                 <span class="nav-cta">Let's Talk</span>
                                             </div>
                                         </div>
-                                        <!-- Thread at bottom of sticky nav -->
                                         <div class="thread-spectrum"></div>
                                     </div>
 
                                     <!-- Hero -->
-                                    <div class="hero-dark">
-                                        <div class="hero-grid">
-                                            <div>
-                                                <p class="hero-eyebrow">For Merchants</p>
-                                                <h1 class="hero-headline">Points Commerce: A new channel for growth.</h1>
-                                                <p class="hero-subhead">Acquire premium customers with better economics through the points payment network.</p>
-                                                <span class="btn-primary">Get Started</span>
-                                            </div>
-                                            <div class="illustration-placeholder">
-                                                <p>[Illustration: Merchant Dashboard]<br><br>Point acceptance interface showing incoming payments and customer metrics</p>
-                                            </div>
-                                        </div>
+                                    <div class="hero-merchants">
+                                        <p class="hero-eyebrow">For Merchants</p>
+                                        <h1 class="hero-headline">Points Commerce: A new channel for growth.</h1>
+                                        <p class="hero-subhead">Acquire premium customers with better economics through the points payment network.</p>
+                                        <span class="btn-primary">Join the Network</span>
                                     </div>
 
                                     <!-- Problem -->
-                                    <div class="section-light">
-                                        <div class="section-content">
-                                            <p class="section-text">Discounts erode margin. Credit cards take 3%. Shopping agents race prices to the bottom.</p>
-                                            <p class="section-text">Every customer acquisition channel costs more. Every sale requires deeper discounting.</p>
-                                            <p class="section-text emphasis">Merchants need a channel that doesn't depend on who can afford to lose the most margin. Merchants need a path to prosperity.</p>
+                                    <div class="section-problem">
+                                        <div class="two-col-60-40">
+                                            <div>
+                                                <h2 class="section-headline">The discount trap</h2>
+                                                <p class="section-text"><strong>Discounts erode margin.</strong> Credit cards take 3%. Shopping agents race prices to the bottom.</p>
+                                                <p class="section-text"><strong>Every customer acquisition channel costs more.</strong> Every sale requires deeper discounting.</p>
+                                                <p class="section-text">Merchants need a channel that doesn't depend on who can afford to lose the most margin. <strong>Merchants need a path to prosperity.</strong></p>
+                                            </div>
+                                            <div class="section-illustration">
+                                                <p>[Illustration: Discount Race to Bottom]</p>
+                                                <p class="subtext">Graph showing margin erosion from discounting and competitive pricing pressure</p>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <!-- Solution -->
-                                    <div class="section-light" style="padding-top: 0;">
-                                        <div class="section-content">
-                                            <h2 class="section-title">Points commerce is that path.</h2>
-                                            <p class="section-text">When shoppers pay with points instead of credit cards, they're spending found money. Not hunting for discounts. Not comparing prices across tabs.</p>
-                                            <p class="section-text">That psychology changes the transaction. Higher order values. Better conversion. No discounting required.</p>
-                                            <p class="section-text emphasis">You get new, premium customers you wouldn't have acquired otherwise, at economics that actually work.</p>
+                                    <div class="section-solution">
+                                        <div class="two-col-40-60">
+                                            <div class="section-illustration">
+                                                <p>[Illustration: Points Commerce Economics]</p>
+                                                <p class="subtext">Comparison showing better unit economics with points vs traditional discounting</p>
+                                            </div>
+                                            <div>
+                                                <h2 class="section-headline-xl">Points commerce is that path.</h2>
+                                                <p class="section-text">When shoppers pay with points instead of credit cards, they're spending <strong>found money</strong>. Not hunting for discounts. Not comparing prices across tabs.</p>
+                                                <p class="section-text">That psychology changes the transaction. <strong>Higher order values. Better conversion.</strong> No discounting required.</p>
+                                                <p class="section-text">You get new, <strong>premium customers</strong> you wouldn't have acquired otherwise, at economics that actually work.</p>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <!-- Benefits -->
-                                    <div class="section-light" style="padding-top: 0;">
+                                    <div class="section-benefits">
                                         <div class="benefits-grid">
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-emerald">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
                                                         <polyline points="17 6 23 6 23 12"/>
                                                     </svg>
@@ -699,8 +893,8 @@
                                                 <p class="benefit-text">Shoppers spending "found money" don't hunt for discounts. They buy what they want.</p>
                                             </div>
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-cyan">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                                                         <circle cx="9" cy="7" r="4"/>
                                                         <line x1="19" y1="8" x2="19" y2="14"/>
@@ -711,8 +905,8 @@
                                                 <p class="benefit-text">Premium customers from the network who you wouldn't have acquired otherwise.</p>
                                             </div>
                                             <div class="benefit-card">
-                                                <div class="benefit-icon">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <div class="benefit-icon benefit-icon-lime">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                         <line x1="12" y1="1" x2="12" y2="23"/>
                                                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                                                     </svg>
@@ -723,11 +917,11 @@
                                         </div>
                                     </div>
 
-                                    <!-- How it works -->
-                                    <div class="section-light">
+                                    <!-- How It Works -->
+                                    <div class="section-steps">
                                         <div class="steps-grid">
                                             <div>
-                                                <h2 class="section-title">How it works</h2>
+                                                <h2 class="steps-headline">How it works</h2>
                                                 <div class="step">
                                                     <span class="step-number">1</span>
                                                     <div>
@@ -757,15 +951,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="illustration-placeholder" style="height: 380px;">
-                                                <p>[Illustration: Merchant Onboarding Flow]<br><br>Visual showing the merchant integration process</p>
+                                            <div class="illustration-placeholder">
+                                                <p>[Illustration: Merchant Onboarding Flow]</p>
+                                                <p class="subtext">Visual showing merchant integration process</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- CTA -->
-                                    <div class="section-cta">
+                                    <div class="cta-merchants">
                                         <h2 class="cta-headline">Accepting early merchants now.</h2>
+                                        <p class="cta-subhead">Join the network where sales flow to merchants who accept points as payment. Early merchants shape the network and lock in economics that won't be available at scale.</p>
                                         <span class="btn-primary-inverse">Let's Talk</span>
                                     </div>
 
@@ -802,7 +998,7 @@
                                             </div>
                                         </div>
                                         <div class="footer-bottom">
-                                            <p class="footer-copyright">&copy; 2025 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
                                             <p class="footer-link">hello@saltwyk.com</p>
                                         </div>
                                     </div>
@@ -831,43 +1027,43 @@
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
                                 <div>
-                                    <p class="font-medium text-ink">Hero Section (Dark)</p>
-                                    <p class="text-sm text-warm-500">Eyebrow, 96pt headline, subhead, single CTA, illustration</p>
+                                    <p class="font-medium text-ink">Hero (Emerald-Cyan Gradient + Texture)</p>
+                                    <p class="text-sm text-warm-500">Single column, centered. Eyebrow, 72px headline, subhead, "Join the Network" CTA. Cyan-tinted diagonal line texture.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
                                 <div>
-                                    <p class="font-medium text-ink">Problem Narrative (Ledger)</p>
-                                    <p class="text-sm text-warm-500">Pain points without headline, emphasis close</p>
+                                    <p class="font-medium text-ink">Problem Statement (Cool Background)</p>
+                                    <p class="text-sm text-warm-500">"The discount trap" — text left (60%), illustration right (40%) on gradient-cool-bg</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
                                 <div>
-                                    <p class="font-medium text-ink">Solution Narrative (Ledger)</p>
-                                    <p class="text-sm text-warm-500">"Points commerce is that path" with headline</p>
+                                    <p class="font-medium text-ink">Solution Narrative (White)</p>
+                                    <p class="text-sm text-warm-500">"Points commerce is that path" — illustration left (40%), text right (60%). Alternating layout.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">5</span>
                                 <div>
-                                    <p class="font-medium text-ink">Benefits Grid</p>
-                                    <p class="text-sm text-warm-500">3 white cards: Higher Order Values, New Customers, Better Economics</p>
+                                    <p class="font-medium text-ink">Benefits Grid (Ledger)</p>
+                                    <p class="text-sm text-warm-500">3 white cards with colored icons: Higher Order Values, New Customers, Better Economics</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">6</span>
                                 <div>
-                                    <p class="font-medium text-ink">How It Works (4 Steps)</p>
-                                    <p class="text-sm text-warm-500">Numbered emerald badges with step content</p>
+                                    <p class="font-medium text-ink">How It Works (White)</p>
+                                    <p class="text-sm text-warm-500">4 numbered steps (left) + illustration placeholder (right). Stacks on mobile.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">7</span>
                                 <div>
-                                    <p class="font-medium text-ink">CTA Section (Thread Flame)</p>
-                                    <p class="text-sm text-warm-500">20% flame overlay with inverse button</p>
+                                    <p class="font-medium text-ink">CTA Section (Flame Gradient + Texture)</p>
+                                    <p class="text-sm text-warm-500">Warm-tinted diagonal lines over flame gradient. "Let's Talk" inverse button. Bookends with hero.</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4">
@@ -877,6 +1073,42 @@
                                     <p class="text-sm text-warm-500">Brand, links, legal with spectrum thread above</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- KEY DIFFERENTIATORS -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Differentiators from Homepage</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Hero Gradient</p>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-24 h-6 rounded" style="background: linear-gradient(135deg, hsl(var(--emerald-500)), hsl(var(--emerald-700)), hsl(var(--ink)));"></div>
+                                <span class="text-sm text-warm-500">Homepage</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-24 h-6 rounded" style="background: linear-gradient(135deg, hsl(var(--emerald-500)), hsl(185 90% 35%), hsl(var(--intaglio-900)));"></div>
+                                <span class="text-sm text-warm-500">Merchants (cooler, tech-forward)</span>
+                            </div>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Hero Texture</p>
+                            <p class="text-sm text-warm-600 mb-1">Homepage: White diagonal lines at default angle</p>
+                            <p class="text-sm text-warm-600">Merchants: Cyan-tinted lines at -45deg</p>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Content Structure</p>
+                            <p class="text-sm text-warm-600 mb-1">Homepage: Alternating sections with illustrations</p>
+                            <p class="text-sm text-warm-600">Merchants: Problem → Solution → Benefits → How It Works</p>
+                        </div>
+                        <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                            <p class="font-medium text-ink mb-3">Background Treatments</p>
+                            <p class="text-sm text-warm-600 mb-1">Homepage: Mostly plain ledger</p>
+                            <p class="text-sm text-warm-600">Merchants: gradient-cool-bg for problem section</p>
                         </div>
                     </div>
                 </section>
@@ -892,19 +1124,35 @@
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Hero Headline</p>
-                                <code>96px / 300 / opsz 144</code>
+                                <code>72px / 400 / opsz 144</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Section Title</p>
-                                <code>40px / 600 / opsz 72</code>
+                                <p class="text-warm-500 text-xs mb-1">Solution Headline</p>
+                                <code>56px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Headline</p>
+                                <code>48px / 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Headline</p>
+                                <code>64px / 600 / opsz 144</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Benefit Title</p>
-                                <code>20px / Fraunces / 600</code>
+                                <code>24px / Fraunces / 600</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Step Title</p>
                                 <code>18px / Inter / 600</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text</p>
+                                <code>18px / Inter / 400</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Subhead</p>
+                                <code>20px / Inter / 400</code>
                             </div>
                         </div>
                     </div>
@@ -914,51 +1162,89 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Hero Background</p>
-                                <code>intaglio-900</code>
+                                <code>emerald-500 → cyan-600 → intaglio-900</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Content Sections</p>
-                                <code>ledger</code>
+                                <p class="text-warm-500 text-xs mb-1">Problem Section</p>
+                                <code>gradient-cool-bg</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Benefit Cards</p>
+                                <p class="text-warm-500 text-xs mb-1">Solution Section</p>
                                 <code>white</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Step Numbers</p>
-                                <code>emerald-500 circle</code>
+                                <p class="text-warm-500 text-xs mb-1">Benefits Section</p>
+                                <code>ledger</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">CTA Background</p>
+                                <code>flame @ 20% over ink</code>
                             </div>
                             <div>
                                 <p class="text-warm-500 text-xs mb-1">Benefit Icons</p>
-                                <code>emerald-50 bg / emerald-500</code>
+                                <code>emerald / cyan / lime variants</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Spacing</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Padding (Desktop)</p>
+                                <code>100px top/bottom</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">CTA Overlay</p>
-                                <code>thread-flame @ 20%</code>
+                                <p class="text-warm-500 text-xs mb-1">Section Padding (Mobile)</p>
+                                <code>60px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Padding (Desktop)</p>
+                                <code>120px top/bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Headline to Content</p>
+                                <code>32-48px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Between Paragraphs</p>
+                                <code>24px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Card Gap</p>
+                                <code>32px</code>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
-                        <p class="font-medium text-ink mb-4">Layout Patterns</p>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
+                        <p class="font-medium text-ink mb-4">Texture Specifications</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Benefits Grid (Desktop)</p>
-                                <code>3 columns, 32px gap</code>
+                                <p class="text-warm-500 text-xs mb-1">Hero Texture</p>
+                                <code>-45deg cyan lines, 12px gap, 0.5px width, 8% opacity</code>
                             </div>
                             <div>
-                                <p class="text-warm-500 text-xs mb-1">Benefits Grid (Mobile)</p>
-                                <code>1 column, 16px gap</code>
-                            </div>
-                            <div>
-                                <p class="text-warm-500 text-xs mb-1">Steps (Desktop)</p>
-                                <code>2 columns with illustration</code>
-                            </div>
-                            <div>
-                                <p class="text-warm-500 text-xs mb-1">Content Width</p>
-                                <code>max-width: 700px</code>
+                                <p class="text-warm-500 text-xs mb-1">CTA Texture</p>
+                                <code>45deg warm lines, 12px gap, 0.5px width, 6% opacity</code>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- THREAD COUNT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Thread Count</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-3">Total threads on page: <strong>2</strong></p>
+                        <div class="space-y-2 text-sm text-warm-600">
+                            <p>1. Below navigation (<code>.thread-spectrum</code>)</p>
+                            <p>2. Above footer (<code>.thread-spectrum</code>)</p>
+                        </div>
+                        <p class="text-sm text-warm-500 mt-3">No additional threads — texture treatments provide visual interest in hero and CTA sections.</p>
                     </div>
                 </section>
 
