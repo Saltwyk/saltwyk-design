@@ -81,6 +81,13 @@
             font-size: 16px;
         }
 
+        /* Size: XL (56px height) — marketing forms */
+        .input-xl {
+            height: 56px;
+            padding: 0 16px;
+            font-size: 18px;
+        }
+
         /* ========================================= */
         /* DARK MODE INPUT STYLES */
         /* ========================================= */
@@ -104,6 +111,72 @@
             border-color: hsl(var(--magenta-500));
         }
         .input-dark.input-error:focus {
+            box-shadow: 0 0 0 2px hsl(var(--ink)), 0 0 0 4px hsl(var(--magenta-500));
+        }
+
+        /* ========================================= */
+        /* TEXTAREA STYLES */
+        /* ========================================= */
+        .textarea {
+            width: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 400;
+            border-radius: 6px;
+            border: 1.5px solid hsl(var(--warm-300));
+            background: white;
+            color: hsl(var(--ink));
+            transition: all 150ms ease-out;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        .textarea::placeholder { color: hsl(var(--warm-400)); }
+        .textarea:hover { border-color: hsl(var(--warm-400)); }
+        .textarea:focus {
+            outline: none;
+            border-color: hsl(var(--indigo-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--indigo-500));
+        }
+        .textarea:disabled {
+            background: hsl(var(--intaglio-50));
+            border-color: hsl(var(--warm-200));
+            color: hsl(var(--warm-400));
+            cursor: not-allowed;
+        }
+        .textarea-error {
+            border-color: hsl(var(--magenta-500));
+        }
+        .textarea-error:focus {
+            border-color: hsl(var(--magenta-500));
+            box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(var(--magenta-500));
+        }
+
+        /* Textarea sizes */
+        .textarea-sm { padding: 8px 10px; font-size: 13px; }
+        .textarea-md { padding: 10px 12px; font-size: 14px; }
+        .textarea-lg { padding: 12px 14px; font-size: 16px; }
+        .textarea-xl { padding: 14px 16px; font-size: 18px; }
+
+        /* Dark mode textarea */
+        .textarea-dark {
+            background: hsl(var(--intaglio-800));
+            border-color: hsl(var(--intaglio-600));
+            color: hsl(var(--ledger));
+        }
+        .textarea-dark::placeholder { color: hsl(var(--warm-500)); }
+        .textarea-dark:hover { border-color: hsl(var(--intaglio-500)); }
+        .textarea-dark:focus {
+            border-color: hsl(var(--indigo-400));
+            box-shadow: 0 0 0 2px hsl(var(--ink)), 0 0 0 4px hsl(var(--indigo-400));
+        }
+        .textarea-dark:disabled {
+            background: hsl(var(--ink));
+            border-color: hsl(var(--intaglio-700));
+            color: hsl(var(--warm-600));
+        }
+        .textarea-dark.textarea-error {
+            border-color: hsl(var(--magenta-500));
+        }
+        .textarea-dark.textarea-error:focus {
             box-shadow: 0 0 0 2px hsl(var(--ink)), 0 0 0 4px hsl(var(--magenta-500));
         }
 
@@ -639,6 +712,14 @@
                             <td>16px</td>
                             <td>20px</td>
                             <td><input type="text" placeholder="Large input" class="input input-lg" style="width: 160px"></td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium">XL</td>
+                            <td>56px</td>
+                            <td>16px</td>
+                            <td>18px</td>
+                            <td>22px</td>
+                            <td><input type="text" placeholder="XL input" class="input input-xl" style="width: 160px"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1229,6 +1310,70 @@
                             </select>
                             <i data-lucide="chevron-down" class="w-[18px] h-[18px] absolute right-3 top-1/2 -translate-y-1/2 text-warm-300 pointer-events-none"></i>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================== -->
+        <!-- SECTION: TEXTAREA -->
+        <!-- =========================================== -->
+        <section class="mb-16">
+            <p class="serial text-emerald-600 mb-4">Textarea</p>
+            <h2 class="font-display text-2xl mb-2">Textarea</h2>
+            <p class="text-warm-600 text-sm mb-6">Multi-line text input for longer content. Shares base styling with text inputs. Vertically resizable by default.</p>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">Sizes</p>
+                <div class="space-y-4 max-w-md">
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Small <code>.textarea-sm</code></label>
+                        <textarea class="textarea textarea-sm" rows="3" placeholder="Small textarea..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Default <code>.textarea-md</code></label>
+                        <textarea class="textarea textarea-md" rows="3" placeholder="Default textarea..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Large <code>.textarea-lg</code></label>
+                        <textarea class="textarea textarea-lg" rows="3" placeholder="Large textarea..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">XL <code>.textarea-xl</code></label>
+                        <textarea class="textarea textarea-xl" rows="3" placeholder="XL textarea..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-500 mb-4">States</p>
+                <div class="grid grid-cols-2 gap-4 max-w-2xl">
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Default</label>
+                        <textarea class="textarea textarea-md" rows="2" placeholder="Default state"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Error <code>.textarea-error</code></label>
+                        <textarea class="textarea textarea-md textarea-error" rows="2" placeholder="Error state"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-500 mb-1">Disabled</label>
+                        <textarea class="textarea textarea-md" rows="2" placeholder="Disabled state" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark mode -->
+            <div style="background: hsl(var(--intaglio-900)); border-radius: 8px; padding: 24px;">
+                <p class="text-xs font-semibold uppercase tracking-wide text-warm-400 mb-4">Dark Mode</p>
+                <div class="space-y-4 max-w-md">
+                    <div>
+                        <label class="block text-xs font-medium text-warm-400 mb-1">Default</label>
+                        <textarea class="textarea textarea-md textarea-dark" rows="2" placeholder="Dark textarea..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-warm-400 mb-1">Error</label>
+                        <textarea class="textarea textarea-md textarea-dark textarea-error" rows="2" placeholder="Error state"></textarea>
                     </div>
                 </div>
             </div>
