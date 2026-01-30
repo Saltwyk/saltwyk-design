@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Pages | Marketing Pages | Saltwyk Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;500;600&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../assets/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../../assets/config/design-tokens.css">
+    <link rel="stylesheet" href="../../assets/config/view-toggle.css">
+    <link rel="stylesheet" href="../../assets/config/fullpage-mode.css">
+    <script src="../../partials/fullpage-mode.js"></script>
+
+    <style>
+        .font-display { font-family: 'Fraunces', Georgia, serif; }
+        .font-brand { font-family: 'Outfit', system-ui, sans-serif; }
+        .serial { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+        code { font-size: 11px; background: hsl(var(--warm-100)); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, monospace; }
+
+        /* Thread Gradients */
+        .thread-spectrum {
+            background: linear-gradient(90deg, hsl(var(--cyan-thread)) 0%, hsl(var(--lime-thread)) 25%, hsl(var(--orange-thread)) 50%, hsl(var(--magenta-thread)) 75%, hsl(var(--cyan-thread)) 100%);
+            height: 3px;
+        }
+
+        /* Device Frame Styles */
+        .device-frame-mobile {
+            width: 375px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 8px solid hsl(var(--intaglio-800));
+        }
+        .device-frame-desktop {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid hsl(var(--warm-300));
+        }
+
+        /* ============================================ */
+        /* PAGE CONTENT STYLES - MOBILE FIRST */
+        /* ============================================ */
+        .page-content {
+            position: relative;
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.5;
+            background: hsl(var(--ledger));
+        }
+
+        /* Navigation */
+        .page-content .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: transparent;
+        }
+        .page-content .nav-wrapper-scrolled {
+            background: hsl(var(--ledger));
+        }
+        .page-content .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .page-content .nav-links {
+            display: none;
+        }
+        .page-content .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-content .nav-cta {
+            padding: 10px 20px;
+            background: hsl(var(--emerald-500));
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .page-content .hamburger {
+            display: block;
+            width: 24px;
+            height: 24px;
+            color: hsl(var(--warm-400));
+        }
+
+        /* ============================================ */
+        /* HERO - DARK INTAGLIO GRADIENT */
+        /* ============================================ */
+        .page-content .hero-legal {
+            background: linear-gradient(135deg,
+                hsl(var(--intaglio-800)) 0%,
+                hsl(var(--intaglio-900)) 60%,
+                hsl(var(--intaglio-950)) 100%
+            );
+            position: relative;
+            overflow: hidden;
+            padding: 100px 20px 60px;
+            text-align: center;
+        }
+        .page-content .hero-legal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 12px,
+                rgba(255, 255, 255, 0.04) 12px,
+                rgba(255, 255, 255, 0.04) 12.5px
+            );
+            pointer-events: none;
+        }
+
+        /* ============================================ */
+        /* LEGAL CONTENT TYPOGRAPHY */
+        /* ============================================ */
+        .page-content .legal-body {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 48px 20px 64px;
+        }
+        .page-content .legal-h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            font-variation-settings: 'opsz' 72;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            color: hsl(var(--intaglio-900));
+            margin: 48px 0 16px;
+        }
+        .page-content .legal-h2:first-child {
+            margin-top: 0;
+        }
+        .page-content .legal-p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: hsl(var(--warm-600));
+            margin: 0 0 16px;
+        }
+        .page-content .legal-p:last-child {
+            margin-bottom: 0;
+        }
+        .page-content .legal-link {
+            color: hsl(var(--emerald-600));
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .page-content .legal-link:hover {
+            color: hsl(var(--emerald-700));
+        }
+        .page-content .legal-list {
+            font-size: 16px;
+            line-height: 1.7;
+            color: hsl(var(--warm-600));
+            margin: 0 0 16px;
+            padding-left: 24px;
+        }
+        .page-content .legal-list li {
+            margin-bottom: 8px;
+        }
+
+        /* ============================================ */
+        /* FOOTER */
+        /* ============================================ */
+        .page-content .footer-dark {
+            background: hsl(var(--ink));
+            padding: 32px 16px 24px;
+        }
+        .page-content .footer-logo {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .page-content .footer-tagline {
+            font-size: 12px;
+            color: hsl(var(--warm-500));
+            margin-bottom: 24px;
+        }
+        .page-content .footer-links {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .page-content .footer-link {
+            font-size: 12px;
+            color: hsl(var(--warm-300));
+        }
+        .page-content .footer-copyright {
+            font-size: 11px;
+            color: hsl(var(--warm-500));
+            padding-top: 16px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+        }
+
+        /* ============================================ */
+        /* DESKTOP OVERRIDES */
+        /* ============================================ */
+        .desktop-content .nav-inner {
+            padding: 0 32px;
+            height: 80px;
+        }
+        .desktop-content .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .desktop-content .nav-link {
+            font-size: 16px;
+            font-weight: 500;
+            color: hsl(var(--warm-400));
+        }
+        .desktop-content .nav-cta {
+            padding: 12px 24px;
+            font-size: 15px;
+        }
+        .desktop-content .hamburger { display: none; }
+
+        .desktop-content .hero-legal {
+            padding: 140px 48px 80px;
+        }
+
+        .desktop-content .legal-body {
+            padding: 80px 48px 100px;
+        }
+        .desktop-content .legal-h2 {
+            font-size: 32px;
+            margin: 64px 0 20px;
+        }
+        .desktop-content .legal-p {
+            font-size: 18px;
+        }
+        .desktop-content .legal-list {
+            font-size: 18px;
+        }
+
+        /* Footer desktop */
+        .desktop-content .footer-dark {
+            padding: 64px 48px 48px;
+        }
+        .desktop-content .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 32px;
+        }
+        .desktop-content .footer-column h4 {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: hsl(var(--warm-400));
+            margin-bottom: 16px;
+        }
+        .desktop-content .footer-column ul { list-style: none; }
+        .desktop-content .footer-column li { margin-bottom: 8px; }
+        .desktop-content .footer-column a {
+            font-size: 13px;
+            color: hsl(var(--warm-300));
+        }
+        .desktop-content .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid hsl(var(--intaglio-700));
+        }
+    </style>
+</head>
+<body class="bg-ledger text-ink">
+    <div id="top-nav"></div>
+
+    <div class="flex">
+        <div id="side-nav"></div>
+        <main class="flex-1">
+            <div class="h-[3px] w-full thread-spectrum"></div>
+
+            <div class="max-w-6xl mx-auto p-8">
+                <nav class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+                    <a href="../../index.html" class="hover:text-emerald-600">Design System</a>
+                    <span>→</span>
+                    <a href="../index.html" class="hover:text-emerald-600">Marketing</a>
+                    <span>→</span>
+                    <span class="text-ink font-medium">Legal Pages</span>
+                </nav>
+
+                <header class="mb-12">
+                    <p class="serial text-intaglio-500 mb-2">Page Specification</p>
+                    <h1 class="font-display text-4xl mb-2">Legal Pages</h1>
+                    <p class="text-warm-600">Shared template for Terms of Service and Privacy Policy. Dark intaglio gradient hero, single-column long-form content at 700px max-width. No thread spectrum in hero &mdash; just the gradient. Same template, different content.</p>
+                </header>
+
+                <!-- Design Notes -->
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6 mb-12">
+                    <p class="font-medium text-emerald-800 mb-3">Legal Pages Design Decisions</p>
+                    <ul class="text-sm text-emerald-700 space-y-2">
+                        <li><strong>Dark intaglio hero:</strong> 135deg gradient from intaglio-800 → intaglio-900 → intaglio-950 with subtle diagonal texture overlay (4% opacity). Intentionally subdued &mdash; legal pages don't compete for attention with product pages.</li>
+                        <li><strong>No thread spectrum:</strong> Legal pages omit the thread spectrum entirely. The dark intaglio hero transitions directly into ledger content, and the content flows directly into the dark footer. Keeps the page understated and unadorned.</li>
+                        <li><strong>700px content width:</strong> Narrower than product pages for comfortable reading of long-form text. Standard 16px/18px body text with 1.7 line-height for readability.</li>
+                        <li><strong>Section headings:</strong> Fraunces 24px (mobile) / 32px (desktop) with 48px/64px top margin between sections. Enough breathing room for scannable legal content.</li>
+                        <li><strong>Links:</strong> emerald-600 with underline, standard interactive color treatment. Used for email links, cross-references between legal docs.</li>
+                        <li><strong>Shared template:</strong> Terms and Privacy use identical layout. Only the page title, "last updated" date, and body content differ. Both shown below as separate device frame states.</li>
+                    </ul>
+                </div>
+
+                <!-- View Toggle -->
+                <div class="view-toggle-header">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-warm-500">Preview Mode</p>
+                        <div class="flex items-center gap-6">
+                            <div class="view-toggle" role="group" aria-label="View mode toggle">
+                                <button class="toggle-btn active" data-view="mobile" aria-label="Mobile view" aria-pressed="true" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                        <rect x="10" y="4" width="4" height="1.5" rx="0.75"/>
+                                        <line x1="10" y1="19" x2="14" y2="19"/>
+                                    </svg>
+                                </button>
+                                <button class="toggle-btn" data-view="desktop" aria-label="Desktop view" aria-pressed="false" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                        <line x1="2" y1="14" x2="22" y2="14"/>
+                                        <line x1="12" y1="17" x2="12" y2="20"/>
+                                        <line x1="8" y1="20" x2="16" y2="20"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="text-warm-300">|</span>
+                            <a href="?fullpage&view=desktop" target="_blank" class="text-sm text-warm-500 hover:text-emerald-600 flex items-center gap-1">
+                                Full Page
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- MOBILE LAYOUT -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <div class="mobile-variant">
+
+                        <!-- Terms of Service -->
+                        <p class="serial text-intaglio-500 mb-4">Mobile — Terms of Service</p>
+                        <p class="text-sm text-warm-600 mb-6">Dark intaglio hero with title and date. Long-form content at 700px max-width.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 flex justify-center mb-12">
+                            <div class="device-frame-mobile">
+                                <div class="page-content" style="max-height: 800px; overflow-y: auto;">
+
+                                    <!-- Navigation (overlays hero) -->
+                                    <div class="nav-wrapper" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+                                        <div class="nav-inner">
+                                            <a href="/" style="display: inline-flex; align-items: center;"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                            <div class="nav-right">
+                                                <a href="contact.html" class="nav-cta" style="text-decoration: none;">Let's Talk</a>
+                                                <svg class="hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <section class="hero-legal">
+                                        <div style="position: relative; z-index: 1;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 36px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.02em; line-height: 1.1; color: white; margin: 0 0 12px;">
+                                                Terms of Service
+                                            </h1>
+                                            <p style="font-size: 14px; color: hsl(var(--warm-400)); margin: 0;">Last updated: January 15, 2026</p>
+                                        </div>
+                                    </section>
+
+                                    <!-- Content -->
+                                    <div class="legal-body">
+                                        <h2 class="legal-h2">About This Site</h2>
+                                        <p class="legal-p">Welcome to Saltwyk. These Terms of Service govern your access to and use of our website, products, and services. By accessing or using Saltwyk, you agree to be bound by these terms. If you do not agree, please do not use our services.</p>
+                                        <p class="legal-p">Saltwyk operates a points exchange platform connecting merchants, partners, and consumers in the loyalty economy. These terms apply to all visitors, users, and others who access the service.</p>
+
+                                        <h2 class="legal-h2">Use of the Site</h2>
+                                        <p class="legal-p">You agree to use the site only for lawful purposes and in accordance with these terms. You may not use the site in any way that could damage, disable, or impair the service, or interfere with any other party's use of the site.</p>
+                                        <p class="legal-p">We reserve the right to terminate or suspend your access at any time, without prior notice, for conduct that we believe violates these terms or is harmful to other users, us, or third parties.</p>
+
+                                        <h2 class="legal-h2">Intellectual Property</h2>
+                                        <p class="legal-p">All content on this site, including text, graphics, logos, images, and software, is the property of Saltwyk or its content suppliers and is protected by international copyright and trademark laws.</p>
+                                        <p class="legal-p">The Saltwyk name, logo, and all related product and service names, design marks, and slogans are trademarks of Saltwyk. You may not use these marks without our prior written permission.</p>
+
+                                        <h2 class="legal-h2">Disclaimers</h2>
+                                        <p class="legal-p">The information provided on this site is for general informational purposes only. We make no warranties or representations about the accuracy, reliability, or completeness of any content. Your use of the site is at your sole risk.</p>
+
+                                        <h2 class="legal-h2">Limitation of Liability</h2>
+                                        <p class="legal-p">To the fullest extent permitted by applicable law, Saltwyk shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the site or services.</p>
+
+                                        <h2 class="legal-h2">Contact Us</h2>
+                                        <p class="legal-p">If you have questions about these terms, please reach out at <a class="legal-link" href="mailto:hello@saltwyk.com">hello@saltwyk.com</a> or visit our <a class="legal-link" href="contact.html">contact page</a>.</p>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <a href="/" class="footer-logo"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                        <p class="footer-tagline">The trillion point economy.</p>
+                                        <div class="footer-links">
+                                            <span class="footer-link">About</span>
+                                            <span class="footer-link">Merchants</span>
+                                            <span class="footer-link">Partners</span>
+                                        </div>
+                                        <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Policy -->
+                        <p class="serial text-intaglio-500 mb-4">Mobile — Privacy Policy</p>
+                        <p class="text-sm text-warm-600 mb-6">Same template, different content. Identical hero treatment and typography.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 flex justify-center">
+                            <div class="device-frame-mobile">
+                                <div class="page-content" style="max-height: 800px; overflow-y: auto;">
+
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+                                        <div class="nav-inner">
+                                            <a href="/" style="display: inline-flex; align-items: center;"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                            <div class="nav-right">
+                                                <a href="contact.html" class="nav-cta" style="text-decoration: none;">Let's Talk</a>
+                                                <svg class="hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <section class="hero-legal">
+                                        <div style="position: relative; z-index: 1;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 36px; font-weight: 600; font-variation-settings: 'opsz' 72; letter-spacing: -0.02em; line-height: 1.1; color: white; margin: 0 0 12px;">
+                                                Privacy Policy
+                                            </h1>
+                                            <p style="font-size: 14px; color: hsl(var(--warm-400)); margin: 0;">Last updated: January 15, 2026</p>
+                                        </div>
+                                    </section>
+
+                                    <!-- Content -->
+                                    <div class="legal-body">
+                                        <h2 class="legal-h2">Information We Collect</h2>
+                                        <p class="legal-p">We collect information you provide directly, such as when you create an account, fill out a form, or contact us. This may include your name, email address, company name, and any messages you send.</p>
+                                        <p class="legal-p">We also collect information automatically when you visit our site, including your IP address, browser type, operating system, referring URLs, and pages viewed.</p>
+
+                                        <h2 class="legal-h2">How We Use Information</h2>
+                                        <p class="legal-p">We use the information we collect to:</p>
+                                        <ul class="legal-list">
+                                            <li>Provide, maintain, and improve our services</li>
+                                            <li>Respond to your inquiries and provide customer support</li>
+                                            <li>Send you updates, marketing communications, and other information that may be of interest</li>
+                                            <li>Monitor and analyze trends, usage, and activities related to our services</li>
+                                            <li>Detect, investigate, and prevent security incidents</li>
+                                        </ul>
+
+                                        <h2 class="legal-h2">Data Sharing</h2>
+                                        <p class="legal-p">We do not sell your personal information. We may share information with third-party service providers who perform services on our behalf, such as hosting, analytics, and email delivery. These providers are bound by contractual obligations to keep personal information confidential.</p>
+
+                                        <h2 class="legal-h2">Your Rights</h2>
+                                        <p class="legal-p">Depending on your location, you may have certain rights regarding your personal information, including the right to access, correct, delete, or port your data. To exercise these rights, please contact us using the information below.</p>
+
+                                        <h2 class="legal-h2">Contact Us</h2>
+                                        <p class="legal-p">For privacy-related inquiries, please contact us at <a class="legal-link" href="mailto:privacy@saltwyk.com">privacy@saltwyk.com</a> or visit our <a class="legal-link" href="contact.html">contact page</a>.</p>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <a href="/" class="footer-logo"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                        <p class="footer-tagline">The trillion point economy.</p>
+                                        <div class="footer-links">
+                                            <span class="footer-link">About</span>
+                                            <span class="footer-link">Merchants</span>
+                                            <span class="footer-link">Partners</span>
+                                        </div>
+                                        <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- DESKTOP LAYOUT -->
+                    <!-- ============================================ -->
+                    <div class="desktop-variant">
+
+                        <!-- Terms of Service -->
+                        <p class="serial text-intaglio-500 mb-4">Desktop — Terms of Service</p>
+                        <p class="text-sm text-warm-600 mb-6">Dark intaglio hero. 700px max-width content with 32px section headings and 18px body text.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8 mb-12">
+                            <div class="device-frame-desktop">
+                                <div class="page-content desktop-content" style="max-height: 900px; overflow-y: auto;">
+
+                                    <!-- Navigation (overlays hero) -->
+                                    <div class="nav-wrapper" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+                                        <div class="nav-inner">
+                                            <a href="/" style="display: inline-flex; align-items: center;"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 40px;"></a>
+                                            <div class="nav-links">
+                                                <a class="nav-link" href="#">Merchants</a>
+                                                <a class="nav-link" href="#">Partners</a>
+                                                <a class="nav-link" href="#">About</a>
+                                                <a href="contact.html" class="nav-cta" style="text-decoration: none;">Let's Talk</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <section class="hero-legal">
+                                        <div style="position: relative; z-index: 1;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 56px; font-weight: 600; font-variation-settings: 'opsz' 144; letter-spacing: -0.02em; line-height: 1.1; color: white; margin: 0 0 16px;">
+                                                Terms of Service
+                                            </h1>
+                                            <p style="font-size: 16px; color: hsl(var(--warm-400)); margin: 0;">Last updated: January 15, 2026</p>
+                                        </div>
+                                    </section>
+
+                                    <!-- Content -->
+                                    <div class="legal-body">
+                                        <h2 class="legal-h2">About This Site</h2>
+                                        <p class="legal-p">Welcome to Saltwyk. These Terms of Service govern your access to and use of our website, products, and services. By accessing or using Saltwyk, you agree to be bound by these terms. If you do not agree, please do not use our services.</p>
+                                        <p class="legal-p">Saltwyk operates a points exchange platform connecting merchants, partners, and consumers in the loyalty economy. These terms apply to all visitors, users, and others who access the service.</p>
+
+                                        <h2 class="legal-h2">Use of the Site</h2>
+                                        <p class="legal-p">You agree to use the site only for lawful purposes and in accordance with these terms. You may not use the site in any way that could damage, disable, or impair the service, or interfere with any other party's use of the site.</p>
+                                        <p class="legal-p">We reserve the right to terminate or suspend your access at any time, without prior notice, for conduct that we believe violates these terms or is harmful to other users, us, or third parties.</p>
+
+                                        <h2 class="legal-h2">Intellectual Property</h2>
+                                        <p class="legal-p">All content on this site, including text, graphics, logos, images, and software, is the property of Saltwyk or its content suppliers and is protected by international copyright and trademark laws.</p>
+                                        <p class="legal-p">The Saltwyk name, logo, and all related product and service names, design marks, and slogans are trademarks of Saltwyk. You may not use these marks without our prior written permission.</p>
+
+                                        <h2 class="legal-h2">Disclaimers</h2>
+                                        <p class="legal-p">The information provided on this site is for general informational purposes only. We make no warranties or representations about the accuracy, reliability, or completeness of any content. Your use of the site is at your sole risk.</p>
+
+                                        <h2 class="legal-h2">Limitation of Liability</h2>
+                                        <p class="legal-p">To the fullest extent permitted by applicable law, Saltwyk shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the site or services.</p>
+
+                                        <h2 class="legal-h2">Contact Us</h2>
+                                        <p class="legal-p">If you have questions about these terms, please reach out at <a class="legal-link" href="mailto:hello@saltwyk.com">hello@saltwyk.com</a> or visit our <a class="legal-link" href="contact.html">contact page</a>.</p>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-grid">
+                                            <div>
+                                                <a href="/" class="footer-logo"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                                <p class="footer-tagline" style="max-width: 240px;">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Company</h4>
+                                                <ul>
+                                                    <li><a>About</a></li>
+                                                    <li><a>Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Products</h4>
+                                                <ul>
+                                                    <li><a>For Merchants</a></li>
+                                                    <li><a>For Partners</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Legal</h4>
+                                                <ul>
+                                                    <li><a>Privacy</a></li>
+                                                    <li><a>Terms</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="footer-bottom">
+                                            <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-link">hello@saltwyk.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Policy -->
+                        <p class="serial text-intaglio-500 mb-4">Desktop — Privacy Policy</p>
+                        <p class="text-sm text-warm-600 mb-6">Same template. Includes bulleted list example for content variety.</p>
+
+                        <div class="bg-warm-100 rounded-lg p-8">
+                            <div class="device-frame-desktop">
+                                <div class="page-content desktop-content" style="max-height: 900px; overflow-y: auto;">
+
+                                    <!-- Navigation -->
+                                    <div class="nav-wrapper" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+                                        <div class="nav-inner">
+                                            <a href="/" style="display: inline-flex; align-items: center;"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 40px;"></a>
+                                            <div class="nav-links">
+                                                <a class="nav-link" href="#">Merchants</a>
+                                                <a class="nav-link" href="#">Partners</a>
+                                                <a class="nav-link" href="#">About</a>
+                                                <a href="contact.html" class="nav-cta" style="text-decoration: none;">Let's Talk</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hero -->
+                                    <section class="hero-legal">
+                                        <div style="position: relative; z-index: 1;">
+                                            <h1 style="font-family: 'Fraunces', Georgia, serif; font-size: 56px; font-weight: 600; font-variation-settings: 'opsz' 144; letter-spacing: -0.02em; line-height: 1.1; color: white; margin: 0 0 16px;">
+                                                Privacy Policy
+                                            </h1>
+                                            <p style="font-size: 16px; color: hsl(var(--warm-400)); margin: 0;">Last updated: January 15, 2026</p>
+                                        </div>
+                                    </section>
+
+                                    <!-- Content -->
+                                    <div class="legal-body">
+                                        <h2 class="legal-h2">Information We Collect</h2>
+                                        <p class="legal-p">We collect information you provide directly, such as when you create an account, fill out a form, or contact us. This may include your name, email address, company name, and any messages you send.</p>
+                                        <p class="legal-p">We also collect information automatically when you visit our site, including your IP address, browser type, operating system, referring URLs, and pages viewed.</p>
+
+                                        <h2 class="legal-h2">How We Use Information</h2>
+                                        <p class="legal-p">We use the information we collect to:</p>
+                                        <ul class="legal-list">
+                                            <li>Provide, maintain, and improve our services</li>
+                                            <li>Respond to your inquiries and provide customer support</li>
+                                            <li>Send you updates, marketing communications, and other information that may be of interest</li>
+                                            <li>Monitor and analyze trends, usage, and activities related to our services</li>
+                                            <li>Detect, investigate, and prevent security incidents</li>
+                                        </ul>
+
+                                        <h2 class="legal-h2">Data Sharing</h2>
+                                        <p class="legal-p">We do not sell your personal information. We may share information with third-party service providers who perform services on our behalf, such as hosting, analytics, and email delivery. These providers are bound by contractual obligations to keep personal information confidential.</p>
+
+                                        <h2 class="legal-h2">Your Rights</h2>
+                                        <p class="legal-p">Depending on your location, you may have certain rights regarding your personal information, including the right to access, correct, delete, or port your data. To exercise these rights, please contact us using the information below.</p>
+
+                                        <h2 class="legal-h2">Contact Us</h2>
+                                        <p class="legal-p">For privacy-related inquiries, please contact us at <a class="legal-link" href="mailto:privacy@saltwyk.com">privacy@saltwyk.com</a> or visit our <a class="legal-link" href="contact.html">contact page</a>.</p>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="footer-dark">
+                                        <div class="footer-grid">
+                                            <div>
+                                                <a href="/" class="footer-logo"><img src="../../assets/logos/svg/saltwyk-lockup-mono-light.svg" alt="Saltwyk" style="height: 36px;"></a>
+                                                <p class="footer-tagline" style="max-width: 240px;">The trillion point economy. When points are easy to spend, everyone wins.</p>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Company</h4>
+                                                <ul>
+                                                    <li><a>About</a></li>
+                                                    <li><a>Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Products</h4>
+                                                <ul>
+                                                    <li><a>For Merchants</a></li>
+                                                    <li><a>For Partners</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-column">
+                                                <h4>Legal</h4>
+                                                <ul>
+                                                    <li><a>Privacy</a></li>
+                                                    <li><a>Terms</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="footer-bottom">
+                                            <p class="footer-copyright">&copy; 2026 Saltwyk. All rights reserved.</p>
+                                            <p class="footer-link">hello@saltwyk.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- PAGE STRUCTURE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Page Structure</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Section Flow</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">1</span>
+                                <div>
+                                    <p class="font-medium text-ink">Navigation (Overlaid on Hero)</p>
+                                    <p class="text-sm text-warm-500">Transparent nav over dark hero. Light logo + light nav links. "Let's Talk" CTA links to contact.html.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">2</span>
+                                <div>
+                                    <p class="font-medium text-ink">Hero (Dark Intaglio Gradient)</p>
+                                    <p class="text-sm text-warm-500">135deg gradient: intaglio-800 → intaglio-900 → intaglio-950. Diagonal texture at 4% opacity. White H1 title + warm-400 "Last updated" date. No thread spectrum in hero.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">3</span>
+                                <div>
+                                    <p class="font-medium text-ink">Content Body (Ledger BG)</p>
+                                    <p class="text-sm text-warm-500">700px max-width, centered. H2 section headings (Fraunces) + body paragraphs (Inter) + optional bulleted lists. Links in emerald-600.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold flex items-center justify-center">4</span>
+                                <div>
+                                    <p class="font-medium text-ink">Footer</p>
+                                    <p class="text-sm text-warm-500">Standard dark footer. No thread spectrum &mdash; content flows directly into footer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- TYPOGRAPHY SCALE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Typography Scale</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Type Hierarchy</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero H1 (Mobile)</p>
+                                <code>36px / Fraunces 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero H1 (Desktop)</p>
+                                <code>56px / Fraunces 600 / opsz 144</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">H1 Color</p>
+                                <code>white</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Last Updated</p>
+                                <code>14px / 16px / warm-400</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section H2 (Mobile)</p>
+                                <code>24px / Fraunces 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section H2 (Desktop)</p>
+                                <code>32px / Fraunces 600 / opsz 72</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">H2 Color</p>
+                                <code>intaglio-900</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text (Mobile)</p>
+                                <code>16px / Inter 400 / 1.7lh</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text (Desktop)</p>
+                                <code>18px / Inter 400 / 1.7lh</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Color</p>
+                                <code>warm-600</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Link Color</p>
+                                <code>emerald-600 (underlined)</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">List Style</p>
+                                <code>disc / 24px left pad</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- SPACING -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Spacing</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Vertical Spacing Tokens</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Padding (Mobile)</p>
+                                <code>100px top / 60px bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Padding (Desktop)</p>
+                                <code>140px top / 80px bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Content Padding (Mobile)</p>
+                                <code>48px top / 64px bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Content Padding (Desktop)</p>
+                                <code>80px top / 100px bottom</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Between Sections (Mobile)</p>
+                                <code>48px (H2 margin-top)</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Between Sections (Desktop)</p>
+                                <code>64px (H2 margin-top)</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">H2 → Body</p>
+                                <code>16px / 20px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Between Paragraphs</p>
+                                <code>16px</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Content Max Width</p>
+                                <code>700px</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- COLOR USAGE -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Color Usage</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Color Map</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Background</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: linear-gradient(135deg, hsl(24 29% 12%), hsl(24 29% 8%), hsl(24 30% 5%)); display: inline-block;"></span>
+                                    <code>intaglio-800 → 950</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Texture</p>
+                                <code>white 4% / -45deg diagonal</code>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Title</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: white; border: 1px solid hsl(var(--warm-300)); display: inline-block;"></span>
+                                    <code>white</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Hero Date</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: hsl(var(--warm-400)); display: inline-block;"></span>
+                                    <code>warm-400</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Content Background</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: hsl(var(--ledger)); border: 1px solid hsl(var(--warm-300)); display: inline-block;"></span>
+                                    <code>ledger</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Section Headings</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: hsl(var(--intaglio-900)); display: inline-block;"></span>
+                                    <code>intaglio-900</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Body Text</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: hsl(var(--warm-600)); display: inline-block;"></span>
+                                    <code>warm-600</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Links</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span style="width: 16px; height: 16px; border-radius: 3px; background: hsl(var(--emerald-600)); display: inline-block;"></span>
+                                    <code>emerald-600 (underlined)</code>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-warm-500 text-xs mb-1">Thread</p>
+                                <code>none</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- IMPLEMENTATION NOTES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Implementation Notes</p>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6 mb-6">
+                        <p class="font-medium text-ink mb-4">Template Usage</p>
+                        <div class="space-y-3 text-sm text-warm-600">
+                            <p>This is a <strong>shared template</strong>. Build one HTML layout and swap content for each legal page:</p>
+                            <div class="grid grid-cols-2 gap-4 mt-3">
+                                <div class="bg-warm-50 rounded-md p-4">
+                                    <p class="font-medium text-ink mb-2">Terms of Service</p>
+                                    <p class="text-xs text-warm-500">Route: <code>/terms</code></p>
+                                    <p class="text-xs text-warm-500">Hero title: "Terms of Service"</p>
+                                    <p class="text-xs text-warm-500">6 sections</p>
+                                </div>
+                                <div class="bg-warm-50 rounded-md p-4">
+                                    <p class="font-medium text-ink mb-2">Privacy Policy</p>
+                                    <p class="text-xs text-warm-500">Route: <code>/privacy</code></p>
+                                    <p class="text-xs text-warm-500">Hero title: "Privacy Policy"</p>
+                                    <p class="text-xs text-warm-500">5 sections</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-2 border-warm-200 rounded-lg p-6">
+                        <p class="font-medium text-ink mb-4">Thread Count</p>
+                        <p class="font-medium text-ink mb-3">Total threads on page: <strong>0</strong></p>
+                        <div class="space-y-2 text-sm text-warm-600">
+                            <p>Legal pages omit the thread spectrum entirely. The dark hero flows directly into ledger content, and content flows directly into the dark footer.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- RELATED PAGES -->
+                <!-- ============================================ -->
+                <section class="mb-16">
+                    <p class="serial text-intaglio-500 mb-4">Related Pages</p>
+
+                    <div class="flex gap-3 flex-wrap">
+                        <a href="contact.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Contact Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="about.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">About Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="homepage.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Homepage</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="merchants.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Merchants Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                        <a href="partners.html" class="bg-white border-2 border-warm-200 rounded-lg px-4 py-3 text-sm hover:border-indigo-300 transition-colors">
+                            <span class="font-medium">Partners Page</span>
+                            <span class="text-warm-400 ml-2">→</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Navigation -->
+            <footer class="bg-white border-t-2 border-warm-200 mt-16">
+                <div class="max-w-6xl mx-auto px-8 py-6 flex items-center justify-between text-sm text-warm-500">
+                    <div class="flex items-center gap-3">
+                        <a href="../../index.html" class="hover:text-emerald-600">Home</a>
+                        <span class="text-warm-300">·</span>
+                        <a href="../../sitemap.html" class="hover:text-emerald-600">Sitemap</a>
+                    </div>
+                    <p>Saltwyk Design System v0.6.0</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/partials/nav-loader.js"></script>
+    <script src="/partials/view-toggle.js"></script>
+</body>
+</html>
